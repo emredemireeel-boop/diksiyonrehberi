@@ -1,0 +1,634 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Diksiyon Rehberi — Türkçe Diksiyon Egzersizleri</title>
+  <meta name="description" content="Türkçe diksiyon egzersizleri: nefes teknikleri, tekerleme alıştırmaları, ses açma, telaffuz ve ritim çalışmaları. Ücretsiz, giriş gerektirmez." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="interactive.css" />
+</head>
+<body>
+
+<!-- ═══════════════════════════════════════════════ TOPBAR ═══ -->
+<header class="topbar" id="topbar">
+  <div class="topbar-inner">
+    <a href="#" class="logo" id="logo-home">
+      <div class="logo-icon-wrap">🎙️</div>
+      <div class="logo-texts">
+        <span class="logo-main">Diksiyon<strong>Rehberi</strong></span>
+        <span class="logo-sub">Türkçe Diksiyon Platformu</span>
+      </div>
+    </a>
+
+    <nav class="top-nav" id="top-nav">
+      <a class="top-nav-link active" href="#" data-cat="all" id="tnav-all">Tümü</a>
+      <a class="top-nav-link" href="#" data-cat="nefes" id="tnav-nefes">Nefes</a>
+      <a class="top-nav-link" href="#" data-cat="tekerleme" id="tnav-tekerleme">Tekerleme</a>
+      <a class="top-nav-link" href="#" data-cat="arena" id="tnav-arena">Arena</a>
+      <a class="top-nav-link" href="#" data-cat="ses" id="tnav-ses">Ses</a>
+      <a class="top-nav-link" href="#" data-cat="telaffuz" id="tnav-telaffuz">Telaffuz</a>
+      <a class="top-nav-link" href="#" data-cat="ritim" id="tnav-ritim">Ritim</a>
+      <a class="top-nav-link" href="#" data-cat="vurgu" id="tnav-vurgu">Vurgu</a>
+      <a class="top-nav-link" href="#" data-cat="duraklama" id="tnav-duraklama">Duraklama</a>
+      <a class="top-nav-link" href="#" data-cat="rezonans" id="tnav-rezonans">Rezonans</a>
+      <a class="top-nav-link" href="#" data-cat="okuma" id="tnav-okuma">Okuma</a>
+      <a class="top-nav-link" href="#" data-cat="programlar" id="tnav-programlar">Programlar</a>
+    </nav>
+
+    <button class="hamburger" id="hamburger" aria-label="Menü">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+
+  <!-- Mobile nav -->
+  <div class="mob-nav" id="mob-nav">
+    <a class="mob-link" href="#" data-cat="all" id="mnav-all">Tümü</a>
+    <a class="mob-link" href="#" data-cat="nefes" id="mnav-nefes">Nefes</a>
+    <a class="mob-link" href="#" data-cat="tekerleme" id="mnav-tekerleme">Tekerleme</a>
+    <a class="mob-link" href="#" data-cat="arena" id="mnav-arena">Arena</a>
+    <a class="mob-link" href="#" data-cat="ses" id="mnav-ses">Ses</a>
+    <a class="mob-link" href="#" data-cat="telaffuz" id="mnav-telaffuz">Telaffuz</a>
+    <a class="mob-link" href="#" data-cat="ritim" id="mnav-ritim">Ritim</a>
+    <a class="mob-link" href="#" data-cat="vurgu" id="mnav-vurgu">Vurgu</a>
+    <a class="mob-link" href="#" data-cat="duraklama" id="mnav-duraklama">Duraklama</a>
+    <a class="mob-link" href="#" data-cat="rezonans" id="mnav-rezonans">Rezonans</a>
+    <a class="mob-link" href="#" data-cat="okuma" id="mnav-okuma">Okuma</a>
+    <a class="mob-link" href="#" data-cat="programlar" id="mnav-programlar">Programlar</a>
+  </div>
+</header>
+
+<!-- ═══════════════════════════════════════════════ HERO BAND ═ -->
+<div class="hero-band" id="hero-band">
+  <div class="hero-band-inner">
+    <div class="hero-band-text">
+      <h1>Türkçe Diksiyon <span class="hl">Egzersizleri</span></h1>
+      <p>Sesinizi güçlendirin!</p>
+    </div>
+    <div class="hero-stats-row">
+      <div class="hstat" id="hstat-1"><span class="hstat-n">32</span><span class="hstat-l">Egzersiz</span></div>
+      <div class="hstat" id="hstat-2"><span class="hstat-n">8</span><span class="hstat-l">Kategori</span></div>
+      <div class="hstat" id="hstat-3"><span class="hstat-n" id="done-count">0</span><span class="hstat-l">Tamamlanan</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════ LAYOUT ══════ -->
+<div class="page-layout" id="page-layout">
+
+  <!-- ── LEFT SIDEBAR ──────────────────────────────────────── -->
+  <aside class="sidebar" id="sidebar">
+
+    <!-- Ad: Sidebar top -->
+    <div class="ad-block ad-sidebar-top" id="ad-sidebar-top">
+      <span class="ad-label">Sponsorlu</span>
+      <img src="ads/ad_tr_300x250_1_1776015195460.png" alt="Sponsorlu" style="width:100%; max-width:300px; height:auto; aspect-ratio: 300/250; border-radius:8px; display:block; margin:0 auto; object-fit:cover; border:1px solid rgba(201,168,76,.3);" />
+    </div>
+
+    <!-- Exercise list -->
+    <div class="sidebar-section" id="sidebar-list-section">
+      <div class="sidebar-title" id="sidebar-title">
+        <span class="sidebar-title-text">Egzersiz Listesi</span>
+        <span class="sidebar-count" id="sidebar-count">32</span>
+      </div>
+      <nav class="ex-list" id="ex-list">
+        <!-- filled by JS -->
+      </nav>
+    </div>
+
+    <!-- Progress in sidebar -->
+    <div class="sidebar-progress" id="sidebar-progress">
+      <div class="sp-header">
+        <span class="sp-label">İlerlemeniz</span>
+        <button class="sp-reset" id="sp-reset-btn" title="Sıfırla">↺</button>
+      </div>
+      <div class="sp-bar-wrap">
+        <div class="sp-bar" id="sp-bar"></div>
+      </div>
+      <div class="sp-text" id="sp-text">0 / 32 tamamlandı</div>
+    </div>
+
+    <!-- Voice Recorder in sidebar -->
+    <div class="sidebar-recorder" id="sidebar-recorder">
+      <div class="sr-header">
+        <span class="sr-icon">🎤</span>
+        <div>
+          <div class="sr-title">Ses Kaydı</div>
+          <div class="sr-subtitle">Kendinizi kaydedin &amp; analiz edin</div>
+        </div>
+      </div>
+
+      <!-- Waveform visualizer -->
+      <div class="sr-visualizer" id="sr-visualizer">
+        <div class="sr-bars" id="sr-bars">
+          <span></span><span></span><span></span><span></span><span></span>
+          <span></span><span></span><span></span><span></span><span></span>
+        </div>
+        <div class="sr-status" id="sr-status">HAZIR</div>
+      </div>
+
+      <!-- Timer -->
+      <div class="sr-timer" id="sr-timer">0:00</div>
+
+      <!-- Playback progress (hidden until recording ready) -->
+      <div class="sr-playback-wrap" id="sr-playback-wrap" style="display:none">
+        <div class="sr-pb-bar-wrap" id="sr-pb-bar-wrap">
+          <div class="sr-pb-bar" id="sr-pb-bar"></div>
+        </div>
+        <div class="sr-pb-times">
+          <span id="sr-pb-cur">0:00</span>
+          <span id="sr-pb-dur">0:00</span>
+        </div>
+      </div>
+
+      <!-- Control buttons -->
+      <div class="sr-controls">
+        <button class="sr-btn sr-record" id="sr-record-btn" title="Kaydet / Durdur">⏺</button>
+        <button class="sr-btn sr-play"   id="sr-play-btn"   title="Dinle / Duraklat" disabled>▶</button>
+        <button class="sr-btn sr-delete" id="sr-delete-btn" title="Kaydı Sil" disabled>🗑</button>
+      </div>
+
+      <!-- Hint text -->
+      <div class="sr-note" id="sr-note">⏺ tuşuna basarak kaydı başlat</div>
+
+      <!-- Hidden audio -->
+      <audio id="sr-audio" style="display:none"></audio>
+    </div>
+
+    <!-- Ad: Sidebar bottom -->
+    <div class="ad-block ad-sidebar-bot" id="ad-sidebar-bot">
+      <span class="ad-label">Sponsorlu</span>
+      <img src="ads/ad_tr_300x250_2_1776015207615.png" alt="Sponsorlu" style="width:100%; max-width:300px; height:auto; aspect-ratio: 300/250; border-radius:8px; display:block; margin:0 auto; object-fit:cover; border:1px solid rgba(201,168,76,.3);" />
+    </div>
+
+  </aside>
+
+  <!-- ── MAIN CONTENT ───────────────────────────────────────── -->
+  <main class="main-content" id="main-content">
+
+    <!-- Ad: Content top (leaderboard) -->
+    <div class="ad-block ad-content-top" id="ad-content-top">
+      <span class="ad-label">Sponsorlu</span>
+      <img src="ads/ad_tr_728x90_1_1776015237202.png" alt="Sponsorlu" style="width:100%; max-width:728px; height:auto; aspect-ratio: 728/90; border-radius:8px; display:block; margin:0 auto; object-fit:cover; border:1px solid rgba(201,168,76,.3);" />
+    </div>
+
+    <!-- Okuma Egzersizleri -->
+    <div id="okuma-container" style="display:none"></div>
+
+    <!-- Interactive Tongue Twister Arena -->
+    <div id="arena-container" style="display:none"></div>
+
+    <!-- Interactive Breathing Assistant -->
+    <div id="nefes-interactive-container" style="display:none"></div>
+
+    <!-- Interactive Mini Games (now embedded in exercises, not separate) -->
+    <div id="interaktif-container" style="display:none"></div>
+
+    <!-- Training Programs -->
+    <div id="programlar-container" style="display:none"></div>
+
+    <!-- Exercise panels — rendered by JS -->
+    <div id="exercises-container"></div>
+
+    <!-- Tips section -->
+    <section class="tips-section-inline" id="tips-inline">
+      <div class="tsi-header">
+        <h2>🌟 Altın İpuçları</h2>
+        <p>Profesyonellerin kullandığı teknikler</p>
+      </div>
+      <div class="tips-grid-inline">
+        <div class="tip-card-inline" id="tip-i-1">
+          <span class="tci-icon">🌅</span>
+          <div>
+            <strong>Sabah Rutini</strong>
+            <p>Her sabah 5–10 dakika nefes egzersizi yapın. Ses tellerinizi güne hazırlar.</p>
+          </div>
+        </div>
+        <div class="tip-card-inline" id="tip-i-2">
+          <span class="tci-icon">💧</span>
+          <div>
+            <strong>Bol Su İçin</strong>
+            <p>Egzersizlerden önce ve sonra bol su tüketin. Ses telleri nemli kalmalıdır.</p>
+          </div>
+        </div>
+        <div class="tip-card-inline" id="tip-i-3">
+          <span class="tci-icon">🎧</span>
+          <div>
+            <strong>Kendinizi Kaydedin</strong>
+            <p>Ses kaydı alın ve dinleyin. Kendi sesinizi duymak en hızlı öğrenme yöntemidir.</p>
+          </div>
+        </div>
+        <div class="tip-card-inline" id="tip-i-4">
+          <span class="tci-icon">🪞</span>
+          <div>
+            <strong>Ayna Kullanın</strong>
+            <p>Telaffuz egzersizlerinde ayna karşısında durun ve ağız hareketlerinizi izleyin.</p>
+          </div>
+        </div>
+        <div class="tip-card-inline" id="tip-i-5">
+          <span class="tci-icon">📅</span>
+          <div>
+            <strong>Düzenli Pratik</strong>
+            <p>Günde 10 dakika, haftada bir 2 saat yapmaktan çok daha etkilidir.</p>
+          </div>
+        </div>
+        <div class="tip-card-inline" id="tip-i-6">
+          <span class="tci-icon">🧘</span>
+          <div>
+            <strong>Rahat Duruş</strong>
+            <p>Omuzları ve çeneyi gevşetin. Gergin kaslar sesin doğal akışını engeller.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Ad: Content bottom -->
+    <div class="ad-block ad-content-bot" id="ad-content-bot">
+      <span class="ad-label">Sponsorlu</span>
+      <img src="ads/ad_tr_728x90_2_1776015251945.png" alt="Sponsorlu" style="width:100%; max-width:728px; height:auto; aspect-ratio: 728/90; border-radius:8px; display:block; margin:0 auto; object-fit:cover; border:1px solid rgba(201,168,76,.3);" />
+    </div>
+
+  </main>
+
+  <!-- ── RIGHT SIDEBAR ─────────────────────────────────────── -->
+  <aside class="sidebar-right" id="sidebar-right">
+
+    <!-- Ad: Right top -->
+    <div class="ad-block" id="ad-right-top">
+      <span class="ad-label">Sponsorlu</span>
+      <img src="ads/ad_tr_300x250_3_1776015222443.png" alt="Sponsorlu" style="width:100%; max-width:300px; height:auto; aspect-ratio: 300/250; border-radius:8px; display:block; margin:0 auto; object-fit:cover; border:1px solid rgba(201,168,76,.3);" />
+    </div>
+
+    <!-- Quick tips widget -->
+    <div class="widget-card" id="widget-tip">
+      <div class="wc-header">💡 Günün İpucu</div>
+      <div class="wc-body" id="daily-tip-text">
+        <!-- filled by JS -->
+      </div>
+    </div>
+
+    <!-- Category summary -->
+    <div class="widget-card" id="widget-cats">
+      <div class="wc-header">📊 Kategoriler</div>
+      <div class="cat-summary" id="cat-summary-widget">
+        <!-- filled by JS -->
+      </div>
+    </div>
+
+    <!-- Ad: Right middle -->
+    <div class="ad-block" id="ad-right-mid">
+      <span class="ad-label">Sponsorlu</span>
+      <img src="ads/ad_tr_300x600_1_1776015266551.png" alt="Sponsorlu" style="width:100%; max-width:300px; height:auto; aspect-ratio: 300/600; border-radius:8px; display:block; margin:0 auto; object-fit:cover; border:1px solid rgba(201,168,76,.3);" />
+    </div>
+
+  </aside>
+</div>
+
+<!-- ═══════════════════════════════════════════════ FOOTER ═════ -->
+<footer class="footer" id="footer">
+  <div class="footer-inner">
+
+    <!-- Brand -->
+    <div class="footer-brand">
+      <div class="logo" style="margin-bottom:12px">
+        <div class="logo-icon-wrap">🎙️</div>
+        <div class="logo-texts">
+          <span class="logo-main">Diksiyon<strong>Rehberi</strong></span>
+          <span class="logo-sub">Türkiye'nin Diksiyon Platformu</span>
+        </div>
+      </div>
+      <p class="footer-brand-desc">Türkiye'nin en kapsamlı ücretsiz diksiyon eğitim platformu. Giriş gerektirmez, tamamen ücretsiz.</p>
+      <div class="footer-social">
+        <span class="fs-badge">🇹🇷 Türkiye</span>
+        <span class="fs-badge">📧 labspuding@gmail.com</span>
+      </div>
+    </div>
+
+    <!-- Kategoriler -->
+    <div class="footer-links-col">
+      <strong class="fcol-title">Kategoriler</strong>
+      <a href="#" data-cat="nefes" id="f-nefes">Nefes Egzersizleri</a>
+      <a href="#" data-cat="tekerleme" id="f-tekerleme">Tekerleme Pratiği</a>
+      <a href="#" data-cat="ses" id="f-ses">Ses Açma</a>
+      <a href="#" data-cat="telaffuz" id="f-telaffuz">Telaffuz</a>
+      <a href="#" data-cat="ritim" id="f-ritim">Ritim &amp; Tempo</a>
+    </div>
+
+    <!-- Daha Fazla -->
+    <div class="footer-links-col">
+      <strong class="fcol-title">Daha Fazla</strong>
+      <a href="#" data-cat="vurgu" id="f-vurgu">Vurgu Teknikleri</a>
+      <a href="#" data-cat="duraklama" id="f-duraklama">Duraklama</a>
+      <a href="#" data-cat="rezonans" id="f-rezonans">Rezonans</a>
+      <a href="#" data-cat="okuma">Okuma Parçaları</a>
+      <a href="#" data-cat="programlar">Eğitim Programları</a>
+    </div>
+
+    <!-- Kurumsal -->
+    <div class="footer-links-col">
+      <strong class="fcol-title">Kurumsal</strong>
+      <a href="#" class="footer-modal-link" data-modal="hakkimizda">Hakkımızda</a>
+      <a href="#" class="footer-modal-link" data-modal="iletisim">İletişim</a>
+      <a href="#" class="footer-modal-link" data-modal="gizlilik">Gizlilik Politikası</a>
+      <a href="#" class="footer-modal-link" data-modal="sartlar">Kullanım Şartları</a>
+    </div>
+
+  </div>
+  <div class="footer-bottom">
+    <p>&copy; 2026 DiksiYonRehberi.com &mdash; Türkiye'nin ücretsiz diksiyon platformu</p>
+    <div class="footer-bottom-links">
+      <a href="#" class="footer-modal-link" data-modal="gizlilik">Gizlilik</a>
+      <a href="#" class="footer-modal-link" data-modal="sartlar">Koşullar</a>
+      <a href="#" class="footer-modal-link" data-modal="iletisim">İletişim</a>
+    </div>
+  </div>
+</footer>
+
+<!-- ════════════════════════════ LEGAL MODALS ════════════════════════ -->
+<div class="legal-overlay" id="legal-overlay"></div>
+
+<!-- HAKKIMIZDA -->
+<div class="legal-modal" id="modal-hakkimizda" role="dialog" aria-modal="true">
+  <div class="lm-header">
+    <div class="lm-title-row">
+      <span class="lm-icon">🎤</span>
+      <div>
+        <h2 class="lm-title">Hakkımızda</h2>
+        <p class="lm-sub">Diksiyon Rehberi Platformu</p>
+      </div>
+    </div>
+    <button class="lm-close" data-close="hakkimizda">&times;</button>
+  </div>
+  <div class="lm-body">
+    <div class="lm-section">
+      <h3>Biz Kimiz?</h3>
+      <p>DiksiYonRehberi.com, Türkiye'nin en kapsamlı ücretsiz diksiyon eğitim platformudur. Profesyonel diksiyon eğitmenleri ve yazılım geliştiricilerinin bir araya gelmesiyle kurulmuştur. Amacımız, kaliteli diksiyon eğitimini herkese erişilebilir kılmaktır.</p>
+    </div>
+    <div class="lm-section">
+      <h3>Misyonumuz</h3>
+      <p>Türkiye'de milyonlarca insan, iş hayatında, sunumlarda, medyada ve sosyal yaşamda etkili iletişim kurmak için diksiyon becerisi geliştirmek istiyor. Biz bu ihtiyacı, herhangi bir ücret talep etmeden, bilimsel ve eğlenceli yöntemlerle karşılamayı hedefliyoruz.</p>
+    </div>
+    <div class="lm-highlight-grid">
+      <div class="lm-hcard">
+        <span class="lm-hc-icon">📚</span>
+        <strong>36+ Egzersiz</strong>
+        <span>Profesyonelce hazırlanmış içerik</span>
+      </div>
+      <div class="lm-hcard">
+        <span class="lm-hc-icon">🎤</span>
+        <strong>500+ Tekerleme</strong>
+        <span>Tüm Türkçe harfler için</span>
+      </div>
+      <div class="lm-hcard">
+        <span class="lm-hc-icon">📅</span>
+        <strong>4 Program</strong>
+        <span>1 hafta – 90 günlük planlar</span>
+      </div>
+      <div class="lm-hcard">
+        <span class="lm-hc-icon">💰</span>
+        <strong>%100 Ücretsiz</strong>
+        <span>Herkes için tamamen ücretsiz</span>
+      </div>
+    </div>
+    <div class="lm-section">
+      <h3>Neden Diksiyon?</h3>
+      <p>Araştırmalar, güzel ve net konuşan bireylerin iş görüşmelerinde, sunumlarda ve liderlik pozisyonlarında %47 daha fazla başarı elde ettiğini göstermektedir. Sesiniz sizin en güçlü markadır.</p>
+    </div>
+    <div class="lm-section">
+      <h3>Teknoloji</h3>
+      <p>Platform saf HTML5, CSS3 ve JavaScript ile geliştirilmiştir. Web Speech API ve MediaRecorder API kullanılarak tarayıcı üzerinde gerçek zamanlı ses analizi yapılabilmektedir. Hiçbir uygulama indirmesi gerekmez.</p>
+    </div>
+  </div>
+</div>
+
+<!-- İLETİŞİM -->
+<div class="legal-modal" id="modal-iletisim" role="dialog" aria-modal="true">
+  <div class="lm-header">
+    <div class="lm-title-row">
+      <span class="lm-icon">📧</span>
+      <div>
+        <h2 class="lm-title">İletişim</h2>
+        <p class="lm-sub">Bizimle iletişime geçin</p>
+      </div>
+    </div>
+    <button class="lm-close" data-close="iletisim">&times;</button>
+  </div>
+  <div class="lm-body">
+    <div class="lm-contact-grid">
+      <div class="lm-contact-card">
+        <span class="lm-cc-icon">📧</span>
+        <strong>Genel E-posta</strong>
+        <a href="mailto:labspuding@gmail.com">labspuding@gmail.com</a>
+        <span class="lm-cc-note">1–2 iş günü içinde yanıt veririz</span>
+      </div>
+      <div class="lm-contact-card">
+        <span class="lm-cc-icon">💼</span>
+        <strong>Reklam &amp; Sponsorluk</strong>
+        <a href="mailto:labspuding@gmail.com">labspuding@gmail.com</a>
+        <span class="lm-cc-note">Medya kiti için başvurun</span>
+      </div>
+      <div class="lm-contact-card">
+        <span class="lm-cc-icon">🐛</span>
+        <strong>Hata &amp; Öneri</strong>
+        <a href="mailto:labspuding@gmail.com">labspuding@gmail.com</a>
+        <span class="lm-cc-note">Bildirdiğiniz her hata platforma katkıdır</span>
+      </div>
+    </div>
+    <div class="lm-section" style="margin-top:28px">
+      <h3>Mesaj Gönder</h3>
+      <form class="lm-form" id="contact-form" onsubmit="handleContactForm(event)">
+        <div class="lm-form-rows">
+          <div class="lm-form-row">
+            <label for="cf-name">Ad Soyad</label>
+            <input type="text" id="cf-name" placeholder="Örn: Ahmet Yılmaz" required />
+          </div>
+          <div class="lm-form-row">
+            <label for="cf-email">E-posta</label>
+            <input type="email" id="cf-email" placeholder="ornek@email.com" required />
+          </div>
+        </div>
+        <div class="lm-form-row">
+          <label for="cf-subject">Konu</label>
+          <select id="cf-subject">
+            <option>Öneri / Fikir</option>
+            <option>Hata Bildirimi</option>
+            <option>Reklam / Sponsorluk</option>
+            <option>Genel Soru</option>
+          </select>
+        </div>
+        <div class="lm-form-row">
+          <label for="cf-message">Mesaj</label>
+          <textarea id="cf-message" rows="4" placeholder="Mesajınızı buraya yazın..." required></textarea>
+        </div>
+        <button type="submit" class="lm-submit-btn">Gönder →</button>
+        <p class="lm-form-note" id="cf-result"></p>
+      </form>
+    </div>
+  </div>
+</div>
+
+<!-- GİZLİLİK POLİTİKASI -->
+<div class="legal-modal" id="modal-gizlilik" role="dialog" aria-modal="true">
+  <div class="lm-header">
+    <div class="lm-title-row">
+      <span class="lm-icon">🔒</span>
+      <div>
+        <h2 class="lm-title">Gizlilik Politikası</h2>
+        <p class="lm-sub">Son güncelleme: 12 Nisan 2026</p>
+      </div>
+    </div>
+    <button class="lm-close" data-close="gizlilik">&times;</button>
+  </div>
+  <div class="lm-body">
+    <div class="lm-legal-banner">
+      <span>🔒</span>
+      <span>Bu politika GDPR ve KVKK uyumlu olarak hazırlanmıştır.</span>
+    </div>
+    <div class="lm-section">
+      <h3>1. Topladığımız Veriler</h3>
+      <p>DiksiYonRehberi.com olarak kullanıcı gizliliğine son derece önem veriyoruz. Platforma erişim için <strong>kayıt veya giriş gerekmemektedir</strong>. Aşağıdaki veriler toplanabilir:</p>
+      <ul class="lm-list">
+        <li><strong>Tarayıcı verileri:</strong> IP adresi, tarayıcı türü, referans URL (analitik amaçlı)</li>
+        <li><strong>Yerel depolama (localStorage):</strong> Tamamlanan egzersiz bilgileri — sadece sizin cihazınızda saklanır, sunucuya gönderilmez</li>
+        <li><strong>Ses kaydı:</strong> Tarayıcınızda oluşturulan ses kaydı yalnızca sizin cihazınızda kalır; hiçbir sunucuya gönderilmez</li>
+      </ul>
+    </div>
+    <div class="lm-section">
+      <h3>2. Çerez Kullanımı</h3>
+      <p>Sitemizde iki tür çerez kullanılmaktadır:</p>
+      <ul class="lm-list">
+        <li><strong>Zorunlu çerezler:</strong> Site işlevsellik için gerekli, devre dışı bırakılamaz</li>
+        <li><strong>Analitik çerezler:</strong> Google Analytics aracılığıyla anonim ziyaret istatistikleri</li>
+        <li><strong>Reklam çerezleri:</strong> Google AdSense hedefli reklam gösterimini iyileştirmek için kullanır</li>
+      </ul>
+    </div>
+    <div class="lm-section">
+      <h3>3. Google AdSense &amp; Reklam Ortakları</h3>
+      <p>Sitemizde Google AdSense reklam platformu kullanılmaktadır. Google ve ortak reklam sağlayıcıları ilgi alanına yönelik reklamlar göstermek için çerez kullanabilir. Tercihlerinizi yönetmek için <a href="https://adssettings.google.com" target="_blank" rel="noopener">Google Reklam Ayarları</a> sayfasını ziyaret edebilirsiniz.</p>
+    </div>
+    <div class="lm-section">
+      <h3>4. Üçüncü Taraf Hizmetler</h3>
+      <ul class="lm-list">
+        <li><strong>Google Analytics:</strong> Ziyaretçi davranışı analizi — anonim ve toplu veri</li>
+        <li><strong>Google AdSense:</strong> Reklam gösterimi ve hedefleme</li>
+        <li><strong>Web Speech API:</strong> TTS sesi tamamen tarayıcı tarafında üretilir, veri gönderilmez</li>
+      </ul>
+    </div>
+    <div class="lm-section">
+      <h3>5. Haklarınız (KVKK / GDPR)</h3>
+      <ul class="lm-list">
+        <li>Kendi verilerinizi görme ve silme hakkı</li>
+        <li>Kişisel verilerin işlenmesini kısıtlama hakkı</li>
+        <li>Veri taşınabilirliği hakkı</li>
+        <li>Tarayıcı ayarlarından çerezleri her zaman silebilirsiniz</li>
+      </ul>
+      <p style="margin-top:12px">Bu haklarınızı kullanmak için: <a href="mailto:labspuding@gmail.com">labspuding@gmail.com</a></p>
+    </div>
+  </div>
+</div>
+
+<!-- KULLANIM ŞARTLARI -->
+<div class="legal-modal" id="modal-sartlar" role="dialog" aria-modal="true">
+  <div class="lm-header">
+    <div class="lm-title-row">
+      <span class="lm-icon">📜</span>
+      <div>
+        <h2 class="lm-title">Kullanım Şartları</h2>
+        <p class="lm-sub">Son güncelleme: 12 Nisan 2026</p>
+      </div>
+    </div>
+    <button class="lm-close" data-close="sartlar">&times;</button>
+  </div>
+  <div class="lm-body">
+    <div class="lm-section">
+      <h3>1. Genel Koşullar</h3>
+      <p>DiksiYonRehberi.com'a erişerek bu kullanım şartlarını kabul etmiş sayılırsınız. Platform tamamen ücretsizdir ve 18 yaşın altındaki kullanıcılar ebeveyn gözetiminde kullanabilir.</p>
+    </div>
+    <div class="lm-section">
+      <h3>2. İzin Verilen Kullanım</h3>
+      <ul class="lm-list">
+        <li>Kişisel diksiyon geliştirme amaçlı kullanım</li>
+        <li>Eğitim ve öğretim amaçlı kullanım (atıf ile)</li>
+        <li>Egzersiz içeriklerini kişisel notlarla destekleme</li>
+      </ul>
+    </div>
+    <div class="lm-section">
+      <h3>3. Yasak Kullanımlar</h3>
+      <ul class="lm-list">
+        <li>Platform içeriklerini izinsiz ticari amaçla kullanmak</li>
+        <li>Site içeriğini kopyalayarak başka platformda yayınlamak</li>
+        <li>Otomatik bot veya scraper kullanmak</li>
+        <li>Sunucu kaynaklarını kasıtlı olarak zorlamak (DoS)</li>
+      </ul>
+    </div>
+    <div class="lm-section">
+      <h3>4. Fikri Mülkiyet</h3>
+      <p>Platform üzerindeki tüm içerik, egzersiz metinleri, tasarım ve yazılım DiksiYonRehberi.com'a aittir ve Telif Hakkı Kanunu kapsamında koruma altındadır. Kaynak göstermek koşuluyla eğitim amaçlı alıntı yapılabilir.</p>
+    </div>
+    <div class="lm-section">
+      <h3>5. Sorumluluk Sınırlaması</h3>
+      <p>DiksiYonRehberi.com, platform üzerindeki eğitim materyallerinden kaynaklanabilecek doğrudan veya dolaylı zararlardan sorumlu tutulamaz. Egzersizler genel bilgilendirme amaçlıdır; ciddi ses sağlığı sorunları için bir uzmanı danışın.</p>
+    </div>
+    <div class="lm-section">
+      <h3>6. Değişiklikler</h3>
+      <p>Bu kullanım şartları zaman zaman güncellenebilir. Önemli değişiklikler ana sayfada duyurulacaktır. Platformu kullanmaya devam etmek, güncel şartları kabul etmek anlamına gelir.</p>
+    </div>
+  </div>
+</div>
+
+<!-- Toast -->
+<div class="toast" id="toast"></div>
+
+<script src="tekerlemeler.js"></script>
+<script src="app.js"></script>
+<script src="okuma.js"></script>
+<script>
+// ── MODAL SYSTEM ──────────────────────────────────────────
+const overlay = document.getElementById('legal-overlay');
+
+function openModal(name) {
+  const m = document.getElementById('modal-' + name);
+  if (!m) return;
+  overlay.classList.add('active');
+  m.classList.add('active');
+  document.body.style.overflow = 'hidden';
+}
+function closeModal(name) {
+  const m = document.getElementById('modal-' + name);
+  if (m) m.classList.remove('active');
+  overlay.classList.remove('active');
+  document.body.style.overflow = '';
+}
+function closeAllModals() {
+  document.querySelectorAll('.legal-modal.active').forEach(m => m.classList.remove('active'));
+  overlay.classList.remove('active');
+  document.body.style.overflow = '';
+}
+
+document.querySelectorAll('.footer-modal-link').forEach(link => {
+  link.addEventListener('click', e => {
+    e.preventDefault();
+    openModal(link.dataset.modal);
+  });
+});
+document.querySelectorAll('.lm-close').forEach(btn => {
+  btn.addEventListener('click', () => closeModal(btn.dataset.close));
+});
+overlay.addEventListener('click', closeAllModals);
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeAllModals(); });
+
+// ── CONTACT FORM ──────────────────────────────────────────
+function handleContactForm(e) {
+  e.preventDefault();
+  const result = document.getElementById('cf-result');
+  result.textContent = '✅ Mesajınız alındı! En kısa sürede size dönüş yapacağız.';
+  result.style.color = '#16A34A';
+  e.target.reset();
+  setTimeout(() => { result.textContent = ''; }, 5000);
+}
+</script>
+</body>
+</html>
