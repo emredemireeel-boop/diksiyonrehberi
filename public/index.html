@@ -12,6 +12,9 @@
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6387001035314883" crossorigin="anonymous"></script>
   <link rel="stylesheet" href="style.css" />
   <link rel="stylesheet" href="interactive.css" />
+  <link rel="stylesheet" href="okunuslar.css" />
+  <link rel="stylesheet" href="teleprompter.css" />
+  <link rel="stylesheet" href="blog.css" />
 </head>
 <body>
 
@@ -39,6 +42,9 @@
       <a class="top-nav-link" href="#" data-cat="rezonans" id="tnav-rezonans">Rezonans</a>
       <a class="top-nav-link" href="#" data-cat="okuma" id="tnav-okuma">Okuma</a>
       <a class="top-nav-link" href="#" data-cat="programlar" id="tnav-programlar">Programlar</a>
+      <a class="top-nav-link tnav-okunuslar" href="#" data-cat="okunuslar" id="tnav-okunuslar">Okunuşlar</a>
+      <a class="top-nav-link" href="#" data-cat="teleprompter" id="tnav-teleprompter">Teleprompter</a>
+      <a class="top-nav-link" href="#" data-cat="blog" id="tnav-blog">Blog</a>
     </nav>
 
     <button class="hamburger" id="hamburger" aria-label="Menü">
@@ -60,6 +66,9 @@
     <a class="mob-link" href="#" data-cat="rezonans" id="mnav-rezonans">Rezonans</a>
     <a class="mob-link" href="#" data-cat="okuma" id="mnav-okuma">Okuma</a>
     <a class="mob-link" href="#" data-cat="programlar" id="mnav-programlar">Programlar</a>
+    <a class="mob-link" href="#" data-cat="okunuslar" id="mnav-okunuslar">Okunuşlar</a>
+    <a class="mob-link" href="#" data-cat="teleprompter" id="mnav-teleprompter">Teleprompter</a>
+    <a class="mob-link" href="#" data-cat="blog" id="mnav-blog">Blog</a>
   </div>
 </header>
 
@@ -195,14 +204,26 @@
       <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
     </div>
 
+    <!-- Okunuşlar -->
+    <div id="okunuslar-container" style="display:none"></div>
+
+    <!-- Blog -->
+    <div id="blog-container" style="display:none"></div>
+
     <!-- Okuma Egzersizleri -->
     <div id="okuma-container" style="display:none"></div>
+
+    <!-- Teleprompter -->
+    <div id="teleprompter-container" style="display:none"></div>
 
     <!-- Interactive Tongue Twister Arena -->
     <div id="arena-container" style="display:none"></div>
 
     <!-- Interactive Breathing Assistant -->
     <div id="nefes-interactive-container" style="display:none"></div>
+
+    <!-- Interactive Resonance Lab -->
+    <div id="rezonans-interactive-container" style="display:none"></div>
 
     <!-- Interactive Mini Games (now embedded in exercises, not separate) -->
     <div id="interaktif-container" style="display:none"></div>
@@ -286,26 +307,43 @@
     <div class="ad-block" id="ad-right-top">
       <span class="ad-label">Sponsorlu</span>
       <ins class="adsbygoogle"
-           style="display:block;width:300px;height:250px;"
+           style="display:block;max-width:100%;width:300px;height:250px;"
            data-ad-client="ca-pub-6387001035314883"
            data-ad-slot="SLOT_RIGHT_TOP"
            data-ad-format="rectangle"
-           data-full-width-responsive="false"></ins>
+           data-full-width-responsive="true"></ins>
       <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
     </div>
 
-    <!-- Quick tips widget -->
-    <div class="widget-card" id="widget-tip">
-      <div class="wc-header">💡 Günün İpucu</div>
-      <div class="wc-body" id="daily-tip-text">
+    <!-- ✨ Günün İpucu Widget — Premium -->
+    <div class="rw-widget rw-tip-widget" id="widget-tip">
+      <div class="rw-widget-head">
+        <div class="rw-widget-icon">💡</div>
+        <div class="rw-widget-title">Günün İpucu</div>
+      </div>
+      <div class="rw-widget-body" id="daily-tip-text">
         <!-- filled by JS -->
       </div>
     </div>
 
-    <!-- Category summary -->
-    <div class="widget-card" id="widget-cats">
-      <div class="wc-header">📊 Kategoriler</div>
-      <div class="cat-summary" id="cat-summary-widget">
+    <!-- 📊 Kategoriler Widget — Premium -->
+    <div class="rw-widget rw-cat-widget" id="widget-cats">
+      <div class="rw-widget-head">
+        <div class="rw-widget-icon">📊</div>
+        <div class="rw-widget-title">Kategoriler</div>
+      </div>
+      <div class="rw-cat-list" id="cat-summary-widget">
+        <!-- filled by JS -->
+      </div>
+    </div>
+
+    <!-- 🎯 İlerleme Widget — Yeni -->
+    <div class="rw-widget rw-progress-widget" id="widget-progress">
+      <div class="rw-widget-head">
+        <div class="rw-widget-icon">🎯</div>
+        <div class="rw-widget-title">İlerleme</div>
+      </div>
+      <div class="rw-progress-body" id="progress-widget-body">
         <!-- filled by JS -->
       </div>
     </div>
@@ -314,11 +352,11 @@
     <div class="ad-block" id="ad-right-mid">
       <span class="ad-label">Sponsorlu</span>
       <ins class="adsbygoogle"
-           style="display:block;width:300px;height:600px;"
+           style="display:block;max-width:100%;width:300px;height:600px;"
            data-ad-client="ca-pub-6387001035314883"
            data-ad-slot="SLOT_RIGHT_MID"
            data-ad-format="rectangle"
-           data-full-width-responsive="false"></ins>
+           data-full-width-responsive="true"></ins>
       <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
     </div>
 
@@ -620,7 +658,15 @@
 <!-- Toast -->
 <div class="toast" id="toast"></div>
 
+<!-- Common helper — must be before all module scripts -->
+<script>
+  function $(id) { return document.getElementById(id); }
+</script>
 <script src="tekerlemeler.js"></script>
+<script src="blog.js"></script>
+<script src="rezonans.js"></script>
+<script src="okunuslar.js"></script>
+<script src="teleprompter.js"></script>
 <script src="app.js"></script>
 <script src="okuma.js"></script>
 <script>

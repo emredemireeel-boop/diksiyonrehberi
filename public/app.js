@@ -965,8 +965,8 @@ const DAILY_TIPS = [
 let completed   = JSON.parse(localStorage.getItem('dr_completed') || '[]');
 let activeFilter = 'all';
 
-// ── $ HELPERS ─────────────────────────────────────────────── //
-const $ = id => document.getElementById(id);
+// ── $ HELPER ── defined globally in index.html before scripts ────── //
+// const $ = id => document.getElementById(id);
 
 // ── CATEGORY LABELS ───────────────────────────────────────── //
 const CAT_LABELS = {
@@ -995,20 +995,39 @@ function setFilter(cat) {
   activeFilter = cat;
   document.querySelectorAll('.top-nav-link').forEach(l => l.classList.toggle('active', l.dataset.cat === cat));
   document.querySelectorAll('.mob-link').forEach(l => l.classList.toggle('active', l.dataset.cat === cat));
-  const ac = $('arena-container');
-  const ec = $('exercises-container');
-  const ti = $('tips-inline');
-  const nc = $('nefes-interactive-container');
-  const ic = $('interaktif-container');
-  const pc = $('programlar-container');
-  const oc = $('okuma-container');
+  const ac  = $('arena-container');
+  const ec  = $('exercises-container');
+  const ti  = $('tips-inline');
+  const nc  = $('nefes-interactive-container');
+  const ic  = $('interaktif-container');
+  const pc  = $('programlar-container');
+  const oc  = $('okuma-container');
+  const bc  = $('blog-container');
+  const okc = $('okunuslar-container');
+  const rlc = $('rezonans-interactive-container');
+  const tc  = $('teleprompter-container');
 
   // Hide all special containers first
-  [ac, ec, ti, nc, ic, pc, oc].forEach(el => { if (el) el.style.display = 'none'; });
+  [ac, ec, ti, nc, ic, pc, oc, bc, rlc, okc, tc].forEach(el => { if (el) el.style.display = 'none'; });
 
-  if (cat === 'arena') {
+  // Full-page modules: collapse left sidebar, keep right sidebar
+  const pageLayout = $('page-layout');
+  const fullPageModes = ['blog','teleprompter','okunuslar','okuma','programlar','arena'];
+  const isFullPage = fullPageModes.includes(cat);
+  if (pageLayout) pageLayout.classList.toggle('full-page-mode', isFullPage);
+
+  if (cat === 'teleprompter') {
+    if (tc) tc.style.display = 'block';
+    renderTeleprompter();
+  } else if (cat === 'arena') {
     if (ac) ac.style.display = 'block';
     renderArena();
+  } else if (cat === 'blog') {
+    if (bc) bc.style.display = 'block';
+    renderBlogList();
+  } else if (cat === 'okunuslar') {
+    if (okc) okc.style.display = 'block';
+    renderOkunuslar();
   } else if (cat === 'programlar') {
     if (pc) pc.style.display = 'block';
     renderProgramlar();
@@ -1019,6 +1038,12 @@ function setFilter(cat) {
     if (ec) ec.style.display = 'block';
     if (nc) Object.assign(nc.style, { display: 'block' });
     renderNefesInteractive();
+    renderAll();
+  } else if (cat === 'rezonans') {
+    if (rlc) rlc.style.display = 'block';
+    if (ec) ec.style.display = 'block';
+    if (ti) ti.style.display = 'block';
+    renderRezonansInteractive();
     renderAll();
   } else if (cat === 'all') {
     if (ac) ac.style.display = 'block';
@@ -1033,9 +1058,39 @@ function setFilter(cat) {
     if (ti) ti.style.display = 'block';
     renderAll();
   }
-  window.scrollTo({ top: $('page-layout').offsetTop - 80, behavior: 'smooth' });
-}
 
+  // Always refresh right sidebar widgets
+  renderCatWidget();
+  renderDailyTip();
+  renderProgressWidget();
+
+  // Move recorder to right sidebar in full-page mode, back to left otherwise
+  const recorderEl  = $('sidebar-recorder');
+  const leftSidebar = document.querySelector('.sidebar');
+  const rightSidebar = $('sidebar-right');
+  if (recorderEl && rightSidebar && leftSidebar) {
+    if (isFullPage) {
+      // Move to top of right sidebar (after ad block)
+      const adRight = $('ad-right-top');
+      if (adRight && adRight.nextSibling) {
+        rightSidebar.insertBefore(recorderEl, adRight.nextSibling);
+      } else {
+        rightSidebar.prepend(recorderEl);
+      }
+    } else {
+      // Move back to left sidebar (after progress bar)
+      const progress = $('sidebar-progress');
+      if (progress && progress.nextSibling) {
+        leftSidebar.insertBefore(recorderEl, progress.nextSibling);
+      } else {
+        leftSidebar.appendChild(recorderEl);
+      }
+    }
+  }
+
+  // Always scroll to top
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
 
 // ── VOICE RECORDER (Complete Rewrite) ────────────────────── //
 
@@ -1550,7 +1605,37 @@ function renderCatWidget() {
 function renderDailyTip() {
   const idx = new Date().getDay() % DAILY_TIPS.length;
   const el = $('daily-tip-text');
-  if (el) el.innerHTML = DAILY_TIPS[idx];
+  if (el) el.innerHTML = `<span style="font-size:1.15rem;margin-right:6px;">✨</span> ${DAILY_TIPS[idx]}`;
+}
+
+// ── PROGRESS WIDGET ───────────────────────────────────────── //
+function renderProgressWidget() {
+  const el = $('progress-widget-body');
+  if (!el) return;
+  const total = EXERCISES.length;
+  const done = completed.length;
+  const pct = total > 0 ? Math.round((done / total) * 100) : 0;
+  let msg = '🚀 Henüz başlamadınız — ilk egzersizi tamamlayın!';
+  if (pct > 0 && pct < 25) msg = '💪 Harika başlangıç! Devam edin.';
+  else if (pct >= 25 && pct < 50) msg = '🔥 Çeyreği geçtiniz, ivme kazanıyorsunuz!';
+  else if (pct >= 50 && pct < 75) msg = '⚡ Yarıyı geçtiniz — muhteşem tempo!';
+  else if (pct >= 75 && pct < 100) msg = '🏆 Neredeyse tamam — son sprint!';
+  else if (pct >= 100) msg = '🎉 Tüm egzersizleri tamamladınız! Tebrikler!';
+
+  el.innerHTML = `
+    <div class="rw-prog-stat">
+      <span class="rw-prog-label">Tamamlanan</span>
+      <span class="rw-prog-value">${done} / ${total}</span>
+    </div>
+    <div class="rw-prog-bar-wrap">
+      <div class="rw-prog-bar-fill" style="width:${pct}%"></div>
+    </div>
+    <div class="rw-prog-stat">
+      <span class="rw-prog-label">İlerleme</span>
+      <span class="rw-prog-value">%${pct}</span>
+    </div>
+    <div class="rw-prog-msg">${msg}</div>
+  `;
 }
 
 
@@ -1751,7 +1836,72 @@ function renderArena() {
         </div>
 
       </div><!-- /arena-body-grid -->
-    </div>`;
+
+      <!-- ARENA SES KAYIT WIDGET -->
+      <div class="arena-recorder-widget" id="arena-recorder-widget">
+        <div class="arw-header">
+          <span class="arw-icon">🎤</span>
+          <div>
+            <div class="arw-title">Sesli Okuma Kayıt Stüdyosu</div>
+            <div class="arw-sub">Tekerlemeyi okurken kendini kaydet · Dinle · Gelişimini ölç</div>
+          </div>
+        </div>
+        <div class="arw-body">
+          <!-- Visualizer -->
+          <div class="arw-visualizer" id="arw-visualizer">
+            <div class="arw-bars" id="arw-bars">
+              ${Array(20).fill('<span></span>').join('')}
+            </div>
+            <div class="arw-status-text" id="arw-status">HAZIR</div>
+          </div>
+
+          <!-- Timer + Controls row -->
+          <div class="arw-controls-row">
+            <div class="arw-timer" id="arw-timer">0:00</div>
+            <div class="arw-btns">
+              <button class="arw-btn arw-rec-btn" id="arw-rec-btn" title="Kaydet / Durdur">
+                <span class="arw-btn-icon">⏺</span>
+                <span>Kayıt</span>
+              </button>
+              <button class="arw-btn arw-play-btn" id="arw-play-btn" title="Dinle" disabled>
+                <span class="arw-btn-icon">▶</span>
+                <span>Dinle</span>
+              </button>
+              <button class="arw-btn arw-del-btn" id="arw-del-btn" title="Sil" disabled>
+                <span class="arw-btn-icon">🗑</span>
+                <span>Sil</span>
+              </button>
+              <button class="arw-btn arw-dl-btn" id="arw-dl-btn" title="İndir" disabled>
+                <span class="arw-btn-icon">⬇</span>
+                <span>İndir</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Playback bar -->
+          <div class="arw-pb-wrap" id="arw-pb-wrap" style="display:none">
+            <div class="arw-pb-bg">
+              <div class="arw-pb-fill" id="arw-pb-fill"></div>
+            </div>
+            <div class="arw-pb-times">
+              <span id="arw-pb-cur">0:00</span>
+              <span id="arw-pb-dur">0:00</span>
+            </div>
+          </div>
+
+          <audio id="arw-audio" style="display:none"></audio>
+          <div class="arw-note" id="arw-note">Tekerlemeyi okurken ⏺ Kayıt tuşuna bas. Bitince ▶ Dinle.</div>
+
+          <!-- Tips row -->
+          <div class="arw-tips">
+            <div class="arw-tip">💡 Tekerlemeyi hızından önce doğru telaffuzla oku</div>
+            <div class="arw-tip">🎯 Her kaydı öncekiyle karşılaştır — fark inanılmaz!</div>
+            <div class="arw-tip">⚡ Hız testini seç, tekrar kaydı al, gelişimini görüntüle</div>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- /arena-section -->`;
 
 
   // Wire up events
@@ -1897,6 +2047,169 @@ function renderArena() {
       if (touchEndX > touchStartX + 50) {
         prevTekerleme(); // Swipe right -> prev
       }
+    });
+  }
+
+  // ── Arena Ses Kaydı Widget ──────────────────────────────
+  _initArenaRecorder();
+}
+
+function _initArenaRecorder() {
+  const recBtn  = $('arw-rec-btn');
+  const playBtn = $('arw-play-btn');
+  const delBtn  = $('arw-del-btn');
+  const dlBtn   = $('arw-dl-btn');
+  const audio   = $('arw-audio');
+  const timer   = $('arw-timer');
+  const note    = $('arw-note');
+  const pbWrap  = $('arw-pb-wrap');
+  const pbFill  = $('arw-pb-fill');
+  const pbCur   = $('arw-pb-cur');
+  const pbDur   = $('arw-pb-dur');
+  const bars    = $('arw-bars') ? $('arw-bars').querySelectorAll('span') : [];
+  const status  = $('arw-status');
+
+  if (!recBtn) return;
+
+  let arwMediaRec = null, arwStream = null, arwChunks = [], arwBlob = null;
+  let arwIsRec = false, arwIsPlay = false, arwSecs = 0, arwInterval = null;
+  let arwAudioCtx = null, arwAnalyser = null, arwAnimFrame = null, arwPbInterval = null;
+
+  function arwSetStatus(txt, cls) {
+    if (status) { status.textContent = txt; status.className = 'arw-status-text ' + (cls || ''); }
+  }
+  function arwFmt(s) { s = Math.floor(s); return Math.floor(s/60)+':'+String(s%60).padStart(2,'0'); }
+
+  function arwStopViz() {
+    if (arwAnimFrame) { cancelAnimationFrame(arwAnimFrame); arwAnimFrame = null; }
+    bars.forEach(b => { b.style.height = '5px'; b.style.opacity = '0.5'; });
+  }
+
+  function arwDrawBars() {
+    if (!arwAnalyser || !arwIsRec) return;
+    const data = new Uint8Array(arwAnalyser.frequencyBinCount);
+    arwAnalyser.getByteFrequencyData(data);
+    const step = Math.floor(data.length / bars.length);
+    bars.forEach((b, i) => {
+      const val = data[i * step] || 0;
+      const h = Math.max(5, Math.min(50, (val / 255) * 50));
+      b.style.height = h + 'px';
+      b.style.opacity = '1';
+    });
+    arwAnimFrame = requestAnimationFrame(arwDrawBars);
+  }
+
+  recBtn.addEventListener('click', async () => {
+    if (!arwIsRec) {
+      try {
+        const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+        arwStream = stream;
+        arwAudioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        const src = arwAudioCtx.createMediaStreamSource(stream);
+        arwAnalyser = arwAudioCtx.createAnalyser();
+        arwAnalyser.fftSize = 64;
+        src.connect(arwAnalyser);
+
+        arwChunks = [];
+        const mr = new MediaRecorder(stream, { mimeType: MediaRecorder.isTypeSupported('audio/webm') ? 'audio/webm' : '' });
+        arwMediaRec = mr;
+        mr.ondataavailable = e => { if (e.data.size > 0) arwChunks.push(e.data); };
+        mr.onstop = () => {
+          arwBlob = new Blob(arwChunks, { type: 'audio/webm' });
+          const url = URL.createObjectURL(arwBlob);
+          if (audio) { audio.src = url; audio.load(); }
+          if (playBtn) playBtn.disabled = false;
+          if (delBtn) delBtn.disabled = false;
+          if (dlBtn) dlBtn.disabled = false;
+          if (pbWrap) pbWrap.style.display = 'flex';
+          arwSetStatus('HAZIR', 'arw-ready');
+          if (note) note.textContent = '▶ Dinle tuşuna bas · 🗑 Sil · ⬇ İndir';
+          showToast('🎤 Kayıt tamamlandı! Dinleyin.');
+        };
+        mr.start(100);
+        arwIsRec = true; arwSecs = 0;
+        recBtn.classList.add('recording');
+        recBtn.querySelector('.arw-btn-icon').textContent = '⏹';
+        arwSetStatus('KAYDEDİLİYOR', 'arw-recording');
+        if (note) note.textContent = 'Kaydediliyor... Durdurmak için tekrar ⏹ bas';
+        arwInterval = setInterval(() => {
+          arwSecs++;
+          if (timer) timer.textContent = arwFmt(arwSecs);
+        }, 1000);
+        arwDrawBars();
+      } catch(err) {
+        arwSetStatus('HATA', 'arw-error');
+        if (note) note.textContent = '❌ Mikrofon erişimi reddedildi. Tarayıcı izinlerini kontrol edin.';
+      }
+    } else {
+      arwIsRec = false;
+      if (arwInterval) { clearInterval(arwInterval); arwInterval = null; }
+      if (arwMediaRec && arwMediaRec.state !== 'inactive') arwMediaRec.stop();
+      if (arwStream) { arwStream.getTracks().forEach(t => t.stop()); arwStream = null; }
+      arwStopViz();
+      recBtn.classList.remove('recording');
+      recBtn.querySelector('.arw-btn-icon').textContent = '⏺';
+    }
+  });
+
+  if (playBtn) {
+    playBtn.addEventListener('click', () => {
+      if (!audio || !arwBlob) return;
+      if (!arwIsPlay) {
+        audio.play();
+        arwIsPlay = true;
+        playBtn.querySelector('.arw-btn-icon').textContent = '⏸';
+        arwSetStatus('OYNATILIYOR', 'arw-playing');
+        if (pbWrap) pbWrap.style.display = 'flex';
+        arwPbInterval = setInterval(() => {
+          if (audio.duration && pbFill) {
+            const pct = (audio.currentTime / audio.duration) * 100;
+            pbFill.style.width = pct + '%';
+            if (pbCur) pbCur.textContent = arwFmt(audio.currentTime);
+            if (pbDur) pbDur.textContent = arwFmt(audio.duration);
+          }
+        }, 100);
+        audio.onended = () => {
+          arwIsPlay = false;
+          playBtn.querySelector('.arw-btn-icon').textContent = '▶';
+          if (arwPbInterval) clearInterval(arwPbInterval);
+          arwSetStatus('HAZIR', 'arw-ready');
+        };
+      } else {
+        audio.pause();
+        arwIsPlay = false;
+        playBtn.querySelector('.arw-btn-icon').textContent = '▶';
+        if (arwPbInterval) clearInterval(arwPbInterval);
+        arwSetStatus('HAZIR', 'arw-ready');
+      }
+    });
+  }
+
+  if (delBtn) {
+    delBtn.addEventListener('click', () => {
+      if (audio) { audio.pause(); audio.src = ''; }
+      arwBlob = null; arwChunks = []; arwSecs = 0; arwIsPlay = false;
+      if (timer) timer.textContent = '0:00';
+      if (pbWrap) pbWrap.style.display = 'none';
+      if (pbFill) pbFill.style.width = '0%';
+      if (playBtn) { playBtn.disabled = true; playBtn.querySelector('.arw-btn-icon').textContent = '▶'; }
+      if (delBtn) delBtn.disabled = true;
+      if (dlBtn) dlBtn.disabled = true;
+      arwSetStatus('HAZIR', '');
+      if (note) note.textContent = 'Tekerlemeyi okurken ⏺ Kayıt tuşuna bas. Bitince ▶ Dinle.';
+      arwStopViz();
+    });
+  }
+
+  if (dlBtn) {
+    dlBtn.addEventListener('click', () => {
+      if (!arwBlob) return;
+      const url = URL.createObjectURL(arwBlob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `arena_tekerleme_${arenaActiveLetter}_${Date.now()}.webm`;
+      a.click();
+      URL.revokeObjectURL(url);
     });
   }
 }
@@ -2379,7 +2692,7 @@ function runNefesCycle() {
 }
 
 // ── RENDER ALL ────────────────────────────────────────────── //
-function renderAll() { renderSidebarList(); renderPanels(); renderLetterPanels(); renderCatWidget(); }
+function renderAll() { renderSidebarList(); renderPanels(); renderLetterPanels(); renderCatWidget(); renderProgressWidget(); }
 
 function renderLetterPanels() {
   const container = $('exercises-container');
