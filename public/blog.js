@@ -339,8 +339,326 @@ Sükût her zaman zayıfların kaçışı değil, generallerin satranç masasıd
       }
     ],
     cta: { text: 'Nefesinizin Diksiyon Uyumu İçin Çalışın →', cat: 'nefes' }
+  },
+
+  {
+    id: 'yanlis-soylenen-kelimeler',
+    slug: 'turkcede-en-cok-yanlis-soylenen-kelimeler',
+    emoji: '📖',
+    category: 'Telaffuz & Doğru Yazım',
+    readTime: '10 dk',
+    date: '14 Nisan 2026',
+    title: 'Türkçede En Çok Yanlış Telaffuz Edilen 30 Kelime ve Doğruları',
+    subtitle: 'Mesai arkadaşınızın yüzündeki o ince gülümsemenin nedenini hiç merak ettiniz mi? Günlük hayatta farkında olmadan söylediğimiz onlarca yanlış telaffuz sizi profesyonel imajınızda zayıflatıyor olabilir.',
+    cover: null,
+    tags: ['telaffuz', 'yanlış kelimeler', 'Türkçe', 'diksiyon', 'doğru söyleyiş'],
+    intro: 'TDK verilerine göre Türk yetişkinlerin günlük konuşmasında ortalama 12-15 telaffuz hatası bulunuyor. Bu hatalar iş görüşmelerinde, toplantılarda ve sosyal ortamlarda fark edilmeden birikip imajınızı zedeleyebiliyor. En kötüsü ise bu hataların büyük çoğunluğunun çocukluktan gelen alışkanlıklar olması: bir kez yanlış öğrenince beyin "Bu doğru" diye ezberlemiş oluyor. İşte Türkçemizde en sık yanlış söylenen kelimeler ve kulaklarınıza müzik gibi gelecek doğru söyleyişleri:',
+    sections: [
+      {
+        heading: '❌ Kategori 1: Hece Yutma ve Ses Düşürme Hataları',
+        content: `Beyin dinlerken ya da konuşurken çaba harcamamak için kelimeleri "kısalta" bilir. Özellikle sık kullandığımız kelimeler bu kurbanın ilk sıralarındadır.<br><br>
+<div class="blog-fact-grid">
+  <div class="blog-fact-card">
+    <span class="bfc-icon">❌</span>
+    <strong>"Tabiki" → ✅ "Tabii ki"</strong>
+    <p>İki ayrı kelimedir: "tabii" ve "ki". Birleştirerek söylemek hem yanlış hem kaba bir telaffuz alışkanlığıdır.</p>
+  </div>
+  <div class="blog-fact-card">
+    <span class="bfc-icon">❌</span>
+    <strong>"Hani ya" → ✅ "Hani"</strong>
+    <p>"Ya" eki çoğu zaman gereksiz bir doldurucu. Tek başına "hani" ile cümle çok daha yetkin durur.</p>
+  </div>
+  <div class="blog-fact-card">
+    <span class="bfc-icon">❌</span>
+    <strong>"Müzik" → ✅ "Müzik" (mü-zik)</strong>
+    <p>Çoğu insan "mü-züg" der. Son hece sert K ile bitmeli, yumuşak G ile değil.</p>
+  </div>
+  <div class="blog-fact-card">
+    <span class="bfc-icon">❌</span>
+    <strong>"Saat" → ✅ "Sa-at"</strong>
+    <p>İki ünlü arasında net bir hece kırılması olmalı. "Sat" gibi söylemek yanında "zaman" anlamını zayıflatır.</p>
+  </div>
+</div>`
+      },
+      {
+        heading: '❌ Kategori 2: Vurgu Kaynaklı Yanlış Telaffuzlar',
+        content: `Türkçede vurgu genellikle son hecededir ama bazı yabancı kökenli kelimeler bu kuralın dışındadır. Bu kelimeleri yanlış vurguyla söylemek eğitimsiz bir kulağa aptalca gelir.<br><br>
+<ul class="blog-list">
+  <li>❌ <strong>vi-DE-o</strong> → ✅ <strong>VÍ-de-o</strong> (ilk hece vurgulu, İngilizce kökenli)</li>
+  <li>❌ <strong>tek-no-LO-ji</strong> → ✅ <strong>tek-NO-lo-ji</strong> (Türkçede üçüncü hece vurgulu)</li>
+  <li>❌ <strong>de-MO-kra-si</strong> → ✅ <strong>de-mok-RA-si</strong> (son heceden önce)</li>
+  <li>❌ <strong>sta-TIS-tik</strong> → ✅ <strong>sta-tis-TIK</strong></li>
+  <li>❌ <strong>per-for-MANS</strong> → ✅ <strong>per-FOR-mans</strong></li>
+</ul>`
+      },
+      {
+        heading: '❌ Kategori 3: Günlük Hayatın 10 Büyük Telaffuz Günahı',
+        content: `<div class="blog-fact-grid">
+  <div class="blog-fact-card">
+    <span class="bfc-icon">1</span>
+    <strong>"Fotoğraf"</strong>
+    <p>❌ "Fotograf" değil ✅ "Fo-toğ-raf" — "ğ" sesi yutulmamalı, uzatma görevi görür.</p>
+  </div>
+  <div class="blog-fact-card">
+    <span class="bfc-icon">2</span>
+    <strong>"Yüzde"</strong>
+    <p>❌ "Yüzde yüz" değil ✅ Her iki kelime de net hecelenmelidir: "yüz-de yüz".</p>
+  </div>
+  <div class="blog-fact-card">
+    <span class="bfc-icon">3</span>
+    <strong>"Kahvaltı"</strong>
+    <p>❌ "Kahvaldı" değil ✅ "Kah-val-tı" — son ses T olmalı, D değil.</p>
+  </div>
+  <div class="blog-fact-card">
+    <span class="bfc-icon">4</span>
+    <strong>"Müthiş"</strong>
+    <p>❌ "Mütiş" değil ✅ "Müt-hiş" — H sesi yutulmamalı.</p>
+  </div>
+  <div class="blog-fact-card">
+    <span class="bfc-icon">5</span>
+    <strong>"Beraber"</strong>
+    <p>❌ "Beraberce" değil, tek başına yeterli: ✅ "Be-ra-ber"</p>
+  </div>
+  <div class="blog-fact-card">
+    <span class="bfc-icon">6</span>
+    <strong>"Şükran"</strong>
+    <p>❌ "Şükren" değil ✅ "Şük-ran" — son hece AN ile biter.</p>
+  </div>
+  <div class="blog-fact-card">
+    <span class="bfc-icon">7</span>
+    <strong>"Hafıza"</strong>
+    <p>❌ "Hafısa" değil ✅ "Ha-fı-za" — Z sesi, S değil.</p>
+  </div>
+  <div class="blog-fact-card">
+    <span class="bfc-icon">8</span>
+    <strong>"Alkol"</strong>
+    <p>❌ "Alkol" değil ✅ "Al-kol" — L sondaki O'dan önce gelir, yutulmamalı.</p>
+  </div>
+</div>`
+      },
+      {
+        heading: '🎤 Kategori 4: Haber Spikerleri Bile Yanılıyor — Resmi Kelimelerdeki Hatalar',
+        content: `Bunlar okullarda pek öğretilmez ama profesyonel hayatta işinize çok yarar.<br><br>
+<ul class="blog-list">
+  <li>❌ <strong>"İstanbul'da" → ✅ "İs-tan-bul"</strong> — "da" eki bitişik: "İstanbul'da" doğru, "İstanbul da" değil (anlam farkı yaratır)</li>
+  <li>❌ <strong>"Açıkladı" (a-çık-la-dı)</strong> — Çok hızlı söylendiğinde "açkladı" ya benzer, her hece net olmalı</li>
+  <li>❌ <strong>"Gerçekleştirdi"</strong> — Beş heceli bu fiilde hece atlamak çok yaygın: "ger-çek-leş-tir-di"</li>
+  <li>❌ <strong>"Sürdürülebilir"</strong> — 5 heceli: "sür-dü-rü-le-bi-lir" — tam 6 hece, hiçbirini yutmayın</li>
+  <li>❌ <strong>"Enflasyon" → ✅ "En-flas-yon"</strong> — "Enflason" değil, Y sesi var</li>
+</ul><br>
+<div class="blog-quote">"Bir kelimenin yanlış söylendiği ortaya çıktığında düzeltmeye çalışmak yerine o kelimeyi cümleden çıkarmak, amatörlerin sıkça başvurduğu kaçış yoludur. Profesyonel ise yanlışı kabul eder, egzersiz yapar ve sonraki sefere doğru der."</div>`
+      },
+      {
+        heading: '🔧 Telaffuz Düzeltmenin En Hızlı Yolu: Ses Kayıt Metodu',
+        content: `Yanlış telaffuzları düzeltmek için nörobilim açısından en etkili yöntem "ses karşılaştırma" tekniğidir. Çünkü beyin yanlış olanı "doğru" olarak kaydetmiştir; ona yeni bilgi vermek için duysal kanıt şarttır.<br><br>
+<div class="blog-step-card">
+  <div class="bsc-num">📱 Adım 1: Kayıt Al</div>
+  <div class="bsc-body">Yukarıdaki listeden yanlış söylediğinizi bildiğiniz 5 kelimeyi seçin. Telefonunuza bunları yanlış söylediğiniz hallerini kaydedin.</div>
+</div>
+<div class="blog-step-card">
+  <div class="bsc-num">📚 Adım 2: TDK Sözlük Sesi</div>
+  <div class="bsc-body">TDK Sözlük uygulamasında (veya TDK web sitesinde) her kelimenin yanındaki hoparlör ikonuna basarak doğru telaffuzu dinleyin.</div>
+</div>
+<div class="blog-step-card">
+  <div class="bsc-num">🔁 Adım 3: 10x Tekrar</div>
+  <div class="bsc-body">Doğru telaffuzu dinleyip ardından hemen siz de söyleyin. Bunu 10 kez arka arkaya yapın. Nöroplastisite için minimum 10 tekrar gerekir.</div>
+</div>
+<div class="blog-step-card">
+  <div class="bsc-num">📅 Adım 4: Cümle İçinde Pekiştir</div>
+  <div class="bsc-body">Kelimeyi 3 farklı cümle içinde söyleyin. Bağlam içindeki pratik, izole tekrara göre 4 kat daha kalıcı öğrenme sağlar.</div>
+</div>`
+      }
+    ],
+    cta: { text: 'Telaffuz Egzersizlerini Dene →', cat: 'telaffuz' }
+  },
+
+  {
+    id: 'sunum-korkusu',
+    slug: 'sunum-korkusunu-yenmek-sahne-psikolojisi',
+    emoji: '🎯',
+    category: 'Sunum & Sahne',
+    readTime: '13 dk',
+    date: '14 Nisan 2026',
+    title: 'Sahne Korkusunu Silah\'a Dönüştür: Bilimsel Sunum Psikolojisi Rehberi',
+    subtitle: 'Glossophobia (sunum korkusu), ölüm korkusundan bile daha yaygın. Kalp atışı hızlanır, eller titrer, ses kısılır. Peki bu korku aslında bir düşman mı yoksa kullanılmayı bekleyen bir süper güç mü?',
+    cover: null,
+    tags: ['sunum korkusu', 'sahne korkusu', 'glossophobia', 'konuşma psikolojisi', 'prezentasyon'],
+    intro: 'Araştırmalar, insanların %73\'ünün kamuya açık konuşma fobisine sahip olduğunu gösteriyor. Bu, örümcek korkusundan (%32) ve yükseklik korkusundan (%20) çok daha yaygın. Ünlü psikolog Mark Twain\'in dediği gibi: "Konuşmadan önce kalp krizi geçiririm, ama konuşmaya başladığımda artık başka bir insana dönüşürüm." Sırrı basit: Bu enerjiyi yanlış yorumluyorsunuz.',
+    sections: [
+      {
+        heading: '🧠 Nöroloji Dersi: Korku ve Heyecan Aynı Kimyasal',
+        content: `Harvard Üniversitesi\'nin 2014 tarihli landmark çalışması şunu ortaya koymuştur: Bir sunum öncesinde "Çok heyecanlıyım!" diyen insanlar, "Sakinleşmeliyim" diyenlere kıyasla sunumlarında %20 daha yüksek performans sergiliyorlar.<br><br>
+Bunun nörobilimsel açıklaması şudur: Korku ve heyecan beynin <strong>aynı bölgesini</strong> (amigdala) ve <strong>aynı hormonu</strong> (adrenalin/kortizol) kullanır. İkisi arasındaki fark tamamen bilişsel etiketlemedir — yani kendinize nasıl anlattığınızdır.<br><br>
+<div class="blog-highlight-box">
+  💡 <strong>Pratik Uygulama:</strong> Sahnede çıkmadan önce tüm bedeninizdeki o titreme, çarpıntı ve gerginliği "Bu benim silahım. Motor ısındı." diye yeniden çerçeveleyin (cognitive reframing). Bu yeniden adlandırma kortizolü performansa dönüştürür.
+</div>`
+      },
+      {
+        heading: '💃 Amy Cuddy\'nin Güç Pozu Deneyi (Harvard)',
+        content: `Dr. Amy Cuddy\'nin ünlü TED konuşmasında anlattığı deneyi muhtemelen duymuşsunuzdur: Sunumdan 2 dakika önce "Wonder Woman duruşu" yapanların (dik duruş, kollar belde, yüksek baş) testosteron seviyeleri %20 artmış, kortizol (stres hormonu) ise %25 düşmüştür.<br><br>
+<div class="blog-step-card">
+  <div class="bsc-num">⏱️ 2 Dakika Güç Pozu Protokolü</div>
+  <div class="bsc-body">
+    <strong>1.</strong> Sunumdan 3-5 dakika önce tenha bir yer bulun (tuvalet işe yarar).<br>
+    <strong>2.</strong> Ayaklar omuz genişliğinde açık, kollar belde, çene hafif yukarı bakacak şekilde dikilip durun.<br>
+    <strong>3.</strong> Burnunuzdan derin 3 nefes alıp verin.<br>
+    <strong>4.</strong> Kendi kendinize sessizce "Bu benim vaktim" deyin.<br>
+    Bu kadarlık! Bundan sonra sahneye değişik bir kimyayla çıkacaksınız.
+  </div>
+</div>`
+      },
+      {
+        heading: '🎙️ Ses Titremesini 30 Saniyede Durduran Egzersiz',
+        content: `Ses titremesinin fiziksel nedeni huzursuz nefes döngüsüdür: Stres → Yüzeysel nefes → CO₂/O₂ dengesizliği → Diyafram spazmı → Ses titrer.<br><br>
+Bu döngüyü kırmak için kullandığımız teknik: <strong>4-7-8 Nefes Protokolü</strong><br><br>
+<ul class="blog-list">
+  <li>🔵 <strong>4 saniye:</strong> Burnunuzdan derin nefes alın</li>
+  <li>🟡 <strong>7 saniye:</strong> Nefesinizi tutun</li>
+  <li>🔴 <strong>8 saniye:</strong> Ağzınızdan ıslık gibi yavaşça verin</li>
+</ul><br>
+Bu 3 döngüyü arka arkaya yapın. Parasempatik sinir sistemi devreye girerek kalp atışını ve ses titremesini 30 saniye içinde kontrol altına alır. Arizona Tıp Fakültesi\'nden Dr. Andrew Weil bu tekniği "sakinleştirici bir ilaçtan daha güçlü" olarak tanımlamıştır.`
+      },
+      {
+        heading: '👁️ 3 Saniye Göz Teması Kuralı',
+        content: `Çoğu yeni konuşmacı salona bakınca panikler ve ya tavanı ya da arka duvarı seçer. Bu, izleyiciye "Sizden kaçıyorum" mesajı verir.<br><br>
+Profesyonellerin kullandığı teknik: <strong>"3-3-3 Göz Teması Sistemi"</strong><br>
+- Salona baktığınızda bir kişiyle 3 saniye tam göz teması kurun, bir düşünceyi bitirin.<br>
+- Sonra farklı bir kişiye geçin, tekrar 3 saniye.<br>
+- Bunu yaparken salonu 3 bölgeye (sol-orta-sağ) bölerek her bölgeden birer kişi seçin.<br><br>
+Bu tekniğin gücü: Her izleyici "Konuşmacı benimle özel olarak konuştu" hissi yaşar. Bu his sizi dinlemeye bağlar ve bağlılık (engagement) oranını dramatik olarak artırır.<br><br>
+<div class="blog-quote">"Bir kalabalığa konuşmak sandığınızdan çok daha kolay, çünkü aslında kalabalık içindeki birey serisine ard arda konuşuyorsunuzdur."</div>`
+      },
+      {
+        heading: '⚡ Prova Stratejisi: Mentaller\'den Önce İzle, Dinle, Hisset',
+        content: `Çoğu insan sunum provasını şöyle yapar: Metni kafasında okur, "Tamam aşağı yukarı ettim" der ve sahneye çıkar. Bu, piyano çalmayı "zihinde prova etmek" ile öğrenmeye benzer — işe yaramaz.<br><br>
+<div class="blog-step-card">
+  <div class="bsc-num">🎬 Profesyonel Prova 5-Aşama Protokolü</div>
+  <div class="bsc-body">
+    <strong>1. Ayakta Sesli Prova (3x):</strong> Sadece oturarak değil, tam kurulumda ayakta yapın.<br>
+    <strong>2. Video Kaydı:</strong> Kendinizi kaydedin ve gözden geçirin. Acımasız olun.<br>
+    <strong>3. Yüksek Tempolu Prova:</strong> Tüm konuşmayı normal sürenin yarısında yapın. Bu sizi akıcılaştırır.<br>
+    <strong>4. Gürültülü Ortam Provası:</strong> Mutfakta, sokakta, arayışlı bir ortamda prova yapın. Odaklanma kasını güçlendirir.<br>
+    <strong>5. Soğuk Duş Testi:</strong> Konu başlıklarına bakarak (metinsiz) konuşabilmeniz gerekiyor.
+  </div>
+</div>`
+      },
+      {
+        heading: '📊 Verilerle Konuşmacı Anatomisi: Hangi Unsur Ne Kadar Etkiler?',
+        content: `Dr. Albert Mehrabian\'ın 1967 tarihli klasik araştırması iletişimde üç unsuru şöyle oranlamıştır:<br><br>
+<div class="blog-fact-grid">
+  <div class="blog-fact-card">
+    <span class="bfc-icon">%7</span>
+    <strong>Söylenen Kelimeler</strong>
+    <p>İçerik, veriler, argümanlar. Aslında en az etkili unsur.</p>
+  </div>
+  <div class="blog-fact-card">
+    <span class="bfc-icon">%38</span>
+    <strong>Ses Tonu ve Ritim</strong>
+    <p>Hız, yükseklik, perde değişimi, duraklamalar.</p>
+  </div>
+  <div class="blog-fact-card">
+    <span class="bfc-icon">%55</span>
+    <strong>Beden Dili</strong>
+    <p>Duruş, jestler, yüz ifadesi, göz teması.</p>
+  </div>
+</div><br>
+Bu rakamlar size şunu söylüyor: Konuşma metnine ayırdığınız zamanın 13 katını ses ve beden dilinize ayırmanız gerekiyor. Çoğu insanın "sunumum çok iyiydi ama tutmadı" şikayetinin sırrı burada.`
+      }
+    ],
+    cta: { text: 'Ses Egzersizlerine Başla →', cat: 'ses' }
+  },
+
+  {
+    id: 'cocuk-diksiyon',
+    slug: 'cocuklarda-diksiyon-gelistirme-ebeveyn-rehberi',
+    emoji: '👶',
+    category: 'Ebeveyn Rehberi',
+    readTime: '9 dk',
+    date: '14 Nisan 2026',
+    title: 'Çocuğunuzun Sesi, Geleceğidir: 3-12 Yaş Diksiyon Geliştirme Rehberi',
+    subtitle: '3 yaşında düzgün konuşan bir çocuğun ilerideki okul başarısı ve sosyal uyumu 2.3 kat daha yüksek. Peki ebeveynler evde ne yapabilir?',
+    cover: null,
+    tags: ['çocuk diksiyon', 'ebeveyn rehberi', 'çocuk konuşma gelişimi', 'dil gelişimi', 'telaffuz'],
+    intro: 'Dil edinimi beynin en kritik döneminde, 0-7 yaş arasında gerçekleşir. Bu dönemde çocuğun maruz kaldığı ses kalitesi, kelime zenginliği ve konuşma modelleri, ilkokuldaki okuma yazma başarısını, arkadaş ilişkilerini ve hatta lise dönemindeki akademik performansı doğrudan belirleyen faktörlerdir. Harvard Eğitim Fakültesi\'nin 30 yıllık boylam çalışması, 3 yaşında zengin dil ortamına sahip çocukların 10 yaşında akranlarına göre ortalama 2.3 yıl ilerleride olduğunu ortaya koymuştur.',
+    sections: [
+      {
+        heading: '🧸 0-3 Yaş: Temel Ses Ortamı Oluşturma',
+        content: `Bebek henüz konuşamasa da işitme sistemi doğumdan itibaren tam aktiftir. İlk 3 yılda yapılanlar adeta bir ses "yazılımı" kurar.<br><br>
+<div class="blog-step-card">
+  <div class="bsc-num">✅ Anne-Baba Yapmalı</div>
+  <div class="bsc-body">
+    <strong>• Bebek dili kullanmayın:</strong> "Buba", "süpik" gibi uydurma kelimeler değil her zaman doğru kelimeleri kullanın. Beyin gerçek sözcükleri depolar.<br>
+    <strong>• Yüksek sesle kitap okuyun:</strong> Günde 15 dakika sesli kitap okumak 3 yıl sonunda çocuğun kelime dağarcığını 2 kat büyütür (Hart & Risley, 1995).<br>
+    <strong>• Şarkı ve tekerleme:</strong> Ritimli dil, kelime hafızasını oluşturan hipokampüsü aktive eder. Türk tekerleme ve ninnileri bu açıdan paha biçilmezdir.
+  </div>
+</div>`
+      },
+      {
+        heading: '🎮 3-6 Yaş: Oyun Yoluyla Diksiyon Temeli',
+        content: `Bu dönemde çocuğun kendisi artık konuşabiliyor ama henüz bilinçli pratik yapamıyor. Diksiyon çalışmasını oyun formatında sunmak şart.<br><br>
+<ul class="blog-list">
+  <li>🐸 <strong>Taklit Oyunları:</strong> "Ben hayvan sesleri çıkarıyorum, sen de yap" — Farklı hayvan seslerini taklit etmek ağız kaslarını egzersiz yapar ve değişen perde ile rezonansı geliştirir.</li>
+  <li>🎭 <strong>Kukla Oyunları:</strong> Çocuk kukla üzerinden konuşunca ketum çocuklar bile doğal olarak konuşur. Kuklanın "kendi sesi" olmasına izin verin.</li>
+  <li>📚 <strong>Kelime Merdiveni:</strong> "Bugün kaç yeni kelime öğrendik?" diye sorarak günlük kelime toplama yarışması yapın. Ödüllü hedefler motivasyon sağlar.</li>
+  <li>🎵 <strong>Şiir Ezberletme:</strong> Kısa Türk şiirlerini dramatik tonlamalarla ezberleyin. İlk tereddütleri için siz önce söyleyin, onlar tekrar etsin.</li>
+</ul>`
+      },
+      {
+        heading: '📚 6-9 Yaş: Okul Çağı Diksiyon Alışkanlıkları',
+        content: `Çocuk artık okuma yazma öğreniyor; bu dönem diksiyon ve dil alışkanlıklarının en hızlı oturduğu dönemdir.<br><br>
+<div class="blog-fact-grid">
+  <div class="blog-fact-card">
+    <span class="bfc-icon">📖</span>
+    <strong>Sesli Okuma Ritüeli</strong>
+    <p>Her gece yatmadan önce çocuğunuz size 5 dakika kitaptan sesli okusun. Siz yanlış telaffuzları o an değil, okuyuş bitince nazikçe düzeltin.</p>
+  </div>
+  <div class="blog-fact-card">
+    <span class="bfc-icon">🎙️</span>
+    <strong>Haftalık "Haber Sunumu"</strong>
+    <p>Çocuğunuz her hafta okulda olan bir olayı size "haberci" rolüyle anlatsın. Kameraya karşı konuşmayı normalleştirin.</p>
+  </div>
+  <div class="blog-fact-card">
+    <span class="bfc-icon">🎭</span>
+    <strong>Tiyatro Kursu</strong>
+    <p>Okul tiyatrosu veya drama kursları dişsiyon için en etkili "oyunlu çalışma" ortamlarıdır. Yılda 1 kurs büyük fark yaratır.</p>
+  </div>
+  <div class="blog-fact-card">
+    <span class="bfc-icon">🌟</span>
+    <strong>Kelime Günlüğü</strong>
+    <p>Her gün 1 yeni kelime ve anlamını bir deftere yazsın. Hafta sonunda bunları cümle içinde kullanan kazanır.</p>
+  </div>
+</div>`
+      },
+      {
+        heading: '⚠️ Ebeveynlerin Kaçması Gereken 5 Hata',
+        content: `<ul class="blog-list">
+  <li>🚫 <strong>Düzeltirken küçük düşürmek:</strong> "Ne saçma söyledin, öyle denmez!" Çocuk bir daha konuşmaz. Bunun yerine: "Bunu ben de öğrendim, doğrusu şöyle..." deyin.</li>
+  <li>🚫 <strong>Sürekli telefon/tablet:</strong> Screen time arttıkça diyalog azalır. Kaçırılan her diyalog, kaçırılan bir kelime fırsatıdır.</li>
+  <li>🚫 <strong>Çocuk konuşurken sözünü kesmek:</strong> Tamamlamak için sabırsızlanmak çocuğa "senin cümlelerini bitirme hakkın yok" mesajı verir.</li>
+  <li>🚫 <strong>Sadece "evet/hayır" soruları:</strong> "Okulda iyi miydi?" yerine "Bugün en çok hangi derste farklı bir şey düşündün?" ile açık uçlu konuşma kapıları açın.</li>
+  <li>🚫 <strong>Yanlış telaffuzu gülüp geçmek:</strong> Bir kez güldünüz mü, çocuk o kelimeden korkar. Ya düzeltir ya da o kelimeden kaçar — ikisi de iyi değil.</li>
+</ul><br>
+<div class="blog-highlight-box">
+  👨‍👩‍👧 <strong>Altın Kural:</strong> Çocuğunuz "sizin kelime dağarcığınızı" mirror eder (yansıtır). Evde zengin, doğru ve akıcı Türkçe konuşmak, hiçbir kursa gitmeye gerek kalmadan çocuğunuza en büyük diksiyon armağanıdır.
+</div>`
+      },
+      {
+        heading: '🏆 9-12 Yaş: Kendi Sesini Bulmak',
+        content: `Bu dönemde kritik geçiş yaşanır: Çocuk artık "kendi sesi"nin farkına varabilir ve bilinçli gelişim yapabilir.<br><br>
+<div class="blog-step-card">
+  <div class="bsc-num">🎯 3 Pratikte Öz Farkındalık</div>
+  <div class="bsc-body">
+    <strong>1. Kendi Sesini Dinlet:</strong> Çocuğun rızasıyla yaptığı bir konuşmayı kaydedin ve birlikte dinleyin. "Sana göre en güçlü noktan hangisiydi?" diye sorun.<br>
+    <strong>2. Kelime Gücü Yarışmaları:</strong> Okul kulübü veya yazım yarışmalarına teşvik edin. Rekabet motivasyonu dramatik olarak yükseltir.<br>
+    <strong>3. Sunum Dersi:</strong> Ailece yapılacak "mini sunum" akşamları düzenleyin: Herkes haftada bir konuyu 3 dakika anlatır. Ebeveynler de dahil, çocuk farklı değil hissetmez.
+  </div>
+</div>`
+      }
+    ],
+    cta: { text: 'Çocuklar İçin Diksiyon Egzersizlerini Keşfet →', cat: 'tekerleme' }
   }
 ];
+
 
 function renderBlogList() {
   const container = document.getElementById('blog-container');

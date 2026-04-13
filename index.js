@@ -1,12 +1,16 @@
 const express = require('express');
+const compression = require('compression');
 const path    = require('path');
 const fs      = require('fs');
 const app     = express();
 const HTTP_PORT  = 3000;
 const HTTPS_PORT = 3443;
 
-// Statik dosyaları public klasöründen sun
-app.use(express.static(path.join(__dirname, 'public')));
+// Gzip Sıkıştırma (Performans için)
+app.use(compression());
+
+// Statik dosyaları public klasöründen sun (index.html'i dinamik işleyeceğimiz için hariç tutuyoruz)
+app.use(express.static(path.join(__dirname, 'public'), { index: false }));
 
 // ── Sitemap ──────────────────────────────────────────────────────────────────
 const SITE_URL = 'https://www.diksiyonrehberi.com';
@@ -63,6 +67,10 @@ const SITEMAP_PAGES = [
   { loc: '/?blog=diksiyon-seviyenizi-olcun-kendi-kendinize-test',  changefreq: 'monthly', priority: '0.9' },
   { loc: '/?blog=aksanli-konusmaktan-diksiyon-gucune-donusum',     changefreq: 'monthly', priority: '0.8' },
   { loc: '/?blog=is-hayatinda-diksiyon-kariyer-etkisi',            changefreq: 'monthly', priority: '0.9' },
+  // 14 Nisan 2026 eklenen makaleler
+  { loc: '/?blog=yanlis-soylenen-kelimeler',                       changefreq: 'monthly', priority: '0.9' },
+  { loc: '/?blog=sunum-korkusu',                                   changefreq: 'monthly', priority: '0.9' },
+  { loc: '/?blog=cocuk-diksiyon',                                  changefreq: 'monthly', priority: '0.9' },
 ];
 
 app.get('/sitemap.xml', (req, res) => {
@@ -94,9 +102,63 @@ Sitemap: ${SITE_URL}/sitemap.xml
 `);
 });
 
-// Tüm istekleri index.html'e yönlendir (SPA desteği)
+// Blog Meta SEO Veritabanı
+const BLOG_META = {
+  "ses-isinma-rehberi": {
+    "title": "Günde 15 Dakikayla Sesinizi Değiştiririn: Profesyonel Ses Isıtma Rutini - Diksiyon Rehberi",
+    "desc": "Neden sabahları sesiniz kısık çıkıyor? Konuşurken boğazınız neden ağrıyor? Bu rehberle ses tellerinizi profesyonel bir enstrümana dönüştürecek 15 dakikalık rutini keşfedin."
+  },
+  "liderlik-ses-analizi": {
+    "title": "Toplumsal İkna: Güçlü Liderlik Sesi Nasıl İcat Edilir? - Diksiyon Rehberi",
+    "desc": "Ağzınızı açtığınızda salonun buz kesmesini sağlayan gizli liderlik sırları. Karizma bir vokal mühendisliği sonucudur."
+  },
+  "sihirli-kelimeler": {
+    "title": "Negatifi Pozitife Döndür: Ofis İkna Sanatı - Diksiyon Rehberi",
+    "desc": "Hayır demek sizi ofiste düşmanlaştırmamalı. Karşınızdakini suçlamadan hatasını kabul ettirmenin kurumsal yolları."
+  },
+  "aktif-dinleme": {
+    "title": "İknaların Sırrı: Güç Oyunu 'Aktif Dinleme' - Diksiyon Rehberi",
+    "desc": "FBI taktik laboratuvarlarından aktif dinleme teknikleri. Bir odadaki en güçlü kişi neden en sessiz kişidir?"
+  },
+  "yanlis-soylenen-kelimeler": {
+    "title": "Türkçede En Çok Yanlış Telaffuz Edilen 30 Kelime ve Doğruları - Diksiyon Rehberi",
+    "desc": "Tabiki, müzig, kahvaldı... Günlük hayatta farkında olmadan söylediğiniz yanlış telaffuzları ve TDK doğrularını keşfedin."
+  },
+  "sunum-korkusu": {
+    "title": "Sahne Korkusunu Silah'a Dönüştür: Bilimsel Sunum Psikolojisi - Diksiyon Rehberi",
+    "desc": "Glossophobia (sunum korkusu) neden ölüm korkusundan bile yaygın? Harvard arafltırmalarıyla sahne korkusunu performansa dönüştürme rehberi."
+  },
+  "cocuk-diksiyon": {
+    "title": "Çocuğunuzun Sesi, Geleceğidir: 3-12 Yaş Diksiyon Geliştirme Rehberi - Diksiyon Rehberi",
+    "desc": "3 yaşında düzgün konuşan bir çocuğun okul başarısı 2.3 kat daha yüksek. Ebeveynler evde ne yapabilir?"
+  }
+};
+
+// Tüm istekleri index.html'e yönlendir (SPA desteği ve Dinamik SEO)
 app.get('/{*path}', (req, res) => {
-  res.sendFile(path.join(__dirname, 'public', 'index.html'));
+  let htmlPath = path.join(__dirname, 'public', 'index.html');
+  
+  fs.readFile(htmlPath, 'utf8', (err, html) => {
+    if (err) return res.status(500).send('Sunucu hatası.');
+
+    // Eğer blog parametresi varsa başlıkları ve meta etiketlerini değiştir
+    if (req.query.blog && BLOG_META[req.query.blog]) {
+      const meta = BLOG_META[req.query.blog];
+      
+      // Standart SEO (Regex is safer to match despite exact newlines)
+      html = html.replace(/<title>.*?<\/title>/, `<title>${meta.title}</title>`);
+      html = html.replace(/<meta name="description" content="([^"]+)"/, `<meta name="description" content="${meta.desc}"`);
+      
+      // Open Graph ve Twitter SEO
+      html = html.replace(/<meta property="og:title" content="([^"]+)"/, `<meta property="og:title" content="${meta.title}"`);
+      html = html.replace(/<meta property="og:description" content="([^"]+)"/, `<meta property="og:description" content="${meta.desc}"`);
+      html = html.replace(/<meta name="twitter:title" content="([^"]+)"/, `<meta name="twitter:title" content="${meta.title}"`);
+      html = html.replace(/<meta name="twitter:description" content="([^"]+)"/, `<meta name="twitter:description" content="${meta.desc}"`);
+      html = html.replace(/content="website"/, 'content="article"');
+    }
+
+    res.send(html);
+  });
 });
 
 // ── HTTPS desteği (certs/ klasöründeki sertifikalar varsa) ──────
