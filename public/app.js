@@ -1006,22 +1006,39 @@ function setFilter(cat) {
   const okc = $('okunuslar-container');
   const rlc = $('rezonans-interactive-container');
   const tc  = $('teleprompter-container');
+  const sic = $('ses-interactive-container');
+  const ric = $('ritim-interactive-container');
 
   // Hide all special containers first
-  [ac, ec, ti, nc, ic, pc, oc, bc, rlc, okc, tc].forEach(el => { if (el) el.style.display = 'none'; });
+  [ac, ec, ti, nc, ic, pc, oc, bc, rlc, okc, tc, sic, ric].forEach(el => { if (el) el.style.display = 'none'; });
 
   // Full-page modules: collapse left sidebar, keep right sidebar
   const pageLayout = $('page-layout');
-  const fullPageModes = ['blog','teleprompter','okunuslar','okuma','programlar','arena'];
+  const fullPageModes = ['blog','teleprompter','okunuslar','okuma','programlar'];
   const isFullPage = fullPageModes.includes(cat);
   if (pageLayout) pageLayout.classList.toggle('full-page-mode', isFullPage);
 
   if (cat === 'teleprompter') {
     if (tc) tc.style.display = 'block';
     renderTeleprompter();
-  } else if (cat === 'arena') {
+  } else if (cat === 'tekerleme') {
     if (ac) ac.style.display = 'block';
+    if (ec) ec.style.display = 'block';
+    if (ti) ti.style.display = 'block';
     renderArena();
+    renderAll();
+  } else if (cat === 'ritim') {
+    if (ric) ric.style.display = 'block';
+    if (ec) ec.style.display = 'block';
+    if (ti) ti.style.display = 'block';
+    renderRitimInteractive();
+    renderAll();
+  } else if (cat === 'ses') {
+    if (sic) sic.style.display = 'block';
+    if (ec) ec.style.display = 'block';
+    if (ti) ti.style.display = 'block';
+    renderSesInteractive();
+    renderAll();
   } else if (cat === 'blog') {
     if (bc) bc.style.display = 'block';
     renderBlogList();
@@ -1046,12 +1063,10 @@ function setFilter(cat) {
     renderRezonansInteractive();
     renderAll();
   } else if (cat === 'all') {
-    if (ac) ac.style.display = 'block';
     if (nc) nc.style.display = 'block';
     if (ec) ec.style.display = 'block';
     if (ti) ti.style.display = 'block';
     renderNefesInteractive();
-    renderArena();
     renderAll();
   } else {
     if (ec) ec.style.display = 'block';

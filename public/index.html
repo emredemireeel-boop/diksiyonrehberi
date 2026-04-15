@@ -103,7 +103,7 @@
       <a class="top-nav-link active" href="#" data-cat="all" id="tnav-all">Tümü</a>
       <a class="top-nav-link" href="#" data-cat="nefes" id="tnav-nefes">Nefes</a>
       <a class="top-nav-link" href="#" data-cat="tekerleme" id="tnav-tekerleme">Tekerleme</a>
-      <a class="top-nav-link" href="#" data-cat="arena" id="tnav-arena">Arena</a>
+
       <a class="top-nav-link" href="#" data-cat="ses" id="tnav-ses">Ses</a>
       <a class="top-nav-link" href="#" data-cat="telaffuz" id="tnav-telaffuz">Telaffuz</a>
       <a class="top-nav-link" href="#" data-cat="ritim" id="tnav-ritim">Ritim</a>
@@ -127,7 +127,7 @@
     <a class="mob-link" href="#" data-cat="all" id="mnav-all">Tümü</a>
     <a class="mob-link" href="#" data-cat="nefes" id="mnav-nefes">Nefes</a>
     <a class="mob-link" href="#" data-cat="tekerleme" id="mnav-tekerleme">Tekerleme</a>
-    <a class="mob-link" href="#" data-cat="arena" id="mnav-arena">Arena</a>
+
     <a class="mob-link" href="#" data-cat="ses" id="mnav-ses">Ses</a>
     <a class="mob-link" href="#" data-cat="telaffuz" id="mnav-telaffuz">Telaffuz</a>
     <a class="mob-link" href="#" data-cat="ritim" id="mnav-ritim">Ritim</a>
@@ -286,8 +286,14 @@
     <!-- Teleprompter -->
     <div id="teleprompter-container" style="display:none"></div>
 
-    <!-- Interactive Tongue Twister Arena -->
+    <!-- Tekerleme Arenası (Tekerleme sekmesinde gösterilir) -->
     <div id="arena-container" style="display:none"></div>
+
+    <!-- Ses İnteraktif Stüdyo -->
+    <div id="ses-interactive-container" style="display:none"></div>
+
+    <!-- Ritim İnteraktif Stüdyo -->
+    <div id="ritim-interactive-container" style="display:none"></div>
 
     <!-- Interactive Breathing Assistant -->
     <div id="nefes-interactive-container" style="display:none"></div>
@@ -733,6 +739,8 @@
   function $(id) { return document.getElementById(id); }
 </script>
 <script src="tekerlemeler.js"></script>
+<script src="ses-interactive.js"></script>
+<script src="ritim-interactive.js"></script>
 <script src="blog.js"></script>
 <script src="rezonans.js"></script>
 <script src="okunuslar.js"></script>
