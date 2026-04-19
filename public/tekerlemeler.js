@@ -27,6 +27,11 @@ const TEKERLEMELER = {
     'Altın anahtar altın kilidi açar, açılmaz başka anahtar.',
     'Ankara\'da annesinin adı Ayten, amcasının adı Ahmet, ablasının adı Aysel.',
     'Abalı obalı oba, oba obalı abalı aba giyer.',
+    'Abana\'dan Adana\'ya abarta abarta apar topar ahlat aldılar.',
+    'Al bu takatukaları takatukacıya takatukalatmaya götür, takatukacı takatukaları takatukalamazsa al takatukaları takatukalamadan getir.',
+    'Adalara adanan adaklar, adamakıllı adaklanmış adamlara adanır.',
+    'Alem ala dana aldı ala danalandı da biz bir ala dana alıp ala danalanamadık.',
+    'Avukat asilzadelerin asilzade atlarına avukatlık ait avlularında atladı.'
   ],
   'B': [
     'Bir berber bir berbere gel beraber bir berber dükkanı açalım demiş.',
@@ -51,6 +56,11 @@ const TEKERLEMELER = {
     'Bebek bebeğe benzer, benzeyen bebek bebeğin benidir.',
     'Beraber iş yapalım dedi berber, berberce berdel berdel.',
     'Biri biri arkasında birini birini bulmaya gitti.',
+    'Batıtepe\'nin bataklık bataryası batık batakçılarca batırıldı.',
+    'Babasının benekli bıldırcını bitişik bostanda böceklerle beslenirken birdenbire bitti.',
+    'Bire bülbül bazlı bağban, bu bozuk bağlar bize bağ olur mu?',
+    'Bizde bize biz derler, sizde bize ne derler, behey bizim bıyıklı boz bakkal?',
+    'Büyük büstü büklüm büklüm büken bükücü büyücü büğlü büyüsünü buldu.'
   ],
   'C': [
     'Cırcır böceği cevizde ceviz çatlatır.',
@@ -74,6 +84,11 @@ const TEKERLEMELER = {
     'Cisim cisimleri cisimleştirir, cisimleşen cisimdir.',
     'Cıvık cıvığı cıvıklaştırdı, cıvıklaşan cıvık oldu.',
     'Cumaya cumaya cuma cumaya erişir.',
+    'Cemal, Cemil, Cemile, cemaatle cemiyet içinde cevizli cezerye yediler.',
+    'Cüce cüsseli Cüneyt, cüretkâr cırcır böcekleriyle cıvıl cıvıl cıvıldadı.',
+    'Ceketli celep Celal, cılız ceylanı ceketine cıvatarak cebine soktu.',
+    'Cambaz Cevat cılız cıvık cıvata civarında caka satarak caketini çıkardı.',
+    'Cimbomlu cimri Cihan cila cibinlikli cildiyle cirit attı.'
   ],
   'Ç': [
     'Çakıl çakıla çakılır, çakılmış çakıl çakıldır.',
@@ -97,6 +112,11 @@ const TEKERLEMELER = {
     'Çapraz çaprazdan çaprazlama çapraz çaprazlandı.',
     'Çamur çamurlukta çamurlandı, çamurlu çamurlandı.',
     'Çam çamda çamlık çamlıkta çamlıklandı.',
+    'Çatalca\'da topal çoban çatal yapıp çatal satar, nesi için çatalca\'da topal çoban çatal yapıp çatal satar?',
+    'Çardaklı çeşmedeki çırak, çıkrığı çabucak çıkardı.',
+    'Çarşıdaki çizmeci çizmesini çizerek çizmeci çırağına çizdirdi.',
+    'Çilli çetin çeltikçi çetin, çekiçle çemberi çarçabuk çaktı.',
+    'Çavuş çarşafı çamaşırhaneye çabukça çekiştirerek çalkaladı.'
   ],
   'D': [
     'Dere tepe düz gider derdini bilmez dost.',
@@ -120,6 +140,11 @@ const TEKERLEMELER = {
     'Dolap dolapta dolaplandı, dolaplanan dolap dolaptır.',
     'Damla damlada damlalık, damlalık damlatır.',
     'Dere tepeden düz düz geçer, düzden geçemeyen döner.',
+    'Dört deryanın deresini dört dergahın derbendiyle devşirdiler.',
+    'Dadaştan dadanan dadaş dadandı, dadanan dadaştan dadaş mı dadanır?',
+    'Dır dır dırlanan dırdırcı dudu, düdük çalarak dükkana daldı.',
+    'Denizli\'nin dehlizlerinde debelenen deli derviş, derste deftere dert yandı.',
+    'Dikili\'de dikilen dikili taş, dikilmekten dikili kaldı.'
   ],
   'E': [
     'Ev evi ev eviyle evlendi, ev evden evlenmiş.',
@@ -143,6 +168,11 @@ const TEKERLEMELER = {
     'Emme emmeyi emmeden öğrendim, emmeyen ememez.',
     'Ebru ebru ebrular, ebrulayan ebru sanatçısıdır.',
     'Engin enginden geçmek için engin olmak gerekir.',
+    'Edepli edip edepsiz edibe “edepsiz edip” demiş.',
+    'Eğer elemanları engellemezsen endüstri ellerinden erir.',
+    'Esnek esmer esir, esrarlı esvapla esniyordu.',
+    'Ezene ezilen ezerse ezen mi ezilir, ezilen mi ezer?',
+    'Erdek\'te elli elli evlenen erkekler er geç evde kalırlar.'
   ],
   'F': [
     'Fındık fındığa fındık verdi, fındıkçı fındık sattı.',
@@ -166,6 +196,11 @@ const TEKERLEMELER = {
     'Fon fondan fonlanır, fonlanan fon fondu.',
     'Felsefe felsefeciden felsefeyi felsefeyle öğrendim.',
     'Fırtına fırtınada fırtınalandı, fırtınalanan fırtına güçlüydü.',
+    'Fasa fiso felsefesiyle fosur fosur fosurdayan faturacı, fırçayı yedi.',
+    'Farfaracı Fikriye, fitneci Fikret\'e fosforlu feneri fırlattı.',
+    'Felek ferman dinlemez, fukara ferahlamaz, fırıldak fır fır döner.',
+    'Fransız fırıncı, frankfurter fosisini fırınlarken fare fırladı.',
+    'Firuze fistanlı Füsun, fütursuzca faytona fırlayıp fısıldadı.'
   ],
   'G': [
     'Gözlükçü gözlüğü gözlüğe gözlükledi.',
@@ -189,6 +224,20 @@ const TEKERLEMELER = {
     'Gayret gayretle gayretlendi, gayretlenen gayretlidir.',
     'Gıda gıdada gıdalandı, gıdalanan gıda alır.',
     'Genç gençten gençlik, gençlik gençten güzel.',
+    'Gül dibinde güller bitmiş, güller güllere gülüvermiş.',
+    'Gıdı gıdı gıdıklanan gıpgri güvercin gagasını gıdasına geçirdi.',
+    'Galata\'da galat-ı meşhur galatlar gırgır şamata gürültüyle geziyor.',
+    'Göçmen Göksel, gölgeli gölcükte gömleğini göre göre gömdü.',
+    'Gülizar gülleri güler yüzle güldeste yapıp Gürkan\'a gönderdi.'
+  ],
+  'Ğ': [
+    'Ağa, ağ gibi ağlar dokurken ağaca ağıt yaktı.',
+    'Boğaz\'da boğaza boğazlanan boğalar böğürtlen böğürdü.',
+    'Çağdaş çağda çağla çağan çağrısına bağır bağır bağlandı.',
+    'Dağda dağı darmadağın eden dağlı dağda ağıt yaktı.',
+    'Söğütlü\'de soğuk soğuk soğuyan söğütler sağır sığırlara sağlandı.',
+    'Ağrılı ağrıdan ağrırken ağır ağır ağardı.',
+    'Ağır ağzıyla ağırlaşan ağabey, ağlayarak ağını ağaca bağladı.'
   ],
   'H': [
     'Hava havada havalı hoş hoş uçar.',
@@ -212,6 +261,11 @@ const TEKERLEMELER = {
     'Huysuz huysuzdan huysuzluk, huysuzluk kimseye yaramaz.',
     'Hedef hedeften hedefe hedefe ulaşmak güçtür.',
     'Havlu havludan havluyu havluladı, havlulanmış havlu havludur.',
+    'Hakkı hakkının hakkını yemiş, Hakkı hakkından hakkını istemiş, Hakkı hakkına hakkını vermeyince Hakkı da hakkının hakkından gelmiş.',
+    'Hırt hırt hırtlayan hırslı hırsız, hırkasını hırsla hırpaladı.',
+    'Hala halı halıya halıcılık hilesi mi halleniyor?',
+    'Hemşire Hümeyra, heyecanla heykeltıraşın heykeline heveslendi.',
+    'Hafız Hüseyin, hohlayarak horozları hovardaca hoplattı.'
   ],
   'I': [
     'Işık ışıktan ışığı ışıklandı, ışıklandıran ışık ışıktır.',
@@ -233,8 +287,13 @@ const TEKERLEMELER = {
     'Ispanak ıspanaktan ıspanakçı ıspanak ıspanak satar.',
     'Israrla ısrarcı ısrar eder, ısrar ısrarcıdır.',
     'Irilik iriden irilik, irileşen iri olur.',
-    'Izgarada ızgaralık ızgara ızgara yapılır.',
     'Irgalamak irgalar irgalanır, irgalanan irgalamış.',
+    'Issız ıslık çalan ısırgan otu ıslak ızgarada ısında.',
+    'Ilıman ılıcada ılıyan Ilgaz, ılık ılık ıhlamur içti.',
+    'Iraklı ıtriyatçı ıtriyat ıtriyatı ıtırlarla ıtırladı.',
+    'Israrcı ıstakoz, ıstırapla ıssız ırmaklara ısındı.',
+    'Iraksak ırgalamaz ırgatlar, ıraklarda ıslık ıslığa ılgarladılar.',
+    'Ilgıt ılgıt ılgaz dağlarına ılgar eden ırgatlar ıslandılar.'
   ],
   'İ': [
     'İnce ince bir ses var, o ince ses incedir.',
@@ -258,6 +317,11 @@ const TEKERLEMELER = {
     'İhracat ihracatçıdan ihracat ihracat yapar.',
     'İnce ince eleyip sık dokumak ince ustalık ister.',
     'İncir incirden incirci incir aldı, incir incirdi.',
+    'İbibiklerin ibiklerini ibikleyen İbiş, ibrişim iplikle ipleri iplik iplik ilikledi.',
+    'İbik ipekli içliği içi içine sığmadan iştahla iğneledi.',
+    'İzmitli İzzeddin, izbelerde iz izleyen izciyi izledi.',
+    'İşgüzar İşletmeci İhsan, iksirli incirleri ihtiyatla ihtiva etti.',
+    'İnan inatçı inek, iner inmez ince ince inledi.'
   ],
   'J': [
     'Jale jaleli jalelendi, jaleli jale jalededir.',
@@ -281,6 +345,11 @@ const TEKERLEMELER = {
     'Jivaro jivarodan jivaro jivaro yaptı.',
     'Jöle jöleden jölelendi, jöleli jöle yumuşaktır.',
     'Jiroskopu jiroskop jiroskoplamak jiroskopla yapılır.',
+    'Japon jandarma Japonca jargonu jöleli jüriye jenerikte jurnalledi.',
+    'Jilet jilete jiletlenme demiş, jilet jiletlenmeden jiletle jiletlenmiş.',
+    'Jaluzi jandarmaları, Japonya\'da jüri jürisini jimnastik jübilesinde jujuttu.',
+    'Jaketataylı jeolog, jöleli jipiyle Jüpiter\'e jest yaptı.',
+    'Jargonlu jigolo, jetonla jest yaparak jüriden jübile kopardı.'
   ],
   'K': [
     'Karga kargaya kar yağdı karla karga karardı.',
@@ -304,6 +373,12 @@ const TEKERLEMELER = {
     'Kum kumdan kumluk, kumluk kumla dolar.',
     'Karma karmadan karma karma karıştı.',
     'Kiraz kirazdan kirazlık, kirazlı kiraz sevilir.',
+    'Keşkekçi keşkekçi keşkeğe keşkeklenmiş keşkekçi demektense, keşkekçiye keşkekçi dememek daha keşkekçicedir.',
+    'Kırk küp kırkının da kulpu kırık küp.',
+    'Kara karga karda kalkar karakar karga karanlıkta kalkar.',
+    'Kırcı kırık kırk kılıçla kırlangıçları kıldır kıldır kovaladı.',
+    'Köprülü kör kedi, köstebeği kötekleyerek kömürlüğe köstü.',
+    'Kalkık kasketli kapkaççı, kaskatı kaktüsleri kanatarak kopardı.'
   ],
   'L': [
     'Lale lalenden lalelik lale lale açtı.',
@@ -327,6 +402,11 @@ const TEKERLEMELER = {
     'Lehim lehimden lehimci lehim lehim yapar.',
     'Loplar lop lop düşer, lop düşen lop loptur.',
     'Lisans lisanstan lisanslı, lisanslı lisans almış.',
+    'Lapa lapa lapa yağan lak lak leylekli lületaşı lüzumsuzca lütuflanmış.',
+    'Loş locada lakerda lüpleten löp löp Lütfü, lüleburgaz\'a lıngır lıngır lıngırdadı.',
+    'Lafazan laleli Latif, laklakla langırt oynayıp lahmacun lüpletti.',
+    'Levrekleri leğene lüp lüp layıkıyla lodosta lüpletmişler.',
+    'Lüle Lüle lüleburgaz lülesi, lülelenmiş lüleburgaz lüleyi lünet lekeledi.'
   ],
   'M': [
     'Mor mor moru morarmış, moraran mor morarır.',
@@ -350,6 +430,11 @@ const TEKERLEMELER = {
     'Mangal mangaldan mangalcı mangal mangal yakar.',
     'Muhtar muhtardan muhtarlık, muhtar muhtarlık yürütür.',
     'Macun macundan macuncu macun macun satar.',
+    'Mehtapta meleyen melek mizaçlı melez, mermer merdivende mırıldandı.',
+    'Marmara\'nın marmelatlı maymunu maşrapayla mangala mızmızlandı.',
+    'Mini mini minikler, mine misali mizansenle mırıl mırıl mırıldanıyor.',
+    'Muvaffakiyetsizsizleştiricileştiremeyeceklerimizden misiniz, yoksa muvaffakiyetsizsizleştiricileştirebileceklerimizden misiniz?',
+    'Musahip Mustafa, mutaassıp mutemetle muzır muzır mutabık kaldı.'
   ],
   'N': [
     'Nar nardan narlık, narlık narla dolar narlarda.',
@@ -373,6 +458,11 @@ const TEKERLEMELER = {
     'Nihayet nihayetten nihayete vardı, nihayetinde bitti.',
     'Nazik nazikten naziklik, naziklik nazikten güzeldir.',
     'Numara numaradan numaralandı, numaralanan numara aldı.',
+    'Nankör nalbant nalları nallarken nane likörünü naneleyerek namluya narince nam etti.',
+    'Niğde\'nin ninnili ninesinin naylon narları nisan nezlesine neşter vurdu.',
+    'Nöbetçi nörön, nokta nokta noktalanan nostaljik notaları nötrlledi.',
+    'Numan\'ın nipelli nimeti nilüferlerin namütenahi nidasıyla ninnilendi.',
+    'Nevzat\'ın nefesi nezaketten nükleer nişastayla nispete noksanlık nakşetti.'
   ],
   'O': [
     'Orman ormanda orman orman ormanlık büyür.',
@@ -396,6 +486,11 @@ const TEKERLEMELER = {
     'Oynak oynaktan oynamak, oynayan oyuncudur.',
     'Obje objeden objeleşti, objeleşen obje olur.',
     'Onur onurdan onurlandı, onurlu onurdur.',
+    'Osmaniye\'li oya, orkide ormanında orkinosla odakta ortak oldu.',
+    'Obur Ozan, otoyolda otostopla ovaları oylum oylum oydu.',
+    'Okkanın onbaşı oklu oturan oran orantısıyla okulları oklu orakla onardı.',
+    'Olgulu olta oburlarla odalarda ordu otağı oylum oylum oynattı.',
+    'Omlet osurtan otel odasındaki org orantısız operaya optik ortalık oldu.'
   ],
   'Ö': [
     'Ördek ördekten ördek yüzdü, ördek ördekti.',
@@ -419,6 +514,11 @@ const TEKERLEMELER = {
     'Örtmek örtenden örtülü, örtülü örtülmüş.',
     'Özel özelden özeleştiri, özeleştiri özelden gelir.',
     'Öveç öveçten öveçlik, öveçler ova hayvanıdır.',
+    'Özlü özetleyen Özer, ödeneksiz öğretmenin örgülü öğrencisini öve öve öptü.',
+    'Öküz önünde öbek öbek örülen örgüleri ören öldü, örmeyen ölümsüz mü oldu?',
+    'Ötekiler ötüşen ördeklerin önünde öforik öksürüklerle övünerek öylece örtündüler.',
+    'Ölçülü önder, örümcekli ören yerinde öncelikle özenle özveriyle önlemini aldı.',
+    'Ödemişli Ömer, öğlen önünde öpüşen özellere öylesine öfkeli öğütler öykündü.'
   ],
   'P': [
     'Pazar pazardan pazarcı pazar pazar dolaşır.',
@@ -442,6 +542,11 @@ const TEKERLEMELER = {
     'Parmak parmaktan parmaklık, parmaklık parmakla korunur.',
     'Peynir peynirden peynirci peynir peynir satar.',
     'Pırıl pırıl parıldayan yıldız pırıl pırıl parlar.',
+    'Pitikareli peçeteli peltek Pelin, pis porsukla pervasızca pırpır paytak paytak pırıldadı.',
+    'Paşa pilavı pişiren pasaklı pastırmacı, pahalı pırlantayı patinajla parlattı.',
+    'Polatlılı pofuduk porsuk, postal pabuçla polisin portresine poz verdi.',
+    'Pısırık pırlanta pazarlamacısı peltek pehlivan, pandomimci piyadeye planörle postalandı.',
+    'Pötikareli pelüş pijamalı polis, pragmatik piyaniste portmanto paha biçti.'
   ],
   'R': [
     'Rüzgar rüzgardan rüzgar esti, rüzgar esti geçti.',
@@ -465,6 +570,11 @@ const TEKERLEMELER = {
     'Ringa ringa halkası ringa ringacı sattı.',
     'Roman romandan romancı roman roman yazdı.',
     'Rutin rutinden rutinleşti, rutinleşen rutin oldu.',
+    'Rıfkı, rubleleri rulo rulo rüşvet verirken rüyasında romatizmalı rockçıya rastladı.',
+    'Rambolu Ramazan, radyolog ressamı rıhtımda romantik romantik rahatlattı.',
+    'Rezil rüsvay rekortmen, reklam ringinde radikal rimelini rütuşladı.',
+    'Rıhtımda robdöşambırlı ruletçi, rüzgarlı rotada rotasyonla rutin randevusuna riayet etti.',
+    'Riyakar rind, ristretto ristretto rüyalarda rindane revan rumuzlara riayet etti.'
   ],
   'S': [
     'Sarı saçlı sarışın sari sarı saçlarını tarar.',
@@ -488,6 +598,11 @@ const TEKERLEMELER = {
     'Sopa sopadan sopacı sopa sopa vurur.',
     'Sepet sepetten sepetçi sepet sepet doldurdu.',
     'Serin serinden serinledi, serinleyen serinledi.',
+    'Sazende Sadun, sarı samanlı saksıdaki sardunyayı saksağanla sarıp sarmaladı.',
+    'Sincap Sisifos, sisli sirkin sillesini sinek sürüsüyle sildi süpürdü.',
+    'Soytarı sofi, somurtkan soliste soytarılık yaparken sormadan soruşturmadan sosa sokuştu.',
+    'Süslü Süreyya, sümbüllü süzgeçte sümsük süvarinin sütlacını sündüre sündüre süzdü.',
+    'Sen seni bil sen seni, sen seni bilmezsen patlatırlar enseni.'
   ],
   'Ş': [
     'Şişe şişe, bu şişe mi o şişe mi?',
@@ -511,6 +626,11 @@ const TEKERLEMELER = {
     'Şuh şuhtan şuhluk, şuh şuh davranır.',
     'Şort şorttan şortlu, şortlu şort giydi.',
     'Şifalı şifadan şifalandı, şifalanan iyileşti.',
+    'Şu köşe yaz köşesi, şu köşe kış köşesi, ortada su şişesi.',
+    'Şemsipaşa Pasajı\'nda sesi büzüşececeler, şaşırıp şemsiyesini şimdikileştirebilecekler mi?',
+    'Şanar, şatafatlı şatonun şahnişininde şaşkaloz şahla şakalaşırken şaraplandı.',
+    'Şikemperver şımarık şirk, şırıl şırıl şırlayan şelalede şipşak şıpıdık şıllandı.',
+    'Şovenist şövalye Şükrü, şöhretli şoförün şapşal şamandırasını şapşallata şapşallata şok etti.'
   ],
   'T': [
     'Teker teker tekeledim, tekerlenen teker döner.',
@@ -534,6 +654,11 @@ const TEKERLEMELER = {
     'Takvim takvimden takvimci takvim asıldı.',
     'Torpil torpilden torpileydi, torpilli torpilli.',
     'Tulum tulumdan tulumcu tulum çaldı.',
+    'Titiz, temiz, tendürdiyotlu teyze, tebessümle teker teker tavşanlara tebrik tebliğ etti.',
+    'Tokat\'lı tombul tulumbacı, tuhaf tulumbayı tıka basa tıraşlayıp tıp tıp tıpaladı.',
+    'Tembel Tevfik, tekerlekli taburede tıksırarak tılsımlı tavuğu tattırdı.',
+    'Türbülanslı türbedar tütün tüttüre tüttüre türkülü tüyleri tülbentle tütsüledi.',
+    'Tarihçi Tarkan, tarçınlı tartısını tarta tarta taraklı tarantulaya tattırdı.'
   ],
   'U': [
     'Uçak uçaktan uçakçı uçak uçuyor.',
@@ -557,6 +682,11 @@ const TEKERLEMELER = {
     'Ümmü, hayır bu U: ulusal uygulama uygulandı.',
     'Urum urumdan ulaştım, urum buldukça ilerlenir.',
     'Uyanık uyanıktan uyanıklık, uyanık uyanıkça davranır.',
+    'Uykucu uşak, uşaklı usturanın ucunu uluorta ufalayarak uhudu unuttu.',
+    'Upuzun umut, ulu ulu uluyan uğursuz uskumruya uvertür uydurup uysallaşarak uyuştu.',
+    'Urfa\'lı udi Uğur, uhrevi ufukta utana sıkıla usulca ustalaşıp urbasını ufalattı.',
+    'Usta uçurtmacı, ucuz uçurtmayı uçuran uçağa uçurarak ukalâca uzaklaştı.',
+    'Uysal umacı, uyuz uyurgezeri uyanana kadar uyurgezerin uyuz uyandırıcısıyla uğraştırdı.'
   ],
   'Ü': [
     'Üzüm üzümden üzümcü üzüm üzüm satıyor.',
@@ -580,6 +710,11 @@ const TEKERLEMELER = {
     'Ürpertmek ürperenden ürperdi, ürperti ürpertti.',
     'Ülser ülserden ülserli, ülserli ülser çekti.',
     'Üsküdar Üsküdar\'a gider gibi gittin, gittin.',
+    'Ütücü Ümit, üşengeç üveyikleri ürkütmeden ütopyadaki üzümleri üleşti.',
+    'Ürpertici üşütük üfürükçü, üçkağıtçı üçgenden üreyen üçüzleri ücretsizce üfledi.',
+    'Ünlü üretime üreyen üretken, üzerliğindeki üzümleri üzengisiyle üzerine üzdü.',
+    'Üzümlü üşüten üveyik, ürkütmeden üşengeç üveyleri üstün üstün ürküttü.',
+    'Ücretsiz üniformalı üstat, üstümde üreyen ütülü üzümleri üstünkörü üleşmiş.'
   ],
   'V': [
     'Vişne vişneden vişneci vişne vişne topladı.',
@@ -603,6 +738,11 @@ const TEKERLEMELER = {
     'Vuruş vuruştan vuruştu, vuruşan vuruştu.',
     'Vitrinde vitrin vitrinlik, vitrin vitrine baktı.',
     'Vasıta vasıtadan vasıtayla, vasıtayla gidilir.',
+    'Vırvırcı Veli, vızvız vızıldayan sivrisineği vazolu vitrinde vecdle vurup vıyaklattı.',
+    'Velhasıl Vahap, vehbi vecizeleri varyemez vişne suyuyla vali villasına verdi.',
+    'Vefakar vekil, vernikli viyolonseli vapurda virtüöze vıraklayarak vasiyet etti.',
+    'Vay vaycı Vakkas, vantilatörlü vapurda vestiyere veda ederek vaaz verdi.',
+    'Virajlı vadide vebalı valiz, vızıl vızıl vızıldayan vampir vatoza vuruldu.'
   ],
   'Y': [
     'Yıldız yıldızdan yıldızlı, yıldız gökyüzünde parlar.',
@@ -626,6 +766,11 @@ const TEKERLEMELER = {
     'Yayık yayıktan yayımcı yayık yayıklandı.',
     'Yılbaşı yılbaşından yılbaşı kutlandı, kutlanan sevinç.',
     'Yaka yakadan yakalık, yakalı yaka güzel.',
+    'Yalancı yalınayak, yaldızlı yalıda yapayalnız yaldızları yalayarak yalpalamadan yalpalanmış.',
+    'Yedigöller\'li yedi yellenen yengeç, yedi yedek yelkenle yetinerek yelkovana yanaştı.',
+    'Yiğit yiyici yılan, yivli yirmi yırtık yelek yıkayıcısına yırtınarak yığıldı.',
+    'Yobaz yoğurtçu, yoksul yolcuya yoğun yoğurttan yoz yoz yoğrulmuş yonga yollattı.',
+    'Yüz yufka yüzsüz yüzgeç, yumuşak yumurcağı yuvarlayıp yusyuvarlak yüreğini yufkalattı.'
   ],
   'Z': [
     'Zaman zamandan zamanlama, zamanlayan zamanlar.',
@@ -649,11 +794,16 @@ const TEKERLEMELER = {
     'Zonklama zonklayan zonklamış, zonklayan baş ağrır.',
     'Zibidi zibididen zibidilik, zibidi zibidi davranır.',
     'Ziyafet ziyafetten ziyafet verdim, ziyafet kalabalıktı.',
+    'Zarif zanaatkar, zarafetle zamansız zarf zımbalayarak zalim zabıtaya zırlattı.',
+    'Zengin zeybek, zeytinlikteki zekice zıplayan zıpkıncı zeybeklerle zeytinyağlı zevklendi.',
+    'Zırzır zırıldayan zırhlı zıpkıncı, zıpır zıpzıpları zıvanadan çıkarıp zırvalayarak zıpladı.',
+    'Zorba zooloji ziyancısı, zoka yutan zoraki zombiye zorlukla zoom yapıp zondaladı.',
+    'Züppe zülfü Zühtü, zümrüt zücaciye zümrütlerini zülüfleriyle zümrütleyerek zürafaya zulmetti.'
   ],
 };
 
 // Türkçe alfabe sırası
 const TURKCE_ALFABE = [
-  'A','B','C','Ç','D','E','F','G','H','I','İ','J','K','L',
+  'A','B','C','Ç','D','E','F','G','Ğ','H','I','İ','J','K','L',
   'M','N','O','Ö','P','R','S','Ş','T','U','Ü','V','Y','Z'
 ];
