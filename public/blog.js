@@ -1562,7 +1562,10 @@ function renderBlogList() {
     
     <div class="blog-grid" id="blog-list-grid">
       ${BLOG_POSTS.map((post, idx) => `
-        <article class="blog-card${idx === 0 ? ' featured' : ''}" tabindex="0" onclick="openBlogPost('${post.id}')" style="animation-delay: ${idx * 0.06}s">
+        <article class="blog-card${idx === 0 ? ' featured' : ''}" tabindex="0"
+          onclick="event.preventDefault(); openBlogPost('${post.id}')"
+          style="animation-delay: ${idx * 0.06}s">
+          <a class="bc-permalink" href="/blog/${post.id}" onclick="event.preventDefault()" aria-label="${post.title}" tabindex="-1"></a>
           <div class="bc-emoji">${post.emoji}</div>
           <div class="bc-content">
             <div class="bc-meta">
@@ -1574,7 +1577,7 @@ function renderBlogList() {
             <div class="bc-tags">
               ${post.tags.slice(0, 3).map(t => `<span class="bc-tag">#${t}</span>`).join('')}
             </div>
-            <button class="bc-read-btn">Makaleyi Oku →</button>
+            <a class="bc-read-btn" href="/blog/${post.id}" onclick="event.preventDefault(); openBlogPost('${post.id}')">Makaleyi Oku →</a>
           </div>
         </article>
       `).join('')}
@@ -1613,6 +1616,12 @@ function openBlogPost(id) {
   
   const container = document.getElementById('blog-container');
   if (!container) return;
+
+  // SEO: URL'yi /blog/slug formatına güncelle (history API ile sayfa yenilenmez)
+  if (window.location.pathname !== `/blog/${id}`) {
+    history.pushState({ blogId: id }, post.title, `/blog/${id}`);
+  }
+  document.title = post.title + ' - Diksiyon Rehberi';
 
   window.scrollTo({ top: 0, behavior: 'smooth' });
 
@@ -1682,3 +1691,37 @@ function openBlogPost(id) {
 // Global olarak çağrılabilmesi için
 window.renderBlogList = renderBlogList;
 window.openBlogPost = openBlogPost;
+
+// Browser geri/ileri butonları için history API desteği
+window.addEventListener('popstate', (e) => {
+  if (e.state && e.state.blogId) {
+    openBlogPost(e.state.blogId);
+  } else if (window.location.pathname === '/' || window.location.pathname.startsWith('/blog') === false) {
+    renderBlogList();
+  }
+});
+
+// Sayfa /blog/slug URL'iyle doğrudan açıldıysa ilgili postu göster
+(function initBlogFromUrl() {
+  const match = window.location.pathname.match(/^\/blog\/([^/]+)/);
+  if (match) {
+    const id = match[1];
+    // Blog sekmesini aktif et ve container'ı göster
+    const waitForContainer = setInterval(() => {
+      const container = document.getElementById('blog-container');
+      if (container) {
+        clearInterval(waitForContainer);
+        // Blog container'ını görünür yap
+        container.style.display = '';
+        // Blog listesini renderla ve postu aç
+        renderBlogList();
+        openBlogPost(id);
+        // Nav linkini aktif et
+        const blogNavLink = document.querySelector('[data-cat="blog"]');
+        if (blogNavLink && typeof setFilter === 'function') {
+          setFilter('blog');
+        }
+      }
+    }, 100);
+  }
+})();
