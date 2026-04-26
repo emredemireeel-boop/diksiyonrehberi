@@ -1,4 +1,4 @@
-// ============================================================
+﻿// ============================================================
 //  DİKSİYON REHBERİ — TEKERLEME VERİTABANI
 //  Her harf için 20+ tekerleme
 // ============================================================
@@ -807,3 +807,28 @@ const TURKCE_ALFABE = [
   'A','B','C','Ç','D','E','F','G','Ğ','H','I','İ','J','K','L',
   'M','N','O','Ö','P','R','S','Ş','T','U','Ü','V','Y','Z'
 ];
+
+// ============================================================
+// UZUN KUYRUK SEO KATEGOR�LER�
+// ============================================================
+const UZUN_KUYRUK_KATEGORILER = {
+  'en-zor-tekerlemeler': { title: 'En Zor Tekerlemeler - Diksiyon Rehberi', desc: 'Diksiyonunuzu s�n�rlar�na kadar zorlayacak, okumas� en zor ve karma��k tekerlemeler.', h1: 'En Zor Tekerlemeler' },
+  'kisa-tekerlemeler': { title: 'K�sa Tekerlemeler - Diksiyon Rehberi', desc: 'Yeni ba�layanlar ve �ocuklar i�in ak�lda kal�c�, kolay ve k�sa tekerlemeler.', h1: 'K�sa Tekerlemeler' },
+  'uzun-tekerlemeler': { title: 'Uzun Tekerlemeler - Diksiyon Rehberi', desc: 'Nefes kontrol� ve ak�c�l�k kazanmak i�in okumas� uzun s�ren, upuzun tekerlemeler.', h1: 'Uzun Tekerlemeler' },
+  'cocuklar-icin-tekerlemeler': { title: '�ocuklar ��in E�lenceli Tekerlemeler - Diksiyon Rehberi', desc: 'Okul �ncesi ve ilkokul �ocuklar�n�n dil geli�imini destekleyen, e�lenceli ve kolay tekerlemeler.', h1: '�ocuklar ��in Tekerlemeler' },
+  'diksiyon-tekerlemeleri': { title: 'Diksiyon Geli�tiren Tekerlemeler - Diksiyon Rehberi', desc: 'Spikerlerin ve tiyatrocular�n kulland���, profesyonel diksiyon geli�tiren �zel tekerlemeler.', h1: 'Diksiyon Tekerlemeleri' },
+  'spiker-tekerlemeleri': { title: 'Spiker ve Sunucu Tekerlemeleri - Diksiyon Rehberi', desc: 'Haber spikerlerinin yay�na ��kmadan �nce ses a�mak i�in okudu�u ileri seviye tekerlemeler.', h1: 'Spiker Tekerlemeleri' }
+};
+
+// Dinamik olarak kategorilerin i�eriklerini doldur
+const _allTekers = Object.values(TEKERLEMELER).flat();
+const KATEGORI_VERILERI = {
+  'en-zor-tekerlemeler': _allTekers.filter(t => t.length > 90 || t.split(' ').length > 12).slice(0, 30),
+  'kisa-tekerlemeler': _allTekers.filter(t => t.length <= 45).slice(0, 30),
+  'uzun-tekerlemeler': _allTekers.filter(t => t.length >= 95).slice(0, 30),
+  'cocuklar-icin-tekerlemeler': _allTekers.filter(t => t.length < 65 && !t.toLowerCase().includes('�l') && !t.toLowerCase().includes('kan') && !t.toLowerCase().includes('zorba')).slice(0, 30),
+  'diksiyon-tekerlemeleri': _allTekers.filter(t => t.length >= 60 && t.length <= 85).slice(0, 30),
+  'spiker-tekerlemeleri': _allTekers.filter(t => (t.match(/s|�|z|r/gi) || []).length > 8 && t.length > 70).slice(0, 30)
+};
+
+

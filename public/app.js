@@ -1712,10 +1712,11 @@ function renderArena() {
 
   const alphabetGridHtml = letters.map(l => {
     const count = (TEKERLEMELER[l] || []).length;
-    return `<button class="alpha-btn ${l === arenaActiveLetter ? 'active' : ''}" data-letter="${l}" id="alpha-${l}">
+    const url = `/tekerlemeler/${l.toLocaleLowerCase('tr-TR')}`;
+    return `<a href="${url}" class="alpha-btn ${l === arenaActiveLetter ? 'active' : ''}" data-letter="${l}" id="alpha-${l}">
       ${l}
       <span class="ab-count">${count}</span>
-    </button>`;
+    </a>`;
   }).join('');
 
   // Extra arena state
@@ -1737,6 +1738,18 @@ function renderArena() {
           <div class="asb-item"><span class="asb-n" id="asb-score">${arenaSessionScore}</span><span class="asb-l">Puan</span></div>
           <div class="asb-item"><span class="asb-n" id="asb-total">${arenaSessionTotal}</span><span class="asb-l">Deneme</span></div>
           <div class="asb-item"><span class="asb-n" id="asb-best">${arenaSessionBest > 0 ? fmtArenaTime(arenaSessionBest) : '—'}</span><span class="asb-l">En İyi</span></div>
+        </div>
+      </div>
+
+      <!-- Popular Categories (Long-Tail SEO) -->
+      <div class="arena-categories">
+        <div class="ac-title">🔥 Popüler Kategoriler</div>
+        <div class="ac-pills" id="arena-category-pills">
+          ${typeof UZUN_KUYRUK_KATEGORILER !== 'undefined' ? Object.keys(UZUN_KUYRUK_KATEGORILER).map(slug => `
+            <a href="/tekerlemeler/kategori/${slug}" class="ac-pill ${slug === arenaActiveLetter ? 'active' : ''}" data-cat="${slug}">
+              ${UZUN_KUYRUK_KATEGORILER[slug].h1}
+            </a>
+          `).join('') : ''}
         </div>
       </div>
 
@@ -1915,37 +1928,57 @@ function renderArena() {
           </div>
         </div>
       </div>
+      
+      <!-- SEO & UX Full List Container -->
+      <div class="tekerleme-full-list" id="tekerleme-full-list"></div>
 
     </div><!-- /arena-section -->`;
 
 
   // Wire up events
+  window.navigateToLetter = function(letterOrSlug, pushState = true) {
+    arenaActiveLetter = letterOrSlug;
+    arenaCurrentIdx = 0;
+    if (pushState) {
+      if (typeof UZUN_KUYRUK_KATEGORILER !== 'undefined' && UZUN_KUYRUK_KATEGORILER[letterOrSlug]) {
+        window.history.pushState({ letterOrSlug }, '', `/tekerlemeler/kategori/${letterOrSlug}`);
+      } else {
+        window.history.pushState({ letterOrSlug }, '', `/tekerlemeler/${letterOrSlug.toLocaleLowerCase('tr-TR')}`);
+      }
+    }
+    updateArenaAlphaGrid();
+    showTekerlemeSel();
+  };
+
   document.querySelectorAll('.alpha-btn').forEach(btn => {
-    btn.addEventListener('click', () => {
-      arenaActiveLetter = btn.dataset.letter;
-      arenaCurrentIdx = 0;
-      updateArenaAlphaGrid();
-      showTekerlemeSel();
+    btn.addEventListener('click', (e) => {
+      e.preventDefault();
+      navigateToLetter(btn.dataset.letter);
+    });
+  });
+
+  document.querySelectorAll('.ac-pill').forEach(btn => {
+    btn.addEventListener('click', (e) => {
+      e.preventDefault();
+      navigateToLetter(btn.dataset.cat);
     });
   });
 
   $('arena-prev').addEventListener('click', () => {
+    if (typeof UZUN_KUYRUK_KATEGORILER !== 'undefined' && UZUN_KUYRUK_KATEGORILER[arenaActiveLetter]) return; // Disable prev/next for categories for now
     const idx = (typeof TURKCE_ALFABE !== 'undefined' ? TURKCE_ALFABE : letters).indexOf(arenaActiveLetter);
     if (idx > 0) {
-      arenaActiveLetter = (typeof TURKCE_ALFABE !== 'undefined' ? TURKCE_ALFABE : letters)[idx - 1];
-      arenaCurrentIdx = 0;
-      updateArenaAlphaGrid();
-      showTekerlemeSel();
+      const prevL = (typeof TURKCE_ALFABE !== 'undefined' ? TURKCE_ALFABE : letters)[idx - 1];
+      navigateToLetter(prevL);
     }
   });
   $('arena-next').addEventListener('click', () => {
+    if (typeof UZUN_KUYRUK_KATEGORILER !== 'undefined' && UZUN_KUYRUK_KATEGORILER[arenaActiveLetter]) return;
     const L = (typeof TURKCE_ALFABE !== 'undefined' ? TURKCE_ALFABE : letters);
     const idx = L.indexOf(arenaActiveLetter);
     if (idx < L.length - 1) {
-      arenaActiveLetter = L[idx + 1];
-      arenaCurrentIdx = 0;
-      updateArenaAlphaGrid();
-      showTekerlemeSel();
+      const nextL = L[idx + 1];
+      navigateToLetter(nextL);
     }
   });
 
@@ -2233,11 +2266,15 @@ function updateArenaAlphaGrid() {
   document.querySelectorAll('.alpha-btn').forEach(b => {
     b.classList.toggle('active', b.dataset.letter === arenaActiveLetter);
   });
+  document.querySelectorAll('.ac-pill').forEach(b => {
+    b.classList.toggle('active', b.dataset.cat === arenaActiveLetter);
+  });
 }
 
 function showTekerlemeSel() {
-  const list = TEKERLEMELER[arenaActiveLetter] || [];
-  const text = list[arenaCurrentIdx] || 'Bu harf için tekerleme bulunamadı.';
+  const isCategory = typeof UZUN_KUYRUK_KATEGORILER !== 'undefined' && !!UZUN_KUYRUK_KATEGORILER[arenaActiveLetter];
+  const list = isCategory ? KATEGORI_VERILERI[arenaActiveLetter] : (TEKERLEMELER[arenaActiveLetter] || []);
+  const text = list[arenaCurrentIdx] || 'Bu kategori için tekerleme bulunamadı.';
 
   const tdLetterChar = $('td-letter-char');
   const tdLetterName = $('td-letter-name');
@@ -2246,17 +2283,49 @@ function showTekerlemeSel() {
   const navInfo = $('arena-nav-info');
   const diffBadge = $('td-difficulty-badge');
 
-  if (tdLetterChar) tdLetterChar.textContent = arenaActiveLetter;
-  if (tdLetterName) tdLetterName.textContent = `${arenaActiveLetter} harfi — ${list.length} tekerleme`;
+  const displayName = isCategory ? UZUN_KUYRUK_KATEGORILER[arenaActiveLetter].h1 : `${arenaActiveLetter} harfi`;
+  const displayChar = isCategory ? '🔥' : arenaActiveLetter;
+
+  if (tdLetterChar) tdLetterChar.textContent = displayChar;
+  if (tdLetterName) tdLetterName.textContent = `${displayName} — ${list.length} tekerleme`;
   if (tdText) {
-    tdText.classList.add('highlight-letters');
-    tdText.innerHTML = highlightLetter(text, arenaActiveLetter);
+    if (isCategory) {
+      tdText.classList.remove('highlight-letters');
+      tdText.innerHTML = text; // no highlight for categories
+    } else {
+      tdText.classList.add('highlight-letters');
+      tdText.innerHTML = highlightLetter(text, arenaActiveLetter);
+    }
   }
   if (tdProgress) tdProgress.textContent = `${arenaCurrentIdx + 1} / ${list.length}`;
-  if (navInfo) navInfo.textContent = `${arenaActiveLetter} — ${list.length} tekerleme`;
+  if (navInfo) navInfo.textContent = `${displayName} — ${list.length} tekerleme`;
   if (diffBadge) {
     const diffMap = { slow: 'Yavaş', normal: 'Normal', fast: 'Hızlı' };
     diffBadge.textContent = diffMap[window.arenaDifficulty || 'normal'];
+  }
+
+  // Render Full List below arena for SEO and UX
+  const fullList = $('tekerleme-full-list');
+  if (fullList) {
+    if (list.length > 0) {
+      const headerText = isCategory ? UZUN_KUYRUK_KATEGORILER[arenaActiveLetter].h1 : `${arenaActiveLetter} Harfi Tüm Tekerlemeler`;
+      fullList.innerHTML = `
+        <div class="tfl-header">
+          <h3>${headerText}</h3>
+          <p>Okumak veya pratik yapmak istediğiniz tekerlemeye tıklayın.</p>
+        </div>
+        <div class="tfl-grid">
+          ${list.map((t, i) => `
+            <div class="tfl-card ${i === arenaCurrentIdx ? 'active' : ''}" onclick="arenaCurrentIdx=${i}; showTekerlemeSel(); document.getElementById('tekerleme-display').scrollIntoView({behavior:'smooth', block:'center'});">
+              <span class="tfl-num">${i + 1}</span>
+              <p>${isCategory ? t : highlightLetter(t, arenaActiveLetter)}</p>
+            </div>
+          `).join('')}
+        </div>
+      `;
+    } else {
+      fullList.innerHTML = '';
+    }
   }
 
   // Update list panel
@@ -2551,7 +2620,8 @@ window.copyTeker = function(e, text) {
 window.openArenaForLetter = function(letter) {
   arenaActiveLetter = letter;
   arenaCurrentIdx = 0;
-  setFilter('arena');
+  window.history.pushState({ letter }, '', `/tekerlemeler/${letter.toLocaleLowerCase('tr-TR')}`);
+  setFilter('tekerleme'); // Changed from 'arena' to 'tekerleme'
 };
 
 window.randomTeker = function(letter) {
@@ -3481,3 +3551,53 @@ function renderProgContent() {
   }
 }
 
+// ── INIT ROUTING FOR TEKERLEMELER ─────────────────────────── //
+(function initTekerlemelerRouting() {
+  window.addEventListener('popstate', (e) => {
+    const matchHarf = window.location.pathname.match(/^\/tekerlemeler\/([a-zöçşığü]+)$/i);
+    const matchCat = window.location.pathname.match(/^\/tekerlemeler\/kategori\/([a-z0-9\-]+)$/i);
+    
+    if (matchCat) {
+      if (typeof navigateToLetter === 'function') {
+        setFilter('tekerleme');
+        navigateToLetter(matchCat[1], false);
+      }
+    } else if (matchHarf) {
+      if (matchHarf[1].toLowerCase() === 'kategori') return; // fail-safe
+      const harf = matchHarf[1].toLocaleUpperCase('tr-TR');
+      if (typeof navigateToLetter === 'function') {
+        setFilter('tekerleme');
+        navigateToLetter(harf, false);
+      }
+    } else if (window.location.pathname === '/') {
+      setFilter('all');
+    }
+  });
+
+  // On page load
+  const initialMatchHarf = window.location.pathname.match(/^\/tekerlemeler\/([a-zöçşığü]+)$/i);
+  const initialMatchCat = window.location.pathname.match(/^\/tekerlemeler\/kategori\/([a-z0-9\-]+)$/i);
+
+  if (initialMatchCat) {
+    setTimeout(() => {
+      setFilter('tekerleme');
+      if (typeof navigateToLetter === 'function') {
+        navigateToLetter(initialMatchCat[1], false);
+      } else {
+        arenaActiveLetter = initialMatchCat[1];
+        arenaCurrentIdx = 0;
+      }
+    }, 100);
+  } else if (initialMatchHarf && initialMatchHarf[1].toLowerCase() !== 'kategori') {
+    const harf = initialMatchHarf[1].toLocaleUpperCase('tr-TR');
+    setTimeout(() => {
+      setFilter('tekerleme');
+      if (typeof navigateToLetter === 'function') {
+        navigateToLetter(harf, false);
+      } else {
+        arenaActiveLetter = harf;
+        arenaCurrentIdx = 0;
+      }
+    }, 100);
+  }
+})();

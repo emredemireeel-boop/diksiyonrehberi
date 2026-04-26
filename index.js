@@ -17,6 +17,26 @@ app.use(compression());
 app.use(express.static(path.join(__dirname, 'public'), { index: false }));
 
 // ═══════════════════════════════════════════════════════════════════════════
+// Tekerlemeler Veritabanını Oku (SSR ve Sitemap İçin)
+// ═══════════════════════════════════════════════════════════════════════════
+let TEKERLEMELER = {};
+let UZUN_KUYRUK_KATEGORILER = {};
+let KATEGORI_VERILERI = {};
+try {
+  let tCode = fs.readFileSync(path.join(__dirname, 'public', 'tekerlemeler.js'), 'utf8');
+  // eval kullanarak değişkenleri alıyoruz
+  tCode = tCode.replace('const TEKERLEMELER =', 'TEKERLEMELER =')
+               .replace('const UZUN_KUYRUK_KATEGORILER =', 'UZUN_KUYRUK_KATEGORILER =')
+               .replace('const KATEGORI_VERILERI =', 'KATEGORI_VERILERI =')
+               .replace('const TURKCE_ALFABE =', 'let TURKCE_ALFABE =')
+               .replace('const _allTekers =', 'let _allTekers =');
+  eval(tCode);
+} catch (e) {
+  console.error('Tekerlemeler yüklenemedi:', e);
+}
+
+
+// ═══════════════════════════════════════════════════════════════════════════
 // Blog Meta SEO Veritabanı
 // Her slug için title, desc ve canonical URL tanımlı
 // ═══════════════════════════════════════════════════════════════════════════
@@ -187,6 +207,18 @@ const SITEMAP_PAGES = [
     changefreq: 'monthly',
     priority: slug.includes('yanlis') || slug.includes('diksiyon-nedir') || slug.includes('kariyer') ? '0.9' : '0.8',
   })),
+  // Tekerlemeler sayfaları — /tekerlemeler/harf formatında
+  ...Object.keys(TEKERLEMELER).map((harf) => ({
+    loc: `/tekerlemeler/${harf.toLocaleLowerCase('tr-TR')}`,
+    changefreq: 'monthly',
+    priority: '0.8',
+  })),
+  // Uzun Kuyruk Tekerleme Kategorileri
+  ...Object.keys(UZUN_KUYRUK_KATEGORILER).map((slug) => ({
+    loc: `/tekerlemeler/kategori/${slug}`,
+    changefreq: 'weekly',
+    priority: '0.9', // Bunlar daha çok aranan anahtar kelimeler
+  })),
 ];
 
 // ═══════════════════════════════════════════════════════════════════════════
@@ -254,11 +286,24 @@ function buildInternalLinksBlock() {
   const links = Object.keys(BLOG_META).map(slug =>
     `<a href="/blog/${slug}">${BLOG_META[slug].title}</a>`
   ).join('\n    ');
+  
+  const tekerlemeLinks = Object.keys(TEKERLEMELER).map(harf =>
+    `<a href="/tekerlemeler/${harf.toLocaleLowerCase('tr-TR')}">${harf} Harfi Tekerlemeleri</a>`
+  ).join('\n    ');
+
+  const kategoriLinks = Object.keys(UZUN_KUYRUK_KATEGORILER).map(slug =>
+    `<a href="/tekerlemeler/kategori/${slug}">${UZUN_KUYRUK_KATEGORILER[slug].title}</a>`
+  ).join('\n    ');
+
   return `
 <!-- SEO Internal Links — Googlebot crawl desteği -->
-<nav aria-label="Blog makaleleri" style="position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden" aria-hidden="true">
+<nav aria-label="Sitemap Linkleri" style="position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden" aria-hidden="true">
   <h2>Tüm Makaleler</h2>
   ${links}
+  <h2>Popüler Tekerleme Kategorileri</h2>
+  ${kategoriLinks}
+  <h2>Tüm Tekerlemeler (A-Z)</h2>
+  ${tekerlemeLinks}
 </nav>`;
 }
 
@@ -294,8 +339,10 @@ app.get('/robots.txt', (req, res) => {
   res.send(`User-agent: *
 Allow: /
 
-# Parametre bazlı eski URL'leri engelle (canonical /blog/slug kullanılıyor)
+# Tarama Optimizasyonu (Googlebot için crawl budget)
 Disallow: /*?blog=
+Disallow: /*?modal=
+Disallow: /api/
 
 Sitemap: ${SITE_URL}/sitemap.xml
 `);
@@ -339,6 +386,100 @@ app.get('/blog/:slug', (req, res) => {
     html = html.replace('</head>', `${jsonLd}\n</head>`);
 
     // 3. Canonical HTTP Link header (Nginx + Node.js çift güvence)
+    res.setHeader('Link', `<${canonicalUrl}>; rel="canonical"`);
+    res.setHeader('Cache-Control', 'public, max-age=300');
+    res.send(html);
+  });
+});
+
+// ═══════════════════════════════════════════════════════════════════════════
+// ROUTE: /tekerlemeler/:harf — SSR meta injection + SEO Content
+// ═══════════════════════════════════════════════════════════════════════════
+app.get('/tekerlemeler/:harf', (req, res) => {
+  const harfLower = req.params.harf.toLocaleLowerCase('tr-TR');
+  const harfUpper = req.params.harf.toLocaleUpperCase('tr-TR');
+  
+  // Geçerli bir harf mi kontrol et
+  if (!TEKERLEMELER[harfUpper]) {
+    return res.redirect(301, '/');
+  }
+
+  const htmlPath = path.join(__dirname, 'public', 'index.html');
+  const canonicalUrl = `${SITE_URL}/tekerlemeler/${harfLower}`;
+
+  const meta = {
+    title: `${harfUpper} Harfi Tekerlemeleri - Diksiyon Rehberi`,
+    desc: `Türkçe diksiyonunuzu geliştirmek için ${harfUpper} harfi ile başlayan en zor, etkili ve eğitici tekerlemeler. ${harfUpper} harfi tekerleme pratikleri ve okunuşları.`,
+  };
+
+  fs.readFile(htmlPath, 'utf8', (err, html) => {
+    if (err) return res.status(500).send('Sunucu hatası.');
+
+    // 1. Meta tagları enjekte et
+    html = injectMeta(html, meta, canonicalUrl);
+
+    // 2. Article JSON-LD ekle
+    const jsonLd = buildArticleJsonLd(meta, canonicalUrl, `tekerleme-${harfLower}`);
+    html = html.replace('</head>', `${jsonLd}\n</head>`);
+
+    // 3. SEO için tekerlemeleri HTML'e ekle (Gizli Liste)
+    const listItems = TEKERLEMELER[harfUpper].map(t => `<li>${t}</li>`).join('\n');
+    const seoBlock = `
+<!-- SEO Tekerlemeler Listesi -->
+<div id="seo-tekerlemeler" style="position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden" aria-hidden="true">
+  <h2>${harfUpper} Harfi Tekerlemeleri</h2>
+  <ul>${listItems}</ul>
+</div>`;
+    html = html.replace('</body>', `${seoBlock}\n</body>`);
+
+    // 4. Canonical HTTP Link header
+    res.setHeader('Link', `<${canonicalUrl}>; rel="canonical"`);
+    res.setHeader('Cache-Control', 'public, max-age=300');
+    res.send(html);
+  });
+});
+
+// ═══════════════════════════════════════════════════════════════════════════
+// ROUTE: /tekerlemeler/kategori/:slug — Uzun Kuyruk SEO Rotaları
+// ═══════════════════════════════════════════════════════════════════════════
+app.get('/tekerlemeler/kategori/:slug', (req, res) => {
+  const { slug } = req.params;
+  
+  if (!UZUN_KUYRUK_KATEGORILER[slug]) {
+    return res.redirect(301, '/');
+  }
+
+  const htmlPath = path.join(__dirname, 'public', 'index.html');
+  const canonicalUrl = `${SITE_URL}/tekerlemeler/kategori/${slug}`;
+  const kategoriMeta = UZUN_KUYRUK_KATEGORILER[slug];
+  const tekerlemeListesi = KATEGORI_VERILERI[slug] || [];
+
+  const meta = {
+    title: kategoriMeta.title,
+    desc: kategoriMeta.desc,
+  };
+
+  fs.readFile(htmlPath, 'utf8', (err, html) => {
+    if (err) return res.status(500).send('Sunucu hatası.');
+
+    // 1. Meta tagları enjekte et
+    html = injectMeta(html, meta, canonicalUrl);
+
+    // 2. Article JSON-LD ekle
+    const jsonLd = buildArticleJsonLd(meta, canonicalUrl, `kategori-${slug}`);
+    html = html.replace('</head>', `${jsonLd}\n</head>`);
+
+    // 3. SEO için tekerlemeleri HTML'e ekle (Gizli Liste)
+    const listItems = tekerlemeListesi.map(t => `<li>${t}</li>`).join('\n');
+    const seoBlock = `
+<!-- SEO Kategori Tekerlemeler Listesi -->
+<div id="seo-tekerlemeler" style="position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden" aria-hidden="true">
+  <h2>${kategoriMeta.h1}</h2>
+  <ul>${listItems}</ul>
+</div>`;
+    html = html.replace('</body>', `${seoBlock}\n</body>`);
+
+    // 4. Canonical HTTP Link header
     res.setHeader('Link', `<${canonicalUrl}>; rel="canonical"`);
     res.setHeader('Cache-Control', 'public, max-age=300');
     res.send(html);
