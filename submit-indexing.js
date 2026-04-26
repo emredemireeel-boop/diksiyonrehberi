@@ -4,7 +4,7 @@ const fs = require('fs');
 
 async function submitUrls() {
   console.log('Starting URL submission to Google Indexing API...');
-  
+
   // 1. Authenticate
   const jwtClient = new google.auth.JWT(
     key.client_email,
@@ -39,19 +39,20 @@ async function submitUrls() {
     return;
   }
 
-  // Prioritize new ones: Categories first, then specific letters, then the rest.
+  // Prioritize new ones: Tools first, then Categories, then specific letters, then the rest.
+  const tools = urls.filter(u => u.includes('/karsilastirma') || u.includes('/teleprompter') || u.includes('/ritim-testi') || u.includes('/ses-analizi'));
   const categories = urls.filter(u => u.includes('/kategori/'));
   const letters = urls.filter(u => u.includes('/tekerlemeler/') && !u.includes('/kategori/'));
-  const others = urls.filter(u => !u.includes('/tekerlemeler/'));
-  
-  const orderedUrls = [...categories, ...letters, ...others];
+  const others = urls.filter(u => !tools.includes(u) && !categories.includes(u) && !letters.includes(u));
+
+  const orderedUrls = [...tools, ...categories, ...letters, ...others];
   const toSubmit = orderedUrls.slice(0, 200); // 200 daily quota limit
 
   console.log(`Submitting ${toSubmit.length} URLs...`);
 
   // 3. Submit
   const indexing = google.indexing({ version: 'v3', auth: jwtClient });
-  
+
   let successCount = 0;
   let failCount = 0;
 
@@ -65,7 +66,7 @@ async function submitUrls() {
         }
       });
       successCount++;
-      if (i % 20 === 0) console.log(`Submitted ${i+1}/${toSubmit.length}`);
+      if (i % 20 === 0) console.log(`Submitted ${i + 1}/${toSubmit.length}`);
     } catch (err) {
       failCount++;
       console.error(`Failed to submit ${url}:`, err.message);

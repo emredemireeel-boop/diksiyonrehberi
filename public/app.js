@@ -962,7 +962,7 @@ const DAILY_TIPS = [
 
 
 // ── STATE ─────────────────────────────────────────────────── //
-let completed   = JSON.parse(localStorage.getItem('dr_completed') || '[]');
+let completed = JSON.parse(localStorage.getItem('dr_completed') || '[]');
 let activeFilter = 'all';
 
 // ── $ HELPER ── defined globally in index.html before scripts ────── //
@@ -970,18 +970,18 @@ let activeFilter = 'all';
 
 // ── CATEGORY LABELS ───────────────────────────────────────── //
 const CAT_LABELS = {
-  nefes:'Nefes', tekerleme:'Tekerleme',
-  ses:'Ses', telaffuz:'Telaffuz',
-  ritim:'Ritim', vurgu:'Vurgu',
-  duraklama:'Duraklama', rezonans:'Rezonans',
-  okuma:'Okuma'
+  nefes: 'Nefes', tekerleme: 'Tekerleme',
+  ses: 'Ses', telaffuz: 'Telaffuz',
+  ritim: 'Ritim', vurgu: 'Vurgu',
+  duraklama: 'Duraklama', rezonans: 'Rezonans',
+  okuma: 'Okuma'
 };
 
 // ── LEVEL COLORS ──────────────────────────────────────────── //
 const LEVEL_COLORS = {
   'Başlangıç': '#1A5C35',
-  'Orta':      '#7A5800',
-  'İleri':     '#7A1A3C'
+  'Orta': '#7A5800',
+  'İleri': '#7A1A3C'
 };
 
 // ── FILTER ────────────────────────────────────────────────── //
@@ -995,17 +995,17 @@ function setFilter(cat) {
   activeFilter = cat;
   document.querySelectorAll('.top-nav-link').forEach(l => l.classList.toggle('active', l.dataset.cat === cat));
   document.querySelectorAll('.mob-link').forEach(l => l.classList.toggle('active', l.dataset.cat === cat));
-  const ac  = $('arena-container');
-  const ec  = $('exercises-container');
-  const ti  = $('tips-inline');
-  const nc  = $('nefes-interactive-container');
-  const ic  = $('interaktif-container');
-  const pc  = $('programlar-container');
-  const oc  = $('okuma-container');
-  const bc  = $('blog-container');
+  const ac = $('arena-container');
+  const ec = $('exercises-container');
+  const ti = $('tips-inline');
+  const nc = $('nefes-interactive-container');
+  const ic = $('interaktif-container');
+  const pc = $('programlar-container');
+  const oc = $('okuma-container');
+  const bc = $('blog-container');
   const okc = $('okunuslar-container');
   const rlc = $('rezonans-interactive-container');
-  const tc  = $('teleprompter-container');
+  const tc = $('teleprompter-container');
   const sic = $('ses-interactive-container');
   const ric = $('ritim-interactive-container');
 
@@ -1014,7 +1014,7 @@ function setFilter(cat) {
 
   // Full-page modules: collapse left sidebar, keep right sidebar
   const pageLayout = $('page-layout');
-  const fullPageModes = ['blog','teleprompter','okunuslar','okuma','programlar'];
+  const fullPageModes = ['blog', 'teleprompter', 'okunuslar', 'okuma', 'programlar'];
   const isFullPage = fullPageModes.includes(cat);
   if (pageLayout) pageLayout.classList.toggle('full-page-mode', isFullPage);
 
@@ -1080,7 +1080,7 @@ function setFilter(cat) {
   renderProgressWidget();
 
   // Move recorder to right sidebar in full-page mode, back to left otherwise
-  const recorderEl  = $('sidebar-recorder');
+  const recorderEl = $('sidebar-recorder');
   const leftSidebar = document.querySelector('.sidebar');
   const rightSidebar = $('sidebar-right');
   if (recorderEl && rightSidebar && leftSidebar) {
@@ -1117,24 +1117,24 @@ function setFilter(cat) {
   let pbInterval = null;
   let analyser_ = null, animFrame = null, audioCtx_ = null;
 
-  const btn    = $('sr-record-btn');
-  const playBtn= $('sr-play-btn');
+  const btn = $('sr-record-btn');
+  const playBtn = $('sr-play-btn');
   const delBtn = $('sr-delete-btn');
-  const audio  = $('sr-audio');
-  const timer  = $('sr-timer');
-  const note   = $('sr-note');
+  const audio = $('sr-audio');
+  const timer = $('sr-timer');
+  const note = $('sr-note');
   const pbWrap = $('sr-playback-wrap');
-  const pbBar  = $('sr-pb-bar');
-  const pbCur  = $('sr-pb-cur');
-  const pbDur  = $('sr-pb-dur');
-  const bars   = $('sr-bars') ? $('sr-bars').querySelectorAll('span') : [];
+  const pbBar = $('sr-pb-bar');
+  const pbCur = $('sr-pb-cur');
+  const pbDur = $('sr-pb-dur');
+  const bars = $('sr-bars') ? $('sr-bars').querySelectorAll('span') : [];
 
   function fmt(s) {
     s = Math.floor(s);
-    return Math.floor(s/60) + ':' + String(s%60).padStart(2,'0');
+    return Math.floor(s / 60) + ':' + String(s % 60).padStart(2, '0');
   }
 
-  function setStatus(txt, cls='') {
+  function setStatus(txt, cls = '') {
     const el = $('sr-status');
     if (el) { el.textContent = txt; el.className = 'sr-status ' + cls; }
   }
@@ -1201,9 +1201,9 @@ function setFilter(cat) {
   // ── Güvenli bağlam (HTTPS / localhost) kontrolü ──────────────
   function isSecure() {
     return window.isSecureContext ||
-           location.protocol === 'https:' ||
-           location.hostname === 'localhost' ||
-           location.hostname === '127.0.0.1';
+      location.protocol === 'https:' ||
+      location.hostname === 'localhost' ||
+      location.hostname === '127.0.0.1';
   }
 
   // Güvenli olmayan bağlamda düğmeyi devre dışı bırak ve uyarı göster
@@ -1259,7 +1259,7 @@ function setFilter(cat) {
           analyser_.fftSize = 64;
           const src = audioCtx_.createMediaStreamSource(micStream_);
           src.connect(analyser_);
-        } catch(e) { analyser_ = null; }
+        } catch (e) { analyser_ = null; }
 
         mediaRec = new MediaRecorder(micStream_);
         mediaRec.ondataavailable = e => { if (e.data.size > 0) recChunks.push(e.data); };
@@ -1436,7 +1436,7 @@ function renderPanels() {
 
   list.forEach((ex, i) => {
     const isDone = completed.includes(ex.id);
-    const panel  = document.createElement('article');
+    const panel = document.createElement('article');
     panel.className = `ex-panel ep-panel-${ex.cat} ${isDone ? 'done-panel' : ''}`;
     panel.id = 'panel-' + ex.id;
 
@@ -1486,9 +1486,9 @@ function renderPanels() {
       <div class="ep-related">
         <span class="ep-related-label">İlgili Egzersizler:</span>
         ${ex.related.map(rid => {
-          const rel = EXERCISES.find(e => e.id === rid);
-          return rel ? `<span class="ep-related-chip" data-id="${rid}">${rel.emoji} ${rel.title}</span>` : '';
-        }).join('')}
+      const rel = EXERCISES.find(e => e.id === rid);
+      return rel ? `<span class="ep-related-chip" data-id="${rid}">${rel.emoji} ${rel.title}</span>` : '';
+    }).join('')}
       </div>` : '';
 
     panel.innerHTML = `
@@ -1515,7 +1515,7 @@ function renderPanels() {
         ${variationsHtml}
         ${tipHtml}
         <div class="ep-footer">
-          <button class="btn-done ${isDone?'done-state':''}" id="done-btn-${ex.id}" data-id="${ex.id}">
+          <button class="btn-done ${isDone ? 'done-state' : ''}" id="done-btn-${ex.id}" data-id="${ex.id}">
             ${isDone ? '✓ Tamamlandı' : '○ Tamamlandı İşaretle'}
           </button>
           <div class="ep-meta-pills">
@@ -1559,7 +1559,7 @@ function renderPanels() {
       if (sideItem) sideItem.classList.add('done');
       $('done-count').textContent = completed.length;
       updateProgress();
-      showToast(`🎉 "${EXERCISES.find(e=>e.id===id)?.title}" tamamlandı!`);
+      showToast(`🎉 "${EXERCISES.find(e => e.id === id)?.title}" tamamlandı!`);
     });
   });
 
@@ -1578,7 +1578,7 @@ function renderPanels() {
 function updateProgress() {
   const total = EXERCISES.length;
   const count = completed.length;
-  const pct   = total ? Math.round(count/total*100) : 0;
+  const pct = total ? Math.round(count / total * 100) : 0;
   $('sp-bar').style.width = pct + '%';
   $('sp-text').textContent = `${count} / ${total} tamamlandı — %${pct}`;
   $('done-count').textContent = count;
@@ -1658,7 +1658,7 @@ function renderProgressWidget() {
 const io = new IntersectionObserver(entries => {
   entries.forEach(entry => {
     if (entry.isIntersecting) {
-      const id = entry.target.id.replace('panel-','');
+      const id = entry.target.id.replace('panel-', '');
       document.querySelectorAll('.ex-list-item').forEach(i => i.classList.remove('active'));
       const si = $('eli-' + id);
       if (si) si.classList.add('active');
@@ -1679,15 +1679,15 @@ function showToast(msg) {
 // ═══════════════════════════════════════════════════════════
 
 // Arena state
-let arenaActiveLetter  = 'B';
-let arenaCurrentIdx    = 0;
-let arenaMode          = 'browse'; // 'browse' | 'speed'
-let arenaSpeedTimer    = null;
-let arenaSpeedSec      = 0;
-let arenaSpeedLimit    = 30; // seconds
-let arenaSessionScore  = 0;
-let arenaSessionTotal  = 0;
-let arenaSessionBest   = parseFloat(localStorage.getItem('dr_arena_best') || '0');
+let arenaActiveLetter = 'B';
+let arenaCurrentIdx = 0;
+let arenaMode = 'browse'; // 'browse' | 'speed'
+let arenaSpeedTimer = null;
+let arenaSpeedSec = 0;
+let arenaSpeedLimit = 30; // seconds
+let arenaSessionScore = 0;
+let arenaSessionTotal = 0;
+let arenaSessionBest = parseFloat(localStorage.getItem('dr_arena_best') || '0');
 
 function highlightLetter(text, letter) {
   const lLower = letter.toLowerCase();
@@ -1700,15 +1700,15 @@ function highlightLetter(text, letter) {
 
 function fmtArenaTime(s) {
   if (s < 60) return `${s.toFixed ? s.toFixed(2) : s}s`;
-  return `${Math.floor(s/60)}dk ${(s%60).toFixed(0)}s`;
+  return `${Math.floor(s / 60)}dk ${(s % 60).toFixed(0)}s`;
 }
 
 function renderArena() {
   const ac = $('arena-container');
   if (!ac) return;
 
-  const letters = (typeof TURKCE_ALFABE !== 'undefined') ? TURKCE_ALFABE : 
-    ['A','B','C','Ç','D','E','F','G','H','I','İ','J','K','L','M','N','O','Ö','P','R','S','Ş','T','U','Ü','V','Y','Z'];
+  const letters = (typeof TURKCE_ALFABE !== 'undefined') ? TURKCE_ALFABE :
+    ['A', 'B', 'C', 'Ç', 'D', 'E', 'F', 'G', 'H', 'I', 'İ', 'J', 'K', 'L', 'M', 'N', 'O', 'Ö', 'P', 'R', 'S', 'Ş', 'T', 'U', 'Ü', 'V', 'Y', 'Z'];
 
   const alphabetGridHtml = letters.map(l => {
     const count = (TEKERLEMELER[l] || []).length;
@@ -1796,25 +1796,25 @@ function renderArena() {
             <div class="arena-setting-group">
               <span class="ars-label">Zorluk</span>
               <div class="ars-options">
-                <button class="ars-opt ${(window.arenaDifficulty||'normal')==='slow'?'active':''}" data-diff="slow">Yavaş</button>
-                <button class="ars-opt ${(window.arenaDifficulty||'normal')==='normal'?'active':''}" data-diff="normal">Normal</button>
-                <button class="ars-opt ${(window.arenaDifficulty||'normal')==='fast'?'active':''}" data-diff="fast">Hızlı</button>
+                <button class="ars-opt ${(window.arenaDifficulty || 'normal') === 'slow' ? 'active' : ''}" data-diff="slow">Yavaş</button>
+                <button class="ars-opt ${(window.arenaDifficulty || 'normal') === 'normal' ? 'active' : ''}" data-diff="normal">Normal</button>
+                <button class="ars-opt ${(window.arenaDifficulty || 'normal') === 'fast' ? 'active' : ''}" data-diff="fast">Hızlı</button>
               </div>
             </div>
             <div class="arena-setting-group">
               <span class="ars-label">Tekrar</span>
               <div class="ars-options">
-                <button class="ars-opt ${(window.arenaRepeatCount||3)===1?'active':''}" data-rep="1">1×</button>
-                <button class="ars-opt ${(window.arenaRepeatCount||3)===3?'active':''}" data-rep="3">3×</button>
-                <button class="ars-opt ${(window.arenaRepeatCount||3)===5?'active':''}" data-rep="5">5×</button>
+                <button class="ars-opt ${(window.arenaRepeatCount || 3) === 1 ? 'active' : ''}" data-rep="1">1×</button>
+                <button class="ars-opt ${(window.arenaRepeatCount || 3) === 3 ? 'active' : ''}" data-rep="3">3×</button>
+                <button class="ars-opt ${(window.arenaRepeatCount || 3) === 5 ? 'active' : ''}" data-rep="5">5×</button>
               </div>
             </div>
             <div class="arena-setting-group">
               <span class="ars-label">Süre</span>
               <div class="ars-options">
-                <button class="ars-opt ${arenaSpeedLimit===20?'active':''}" data-sec="20">20s</button>
-                <button class="ars-opt ${arenaSpeedLimit===30?'active':''}" data-sec="30">30s</button>
-                <button class="ars-opt ${arenaSpeedLimit===60?'active':''}" data-sec="60">60s</button>
+                <button class="ars-opt ${arenaSpeedLimit === 20 ? 'active' : ''}" data-sec="20">20s</button>
+                <button class="ars-opt ${arenaSpeedLimit === 30 ? 'active' : ''}" data-sec="30">30s</button>
+                <button class="ars-opt ${arenaSpeedLimit === 60 ? 'active' : ''}" data-sec="60">60s</button>
               </div>
             </div>
           </div>
@@ -1936,7 +1936,7 @@ function renderArena() {
 
 
   // Wire up events
-  window.navigateToLetter = function(letterOrSlug, pushState = true) {
+  window.navigateToLetter = function (letterOrSlug, pushState = true) {
     arenaActiveLetter = letterOrSlug;
     arenaCurrentIdx = 0;
     if (pushState) {
@@ -2103,19 +2103,19 @@ function renderArena() {
 }
 
 function _initArenaRecorder() {
-  const recBtn  = $('arw-rec-btn');
+  const recBtn = $('arw-rec-btn');
   const playBtn = $('arw-play-btn');
-  const delBtn  = $('arw-del-btn');
-  const dlBtn   = $('arw-dl-btn');
-  const audio   = $('arw-audio');
-  const timer   = $('arw-timer');
-  const note    = $('arw-note');
-  const pbWrap  = $('arw-pb-wrap');
-  const pbFill  = $('arw-pb-fill');
-  const pbCur   = $('arw-pb-cur');
-  const pbDur   = $('arw-pb-dur');
-  const bars    = $('arw-bars') ? $('arw-bars').querySelectorAll('span') : [];
-  const status  = $('arw-status');
+  const delBtn = $('arw-del-btn');
+  const dlBtn = $('arw-dl-btn');
+  const audio = $('arw-audio');
+  const timer = $('arw-timer');
+  const note = $('arw-note');
+  const pbWrap = $('arw-pb-wrap');
+  const pbFill = $('arw-pb-fill');
+  const pbCur = $('arw-pb-cur');
+  const pbDur = $('arw-pb-dur');
+  const bars = $('arw-bars') ? $('arw-bars').querySelectorAll('span') : [];
+  const status = $('arw-status');
 
   if (!recBtn) return;
 
@@ -2126,7 +2126,7 @@ function _initArenaRecorder() {
   function arwSetStatus(txt, cls) {
     if (status) { status.textContent = txt; status.className = 'arw-status-text ' + (cls || ''); }
   }
-  function arwFmt(s) { s = Math.floor(s); return Math.floor(s/60)+':'+String(s%60).padStart(2,'0'); }
+  function arwFmt(s) { s = Math.floor(s); return Math.floor(s / 60) + ':' + String(s % 60).padStart(2, '0'); }
 
   function arwStopViz() {
     if (arwAnimFrame) { cancelAnimationFrame(arwAnimFrame); arwAnimFrame = null; }
@@ -2185,7 +2185,7 @@ function _initArenaRecorder() {
           if (timer) timer.textContent = arwFmt(arwSecs);
         }, 1000);
         arwDrawBars();
-      } catch(err) {
+      } catch (err) {
         arwSetStatus('HATA', 'arw-error');
         if (note) note.textContent = '❌ Mikrofon erişimi reddedildi. Tarayıcı izinlerini kontrol edin.';
       }
@@ -2595,7 +2595,7 @@ function renderLetterPanel(letterDef) {
 
 
 
-window.speakTeker = function(e, text, letter, idx) {
+window.speakTeker = function (e, text, letter, idx) {
   e.stopPropagation();
   // Visual speaking state
   document.querySelectorAll('.teker-item.speaking').forEach(el => el.classList.remove('speaking'));
@@ -2612,19 +2612,19 @@ window.speakTeker = function(e, text, letter, idx) {
   }
 };
 
-window.copyTeker = function(e, text) {
+window.copyTeker = function (e, text) {
   e.stopPropagation();
-  navigator.clipboard && navigator.clipboard.writeText(text).then(() => showToast('📋 Kopyalandı!')).catch(() => {});
+  navigator.clipboard && navigator.clipboard.writeText(text).then(() => showToast('📋 Kopyalandı!')).catch(() => { });
 };
 
-window.openArenaForLetter = function(letter) {
+window.openArenaForLetter = function (letter) {
   arenaActiveLetter = letter;
   arenaCurrentIdx = 0;
   window.history.pushState({ letter }, '', `/tekerlemeler/${letter.toLocaleLowerCase('tr-TR')}`);
   setFilter('tekerleme'); // Changed from 'arena' to 'tekerleme'
 };
 
-window.randomTeker = function(letter) {
+window.randomTeker = function (letter) {
   const list = TEKERLEMELER[letter] || [];
   if (list.length === 0) return;
   const idx = Math.floor(Math.random() * list.length);
@@ -2700,13 +2700,13 @@ function renderNefesInteractive() {
   }
 }
 
-window.setNefesMode = function(mode) {
+window.setNefesMode = function (mode) {
   if (nefesState !== 'idle') window.toggleNefes(); // stop current
   nefesCurrentMode = mode;
   renderNefesInteractive();
 };
 
-window.toggleNefes = function() {
+window.toggleNefes = function () {
   const btn = $('n-start-btn');
   if (nefesState === 'idle') {
     nefesState = 'inhale';
@@ -2757,7 +2757,7 @@ function runNefesCycle() {
 
   timeEl.textContent = nefesSeconds;
   let intervalCount = 0;
-  
+
   const tickInterval = setInterval(() => {
     intervalCount++;
     nefesSeconds--;
@@ -2798,7 +2798,7 @@ function renderLetterPanels() {
 
   // Wire up teker item clicks for sequential reading
   container.querySelectorAll('.teker-item').forEach(item => {
-    item.addEventListener('click', function(e) {
+    item.addEventListener('click', function (e) {
       if (e.target.closest('.teker-action-btn')) return;
       const letter = this.dataset.letter;
       const idx = parseInt(this.dataset.idx);
@@ -2810,10 +2810,147 @@ function renderLetterPanels() {
 
 
 // ── INIT ──────────────────────────────────────────────────── //
-setFilter(activeFilter);
-updateProgress();
-renderDailyTip();
-setTimeout(() => document.querySelectorAll('.ex-panel').forEach(p => io.observe(p)), 200);
+(function initGeneralRouting() {
+  // Eğer sunucu sayfaya seo-tool-content eklemişse, bu bir SEO makale sayfasıdır
+  const seoData = document.getElementById('seo-tool-content');
+  
+  if (seoData) {
+    // ═══ SEO MAKALE MODU ═══
+    // 1. Tüm SPA arayüzünü gizle (doğru element ID'leri)
+    const heroBand = document.getElementById('hero-band');
+    const pageLayout = document.getElementById('page-layout');
+    const topNav = document.getElementById('top-nav');
+    const mobNav = document.getElementById('mob-nav');
+    const hamburger = document.getElementById('hamburger');
+    
+    if (heroBand) heroBand.style.display = 'none';
+    if (pageLayout) pageLayout.style.display = 'none';
+    if (topNav) topNav.style.display = 'none';
+    if (mobNav) mobNav.style.display = 'none';
+    if (hamburger) hamburger.style.display = 'none';
+
+    // 2. Makale container'ını oluştur ve body'ye ekle
+    const articleContainer = document.createElement('div');
+    articleContainer.className = 'seo-premium-article';
+    articleContainer.innerHTML = seoData.innerHTML;
+    
+    // Ana sayfaya dönüş linki ekle
+    const backLink = document.createElement('a');
+    backLink.href = '/';
+    backLink.className = 'seo-back-link';
+    backLink.innerHTML = '← Ana Sayfaya Dön';
+    articleContainer.prepend(backLink);
+    
+    // Topbar'dan sonra, doğrudan body'ye ekle
+    const topbar = document.getElementById('topbar');
+    if (topbar && topbar.nextSibling) {
+      topbar.parentNode.insertBefore(articleContainer, topbar.nextSibling);
+    } else {
+      document.body.appendChild(articleContainer);
+    }
+
+    // 3. Premium Makale Stilleri
+    const style = document.createElement('style');
+    style.id = 'seo-article-style';
+    style.textContent = `
+      body { background: #f8f9fa !important; }
+      .seo-premium-article {
+        background: #ffffff;
+        border: 1px solid rgba(0,0,0,0.06);
+        border-radius: 24px;
+        padding: 3rem 3.5rem;
+        margin: 2rem auto;
+        max-width: 820px;
+        box-shadow: 0 4px 24px rgba(0,0,0,0.06);
+        font-family: 'Inter', system-ui, -apple-system, sans-serif;
+        color: #1a202c;
+        line-height: 1.9;
+      }
+      .seo-back-link {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        color: #6366f1;
+        text-decoration: none;
+        font-weight: 600;
+        font-size: 0.95rem;
+        margin-bottom: 1.5rem;
+        padding: 8px 16px;
+        border-radius: 10px;
+        background: rgba(99,102,241,0.08);
+        transition: all 0.2s;
+      }
+      .seo-back-link:hover {
+        background: rgba(99,102,241,0.15);
+        transform: translateX(-3px);
+      }
+      .seo-premium-article h1 {
+        color: #1e293b;
+        font-size: 2.4rem;
+        font-weight: 800;
+        margin-bottom: 1.5rem;
+        padding-bottom: 1rem;
+        border-bottom: 4px solid #6366f1;
+        line-height: 1.3;
+      }
+      .seo-premium-article h2 {
+        color: #1e293b;
+        font-size: 1.6rem;
+        font-weight: 700;
+        margin-top: 2.5rem;
+        margin-bottom: 1rem;
+      }
+      .seo-premium-article p {
+        font-size: 1.12rem;
+        margin-bottom: 1.5rem;
+        color: #374151;
+        line-height: 1.9;
+      }
+      .seo-premium-article dl {
+        background: linear-gradient(135deg, #f0f4ff 0%, #faf5ff 100%);
+        padding: 2rem 2.5rem;
+        border-radius: 16px;
+        margin-top: 2.5rem;
+        border: 1px solid rgba(99,102,241,0.12);
+      }
+      .seo-premium-article dt {
+        font-weight: 700;
+        color: #4338ca;
+        font-size: 1.15rem;
+        margin-bottom: 0.5rem;
+        margin-top: 1.8rem;
+      }
+      .seo-premium-article dt:first-child { margin-top: 0; }
+      .seo-premium-article dd {
+        margin-left: 0;
+        margin-bottom: 1.5rem;
+        border-left: 3px solid #6366f1;
+        padding-left: 1.2rem;
+        color: #4b5563;
+        line-height: 1.8;
+      }
+      @media (max-width: 768px) {
+        .seo-premium-article {
+          padding: 1.5rem 1.2rem;
+          margin: 1rem 0.5rem;
+          border-radius: 16px;
+        }
+        .seo-premium-article h1 { font-size: 1.7rem; }
+        .seo-premium-article h2 { font-size: 1.3rem; }
+      }
+    `;
+    document.head.appendChild(style);
+    
+    // 4. SPA script'lerini çalıştırma (return ile kes)
+    return;
+  }
+  
+  // ═══ NORMAL SPA MODU ═══
+  setFilter(activeFilter);
+  updateProgress();
+  renderDailyTip();
+  setTimeout(() => document.querySelectorAll('.ex-panel').forEach(p => io.observe(p)), 200);
+})();
 
 // ═══════════════════════════════════════════════════════════
 //  🎮 İNTERAKTİF EGZERSİZLER
@@ -2898,9 +3035,9 @@ function renderInteraktif() {
       </div>
       <div class="iakt-content">
         <div class="vowel-grid" id="vowel-grid">
-          ${['A','E','I','İ','O','Ö','U','Ü'].map((v,i) =>
-            `<button class="vowel-btn" data-v="${v}" id="vb-${i}">${v}</button>`
-          ).join('')}
+          ${['A', 'E', 'I', 'İ', 'O', 'Ö', 'U', 'Ü'].map((v, i) =>
+    `<button class="vowel-btn" data-v="${v}" id="vb-${i}">${v}</button>`
+  ).join('')}
         </div>
         <div class="vowel-sequence" id="vowel-seq">
           <div class="vs-label">Hedef sıra:</div>
@@ -2937,11 +3074,11 @@ function renderInteraktif() {
         </div>
         <div class="perde-grid" id="perde-grid">
           ${[
-            {key:'gögüs', label:'Göğüs\nRezonansı', color:'#1E3A6E', hint:'Alçak perdede "Hmm" — elini göğsüne koy, titreşimi hisset'},
-            {key:'yuz', label:'Yüz\nRezonansı', color:'#7A5800', hint:'Orta perdede "Mmm" — yanağında titreşim hisset'},
-            {key:'kafa', label:'Kafa\nRezonansı', color:'#7A1A3C', hint:'Yüksek perdede "Nnn" — alnında titreşim hisset'},
-            {key:'burun', label:'Burun\nRezonansı', color:'#0A4A42', hint:'"Ng" sesi — burnunuzu tutun, titreşim hissedeceksiniz'},
-          ].map(p => `<button class="perde-btn" data-perde="${p.key}" style="border-color:${p.color}33;color:${p.color}">${p.label.replace('\n','<br>')}</button>`).join('')}
+      { key: 'gögüs', label: 'Göğüs\nRezonansı', color: '#1E3A6E', hint: 'Alçak perdede "Hmm" — elini göğsüne koy, titreşimi hisset' },
+      { key: 'yuz', label: 'Yüz\nRezonansı', color: '#7A5800', hint: 'Orta perdede "Mmm" — yanağında titreşim hisset' },
+      { key: 'kafa', label: 'Kafa\nRezonansı', color: '#7A1A3C', hint: 'Yüksek perdede "Nnn" — alnında titreşim hisset' },
+      { key: 'burun', label: 'Burun\nRezonansı', color: '#0A4A42', hint: '"Ng" sesi — burnunuzu tutun, titreşim hissedeceksiniz' },
+    ].map(p => `<button class="perde-btn" data-perde="${p.key}" style="border-color:${p.color}33;color:${p.color}">${p.label.replace('\n', '<br>')}</button>`).join('')}
         </div>
         <div class="perde-progress" id="perde-progress"></div>
         <div style="text-align:center;margin-top:12px;font-size:.8rem;color:var(--text-3);">
@@ -3002,10 +3139,10 @@ function renderInteraktif() {
       $('bt-start-btn').textContent = '⏱ Başlat';
       const elapsed = ((Date.now() - btStart) / 1000).toFixed(1);
       btBests.push(parseFloat(elapsed));
-      btBests.sort((a,b) => b-a);
+      btBests.sort((a, b) => b - a);
       const grade = parseFloat(elapsed) >= 25 ? '🏆 Profesyonel!' : parseFloat(elapsed) >= 15 ? '⭐ Harika!' : parseFloat(elapsed) >= 8 ? '👍 İyi!' : '💪 Devam et!';
       btLabel.textContent = `Süre: ${elapsed}s — ${grade}`;
-      btRecords.innerHTML = `<div class="bt-record-list">En iyi 3: ${btBests.slice(0,3).map(t => `<span>${t}s</span>`).join(' | ')}</div>`;
+      btRecords.innerHTML = `<div class="bt-record-list">En iyi 3: ${btBests.slice(0, 3).map(t => `<span>${t}s</span>`).join(' | ')}</div>`;
       showToast(`💨 ${elapsed}s — ${grade}`);
     }
   });
@@ -3075,14 +3212,14 @@ function renderInteraktif() {
   $('scd-skip-btn').addEventListener('click', () => { scdStreak = 0; $('scd-streak').textContent = '0'; scdNewQuestion(); showToast('⏭ Atlandı'); });
 
   // Wire up game #3 — vowel harmony
-  const VOWELS = ['A','E','I','İ','O','Ö','U','Ü'];
+  const VOWELS = ['A', 'E', 'I', 'İ', 'O', 'Ö', 'U', 'Ü'];
   const vowelSequences = [
-    {seq: ['A','E','I'], hint: 'Öndamak — ince sırası'},
-    {seq: ['O','U','Ö','Ü'], hint: 'Yuvarlak ünlüler'},
-    {seq: ['A','I','O','U'], hint: 'Artdamak — geniş-dar'},
-    {seq: ['E','İ','Ö','Ü'], hint: 'Öndamak karması'},
-    {seq: ['A','E','İ','Ö'], hint: 'Düzden yuvarlağa'},
-    {seq: ['U','O','E','A'], hint: 'Geri dönüş sırası'},
+    { seq: ['A', 'E', 'I'], hint: 'Öndamak — ince sırası' },
+    { seq: ['O', 'U', 'Ö', 'Ü'], hint: 'Yuvarlak ünlüler' },
+    { seq: ['A', 'I', 'O', 'U'], hint: 'Artdamak — geniş-dar' },
+    { seq: ['E', 'İ', 'Ö', 'Ü'], hint: 'Öndamak karması' },
+    { seq: ['A', 'E', 'İ', 'Ö'], hint: 'Düzden yuvarlağa' },
+    { seq: ['U', 'O', 'E', 'A'], hint: 'Geri dönüş sırası' },
   ];
   let currentVSeq = [], userVSeq = [], vCorrect = 0, vWrong = 0;
   function newVowelGame() {
@@ -3138,7 +3275,7 @@ function renderInteraktif() {
   document.querySelectorAll('.perde-btn').forEach(btn => {
     btn.addEventListener('click', () => {
       const perde = btn.dataset.perde;
-      $('perde-current').textContent = btn.textContent.replace('\n','');
+      $('perde-current').textContent = btn.textContent.replace('\n', '');
       $('perde-hint').textContent = perdeHints[perde] || '';
       document.querySelectorAll('.perde-btn').forEach(b => b.classList.remove('perde-btn-active'));
       btn.classList.add('perde-btn-active');
@@ -3154,11 +3291,11 @@ function renderInteraktif() {
 
   // Wire up game #5 — vurgu game
   const vurguQuestions = [
-    { sentence: 'Ben bugün sizi davet ettim.', words: ['Ben','bugün','sizi','davet','ettim'], answer: 'sizi', context: 'Başka birini değil, özellikle sizi çağırdım.', explanation: '"SİZİ" vurgusunu kullanmak "başkası değil sen" anlamına gelir.' },
-    { sentence: 'Bu kitabı ben okudum.', words: ['Bu','kitabı','ben','okudum'], answer: 'ben', context: 'Başka biri değil, ben okudum.', explanation: '"BEN" vurgusu kişiyi öne çıkarır.' },
-    { sentence: 'Yarın toplantı saat ikide.', words: ['Yarın','toplantı','saat','ikide'], answer: 'yarın', context: 'Bugün değil, yarın!', explanation: '"YARIN" vurgusu zaman bağlamını netleştirir.' },
-    { sentence: 'Projeyi teslim etmeyeceğim.', words: ['Projeyi','teslim','etmeyeceğim'], answer: 'etmeyeceğim', context: 'Kesinlikle vermeyeceksin.', explanation: '"ETMEYECEĞİM" olumsuz vurgunu güçlendirir.' },
-    { sentence: 'Şimdi konuşmak istemiyorum.', words: ['Şimdi','konuşmak','istemiyorum'], answer: 'şimdi', context: 'Belki sonra, ama şimdi değil.', explanation: '"ŞİMDİ" zamansal önceliği vurgular.' },
+    { sentence: 'Ben bugün sizi davet ettim.', words: ['Ben', 'bugün', 'sizi', 'davet', 'ettim'], answer: 'sizi', context: 'Başka birini değil, özellikle sizi çağırdım.', explanation: '"SİZİ" vurgusunu kullanmak "başkası değil sen" anlamına gelir.' },
+    { sentence: 'Bu kitabı ben okudum.', words: ['Bu', 'kitabı', 'ben', 'okudum'], answer: 'ben', context: 'Başka biri değil, ben okudum.', explanation: '"BEN" vurgusu kişiyi öne çıkarır.' },
+    { sentence: 'Yarın toplantı saat ikide.', words: ['Yarın', 'toplantı', 'saat', 'ikide'], answer: 'yarın', context: 'Bugün değil, yarın!', explanation: '"YARIN" vurgusu zaman bağlamını netleştirir.' },
+    { sentence: 'Projeyi teslim etmeyeceğim.', words: ['Projeyi', 'teslim', 'etmeyeceğim'], answer: 'etmeyeceğim', context: 'Kesinlikle vermeyeceksin.', explanation: '"ETMEYECEĞİM" olumsuz vurgunu güçlendirir.' },
+    { sentence: 'Şimdi konuşmak istemiyorum.', words: ['Şimdi', 'konuşmak', 'istemiyorum'], answer: 'şimdi', context: 'Belki sonra, ama şimdi değil.', explanation: '"ŞİMDİ" zamansal önceliği vurgular.' },
   ];
   let vurguIdx = 0, vurguRight = 0, vurguWrong_ = 0, vurguScore = 0;
   function showVurguQuestion() {
@@ -3324,12 +3461,18 @@ const PROGRAMS = {
     duration: '90 gün · 3 ay',
     color: '#7A1A3C',
     phases: [
-      { num: 1, title: 'Temel Faz (1-30. gün)', desc: 'Nefes, ses ısınma, temel tekerleme ve telaffuz alışkanlıkları', color: '#1E3A6E',
-        milestones: ['Diyafram nefesini içselleştir', 'Tüm 8 ünlüyü netlleştir', 'Berber tekerlemesinde 3× hız artışı', '15s+ nefes dayanımı'] },
-      { num: 2, title: 'Geliştirme Faz (31-60. gün)', desc: 'Perde, rezonans, ritim, vurgu ve duraklama teknikleri', color: '#7A5800',
-        milestones: ['Göğüs-yüz-kafa rezonansı farkı', 'S/Ş-K/G-L/R-B/P ayrışımı', 'Dalga ritmi konuşma', '5s stratejik duraklama'] },
-      { num: 3, title: 'Uzmanlaşma Faz (61-90. gün)', desc: 'Arena performansı, sunum becerileri ve öz değerlendirme', color: '#7A1A3C',
-        milestones: ['Arena hız testinde 90%+ doğruluk', 'Arena tüm harflerde deneyim', '5 dakikalık monolog kaydı', 'Başlangıç-bitiş kaydı karşılaştırması'] },
+      {
+        num: 1, title: 'Temel Faz (1-30. gün)', desc: 'Nefes, ses ısınma, temel tekerleme ve telaffuz alışkanlıkları', color: '#1E3A6E',
+        milestones: ['Diyafram nefesini içselleştir', 'Tüm 8 ünlüyü netlleştir', 'Berber tekerlemesinde 3× hız artışı', '15s+ nefes dayanımı']
+      },
+      {
+        num: 2, title: 'Geliştirme Faz (31-60. gün)', desc: 'Perde, rezonans, ritim, vurgu ve duraklama teknikleri', color: '#7A5800',
+        milestones: ['Göğüs-yüz-kafa rezonansı farkı', 'S/Ş-K/G-L/R-B/P ayrışımı', 'Dalga ritmi konuşma', '5s stratejik duraklama']
+      },
+      {
+        num: 3, title: 'Uzmanlaşma Faz (61-90. gün)', desc: 'Arena performansı, sunum becerileri ve öz değerlendirme', color: '#7A1A3C',
+        milestones: ['Arena hız testinde 90%+ doğruluk', 'Arena tüm harflerde deneyim', '5 dakikalık monolog kaydı', 'Başlangıç-bitiş kaydı karşılaştırması']
+      },
     ],
     dailyBase: [
       { icon: '💨', task: 'Sabah nefes seansı', detail: '30 dk — Faza göre değişen nefes programı. Faz 1: diyafram, Faz 2: box+4-7-8, Faz 3: tüm teknikler dönüşümlü', dur: '30 dk' },
@@ -3377,10 +3520,10 @@ function renderProgramlar() {
     </div>
 
     <div class="prog-tabs">
-      <button class="prog-tab ${activeProgramKey==='haftalik'?'active':''}" data-pkey="haftalik">📅 1 Haftalık</button>
-      <button class="prog-tab ${activeProgramKey==='otuzgun'?'active':''}" data-pkey="otuzgun">🗓️ 30 Günlük</button>
-      <button class="prog-tab ${activeProgramKey==='doksan'?'active':''}" data-pkey="doksan">🏆 90 Günlük</button>
-      <button class="prog-tab ${activeProgramKey==='ucay'?'active':''}" data-pkey="ucay">🌟 3 Aylık</button>
+      <button class="prog-tab ${activeProgramKey === 'haftalik' ? 'active' : ''}" data-pkey="haftalik">📅 1 Haftalık</button>
+      <button class="prog-tab ${activeProgramKey === 'otuzgun' ? 'active' : ''}" data-pkey="otuzgun">🗓️ 30 Günlük</button>
+      <button class="prog-tab ${activeProgramKey === 'doksan' ? 'active' : ''}" data-pkey="doksan">🏆 90 Günlük</button>
+      <button class="prog-tab ${activeProgramKey === 'ucay' ? 'active' : ''}" data-pkey="ucay">🌟 3 Aylık</button>
     </div>
 
     <div id="prog-content"></div>
@@ -3427,7 +3570,7 @@ function renderProgContent() {
           <div class="pday-task">
             <span class="pday-task-icon">${t.icon}</span>
             <div class="pday-task-body">
-              <div class="pday-task-name">${idx+1}. ${t.task} <span class="pday-task-dur">${t.dur}</span></div>
+              <div class="pday-task-name">${idx + 1}. ${t.task} <span class="pday-task-dur">${t.dur}</span></div>
               <div class="pday-task-detail">${t.detail}</div>
             </div>
           </div>`).join('')}
@@ -3465,7 +3608,7 @@ function renderProgContent() {
         <div class="pday-task">
           <span class="pday-task-icon">${t.icon}</span>
           <div class="pday-task-body">
-            <div class="pday-task-name">${idx+1}. ${t.task} <span class="pday-task-dur">${t.dur}</span></div>
+            <div class="pday-task-name">${idx + 1}. ${t.task} <span class="pday-task-dur">${t.dur}</span></div>
             <div class="pday-task-detail">${t.detail}</div>
           </div>
         </div>`).join('')}
@@ -3505,7 +3648,7 @@ function renderProgContent() {
         <div class="pday-task">
           <span class="pday-task-icon">${t.icon}</span>
           <div class="pday-task-body">
-            <div class="pday-task-name">${idx+1}. ${t.task} <span class="pday-task-dur">${t.dur}</span></div>
+            <div class="pday-task-name">${idx + 1}. ${t.task} <span class="pday-task-dur">${t.dur}</span></div>
             <div class="pday-task-detail">${t.detail}</div>
           </div>
         </div>`).join('')}
@@ -3542,7 +3685,7 @@ function renderProgContent() {
         <div class="pday-task">
           <span class="pday-task-icon">${t.icon}</span>
           <div class="pday-task-body">
-            <div class="pday-task-name">${idx+1}. ${t.task} <span class="pday-task-dur">${t.dur}</span></div>
+            <div class="pday-task-name">${idx + 1}. ${t.task} <span class="pday-task-dur">${t.dur}</span></div>
             <div class="pday-task-detail">${t.detail}</div>
           </div>
         </div>`).join('')}
@@ -3556,7 +3699,7 @@ function renderProgContent() {
   window.addEventListener('popstate', (e) => {
     const matchHarf = window.location.pathname.match(/^\/tekerlemeler\/([a-zöçşığü]+)$/i);
     const matchCat = window.location.pathname.match(/^\/tekerlemeler\/kategori\/([a-z0-9\-]+)$/i);
-    
+
     if (matchCat) {
       if (typeof navigateToLetter === 'function') {
         setFilter('tekerleme');
