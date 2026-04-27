@@ -1403,6 +1403,32 @@ $('hamburger').addEventListener('click', () => {
   $('mob-nav').classList.toggle('open');
 });
 
+// ── MEGA MENU CLICK LOGIC ─────────────────────────────────── //
+document.querySelectorAll('.nav-item.has-mega > .nav-link').forEach(link => {
+  link.addEventListener('click', (e) => {
+    e.preventDefault();
+    e.stopPropagation(); // Prevent closing immediately
+    const parent = link.parentElement;
+    
+    // Close others
+    document.querySelectorAll('.nav-item.has-mega').forEach(item => {
+      if (item !== parent) item.classList.remove('active');
+    });
+    
+    // Toggle current
+    parent.classList.toggle('active');
+  });
+});
+
+// Close mega menu when clicking outside
+document.addEventListener('click', (e) => {
+  if (!e.target.closest('.nav-item.has-mega')) {
+    document.querySelectorAll('.nav-item.has-mega').forEach(item => {
+      item.classList.remove('active');
+    });
+  }
+});
+
 // ── SIDEBAR LIST ──────────────────────────────────────────── //
 function renderSidebarList() {
   const list = filteredExercises();

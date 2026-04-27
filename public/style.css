@@ -84,6 +84,7 @@ img { max-width: 100%; display: block; }
   margin: 0 auto;
   padding: 0 24px;
   height: var(--nav-h);
+  position: relative;
 }
 
 /* Logo */
@@ -110,7 +111,7 @@ img { max-width: 100%; display: block; }
   height: 100%;
 }
 .nav-item {
-  position: relative;
+  position: static;
   height: 100%;
   display: flex;
   align-items: center;
@@ -140,9 +141,9 @@ img { max-width: 100%; display: block; }
 .mega-menu {
   position: absolute;
   top: 100%;
-  left: 0;
-  width: max-content;
-  min-width: 450px;
+  left: 24px;
+  right: 24px;
+  width: auto;
   background: var(--surface);
   border: 1px solid var(--border);
   box-shadow: 0 10px 40px rgba(0,0,0,0.15);
@@ -156,10 +157,17 @@ img { max-width: 100%; display: block; }
   transition: all 0.3s ease;
   z-index: 1000;
 }
-.nav-item.has-mega:hover .mega-menu {
+.nav-item.has-mega.active .mega-menu {
   opacity: 1;
   visibility: visible;
   transform: translateY(0);
+}
+.nav-link.active .arrow {
+  transform: rotate(180deg);
+}
+.arrow {
+  display: inline-block;
+  transition: transform var(--tr);
 }
 .mega-col {
   display: flex;
