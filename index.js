@@ -1476,7 +1476,7 @@ app.get('/:toolSlug', (req, res, next) => {
   <h1>${meta.h1}</h1>
   <div class="content-body">${meta.content.replace(/\\n/g, '')}</div>${faqHtml}
 </div>`;
-    html = html.replace('<script src="/app.js">', `${seoBlock}\n  <script src="/app.js">`);
+    html = html.replace('<script src="/app.js?v=2">', `${seoBlock}\n  <script src="/app.js?v=2">`);
 
     // 4. Canonical HTTP Link header
     res.setHeader('Link', `<${canonicalUrl}>; rel="canonical"`);
