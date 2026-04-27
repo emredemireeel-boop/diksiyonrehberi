@@ -1387,10 +1387,32 @@ function setFilter(cat) {
 })(); // end initRecorder IIFE
 
 // ── NAV EVENT LISTENERS ───────────────────────────────────── //
-document.querySelectorAll('[data-cat]').forEach(el => {
+document.querySelectorAll('[data-cat], [data-page]').forEach(el => {
   el.addEventListener('click', e => {
     e.preventDefault();
-    setFilter(el.dataset.cat);
+    
+    // Page Routing Logic
+    const page = el.dataset.page;
+    const cat = el.dataset.cat;
+    
+    if (page === 'retorik') {
+      // Show Retorik, hide others
+      if($('hero-band')) $('hero-band').style.display = 'none';
+      if($('sidebar-list-section')) $('sidebar-list-section').style.display = 'none';
+      if($('sidebar-progress')) $('sidebar-progress').style.display = 'none';
+      if($('exercises-container')) $('exercises-container').style.display = 'none';
+      if($('retorik-container')) $('retorik-container').style.display = 'block';
+    } else if (cat) {
+      // Show Main Exercises, hide Retorik
+      if($('hero-band')) $('hero-band').style.display = 'flex';
+      if($('sidebar-list-section')) $('sidebar-list-section').style.display = 'block';
+      if($('sidebar-progress')) $('sidebar-progress').style.display = 'block';
+      if($('exercises-container')) $('exercises-container').style.display = 'block';
+      if($('retorik-container')) $('retorik-container').style.display = 'none';
+      
+      setFilter(cat);
+    }
+    
     if (el.classList.contains('mob-link')) {
       $('hamburger').classList.remove('open');
       $('mob-nav').classList.remove('open');
