@@ -1102,6 +1102,91 @@ const TOOLS_META = {
 ]
 },
 
+  'etkili-ikna-taktikleri': {
+    "title": "İkna Taktikleri ve Etkili Konuşma Sırları - Diksiyon Rehberi",
+    "desc": "Karşı tarafı ikna etmenin psikolojik yolları. İş hayatında ve günlük yaşamda güven veren, otoriter ve ikna edici bir konuşma tarzı nasıl oluşturulur?",
+    "h1": "İkna Edici Konuşma Taktikleri",
+    "content": "İletişimde en büyük gücünüz sadece ne söylediğiniz değil, nasıl söylediğinizdir. İkna edici bir konuşma tarzı, doğru ses tonu, vurgu ve kelime seçimi ile başlar.\n\n<h3>İkna Etmenin 3 Temel Diksiyon Kuralı:</h3>\n<ul>\n<li><strong>Ses Rengi ve Güveni:</strong> İnce ve titrek bir ses yerine, diyaframdan desteklenmiş tok ve kararlı bir ses tonu karşı tarafa güven verir.</li>\n<li><strong>Doğru Yerde Duraklama:</strong> Söylediklerinizin karşı tarafın zihninde yer etmesi için önemli kelimelerden sonra 1-2 saniye duraklayın. Sessizlik, en güçlü ikna aracıdır.</li>\n<li><strong>Aşağı Doğru Vurgu (Otorite Vurgusu):</strong> Cümle sonlarında sesinizi yukarı doğru inceltmek (soru sorar gibi) güven eksikliği yaratır. Otorite kurmak için cümleleri aşağı doğru ve net bitirin.</li>\n</ul>\n\n<h3>Kısa Egzersiz:</h3>\n<p>Bir aynanın karşısına geçin. \"Bunu bu şekilde yapmamızın bizim için en iyisi olduğuna inanıyorum\" cümlesini önce hızlıca, ardından her kelimeye basarak, tok bir sesle ve son kelimede sesinizi aşağı doğru indirerek söyleyin. Aradaki otorite farkını anında hissedeceksiniz.</p>\n\n<div style=\"margin:2rem 0;padding:1.5rem;background:#f0f9ff;border-radius:12px;border:1px solid #bae6fd;\">\n  <h4 style=\"margin-top:0;color:#0369a1;\">🎙️ Ücretsiz Pratik Stüdyosu</h4>\n  <p style=\"margin-bottom:1rem;color:#0c4a6e;\">Sesinizin ne kadar ikna edici olduğunu test etmek ister misiniz? Ücretsiz ses stüdyomuzda kendi sesinizi kaydedin ve vurgu analizinizi yapın.</p>\n  <a href=\"/\" style=\"display:inline-block;background:#0ea5e9;color:white;padding:12px 24px;border-radius:8px;text-decoration:none;font-weight:bold;\">Egzersizlere Başla →</a>\n</div>",
+    "faq": [
+        {
+                "question": "İkna edici konuşmak için ses tonu ne kadar önemlidir?",
+                "answer": "Araştırmalara göre, iletişimde etkinin %38'i ses tonundan kaynaklanmaktadır. Kullanılan kelimelerin etkisi ise sadece %7'dir. Sesinizin ritmi ve yüksekliği, iknanın temelidir."
+        },
+        {
+                "question": "Bu yeteneği nasıl geliştirebilirim?",
+                "answer": "Platformumuzdaki Vurgu ve Duraklama egzersizlerini her gün 10 dakika uygulayarak sesinize otorite kazandırabilirsiniz."
+        }
+    ]
+  },
+
+  'dudak-tembelligi-tedavisi': {
+    "title": "Dudak Tembelliği Nasıl Geçer? Tekerleme Tedavisi - Diksiyon Rehberi",
+    "desc": "Kelimeleri yutma, harfleri yuvarlama ve dudak tembelliği sorununa kesin çözüm! Kalem ısırarak tekerleme okuma ve dudak kası güçlendirme teknikleri.",
+    "h1": "Dudak Tembelliği ve Artikülasyon Bozukluğu Tedavisi",
+    "content": "Kelimeleri yuvarlamak, harfleri yutmak veya çok hızlı konuşurken anlaşılmaz olmak... Bunların hepsi 'Dudak Tembelliği' (Zayıf Artikülasyon) sorunundan kaynaklanır. Tıpkı vücut kasları gibi, yüz ve dudak kaslarının da egzersize ihtiyacı vardır.\n\n<h3>Dudak Tembelliğini Giderme Yöntemleri:</h3>\n<ul>\n<li><strong>Kalem Egzersizi:</strong> Dişlerinizin arasına (yatay olarak) temiz bir kalem alın. Kalem ağzınızdayken zorlanarak bir gazete veya kitap metni okumaya çalışın. 2 dakika sonra kalemi çıkarıp aynı metni okuyun. Diksiyonunuzun anında nasıl açıldığına şaşıracaksınız.</li>\n<li><strong>Abartılı Artikülasyon:</strong> Ayna karşısına geçin. Ünlü harfleri (A, E, I, İ, O, Ö, U, Ü) ağzınızı olabildiğince abartılı şekilde açarak seslendirin. Dudak ve çene kaslarınızın yorulduğunu hissetmelisiniz.</li>\n<li><strong>Zor Tekerlemeler:</strong> Özellikle P, Ç, T, K, M, B gibi dudak ve damak harflerinin bol olduğu tekerlemeleri yavaş tempodan başlayarak artan bir hızla okuyun.</li>\n</ul>\n\n<h3>Örnek Tekerleme:</h3>\n<p>\"Pireli peyniri perhizli pireler yerlerse, pireli peynirler de perhizli pireleri yerler.\" (Bu tekerlemeyi dudaklarınızı iyice sıkarak ve harfleri patlatarak 5 kez tekrar edin.)</p>\n\n<div style=\"margin:2rem 0;padding:1.5rem;background:#f0f9ff;border-radius:12px;border:1px solid #bae6fd;\">\n  <h4 style=\"margin-top:0;color:#0369a1;\">🎙️ İnteraktif Tekerleme Arenası</h4>\n  <p style=\"margin-bottom:1rem;color:#0c4a6e;\">Dudak tembelliğinden kurtulmak için sitemizdeki harf bazlı tekerlemelerle çalışın. Uygulamamız üzerinden ses hızınızı test edebilirsiniz.</p>\n  <a href=\"/\" style=\"display:inline-block;background:#0ea5e9;color:white;padding:12px 24px;border-radius:8px;text-decoration:none;font-weight:bold;\">Tekerleme Seç →</a>\n</div>",
+    "faq": [
+        {
+                "question": "Dudak tembelliği tamamen geçer mi?",
+                "answer": "Evet! Dudaklar ve çene tamamen kaslardan oluşur. Düzenli egzersiz (özellikle kalem çalışması ve tekerleme) ile 21 gün içinde belirgin bir düzelme sağlanır."
+        },
+        {
+                "question": "Kalem egzersizini ne kadar yapmalıyım?",
+                "answer": "Günde en fazla 3 ila 5 dakika yapılması yeterlidir. Çene eklemini fazla zorlamamak çok önemlidir."
+        }
+    ]
+  },
+
+  'topluluk-karsisinda-heyecan-yenme': {
+    "title": "Topluluk Önünde Konuşma Korkusu ve Heyecanı Yenme - Diksiyon Rehberi",
+    "desc": "Sunum yaparken ses titremesi, el titremesi ve heyecan nasıl yenilir? Anksiyeteyi durduran 4-7-8 diyafram nefesi taktikleri ve sahne rehberi.",
+    "h1": "Topluluk Önünde Konuşma Korkusu Nasıl Yenilir?",
+    "content": "Kürsüye veya sahneye çıktığınızda kalbinizin hızla çarpması, sesinizin titremesi ve nefesinizin kesilmesi çok normaldir (Buna Glossofobi denir). Ancak fiziksel tepkileri kontrol ederek zihni sakinleştirmek, doğru tekniklerle mümkündür.\n\n<h3>Heyecanı Kontrol Etmenin Sırları:</h3>\n<ul>\n<li><strong>Bedenin SOS Sinyalini Kesmek (4-7-8 Nefesi):</strong> Heyecanlandığınızda sığ ve hızlı göğüs nefesi alırsınız. Bu da beyninize 'tehlike var' mesajı gönderir. Sahneye çıkmadan hemen önce: 4 saniye burnunuzdan derin nefes alın, 7 saniye tutun, 8 saniye boyunca ağzınızdan yavaşça verin. Bu, vagus sinirini uyararak kalp atışınızı fiziksel olarak yavaşlatır.</li>\n<li><strong>Göz Teması Taktiği:</strong> Kalabalığa boş boş bakmak heyecanı artırır. Dinleyiciler arasından güler yüzlü 3 kişi seçin (sağda, solda ve ortada). Sadece onlara anlatıyormuş gibi göz teması kurun.</li>\n<li><strong>Yavaş ve Sesli Başlangıç:</strong> İlk cümlenizi normalden daha yavaş ve daha yüksek bir ses tonuyla söyleyin. Kendi gür sesinizi duymak size anında özgüven aşılayacaktır.</li>\n</ul>\n\n<h3>Sahne Öncesi Egzersiz:</h3>\n<p>Sunumdan 5 dakika önce lavaboya gidin. Omuzlarınızı iyice yukarı çekin, 3 saniye kasılı tutun ve aniden bırakarak gevşeyin. Bu işlemi 3 kez tekrarlayarak üst beden gerginliğini atın.</p>\n\n<div style=\"margin:2rem 0;padding:1.5rem;background:#f0f9ff;border-radius:12px;border:1px solid #bae6fd;\">\n  <h4 style=\"margin-top:0;color:#0369a1;\">🎙️ Ücretsiz Nefes Asistanı</h4>\n  <p style=\"margin-bottom:1rem;color:#0c4a6e;\">Sitemizdeki Görsel Nefes Asistanı ile 4-7-8 rahatlama döngüsünü ekrandaki ritimle eşzamanlı olarak pratik edebilir ve sahneye hazır hissedebilirsiniz.</p>\n  <a href=\"/\" style=\"display:inline-block;background:#0ea5e9;color:white;padding:12px 24px;border-radius:8px;text-decoration:none;font-weight:bold;\">Nefes Asistanını Aç →</a>\n</div>",
+    "faq": [
+        {
+                "question": "Heyecandan sesim titriyor, ne yapmalıyım?",
+                "answer": "Ses titremesinin tek nedeni, nefesinizin (havanın) yetersiz kalıp ses tellerini zorlamasıdır. Konuşmaya başlamadan önce karnınızı hava ile doldurun ve cümleyi o havanın üzerine bindirerek kurun."
+        },
+        {
+                "question": "Topluluk önünde konuşma korkusu tamamen biter mi?",
+                "answer": "Korku tamamen bitmez ancak 'heyecan'a dönüşür. Deneyimli konuşmacılar da heyecanlanır, ancak onlar diyafram nefesi ile bu enerjiyi sahne performansına yansıtmayı öğrenmişlerdir."
+        }
+    ]
+  },
+
+  'karizmatik-ses-tonu-yapma': {
+    "title": "Karizmatik ve Güven Veren Ses Tonu Nasıl Yapılır? - Diksiyon Rehberi",
+    "desc": "İş görüşmelerinde ve ikili ilişkilerde karşı tarafı etkileyecek, karizmatik, derin ve otoriter bir ses tonuna sahip olmanın bilimsel diksiyon teknikleri.",
+    "h1": "Karizmatik ve Tok Bir Ses Tonuna Sahip Olmak",
+    "content": "Karakterinizi yansıtan en önemli unsur sesinizdir. Çoğu insan kendi doğal ve en güzel ses tonunu kullanmaz; boğazında sıkışmış, tiz veya cılız bir sesle konuşur. Karizmatik, güven veren ve tok bir ses tonu elde etmek, ses tellerinizi doğru 'rezonatör' (yankı) boşluklarında titreştirmekle mümkündür.\n\n<h3>Karizmatik Sesin Formülü:</h3>\n<ul>\n<li><strong>Göğüs Rezonansı (Tok Ses):</strong> Elinizi göğsünüzün ortasına koyun. Derin bir \"Mmmmm\" sesi çıkarın. Göğsünüzdeki titreşimi hissedene kadar sesinizin frekansını düşürün. Etkileyici ses, boğazdan değil göğüsten yankılanarak çıkan sestir.</li>\n<li><strong>Ağız Boşluğunu Açmak:</strong> Konuşurken çenenizi yeterince açmazsanız sesiniz içeride hapsolur. Kelimeleri telaffuz ederken ağzınızı dikey olarak biraz daha fazla açarak sesin dışarı gür çıkmasını sağlayın.</li>\n<li><strong>Optimal Konuşma Hızı:</strong> Karizmatik ve otoriter insanlar hızlı konuşmazlar. Hızlı konuşmak 'sözümü kesecekler' korkusu barındırır. Hızınızı düşürün, kelimelerin tadını çıkarın.</li>\n</ul>\n\n<h3>Rezonans Egzersizi:</h3>\n<p>Her sabah uyandığınızda derin bir diyafram nefesi alın. Nefesinizi verirken uzun bir şekilde \"Ooooo\" sesi çıkarın. Sesi önce dudaklarınızda, sonra maskenizde (burun arkası), en son göğsünüzde titreştirerek kendi doğal alt perdenizi bulun.</p>\n\n<div style=\"margin:2rem 0;padding:1.5rem;background:#f0f9ff;border-radius:12px;border:1px solid #bae6fd;\">\n  <h4 style=\"margin-top:0;color:#0369a1;\">🎙️ Rezonans Testi</h4>\n  <p style=\"margin-bottom:1rem;color:#0c4a6e;\">Kendi ses renginizi bulmak için platformumuzdaki Ses Analizi ve Rezonans testlerini uygulayın. Sesinizi stüdyomuzda kaydedin.</p>\n  <a href=\"/\" style=\"display:inline-block;background:#0ea5e9;color:white;padding:12px 24px;border-radius:8px;text-decoration:none;font-weight:bold;\">Rezonans Egzersizlerine Başla →</a>\n</div>",
+    "faq": [
+        {
+                "question": "Ses rengi sonradan değiştirilebilir mi?",
+                "answer": "Anatomik ses telinizin yapısını değiştiremezsiniz. Ancak, şu an muhtemelen sesinizi yanlış yerden (boğazdan) üretiyorsunuz. Rezonans eğitimi ile sesinizin asıl gür ve tok potansiyelini ortaya çıkarabilirsiniz."
+        },
+        {
+                "question": "Göğüs sesini nasıl bulacağım?",
+                "answer": "Esnediğiniz zaman çıkardığınız o kalın ve rahat ses, sizin gerçek göğüs sesinize en yakın olan frekanstır."
+        }
+    ]
+  },
+
+  'kamera-karsisinda-etkili-konusma': {
+    "title": "Kamera Karşısında Etkili Konuşma ve Diksiyon Sırları - Diksiyon Rehberi",
+    "desc": "YouTube, TikTok ve Instagram videoları çekerken kameraya bakarak akıcı, takılmadan ve enerjik konuşmanın profesyonel spikerlik teknikleri.",
+    "h1": "Kamera Karşısında Profesyonel ve Akıcı Konuşma",
+    "content": "Gündelik hayatta çok rahat konuşan biri bile, kayıt düğmesine basıldığında tutulabilir, 'eee, ııı' gibi asalak sesler çıkarabilir veya enerjisini kaybedebilir. Kamera karşısında etkili olmak, spikerlik ve sunuculuk diksiyonunun en çok talep gören alanlarından biridir.\n\n<h3>Kamera Önü Diksiyon Teknikleri:</h3>\n<ul>\n<li><strong>Lense 'Arkadaş' Gibi Bakmak:</strong> Kameranın merceğini cansız bir cam olarak değil, çok sevdiğiniz ve bir şeyler anlatmak için heyecan duyduğunuz yakın bir arkadaşınızın gözü olarak hayal edin. Bu, mimiklerinizi otomatik olarak doğallaştıracaktır.</li>\n<li><strong>Enerji Seviyesini %20 Artırmak:</strong> Kamera enerjiyi emer. Ekranda 'normal' görünmek için, gerçek hayatta normal hissettiğiniz enerjinin %20 daha fazlasını (ses yüksekliği ve el hareketleri) sergilemeniz gerekir.</li>\n<li><strong>'Eee, Iıı' Seslerinden Kurtulmak:</strong> Cümle aralarında düşünmek için bu sesleri çıkarmak yerine sadece 'duraklayın'. Sessiz bir es vermek, 'eee' demekten çok daha profesyonel ve düşündürücü durur.</li>\n</ul>\n\n<h3>Teleprompter Pratiği:</h3>\n<p>Eğer bir metin okuyacaksanız, kelimeleri gözlerinizle metinden okurken, seslendirmeden önce beyninizde 1 saniye işleyin. Gözleriniz hep okuduğunuz kelimenin 2-3 kelime ilerisinde olmalıdır.</p>\n\n<div style=\"margin:2rem 0;padding:1.5rem;background:#f0f9ff;border-radius:12px;border:1px solid #bae6fd;\">\n  <h4 style=\"margin-top:0;color:#0369a1;\">🎙️ Ücretsiz Teleprompter Aracı</h4>\n  <p style=\"margin-bottom:1rem;color:#0c4a6e;\">Kamera karşısına geçmeden önce, sitemizdeki ücretsiz ve hız ayarlı Teleprompter aracı ile haber spikerleri gibi metin okuma çalışmaları yapabilirsiniz.</p>\n  <a href=\"/\" style=\"display:inline-block;background:#0ea5e9;color:white;padding:12px 24px;border-radius:8px;text-decoration:none;font-weight:bold;\">Teleprompter Aracı'nı Aç →</a>\n</div>",
+    "faq": [
+        {
+                "question": "Videolarda sesim çok monoton çıkıyor, ne yapmalıyım?",
+                "answer": "Monotonluğun çözümü 'vurgu' ve 'ritim'dir. Cümle içindeki en önemli kelimelerin sesini yükseltin ve cümleyi bitirirken hafifçe yavaşlayın."
+        },
+        {
+                "question": "Kamera heyecanını nasıl yenerim?",
+                "answer": "Kamerayı açın ve silmek üzere 5 dakika boyunca sadece saçmalayarak, serbest çağrışımla konuşun. Kameraya alıştıktan sonra asıl çekime geçin."
+        }
+    ]
+  }
+
 };
 
 // ═══════════════════════════════════════════════════════════════════════════
