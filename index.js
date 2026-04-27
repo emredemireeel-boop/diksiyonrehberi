@@ -1185,6 +1185,91 @@ const TOOLS_META = {
                 "answer": "Kamerayı açın ve silmek üzere 5 dakika boyunca sadece saçmalayarak, serbest çağrışımla konuşun. Kameraya alıştıktan sonra asıl çekime geçin."
         }
     ]
+  },
+
+  'diksiyon-tekerlemeleri-zor-ve-uzun': {
+    "title": "Dünyanın En Zor Diksiyon Tekerlemeleri - Diksiyon Rehberi",
+    "desc": "Dil kaslarınızı maksimum seviyeye çıkaracak, okuması en zor ve uzun diksiyon tekerlemeleri. Spikerlerin kullandığı özel tekerleme egzersizleri.",
+    "h1": "En Zor ve Uzun Diksiyon Tekerlemeleri",
+    "content": "Diksiyon eğitiminin en eğlenceli ve en etkili bölümü şüphesiz tekerlemelerdir. Tekerlemeler, dudak, dil ve çene kaslarını bir sporcunun antrenman yapması gibi çalıştırır ve artikülasyonu keskinleştirir.\n\n<h3>Zor Tekerlemeler Nasıl Çalışılmalı?</h3>\n<ul>\n<li><strong>Aşama 1 (Kurşun Kalem):</strong> Tekerlemeyi dişlerinizin arasına yatay bir kalem alarak okuyun. Amacımız ağız kaslarını ağırlık antrenmanında olduğu gibi zorlamaktır.</li>\n<li><strong>Aşama 2 (Hızlanma):</strong> Kalemi çıkarın ve aynı tekerlemeyi önce yavaş, sonra orta hızda, en sonunda ise yapabildiğiniz en yüksek hızda okuyun.</li>\n<li><strong>Aşama 3 (Nefes Kontrolü):</strong> Tekerlemenin tamamını tek bir diyafram nefesiyle ve hiç takılmadan söylemeye çalışın.</li>\n</ul>\n\n<style>\n.screen-exercise { background: #1e293b; color: #f8fafc; padding: 2rem; border-radius: 16px; text-align: center; margin: 2rem 0; box-shadow: 0 10px 30px -10px rgba(0,0,0,0.5); }\n.tongue-twister-box { font-size: 1.5rem; font-weight: bold; line-height: 1.8; margin: 1.5rem 0; color: #38bdf8; }\n.timer-bar { height: 6px; background: #334155; border-radius: 4px; overflow: hidden; margin-top: 1rem; position: relative; }\n.timer-fill { height: 100%; background: #ef4444; width: 0%; animation: fillTimer 15s linear infinite; }\n@keyframes fillTimer { 0% { width: 0%; } 100% { width: 100%; } }\n</style>\n<div class=\"screen-exercise\">\n  <h3 style=\"color:white;margin-top:0;\">⏱️ Ekrana Özel Egzersiz: 15 Saniye Meydan Okuması</h3>\n  <p>Aşağıdaki zorlu tekerlemeyi, kırmızı çubuk dolmadan (15 saniye içinde) hiç takılmadan okumaya çalışın!</p>\n  <div class=\"tongue-twister-box\">\"Şu köşe yaz köşesi, şu köşe kış köşesi, ortada su şişesi. Keşkekçinin keşkekleşmiş keşkek kepçesi.\"</div>\n  <div class=\"timer-bar\"><div class=\"timer-fill\"></div></div>\n</div>",
+    "faq": [
+        {
+                "question": "Neden tekerleme okurken takılıyorum?",
+                "answer": "Çünkü beyniniz kelimeleri gözden okuyup ses tellerine iletirken, dil ve dudak kaslarınız aynı hıza yetişemiyor. Tekerlemeler, bu nöro-motor bağlantıyı hızlandırır."
+        },
+        {
+                "question": "Diksiyon için hangi harflerin tekerlemeleri daha önemlidir?",
+                "answer": "Dudak tembelliğini yenmek için dudak ünsüzleri olan P, B, M, F, V harflerinin ağırlıklı olduğu tekerlemeler üzerinde çalışmalısınız."
+        }
+    ]
+  },
+
+  'akici-ve-hizli-okuma-teknikleri': {
+    "title": "Akıcı ve Hızlı Okuma Teknikleri (Diksiyon Uygulamalı) - Diksiyon Rehberi",
+    "desc": "Metinleri takılmadan, vurgu ve tonlamaya dikkat ederek akıcı okuma yöntemleri. Canlı teleprompter ve göz egzersizleriyle okuma hızınızı artırın.",
+    "h1": "Akıcı ve Takılmadan Okuma Teknikleri",
+    "content": "Spikerler, sunucular ve dublaj sanatçıları ellerine aldıkları bir metni ilk defa okuyor olsalar bile hiç takılmazlar. Bunun sırrı doğuştan gelen bir yetenek değil, göz idmanı ve zihinsel ön okuma tekniğidir.\n\n<h3>Akıcı Okumanın 3 Altın Kuralı:</h3>\n<ul>\n<li><strong>Göz Sıçraması:</strong> Okuduğunuz kelime ile ağzınızdan çıkan kelime aynı olmamalıdır. Gözünüz daima ağzınızın söylediği kelimenin 2-3 kelime ilerisinde olmalıdır. Ağzınız geriden gelmelidir.</li>\n<li><strong>Blok Okuma:</strong> Kelimeleri hece hece veya tek tek okumayın. Anlam bütünlüğü taşıyan kelime gruplarını (örneğin: 'eve geldiğinde' veya 'büyük bir hızla') tek bir blok gibi görüp okuyun.</li>\n<li><strong>Kafayı Değil Gözü Oynatmak:</strong> Metni takip ederken boynunuzu sağa sola çevirmeyin. Sadece göz bebekleriniz satır üzerinde kaymalıdır.</li>\n</ul>\n\n<style>\n.scan-line-container { position: relative; background: #fff; color:#333; padding: 2rem; font-size: 1.4rem; border-radius: 8px; overflow: hidden; }\n.scan-line { position: absolute; top: 0; left: 0; width: 10px; height: 100%; background: rgba(59, 130, 246, 0.4); animation: scan 4s linear infinite alternate; box-shadow: 0 0 20px 10px rgba(59,130,246,0.3); }\n@keyframes scan { 0% { left: 0%; } 100% { left: 100%; } }\n</style>\n<div class=\"screen-exercise\" style=\"background:#f1f5f9; padding:2rem; border-radius:16px;\">\n  <h3 style=\"color:#0f172a;margin-top:0;\">👁️ Göz İdmanı: Tarama Egzersizi</h3>\n  <p style=\"color:#475569\">Mavi tarama çizgisi metnin üzerinde gezerken, sadece göz bebeklerinizi oynatarak çizgiyi takip edin ve metni sessizce okuyun. Kafanızı sabit tutun.</p>\n  <div class=\"scan-line-container\">\n    <div class=\"scan-line\"></div>\n    <p style=\"text-align:justify; margin:0;\">Zihin, kelimeleri harf harf değil, bloklar halinde algılar. Hızlı okumanın sırrı, gözün metin üzerindeki sıçrama süresini en aza indirmek ve bir bakışta birden fazla kelimeyi görebilmektir.</p>\n  </div>\n</div>",
+    "faq": [
+        {
+                "question": "Hızlı okurken diksiyonum bozuluyor, ne yapmalıyım?",
+                "answer": "Hızlı okumak, anlaşılmaz olmak demek değildir. Diksiyonunuz bozuluyorsa artikülasyon (dudak-çene) kaslarınız yeterince esnek değildir. Abartılı dudak egzersizleriyle bu sorunu çözebilirsiniz."
+        },
+        {
+                "question": "Metin okurken neden nefesim tükeniyor?",
+                "answer": "Göğüs nefesi aldığınız ve virgül/nokta gibi durak yerlerinde nefes tazelemediğiniz içindir. Noktalarda 1 saniye durup diyaframdan nefes alın."
+        }
+    ]
+  },
+
+  'ses-kisikligi-ve-catallanmasi-tedavisi': {
+    "title": "Ses Kısıklığı ve Çatallanmasına Ne İyi Gelir? - Diksiyon Rehberi",
+    "desc": "Ses tellerini rahatlatan, ses kısıklığı ve çatallanmayı anında gideren profesyonel ses açma ve vokal kord egzersizleri.",
+    "h1": "Ses Kısıklığı ve Çatallanması: Nedenleri ve Egzersizle Tedavisi",
+    "content": "Uzun süre konuştuktan sonra sesinizde kısılma, çatallanma veya yorgunluk (vokal yorgunluk) hissediyorsanız, ses tellerinizi (vokal kordlar) yanlış ve zorlayarak kullanıyorsunuz demektir. Boğaz temizleme alışkanlığı ve susuzluk da bu durumu tetikler.\n\n<h3>Sesi Koruma ve Açma Yöntemleri:</h3>\n<ul>\n<li><strong>Vokal Fry (Cızırtı) Egzersizi:</strong> Ses tellerini rahatlatmak için kullanılır. Derin bir nefes alın ve nefesinizi en alt perdeden, boğazınızda hafif bir motor cızırtısı (kurbağa sesi gibi) yapacak şekilde yavaşça verin.</li>\n<li><strong>Bol Su ve Nem:</strong> Ses telleri mukozayla kaplıdır ve saniyede yüzlerce kez birbirine çarpar. Yeterli su içmezseniz kurumuş ses telleri sürtünmeden dolayı tahriş olur ve ses kısılır. Konuşmadan önce ılık su yudumlayın.</li>\n<li><strong>Yapay Boğaz Temizlemeden Kaçının:</strong> 'Öhö öhö' yaparak boğaz temizlemek, ses tellerini zımparalamak gibidir. Bunun yerine sert bir şekilde yutkunun veya su için.</li>\n</ul>\n\n<style>\n.hum-visualizer { display: flex; align-items: center; justify-content: center; gap: 8px; height: 80px; background: #000; border-radius: 12px; margin: 1.5rem 0; }\n.hum-bar { width: 12px; background: #10b981; border-radius: 6px; animation: humBounce 1s infinite ease-in-out; }\n.hum-bar:nth-child(1) { height: 20px; animation-delay: 0.1s; }\n.hum-bar:nth-child(2) { height: 40px; animation-delay: 0.2s; }\n.hum-bar:nth-child(3) { height: 60px; animation-delay: 0.3s; }\n.hum-bar:nth-child(4) { height: 40px; animation-delay: 0.4s; }\n.hum-bar:nth-child(5) { height: 20px; animation-delay: 0.5s; }\n@keyframes humBounce { 0%, 100% { transform: scaleY(1); } 50% { transform: scaleY(1.5); background: #34d399; } }\n</style>\n<div class=\"screen-exercise\" style=\"background:#064e3b; color:#ecfdf5; padding:2rem; border-radius:16px; text-align:center;\">\n  <h3 style=\"color:#a7f3d0;margin-top:0;\">🎧 Ekrana Özel: Titreşim (Humming) Terapisi</h3>\n  <p>Dudaklarınızı kapatın. Derin bir nefes alın ve aşağıda hareket eden yeşil çubukların ritmiyle uyumlu olarak hafifçe <strong>\"Mmmmmmm\"</strong> diyerek mırıldanın. Boğazınızın değil, dudaklarınızın titreştiğini hissedin.</p>\n  <div class=\"hum-visualizer\">\n    <div class=\"hum-bar\"></div><div class=\"hum-bar\"></div><div class=\"hum-bar\"></div><div class=\"hum-bar\"></div><div class=\"hum-bar\"></div>\n  </div>\n  <p style=\"font-size:0.9rem;opacity:0.8;\">Bu egzersiz yorulan ses tellerine kan akışını hızlandırarak çatallanmayı dakikalar içinde azaltır.</p>\n</div>",
+    "faq": [
+        {
+                "question": "Sıcak içecekler ses kısıklığına iyi gelir mi?",
+                "answer": "Kaynar derecede sıcak veya buz gibi soğuk içecekler ses tellerine zarar verir. En ideali her zaman oda sıcaklığında veya hafif ılık içecekler tüketmektir."
+        },
+        {
+                "question": "Sesim çatallandığında ne yapmalıyım?",
+                "answer": "Fısıldayarak konuşmak en büyük hatadır çünkü ses tellerini daha çok gerer. Sesiniz kısıldığında yapmanız gereken en iyi şey 'tam sessizlik' yani ses istirahatidir."
+        }
+    ]
+  },
+
+  'turkce-kelimelerin-dogru-telaffuzu': {
+    "title": "En Çok Yanlış Telaffuz Edilen Türkçe Kelimeler - Diksiyon Rehberi",
+    "desc": "Günlük hayatta sıkça yanlış okunan, şapkalı harfler ve yabancı kökenli kelimelerin doğru okunuşları. Türkçeyi kusursuz konuşun.",
+    "h1": "Sıkça Yanlış Telaffuz Edilen Kelimeler ve Doğruları",
+    "content": "Harika bir ses tonuna ve diyafram nefesine sahip olabilirsiniz, ancak eğer kelimeleri yanlış telaffuz ediyorsanız, konuşmanızın profesyonel etkisi anında yok olur. Türkçede özellikle yabancı kökenli kelimelerin ve inceltme işareti (^) olan harflerin okunmasında sıkça hatalar yapılmaktadır.\n\n<h3>Yaygın Telaffuz Hataları:</h3>\n<ul>\n<li><strong>Arapça/Farsça Kökenli Kelimeler:</strong> Hakkı, hissi, sırrı gibi kelimelere ünlü ile başlayan bir ek geldiğinde ünsüz harf türer (Hakkım, hissim). Ancak bazı kelimelerde bu türeme yapılmaz, örneğin 'şarz' değil 'şarj'dır, 'herkez' değil 'herkes'tir.</li>\n<li><strong>İnceltme İşareti (Şapka):</strong> Kağıt (kâğıt), kar (kâr), rüzgar (rüzgâr), dükkan (dükkân) kelimelerinde 'a' harfi ince ve uzun okunmalıdır. Kalın okunması anlam kaymasına neden olur.</li>\n<li><strong>Ünlü Daralması:</strong> 'Yapanacak', 'gelicek' gibi kullanımlar sadece konuşma dilinde değil, diksiyonda da yanlıştır. Kelimenin kökü korunarak telaffuz edilmelidir.</li>\n</ul>\n\n<style>\n.flip-card { background-color: transparent; width: 100%; max-width: 300px; height: 120px; perspective: 1000px; margin: 1.5rem auto; }\n.flip-card-inner { position: relative; width: 100%; height: 100%; text-align: center; transition: transform 0.6s; transform-style: preserve-3d; cursor: pointer; }\n.flip-card:hover .flip-card-inner { transform: rotateY(180deg); }\n.flip-card-front, .flip-card-back { position: absolute; width: 100%; height: 100%; backface-visibility: hidden; display: flex; align-items: center; justify-content: center; flex-direction: column; border-radius: 12px; font-size: 1.5rem; font-weight: bold; }\n.flip-card-front { background-color: #fef2f2; color: #dc2626; border: 2px solid #fca5a5; }\n.flip-card-back { background-color: #f0fdf4; color: #16a34a; transform: rotateY(180deg); border: 2px solid #86efac; }\n</style>\n<div class=\"screen-exercise\" style=\"background:#fafafa; padding:2rem; border-radius:16px; border:1px solid #e5e5e5;\">\n  <h3 style=\"color:#111827;margin-top:0;text-align:center;\">🔄 Etkileşimli Egzersiz: Doğrusunu Bil!</h3>\n  <p style=\"text-align:center; color:#4b5563;\">Aşağıdaki kartın üzerine fare ile gelerek (veya dokunarak) yaygın olarak yanlış bilinen kelimenin doğru okunuşunu görün.</p>\n  <div class=\"flip-card\">\n    <div class=\"flip-card-inner\">\n      <div class=\"flip-card-front\">\n        <span style=\"font-size:1rem;color:#7f1d1d;font-weight:normal;margin-bottom:4px;\">Yanlış Okunuş:</span>\n        Mütevazi\n      </div>\n      <div class=\"flip-card-back\">\n        <span style=\"font-size:1rem;color:#14532d;font-weight:normal;margin-bottom:4px;\">Doğru Okunuş:</span>\n        Mütevazı\n      </div>\n    </div>\n  </div>\n</div>",
+    "faq": [
+        {
+                "question": "Kelime dağarcığımı ve telaffuzumu nasıl geliştirebilirim?",
+                "answer": "Bol bol sesli kitap okuyarak ve tanımadığınız kelimelerin sözlükten okunuşuna (transkripsiyonuna) bakarak öğrenebilirsiniz."
+        },
+        {
+                "question": "Mütevazi ile mütevazı arasındaki fark nedir?",
+                "answer": "Mütevazi 'paralel' demektir. Alçakgönüllü anlamına gelen doğru kelime 'mütevazı' (ı ile) şeklinde okunur ve yazılır."
+        }
+    ]
+  },
+
+  'etkileyici-beden-dili-ve-diksiyon-uyumu': {
+    "title": "Etkileyici Beden Dili ve Diksiyon Uyumu Nasıl Sağlanır? - Diksiyon Rehberi",
+    "desc": "Konuşurken elleri nasıl kullanmalı? Göz teması ve duruşun ses tonunuza etkisi. Karizmatik beden dili sırları.",
+    "h1": "Beden Dili ve Ses Uyumu: İletişimin Göğüs Kafesi",
+    "content": "Beden dili, kelimelerinizin altını çizen bir fosforlu kalem gibidir. Diksiyonunuz ne kadar kusursuz olursa olsun, eğer bedeniniz anlattığınız hikayeyle çelişiyorsa, dinleyici bilinçaltında beden dilinize (görsel olana) inanmayı tercih edecektir.\n\n<h3>Duruşun Sese Fiziksel Etkisi:</h3>\n<ul>\n<li><strong>Omuzlar ve Çene:</strong> Kambur durduğunuzda akciğerleriniz sıkışır ve diyaframınız yeterince aşağı inemez. Bu durumda sesiniz otomatik olarak cılızlaşır ve titrer. Omuzlar geride, çene yere paralel olmalıdır.</li>\n<li><strong>El Hareketleri (Jestler):</strong> Ellerinizi cebinize sokmak veya kollarınızı kavuşturmak enerjinizi düşürür. Ellerinizi bel hizasının üzerinde, açık ve simetrik bir şekilde kullanmak anlattıklarınıza vurgu katar.</li>\n<li><strong>Göz Teması:</strong> Sürekli yere veya tavana bakarak konuşmak sesin frekansını daraltır. Karşı tarafla kurulan sağlam bir göz teması, sesinizin de daha kararlı çıkmasını sağlar.</li>\n</ul>\n\n<style>\n.posture-box { display: flex; align-items: center; justify-content: space-between; background: #fff; border-radius: 12px; padding: 1.5rem; margin-top: 1.5rem; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1); flex-wrap: wrap; gap: 1rem; }\n.posture-step { flex: 1; text-align: center; position: relative; min-width: 100px; }\n.posture-step:not(:last-child)::after { content: \"→\"; position: absolute; right: -15px; top: 50%; transform: translateY(-50%); font-size: 1.5rem; color: #94a3b8; }\n.p-icon { font-size: 2.5rem; display: block; margin-bottom: 0.5rem; }\n.p-text { font-size: 0.95rem; font-weight: 600; color: #334155; }\n@media(max-width:600px){ .posture-step:not(:last-child)::after{ display:none;} }\n</style>\n<div class=\"screen-exercise\" style=\"background:#f8fafc; padding:2rem; border-radius:16px; border: 1px solid #e2e8f0;\">\n  <h3 style=\"color:#0f172a;margin-top:0;text-align:center;\">🧍 Ekrana Özel: 3 Adımda Güç Duruşu (Power Pose)</h3>\n  <p style=\"text-align:center; color:#475569;\">Sunuma çıkmadan hemen önce aşağıdaki 3 adımı sırasıyla uygulayın. Ses tonunuzun diyafram sayesinde anında daha gür çıktığını fark edeceksiniz.</p>\n  <div class=\"posture-box\">\n    <div class=\"posture-step\">\n      <span class=\"p-icon\">📐</span>\n      <span class=\"p-text\">Omuzları Geriye At</span>\n    </div>\n    <div class=\"posture-step\">\n      <span class=\"p-icon\">🫁</span>\n      <span class=\"p-text\">Göğsü Öne Çıkar</span>\n    </div>\n    <div class=\"posture-step\">\n      <span class=\"p-icon\">🗣️</span>\n      <span class=\"p-text\">Çeneyi Paralel Tut</span>\n    </div>\n  </div>\n</div>",
+    "faq": [
+        {
+                "question": "Konuşurken ellerimi nereye koyacağımı bilemiyorum, ne yapmalıyım?",
+                "answer": "Ellerinizi göbek deliğinizin hemen üzerinde gevşekçe birleştirebilirsiniz. Vurgulamak istediğiniz noktalarda ellerinizi açarak anlatımı destekleyin."
+        },
+        {
+                "question": "Beden dilinin iletişimdeki payı gerçekten %55 mi?",
+                "answer": "Evet, ünlü Mehrabian iletişim modeline göre; mesajın %55'i beden dili, %38'i ses tonu ve sadece %7'si kullanılan kelimelerle aktarılır."
+        }
+    ]
   }
 
 };
