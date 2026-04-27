@@ -84,7 +84,6 @@ img { max-width: 100%; display: block; }
   margin: 0 auto;
   padding: 0 24px;
   height: var(--nav-h);
-  position: relative;
 }
 
 /* Logo */
@@ -139,21 +138,22 @@ img { max-width: 100%; display: block; }
 
 /* Mega Menu Panel */
 .mega-menu {
-  position: absolute;
-  top: 100%;
-  left: 24px;
-  right: 24px;
-  width: auto;
+  position: fixed;
+  top: var(--nav-h);
+  left: 0;
+  right: 0;
+  width: 100vw;
   background: var(--surface);
   border: 1px solid var(--border);
   box-shadow: 0 10px 40px rgba(0,0,0,0.15);
-  border-radius: var(--r-md);
+  border-radius: 0 0 var(--r-md) var(--r-md);
   padding: 24px;
   display: flex;
+  justify-content: center;
   gap: 40px;
   opacity: 0;
   visibility: hidden;
-  transform: translateY(10px);
+  transform: translateY(-10px);
   transition: all 0.3s ease;
   z-index: 1000;
 }

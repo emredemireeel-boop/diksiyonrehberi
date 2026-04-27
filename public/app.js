@@ -1429,26 +1429,38 @@ $('hamburger').addEventListener('click', () => {
 document.querySelectorAll('.nav-item.has-mega > .nav-link').forEach(link => {
   link.addEventListener('click', (e) => {
     e.preventDefault();
-    e.stopPropagation(); // Prevent closing immediately
+    e.stopPropagation();
     const parent = link.parentElement;
+    const isOpen = parent.classList.contains('active');
     
-    // Close others
+    // Close all menus first
     document.querySelectorAll('.nav-item.has-mega').forEach(item => {
-      if (item !== parent) item.classList.remove('active');
+      item.classList.remove('active');
     });
     
-    // Toggle current
-    parent.classList.toggle('active');
+    // Toggle current (open if was closed)
+    if (!isOpen) {
+      parent.classList.add('active');
+    }
   });
 });
 
 // Close mega menu when clicking outside
-document.addEventListener('click', (e) => {
+document.addEventListener('mousedown', (e) => {
   if (!e.target.closest('.nav-item.has-mega')) {
-    document.querySelectorAll('.nav-item.has-mega').forEach(item => {
+    document.querySelectorAll('.nav-item.has-mega.active').forEach(item => {
       item.classList.remove('active');
     });
   }
+});
+
+// Close mega menu when clicking links inside it
+document.querySelectorAll('.mega-menu .top-nav-link').forEach(link => {
+  link.addEventListener('click', () => {
+    document.querySelectorAll('.nav-item.has-mega.active').forEach(item => {
+      item.classList.remove('active');
+    });
+  });
 });
 
 // ── SIDEBAR LIST ──────────────────────────────────────────── //
