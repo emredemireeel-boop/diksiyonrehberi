@@ -1351,7 +1351,7 @@ app.get('/tekerlemeler/:harf', (req, res) => {
   <h2>${harfUpper} Harfi Tekerlemeleri</h2>
   <ul>${listItems}</ul>
 </div>`;
-    html = html.replace('<script src="app.js"></script>', `${seoBlock}\n  <script src="app.js"></script>`);
+    html = html.replace('<script src="/app.js"></script>', `${seoBlock}\n  <script src="/app.js"></script>`);
 
     // 4. Canonical HTTP Link header
     res.setHeader('Link', `<${canonicalUrl}>; rel="canonical"`);
@@ -1476,7 +1476,7 @@ app.get('/:toolSlug', (req, res, next) => {
   <h1>${meta.h1}</h1>
   <div class="content-body">${meta.content.replace(/\\n/g, '')}</div>${faqHtml}
 </div>`;
-    html = html.replace('<script src="app.js">', `${seoBlock}\n  <script src="app.js">`);
+    html = html.replace('<script src="/app.js">', `${seoBlock}\n  <script src="/app.js">`);
 
     // 4. Canonical HTTP Link header
     res.setHeader('Link', `<${canonicalUrl}>; rel="canonical"`);
