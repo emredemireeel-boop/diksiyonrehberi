@@ -1270,6 +1270,91 @@ const TOOLS_META = {
                 "answer": "Evet, ünlü Mehrabian iletişim modeline göre; mesajın %55'i beden dili, %38'i ses tonu ve sadece %7'si kullanılan kelimelerle aktarılır."
         }
     ]
+  },
+
+  'nefes-nefese-kalmadan-konusmak': {
+    "title": "Konuşurken Nefes Nefese Kalmak Nasıl Önlenir? - Diksiyon Rehberi",
+    "desc": "Uzun cümleler kurarken veya sunum yaparken nefesinizin yetmemesi sorununa kesin çözüm! Kostal ve diyafram nefesi kontrol egzersizleri.",
+    "h1": "Konuşurken Nefes Nefese Kalmayı Önleme Teknikleri",
+    "content": "Sohbet ederken veya sunum yaparken cümlenin sonunu getiremeyip nefes nefese kalıyorsanız, akciğer kapasiteniz küçük olduğu için değil, nefesinizi ekonomik kullanmadığınız için bu sorunu yaşıyorsunuz demektir.\n\n<h3>Nefesi Ekonomik Kullanma Taktikleri:</h3>\n<ul>\n<li><strong>Kostal-Diyafram Solunumu:</strong> Sadece göğsünüzü veya sadece karnınızı şişirmek yerine, nefes alırken kaburgalarınızın da yanlara doğru genişlediğini hissedin. Bu sayede akciğerlerin alt loblarını da doldurmuş olursunuz.</li>\n<li><strong>Cümleleri Parçalara Ayırma (Duraklama):</strong> Uzun bir cümleyi tek nefeste bitirmek zorunda değilsiniz. Anlam gruplarına göre aralarda (virgüllerde) çok kısa ve sessiz 'es'ler vererek nefes tazeleyin.</li>\n<li><strong>Nefesi Sese Dönüştürme Oranı:</strong> Nefesinizi harflerle dışarı atarken gereğinden fazla hava kaçırmayın (özellikle H, S, Ş, F harflerinde). Sesi destekleyecek kadar hava vermeyi öğrenin.</li>\n</ul>\n\n<style>\n.lung-box { display: flex; justify-content: center; align-items: center; background: #e0e7ff; padding: 3rem; border-radius: 16px; margin: 1.5rem 0; }\n.lung-circle { width: 120px; height: 120px; background: radial-gradient(circle, #60a5fa 0%, #2563eb 100%); border-radius: 50%; animation: breathe 8s infinite; box-shadow: 0 0 20px rgba(37,99,235,0.6); }\n@keyframes breathe { 0% { transform: scale(0.6); opacity: 0.7; } 40% { transform: scale(1.5); opacity: 1; } 50% { transform: scale(1.5); opacity: 1; } 100% { transform: scale(0.6); opacity: 0.7; } }\n</style>\n<div class=\"screen-exercise\" style=\"background:#f8fafc; padding:2rem; border-radius:16px; border: 1px solid #e2e8f0; text-align:center;\">\n  <h3 style=\"color:#1e3a8a;margin-top:0;\">🫁 Ekrana Özel: Diyafram Kapasitesi Büyütme</h3>\n  <p style=\"color:#475569;\">Çember büyürken karnınızı şişirerek <strong>Nefes Alın</strong>, tepe noktasında kısa süre <strong>Tutun</strong>, çember küçülürken \"Ssss\" sesiyle çok yavaş <strong>Nefes Verin</strong>.</p>\n  <div class=\"lung-box\">\n    <div class=\"lung-circle\"></div>\n  </div>\n</div>",
+    "faq": [
+        {
+                "question": "Neden sadece konuşurken nefes nefese kalıyorum?",
+                "answer": "Çünkü günlük istirahat nefesinde verme süresi kısadır. Konuşma sırasında ise nefesinizi yavaşça ve kontrollü vererek cümlelere yaymanız gerekir. Diyafram kası bunu ayarlayan temel organdır."
+        },
+        {
+                "question": "Diyafram nefesi öğrenmek ne kadar sürer?",
+                "answer": "Sırtüstü yatarak yapılan egzersizlerle karnınıza nefes almayı ilk günden keşfedebilirsiniz. Ancak bunu günlük konuşmanıza refleks olarak entegre etmeniz 21 günlük düzenli pratik gerektirir."
+        }
+    ]
+  },
+
+  'mikrofon-karsisinda-konusma-teknikleri': {
+    "title": "Mikrofon Karşısında Konuşma ve Diksiyon Teknikleri - Diksiyon Rehberi",
+    "desc": "Podcast, radyo veya sahnede mikrofon kullanırken patlayan P ve B harflerini engelleme, proximity (yakınlık) etkisi ve profesyonel ses kontrolü.",
+    "h1": "Mikrofon ve Sahne Diksiyonu: Ses Mühendisliği Sırları",
+    "content": "Mikrofon, sesinizin hatalarını gizlemez; aksine büyüteç gibi tüm kusurları ortaya çıkarır. Podcast kaydederken, şarkı söylerken veya sunum yaparken mikrofon kullanım tekniklerini (mic technique) bilmek, diksiyonun en önemli unsurlarından biridir.\n\n<h3>Mikrofon Önü Temel Kurallar:</h3>\n<ul>\n<li><strong>Proximity (Yakınlık) Etkisi:</strong> Mikrofona ne kadar yaklaşırsanız sesinizin bas (kalın) frekansları o kadar artar. Tok ve samimi bir ses için mikrofona yaklaşın, gür ve heyecanlı anlatımlarda geri çekilin.</li>\n<li><strong>Patlayan Harfler (P, B, T, K):</strong> Dudak ünsüzlerini (P, B) söylerken ağızdan ani hava çıkar. Mikrofona tam karşıdan değil, hafif çapraz (45 derece) açıyla konuşarak veya Pop Filtre kullanarak bu patlamaları (plosive) önleyin.</li>\n<li><strong>Nefes Sesi Yönetimi:</strong> Nefes alırken mikrofondan hafifçe başınızı çevirin veya çok yavaş ve sessiz nefes almayı alışkanlık haline getirin.</li>\n</ul>\n\n<style>\n.mic-distance { display: flex; height: 30px; background: #e2e8f0; border-radius: 15px; margin: 1.5rem 0; overflow: hidden; position: relative; }\n.mic-zone-red { flex: 1; background: #fca5a5; display:flex; align-items:center; justify-content:center; font-size:0.8rem; font-weight:bold; color:#7f1d1d;}\n.mic-zone-green { flex: 2; background: #86efac; display:flex; align-items:center; justify-content:center; font-size:0.8rem; font-weight:bold; color:#14532d; }\n.mic-zone-yellow { flex: 3; background: #fde047; display:flex; align-items:center; justify-content:center; font-size:0.8rem; font-weight:bold; color:#713f12; }\n.mic-cursor { position: absolute; width: 4px; height: 100%; background: #000; left: 0; animation: micSweep 6s infinite alternate ease-in-out; }\n@keyframes micSweep { 0% { left: 5%; } 50% { left: 30%; } 100% { left: 80%; } }\n</style>\n<div class=\"screen-exercise\" style=\"background:#fff; padding:2rem; border-radius:16px; border: 2px dashed #cbd5e1; text-align:center;\">\n  <h3 style=\"color:#0f172a;margin-top:0;\">🎙️ Ekrana Özel: Mikrofon Mesafe Simülatörü</h3>\n  <p style=\"color:#475569;\">Podcast veya yayın yaparken ses patlamalarını önlemek için siyah çizginin daima yeşil bölgede (yaklaşık 1 karış, 15-20 cm) kalmasını hayal edin. Kırmızı bölge (çok yakın) patlamalara, sarı bölge (çok uzak) eko ve dipsese neden olur.</p>\n  <div class=\"mic-distance\">\n    <div class=\"mic-zone-red\">Çok Yakın (Patlar)</div>\n    <div class=\"mic-zone-green\">İdeal (1 Karış)</div>\n    <div class=\"mic-zone-yellow\">Çok Uzak (Eko Yapar)</div>\n    <div class=\"mic-cursor\"></div>\n  </div>\n</div>",
+    "faq": [
+        {
+                "question": "Sahnede yaka mikrofonu kullanırken nelere dikkat etmeliyim?",
+                "answer": "Yaka mikrofonu göğüs kafesinize yakın olduğu için yutkunma ve nefes seslerini çok net alır. Ayrıca çenenizi göğsünüze yapıştırarak konuştuğunuzda sesiniz boğuk çıkar; başınızı dik tutun."
+        },
+        {
+                "question": "Dinamik mi yoksa kondenser mikrofon mu diksiyon için daha iyi?",
+                "answer": "Ev ortamında kayıt alıyorsanız dinamik mikrofonlar çevre gürültüsünü almadığı için daha avantajlıdır. Stüdyo ortamında ise sesinizin tüm rengini yansıtan kondenser mikrofonlar tercih edilmelidir."
+        }
+    ]
+  },
+
+  'pazarlik-ve-satis-diksiyonu': {
+    "title": "Pazarlık ve Satış Diksiyonu: Müşteriyi İkna Eden Ses Tonu - Diksiyon Rehberi",
+    "desc": "Satış profesyonelleri ve emlakçılar için güven veren, profesyonel ve sıcak bir ses tonu yaratma teknikleri. İtiraz karşılama vurguları.",
+    "h1": "Satış Psikolojisi ve İkna Edici Ses Tonu",
+    "content": "Bir ürünün kalitesi ne kadar yüksek olursa olsun, satışın gerçekleşmesi satıcının güven uyandıran ses tonuna ve diksiyonuna bağlıdır. Satış diksiyonunda samimiyet ile profesyonellik arasındaki ince çizgiyi ses frekansınız belirler.\n\n<h3>Satış Sürecinde Ses Tonu Kullanımı:</h3>\n<ul>\n<li><strong>Gülen Ses (Gülümseyerek Konuşmak):</strong> Özellikle telefonda satış yaparken, gülümseyerek konuştuğunuzda ses telleriniz farklı esner ve karşı tarafa anında sıcak, pozitif bir enerji geçer.</li>\n<li><strong>İtiraz Karşılama Tonu:</strong> Müşteri fiyata veya ürüne itiraz ettiğinde sesinizi yükseltmeyin. Aksine, hızınızı yavaşlatın, ses perdenizi düşürün ve empati dolu bir alt frekansla yanıt verin.</li>\n<li><strong>Fiyat Söyleme Vurgusu:</strong> Fiyatı söylerken sesinizi yukarı doğru inceltmeyin (bu şüphe yaratır). Fiyatı tok, net ve cümlenin sonunda aşağı doğru bir vurguyla (kararlı bir şekilde) söyleyip anında susun.</li>\n</ul>\n\n<style>\n.sales-scenario { display: flex; flex-direction: column; gap: 1rem; margin-top: 1.5rem; }\n.sales-btn { background: #f1f5f9; border: 2px solid #cbd5e1; padding: 1rem; border-radius: 8px; text-align: left; cursor: pointer; transition: all 0.3s; position: relative; overflow: hidden; }\n.sales-btn:hover { background: #e2e8f0; border-color: #94a3b8; }\n.sales-answer { max-height: 0; opacity: 0; transition: all 0.5s ease-out; color: #166534; font-weight: bold; margin-top: 0; }\n.sales-btn:hover .sales-answer { max-height: 50px; opacity: 1; margin-top: 0.5rem; }\n</style>\n<div class=\"screen-exercise\" style=\"background:#f8fafc; padding:2rem; border-radius:16px; border: 1px solid #e2e8f0;\">\n  <h3 style=\"color:#0f172a;margin-top:0;text-align:center;\">💼 Etkileşimli Egzersiz: Senaryoya Göre Ses Tonu</h3>\n  <p style=\"text-align:center; color:#475569;\">Doğru satış diksiyonu için aşağıdaki senaryoların üzerine farenizi getirerek hangi ses tonunu kullanmanız gerektiğini keşfedin.</p>\n  <div class=\"sales-scenario\">\n    <div class=\"sales-btn\">\n      <div style=\"font-weight:600; color:#334155;\">1. Müşteri fiyatı çok pahalı bulduğunu söyledi.</div>\n      <div class=\"sales-answer\">👉 Empatik, hafif kısık ve yavaş bir ses tonu.</div>\n    </div>\n    <div class=\"sales-btn\">\n      <div style=\"font-weight:600; color:#334155;\">2. Ürünün en büyük faydasını (özelliğini) açıklıyorsunuz.</div>\n      <div class=\"sales-answer\">👉 Enerjik, gür, yüksek perdeli ve hevesli bir ses tonu.</div>\n    </div>\n    <div class=\"sales-btn\">\n      <div style=\"font-weight:600; color:#334155;\">3. Satışı kapatırken nihai teklifi (fiyatı) sunuyorsunuz.</div>\n      <div class=\"sales-answer\">👉 Tamamen nötr, duraklamalı, tok ve kendinden emin (Otorite) ses.</div>\n    </div>\n  </div>\n</div>",
+    "faq": [
+        {
+                "question": "Müşteriyle konuşurken sesimin çok hevesli çıkması kötü mü?",
+                "answer": "Sürekli yüksek enerjili bir ses tonu karşı tarafı yorar ve 'bana bir şey satmaya çalışıyor' baskısı yaratır. Sadece önemli faydaları anlatırken ses enerjinizi yükseltmelisiniz."
+        },
+        {
+                "question": "Güven veren ses nasıl elde edilir?",
+                "answer": "Göğüs rezonansını kullanarak ve konuşma hızınızı dakikada 130 kelimenin altına düşürerek sakin ve otoriter bir güven hissi yaratabilirsiniz."
+        }
+    ]
+  },
+
+  'peltek-r-harfi-nasil-duzelir': {
+    "title": "Fransız R'si (Peltek R) Nasıl Düzeltilir? R Harfi Egzersizleri - Diksiyon Rehberi",
+    "desc": "R harfini 'Ğ' veya 'Y' gibi söyleyen yetişkinler için dil ucu titreştirme ve motor kas hafızası egzersizleri. Kesin sonuç veren pratikler.",
+    "h1": "Yetişkinlerde R Harfi Söyleyememe (Fransız R'si) Tedavisi",
+    "content": "Tıbbi olarak 'Rotasizm' adı verilen R harfini söyleyememe durumu, genellikle anatomik bir bozukluktan değil, çocuklukta dilin yanlış konumlandırılmasını öğrenmekten (yanlış kas hafızası) kaynaklanır. Türkçe R harfi, dilin ucunun üst ön dişlerin hemen arkasına değip saniyede birkaç kez titremesiyle (trill) oluşur.\n\n<h3>R Harfini Söyleme Adımları:</h3>\n<ul>\n<li><strong>Yanlış Yeri Bırakmak:</strong> R'yi 'Ğ' gibi söylüyorsanız, sesi gırtlağınızdan (dil kökünden) üretiyorsunuz demektir. Gırtlağınızı tamamen rahat bırakın, odağınızı dilinizin ucuna getirin.</li>\n<li><strong>Dil Konumu:</strong> Dilinizin ucunu, üst ön dişlerinizin hemen arkasındaki tırtıklı bölgeye (alveol) hafifçe yaslayın. Dil tamamen tavana yapışmamalı, hava geçecek küçük bir boşluk kalmalıdır.</li>\n<li><strong>T-D Geçiş Egzersizi:</strong> Hızlıca 'Tı-Dı-Tı-Dı' deyin. Sonra bunu 'Tı-Rı' şekline dönüştürmeye çalışın. (Örn: Tırap-Tırap yerine Tı-rap).</li>\n</ul>\n\n<style>\n.engine-rev { width: 100%; height: 50px; background: #e2e8f0; border-radius: 25px; margin: 1.5rem 0; cursor: pointer; position: relative; overflow: hidden;}\n.engine-fill { width: 0%; height: 100%; background: linear-gradient(90deg, #facc15, #ef4444); transition: width 3s linear; display: flex; align-items: center; justify-content: flex-end; padding-right: 15px; color: white; font-weight: bold;}\n.engine-rev:hover .engine-fill { width: 100%; }\n.engine-text { position: absolute; width: 100%; text-align: center; line-height: 50px; color: #475569; font-weight: bold; letter-spacing: 5px; z-index: 2; pointer-events:none;}\n.engine-rev:hover .engine-text { animation: vibrate 0.05s linear infinite; color: white;}\n@keyframes vibrate { 0% { transform: translate(1px, 1px) rotate(0deg); } 50% { transform: translate(-1px, -1px) rotate(-1deg); } 100% { transform: translate(1px, -1px) rotate(1deg); } }\n</style>\n<div class=\"screen-exercise\" style=\"background:#f8fafc; padding:2rem; border-radius:16px; border: 1px solid #e2e8f0; text-align:center;\">\n  <h3 style=\"color:#0f172a;margin-top:0;\">🏎️ Ekrana Özel: Motor Çalıştırma Egzersizi (Dil Titreşimi)</h3>\n  <p style=\"color:#475569;\">Aşağıdaki çubuğun üzerine gelin. Renk dolarken dil ucunuzu üst damağınıza (dişlerinizin hemen arkasına) dayayıp nefesinizi şiddetle dışarı iterek <strong>\"Trrrrrrrrr\"</strong> motor sesi çıkarın.</p>\n  <div class=\"engine-rev\">\n    <div class=\"engine-text\">TRRRRRRRR!</div>\n    <div class=\"engine-fill\">🚀</div>\n  </div>\n  <p style=\"font-size:0.85rem; color:#64748b; margin-bottom:0;\">R harfi, dilin titremesiyle oluşur. Gırtlaktan söyleme alışkanlığını bu \"Trrr\" egzersizi kırar.</p>\n</div>",
+    "faq": [
+        {
+                "question": "Yetişkinlikte R harfini öğrenmek mümkün mü?",
+                "answer": "Kesinlikle! Tıpkı yetişkinlikte araba kullanmayı veya yeni bir dil öğrenmeyi (yeni kas hafızası oluşturmayı) başarabildiğiniz gibi, doğru egzersizlerle R harfini de söyleyebilirsiniz."
+        },
+        {
+                "question": "Dil bağım kısa olabilir mi?",
+                "answer": "Dilinizi dışarı çıkardığınızda dudak seviyesini geçiyorsa, fiziksel bir engel (dil bağı) yok demektir. Sorun tamamen dil kaslarınızın yanlış eğitilmiş olmasıdır."
+        }
+    ]
+  },
+
+  'duygusal-ve-etkili-siir-okuma-sanati': {
+    "title": "Duygusal ve Etkili Şiir Okuma Sanatı (Tonlama Teknikleri) - Diksiyon Rehberi",
+    "desc": "Şiir okurken duyguyu sese nasıl yansıtırsınız? Sesin perdesini (pitch) değiştirme, es (durak) verme ve duygu geçişleri yapmanın profesyonel sırları.",
+    "h1": "Şiir Okuma Sanatı ve Duyguyu Sese Yansıtma",
+    "content": "Şiir okumak, kelimelere sadece ses vermek değil; o kelimelerin içindeki hüznü, coşkuyu, umudu veya öfkeyi karşı tarafa hissettirebilmektir. Dümdüz ve monoton bir sesle okunan en güzel şiir bile etkisini kaybeder.\n\n<h3>Etkili Şiir Okuma Teknikleri:</h3>\n<ul>\n<li><strong>Ses Perdesi (Pitch) Değişimi:</strong> Şiirin duygusuna göre sesinizin kalınlık/incelik ayarını değiştirmelisiniz. Hüzünlü mısraları göğüs rezonansıyla (kalın ve yavaş), coşkulu mısraları ise maske rezonansıyla (daha ince ve tempolu) okuyun.</li>\n<li><strong>Vurgunun Gücü:</strong> Her mısrada, şairin asıl anlatmak istediği bir 'anahtar kelime' vardır. Sadece o kelimenin üzerine ses basarak (sesinizi büyüterek) mısranın anlamını ortaya çıkarın.</li>\n<li><strong>Es (Sessizlik) Kullanımı:</strong> Müzikteki esler ne kadar önemliyse, şiirde de duraklamalar o kadar önemlidir. Dinleyicinin söylenen cümleyi hazmetmesi ve bir sonraki kelimenin merakını yaşaması için doğru yerlerde 1-2 saniye tamamen susun.</li>\n</ul>\n\n<style>\n.poem-box { background: #fff; padding: 2rem; border-radius: 12px; border-left: 6px solid #8b5cf6; font-size: 1.3rem; line-height: 2.2; position: relative; font-style: italic; color: #334155; margin: 1.5rem 0; }\n.pause-mark { display: inline-block; width: 12px; height: 12px; background: #ef4444; border-radius: 50%; margin: 0 8px; animation: blinkMark 1.5s infinite; vertical-align: middle; }\n@keyframes blinkMark { 0%, 100% { opacity: 0.2; transform: scale(0.8); } 50% { opacity: 1; transform: scale(1.2); box-shadow: 0 0 10px #ef4444; } }\n.highlight-tone { background: rgba(139, 92, 246, 0.2); padding: 0 4px; border-radius: 4px; font-weight: bold; color: #5b21b6; }\n</style>\n<div class=\"screen-exercise\" style=\"background:#f5f3ff; padding:2rem; border-radius:16px; border: 1px solid #ddd6fe;\">\n  <h3 style=\"color:#4c1d95;margin-top:0;text-align:center;\">🎭 Ekrana Özel: Es (Durak) ve Vurgu Pratiği</h3>\n  <p style=\"text-align:center; color:#6d28d9;\">Aşağıdaki şiir kesitini okurken, kırmızı yanıp sönen noktalarda tam 1 saniye 'es' verin (susun). Mor renkle işaretlenmiş kelimelerin üzerine bastırarak (sesinizi yükselterek) okuyun.</p>\n  <div class=\"poem-box\">\n    Senin <span class=\"highlight-tone\">aşkınla</span> <span class=\"pause-mark\"></span> yandım kavruldum <span class=\"pause-mark\"></span> <br>\n    Bahar <span class=\"highlight-tone\">rüzgarı</span> gibi <span class=\"pause-mark\"></span> esti geçti zaman... <span class=\"pause-mark\"></span><span class=\"pause-mark\"></span><br>\n    Yalnızlık, <span class=\"pause-mark\"></span> içimde bir <span class=\"highlight-tone\">uçurum</span> oldu.\n  </div>\n  <p style=\"font-size:0.85rem; color:#7c3aed; text-align:center; margin-bottom:0;\">Sessizlik (es) ve kelime vurgusu, şiir okurken dinleyiciyi duygunun içine çeken en büyük tekniktir.</p>\n</div>",
+    "faq": [
+        {
+                "question": "Şiir okurken sürekli ağlamaklı bir ses tonu kullanmak doğru mu?",
+                "answer": "Hayır, bu çok sık yapılan bir hatadır (Buna melankolik diksiyon denir). Duygu, ağlamaklı bir sesten değil, doğru yerde verilen es ve vurgulardan kaynaklanmalıdır."
+        },
+        {
+                "question": "Ahenk ve ritmi nasıl sağlarım?",
+                "answer": "Şiirleri önce yüksek sesle, elinizle masaya ritim vurarak (bir metronom gibi) okuyun. Mısraların kendi içindeki melodisini bu şekilde yakalayabilirsiniz."
+        }
+    ]
   }
 
 };
