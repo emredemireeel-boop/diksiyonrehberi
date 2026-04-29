@@ -199,6 +199,34 @@ const BLOG_META = {
 // Araçlar / SPA Uygulama Sayfaları SEO Veritabanı
 // ═══════════════════════════════════════════════════════════════════════════
 const TOOLS_META = {
+  'retorik': {
+    "title": "Retorik Eğitimi ve Etkili İkna Sanatı - Diksiyon Rehberi",
+    "desc": "Aristoteles'in 3 temel taşı (Ethos, Pathos, Logos) ve Cicero'nun 5 kanonu ile ikna edici konuşma ve argüman oluşturma sanatı.",
+    "h1": "Retorik Eğitimi",
+    "content": "Retorik, etkili ve ikna edici konuşma sanatıdır.",
+    "faq": []
+  },
+  'diyalektik': {
+    "title": "Diyalektik ve Mantıksal Akıl Yürütme Eğitimleri - Diksiyon Rehberi",
+    "desc": "Tez, Antitez ve Sentez döngüsüyle zıt görüşlerden yeni gerçeklere ulaşma yöntemi. Tartışmalarda sağlam argümanlar kurun.",
+    "h1": "Diyalektik Eğitimleri",
+    "content": "Diyalektik, zıtlıklardan senteze ulaşma yöntemidir.",
+    "faq": []
+  },
+  'giyim': {
+    "title": "Profesyonel Giyim ve İmaj Yönetimi Rehberi - Diksiyon Rehberi",
+    "desc": "İş hayatı dress code, renk uyumu, vücut tipine göre giyim ve sunum giyimi ile profesyonel imajınızı güçlendirin.",
+    "h1": "Profesyonel Giyim ve İmaj Yönetimi",
+    "content": "Profesyonel giyim ve imaj yönetimi rehberi.",
+    "faq": []
+  },
+  'safsata': {
+    "title": "Safsata (Mantık Hataları) ve Savunma Yöntemleri - Diksiyon Rehberi",
+    "desc": "Kusurlu akıl yürütme tekniklerini, Ad Hominem, Straw Man gibi mantık hatalarını tanıyın ve manipülasyonlardan korunun.",
+    "h1": "Safsata ve Mantık Hataları",
+    "content": "Safsatalar ve mantık hatalarından korunma yolları.",
+    "faq": []
+  },
   'karsilastirma': {
     "title": "karsilastirma",
     "desc": "",
@@ -1690,6 +1718,61 @@ app.get('/tekerlemeler/kategori/:slug', (req, res) => {
     html = html.replace('</body>', `${seoBlock}\n</body>`);
 
     // 4. Canonical HTTP Link header
+    res.setHeader('Link', `<${canonicalUrl}>; rel="canonical"`);
+    res.setHeader('Cache-Control', 'public, max-age=300');
+    res.send(html);
+  });
+});
+
+// ═══════════════════════════════════════════════════════════════════════════
+// SUB-PAGE SEO META — /diksiyon/:cat, /retorik/:cat
+// ═══════════════════════════════════════════════════════════════════════════
+const SUBPAGE_META = {
+  'diksiyon/nefes': { title:'Nefes Egzersizleri — Diksiyon Rehberi', desc:'Diyafram nefesi ve ses kontrolü egzersizleri ile konuşma gücünüzü artırın.', h1:'Nefes Egzersizleri' },
+  'diksiyon/tekerleme': { title:'Tekerleme Arenası — Diksiyon Rehberi', desc:'Tekerleme pratiği ile artikülasyon ve konuşma akıcılığınızı geliştirin.', h1:'Tekerleme Arenası' },
+  'diksiyon/ses': { title:'Ses Açma Egzersizleri — Diksiyon Rehberi', desc:'Ses tellerinizi ısıtma ve ses kalitesini artırma egzersizleri.', h1:'Ses Açma Egzersizleri' },
+  'diksiyon/telaffuz': { title:'Telaffuz Egzersizleri — Diksiyon Rehberi', desc:'Doğru Türkçe telaffuz teknikleri ve harf seslendirme pratikleri.', h1:'Telaffuz Egzersizleri' },
+  'diksiyon/ritim': { title:'Ritim ve Tempo Egzersizleri — Diksiyon Rehberi', desc:'Konuşma ritmi, tempo kontrolü ve akıcılık egzersizleri.', h1:'Ritim ve Tempo' },
+  'diksiyon/vurgu': { title:'Vurgu Teknikleri — Diksiyon Rehberi', desc:'Kelime ve cümle vurgusu ile anlamı güçlendirme teknikleri.', h1:'Vurgu Teknikleri' },
+  'diksiyon/duraklama': { title:'Duraklama Teknikleri — Diksiyon Rehberi', desc:'Etkili duraklama ile konuşma gücünü artırma ve dinleyici dikkatini yönetme.', h1:'Duraklama Teknikleri' },
+  'diksiyon/rezonans': { title:'Rezonans Egzersizleri — Diksiyon Rehberi', desc:'Ses rezonansını geliştirme ve güçlü konuşma tonu oluşturma.', h1:'Rezonans Egzersizleri' },
+  'diksiyon/programlar': { title:'Diksiyon Programları ve Eğitim Araçları — Diksiyon Rehberi', desc:'Profesyonel diksiyon geliştirme programları, kurs önerileri ve eğitim araçları.', h1:'Diksiyon Programları' },
+  'diksiyon/okunuslar': { title:'Doğru Okunuşlar Sözlüğü — Diksiyon Rehberi', desc:'Yabancı kökenli kelime ve marka isimlerinin doğru Türkçe okunuşları.', h1:'Doğru Okunuşlar' },
+  'diksiyon/teleprompter': { title:'Online Teleprompter — Diksiyon Rehberi', desc:'Ücretsiz online teleprompter ile konuşma ve sunum pratiği yapın.', h1:'Online Teleprompter' },
+  'diksiyon/blog': { title:'Diksiyon Blog — İpuçları ve Rehberler', desc:'Diksiyon geliştirme, etkili konuşma ve ses eğitimi hakkında blog yazıları.', h1:'Diksiyon Blog' },
+  'diksiyon/okuma': { title:'Okuma Egzersizleri — Diksiyon Rehberi', desc:'Sesli okuma pratiği ve metin seslendirme egzersizleri.', h1:'Okuma Egzersizleri' },
+  'retorik/ethos': { title:'Ethos — Güvenilirlik ve İkna | Retorik Eğitimi', desc:'Konuşmacı güvenilirliği oluşturma, otorite kurma ve etik argüman teknikleri.', h1:'Ethos — Güvenilirlik' },
+  'retorik/pathos': { title:'Pathos — Duygusal İkna | Retorik Eğitimi', desc:'Hikaye anlatımı, empati ve duygusal bağ kurarak ikna etme teknikleri.', h1:'Pathos — Duygu' },
+  'retorik/logos': { title:'Logos — Mantıksal İkna | Retorik Eğitimi', desc:'Veri kullanımı, neden-sonuç ilişkileri ve mantıksal argüman kurma.', h1:'Logos — Mantık' },
+  'retorik/konusma-yazimi': { title:'Konuşma Yazımı Teknikleri | Retorik Eğitimi', desc:'Kanca cümleler, trikolon, güçlü açılış ve kapanış teknikleri.', h1:'Konuşma Yazımı' },
+  'retorik/figurler': { title:'Retorik Figürleri — Anafor, Antitez, Metafor | Eğitim', desc:'Anafor, antitez, trikolon ve metafor gibi retorik figürlerini öğrenin.', h1:'Retorik Figürleri' },
+  'retorik/analiz': { title:'Konuşma Analizi — Ünlü Konuşmalar | Retorik Eğitimi', desc:'MLK, Steve Jobs gibi ünlü konuşmaların retorik analizi ve teknik çözümleme.', h1:'Konuşma Analizi' },
+  'diyalektik/sokratik': { title:'Sokratik Yöntem — Sorularla Gerçeğe Ulaşma | Diyalektik', desc:'Sokratik ironi ve doğurtmaca teknikleriyle tartışmalarda gerçeğe ulaşma sanatı.', h1:'Sokratik Yöntem' },
+  'diyalektik/hegel': { title:'Hegel Diyalektiği — Tez Antitez Sentez | Eğitim', desc:'Hegel diyalektik yöntemi: Tez, antitez ve sentez ile düşünce geliştirme.', h1:'Hegel Diyalektiği' },
+  'diyalektik/curutme': { title:'Argüman Çürütme Teknikleri | Diyalektik Eğitimi', desc:'Öncül çürütme, mantıksal bağ kopma ve reductio ad absurdum teknikleri.', h1:'Argüman Çürütme' },
+  'diyalektik/celisiki': { title:'Çelişki Analizi ve Tutarsızlık Tespiti | Diyalektik', desc:'İç tutarsızlık, gizli varsayım keşfi ve paradoks çözümleme teknikleri.', h1:'Çelişki Analizi' },
+  'diyalektik/tartisma': { title:'Tartışma Stratejisi ve Müzakere Teknikleri | Diyalektik', desc:'Aktif dinleme, çerçeveleme ve taktik geri çekilme ile etkili tartışma.', h1:'Tartışma Stratejisi' },
+  'diyalektik/dusunce': { title:'Eleştirel Düşünce ve Bilişsel Önyargılar | Diyalektik', desc:'Onay önyargısı, Dunning-Kruger ve çapa etkisi gibi bilişsel tuzakları aşma.', h1:'Eleştirel Düşünce' },
+};
+
+app.get('/:module/:subpage', (req, res, next) => {
+  const slug = `${req.params.module}/${req.params.subpage}`;
+  const meta = SUBPAGE_META[slug];
+  if (!meta) return next();
+
+  const htmlPath = path.join(__dirname, 'public', 'index.html');
+  const canonicalUrl = `${SITE_URL}/${slug}`;
+
+  fs.readFile(htmlPath, 'utf8', (err, html) => {
+    if (err) return res.status(500).send('Sunucu hatası.');
+    html = injectMeta(html, meta, canonicalUrl);
+    
+    const schema = { '@context':'https://schema.org','@type':'WebApplication','name':meta.h1,'description':meta.desc,'applicationCategory':'EducationalApplication','operatingSystem':'Any','url':canonicalUrl,'offers':{'@type':'Offer','price':'0','priceCurrency':'TRY'} };
+    html = html.replace('</head>', `<script type="application/ld+json">${JSON.stringify(schema)}</script>\n</head>`);
+    
+    const seoBlock = `<div id="seo-tool-content" style="position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden" aria-hidden="true"><h1>${meta.h1}</h1></div>`;
+    html = html.replace('<script src="/app.js', `${seoBlock}\n  <script src="/app.js`);
+    
     res.setHeader('Link', `<${canonicalUrl}>; rel="canonical"`);
     res.setHeader('Cache-Control', 'public, max-age=300');
     res.send(html);

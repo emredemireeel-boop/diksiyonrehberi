@@ -1,0 +1,81 @@
+/* ═══ DİYALEKTİK EXERCISES UI ═══ */
+
+/* Section heads */
+.diy-section-head{display:flex;align-items:center;gap:18px;padding:20px 25px;background:var(--surface2);border-radius:16px;margin-bottom:28px}
+.diy-section-icon{width:52px;height:52px;border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:1.6rem;flex-shrink:0}
+.diy-section-title{font-size:1.4rem;font-weight:800;margin:0 0 4px}
+.diy-section-desc{font-size:.88rem;color:var(--text-2);margin:0}
+
+/* Cards grid */
+.diy-cards-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(340px,1fr));gap:24px;margin-bottom:50px}
+.diy-ex-card{background:var(--surface);border:1.5px solid var(--border);border-radius:20px;padding:28px;transition:all .3s ease;position:relative;overflow:hidden}
+.diy-ex-card:hover{transform:translateY(-4px);box-shadow:0 12px 40px rgba(0,0,0,.12);border-color:var(--gold-d)}
+.diy-ex-card::before{content:'';position:absolute;top:0;left:0;right:0;height:4px;background:linear-gradient(90deg,#10b981,#8b5cf6);opacity:0;transition:opacity .3s}
+.diy-ex-card:hover::before{opacity:1}
+
+/* Card header */
+.diy-card-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}
+.diy-card-badge{padding:4px 12px;border-radius:20px;font-size:.75rem;font-weight:700;letter-spacing:.03em}
+.diy-card-cat{font-size:.78rem;font-weight:600}
+.diy-card-title{font-size:1.15rem;font-weight:800;color:var(--text);margin:0 0 8px}
+.diy-card-desc{font-size:.9rem;color:var(--text-2);line-height:1.6;margin:0 0 18px}
+
+/* Dialogue bubbles */
+.diy-dialogue{display:flex;flex-direction:column;gap:12px;margin-bottom:20px;padding:16px;background:var(--surface2);border-radius:16px}
+.diy-bubble-other,.diy-bubble-you{padding:14px 18px;border-radius:16px;font-size:.88rem;line-height:1.6;color:var(--text);max-width:88%;animation:fadeSlideIn .4s ease}
+.diy-bubble-other{background:rgba(100,116,139,.1);align-self:flex-start;border-left:3px solid #64748b;border-radius:16px 16px 16px 4px}
+.diy-bubble-you{background:rgba(16,185,129,.08);align-self:flex-end;border-right:3px solid #10b981;border-radius:16px 16px 4px 16px}
+.diy-bubble-label{display:block;font-size:.72rem;font-weight:700;margin-bottom:4px;text-transform:uppercase;letter-spacing:.06em}
+.diy-bubble-other .diy-bubble-label{color:#94a3b8}
+.diy-bubble-you .diy-bubble-label{color:#10b981}
+
+/* Steps */
+.diy-steps{display:flex;flex-direction:column;gap:10px;margin-bottom:18px}
+.diy-step{display:flex;align-items:flex-start;gap:12px;padding:10px 14px;background:var(--surface2);border-radius:12px;font-size:.88rem;color:var(--text);line-height:1.5}
+.diy-step-n{width:26px;height:26px;background:linear-gradient(135deg,#10b981,#059669);color:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.75rem;font-weight:800;flex-shrink:0}
+
+/* Example (refutation) */
+.diy-example{margin-bottom:18px;border-radius:14px;overflow:hidden}
+.diy-example-claim{background:rgba(239,68,68,.06);padding:14px 18px;border-left:3px solid #ef4444;font-size:.88rem;color:var(--text);line-height:1.6}
+.diy-example-refute{background:rgba(16,185,129,.06);padding:14px 18px;border-left:3px solid #10b981;font-size:.88rem;color:var(--text);line-height:1.6}
+.diy-ex-label{display:block;font-size:.72rem;font-weight:800;text-transform:uppercase;letter-spacing:.06em;margin-bottom:4px;color:var(--text-2)}
+
+/* Quiz */
+.diy-quiz{margin:18px 0;padding:18px;background:var(--surface2);border-radius:16px;border:1px solid var(--border)}
+.diy-quiz-q{font-size:.95rem;font-weight:700;color:var(--text);margin-bottom:14px}
+.diy-quiz-opts{display:flex;flex-direction:column;gap:8px}
+.diy-quiz-opt{display:flex;align-items:center;gap:10px;padding:12px 16px;background:var(--surface);border:1.5px solid var(--border);border-radius:12px;cursor:pointer;transition:all .25s;font-size:.88rem;color:var(--text)}
+.diy-quiz-opt:hover{border-color:var(--gold-d);background:rgba(212,175,55,.04)}
+.diy-quiz-opt.correct{border-color:#10b981;background:rgba(16,185,129,.08);color:#10b981}
+.diy-quiz-opt.wrong{border-color:#ef4444;background:rgba(239,68,68,.08);color:#ef4444}
+.diy-opt-letter{width:28px;height:28px;background:var(--surface2);border:1.5px solid var(--border);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:.78rem;font-weight:800;color:var(--text-2);flex-shrink:0;transition:all .25s}
+.diy-quiz-opt.correct .diy-opt-letter{background:#10b981;color:#fff;border-color:#10b981}
+.diy-quiz-opt.wrong .diy-opt-letter{background:#ef4444;color:#fff;border-color:#ef4444}
+.diy-quiz-fb{display:none;margin-top:12px;padding:12px 16px;border-radius:12px;font-size:.85rem;font-weight:600;line-height:1.5}
+.diy-quiz-fb.show{display:block}
+.diy-quiz-fb.correct{background:rgba(16,185,129,.08);color:#10b981;border:1px solid rgba(16,185,129,.2)}
+.diy-quiz-fb.wrong{background:rgba(239,68,68,.08);color:#ef4444;border:1px solid rgba(239,68,68,.2)}
+.diy-quiz.answered .diy-quiz-opt{pointer-events:none;opacity:.7}
+.diy-quiz.answered .diy-quiz-opt.correct,.diy-quiz.answered .diy-quiz-opt.wrong{opacity:1}
+
+/* Practice & complete */
+.diy-practice{width:100%;min-height:80px;padding:14px;border:1.5px solid var(--border);border-radius:12px;background:var(--surface);color:var(--text);font-family:inherit;font-size:.88rem;resize:vertical;margin:12px 0;transition:border-color .3s}
+.diy-practice:focus{border-color:#10b981;outline:none;box-shadow:0 0 0 3px rgba(16,185,129,.1)}
+.diy-complete-btn{background:linear-gradient(135deg,#10b981,#059669);color:#fff;border:none;padding:10px 24px;border-radius:12px;font-size:.88rem;font-weight:700;cursor:pointer;transition:all .3s;width:100%}
+.diy-complete-btn:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(16,185,129,.3)}
+.diy-complete-btn:disabled{opacity:.7;transform:none;cursor:default}
+
+/* Category pills */
+.diy-cat-pills{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;padding:16px 0}
+.diy-cat-pill{padding:8px 18px;border-radius:25px;font-size:.82rem;font-weight:700;color:var(--text-2);background:var(--surface);border:1.5px solid var(--border);cursor:pointer;transition:all .3s;text-decoration:none}
+.diy-cat-pill:hover{border-color:#10b981;color:#10b981}
+.diy-cat-pill.active{background:#10b981;color:#fff;border-color:#10b981}
+
+/* Animations */
+@keyframes fadeSlideIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+
+@media(max-width:768px){
+  .diy-cards-grid{grid-template-columns:1fr}
+  .diy-section-head{flex-direction:column;text-align:center}
+  .diy-bubble-other,.diy-bubble-you{max-width:95%}
+}

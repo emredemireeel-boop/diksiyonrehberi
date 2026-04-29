@@ -1103,6 +1103,14 @@ function setFilter(cat) {
     }
   }
 
+  // Push SEO-friendly URL for diksiyon categories
+  const catUrlMap = {nefes:'nefes',tekerleme:'tekerleme',ses:'ses',telaffuz:'telaffuz',ritim:'ritim',vurgu:'vurgu',duraklama:'duraklama',rezonans:'rezonans',programlar:'programlar',okunuslar:'okunuslar',teleprompter:'teleprompter',blog:'blog',okuma:'okuma'};
+  if(catUrlMap[cat]) {
+    history.pushState(null, '', `/diksiyon/${cat}`);
+  } else if(cat === 'all') {
+    history.pushState(null, '', '/diksiyon');
+  }
+
   // Always scroll to top
   window.scrollTo({ top: 0, behavior: 'smooth' });
 }
@@ -1386,6 +1394,101 @@ function setFilter(cat) {
 
 })(); // end initRecorder IIFE
 
+// ── MODULE-SPECIFIC SIDEBAR ──────────────────────────────── //
+const MODULE_SIDEBAR = {
+  retorik: {
+    tip: {icon:'🏛️',title:'Retorik İpucu', tips:[
+      'Konuşmanıza güçlü bir kanca cümlesiyle başlayın — ilk 30 saniye kritiktir.',
+      'Üçlü tekrar (trikolon) kullanın: "Geldim, gördüm, yendim" gibi.',
+      'Dinleyicinizin duygularına hitap edin — mantık ikna eder, duygu harekete geçirir.',
+      'Karşı argümanı kendi ağzınızdan söyleyip çürütmek güvenilirliğinizi artırır.',
+      'Sessizlik en güçlü retorik aracıdır — vurucu cümleden sonra 3 saniye durun.',
+      'Metafor kullanın: soyut kavramları somut imgelerle anlatın.',
+      'Konuşmanızı açılışa geri dönerek kapatın — çerçeveleme tekniği.',
+    ]},
+    quote: {icon:'💬',title:'Konuşmacı Alıntısı', quotes:[
+      {t:'"İnsanlar söylediklerinizi unutur, yaptıklarınızı unutur, ama onlara hissettirdiklerinizi asla unutmaz."',a:'Maya Angelou'},
+      {t:'"Bir hayalim var..."',a:'Martin Luther King Jr.'},
+      {t:'"Retorik, her konuda ikna edici olanı bulma yeteneğidir."',a:'Aristoteles'},
+      {t:'"Ülkenizin sizin için ne yapabileceğini değil, sizin ülkeniz için ne yapabileceğinizi sorun."',a:'John F. Kennedy'},
+      {t:'"Zamanınız sınırlı, başkasının hayatını yaşayarak onu harcamayın."',a:'Steve Jobs'},
+    ]},
+  },
+  diyalektik: {
+    tip: {icon:'⚖️',title:'Diyalektik İpucu', tips:[
+      'Her teze bir antitez bulmaya çalışın — bu düşünce kaslarınızı güçlendirir.',
+      'Tartışmada duyguyu ayırın: fikir eleştirisi kişisel saldırı değildir.',
+      'Sokratik soru sorma: doğru soruları sorarak karşı tarafın kendi hatasını bulmasını sağlayın.',
+      'Sentez aramak, haklı çıkmaktan daha değerlidir.',
+    ]},
+    quote: {icon:'💬',title:'Filozof Sözü', quotes:[
+      {t:'"Bildiğim tek şey, hiçbir şey bilmediğimdir."',a:'Sokrates'},
+      {t:'"Tartışmasız kabul edilen her şey, tartışılmaya muhtaçtır."',a:'Voltaire'},
+    ]},
+  },
+  _default: {
+    tip: {icon:'💡',title:'Günün Bilgisi', tips:[
+      'İyi bir konuşmacı olmak için önce iyi bir dinleyici olun.',
+      'Günde 10 dakika sesli okuma yapın — kelime dağarcığınız genişler.',
+      'Beden diliniz sözlerinizden daha güçlü konuşur.',
+      'Duraklama, düşünmek için değil etki yaratmak için kullanılır.',
+    ]},
+    quote: {icon:'📖',title:'Rastgele Bilgi', quotes:[
+      {t:'"Kelimeler dünyaları değiştirebilir."',a:'Diksiyon Rehberi'},
+    ]},
+  }
+};
+
+function updateModuleSidebar(moduleName){
+  const cfg = MODULE_SIDEBAR[moduleName] || MODULE_SIDEBAR._default;
+  
+  // Update tip widget
+  const tipWidget = $('widget-tip');
+  if(tipWidget){
+    const head = tipWidget.querySelector('.rw-widget-head');
+    if(head){
+      head.innerHTML = `<div class="rw-widget-icon">${cfg.tip.icon}</div><div class="rw-widget-title">${cfg.tip.title}</div>`;
+    }
+    const body = $('daily-tip-text');
+    if(body){
+      const tip = cfg.tip.tips[Math.floor(Math.random() * cfg.tip.tips.length)];
+      body.innerHTML = `<span style="margin-right:6px">✨</span> ${tip}`;
+    }
+  }
+  
+  // Update categories widget with module quote
+  const catWidget = $('widget-cats');
+  if(catWidget && cfg.quote){
+    const head = catWidget.querySelector('.rw-widget-head');
+    if(head){
+      head.innerHTML = `<div class="rw-widget-icon">${cfg.quote.icon}</div><div class="rw-widget-title">${cfg.quote.title}</div>`;
+    }
+    const body = $('cat-summary-widget');
+    if(body){
+      const q = cfg.quote.quotes[Math.floor(Math.random() * cfg.quote.quotes.length)];
+      body.innerHTML = `<div style="padding:16px;font-style:italic;color:var(--text-2);line-height:1.7;font-size:.88rem">${q.t}<div style="margin-top:8px;font-style:normal;font-weight:700;color:var(--gold-d);font-size:.82rem">${q.a}</div></div>`;
+    }
+  }
+  
+  // Hide recorder for non-diksiyon modules
+  const rec = $('sidebar-recorder');
+  if(rec) rec.style.display = 'none';
+}
+
+function resetDefaultSidebar(){
+  const rec = $('sidebar-recorder');
+  if(rec) rec.style.display = '';
+  // Restore category widget
+  renderCatWidget();
+  renderDailyTip();
+  renderProgressWidget();
+  
+  const tipHead = $('widget-tip')?.querySelector('.rw-widget-head');
+  if(tipHead) tipHead.innerHTML = '<div class="rw-widget-icon">💡</div><div class="rw-widget-title">Günün İpucu</div>';
+  const catHead = $('widget-cats')?.querySelector('.rw-widget-head');
+  if(catHead) catHead.innerHTML = '<div class="rw-widget-icon">📊</div><div class="rw-widget-title">Kategoriler</div>';
+}
+
 // ── NAV EVENT LISTENERS ───────────────────────────────────── //
 document.querySelectorAll('[data-cat], [data-page]').forEach(el => {
   el.addEventListener('click', e => {
@@ -1394,28 +1497,134 @@ document.querySelectorAll('[data-cat], [data-page]').forEach(el => {
     // Page Routing Logic
     const page = el.dataset.page;
     const cat = el.dataset.cat;
+    const section = el.dataset.section;
     
-    if (page === 'retorik') {
-      // Show Retorik, hide others
+    const pageModules = ['retorik', 'diyalektik', 'giyim', 'safsata', 'sahne', 'bedendili', 'ozguven', 'manipulasyon', 'hikaye', 'gorgu'];
+    
+    if (pageModules.includes(page)) {
+      // Show Specific Page, hide everything else including interactive tools
       if($('hero-band')) $('hero-band').style.display = 'none';
       if($('sidebar-list-section')) $('sidebar-list-section').style.display = 'none';
       if($('sidebar-progress')) $('sidebar-progress').style.display = 'none';
       if($('exercises-container')) $('exercises-container').style.display = 'none';
-      if($('retorik-container')) $('retorik-container').style.display = 'block';
+      if($('tips-inline')) $('tips-inline').style.display = 'none';
+      
+      const cats = document.querySelector('.arena-categories');
+      if(cats) cats.style.display = 'none';
+      
+      // Hide interactive containers
+      if($('teleprompter-container')) $('teleprompter-container').style.display = 'none';
+      if($('ses-interactive-container')) $('ses-interactive-container').style.display = 'none';
+      if($('ritim-interactive-container')) $('ritim-interactive-container').style.display = 'none';
+      if($('nefes-interactive-container')) $('nefes-interactive-container').style.display = 'none';
+      if($('rezonans-interactive-container')) $('rezonans-interactive-container').style.display = 'none';
+      if($('arena-container')) $('arena-container').style.display = 'none';
+      if($('blog-container')) $('blog-container').style.display = 'none';
+      if($('programlar-container')) $('programlar-container').style.display = 'none';
+      if($('okunuslar-container')) $('okunuslar-container').style.display = 'none';
+      if($('okuma-container')) $('okuma-container').style.display = 'none';
+      
+      // Hide all pages, then show the target one
+      pageModules.forEach(p => {
+        if($(`${p}-container`)) $(`${p}-container`).style.display = 'none';
+      });
+      if($(`${page}-container`)) $(`${page}-container`).style.display = 'block';
+      window.scrollTo({top: 0, behavior: 'smooth'});
+      
+      // Hide left sidebar elements for non-diksiyon modules
+      if($('sidebar-recorder')) $('sidebar-recorder').style.display = 'none';
+      
+      // Switch to full-page mode (hide left sidebar)  
+      const layout = document.querySelector('.page-layout');
+      if(layout) layout.classList.add('full-page-mode');
+      
+      // Update right sidebar for module context
+      updateModuleSidebar(page);
+      
+      // Init module if needed
+      if(page === 'retorik' && window.initRetorikModule) window.initRetorikModule();
+      
+      history.pushState(null, '', `/${page}`);
+      
+      if (section) {
+        // For Retorik, use category sub-page navigation
+        if (page === 'retorik' && window.filterRetorikCategory) {
+          const retCatMap = {ethos:'ethos',pathos:'pathos',logos:'logos',yazim:'yazim',figurler:'figurler',analiz:'analiz','konusma-yazimi':'yazim'};
+          if (retCatMap[section]) {
+            setTimeout(() => window.filterRetorikCategory(retCatMap[section], true), 100);
+            return;
+          }
+        }
+        // For Diyalektik, use category sub-page navigation
+        if (page === 'diyalektik' && window.filterDiyCategory) {
+          const diyCats = ['sokratik','hegel','curutme','celisiki','tartisma','dusunce'];
+          if (diyCats.includes(section)) {
+            setTimeout(() => window.filterDiyCategory(section, true), 100);
+            return;
+          }
+        }
+        setTimeout(() => {
+          let element = document.getElementById(section);
+          if (!element) {
+             const container = document.getElementById(`${page}-container`);
+             if (container) {
+               const headings = Array.from(container.querySelectorAll('h2, h3, h4, strong'));
+               const match = headings.find(h => h.textContent.toLowerCase().includes(section.toLowerCase()));
+               if (match) element = match;
+             }
+          }
+          if (element) {
+            // Check if element is inside an accordion and open it
+            const accItem = element.closest('.saf-acc-item, .acc-item, details');
+            if (accItem && accItem.classList) {
+              accItem.classList.add('active');
+            } else if (accItem && accItem.tagName === 'DETAILS') {
+              accItem.open = true;
+            }
+            
+            const y = element.getBoundingClientRect().top + window.scrollY - 100;
+            window.scrollTo({top: y, behavior: 'smooth'});
+          }
+        }, 50);
+      } else {
+        window.scrollTo({top: 0, behavior: 'smooth'});
+      }
+      
     } else if (cat) {
-      // Show Main Exercises, hide Retorik
+      // Show Main Exercises, hide all pages
       if($('hero-band')) $('hero-band').style.display = 'flex';
       if($('sidebar-list-section')) $('sidebar-list-section').style.display = 'block';
       if($('sidebar-progress')) $('sidebar-progress').style.display = 'block';
       if($('exercises-container')) $('exercises-container').style.display = 'block';
-      if($('retorik-container')) $('retorik-container').style.display = 'none';
+      if($('tips-inline')) $('tips-inline').style.display = 'block';
       
+      const cats = document.querySelector('.arena-categories');
+      if(cats) cats.style.display = 'block';
+      
+      pageModules.forEach(p => {
+        if($(`${p}-container`)) $(`${p}-container`).style.display = 'none';
+      });
+      
+      // Restore left sidebar layout
+      const layout = document.querySelector('.page-layout');
+      if(layout) layout.classList.remove('full-page-mode');
+      if($('sidebar-recorder')) $('sidebar-recorder').style.display = '';
+      
+      resetDefaultSidebar();
       setFilter(cat);
+      if(cat === 'all') history.pushState(null, '', '/diksiyon');
+      window.scrollTo({top: 0, behavior: 'smooth'});
     }
     
     if (el.classList.contains('mob-link')) {
       $('hamburger').classList.remove('open');
       $('mob-nav').classList.remove('open');
+    }
+    
+    if (el.classList.contains('top-nav-link')) {
+      document.querySelectorAll('.nav-item.has-mega').forEach(item => {
+        item.classList.remove('active');
+      });
     }
   });
 });
@@ -1423,6 +1632,59 @@ document.querySelectorAll('[data-cat], [data-page]').forEach(el => {
 $('hamburger').addEventListener('click', () => {
   $('hamburger').classList.toggle('open');
   $('mob-nav').classList.toggle('open');
+});
+
+// ── AC-PILL CLICK LOGIC ───────────────────────────────────── //
+document.addEventListener('click', e => {
+  if (e.target.classList.contains('ac-pill')) {
+    e.preventDefault();
+    const pill = e.target;
+    
+    // Update active state in the current pill container
+    const container = pill.closest('.ac-pills');
+    if (container) {
+      container.querySelectorAll('.ac-pill').forEach(p => p.classList.remove('active'));
+      pill.classList.add('active');
+    }
+    
+    const text = pill.textContent.trim().toLowerCase();
+    if (text === 'tümü') {
+      window.scrollTo({top: 0, behavior: 'smooth'});
+      return;
+    }
+    
+    // Try to find the matching section heading
+    const pageContainer = pill.closest('.retorik-page');
+    if (pageContainer) {
+      let element = null;
+      
+      // If pill has data-section, use it
+      if (pill.dataset.section) {
+        element = document.getElementById(pill.dataset.section);
+      }
+      
+      if (!element) {
+        const headings = Array.from(pageContainer.querySelectorAll('h2, h3, h4, .diy-box h3, .body-part-card h3'));
+        // Find a heading that includes the pill text
+        const match = headings.find(h => {
+          let hText = h.textContent.toLowerCase();
+          // Remove emojis for better matching
+          hText = hText.replace(/([\u2700-\u27BF]|[\uE000-\uF8FF]|\uD83C[\uDC00-\uDFFF]|\uD83D[\uDC00-\uDFFF]|[\u2011-\u26FF]|\uD83E[\uDD10-\uDDFF])/g, '').trim();
+          return hText.includes(text) || text.includes(hText);
+        });
+        if (match) element = match;
+      }
+      
+      if (element) {
+        // Handle accordion items if necessary
+        const accItem = element.closest('.saf-acc-item, .acc-item');
+        if (accItem && accItem.classList) accItem.classList.add('active');
+        
+        const y = element.getBoundingClientRect().top + window.scrollY - 100;
+        window.scrollTo({top: y, behavior: 'smooth'});
+      }
+    }
+  }
 });
 
 // ── MEGA MENU CLICK LOGIC ─────────────────────────────────── //
@@ -3757,8 +4019,13 @@ function renderProgContent() {
 // ── INIT ROUTING FOR TEKERLEMELER ─────────────────────────── //
 (function initTekerlemelerRouting() {
   window.addEventListener('popstate', (e) => {
-    const matchHarf = window.location.pathname.match(/^\/tekerlemeler\/([a-zöçşığü]+)$/i);
-    const matchCat = window.location.pathname.match(/^\/tekerlemeler\/kategori\/([a-z0-9\-]+)$/i);
+    const path = window.location.pathname;
+    const matchHarf = path.match(/^\/tekerlemeler\/([a-zöçşığü]+)$/i);
+    const matchCat = path.match(/^\/tekerlemeler\/kategori\/([a-z0-9\-]+)$/i);
+    const matchDiksiyon = path.match(/^\/diksiyon\/([a-z]+)$/i);
+    const matchRetorik = path.match(/^\/retorik\/([a-z-]+)$/i);
+    const matchDiyalektik = path.match(/^\/diyalektik\/([a-z]+)$/i);
+    const matchModule = path.match(/^\/([a-z-]+)$/i);
 
     if (matchCat) {
       if (typeof navigateToLetter === 'function') {
@@ -3766,13 +4033,37 @@ function renderProgContent() {
         navigateToLetter(matchCat[1], false);
       }
     } else if (matchHarf) {
-      if (matchHarf[1].toLowerCase() === 'kategori') return; // fail-safe
+      if (matchHarf[1].toLowerCase() === 'kategori') return;
       const harf = matchHarf[1].toLocaleUpperCase('tr-TR');
       if (typeof navigateToLetter === 'function') {
         setFilter('tekerleme');
         navigateToLetter(harf, false);
       }
-    } else if (window.location.pathname === '/') {
+    } else if (matchDiksiyon) {
+      setFilter(matchDiksiyon[1]);
+    } else if (matchRetorik) {
+      // Navigate to Retorik then filter category
+      const link = document.querySelector('[data-page="retorik"]');
+      if (link) link.click();
+      const urlCat = window.URL_CAT_MAP ? window.URL_CAT_MAP[matchRetorik[1]] : matchRetorik[1];
+      if (urlCat && window.filterRetorikCategory) {
+        setTimeout(() => window.filterRetorikCategory(urlCat, false), 100);
+      }
+    } else if (matchDiyalektik) {
+      const link = document.querySelector('[data-page="diyalektik"]');
+      if (link) link.click();
+      if (window.filterDiyCategory) {
+        setTimeout(() => window.filterDiyCategory(matchDiyalektik[1], false), 100);
+      }
+    } else if (matchModule) {
+      const pageModules = ['retorik','diyalektik','giyim','safsata','sahne','bedendili','ozguven','manipulasyon','hikaye','gorgu'];
+      const mod = matchModule[1];
+      if (pageModules.includes(mod)) {
+        // Simulate click on module page
+        const link = document.querySelector(`[data-page="${mod}"]`);
+        if (link) link.click();
+      }
+    } else if (path === '/' || path === '/diksiyon') {
       setFilter('all');
     }
   });
@@ -3803,4 +4094,37 @@ function renderProgContent() {
       }
     }, 100);
   }
+
+  // Initial routing for diksiyon sub-pages and module pages
+  const initPath = window.location.pathname;
+  const initDiksiyon = initPath.match(/^\/diksiyon\/([a-z]+)$/i);
+  const initModule = initPath.match(/^\/([a-z-]+)$/i);
+  
+  if (initDiksiyon) {
+    setTimeout(() => setFilter(initDiksiyon[1]), 100);
+  } else if (initPath === '/diksiyon') {
+    // /diksiyon = show all diksiyon categories
+    setTimeout(() => setFilter('all'), 100);
+  } else if (initModule) {
+    const pageModules = ['retorik','diyalektik','giyim','safsata','sahne','bedendili','ozguven','manipulasyon','hikaye','gorgu'];
+    const mod = initModule[1];
+    if (pageModules.includes(mod)) {
+      setTimeout(() => {
+        const link = document.querySelector(`[data-page="${mod}"]`);
+        if (link) link.click();
+      }, 150);
+    }
+  }
 })();
+
+// ── NEW MODULES INTERACTIVE LOGIC ──────────────────────────────────────────
+document.addEventListener('mousemove', e => {
+  const sahneContainer = document.getElementById('sahne-container');
+  if (sahneContainer && sahneContainer.style.display !== 'none') {
+    const rect = sahneContainer.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+    sahneContainer.style.setProperty('--mouse-x', `${x}px`);
+    sahneContainer.style.setProperty('--mouse-y', `${y}px`);
+  }
+});
