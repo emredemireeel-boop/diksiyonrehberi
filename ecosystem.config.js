@@ -23,11 +23,10 @@ module.exports = {
     {
       name: 'diksiyonrehberi',
       script: 'index.js',
-      cwd: '/var/www/diksiyonrehberi',  // Sunucudaki proje dizini
 
-      // Cluster mode: CPU çekirdek sayısı kadar process aç (performans)
-      instances: 'max',
-      exec_mode: 'cluster',
+      // Fork mode (en güvenilir standart çalışma biçimi)
+      instances: 1,
+      exec_mode: 'fork',
 
       // Ortam değişkenleri
       env: {
@@ -46,8 +45,6 @@ module.exports = {
 
       // Loglama
       log_date_format: 'YYYY-MM-DD HH:mm:ss',
-      error_file: '/var/log/pm2/diksiyonrehberi-error.log',
-      out_file:   '/var/log/pm2/diksiyonrehberi-out.log',
       merge_logs: true,
 
       // Bellek limiti — 512MB aşarsa otomatik yeniden başlat
@@ -64,7 +61,6 @@ module.exports = {
       name: 'seo-daily-indexing',
       script: 'scripts/indexing-service.js',
       args: '--batch',
-      cwd: '/var/www/diksiyonrehberi',
 
       // Cron: Her gün saat 09:00
       cron_restart: '0 9 * * *',
@@ -78,8 +74,6 @@ module.exports = {
       },
 
       log_date_format: 'YYYY-MM-DD HH:mm:ss',
-      error_file: '/var/log/pm2/seo-indexing-error.log',
-      out_file:   '/var/log/pm2/seo-indexing-out.log',
     },
   ],
 };

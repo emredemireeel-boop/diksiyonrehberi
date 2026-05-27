@@ -12,6 +12,7 @@
     "pm2:reload": "pm2 reload diksiyonrehberi",
     "pm2:logs": "pm2 logs diksiyonrehberi",
     "pm2:monit": "pm2 monit",
+    "build": "echo 'Diksiyon Rehberi SSR projesi: Build islemine gerek yoktur. Devam ediliyor...' && exit 0",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
