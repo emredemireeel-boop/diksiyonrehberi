@@ -1,0 +1,180 @@
+<%- include('partials/main-header') %>
+
+<style>
+  /* LIGHT MODE PREMIUM UIX OVERRIDES */
+  body { background: #fafaf9 !important; color: #1c1917; margin: 0; padding: 0; font-family: 'Inter', sans-serif; }
+  main.main-content, div.content-wrapper, div.gorgu-page { 
+    max-width: 100% !important; 
+    padding: 0 !important; 
+    margin: 0 !important; 
+    width: 100% !important;
+    background: transparent !important;
+  }
+  
+  @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&family=Playfair+Display:ital,wght@0,600;1,600&display=swap');
+  :root {
+    --gold-primary: #C59D5F; 
+    --gold-dark: #9A7B4F;
+    --light-bg: #fafaf9;
+    --glass-bg: rgba(255, 255, 255, 0.85);
+    --glass-border: rgba(197, 157, 95, 0.3);
+    --text-main: #1c1917;
+    --text-muted: #57534e;
+  }
+
+  /* DETAILED HERO */
+  .d-hero {
+    padding: 150px 5% 80px 5%;
+    text-align: center;
+    background: radial-gradient(circle at top, #ffffff 0%, #f5f5f4 100%);
+    border-bottom: 1px solid rgba(0,0,0,0.05);
+    position: relative;
+    overflow: hidden;
+  }
+  .d-hero::after {
+    content: '';
+    position: absolute;
+    top: 0; left: 50%; transform: translateX(-50%);
+    width: 600px; height: 300px;
+    background: var(--gold-primary);
+    filter: blur(150px);
+    opacity: 0.1;
+    z-index: 0;
+  }
+  .d-hero-content {
+    position: relative;
+    z-index: 2;
+  }
+  .d-back {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--gold-dark);
+    text-decoration: none;
+    font-family: 'Outfit', sans-serif;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    font-size: 0.8rem;
+    margin-bottom: 30px;
+    transition: 0.3s;
+  }
+  .d-back:hover { color: var(--text-main); }
+  .d-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 4rem;
+    color: var(--text-main);
+    margin: 0 0 15px 0;
+  }
+  .d-subtitle {
+    font-family: 'Outfit', sans-serif;
+    color: var(--text-muted);
+    font-size: 1.1rem;
+    max-width: 600px;
+    margin: 0 auto;
+  }
+
+  /* CONTENT LIST */
+  .d-container {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 60px 5%;
+  }
+  .d-list {
+    display: flex;
+    flex-direction: column;
+    gap: 60px;
+  }
+  
+  .d-article {
+    background: #ffffff;
+    border: 1px solid rgba(0,0,0,0.05);
+    border-radius: 24px;
+    padding: 50px;
+    box-shadow: 0 15px 40px rgba(0,0,0,0.03);
+    position: relative;
+    overflow: hidden;
+  }
+  .d-article::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; width: 4px; height: 100%;
+    background: linear-gradient(to bottom, var(--gold-primary), transparent);
+  }
+  .d-article-header {
+    margin-bottom: 25px;
+  }
+  .d-article-number {
+    font-family: 'Outfit', sans-serif;
+    font-size: 0.9rem;
+    font-weight: 800;
+    letter-spacing: 2px;
+    color: var(--gold-dark);
+    text-transform: uppercase;
+    margin-bottom: 10px;
+  }
+  .d-article-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 2.5rem;
+    color: var(--text-main);
+    margin: 0;
+    line-height: 1.2;
+  }
+  .d-article-desc {
+    font-family: 'Outfit', sans-serif;
+    color: var(--gold-dark);
+    font-size: 1.1rem;
+    line-height: 1.6;
+    margin: 0 0 30px 0;
+    padding-bottom: 30px;
+    border-bottom: 1px solid rgba(0,0,0,0.05);
+  }
+  .d-article-content {
+    font-family: 'Outfit', sans-serif;
+    color: var(--text-muted);
+    font-size: 1.15rem;
+    line-height: 1.8;
+    font-weight: 300;
+  }
+  .d-article-content p {
+    margin-bottom: 20px;
+  }
+
+  @media(max-width: 768px) {
+    .d-title { font-size: 2.5rem; }
+    .d-hero { padding-top: 120px; }
+    .d-article { padding: 30px 20px; }
+    .d-article-title { font-size: 2rem; }
+  }
+</style>
+
+<div class="gorgu-page">
+  <!-- HERO -->
+  <section class="d-hero">
+    <div class="d-hero-content">
+      <a href="/gorgu" class="d-back">← Akademik Müfredata Dön</a>
+      <h1 class="d-title"><%= meta.h1 %></h1>
+      <p class="d-subtitle">Bu modülde toplam <strong><%= exercises.length %></strong> premium eğitim başlığı bulunmaktadır.</p>
+    </div>
+  </section>
+
+  <!-- CONTENT LIST -->
+  <section class="d-container">
+    <div class="d-list">
+      <% exercises.forEach((ex, index) => { %>
+        <article class="d-article">
+          <div class="d-article-header">
+            <div class="d-article-number">Bölüm <%= (index + 1).toString().padStart(2, '0') %></div>
+            <h2 class="d-article-title"><%= ex.title %></h2>
+          </div>
+          <p class="d-article-desc"><strong>Özet:</strong> <%= ex.desc %></p>
+          <div class="d-article-content">
+            <%= ex.content %>
+          </div>
+        </article>
+      <% }); %>
+    </div>
+  </section>
+</div>
+
+<%- include('partials/main-footer') %>

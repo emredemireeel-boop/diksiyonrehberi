@@ -1,0 +1,216 @@
+<%- include('partials/main-header') %>
+
+<style>
+  body { background: #0f172a; color: #f8fafc; font-family: 'Inter', sans-serif; overflow-x: hidden; }
+  .kriz-container { padding: 40px 20px; max-width: 900px; margin: 0 auto; min-height: 85vh; display: flex; flex-direction: column; align-items: center; }
+  
+  h1 { font-size: 2.5rem; font-weight: 900; margin-bottom: 5px; color: #eab308; text-transform: uppercase; letter-spacing: 2px; text-align: center; text-shadow: 0 0 15px rgba(234, 179, 8, 0.4); }
+  p.desc { color: #94a3b8; font-size: 1rem; line-height: 1.6; margin-bottom: 30px; text-align: center; max-width: 600px; }
+
+  /* Crisis Arena */
+  .arena { width: 100%; background: #1e293b; border: 3px solid #334155; border-radius: 20px; overflow: hidden; box-shadow: 0 20px 50px rgba(0,0,0,0.6); position: relative; display: flex; flex-direction: column; }
+  
+  /* Tension Bar */
+  .tension-bar { width: 100%; height: 20px; background: #334155; display: flex; align-items: center; justify-content: center; position: relative; }
+  .tension-fill { position: absolute; left: 0; top: 0; height: 100%; background: #f43f5e; width: 50%; transition: width 0.5s ease-out, background 0.5s; }
+  .tension-label { position: relative; z-index: 10; font-size: 0.8rem; font-weight: 900; color: #fff; text-transform: uppercase; letter-spacing: 2px; mix-blend-mode: overlay; }
+
+  /* Opponent Area */
+  .opponent-zone { padding: 40px; background: radial-gradient(circle at center, #334155 0%, #1e293b 100%); display: flex; flex-direction: column; align-items: center; position: relative; min-height: 300px; justify-content: center; }
+  
+  .opp-avatar { font-size: 6rem; filter: drop-shadow(0 10px 10px rgba(0,0,0,0.5)); transition: transform 0.3s; margin-bottom: 20px; }
+  .opp-avatar.angry { animation: shake 0.5s infinite; }
+  .opp-avatar.calm { transform: scale(0.9); opacity: 0.8; }
+
+  .opp-status { background: rgba(0,0,0,0.5); padding: 10px 20px; border-radius: 10px; border-left: 4px solid #f43f5e; margin-bottom: 15px; width: 80%; max-width: 500px; }
+  .os-label { font-size: 0.8rem; color: #f43f5e; font-weight: 800; text-transform: uppercase; margin-bottom: 5px; }
+  .os-desc { font-size: 1.1rem; color: #f8fafc; font-style: italic; }
+
+  /* Player Options */
+  .player-zone { padding: 30px; background: #0f172a; border-top: 2px solid #334155; }
+  .pz-title { font-size: 1rem; font-weight: 800; color: #94a3b8; text-transform: uppercase; margin-bottom: 20px; text-align: center; }
+  
+  .opt-grid { display: grid; grid-template-columns: 1fr; gap: 15px; }
+  @media(min-width: 600px){ .opt-grid { grid-template-columns: 1fr 1fr; } }
+
+  .btn-action { background: #1e293b; border: 2px solid #475569; color: #e2e8f0; padding: 20px; border-radius: 15px; font-size: 1.1rem; font-weight: 700; cursor: pointer; transition: all 0.2s; text-align: left; }
+  .btn-action:hover { background: #334155; border-color: #0ea5e9; transform: translateY(-3px); box-shadow: 0 10px 20px rgba(14, 165, 233, 0.2); }
+
+  /* Outcome Screen */
+  .outcome-screen { position: absolute; inset: 0; background: rgba(15, 23, 42, 0.95); z-index: 100; display: none; flex-direction: column; align-items: center; justify-content: center; padding: 30px; text-align: center; }
+  .out-icon { font-size: 5rem; margin-bottom: 20px; }
+  .out-title { font-size: 2.5rem; font-weight: 900; margin-bottom: 15px; text-transform: uppercase; }
+  .out-desc { font-size: 1.1rem; color: #cbd5e1; line-height: 1.6; margin-bottom: 30px; max-width: 500px; }
+  .btn-next { background: #eab308; color: #000; font-weight: 900; padding: 15px 40px; border-radius: 30px; border: none; cursor: pointer; text-transform: uppercase; letter-spacing: 1px; }
+
+  @keyframes shake { 0% { transform: translate(1px, 1px) rotate(0deg); } 10% { transform: translate(-1px, -2px) rotate(-1deg); } 20% { transform: translate(-3px, 0px) rotate(1deg); } 30% { transform: translate(3px, 2px) rotate(0deg); } 40% { transform: translate(1px, -1px) rotate(1deg); } 50% { transform: translate(-1px, 2px) rotate(-1deg); } 60% { transform: translate(-3px, 1px) rotate(0deg); } 70% { transform: translate(3px, 1px) rotate(-1deg); } 80% { transform: translate(-1px, -1px) rotate(1deg); } 90% { transform: translate(1px, 2px) rotate(0deg); } 100% { transform: translate(1px, -2px) rotate(-1deg); } }
+
+  .game-over { display: none; text-align: center; padding: 50px; background: #1e293b; border: 2px solid #eab308; border-radius: 20px; margin-top:30px; width:100%; }
+</style>
+
+<div class="kriz-container">
+  <h1>Kriz Yönetimi</h1>
+  <p class="desc">Karşınızda öfkeli ve saldırgan bir hedef var. Söylediğiniz sözler kadar beden diliniz de kavgayı büyütebilir veya saniyeler içinde yatıştırabilir. Hangi duruşu seçeceksiniz?</p>
+
+  <div class="arena" id="arena">
+    
+    <div class="tension-bar">
+      <div class="tension-fill" id="tFill"></div>
+      <div class="tension-label">Agresyon Seviyesi</div>
+    </div>
+
+    <div class="opponent-zone">
+      <div class="opp-avatar angry" id="oppAvatar">🤬</div>
+      <div class="opp-status">
+        <div class="os-label">Hedefin Mevcut Durumu:</div>
+        <div class="os-desc" id="oppDesc">Yüzü kıpkırmızı, kollarını göğsünde kavuşturmuş, ayakları tamamen size dönük ve aranızdaki mesafeyi kapatarak üzerinize doğru yürüyor.</div>
+      </div>
+    </div>
+
+    <div class="player-zone">
+      <div class="pz-title">Karşılık Olarak Beden Dilinizi Seçin:</div>
+      <div class="opt-grid" id="optGrid">
+        <!-- Injected -->
+      </div>
+    </div>
+
+    <div class="outcome-screen" id="outScreen">
+      <div class="out-icon" id="oIcon">✅</div>
+      <div class="out-title" id="oTitle">KRİZ YATIŞTIRILDI</div>
+      <div class="out-desc" id="oDesc">...</div>
+      <button class="btn-next" onclick="nextRound()">Sıradaki Kriz ➔</button>
+    </div>
+
+  </div>
+
+  <div class="game-over" id="gameOver">
+    <div style="font-size: 5rem; margin-bottom:20px;">🕊️</div>
+    <h2 style="font-size:2.5rem; color:#eab308; margin:0 0 15px 0;">Müzakere Uzmanı</h2>
+    <p style="color:#cbd5e1; font-size:1.1rem; margin-bottom:30px;">Tebrikler. Çatışmaları güç kullanarak değil, psikoloji ve beden dili manipülasyonu ile çözmeyi başardınız.</p>
+    <a href="/bedendili" style="background:#eab308; color:#000; padding:15px 30px; border-radius:30px; text-decoration:none; font-weight:900;">Merkeze Dön</a>
+  </div>
+
+</div>
+
+<script>
+  let tension = 80;
+
+  const scenarios = [
+    {
+      avatar: "🤬",
+      desc: "Öfkeli müşteri: Yüzü kıpkırmızı, kollarını göğsünde kavuşturmuş, aranızdaki mesafeyi kapatarak doğrudan üzerinize doğru yürüyor.",
+      options: [
+        { text: "Ellerimi yumruk yapıp ayaklarımı omuz genişliğinde açarak (Power Pose) tam karşısında dururum.", isCorrect: false },
+        { text: "Gövdemi hafifçe yana (45 derece) çevirip, avuç içlerimi açık ve görünür şekilde bel hizasında tutarım.", isCorrect: true },
+        { text: "Kollarımı ben de göğsümde kavuşturup gözlerini dikerek ona bakarım (Aynalama).", isCorrect: false },
+        { text: "İşaret parmağımla 'dur' işareti yaparak geri adım atmasını söylerim.", isCorrect: false }
+      ],
+      successMsg: "Mükemmel De-escalation! Cepheden karşılık vermek 'savaş', kollarını kavuşturmak 'savunma/reddetme' algısı yaratır. 45 derecelik yan duruş ve AÇIK AVUÇLAR evrensel bir 'Silahsızım ve seni dinliyorum' mesajıdır. Kriz yatıştı.",
+      failMsg: "Kavga çıktı! Çatışma anında rakibe cepheden bakmak, power pose yapmak veya işaret parmağı kullanmak ilkel beyni 'tehdit' olarak uyarır ve kavgayı fiziksel boyuta taşır."
+    },
+    {
+      avatar: "😡",
+      desc: "Sinirli Patron: Masasına oturmuş, geriye yaslanmış. Kafasını hafifçe yukarı kaldırmış, çenesini sıvazlayarak sizi eleştiriyor.",
+      options: [
+        { text: "Masaya doğru eğilip ellerimi masanın üzerine koyarak konuşurum.", isCorrect: false },
+        { text: "Göz teması kurmamak için yere bakıp ellerimi önümde kavuştururum.", isCorrect: false },
+        { text: "Sandalyede ben de hafifçe geriye yaslanıp omuzlarımı rahat bırakarak konuşurum.", isCorrect: true },
+        { text: "Ayağa kalkıp yukarıdan ona bakarak savunma yaparım.", isCorrect: false }
+      ],
+      successMsg: "Doğru Hamle! Patron geriye yaslanarak alanını koruyup üstünlük kuruyor. Üzerine eğilmek (tehdit) veya kapanmak (zayıflık) yerine, duruşunu kısmen 'Aynalayarak' (Mirroring) bilinçaltında uyum sağladınız ve tansiyonu düşürdünüz.",
+      failMsg: "Tansiyon tavan yaptı! Masaya eğilmek veya ayağa kalkmak doğrudan otoriteye saldırı (meydan okuma) olarak algılanır. Yere bakmak ise kurban (zayıf) algısı yaratır."
+    },
+    {
+      avatar: "😒",
+      desc: "İnatçı İş Arkadaşı: Toplantıda bir fikrinizi reddediyor. Sürekli saati kontrol ediyor, ayakları kapıya doğru dönük ve göz deviriyor.",
+      options: [
+        { text: "Konuşma hızımı yavaşlatır, ses tonumu alçaltır ve 'Seni dinliyorum, senin fikrin nedir?' diyerek ona alan açarım.", isCorrect: true },
+        { text: "Daha yüksek sesle ve hızlı konuşarak fikrimi ona zorla kabul ettirmeye çalışırım.", isCorrect: false },
+        { text: "Onunla arama bir dosya/laptop koyarak fiziksel bir bariyer çekerim.", isCorrect: false },
+        { text: "Omuz silkip kollarımı kavuşturarak 'Sen bilirsin' derim.", isCorrect: false }
+      ],
+      successMsg: "Zekice! Kapıya dönük ayaklar ve saate bakmak 'Kaçma İsteği'dir. Sesinizi ve hareketlerinizi yavaşlatmak, karşı tarafın savaş-kaç (fight or flight) tepkisini yatıştırır. Kriz önlendi.",
+      failMsg: "İletişim tamamen koptu! Bariyer kurmak veya agresifleşmek, kaçmak isteyen birinin savunma duvarlarını daha da kalınlaştırır."
+    }
+  ];
+
+  let currIdx = 0;
+
+  function updateTension(val) {
+    const bar = document.getElementById('tFill');
+    tension = val;
+    bar.style.width = tension + "%";
+    
+    if(tension > 70) {
+      bar.style.background = '#f43f5e'; // Red
+      document.getElementById('oppAvatar').classList.add('angry');
+      document.getElementById('oppAvatar').classList.remove('calm');
+    } else {
+      bar.style.background = '#10b981'; // Green
+      document.getElementById('oppAvatar').classList.remove('angry');
+      document.getElementById('oppAvatar').classList.add('calm');
+    }
+  }
+
+  function loadRound() {
+    if(currIdx >= scenarios.length) {
+      document.getElementById('arena').style.display = 'none';
+      document.getElementById('gameOver').style.display = 'block';
+      return;
+    }
+
+    const s = scenarios[currIdx];
+    document.getElementById('oppDesc').textContent = s.desc;
+    document.getElementById('oppAvatar').textContent = s.avatar;
+    
+    updateTension(90);
+
+    const grid = document.getElementById('optGrid');
+    grid.innerHTML = '';
+    
+    const shuffled = [...s.options].sort(() => Math.random() - 0.5);
+    shuffled.forEach(opt => {
+      const btn = document.createElement('button');
+      btn.className = 'btn-action';
+      btn.textContent = opt.text;
+      btn.onclick = () => selectAction(opt);
+      grid.appendChild(btn);
+    });
+  }
+
+  function selectAction(opt) {
+    const s = scenarios[currIdx];
+    const outScreen = document.getElementById('outScreen');
+    const oIcon = document.getElementById('oIcon');
+    const oTitle = document.getElementById('oTitle');
+    const oDesc = document.getElementById('oDesc');
+
+    outScreen.style.display = 'flex';
+
+    if(opt.isCorrect) {
+      updateTension(20);
+      oIcon.textContent = '✅';
+      oTitle.textContent = 'KRİZ YATIŞTIRILDI';
+      oTitle.style.color = '#10b981';
+      oDesc.textContent = s.successMsg;
+    } else {
+      updateTension(100);
+      oIcon.textContent = '💥';
+      oTitle.textContent = 'ÇATIŞMA PATLADI!';
+      oTitle.style.color = '#f43f5e';
+      oDesc.textContent = s.failMsg;
+    }
+  }
+
+  function nextRound() {
+    document.getElementById('outScreen').style.display = 'none';
+    currIdx++;
+    loadRound();
+  }
+
+  // Init
+  loadRound();
+
+</script>
+
+<%- include('partials/main-footer') %>

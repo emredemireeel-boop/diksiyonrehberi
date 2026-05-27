@@ -1,0 +1,186 @@
+<%- include('partials/main-header') %>
+
+<style>
+  body { background: #0f172a; color: #f8fafc; font-family: 'Inter', sans-serif; overflow-x: hidden; }
+  .kahraman-container { padding: 40px 20px; max-width: 900px; margin: 0 auto; min-height: 85vh; display: flex; flex-direction: column; align-items: center; }
+  
+  h1 { font-size: 2.5rem; font-weight: 900; margin-bottom: 5px; color: #f59e0b; text-transform: uppercase; letter-spacing: 2px; text-align: center; text-shadow: 0 0 15px rgba(245, 158, 11, 0.4); }
+  p.desc { color: #94a3b8; font-size: 1rem; line-height: 1.6; margin-bottom: 30px; text-align: center; max-width: 700px; }
+
+  /* Event Box */
+  .event-box { background: #1e293b; border: 2px dashed #475569; border-radius: 15px; padding: 20px; text-align: center; margin-bottom: 30px; width: 100%; max-width: 600px; }
+  .eb-lbl { font-size: 0.8rem; color: #cbd5e1; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 10px; }
+  .eb-text { font-size: 1.3rem; font-weight: 700; color: #fff; }
+
+  /* Acts Container */
+  .acts-container { width: 100%; display: flex; flex-direction: column; gap: 20px; }
+  
+  .act-card { background: #1e293b; border: 2px solid #334155; border-radius: 15px; padding: 25px; transition: all 0.3s; opacity: 0.5; pointer-events: none; }
+  .act-card.active { opacity: 1; pointer-events: auto; border-color: #f59e0b; box-shadow: 0 10px 30px rgba(245, 158, 11, 0.15); }
+  .act-card.completed { opacity: 1; pointer-events: none; border-color: #10b981; }
+
+  .act-header { display: flex; align-items: center; gap: 15px; margin-bottom: 20px; }
+  .act-num { font-size: 1.8rem; font-weight: 900; color: #f59e0b; }
+  .act-title { font-size: 1.2rem; font-weight: 800; color: #f8fafc; text-transform: uppercase; }
+  .act-desc { font-size: 0.9rem; color: #94a3b8; margin-left: auto; }
+
+  .opt-grid { display: flex; flex-direction: column; gap: 12px; }
+  .btn-opt { background: #0f172a; border: 2px solid #334155; color: #e2e8f0; padding: 15px 20px; border-radius: 12px; font-size: 1rem; font-weight: 500; cursor: pointer; transition: all 0.2s; text-align: left; }
+  .btn-opt:hover { background: #334155; border-color: #f59e0b; }
+  .btn-opt.selected-correct { background: #064e3b; border-color: #10b981; color: #a7f3d0; }
+  .btn-opt.selected-wrong { background: #7f1d1d; border-color: #ef4444; color: #fecaca; }
+
+  /* Feedback Overlay */
+  .result-overlay { position: fixed; inset: 0; background: rgba(15, 23, 42, 0.95); z-index: 100; display: none; flex-direction: column; align-items: center; justify-content: center; padding: 30px; text-align: center; }
+  .ro-icon { font-size: 5rem; margin-bottom: 20px; }
+  .ro-title { font-size: 2.5rem; font-weight: 900; margin-bottom: 15px; text-transform: uppercase; }
+  .ro-desc { font-size: 1.1rem; color: #cbd5e1; line-height: 1.6; margin-bottom: 30px; max-width: 550px; }
+  .btn-next { background: #f59e0b; color: #000; font-weight: 900; padding: 15px 40px; border-radius: 30px; border: none; cursor: pointer; text-transform: uppercase; letter-spacing: 1px; }
+
+  .game-over { display: none; text-align: center; padding: 50px; background: #1e293b; border: 2px solid #f59e0b; border-radius: 20px; margin-top:30px; width:100%; }
+</style>
+
+<div class="kahraman-container">
+  <h1>🧙 Kahramanın Yolculuğu</h1>
+  <p class="desc">Size çok sıkıcı ve düz bir olay veriyoruz. Göreviniz bu olayı 3-Perdelik yapı (Sıradan Dünya ➔ Kriz ➔ Sentez) kullanarak efsanevi bir hikayeye dönüştürmek.</p>
+
+  <div class="event-box">
+    <div class="eb-lbl">Sıkıcı Olay:</div>
+    <div class="eb-text" id="ebText">"Şirketimiz kurulduğunda paramız yoktu, sonra çok çalışıp başarılı olduk."</div>
+  </div>
+
+  <div class="acts-container">
+    
+    <!-- ACT 1 -->
+    <div class="act-card active" id="act1">
+      <div class="act-header">
+        <span class="act-num">I</span>
+        <span class="act-title">Sıradan Dünya ve Kanca</span>
+        <span class="act-desc">İlgiyi çekin ve durumu resmedin</span>
+      </div>
+      <div class="opt-grid">
+        <button class="btn-opt" onclick="selectAct(1, false, this, 'Kurumsal tarihçeler sıkıcıdır. Seyirciyi direkt olayın içine çekmeniz gerekirdi.')">
+          "Firmamız 2018 yılında kısıtlı bir sermaye ile kurulmuştur."
+        </button>
+        <button class="btn-opt" onclick="selectAct(1, true, this, 'Harika! Yokluğu sadece söylemediniz, \x22plastik sandalye\x22 ve \x22bodrum katı\x22 gibi somut imgelerle hissettirdiniz.')">
+          "2018 yılında, penceresi olmayan bir bodrum katında, iki plastik sandalyede otururken birbirimize bakıp 'Ya batacağız ya çıkacağız' demiştik."
+        </button>
+      </div>
+    </div>
+
+    <!-- ACT 2 -->
+    <div class="act-card" id="act2">
+      <div class="act-header">
+        <span class="act-num">II</span>
+        <span class="act-title">Kriz ve Çatışma</span>
+        <span class="act-desc">Engeller ve duygusal kırılma (Abyss)</span>
+      </div>
+      <div class="opt-grid">
+        <button class="btn-opt" onclick="selectAct(2, true, this, 'Mükemmel! Kırılganlık (vulnerability) gösterdiniz. Kahramanın acı çekmesi seyircinin onunla empati kurmasını sağlar.')">
+          "Lansman gününe iki gün kala sunucularımız çöktü. Bütün emeklerimizin silindiğini düşünüp ofisin ortasında yere çöküp ağladım."
+        </button>
+        <button class="btn-opt" onclick="selectAct(2, false, this, 'Duygu yok! Kriz anları mekanik olamaz. Seyirci kahramanın o an ne hissettiğini bilmek ister.')">
+          "Birkaç teknik arıza yaşadık ama gece gündüz çalışıp sorunları hızlıca düzelttik."
+        </button>
+      </div>
+    </div>
+
+    <!-- ACT 3 -->
+    <div class="act-card" id="act3">
+      <div class="act-header">
+        <span class="act-num">III</span>
+        <span class="act-title">Sentez ve Dönüşüm</span>
+        <span class="act-desc">Öğrenilen ders ve karakterin dönüşümü</span>
+      </div>
+      <div class="opt-grid">
+        <button class="btn-opt" onclick="selectAct(3, false, this, 'Sadece maddi başarılara odaklanmak egodur. Dinleyici zenginleştiğinizi değil, ne öğrendiğinizi bilmek ister.')">
+          "Ve bugün geldiğimiz noktada milyon dolarlık bir şirket olduk, herkese teşekkürler."
+        </button>
+        <button class="btn-opt" onclick="selectAct(3, true, this, 'İşte bu! Sadece kâr etmediniz, dönüştünüz. İzleyiciye, paranın değil o pes etmeme ruhunun gerçek başarı olduğunu kanıtladınız.')">
+          "Bugün o bodrum katından çok uzağız ama o plastik sandalyeleri ofisin başköşesinde tutuyorum. Çünkü bana başarının paradan değil, o dibe vurduğun anda ayağa kalkma cesaretinden geldiğini hatırlatıyorlar."
+        </button>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="result-overlay" id="resOverlay">
+    <div class="ro-icon" id="rIcon">✅</div>
+    <div class="ro-title" id="rTitle">DOĞRU HAMLE</div>
+    <div class="ro-desc" id="rDesc">...</div>
+    <button class="btn-next" id="btnNextAct" onclick="nextAct()">Devam Et ➔</button>
+  </div>
+
+  <div class="game-over" id="gameOver">
+    <div style="font-size: 5rem; margin-bottom:20px;">🏆</div>
+    <h2 style="font-size:2.5rem; color:#f59e0b; margin:0 0 15px 0;">Ayakta Alkışlanıyorsunuz!</h2>
+    <p style="color:#cbd5e1; font-size:1.1rem; margin-bottom:30px;">Sıradan, renksiz ve ruhsuz bir şirket tarihçesini aldınız; Joseph Campbell'ın Kahramanın Yolculuğu (Hero's Journey) şablonuyla herkesin tüylerini diken diken eden epik bir başyapıta çevirdiniz.</p>
+    <a href="/hikaye" style="background:#f59e0b; color:#000; padding:15px 30px; border-radius:30px; text-decoration:none; font-weight:900;">Akademiye Dön</a>
+  </div>
+
+</div>
+
+<script>
+  let currentAct = 1;
+
+  function selectAct(actNum, isCorrect, btnElement, feedbackMsg) {
+    const overlay = document.getElementById('resOverlay');
+    const rIcon = document.getElementById('rIcon');
+    const rTitle = document.getElementById('rTitle');
+    const rDesc = document.getElementById('rDesc');
+    const btnNext = document.getElementById('btnNextAct');
+
+    // Remove active state from other buttons in the same act
+    const siblings = btnElement.parentElement.children;
+    for(let el of siblings) {
+      el.classList.remove('selected-correct', 'selected-wrong');
+      el.disabled = true;
+    }
+
+    if(isCorrect) {
+      btnElement.classList.add('selected-correct');
+      rIcon.textContent = '🔥';
+      rTitle.textContent = 'MÜKEMMEL SEÇİM!';
+      rTitle.style.color = '#10b981';
+      rDesc.textContent = feedbackMsg;
+      btnNext.onclick = () => advanceAct(actNum);
+      overlay.style.display = 'flex';
+    } else {
+      btnElement.classList.add('selected-wrong');
+      rIcon.textContent = '😴';
+      rTitle.textContent = 'SEYİRCİ SIKILDI';
+      rTitle.style.color = '#f43f5e';
+      rDesc.textContent = feedbackMsg;
+      btnNext.textContent = "Tekrar Dene ↺";
+      btnNext.onclick = () => {
+        // Reset buttons
+        for(let el of siblings) {
+          el.disabled = false;
+          el.classList.remove('selected-correct', 'selected-wrong');
+        }
+        overlay.style.display = 'none';
+        btnNext.textContent = "Devam Et ➔";
+      };
+      overlay.style.display = 'flex';
+    }
+  }
+
+  function advanceAct(completedActNum) {
+    document.getElementById('resOverlay').style.display = 'none';
+    const currCard = document.getElementById('act' + completedActNum);
+    currCard.classList.remove('active');
+    currCard.classList.add('completed');
+
+    if(completedActNum === 3) {
+      // Game Win
+      document.querySelector('.acts-container').style.display = 'none';
+      document.getElementById('gameOver').style.display = 'block';
+    } else {
+      const nextCard = document.getElementById('act' + (completedActNum + 1));
+      nextCard.classList.add('active');
+    }
+  }
+
+</script>
+
+<%- include('partials/main-footer') %>

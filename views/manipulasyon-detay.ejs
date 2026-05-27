@@ -1,0 +1,485 @@
+<%- include('partials/main-header') %>
+
+<style>
+  /* APPLE-INSPIRED ULTRA PREMIUM LIGHT MODE - MANIPULASYON DETAY */
+  body { 
+    background: #fbfbfd !important; 
+    color: #1d1d1f; 
+    margin: 0; 
+    padding: 0; 
+    font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+  
+  main.main-content, div.content-wrapper, div.man-detail-page { 
+    max-width: 100% !important; 
+    padding: 0 !important; 
+    margin: 0 !important; 
+    width: 100% !important;
+    background: transparent !important;
+  }
+  
+  :root {
+    --apple-text: #1d1d1f;
+    --apple-muted: #86868b;
+    --apple-bg: #fbfbfd;
+    --apple-card: #ffffff;
+    --apple-blue: #0066cc;
+    --apple-blue-hover: #0077ed;
+    --apple-red: #ff3b30;
+    --apple-purple: #af52de;
+    --apple-orange: #ff9500;
+    --apple-green: #34c759;
+  }
+
+  .detail-hero {
+    padding: 80px 20px 40px 20px;
+    text-align: center;
+    background: #ffffff;
+    border-bottom: 1px solid rgba(0,0,0,0.05);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .detail-hero::before {
+    content: '';
+    position: absolute;
+    top: -50%; left: 50%; transform: translateX(-50%);
+    width: 800px; height: 800px;
+    background: radial-gradient(circle, rgba(0, 102, 204, 0.03) 0%, transparent 60%);
+    pointer-events: none;
+  }
+
+  .detail-hero-title {
+    font-size: 3.5rem;
+    font-weight: 700;
+    letter-spacing: -0.03em;
+    margin: 0 0 16px 0;
+    color: var(--apple-text);
+  }
+
+  .detail-hero-subtitle {
+    font-size: 1.25rem;
+    color: var(--apple-muted);
+    max-width: 600px;
+    margin: 0 auto;
+  }
+
+  /* KATEGORİ NAVİGASYONU */
+  .apple-pills {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    margin: 40px 0;
+    flex-wrap: wrap;
+    padding: 0 20px;
+  }
+
+  .apple-pill {
+    padding: 12px 24px;
+    border-radius: 980px;
+    background: #ffffff;
+    border: 1px solid rgba(0,0,0,0.05);
+    color: var(--apple-text);
+    font-size: 0.95rem;
+    font-weight: 600;
+    text-decoration: none;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.02);
+    transition: all 0.2s cubic-bezier(0.2, 0.8, 0.2, 1);
+  }
+
+  .apple-pill:hover {
+    transform: scale(1.05);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+  }
+
+  .apple-pill.active {
+    background: var(--apple-text);
+    color: #ffffff;
+    border-color: var(--apple-text);
+  }
+
+  /* İÇERİK ALANI */
+  .detail-content {
+    max-width: 1000px;
+    margin: 0 auto 100px auto;
+    padding: 0 20px;
+  }
+
+  .exercise-card {
+    background: var(--apple-card);
+    border-radius: 32px;
+    padding: 40px;
+    margin-bottom: 40px;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.03);
+    border: 1px solid rgba(0,0,0,0.03);
+    transition: transform 0.3s;
+  }
+
+  .exercise-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 20px 50px rgba(0,0,0,0.05);
+  }
+
+  .ex-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 24px;
+  }
+
+  .ex-num {
+    background: rgba(0, 102, 204, 0.1);
+    color: var(--apple-blue);
+    font-size: 0.85rem;
+    font-weight: 700;
+    padding: 6px 16px;
+    border-radius: 20px;
+    letter-spacing: 0.05em;
+  }
+
+  .ex-badge {
+    background: #f5f5f7;
+    color: var(--apple-muted);
+    font-size: 0.75rem;
+    font-weight: 700;
+    padding: 6px 12px;
+    border-radius: 12px;
+    text-transform: uppercase;
+  }
+
+  .ex-title {
+    font-size: 2rem;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    margin: 0 0 16px 0;
+  }
+
+  .ex-desc {
+    font-size: 1.1rem;
+    line-height: 1.6;
+    color: var(--apple-muted);
+    margin: 0 0 32px 0;
+  }
+
+  /* STEPS */
+  .ex-steps {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-bottom: 40px;
+  }
+
+  .ex-step {
+    background: #fbfbfd;
+    border: 1px solid rgba(0,0,0,0.03);
+    border-radius: 20px;
+    padding: 20px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+
+  .ex-step-num {
+    width: 36px;
+    height: 36px;
+    flex-shrink: 0;
+    border-radius: 50%;
+    background: rgba(0, 0, 0, 0.05);
+    color: var(--apple-text);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 0.9rem;
+  }
+
+  .ex-step-text {
+    font-size: 1.05rem;
+    color: var(--apple-text);
+    line-height: 1.4;
+  }
+
+  /* SCENARIO */
+  .ex-scenario {
+    background: #f5f5f7;
+    border-radius: 24px;
+    padding: 30px;
+    margin-bottom: 40px;
+    border-left: 4px solid var(--apple-purple);
+  }
+
+  .scenario-label {
+    font-size: 0.8rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--apple-purple);
+    margin-bottom: 12px;
+  }
+
+  .scenario-text {
+    font-size: 1.1rem;
+    font-style: italic;
+    color: var(--apple-text);
+    margin-bottom: 20px;
+    line-height: 1.5;
+  }
+
+  .scenario-analysis {
+    border-top: 1px solid rgba(0,0,0,0.05);
+    padding-top: 20px;
+  }
+
+  .scenario-analysis h5 {
+    margin: 0 0 8px 0;
+    color: var(--apple-purple);
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  .scenario-analysis p {
+    margin: 0;
+    font-size: 0.95rem;
+    color: var(--apple-muted);
+    line-height: 1.5;
+  }
+
+  /* QUIZ BOX */
+  .ex-quiz {
+    background: #ffffff;
+    border: 1px solid rgba(0,0,0,0.05);
+    border-radius: 24px;
+    padding: 30px;
+    margin-bottom: 40px;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.02);
+  }
+
+  .quiz-q {
+    font-size: 1.15rem;
+    font-weight: 600;
+    margin-bottom: 20px;
+    color: var(--apple-text);
+  }
+
+  .quiz-opts {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .quiz-opt {
+    background: #fbfbfd;
+    border: 1px solid rgba(0,0,0,0.05);
+    border-radius: 16px;
+    padding: 16px 20px;
+    font-size: 1.05rem;
+    color: var(--apple-text);
+    cursor: pointer;
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .quiz-opt:hover {
+    background: #f5f5f7;
+    border-color: rgba(0,0,0,0.1);
+  }
+
+  .opt-letter {
+    width: 28px;
+    height: 28px;
+    border-radius: 8px;
+    background: rgba(0,0,0,0.05);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: var(--apple-muted);
+  }
+
+  .quiz-feedback {
+    margin-top: 20px;
+    padding: 16px;
+    border-radius: 12px;
+    font-size: 0.95rem;
+    font-weight: 600;
+    display: none;
+  }
+
+  /* PRACTICE & BUTTON */
+  .ex-practice {
+    width: 100%;
+    min-height: 120px;
+    background: #fbfbfd;
+    border: 1px solid rgba(0,0,0,0.08);
+    border-radius: 20px;
+    padding: 20px;
+    font-size: 1.05rem;
+    font-family: inherit;
+    color: var(--apple-text);
+    resize: vertical;
+    margin-bottom: 20px;
+    transition: all 0.3s;
+  }
+
+  .ex-practice:focus {
+    outline: none;
+    border-color: var(--apple-blue);
+    background: #ffffff;
+    box-shadow: 0 0 0 4px rgba(0, 102, 204, 0.1);
+  }
+
+  .ex-btn {
+    background: #ffffff;
+    color: var(--apple-text);
+    border: 2px solid rgba(0,0,0,0.1);
+    padding: 16px 32px;
+    border-radius: 980px;
+    font-size: 1.05rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .ex-btn:hover {
+    border-color: var(--apple-text);
+    background: rgba(0,0,0,0.02);
+  }
+
+  .ex-btn.completed {
+    background: var(--apple-green);
+    color: white;
+    border-color: var(--apple-green);
+  }
+
+  @media (max-width: 768px) {
+    .detail-hero-title { font-size: 2.5rem; }
+    .exercise-card { padding: 24px; }
+    .ex-title { font-size: 1.5rem; }
+  }
+</style>
+
+<div class="man-detail-page">
+
+  <!-- ══ HERO ══ -->
+  <header class="detail-hero">
+    <h1 class="detail-hero-title"><%= meta.h1 %></h1>
+    <p class="detail-hero-subtitle"><%= exercises.length %> Savunma Tekniği & Manipülasyon Deşifresi</p>
+  </header>
+
+  <!-- ══ KATEGORİ PİLLERİ ══ -->
+  <div class="apple-pills">
+    <a href="/manipulasyon" class="apple-pill">Tümü</a>
+    <a href="/manipulasyon/psikolojik" class="apple-pill <%= activeCat === 'psikolojik' ? 'active' : '' %>">Psikolojik Şiddet</a>
+    <a href="/manipulasyon/duygusal" class="apple-pill <%= activeCat === 'duygusal' ? 'active' : '' %>">Duygusal Şantaj</a>
+    <a href="/manipulasyon/pasif" class="apple-pill <%= activeCat === 'pasif' ? 'active' : '' %>">Pasif Agresif</a>
+  </div>
+
+  <!-- ══ İÇERİK ══ -->
+  <div class="detail-content">
+    <% exercises.forEach((ex, index) => { %>
+      <div class="exercise-card">
+        
+        <div class="ex-header">
+          <div class="ex-num">Taktik <%= ex.num %></div>
+          <div class="ex-badge"><%= ex.badge %></div>
+        </div>
+
+        <h2 class="ex-title"><%= ex.title %></h2>
+        <p class="ex-desc"><%= ex.desc %></p>
+
+        <!-- STEPS -->
+        <div class="ex-steps">
+          <% ex.steps.forEach((step, i) => { %>
+            <div class="ex-step">
+              <div class="ex-step-num"><%= i + 1 %></div>
+              <div class="ex-step-text"><%= step %></div>
+            </div>
+          <% }); %>
+        </div>
+
+        <!-- SCENARIO -->
+        <div class="ex-scenario">
+          <div class="scenario-label"><%= ex.scenario.label %></div>
+          <div class="scenario-text">"<%= ex.scenario.text %>"</div>
+          <div class="scenario-analysis">
+            <h5>Analiz</h5>
+            <p><%= ex.scenario.analysis %></p>
+          </div>
+        </div>
+
+        <!-- QUIZ -->
+        <div class="ex-quiz" data-correct="<%= ex.quiz.correct %>">
+          <div class="quiz-q"><%= ex.quiz.q %></div>
+          <div class="quiz-opts">
+            <% ex.quiz.opts.forEach((opt, i) => { %>
+              <div class="quiz-opt" onclick="handleQuiz(this, <%= ex.quiz.correct %>, <%= i %>)">
+                <div class="opt-letter"><%= String.fromCharCode(65 + i) %></div>
+                <div><%= opt %></div>
+              </div>
+            <% }); %>
+          </div>
+          <div class="quiz-feedback ret-quiz-feedback"></div>
+        </div>
+
+        <!-- PRACTICE -->
+        <textarea class="ex-practice" placeholder="<%= ex.practice %>"></textarea>
+        
+        <div>
+          <button class="ex-btn" onclick="completeExercise(this)">
+            Zihinsel Kalkanı Aktifleştir
+          </button>
+        </div>
+
+      </div>
+    <% }); %>
+  </div>
+
+</div>
+
+<script>
+  function handleQuiz(el, correctIdx, currentIdx) {
+    const box = el.closest('.ex-quiz');
+    const feedback = box.querySelector('.quiz-feedback');
+    
+    // Reset all options
+    box.querySelectorAll('.quiz-opt').forEach(o => {
+      o.style.background = '#fbfbfd';
+      o.style.color = 'var(--apple-text)';
+      o.style.borderColor = 'rgba(0,0,0,0.05)';
+    });
+
+    if (currentIdx === correctIdx) {
+      el.style.background = 'rgba(52, 199, 89, 0.1)';
+      el.style.borderColor = 'var(--apple-green)';
+      el.style.color = '#15803d'; // Darker green
+      feedback.textContent = '✅ Doğru taktik! Manipülasyon engellendi.';
+      feedback.style.color = '#15803d';
+      feedback.style.background = 'rgba(52, 199, 89, 0.1)';
+      feedback.style.borderColor = 'var(--apple-green)';
+    } else {
+      el.style.background = 'rgba(255, 59, 48, 0.1)';
+      el.style.borderColor = 'var(--apple-red)';
+      el.style.color = '#b91c1c'; // Darker red
+      feedback.textContent = '❌ Duygusal tepki verdiniz. Manipülatör kazandı, tekrar deneyin.';
+      feedback.style.color = '#b91c1c';
+      feedback.style.background = 'rgba(255, 59, 48, 0.1)';
+      feedback.style.borderColor = 'var(--apple-red)';
+    }
+    feedback.style.display = 'block';
+  }
+
+  function completeExercise(btn) {
+    btn.innerHTML = '✓ Kalkan Aktif';
+    btn.classList.add('completed');
+  }
+</script>
+
+<%- include('partials/main-footer') %>

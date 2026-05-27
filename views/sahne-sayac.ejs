@@ -1,0 +1,134 @@
+<%- include('partials/main-header') %>
+
+<style>
+  body { background: #0f172a; color: #ffffff; margin: 0; min-height: 100vh; display: flex; flex-direction: column; font-family: 'Inter', sans-serif; overflow: hidden; transition: background 0.5s; }
+  .main-header, .main-footer { display: none !important; }
+
+  /* States for background */
+  body.timer-green { background: #166534; }
+  body.timer-yellow { background: #ca8a04; }
+  body.timer-red { background: #991b1b; animation: pulseRed 1s infinite alternate; }
+  @keyframes pulseRed { from { background: #991b1b; } to { background: #dc2626; } }
+
+  .timer-container { flex-grow: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; position: relative; }
+
+  .clock-display { font-size: 25vw; font-weight: 900; line-height: 1; font-variant-numeric: tabular-nums; text-shadow: 0 10px 30px rgba(0,0,0,0.5); user-select: none; }
+
+  .controls { margin-top: 40px; display: flex; gap: 20px; align-items: center; z-index: 10; }
+  .btn-control {
+    background: rgba(255,255,255,0.1); color: #ffffff; border: 1px solid rgba(255,255,255,0.2); padding: 16px 40px; border-radius: 30px;
+    font-size: 1.1rem; font-weight: 800; cursor: pointer; transition: all 0.2s; text-transform: uppercase; letter-spacing: 1px; backdrop-filter: blur(10px);
+  }
+  .btn-control:hover { background: rgba(255,255,255,0.2); transform: translateY(-2px); }
+  
+  .btn-back { position: absolute; top: 30px; left: 30px; color: rgba(255,255,255,0.6); text-decoration: none; font-weight: 700; display: flex; align-items: center; gap: 8px; transition: color 0.2s; z-index: 10; }
+  .btn-back:hover { color: #ffffff; }
+  
+  .settings { position: absolute; top: 30px; right: 30px; display: flex; gap: 10px; z-index: 10; }
+  .setting-input { background: rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.2); color: #fff; padding: 10px 15px; border-radius: 8px; font-size: 1.2rem; font-weight: 700; width: 80px; text-align: center; outline: none; font-family: inherit; }
+  .setting-input::placeholder { color: rgba(255,255,255,0.3); }
+</style>
+
+<a href="/sahne" class="btn-back">← Sahne'ye Dön</a>
+
+<div class="settings" id="settingsPanel">
+  <input type="number" id="inpMin" class="setting-input" placeholder="Dk" min="0" max="120" value="5">
+  <span style="font-size: 1.5rem; font-weight: 900; color: rgba(255,255,255,0.5); align-self: center;">:</span>
+  <input type="number" id="inpSec" class="setting-input" placeholder="Sn" min="0" max="59" value="0">
+</div>
+
+<div class="timer-container">
+  <div class="clock-display" id="clock">05:00</div>
+
+  <div class="controls">
+    <button class="btn-control" id="btnStart" onclick="toggleTimer()">Başlat</button>
+    <button class="btn-control" onclick="resetTimer()" style="background:transparent">Sıfırla</button>
+  </div>
+</div>
+
+<script>
+  let totalSeconds = 300; // 5 mins
+  let currentSeconds = totalSeconds;
+  let timerInterval = null;
+  let isRunning = false;
+
+  const clockEl = document.getElementById('clock');
+  const btnStart = document.getElementById('btnStart');
+  const inpMin = document.getElementById('inpMin');
+  const inpSec = document.getElementById('inpSec');
+  const settingsPanel = document.getElementById('settingsPanel');
+
+  function updateInputs() {
+    if (!isRunning) {
+      let m = parseInt(inpMin.value) || 0;
+      let s = parseInt(inpSec.value) || 0;
+      totalSeconds = (m * 60) + s;
+      currentSeconds = totalSeconds;
+      renderClock();
+    }
+  }
+
+  inpMin.addEventListener('change', updateInputs);
+  inpSec.addEventListener('change', updateInputs);
+
+  function formatTime(sec) {
+    let sign = sec < 0 ? '-' : '';
+    let absSec = Math.abs(sec);
+    let m = Math.floor(absSec / 60).toString().padStart(2, '0');
+    let s = (absSec % 60).toString().padStart(2, '0');
+    return `${sign}${m}:${s}`;
+  }
+
+  function renderClock() {
+    clockEl.textContent = formatTime(currentSeconds);
+    
+    // Background colors logic
+    document.body.className = '';
+    if (isRunning) {
+      if (currentSeconds > 60) {
+        document.body.className = 'timer-green';
+      } else if (currentSeconds > 0 && currentSeconds <= 60) {
+        document.body.className = 'timer-yellow';
+      } else if (currentSeconds <= 0) {
+        document.body.className = 'timer-red';
+      }
+    }
+  }
+
+  function toggleTimer() {
+    if (isRunning) {
+      // Pause
+      clearInterval(timerInterval);
+      isRunning = false;
+      btnStart.textContent = 'Devam Et';
+      settingsPanel.style.opacity = '1';
+      document.body.className = ''; // remove colors on pause
+    } else {
+      // Start
+      if(currentSeconds === totalSeconds) {
+         updateInputs(); // grab fresh values if starting from scratch
+      }
+      isRunning = true;
+      btnStart.textContent = 'Durdur';
+      settingsPanel.style.opacity = '0.3';
+      
+      renderClock();
+      timerInterval = setInterval(() => {
+        currentSeconds--;
+        renderClock();
+      }, 1000);
+    }
+  }
+
+  function resetTimer() {
+    clearInterval(timerInterval);
+    isRunning = false;
+    btnStart.textContent = 'Başlat';
+    settingsPanel.style.opacity = '1';
+    document.body.className = '';
+    updateInputs();
+  }
+
+  // Init
+  renderClock();
+</script>

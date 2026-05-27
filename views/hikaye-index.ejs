@@ -1,0 +1,108 @@
+<%- include('partials/main-header') %>
+<link rel="stylesheet" href="/retorik.css?v=7" />
+<style>
+  .hikaye-page { display: block !important; }
+  .ret-cat-pill { text-decoration: none; }
+  .ret-hero {
+    background: linear-gradient(135deg, #1a0f00 0%, #451a03 50%, #78350f 100%);
+    border-bottom: 2px solid #f59e0b;
+  }
+  .ret-hero-badge { color: #fde68a; background: rgba(245,158,11,0.2); border: 1px solid rgba(245,158,11,0.3); }
+  .ret-cat-pill.active { background: #d97706; border-color: #d97706; color: #fff; }
+  .hikaye-link { color: #d97706; font-weight: 700; text-decoration: none; font-size: 0.9rem; }
+  .hikaye-link:hover { text-decoration: underline; }
+  .hk-card { background:#fffbeb;border:1.5px solid #fde68a;border-radius:16px;padding:24px;text-decoration:none;display:block;transition:border-color 0.2s,transform 0.2s,box-shadow 0.2s; }
+  .hk-card:hover { border-color:#d97706 !important; transform:translateY(-3px); box-shadow:0 10px 30px rgba(217,119,6,0.1); }
+</style>
+
+<main class="main-content">
+  <div class="content-wrapper">
+    <div id="hikaye-container" class="hikaye-page">
+
+      <!-- ══ HERO ══ -->
+      <div class="ret-hero">
+        <div class="ret-hero-badge">Anlatıcılık Sanatı</div>
+        <h1 class="ret-hero-title">Hikaye Anlatıcılığı</h1>
+        <p class="ret-hero-tagline">Sıradan Kelimeleri Unutulmaz Hikayelere Dönüştür</p>
+        <p class="ret-hero-desc">İnsanlar verileri değil hikayeleri hatırlar. Joseph Campbell'ın Kahraman Yolculuğu'ndan modern storytelling tekniklerine kadar anlatıcılığın tam şifresini öğrenin.</p>
+        <div class="ret-hero-stats">
+          <div class="ret-stat"><span class="ret-stat-n">3</span><span class="ret-stat-l">Hikaye Yapısı</span></div>
+          <div class="ret-stat"><span class="ret-stat-n">9+</span><span class="ret-stat-l">Anlatım Tekniği</span></div>
+          <div class="ret-stat"><span class="ret-stat-n">100%</span><span class="ret-stat-l">Ücretsiz</span></div>
+        </div>
+      </div>
+
+      <!-- ══ SİMÜLASYON BANNER ══ -->
+      <div style="background: linear-gradient(to right, #064e3b, #0f766e); border: 2px solid #14b8a6; border-radius: 20px; padding: 30px; margin: 40px 0; display: flex; flex-direction: column; align-items: center; text-align: center; box-shadow: 0 20px 40px rgba(20, 184, 166, 0.3); position: relative; overflow: hidden; max-width: 100%;">
+        <div style="font-size: 0.8rem; font-weight: 900; color: #99f6e4; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 10px;">ANLATICILIK LABORATUVARI</div>
+        <h2 style="font-size: 2rem; font-weight: 900; color: #fff; margin: 0 0 15px 0;">2 Efsanevi Simülasyon</h2>
+        <p style="color: #ccfbf1; font-size: 1.05rem; line-height: 1.6; max-width: 700px; margin-bottom: 25px;">Sıradan bir anıyı veya sunumu nasıl akılda kalıcı bir gişe filmine çevirirsiniz? İlk 10 saniyede kanca atmayı öğrenin ve kahramanın yolculuğunu tasarlayın.</p>
+        
+        <div style="display: flex; gap: 15px; flex-wrap: wrap; justify-content: center;">
+          <a href="/hikaye/kanca" class="ab-btn" style="background: #0d9488; border: 2px solid #2dd4bf; color: #fff; padding: 12px 25px; border-radius: 30px; font-weight: 800; text-decoration: none; font-size: 1rem; transition: all 0.2s;">
+            🪝 Kanca Atıcı (Hook)
+          </a>
+          <a href="/hikaye/kahraman" class="ab-btn" style="background: #f59e0b; border: 2px solid #fbbf24; color: #000; padding: 12px 25px; border-radius: 30px; font-weight: 800; text-decoration: none; font-size: 1rem; transition: all 0.2s;">
+            🧙 Kahramanın Yolculuğu
+          </a>
+        </div>
+      </div>
+
+      <!-- ══ KATEGORİLER ══ -->
+      <div class="ret-cat-pills">
+        <a href="/hikaye" class="ret-cat-pill active">Tümü</a>
+        <a href="/hikaye/sıradan" class="ret-cat-pill">Sıradan Dünya</a>
+        <a href="/hikaye/kriz" class="ret-cat-pill">Çatışma (Kriz)</a>
+        <a href="/hikaye/sentez" class="ret-cat-pill">Çözüm ve Sentez</a>
+      </div>
+
+      <!-- ══ HİKAYE YAPISI ══ -->
+      <section class="ret-section">
+        <div class="ret-section-header">
+          <div style="background:#fffbeb;border:1px solid #fde68a;display:flex;align-items:center;justify-content:center;width:50px;height:50px;border-radius:12px;font-size:1.5rem">📖</div>
+          <div>
+            <h2 style="margin:0;font-size:1.4rem;color:#0f172a">Hikaye Yapısı: 3 Perde</h2>
+            <p style="margin:4px 0 0;color:#64748b;font-size:0.85rem">Her büyük hikayenin temelindeki evrensel iskelet</p>
+          </div>
+        </div>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px">
+          <a href="/hikaye/sıradan" class="hk-card">
+            <div style="font-size:0.7rem;font-weight:800;text-transform:uppercase;letter-spacing:1.5px;color:#92400e;margin-bottom:10px">PERDE 1 — BAŞLANGIÇ</div>
+            <div style="font-size:1.5rem;margin-bottom:10px">🌅</div>
+            <h3 style="color:#1c1917;font-size:1.1rem;margin-bottom:8px">Sıradan Dünya</h3>
+            <p style="color:#57534e;font-size:0.875rem;line-height:1.6;margin-bottom:12px">Kahramanı ve onun normal hayatını tanıtma. Dinleyicinin empati kurması için zemin oluşturma sanatı.</p>
+            <span class="hikaye-link">Eğitime Git →</span>
+          </a>
+          <a href="/hikaye/kriz" class="hk-card">
+            <div style="font-size:0.7rem;font-weight:800;text-transform:uppercase;letter-spacing:1.5px;color:#92400e;margin-bottom:10px">PERDE 2 — ÇATIŞMA</div>
+            <div style="font-size:1.5rem;margin-bottom:10px">⚡</div>
+            <h3 style="color:#1c1917;font-size:1.1rem;margin-bottom:8px">Kriz ve Dönüm Noktası</h3>
+            <p style="color:#57534e;font-size:0.875rem;line-height:1.6;margin-bottom:12px">Merak uyandıran bir çatışma olmadan hikaye olmaz. Gerilim inşa etme ve doruk noktasına ulaşma.</p>
+            <span class="hikaye-link">Eğitime Git →</span>
+          </a>
+          <a href="/hikaye/sentez" class="hk-card">
+            <div style="font-size:0.7rem;font-weight:800;text-transform:uppercase;letter-spacing:1.5px;color:#92400e;margin-bottom:10px">PERDE 3 — SONUÇ</div>
+            <div style="font-size:1.5rem;margin-bottom:10px">🌟</div>
+            <h3 style="color:#1c1917;font-size:1.1rem;margin-bottom:8px">Çözüm ve Mesaj</h3>
+            <p style="color:#57534e;font-size:0.875rem;line-height:1.6;margin-bottom:12px">Hikayenin mesajını kalıcı hale getiren kapanış. Duygusal rezonans yaratma ve öğrenilen dersi pekiştirme.</p>
+            <span class="hikaye-link">Eğitime Git →</span>
+          </a>
+        </div>
+      </section>
+
+      <!-- ══ NEDEN HİKAYE ══ -->
+      <section class="ret-section">
+        <h2 style="color:#0f172a;font-size:1.4rem;margin-bottom:16px">Neden Hikaye Anlatıcılığı?</h2>
+        <p style="color:#475569;font-size:0.95rem;line-height:1.8;margin-bottom:16px">Bilim insanları, beyin aktivitesinin bir hikaye dinlenirken hem konuşmacının hem de dinleyicinin beyninde <strong>senkronize</strong> olduğunu keşfetmiştir. Yani iyi bir hikaye kurduğunuzda, karşınızdakinin zihnini kelimenin tam anlamıyla eşgüdüme geçirirsiniz.</p>
+        <p style="color:#475569;font-size:0.95rem;line-height:1.8;margin-bottom:20px">İş dünyasında sunumlar, kişisel ilişkilerde anılarda, liderlikte ilham verirken — güçlü bir anlatı her zaman fark yaratır.</p>
+        <div style="background:#fffbeb;border-left:4px solid #f59e0b;border-radius:0 12px 12px 0;padding:20px 24px">
+          <p style="color:#1c1917;font-size:1rem;font-style:italic;margin-bottom:8px;font-weight:500">"Eğer birini etkilemek istiyorsan, ona bir veri ver. Onu harekete geçirmek istiyorsan, bir hikaye anlat."</p>
+          <cite style="color:#d97706;font-size:0.85rem;font-weight:700">— Brené Brown</cite>
+        </div>
+      </section>
+
+    </div>
+  </div>
+</main>
+
+<%- include('partials/main-footer') %>

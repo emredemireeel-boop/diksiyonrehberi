@@ -1,0 +1,323 @@
+<%- include('partials/main-header') %>
+
+<style>
+  body { background: #000000; color: #ffffff; margin: 0; min-height: 100vh; display: flex; flex-direction: column; font-family: 'Inter', sans-serif; overflow: hidden; }
+  .main-header, .main-footer { display: none !important; }
+
+  /* Studio Background & Animations */
+  .studio-bg { position: fixed; inset: 0; background: radial-gradient(circle at center, #1e1b4b 0%, #000000 100%); z-index: -2; }
+  .studio-lights { position: fixed; inset: 0; z-index: -1; opacity: 0.3; background: linear-gradient(90deg, rgba(255,0,0,0.1) 0%, rgba(0,0,255,0.1) 100%); animation: lightPulse 5s infinite alternate; }
+  @keyframes lightPulse { 0% { opacity: 0.1; } 100% { opacity: 0.4; } }
+  
+  .shake-anim { animation: shake 0.4s cubic-bezier(.36,.07,.19,.97) both; }
+  @keyframes shake { 10%, 90% { transform: translate3d(-2px, 0, 0); } 20%, 80% { transform: translate3d(4px, 0, 0); } 30%, 50%, 70% { transform: translate3d(-8px, 0, 0); } 40%, 60% { transform: translate3d(8px, 0, 0); } }
+
+  .mz-container { flex-grow: 1; padding: 20px; display: flex; flex-direction: column; align-items: center; justify-content: flex-start; max-width: 900px; margin: 0 auto; width: 100%; position: relative; z-index: 10; }
+  
+  /* Top Bar (Rating) */
+  .top-hud { width: 100%; display: flex; align-items: center; justify-content: space-between; padding: 15px 30px; background: rgba(15,23,42,0.8); border: 1px solid #334155; border-radius: 20px; backdrop-filter: blur(10px); margin-bottom: 30px; margin-top: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
+  .rating-title { font-size: 1rem; font-weight: 800; color: #cbd5e1; text-transform: uppercase; letter-spacing: 2px; }
+  .rating-bar-container { flex-grow: 1; margin: 0 30px; height: 18px; background: #000; border-radius: 10px; border: 1px solid #334155; position: relative; overflow: hidden; }
+  .rating-fill { position: absolute; left: 0; top: 0; height: 100%; width: 50%; background: linear-gradient(90deg, #ef4444 0%, #eab308 50%, #10b981 100%); transition: width 0.5s ease; box-shadow: inset 0 0 10px rgba(255,255,255,0.2); }
+  .rating-value { font-size: 1.5rem; font-weight: 900; color: #10b981; font-family: monospace; }
+
+  /* Opponent Attack Box */
+  .opponent-box { background: rgba(220,38,38,0.1); border: 2px solid #ef4444; border-radius: 20px; padding: 30px; width: 100%; position: relative; margin-bottom: 20px; box-shadow: 0 0 40px rgba(239,68,68,0.2); transition: all 0.3s; }
+  .opponent-box::before { content: "🎙️ DEMAGOG (RAKİP)"; position: absolute; top: -14px; left: 30px; background: #ef4444; color: #fff; padding: 4px 15px; border-radius: 20px; font-weight: 900; font-size: 0.8rem; letter-spacing: 1px; }
+  .opponent-text { font-size: 1.6rem; font-weight: 800; line-height: 1.4; margin: 0; color: #f8fafc; font-style: italic; }
+
+  /* Timer */
+  .timer-box { width: 100%; height: 6px; background: #334155; border-radius: 3px; margin-bottom: 30px; overflow: hidden; }
+  .timer-fill { height: 100%; background: #eab308; width: 100%; transition: width 0.1s linear; }
+
+  /* Interaction Area */
+  .interaction-area { width: 100%; background: rgba(15,23,42,0.9); padding: 30px; border-radius: 20px; border: 1px solid #334155; box-shadow: 0 10px 30px rgba(0,0,0,0.5); backdrop-filter: blur(10px); }
+  .stage-title { font-size: 1.2rem; font-weight: 900; color: #eab308; margin: 0 0 20px 0; text-transform: uppercase; letter-spacing: 1px; text-align: center; }
+  
+  .options-grid { display: grid; grid-template-columns: 1fr; gap: 15px; }
+  .mz-btn {
+    background: #000; border: 2px solid #475569; color: #f8fafc; padding: 18px 25px; border-radius: 12px;
+    font-size: 1.1rem; font-weight: 600; cursor: pointer; transition: all 0.2s; text-align: left; line-height: 1.4; display: flex; flex-direction: column; gap: 5px;
+  }
+  .mz-btn:hover { border-color: #38bdf8; background: rgba(56,189,248,0.1); transform: translateX(10px); }
+  .mz-btn .btn-badge { font-size: 0.75rem; font-weight: 900; text-transform: uppercase; color: #38bdf8; letter-spacing: 1px; }
+
+  .mz-btn.correct { border-color: #10b981; background: rgba(16,185,129,0.2); }
+  .mz-btn.wrong { border-color: #ef4444; background: rgba(239,68,68,0.2); }
+
+  /* Stage Indicators */
+  .stage-pills { display: flex; justify-content: center; gap: 10px; margin-bottom: 20px; }
+  .s-pill { padding: 5px 15px; border-radius: 20px; font-size: 0.8rem; font-weight: 800; background: #334155; color: #94a3b8; }
+  .s-pill.active { background: #eab308; color: #000; box-shadow: 0 0 10px rgba(234,179,8,0.5); }
+
+  .feedback-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.9); z-index: 100; display: none; flex-direction: column; align-items: center; justify-content: center; padding: 40px; text-align: center; }
+  .f-icon { font-size: 5rem; margin-bottom: 20px; }
+  .f-title { font-size: 3rem; font-weight: 900; margin-bottom: 15px; text-transform: uppercase; }
+  .f-desc { font-size: 1.2rem; color: #cbd5e1; max-width: 600px; line-height: 1.6; margin-bottom: 40px; }
+  .btn-next { background: #eab308; color: #000; border: none; padding: 15px 40px; border-radius: 30px; font-size: 1.2rem; font-weight: 900; cursor: pointer; text-transform: uppercase; }
+
+  .btn-back { position: absolute; top: 20px; left: 20px; color: rgba(255,255,255,0.6); text-decoration: none; font-weight: 700; display: flex; align-items: center; gap: 8px; transition: color 0.2s; z-index: 50; }
+  .btn-back:hover { color: #ffffff; }
+
+</style>
+
+<div class="studio-bg"></div>
+<div class="studio-lights"></div>
+
+<a href="/retorik" class="btn-back">← Stüdyodan Çık</a>
+
+<div class="mz-container" id="mainContainer">
+  
+  <div class="top-hud">
+    <div class="rating-title">Reyting</div>
+    <div class="rating-bar-container"><div class="rating-fill" id="ratingFill"></div></div>
+    <div class="rating-value" id="ratingVal">50%</div>
+  </div>
+
+  <div class="opponent-box" id="oppBox">
+    <p class="opponent-text" id="oppText">Canlı yayına hoş geldiniz. Rakibiniz çok agresif. Süre bitmeden safsatalarını çürütün.</p>
+  </div>
+
+  <div class="timer-box" id="timerBox" style="display:none;"><div class="timer-fill" id="timerFill"></div></div>
+
+  <div class="interaction-area" id="intArea">
+    <div class="stage-pills" id="stagePills" style="display:none;">
+      <div class="s-pill active" id="pill1">1. TEŞHİS</div>
+      <div class="s-pill" id="pill2">2. KARŞI HAMLE</div>
+    </div>
+    <h2 class="stage-title" id="stageTitle">Hazırsanız Başlayın</h2>
+    <div class="options-grid" id="optionsGrid">
+      <button class="mz-btn" style="align-items:center; background:#eab308; color:#000" onclick="startBattle()">⚔️ CANLI YAYINI BAŞLAT</button>
+    </div>
+  </div>
+
+</div>
+
+<div class="feedback-overlay" id="feedbackBox">
+  <div class="f-icon" id="fIcon">💥</div>
+  <div class="f-title" id="fTitle">Sonuç</div>
+  <div class="f-desc" id="fDesc">Açıklama</div>
+  <button class="btn-next" onclick="nextRound()" id="fNextBtn">Sıradaki Raund</button>
+</div>
+
+<script>
+  let rating = 50; // Starts at 50%
+  let currentRound = 0;
+  let timer;
+  let timeLeft = 0;
+  let maxTime = 0;
+
+  const rounds = [
+    {
+      attack: "Senin bu yeni vergi planın tamamen bir rezalet! Zaten sen lisedeyken matematikten kalmıştın, senin hesaplarına nasıl güvenelim?",
+      stage1: {
+        title: "Rakip Hangi Mantık Hatasını (Safsatayı) Yaptı?",
+        time: 15000,
+        options: [
+          { text: "Strawman (Korkuluk)", isCorrect: false, desc: "Fikirlerinizi çarpıtmıyor, doğrudan size saldırıyor." },
+          { text: "Ad Hominem (Kişiye Saldırı)", isCorrect: true, desc: "Tartışılan konuyu (Vergi planı) bırakıp sizin geçmişinize veya kişiliğinize saldırıyor." },
+          { text: "Whataboutism (Konu Saptırma)", isCorrect: false, desc: "Başka bir olayı gündeme getirmiyor, direkt size saldırıyor." }
+        ]
+      },
+      stage2: {
+        title: "Şimdi Doğru Retorik Judosuyla Karşılık Ver!",
+        time: 15000,
+        options: [
+          { badge: "Savunma (HATA)", text: "Ben lisede matematikten kalmadım, o sadece bir dönemlik bir sorundu!", isCorrect: false, effect: -15, feedback: "Asla rakibin çerçevesine girip geçmişinizi savunmayın! Seyirci artık vergi planını unuttu, matematik notunuzu tartışıyor." },
+          { badge: "Karşı Saldırı (HATA)", text: "Sen de üniversiteyi 7 yılda zor bitirdin, asıl sana kim güvensin!", isCorrect: false, effect: -20, feedback: "Çamura batıp Ad Hominem'e Ad Hominem ile cevap verdiniz. Reytinginiz fena çakıldı." },
+          { badge: "Retorik Judosu (DOĞRU)", text: "Benim lise notlarımı ezberleyecek kadar zamanınız olması ne güzel. Ancak halkımız geçmiş notlarımla değil, bu vergi planının ceplerine yapacağı katkıyla ilgileniyor. Rakamlara dönelim.", isCorrect: true, effect: +20, feedback: "Mükemmel! Saldırıyı hafif bir mizahla savuşturdunuz ve tartışmayı tekrar SİZİN konunuza (Logos) çektiniz." }
+        ]
+      }
+    },
+    {
+      attack: "Fabrikalarınızın doğayı kirlettiğini söylüyorsunuz. Peki ya rakip şirketiniz geçen ay denize zehirli atık dökerken neredeydiniz? Sesiniz hiç çıkmıyordu!",
+      stage1: {
+        title: "Rakip Hangi Mantık Hatasını (Safsatayı) Yaptı?",
+        time: 15000,
+        options: [
+          { text: "Slippery Slope (Kaygan Zemin)", isCorrect: false, desc: "Bir olayın felakete yol açacağını iddia etmiyor." },
+          { text: "Whataboutism (Sen de Yaptın / Ya Şunlar?)", isCorrect: true, desc: "Sizin argümanınızı çürütmek yerine ilgiyi başka bir şirketin suçlarına (başka yöne) çekiyor." },
+          { text: "Ad Populum (Çoğunluğa Başvurma)", isCorrect: false, desc: "Çoğunluk böyle düşünüyor demiyor." }
+        ]
+      },
+      stage2: {
+        title: "Nasıl Yanıt Vereceksin?",
+        time: 15000,
+        options: [
+          { badge: "Retorik Judosu (DOĞRU)", text: "Eğer başka şirketlerin suçları bizim doğayı koruma sorumluluğumuzu ortadan kaldırıyorsa vah halimize. Biz başkalarının hatalarının arkasına saklanmıyoruz, kendi fabrikamızı temizliyoruz.", isCorrect: true, effect: +20, feedback: "Harika! Rakibin konu saptırma çabasını deşifre ettiniz ve yüksek ahlaki zemine (Ethos) geri döndünüz." },
+          { badge: "Tuğla Duvar (HATA)", text: "Rakip şirket beni ilgilendirmez, biz kendi fabrikamıza bakalım.", isCorrect: false, effect: -10, feedback: "Çok kuru ve defansif bir cevap. İzleyici bu cevabı 'kaçamak' olarak algılar." },
+          { badge: "Tuzağa Düşmek (HATA)", text: "Rakip şirketi de kınadık, o zaman bir basın açıklaması yapmıştık, isterseniz belgeleri getireyim.", isCorrect: false, effect: -15, feedback: "Tebrikler, rakibin oltasına geldiniz. Artık kendi fabrikalarınızı değil, rakip şirket için ne yaptığınızı konuşuyorsunuz." }
+        ]
+      }
+    }
+  ];
+
+  const ratingFill = document.getElementById('ratingFill');
+  const ratingVal = document.getElementById('ratingVal');
+  const oppText = document.getElementById('oppText');
+  const timerBox = document.getElementById('timerBox');
+  const timerFill = document.getElementById('timerFill');
+  const stagePills = document.getElementById('stagePills');
+  const pill1 = document.getElementById('pill1');
+  const pill2 = document.getElementById('pill2');
+  const stageTitle = document.getElementById('stageTitle');
+  const optionsGrid = document.getElementById('optionsGrid');
+  
+  const feedbackBox = document.getElementById('feedbackBox');
+  const fIcon = document.getElementById('fIcon');
+  const fTitle = document.getElementById('fTitle');
+  const fDesc = document.getElementById('fDesc');
+  const fNextBtn = document.getElementById('fNextBtn');
+  const mainContainer = document.getElementById('mainContainer');
+
+  function updateRating(change) {
+    rating += change;
+    if(rating > 100) rating = 100;
+    if(rating < 0) rating = 0;
+    
+    ratingFill.style.width = rating + '%';
+    ratingVal.textContent = rating + '%';
+    
+    if(rating < 30) { ratingVal.style.color = '#ef4444'; ratingFill.style.background = '#ef4444'; }
+    else if(rating < 60) { ratingVal.style.color = '#eab308'; ratingFill.style.background = '#eab308'; }
+    else { ratingVal.style.color = '#10b981'; ratingFill.style.background = 'linear-gradient(90deg, #ef4444 0%, #eab308 50%, #10b981 100%)'; }
+
+    if(change < 0) {
+      mainContainer.classList.add('shake-anim');
+      setTimeout(() => mainContainer.classList.remove('shake-anim'), 400);
+    }
+  }
+
+  function startBattle() {
+    currentRound = 0;
+    rating = 50;
+    updateRating(0);
+    playRoundStage1();
+  }
+
+  function startTimer(duration, callback) {
+    clearInterval(timer);
+    maxTime = duration;
+    timeLeft = maxTime;
+    timerBox.style.display = 'block';
+    
+    timer = setInterval(() => {
+      timeLeft -= 50;
+      timerFill.style.width = (timeLeft / maxTime) * 100 + '%';
+      if(timeLeft <= 0) {
+        clearInterval(timer);
+        callback();
+      }
+    }, 50);
+  }
+
+  // STAGE 1: DIAGNOSE
+  function playRoundStage1() {
+    if(currentRound >= rounds.length) {
+      showEndGame();
+      return;
+    }
+
+    const r = rounds[currentRound];
+    oppText.textContent = `"${r.attack}"`;
+    stagePills.style.display = 'flex';
+    pill1.classList.add('active'); pill2.classList.remove('active');
+    stageTitle.textContent = r.stage1.title;
+    stageTitle.style.color = '#eab308';
+
+    optionsGrid.innerHTML = '';
+    const opts = [...r.stage1.options].sort(() => Math.random() - 0.5);
+    
+    opts.forEach(opt => {
+      const btn = document.createElement('button');
+      btn.className = 'mz-btn';
+      btn.textContent = opt.text;
+      btn.onclick = () => { clearInterval(timer); handleStage1Choice(opt); };
+      optionsGrid.appendChild(btn);
+    });
+
+    startTimer(r.stage1.time, () => { handleStage1Choice(null); });
+  }
+
+  function handleStage1Choice(opt) {
+    if(!opt) {
+      updateRating(-10);
+      showOverlay("⏱️", "SÜRE BİTTİ", "Teşhis etmekte çok geciktiniz. Demagogun sözleri seyirciyi etkilemeye başladı.", () => playRoundStage2());
+    } else if (opt.isCorrect) {
+      updateRating(+10);
+      showOverlay("🎯", "DOĞRU TEŞHİS!", opt.desc + " Rakibin saldırı gücünü kırdınız, şimdi karşı hamle zamanı.", () => playRoundStage2());
+    } else {
+      updateRating(-15);
+      showOverlay("❌", "YANLIŞ TEŞHİS", "Rakibin oyununu okuyamadınız. " + opt.desc, () => playRoundStage2());
+    }
+  }
+
+  // STAGE 2: JUDO
+  function playRoundStage2() {
+    const r = rounds[currentRound];
+    pill1.classList.remove('active'); pill2.classList.add('active');
+    stageTitle.textContent = r.stage2.title;
+    stageTitle.style.color = '#38bdf8';
+
+    optionsGrid.innerHTML = '';
+    const opts = [...r.stage2.options].sort(() => Math.random() - 0.5);
+    
+    opts.forEach(opt => {
+      const btn = document.createElement('button');
+      btn.className = 'mz-btn';
+      btn.innerHTML = `<span class="btn-badge">${opt.badge}</span>${opt.text}`;
+      btn.onclick = () => { clearInterval(timer); handleStage2Choice(opt); };
+      optionsGrid.appendChild(btn);
+    });
+
+    startTimer(r.stage2.time, () => { handleStage2Choice(null); });
+  }
+
+  function handleStage2Choice(opt) {
+    if(!opt) {
+      updateRating(-20);
+      showOverlay("⏱️", "SESSİZ KALDINIZ", "Sessizlik stüdyoda yenilgi olarak algılandı.", () => finishRound());
+    } else {
+      updateRating(opt.effect);
+      if(opt.isCorrect) {
+        showOverlay("🥋", "MÜKEMMEL JUDO!", opt.feedback, () => finishRound());
+      } else {
+        showOverlay("💀", "AĞIR DARBE", opt.feedback, () => finishRound());
+      }
+    }
+  }
+
+  function finishRound() {
+    if(rating <= 0) {
+      showOverlay("📺", "YAYINDAN ALINDINIZ", "Reytinginiz sıfıra düştü. Demagog sizi canlı yayında rezil etti.", () => location.reload());
+      fNextBtn.textContent = "Tekrar Oyna";
+    } else {
+      currentRound++;
+      playRoundStage1();
+    }
+  }
+
+  function showOverlay(icon, title, desc, callback) {
+    fIcon.textContent = icon;
+    fTitle.textContent = title;
+    fDesc.textContent = desc;
+    fNextBtn.onclick = () => {
+      feedbackBox.style.display = 'none';
+      callback();
+    };
+    feedbackBox.style.display = 'flex';
+  }
+
+  function showEndGame() {
+    timerBox.style.display = 'none';
+    stagePills.style.display = 'none';
+    oppText.textContent = "YAYIN SONA ERDİ.";
+    stageTitle.textContent = "Sonuç";
+    optionsGrid.innerHTML = '<button class="mz-btn" style="align-items:center; background:#10b981; color:#fff" onclick="location.reload()">🔄 Yeniden Oyna</button>';
+    
+    if(rating >= 70) showOverlay("👑", "MÜNAZARA ŞAMPİYONU", `Reyting: ${rating}%. Demagogu kendi silahıyla vurdunuz. Halk size hayran kaldı.`, () => { feedbackBox.style.display = 'none'; });
+    else if(rating >= 40) showOverlay("👍", "Fena Değil", `Reyting: ${rating}%. Ayakta kaldınız ama bazı darbeler aldınız.`, () => { feedbackBox.style.display = 'none'; });
+    else showOverlay("🤕", "Zor Kurtuldunuz", `Reyting: ${rating}%. Demagog sizi çok zorladı, yayın ucu ucuna bitti.`, () => { feedbackBox.style.display = 'none'; });
+  }
+
+</script>

@@ -1,0 +1,206 @@
+<%- include('partials/main-header') %>
+
+<style>
+  body { background: #0f172a; color: #f8fafc; font-family: 'Inter', sans-serif; overflow-x: hidden; }
+  .statu-container { padding: 40px 20px; max-width: 900px; margin: 0 auto; min-height: 85vh; display: flex; flex-direction: column; align-items: center; }
+  
+  h1 { font-size: 2.5rem; font-weight: 900; margin-bottom: 5px; color: #eab308; text-transform: uppercase; letter-spacing: 2px; text-align: center; text-shadow: 0 0 15px rgba(234, 179, 8, 0.4); }
+  p.desc { color: #94a3b8; font-size: 1rem; line-height: 1.6; margin-bottom: 30px; text-align: center; max-width: 700px; }
+
+  /* Arena */
+  .arena { width: 100%; background: #1e293b; border: 3px solid #ca8a04; border-radius: 20px; overflow: hidden; box-shadow: 0 20px 50px rgba(0,0,0,0.6); position: relative; display: flex; flex-direction: column; }
+  
+  /* Status Bar */
+  .status-hud { display: flex; flex-direction: column; align-items: center; background: #0f172a; padding: 20px; border-bottom: 2px solid #334155; }
+  .sh-lbl { font-size: 0.9rem; font-weight: 900; color: #fef08a; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 10px; }
+  .sh-bar { width: 80%; max-width: 400px; height: 25px; background: #334155; border-radius: 20px; position: relative; overflow: hidden; border: 2px solid #ca8a04; }
+  .sh-fill { height: 100%; width: 50%; background: linear-gradient(90deg, #eab308, #facc15); transition: width 0.5s ease-out; position: relative; }
+  .sh-fill::after { content: ''; position: absolute; right: 0; top: 0; bottom: 0; width: 10px; background: rgba(255,255,255,0.5); filter: blur(2px); }
+
+  /* Opponent Zone */
+  .opp-zone { padding: 40px; background: radial-gradient(circle at center, #334155 0%, #1e293b 100%); display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 250px; position: relative; }
+  .opp-avatar { font-size: 5.5rem; filter: drop-shadow(0 10px 10px rgba(0,0,0,0.4)); margin-bottom: 20px; }
+  .opp-box { background: rgba(0,0,0,0.6); border-left: 4px solid #eab308; padding: 20px 25px; border-radius: 12px; width: 85%; max-width: 600px; }
+  .opp-action { font-size: 1.1rem; color: #f8fafc; font-weight: 600; line-height: 1.6; }
+  .opp-action strong { color: #facc15; }
+
+  /* Options */
+  .opt-zone { padding: 30px; background: #0f172a; border-top: 2px solid #334155; }
+  .oz-title { font-size: 1rem; font-weight: 800; color: #94a3b8; text-transform: uppercase; margin-bottom: 20px; text-align: center; }
+  .opt-grid { display: flex; flex-direction: column; gap: 15px; }
+  
+  .btn-opt { background: #1e293b; border: 2px solid #475569; color: #e2e8f0; padding: 20px; border-radius: 15px; font-size: 1.05rem; font-weight: 600; cursor: pointer; transition: all 0.2s; text-align: left; }
+  .btn-opt:hover { background: #334155; border-color: #eab308; transform: translateY(-2px); box-shadow: 0 10px 20px rgba(234,179,8,0.15); }
+
+  /* Result Overlay */
+  .result-overlay { position: absolute; inset: 0; background: rgba(15, 23, 42, 0.95); z-index: 100; display: none; flex-direction: column; align-items: center; justify-content: center; padding: 30px; text-align: center; }
+  .ro-icon { font-size: 5rem; margin-bottom: 20px; }
+  .ro-title { font-size: 2.5rem; font-weight: 900; margin-bottom: 15px; text-transform: uppercase; }
+  .ro-desc { font-size: 1.1rem; color: #cbd5e1; line-height: 1.6; margin-bottom: 30px; max-width: 550px; }
+  .btn-next { background: #eab308; color: #000; font-weight: 900; padding: 15px 40px; border-radius: 30px; border: none; cursor: pointer; text-transform: uppercase; letter-spacing: 1px; }
+
+  .game-over { display: none; text-align: center; padding: 50px; background: #1e293b; border: 2px solid #eab308; border-radius: 20px; margin-top:30px; width:100%; }
+</style>
+
+<div class="statu-container">
+  <h1>Statü Arenası</h1>
+  <p class="desc">Gerçek özgüven bağırmak değildir. Sosyal ortamlarda insanlar pasif agresif hamlelerle veya beden dilleriyle sizin statünüzü düşürmeye çalışırlar. Çerçevenizi koruyabilir misiniz?</p>
+
+  <div class="arena" id="arena">
+    
+    <div class="status-hud">
+      <div class="sh-lbl">Sizin Sosyal Statünüz</div>
+      <div class="sh-bar"><div class="sh-fill" id="sFill"></div></div>
+    </div>
+
+    <div class="opp-zone">
+      <div class="opp-avatar" id="oAvatar">😒</div>
+      <div class="opp-box">
+        <div class="opp-action" id="oAction">...</div>
+      </div>
+    </div>
+
+    <div class="opt-zone">
+      <div class="oz-title">Reaksiyonunuzu Seçin:</div>
+      <div class="opt-grid" id="optGrid">
+        <!-- Injected -->
+      </div>
+    </div>
+
+    <div class="result-overlay" id="resOverlay">
+      <div class="ro-icon" id="rIcon">✅</div>
+      <div class="ro-title" id="rTitle">STATÜ YÜKSELDİ!</div>
+      <div class="ro-desc" id="rDesc">...</div>
+      <button class="btn-next" onclick="nextRound()">Sıradaki Hamle ➔</button>
+    </div>
+
+  </div>
+
+  <div class="game-over" id="gameOver">
+    <div style="font-size: 5rem; margin-bottom:20px;">👑</div>
+    <h2 style="font-size:2.5rem; color:#eab308; margin:0 0 15px 0;">Alfa Statüsü</h2>
+    <p style="color:#cbd5e1; font-size:1.1rem; margin-bottom:30px;">Zayıf insanların çerçevesine girmeyerek ve duygusal kontrolünüzü (Frame) koruyarak bulunduğunuz odadaki en yüksek statülü kişi olmayı başardınız.</p>
+    <a href="/ozguven" style="background:#eab308; color:#000; padding:15px 30px; border-radius:30px; text-decoration:none; font-weight:900;">Akademiye Dön</a>
+  </div>
+
+</div>
+
+<script>
+  let statusLvl = 50;
+
+  const scenarios = [
+    {
+      avatar: "📱",
+      action: "Siz masada hararetli bir şekilde önemli bir konu anlatırken, karşınızdaki kişi <strong>telefonunu çıkardı ve ekrana bakarak mesaj yazmaya başladı.</strong>",
+      options: [
+        { text: "Sesimi biraz daha yükseltip, dikkatini çekmek için daha enerjik anlatmaya devam ederim.", statusChange: -20, isHigh: false },
+        { text: "Konuşmamı aniden keserim. O kafasını telefondan kaldırıp 'Devam et dinliyorum' diyene kadar tam sessizlikte beklerim.", statusChange: 25, isHigh: true },
+        { text: "'Beni dinlemiyor musun?' diye agresif bir tonda hesap sorarım.", statusChange: -15, isHigh: false }
+      ],
+      successMsg: "MÜKEMMEL ÇERÇEVE! Konuşmayı kesmek ve sessizce beklemek, 'Benim zamanım ve sözlerim değerli, dinlenilmediğim yerde konuşmam' mesajı verir. Yüksek statü tepkisidir.",
+      failMsg: "STATÜ KAYBETTİNİZ! Agresifleşmek 'Duygusal kontrolümü kaybettim' (Zayıflık) anlamına gelir. Sesinizi yükseltmek veya umursanmadığınız halde konuşmaya devam etmek ise tamamen alt-statü (Submissive) davranışıdır."
+    },
+    {
+      avatar: "⏳",
+      action: "Önemli bir görüşme için kafede sözleştiniz. Karşı taraf <strong>20 dakika geç kaldı ve geldiğinde rahat bir tavırla 'Kusura bakma trafik vardı' dedi.</strong>",
+      options: [
+        { text: "'Önemli değil canım, ben de telefonda takılıyordum zaten' der gülümserim.", statusChange: -20, isHigh: false },
+        { text: "Soğuk bir şekilde yüzüne bakar ve 'Ciddi bir insansın sanıyordum, zamanımı çaldın' diyerek bağırırım.", statusChange: -15, isHigh: false },
+        { text: "Sakin bir sesle, 'Zaman benim için önemli. Bir dahakine geç kalacağında 15 dakika önceden haber verirsen sevinirim. Ne içiyorsun?' derim.", statusChange: 25, isHigh: true }
+      ],
+      successMsg: "ALFA TEPKİSİ! Zamanınızın değerli olduğu sınırını çizdiniz, ama bunu bağırarak değil, sakin ve sarsılmaz bir otoriteyle yaptınız. Karşı tarafın size saygısı anında arttı.",
+      failMsg: "STATÜ ÇÖKTÜ! 'Önemli değil' demek kendi zamanınızı değersizleştirir. Bağırmak ise 'Reactive' (Tepkisel) bir düşük statü refleksidir."
+    },
+    {
+      avatar: "🗣️",
+      action: "Toplantıdasınız. Siz bir fikir beyan ederken araya giren biri: <strong>'Tamam bu dediklerini anladık, o kolay da, asıl mesele şu...' diyerek sözünüzü kesti.</strong>",
+      options: [
+        { text: "Hemen susar ve onun ne söyleyeceğini dinlerim.", statusChange: -20, isHigh: false },
+        { text: "Göz teması kurarak elimi hafifçe kaldırıp 'Cümlemi bitireyim, sonra seni dinleyeceğim' der ve konuşmama normal hızda devam ederim.", statusChange: 25, isHigh: true },
+        { text: "'Sözümü niye kesiyorsun kardeşim!' diyerek ortamı gererim.", statusChange: -15, isHigh: false }
+      ],
+      successMsg: "HARİKA OYUN! El hareketi (Traffic cop gesture) ve net bir sesle sınır çizmek liderlik göstergesidir. Cümlenizi paniksiz tamamlayarak odadaki hakimiyetinizi kanıtladınız.",
+      failMsg: "ÇERÇEVEYİ KAYBETTİNİZ! Susmak liderliği ona devretmektir. Agresifleşmek ise odadaki 'Profesyonel' algınızı zedeler."
+    },
+    {
+      avatar: "🐍",
+      action: "Arkadaş grubundasınız. Biri size kalabalığın içinde: <strong>'Ooo bu tişörtü geçen sene de giyiyordun, çok seviyorsun herhalde ha?' diyerek pasif agresif (backhanded) bir iltifat etti.</strong>",
+      options: [
+        { text: "Bozulduğumu belli etmemek için zorla gülerim ve 'Evet ya seviyorum' derim.", statusChange: -20, isHigh: false },
+        { text: "'Sen kendine bak, senin gömleğin de pazardan alınmış gibi' diyerek saldırırım.", statusChange: -15, isHigh: false },
+        { text: "Sessizce 3 saniye gözlerinin içine dümdüz (tepkisiz) bakarım. Sonra hiçbir şey demeden yanındaki kişiye döner ve sohbet açarım.", statusChange: 25, isHigh: true }
+      ],
+      successMsg: "BUZ GİBİ STATÜ! Pasif agresif saldırılara verilecek en iyi cevap onları 'Cevap vermeye değer bulmamak'tır. 3 saniyelik göz teması ve yok sayma (Ignoring) karşı tarafı utandırır ve ezer.",
+      failMsg: "DUYGUSAL OLARAK YENİLDİNİZ! Zoraki gülmek onun pasif saldırısını onaylamaktır. Geri saldırmak ise onun seviyesine inmek (Reactive) demektir."
+    }
+  ];
+
+  let currIdx = 0;
+
+  function updateHUD(delta) {
+    statusLvl += delta;
+    if(statusLvl > 100) statusLvl = 100;
+    if(statusLvl < 0) statusLvl = 0;
+    document.getElementById('sFill').style.width = statusLvl + "%";
+  }
+
+  function loadRound() {
+    if(currIdx >= scenarios.length) {
+      document.getElementById('arena').style.display = 'none';
+      document.getElementById('gameOver').style.display = 'block';
+      return;
+    }
+
+    const s = scenarios[currIdx];
+    document.getElementById('oAvatar').textContent = s.avatar;
+    document.getElementById('oAction').innerHTML = s.action;
+    
+    const grid = document.getElementById('optGrid');
+    grid.innerHTML = '';
+    
+    const shuffled = [...s.options].sort(() => Math.random() - 0.5);
+    shuffled.forEach(opt => {
+      const btn = document.createElement('button');
+      btn.className = 'btn-opt';
+      btn.textContent = opt.text;
+      btn.onclick = () => selectOpt(opt);
+      grid.appendChild(btn);
+    });
+  }
+
+  function selectOpt(opt) {
+    const s = scenarios[currIdx];
+    const overlay = document.getElementById('resOverlay');
+    const rIcon = document.getElementById('rIcon');
+    const rTitle = document.getElementById('rTitle');
+    const rDesc = document.getElementById('rDesc');
+
+    overlay.style.display = 'flex';
+
+    if(opt.isHigh) {
+      updateHUD(opt.statusChange);
+      rIcon.textContent = '👑';
+      rTitle.textContent = 'YÜKSEK STATÜ KORUNDU!';
+      rTitle.style.color = '#eab308';
+      rDesc.textContent = s.successMsg;
+    } else {
+      updateHUD(opt.statusChange);
+      rIcon.textContent = '📉';
+      rTitle.textContent = 'STATÜ DÜŞTÜ (ZAYIFLIK)';
+      rTitle.style.color = '#f43f5e';
+      rDesc.textContent = s.failMsg;
+    }
+  }
+
+  function nextRound() {
+    document.getElementById('resOverlay').style.display = 'none';
+    currIdx++;
+    loadRound();
+  }
+
+  // Init
+  loadRound();
+
+</script>
+
+<%- include('partials/main-footer') %>

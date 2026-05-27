@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "node index.js",
-    "dev": "node index.js",
+    "dev": "nodemon index.js",
     "gen-cert": "node scripts/gen-cert.js",
     "indexing": "node scripts/indexing-service.js --batch",
     "pm2:start": "pm2 start ecosystem.config.js --env production",
@@ -20,11 +20,12 @@
   "type": "commonjs",
   "dependencies": {
     "compression": "^1.8.1",
+    "ejs": "^5.0.2",
     "express": "^5.2.1",
-    "googleapis": "^144.0.0",
-    "playwright": "^1.59.1"
+    "googleapis": "^144.0.0"
   },
   "devDependencies": {
+    "nodemon": "^3.1.14",
     "selfsigned": "^2.4.1"
   }
 }

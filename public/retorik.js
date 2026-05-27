@@ -12,28 +12,8 @@ const TOTAL_EXERCISES = 18;
 
 // ── Category Filter ───────────────────────────────────────────
 function initCategoryFilter(){
-  document.querySelectorAll('.ret-cat-pill').forEach(pill => {
-    pill.addEventListener('click', e => {
-      e.preventDefault();
-      const cat = pill.dataset.retCat;
-      document.querySelectorAll('.ret-cat-pill').forEach(p => p.classList.remove('active'));
-      pill.classList.add('active');
-      
-      document.querySelectorAll('.ret-exercise-section[data-category]').forEach(sec => {
-        if(cat === 'all' || sec.dataset.category === cat){
-          sec.style.display = 'block';
-          sec.style.animation = 'retFadeIn .4s ease';
-        } else {
-          sec.style.display = 'none';
-        }
-      });
-      
-      // Show/hide general info sections (no data-category)
-      document.querySelectorAll('#retorik-main-content > .ret-section:not([data-category])').forEach(sec => {
-        sec.style.display = cat === 'all' ? 'block' : 'none';
-      });
-    });
-  });
+  // Pills are now SSR links, no JS interception needed.
+  // The backend renders the active class and correct data.
 }
 
 // ── Quiz Engine ───────────────────────────────────────────────
@@ -126,7 +106,7 @@ function updateProgress(){
 // ── Init ──────────────────────────────────────────────────────
 function initRetorik(){
   const container = document.getElementById('retorik-container');
-  if(!container || container.style.display === 'none') return;
+  if(!container) return;
   initCategoryFilter();
   initQuizzes();
   initAccordions();

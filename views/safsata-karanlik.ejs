@@ -1,0 +1,283 @@
+<%- include('partials/main-header') %>
+
+<style>
+  body { background: #0f172a; color: #f8fafc; font-family: 'Inter', sans-serif; overflow-x: hidden; }
+  .lab-container { padding: 40px 20px; max-width: 1000px; margin: 0 auto; min-height: 85vh; display: flex; flex-direction: column; align-items: center; }
+  
+  h1 { font-size: 2.5rem; font-weight: 900; margin-bottom: 5px; color: #f43f5e; text-transform: uppercase; letter-spacing: 1px; text-align: center; text-shadow: 0 0 10px rgba(244, 63, 94, 0.5); }
+  p.desc { color: #94a3b8; font-size: 1rem; line-height: 1.6; margin-bottom: 40px; text-align: center; max-width: 700px; }
+
+  /* Workstation */
+  .workstation { width: 100%; background: #1e293b; border: 1px solid #4c1d95; border-radius: 20px; padding: 30px; box-shadow: 0 20px 50px rgba(0,0,0,0.6); display: flex; flex-direction: column; position: relative; }
+  
+  /* Target Context */
+  .target-panel { background: rgba(0,0,0,0.3); border-left: 4px solid #f43f5e; padding: 20px; border-radius: 10px; margin-bottom: 30px; }
+  .tp-label { font-size: 0.8rem; font-weight: 800; color: #f43f5e; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 10px; }
+  .tp-scenario { font-size: 1.1rem; color: #e2e8f0; line-height: 1.5; margin-bottom: 15px; }
+  .tp-goal { font-size: 1rem; color: #facc15; font-weight: 700; background: rgba(250, 204, 21, 0.1); display: inline-block; padding: 5px 10px; border-radius: 5px; }
+
+  /* Blueprint Area (Dropzone) */
+  .blueprint { background: #0f172a; border: 2px dashed #4c1d95; border-radius: 15px; padding: 30px; min-height: 150px; display: flex; flex-wrap: wrap; gap: 10px; align-items: center; justify-content: center; margin-bottom: 30px; transition: all 0.3s; }
+  .blueprint.active { border-color: #f43f5e; background: rgba(244, 63, 94, 0.05); }
+  
+  .bp-placeholder { color: #64748b; font-size: 1.2rem; font-weight: 800; text-transform: uppercase; letter-spacing: 2px; text-align: center; width: 100%; pointer-events: none; }
+
+  /* Fragments (Draggables / Clickables) */
+  .fragments-box { background: rgba(255,255,255,0.02); border: 1px solid #334155; border-radius: 15px; padding: 20px; }
+  .fb-title { font-size: 0.9rem; font-weight: 700; color: #94a3b8; margin-bottom: 15px; text-transform: uppercase; text-align: center; }
+  
+  .frag-grid { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; }
+  .fragment { background: #334155; color: #f8fafc; padding: 12px 20px; border-radius: 8px; font-size: 1rem; cursor: pointer; transition: all 0.2s; user-select: none; border: 1px solid #475569; font-weight: 600; }
+  .fragment:hover { background: #475569; transform: translateY(-2px); border-color: #a855f7; }
+  .fragment.selected { display: none; }
+
+  /* Blueprint Items */
+  .bp-item { background: #f43f5e; color: #fff; padding: 12px 20px; border-radius: 8px; font-size: 1rem; cursor: pointer; font-weight: 700; animation: popIn 0.3s; box-shadow: 0 4px 10px rgba(244, 63, 94, 0.4); }
+  .bp-item:hover { background: #e11d48; text-decoration: line-through; }
+  @keyframes popIn { from { transform: scale(0.8); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+
+  /* Controls */
+  .controls { display: flex; justify-content: center; margin-top: 30px; gap: 15px; }
+  .btn-fire { background: #f43f5e; color: #fff; border: none; padding: 15px 40px; border-radius: 12px; font-weight: 900; font-size: 1.2rem; text-transform: uppercase; letter-spacing: 1px; cursor: pointer; transition: all 0.2s; box-shadow: 0 0 20px rgba(244, 63, 94, 0.4); }
+  .btn-fire:hover { background: #e11d48; transform: scale(1.05); }
+  .btn-clear { background: transparent; border: 2px solid #64748b; color: #cbd5e1; padding: 15px 30px; border-radius: 12px; font-weight: 800; cursor: pointer; }
+  .btn-clear:hover { background: rgba(100, 116, 139, 0.2); }
+
+  /* Result Overlay */
+  .result-modal { position: fixed; inset: 0; background: rgba(15, 23, 42, 0.95); z-index: 100; display: none; flex-direction: column; align-items: center; justify-content: center; padding: 20px; }
+  .rm-content { background: #0f172a; border: 2px solid #f43f5e; padding: 40px; border-radius: 20px; max-width: 600px; text-align: center; box-shadow: 0 0 50px rgba(244, 63, 94, 0.3); }
+  
+  .rm-icon { font-size: 5rem; margin-bottom: 20px; text-shadow: 0 0 20px rgba(244,63,94,0.5); }
+  .rm-title { font-size: 2rem; font-weight: 900; margin-bottom: 15px; text-transform: uppercase; color: #f8fafc; }
+  .rm-desc { font-size: 1.1rem; color: #cbd5e1; line-height: 1.6; margin-bottom: 30px; }
+  
+  .rm-btn { background: #f43f5e; color: #fff; border: none; padding: 15px 30px; border-radius: 12px; font-weight: 900; font-size: 1.1rem; text-transform: uppercase; cursor: pointer; }
+
+  .game-over { text-align: center; padding: 50px; display: none; background: #1e293b; border-radius: 20px; border: 2px solid #a855f7; width: 100%; margin-top:30px; }
+</style>
+
+<div class="lab-container">
+  <h1>Karanlık Sanatlar Laboratuvarı</h1>
+  <p class="desc">Kötü niyetli insanların argümanları nasıl inşa ettiğini öğrenmek için onların silahını kullanın. Verilen hedefe ulaşmak için aşağıdan kelimeleri birleştirerek <strong>kusursuz bir safsata</strong> yaratın.</p>
+
+  <div class="workstation" id="workstation">
+    
+    <div class="target-panel">
+      <div class="tp-label">Hedef Dosya: <span id="lLevel">Seviye 1</span></div>
+      <div class="tp-scenario" id="lScenario">Siyasi rakibiniz "Eğitim bütçesini %10 artırmalıyız" diye bir açıklama yaptı. Mantıklı bir cevabınız yok.</div>
+      <div class="tp-goal" id="lGoal">Görev: Bir 'Saman Adam' (Strawman) safsatası üreterek onu aşırı uçta gösterin.</div>
+    </div>
+
+    <div class="blueprint" id="blueprint">
+      <div class="bp-placeholder" id="bpPlace">Kelimeleri buraya ekleyin...</div>
+      <!-- Built sentence here -->
+    </div>
+
+    <div class="fragments-box">
+      <div class="fb-title">Karanlık Kelime Cephaneliği (Sırayla Tıklayın)</div>
+      <div class="frag-grid" id="fragGrid">
+        <!-- Injected -->
+      </div>
+    </div>
+
+    <div class="controls">
+      <button class="btn-clear" onclick="clearBlueprint()">Temizle</button>
+      <button class="btn-fire" onclick="fireFallacy()">Ateşle 😈</button>
+    </div>
+
+  </div>
+
+  <div class="game-over" id="gameOver">
+    <div style="font-size: 5rem; margin-bottom:20px;">🎓</div>
+    <h2 style="font-size:2.5rem; color:#a855f7; margin:0 0 15px 0;">Karanlık Sanatlar Ustası</h2>
+    <p style="color:#cbd5e1; font-size:1.1rem; margin-bottom:30px;">Zihinsel illüzyonların nasıl üretildiğini artık biliyorsunuz. Formülü bilen kişi, zehirlenmez.</p>
+    <a href="/safsata" style="background:#a855f7; color:#fff; padding:15px 30px; border-radius:12px; text-decoration:none; font-weight:800; text-transform:uppercase;">Akademiye Dön</a>
+  </div>
+
+</div>
+
+<!-- Modal -->
+<div class="result-modal" id="resModal">
+  <div class="rm-content">
+    <div class="rm-icon" id="rmIcon">💥</div>
+    <div class="rm-title" id="rmTitle">Yıkıcı Etki!</div>
+    <div class="rm-desc" id="rmDesc">...</div>
+    <button class="rm-btn" onclick="nextLevel()">Sıradaki Hedef</button>
+  </div>
+</div>
+
+<script>
+  const levels = [
+    {
+      scenario: "Rakibiniz 'Eğitim bütçesini %10 artırmalıyız' dedi. Mantıklı bir cevabınız yok.",
+      goal: "Görev: 'Saman Adam' (Strawman) safsatası üreterek argümanı çarpıtın.",
+      fragments: [
+        { id: "f1", text: "Eğitim" },
+        { id: "f2", text: "Yani sen" },
+        { id: "f3", text: "demek istiyorsun ki," },
+        { id: "f4", text: "orduyu tamamen dağıtıp" },
+        { id: "f5", text: "bizi düşmanlara" },
+        { id: "f6", text: "savunmasız" },
+        { id: "f7", text: "bırakalım!" },
+        { id: "f8", text: "öğrencilere" },
+        { id: "f9", text: "para verelim" }
+      ],
+      // Correct sequence of fragment IDs
+      solution: ["f2", "f3", "f4", "f5", "f6", "f7"],
+      successFeedback: "Mükemmel Manipülasyon! Rakibin %10'luk masum teklifini 'orduyu dağıtmak' gibi absurd ve saldırılması kolay bir hedefe (Saman Adam) çevirip yıktınız."
+    },
+    {
+      scenario: "Şirketinizin nehri zehirlediğine dair bir iddia ortaya atıldı. Gazeteciler kapıda.",
+      goal: "Görev: 'Kırmızı Ringa Balığı' (Red Herring) atarak konuyu saptırın.",
+      fragments: [
+        { id: "f1", text: "Nehir" },
+        { id: "f2", text: "Biz bu ülkenin" },
+        { id: "f3", text: "en büyük" },
+        { id: "f4", text: "vergi" },
+        { id: "f5", text: "rekortmeniyiz!" },
+        { id: "f6", text: "zehirlenmesi" },
+        { id: "f7", text: "yalandır" },
+        { id: "f8", text: "Binlerce kişiye" },
+        { id: "f9", text: "iş veriyoruz!" }
+      ],
+      solution: ["f2", "f3", "f4", "f5", "f8", "f9"],
+      successFeedback: "Harika! Çevre felaketi (asıl konu) sorusuna ekonomi ve istihdam üzerinden 'Kırmızı Ringa' atarak gazetecilerin dikkatini tamamen dağıttınız."
+    },
+    {
+      scenario: "Çocuğunuz 'Akşam 1 saat daha fazla oyun oynayabilir miyim?' diye sordu. İkna edici bir yasağınız yok.",
+      goal: "Görev: 'Kaygan Zemin' (Slippery Slope) kullanarak onu korkutun.",
+      fragments: [
+        { id: "f1", text: "Eğer sana 1 saat" },
+        { id: "f2", text: "fazla izin verirsem," },
+        { id: "f3", text: "yarın ders" },
+        { id: "f4", text: "çalışmayacaksın," },
+        { id: "f5", text: "okuldan atılacaksın" },
+        { id: "f6", text: "ve en sonunda" },
+        { id: "f7", text: "suç çetesine" },
+        { id: "f8", text: "katılacaksın!" },
+        { id: "f9", text: "gözlerin bozulacak" }
+      ],
+      solution: ["f1", "f2", "f3", "f4", "f5", "f6", "f7", "f8"],
+      successFeedback: "Kusursuz Felaket Senaryosu! 1 saatlik oyun iznini mantıksız bir şekilde 'suç çetesine' bağlayarak (Slippery Slope) tartışılamaz bir korku yarattınız."
+    }
+  ];
+
+  let currLv = 0;
+  let currentSentence = []; // array of IDs
+
+  function loadLevel() {
+    if(currLv >= levels.length) {
+      document.getElementById('workstation').style.display = 'none';
+      document.getElementById('gameOver').style.display = 'block';
+      return;
+    }
+    
+    currentSentence = [];
+    updateBlueprintUI();
+
+    const lv = levels[currLv];
+    document.getElementById('lLevel').textContent = `Seviye ${currLv + 1}`;
+    document.getElementById('lScenario').textContent = lv.scenario;
+    document.getElementById('lGoal').textContent = lv.goal;
+
+    const fGrid = document.getElementById('fragGrid');
+    fGrid.innerHTML = '';
+
+    // Shuffle fragments for display
+    const shuffled = [...lv.fragments].sort(() => Math.random() - 0.5);
+
+    shuffled.forEach(f => {
+      const btn = document.createElement('div');
+      btn.className = 'fragment';
+      btn.id = 'frag-' + f.id;
+      btn.textContent = f.text;
+      btn.onclick = () => addToBlueprint(f);
+      fGrid.appendChild(btn);
+    });
+  }
+
+  function addToBlueprint(frag) {
+    if(currentSentence.includes(frag.id)) return;
+    currentSentence.push(frag.id);
+    document.getElementById('frag-' + frag.id).classList.add('selected');
+    updateBlueprintUI();
+  }
+
+  function removeFromBlueprint(fragId) {
+    currentSentence = currentSentence.filter(id => id !== fragId);
+    document.getElementById('frag-' + fragId).classList.remove('selected');
+    updateBlueprintUI();
+  }
+
+  function clearBlueprint() {
+    currentSentence = [];
+    document.querySelectorAll('.fragment').forEach(el => el.classList.remove('selected'));
+    updateBlueprintUI();
+  }
+
+  function updateBlueprintUI() {
+    const bp = document.getElementById('blueprint');
+    if(currentSentence.length === 0) {
+      bp.innerHTML = `<div class="bp-placeholder" id="bpPlace">Kelimeleri buraya ekleyin...</div>`;
+      bp.classList.remove('active');
+    } else {
+      bp.innerHTML = '';
+      bp.classList.add('active');
+      const lv = levels[currLv];
+      
+      currentSentence.forEach(id => {
+        const fragData = lv.fragments.find(x => x.id === id);
+        const el = document.createElement('div');
+        el.className = 'bp-item';
+        el.textContent = fragData.text;
+        el.onclick = () => removeFromBlueprint(id);
+        bp.appendChild(el);
+      });
+    }
+  }
+
+  function fireFallacy() {
+    if(currentSentence.length === 0) return;
+
+    const lv = levels[currLv];
+    const userAns = currentSentence.join(',');
+    const correctAns = lv.solution.join(',');
+
+    const modal = document.getElementById('resModal');
+    const mIcon = document.getElementById('rmIcon');
+    const mTitle = document.getElementById('rmTitle');
+    const mDesc = document.getElementById('rmDesc');
+
+    modal.style.display = 'flex';
+
+    if(userAns === correctAns) {
+      mIcon.textContent = '💥';
+      mIcon.style.color = '#10b981';
+      mTitle.textContent = "Yıkıcı Etki!";
+      mTitle.style.color = '#10b981';
+      mDesc.textContent = lv.successFeedback;
+      document.querySelector('.rm-btn').textContent = "Sıradaki Hedef";
+      document.querySelector('.rm-btn').onclick = nextLevel;
+    } else {
+      mIcon.textContent = '❌';
+      mIcon.style.color = '#f43f5e';
+      mTitle.textContent = "Etkisiz Atış";
+      mTitle.style.color = '#f43f5e';
+      mDesc.textContent = "Oluşturduğunuz cümle mantık hatası içermiyor veya kurgusu zayıf. Karşı taraf argümanınızı hemen çürüttü. Kelimelerin sırasını ve seçimini gözden geçirin.";
+      document.querySelector('.rm-btn').textContent = "Tekrar Dene";
+      document.querySelector('.rm-btn').onclick = () => { modal.style.display = 'none'; clearBlueprint(); };
+    }
+  }
+
+  function nextLevel() {
+    document.getElementById('resModal').style.display = 'none';
+    currLv++;
+    loadLevel();
+  }
+
+  // Init
+  loadLevel();
+
+</script>
+
+<%- include('partials/main-footer') %>

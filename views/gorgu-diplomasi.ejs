@@ -1,0 +1,362 @@
+<%- include('partials/main-header') %>
+
+<style>
+  body { background: #fafaf9 !important; color: #1c1917; margin: 0; padding: 0; font-family: 'Inter', sans-serif; }
+  main.main-content, div.content-wrapper, div.gorgu-page { 
+    max-width: 100% !important; padding: 0 !important; margin: 0 !important; width: 100% !important; background: transparent !important;
+  }
+  
+  @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&family=Playfair+Display:ital,wght@0,600;1,600&display=swap');
+  :root {
+    --gold-primary: #C59D5F; 
+    --gold-dark: #9A7B4F;
+    --text-main: #1c1917;
+    --text-muted: #57534e;
+    --rude-bg: #fef2f2;
+    --rude-border: #fecaca;
+    --rude-text: #991b1b;
+    --elegant-bg: #f8fafc;
+    --elegant-border: #C59D5F;
+  }
+
+  .dip-container {
+    max-width: 1000px;
+    margin: 40px auto;
+    padding: 20px;
+    min-height: 85vh;
+  }
+
+  .dip-header { text-align: center; margin-bottom: 40px; }
+  .dip-badge {
+    display: inline-block; padding: 6px 20px; background: rgba(197, 157, 95, 0.1); color: var(--gold-dark);
+    border-radius: 20px; font-family: 'Outfit'; font-weight: 700; font-size: 0.8rem; text-transform: uppercase;
+    letter-spacing: 2px; margin-bottom: 20px;
+  }
+  .dip-title { font-family: 'Playfair Display', serif; font-size: 3rem; color: var(--text-main); margin: 0 0 10px 0; }
+  .dip-desc { font-family: 'Outfit', sans-serif; color: var(--text-muted); font-size: 1.1rem; max-width: 700px; margin: 0 auto; line-height:1.6; }
+
+  /* WORKSHOP AREA */
+  .workshop-board {
+    background: #ffffff;
+    border: 1px solid rgba(0,0,0,0.05);
+    border-radius: 24px;
+    padding: 40px;
+    box-shadow: 0 20px 50px rgba(0,0,0,0.04);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .w-level-info {
+    display: flex; justify-content: space-between; align-items: center;
+    margin-bottom: 30px; padding-bottom: 20px; border-bottom: 1px solid rgba(0,0,0,0.05);
+    font-family: 'Outfit', sans-serif;
+  }
+  .w-level { font-weight: 800; font-size: 1.2rem; color: var(--gold-dark); text-transform: uppercase; letter-spacing: 1px; }
+
+  /* RAW SENTENCE */
+  .raw-box {
+    background: var(--rude-bg);
+    border-left: 4px solid var(--rude-border);
+    padding: 20px 25px;
+    border-radius: 0 16px 16px 0;
+    margin-bottom: 30px;
+  }
+  .raw-label { font-family: 'Outfit'; font-size: 0.8rem; font-weight: 800; color: var(--rude-text); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 10px; }
+  .raw-text { font-family: 'Playfair Display', serif; font-size: 1.8rem; color: var(--rude-text); }
+
+  /* BUILT SENTENCE */
+  .built-box {
+    background: var(--elegant-bg);
+    border: 2px dashed rgba(197, 157, 95, 0.4);
+    padding: 30px 25px;
+    border-radius: 16px;
+    margin-bottom: 30px;
+    min-height: 120px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    align-items: center;
+    transition: 0.3s;
+  }
+  .built-box.success {
+    border: 2px solid var(--gold-primary);
+    background: rgba(197, 157, 95, 0.05);
+  }
+  .built-placeholder { font-family: 'Outfit'; color: #94a3b8; font-style: italic; width: 100%; text-align: center; }
+
+  /* WORD POOL */
+  .pool-box {
+    background: #f1f5f9;
+    padding: 25px;
+    border-radius: 16px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    justify-content: center;
+  }
+  .word-btn {
+    background: #ffffff;
+    border: 1px solid #cbd5e1;
+    color: var(--text-main);
+    padding: 10px 20px;
+    border-radius: 20px;
+    font-family: 'Outfit', sans-serif;
+    font-weight: 600;
+    font-size: 1.1rem;
+    cursor: pointer;
+    transition: all 0.2s;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.02);
+  }
+  .word-btn:hover {
+    border-color: var(--gold-primary);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgba(197, 157, 95, 0.15);
+  }
+  .word-btn.used {
+    background: #e2e8f0;
+    color: #94a3b8;
+    border-color: #e2e8f0;
+    pointer-events: none;
+    box-shadow: none;
+    transform: none;
+  }
+
+  /* ACTION CONTROLS */
+  .action-controls {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 30px;
+  }
+  .btn-undo {
+    background: transparent; border: 2px solid #e2e8f0; color: var(--text-muted);
+    padding: 12px 25px; border-radius: 20px; font-family: 'Outfit'; font-weight: 700;
+    cursor: pointer; transition: 0.3s;
+  }
+  .btn-undo:hover { background: #f8fafc; border-color: #cbd5e1; color: var(--text-main); }
+  
+  .btn-check {
+    background: var(--text-main); color: #fff; border: none;
+    padding: 12px 35px; border-radius: 20px; font-family: 'Outfit'; font-weight: 700;
+    cursor: pointer; transition: 0.3s; font-size: 1.05rem;
+  }
+  .btn-check:hover { background: var(--gold-primary); box-shadow: 0 10px 20px rgba(197, 157, 95, 0.2); transform: translateY(-2px); }
+
+  /* FEEDBACK MODAL (DETAILED ANALYSIS) */
+  .analysis-modal {
+    display: none;
+    background: #ffffff;
+    border-top: 4px solid var(--gold-primary);
+    border-radius: 16px;
+    padding: 30px;
+    margin-top: 30px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+    animation: slideUp 0.5s;
+  }
+  .a-title { font-family: 'Playfair Display', serif; font-size: 1.8rem; color: var(--gold-dark); margin-bottom: 15px; }
+  .a-desc { font-family: 'Outfit', sans-serif; color: var(--text-muted); font-size: 1.1rem; line-height: 1.7; margin-bottom: 25px; }
+  .a-badge { display:inline-block; background:rgba(16,185,129,0.1); color:#059669; padding:5px 12px; border-radius:12px; font-size:0.85rem; font-weight:700; margin-bottom:15px;}
+  .a-badge.error { background:rgba(220,38,38,0.1); color:#dc2626; }
+
+  @keyframes slideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+
+  @media(max-width: 768px) {
+    .dip-title { font-size: 2.2rem; }
+    .workshop-board { padding: 25px 15px; }
+    .raw-text { font-size: 1.4rem; }
+    .action-controls { flex-direction: column; gap: 15px; }
+    .btn-check, .btn-undo { width: 100%; }
+  }
+</style>
+
+<div class="gorgu-page">
+  <div class="dip-container">
+    <div class="dip-header">
+      <div class="dip-badge">İleri Düzey İletişim Atölyesi</div>
+      <h1 class="dip-title">Diplomasi Atölyesi: Nezaket Çevirmeni</h1>
+      <p class="dip-desc">Profesyonel hayatta "ne" söylediğinizden çok "nasıl" söylediğiniz önemlidir. Aşağıdaki kaba, agresif veya amatörce yazılmış cümleleri, kelime havuzundaki doğru parçaları seçerek zarif, kurumsal ve diplomatik bir dile çevirin.</p>
+    </div>
+
+    <div class="workshop-board" id="gameBoard">
+      
+      <div class="w-level-info">
+        <div class="w-level" id="wLevel">Seviye 1: Başlangıç</div>
+      </div>
+
+      <div class="raw-box">
+        <div class="raw-label">Kaba / Agresif İfade</div>
+        <div class="raw-text" id="rawText">"Bana o raporu hemen gönder, patron kızacak!"</div>
+      </div>
+
+      <div class="built-box" id="builtBox">
+        <div class="built-placeholder" id="placeholder">Kibar cümleyi oluşturmak için aşağıdaki kelimelere tıklayın...</div>
+      </div>
+
+      <div class="pool-box" id="wordPool">
+        <!-- Words injected by JS -->
+      </div>
+
+      <div class="action-controls">
+        <button class="btn-undo" onclick="undoWord()">⟲ Son Kelimeyi Geri Al</button>
+        <button class="btn-check" onclick="checkTranslation()" id="btnCheck">Çeviriyi Kontrol Et</button>
+      </div>
+
+      <div class="analysis-modal" id="analysisModal">
+        <div class="a-badge" id="aBadge">✅ ÇEVİRİ BAŞARILI</div>
+        <h3 class="a-title">Psikolojik ve Diplomatik Analiz</h3>
+        <div class="a-desc" id="aDesc">Analiz detayı...</div>
+        <button class="btn-check" onclick="nextLevel()" id="btnNextLevel" style="width:100%;">Sonraki Senaryo</button>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<script>
+  const levels = [
+    {
+      levelName: "Seviye 1: İç İletişim",
+      rawPhrase: `"Bana o raporu çabuk yolla, yoksa işler aksayacak!"`,
+      pool: ["Raporu", "müsait", "olduğunuzda", "iletmenizi", "rica", "ederim.", "yoksa", "hemen", "bana", "yolla", "çabuk", "lütfen"],
+      targetSequence: ["Raporu", "müsait", "olduğunuzda", "iletmenizi", "rica", "ederim."],
+      analysis: "Doğrudan emir kipleri ('yolla', 'çabuk') iş ilişkilerinde savunmaya yol açar. 'Müsait olduğunuzda' kalıbı karşı tarafa zaman kontrolü hissi verirken, 'rica ederim' ifadesi profesyonel bir nezaketle işin yapılmasını zorunlu (ama kibarca) kılar."
+    },
+    {
+      levelName: "Seviye 2: Fikir Reddetme",
+      rawPhrase: `"Bu fikrin çok saçma, hiçbir işe yaramaz!"`,
+      pool: ["Bu", "yaklaşımın", "farklı", "riskleri", "olabileceğini", "düşünüyorum.", "fikrin", "çok", "saçma", "bence", "harika", "kötü", "değerlendirelim."],
+      targetSequence: ["Bu", "yaklaşımın", "farklı", "riskleri", "olabileceğini", "düşünüyorum."],
+      analysis: "Bir fikre 'saçma' diyerek kişiyi hedef almak profesyonellik dışıdır. Fikri 'yaklaşım' olarak nesnelleştirmek ve başarısızlık ihtimalini 'farklı riskler' olarak çerçevelemek, karşı tarafın onurunu zedelemeden fikri eleştirmenin en diplomatik yoludur."
+    },
+    {
+      levelName: "Seviye 3: Sınır Çizme (Hayır Deme)",
+      rawPhrase: `"Şu an çok meşgulüm, sana yardım edemem!"`,
+      pool: ["Şu", "an", "öncelikli", "görevlerime", "odaklanmam", "gerekiyor,", "anlayışınız", "için", "teşekkürler.", "meşgulüm", "yardım", "edemem", "kusura", "bakma", "zamanım", "yok"],
+      targetSequence: ["Şu", "an", "öncelikli", "görevlerime", "odaklanmam", "gerekiyor,", "anlayışınız", "için", "teşekkürler."],
+      analysis: "Yardım talebini reddederken 'edemem' gibi keskin bir sınır yerine, 'öncelikli görevlerime odaklanmam gerekiyor' diyerek meşguliyetinizi rasyonalize ettiniz. 'Anlayışınız için teşekkürler' diyerek ise karşı taraftan gelecek olası bir ısrarın önünü baştan kesmiş oldunuz."
+    },
+    {
+      levelName: "Seviye 4: Müşteri/Yönetici Kriz Yönetimi",
+      rawPhrase: `"Bunu bizim hatamız değil, siz yanlış anladınız!"`,
+      pool: ["Durumun", "farklı", "anlaşılmış", "olabileceğini", "görüyorum,", "detayları", "birlikte", "inceleyelim.", "bizim", "hatamız", "değil", "siz", "yanlış", "anladınız", "sorun", "sizde", "özür", "dileriz"],
+      targetSequence: ["Durumun", "farklı", "anlaşılmış", "olabileceğini", "görüyorum,", "detayları", "birlikte", "inceleyelim."],
+      analysis: "İş dünyasında en tehlikeli kelime 'siz' suçlamasıdır. 'Siz yanlış anladınız' demek yerine durumu 'farklı anlaşılmış' diyerek pasif ve öznesiz bir hale getirmek, tansiyonu düşürür. Çözüm odaklı 'birlikte inceleyelim' daveti, sorunu ortak bir zemine taşır."
+    }
+  ];
+
+  let currentLvl = 0;
+  let builtWords = [];
+  
+  const rawTextEl = document.getElementById('rawText');
+  const levelEl = document.getElementById('wLevel');
+  const poolBox = document.getElementById('wordPool');
+  const builtBox = document.getElementById('builtBox');
+  const placeholder = document.getElementById('placeholder');
+  const modal = document.getElementById('analysisModal');
+  const btnCheck = document.getElementById('btnCheck');
+
+  function shuffle(array) {
+    return array.sort(() => Math.random() - 0.5);
+  }
+
+  function loadLevel() {
+    const lvl = levels[currentLvl];
+    builtWords = [];
+    modal.style.display = 'none';
+    builtBox.classList.remove('success');
+    btnCheck.disabled = false;
+    btnCheck.style.opacity = '1';
+
+    levelEl.innerText = lvl.levelName;
+    rawTextEl.innerText = lvl.rawPhrase;
+
+    renderBuiltBox();
+    
+    poolBox.innerHTML = '';
+    const shuffledPool = shuffle([...lvl.pool]);
+    shuffledPool.forEach((word, idx) => {
+      const btn = document.createElement('button');
+      btn.className = 'word-btn';
+      btn.innerText = word;
+      btn.id = `pool-btn-${idx}`;
+      btn.onclick = () => selectWord(word, btn.id);
+      poolBox.appendChild(btn);
+    });
+  }
+
+  function selectWord(word, btnId) {
+    builtWords.push({ word: word, btnId: btnId });
+    document.getElementById(btnId).classList.add('used');
+    renderBuiltBox();
+  }
+
+  function undoWord() {
+    if(builtWords.length === 0) return;
+    const last = builtWords.pop();
+    document.getElementById(last.btnId).classList.remove('used');
+    renderBuiltBox();
+  }
+
+  function renderBuiltBox() {
+    builtBox.innerHTML = '';
+    if(builtWords.length === 0) {
+      builtBox.appendChild(placeholder);
+    } else {
+      builtWords.forEach((item) => {
+        const span = document.createElement('div');
+        span.className = 'word-btn';
+        span.style.background = 'var(--gold-primary)';
+        span.style.color = '#fff';
+        span.style.borderColor = 'var(--gold-primary)';
+        span.innerText = item.word;
+        builtBox.appendChild(span);
+      });
+    }
+  }
+
+  function checkTranslation() {
+    if(builtWords.length === 0) return;
+    
+    const lvl = levels[currentLvl];
+    const currentSeq = builtWords.map(i => i.word).join(' ');
+    const targetSeq = lvl.targetSequence.join(' ');
+
+    const aBadge = document.getElementById('aBadge');
+    
+    if(currentSeq === targetSeq) {
+      // SUCCESS
+      builtBox.classList.add('success');
+      btnCheck.disabled = true;
+      btnCheck.style.opacity = '0.5';
+      
+      aBadge.className = 'a-badge';
+      aBadge.innerText = '✅ ÇEVİRİ KUSURSUZ';
+      document.getElementById('aDesc').innerText = lvl.analysis;
+      
+      if(currentLvl === levels.length - 1) {
+        document.getElementById('btnNextLevel').innerText = "Eğitimleri Tamamla (Akademiye Dön)";
+        document.getElementById('btnNextLevel').onclick = () => window.location.href = '/gorgu';
+      }
+
+      modal.style.display = 'block';
+
+    } else {
+      // FAIL
+      aBadge.className = 'a-badge error';
+      aBadge.innerText = '❌ ÇEVİRİ HATALI VEYA EKSİK';
+      document.getElementById('aDesc').innerText = "Seçtiğiniz kelime dizilimi profesyonel bir diplomasi için yeterince zarif değil veya mantıksal bir sıraya sahip değil. Kelimeleri geri alarak doğru sıralamayı bulmaya çalışın. (İpucu: Gereksiz agresif kelimeleri dışarıda bırakmalısınız).";
+      modal.style.display = 'block';
+    }
+  }
+
+  function nextLevel() {
+    if(currentLvl < levels.length - 1) {
+      currentLvl++;
+      loadLevel();
+    }
+  }
+
+  // Init
+  loadLevel();
+</script>
+
+<%- include('partials/main-footer') %>

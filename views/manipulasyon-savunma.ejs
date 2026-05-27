@@ -1,0 +1,479 @@
+<%- include('partials/main-header') %>
+
+<style>
+  /* APPLE-INSPIRED ULTRA PREMIUM LIGHT MODE - SAVUNMA SIMULATORU */
+  body { 
+    background: #fbfbfd !important; 
+    color: #1d1d1f; 
+    margin: 0; 
+    padding: 0; 
+    font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+  
+  main.main-content, div.content-wrapper { 
+    max-width: 100% !important; 
+    padding: 0 !important; 
+    margin: 0 !important; 
+    width: 100% !important;
+    background: transparent !important;
+  }
+  
+  :root {
+    --apple-text: #1d1d1f;
+    --apple-muted: #86868b;
+    --apple-bg: #fbfbfd;
+    --apple-card: #ffffff;
+    --apple-blue: #0066cc;
+    --apple-blue-hover: #0077ed;
+    --apple-shield: #34c759;
+  }
+
+  .sim-container {
+    max-width: 1000px;
+    margin: 60px auto 100px auto;
+    padding: 0 20px;
+  }
+
+  .sim-header {
+    text-align: center;
+    margin-bottom: 40px;
+  }
+
+  .sim-badge {
+    display: inline-block;
+    padding: 6px 18px;
+    border-radius: 20px;
+    background: rgba(0, 102, 204, 0.1);
+    color: var(--apple-blue);
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    margin-bottom: 16px;
+  }
+
+  .sim-title {
+    font-size: 3rem;
+    font-weight: 700;
+    letter-spacing: -0.03em;
+    margin: 0 0 16px 0;
+  }
+
+  .sim-desc {
+    font-size: 1.15rem;
+    color: var(--apple-muted);
+    max-width: 600px;
+    margin: 0 auto;
+    line-height: 1.5;
+  }
+
+  .sim-layout {
+    display: grid;
+    grid-template-columns: 1fr 350px;
+    gap: 30px;
+    align-items: start;
+  }
+
+  @media (max-width: 800px) {
+    .sim-layout { grid-template-columns: 1fr; }
+  }
+
+  /* CHAT UI */
+  .chat-box {
+    background: var(--apple-card);
+    border-radius: 32px;
+    padding: 30px;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.04);
+    border: 1px solid rgba(0,0,0,0.02);
+    min-height: 500px;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .chat-history {
+    flex-grow: 1;
+    overflow-y: auto;
+    padding-bottom: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .message {
+    max-width: 80%;
+    padding: 16px 20px;
+    border-radius: 20px;
+    font-size: 1.05rem;
+    line-height: 1.4;
+    animation: popIn 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .message.toxic {
+    align-self: flex-start;
+    background: #f1f1f2;
+    color: var(--apple-text);
+    border-bottom-left-radius: 4px;
+    border-left: 4px solid #ff3b30;
+  }
+
+  .message.user {
+    align-self: flex-end;
+    background: var(--apple-blue);
+    color: #ffffff;
+    border-bottom-right-radius: 4px;
+  }
+
+  .message-label {
+    font-size: 0.75rem;
+    color: rgba(255,255,255,0.8);
+    margin-bottom: 4px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    font-weight: 600;
+  }
+  
+  .message.toxic .message-label {
+    color: #ff3b30;
+  }
+
+  .chat-options {
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .option-btn {
+    background: #ffffff;
+    border: 2px solid #e5e5ea;
+    border-radius: 16px;
+    padding: 16px 20px;
+    text-align: left;
+    font-size: 1.05rem;
+    color: var(--apple-text);
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .option-btn:hover {
+    border-color: var(--apple-blue);
+    background: rgba(0, 102, 204, 0.02);
+    transform: translateY(-2px);
+  }
+
+  .option-tactic {
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: var(--apple-blue);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  /* HUD / STATS */
+  .hud-box {
+    background: var(--apple-card);
+    border-radius: 32px;
+    padding: 30px;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.04);
+    border: 1px solid rgba(0,0,0,0.02);
+    position: sticky;
+    top: 100px;
+  }
+
+  .hud-title {
+    font-size: 1.25rem;
+    font-weight: 700;
+    margin: 0 0 20px 0;
+    text-align: center;
+  }
+
+  .stat-group {
+    margin-bottom: 24px;
+  }
+
+  .stat-label {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.9rem;
+    font-weight: 600;
+    margin-bottom: 8px;
+    color: var(--apple-muted);
+  }
+
+  .stat-bar-bg {
+    height: 12px;
+    background: #f1f1f2;
+    border-radius: 10px;
+    overflow: hidden;
+  }
+
+  .stat-bar-fill {
+    height: 100%;
+    border-radius: 10px;
+    transition: width 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .stat-shield { background: var(--apple-shield); width: 100%; }
+  .stat-toxic { background: #ff3b30; width: 100%; }
+
+  .instruction-box {
+    background: rgba(0, 102, 204, 0.05);
+    border-radius: 16px;
+    padding: 20px;
+    margin-top: 30px;
+  }
+
+  .instruction-box h4 {
+    color: var(--apple-blue);
+    margin: 0 0 8px 0;
+    font-size: 1rem;
+  }
+
+  .instruction-box p {
+    margin: 0;
+    font-size: 0.9rem;
+    line-height: 1.5;
+    color: var(--apple-text);
+  }
+
+  .game-over {
+    display: none;
+    text-align: center;
+    margin-top: 20px;
+  }
+
+  .restart-btn {
+    background: var(--apple-blue);
+    color: white;
+    border: none;
+    border-radius: 980px;
+    padding: 12px 30px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: transform 0.2s;
+  }
+  .restart-btn:hover { transform: scale(1.05); }
+
+  @keyframes popIn {
+    from { opacity: 0; transform: translateY(10px) scale(0.98); }
+    to { opacity: 1; transform: translateY(0) scale(1); }
+  }
+</style>
+
+<div class="sim-container">
+  <div class="sim-header">
+    <div class="sim-badge">Aşama 2: Savunma</div>
+    <h1 class="sim-title">Gri Kaya Antrenmanı</h1>
+    <p class="sim-desc">"Grey Rock" tekniğini kullanarak toksik kişilere karşı duygusuz, sıkıcı ve tepkisiz kalın. Enerjinizi emmelerine izin vermeyin.</p>
+  </div>
+
+  <div class="sim-layout">
+    <!-- SOL: CHAT -->
+    <div class="chat-box">
+      <div class="chat-history" id="chatHistory">
+        <!-- Messages will appear here -->
+      </div>
+      
+      <div class="chat-options" id="chatOptions">
+        <!-- Options will be injected here -->
+      </div>
+
+      <div class="game-over" id="gameOver">
+        <h3 style="margin:0 0 10px 0;">Simülasyon Tamamlandı</h3>
+        <p style="color:var(--apple-muted); margin:0 0 20px 0;" id="gameOverText"></p>
+        <button class="restart-btn" onclick="initGame()">Tekrar Oyna</button>
+      </div>
+    </div>
+
+    <!-- SAĞ: HUD -->
+    <div class="hud-box">
+      <h3 class="hud-title">Simülasyon Durumu</h3>
+      
+      <div class="stat-group">
+        <div class="stat-label">
+          <span>Zihinsel Kalkanınız</span>
+          <span id="shieldScore">100%</span>
+        </div>
+        <div class="stat-bar-bg">
+          <div class="stat-bar-fill stat-shield" id="shieldBar"></div>
+        </div>
+      </div>
+
+      <div class="stat-group">
+        <div class="stat-label">
+          <span>Manipülatörün Enerjisi</span>
+          <span id="toxicScore">100%</span>
+        </div>
+        <div class="stat-bar-bg">
+          <div class="stat-bar-fill stat-toxic" id="toxicBar"></div>
+        </div>
+      </div>
+
+      <div class="instruction-box" id="instructionBox">
+        <h4>Savunma Kuralı #1</h4>
+        <p>Asla savunmaya geçmeyin, tartışmayın veya kendinizi açıklamaya çalışmayın. Manipülatör sizin duygusal tepkinizden beslenir. Gri bir kaya gibi sıkıcı olun.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  // SENARYO VERİSİ
+  const scenario = [
+    {
+      tacticName: "Suçluluk Tripi",
+      toxicText: "Yine mi dışarı çıkıyorsun? Ben bütün gün evde senin için uğraşırken senin bu kadar bencil olmana inanamıyorum.",
+      options: [
+        { text: "Bencil falan değilim, ben de bütün gün işte yoruldum!", tactic: "Savunmaya Geçme (Duygusal Tepki)", points: -30, toxicPoints: 10, responseRule: "Savunmaya geçmek manipülatöre istediği kavgayı verir. Kalkanınız zedelendi." },
+        { text: "Haklısın, özür dilerim. İptal edip evde kalayım.", tactic: "Boyun Eğme (Teslimiyet)", points: -40, toxicPoints: 20, responseRule: "Suçluluk tripini kabul ettiniz. Sınırlarınız ihlal edildi." },
+        { text: "Evet, dışarı çıkıyorum. Görüşürüz.", tactic: "Gri Kaya (Duygusuz Onay)", points: 0, toxicPoints: -30, responseRule: "Kışkırtmaya tepki vermediniz. Manipülatör enerji bulamadı." }
+      ]
+    },
+    {
+      tacticName: "Kışkırtma / Hakaret",
+      toxicText: "Seninle konuşmak duvarla konuşmaktan daha zor. Hiçbir şeyi doğru düzgün beceremiyorsun zaten.",
+      options: [
+        { text: "Böyle düşünmen üzücü.", tactic: "Gri Kaya (Nötr Yanıt)", points: 0, toxicPoints: -40, responseRule: "Mükemmel! Hakareti kişiselleştirmediniz ve kısa, nötr bir yanıt verdiniz." },
+        { text: "Asıl sen hiçbir şeyi beceremiyorsun, sürekli beni eleştiriyorsun!", tactic: "Karşı Saldırı (Reaktif)", points: -30, toxicPoints: 10, responseRule: "Karşı saldırıya geçtiniz. Manipülatör sizi kendi seviyesine çekti." },
+        { text: "Neyi yanlış yaptım? Söyle düzelteyim.", tactic: "Açıklama Çabası", points: -20, toxicPoints: 10, responseRule: "Kendinizi açıklamaya çalışarak ona otorite verdiniz." }
+      ]
+    },
+    {
+      tacticName: "Gaslighting",
+      toxicText: "Ben sana öyle bir şey söylemedim. Psikolojin hiç iyi değil, kafanda kuruyorsun. Doktora görünmelisin.",
+      options: [
+        { text: "Hayır, bana dün akşam tam olarak bunları söyledin, çok iyi hatırlıyorum!", tactic: "Gerçekliği İspatlama Çabası", points: -30, toxicPoints: 15, responseRule: "Manipülatör sizi ispat çabasına soktu. Şüphe tohumu atıldı." },
+        { text: "Ben kafamda falan kurmuyorum, sen yalan söylüyorsun!", tactic: "Öfke Patlaması", points: -40, toxicPoints: 20, responseRule: "Öfkeniz kontrolünüzü kaybettirdi. Kalkanınız ciddi hasar aldı." },
+        { text: "Sen öyle hatırlayabilirsin. Ben farklı hatırlıyorum.", tactic: "Gri Kaya (Gerçekliği Korumak)", points: 0, toxicPoints: -30, responseRule: "Gerçekliğinizi savundunuz ama tartışmaya girmediniz. Manipülatör silahsız kaldı." }
+      ]
+    }
+  ];
+
+  let currentStep = 0;
+  let shieldSanity = 100;
+  let toxicEnergy = 100;
+
+  const chatHistory = document.getElementById('chatHistory');
+  const chatOptions = document.getElementById('chatOptions');
+  const gameOverDiv = document.getElementById('gameOver');
+  const gameOverText = document.getElementById('gameOverText');
+  const shieldBar = document.getElementById('shieldBar');
+  const shieldScore = document.getElementById('shieldScore');
+  const toxicBar = document.getElementById('toxicBar');
+  const toxicScore = document.getElementById('toxicScore');
+  const instructionBox = document.getElementById('instructionBox');
+
+  function initGame() {
+    currentStep = 0;
+    shieldSanity = 100;
+    toxicEnergy = 100;
+    chatHistory.innerHTML = '';
+    gameOverDiv.style.display = 'none';
+    chatOptions.style.display = 'flex';
+    updateHUD();
+    renderStep();
+  }
+
+  function addMessage(text, sender, label = '') {
+    const msg = document.createElement('div');
+    msg.className = `message ${sender}`;
+    if(label) {
+      msg.innerHTML = `<div class="message-label">${label}</div>${text}`;
+    } else {
+      msg.innerHTML = text;
+    }
+    chatHistory.appendChild(msg);
+    chatHistory.scrollTop = chatHistory.scrollHeight;
+  }
+
+  function renderStep() {
+    if (currentStep >= scenario.length || shieldSanity <= 0) {
+      endGame();
+      return;
+    }
+
+    const step = scenario[currentStep];
+    
+    // Toxic says something
+    setTimeout(() => {
+      addMessage(step.toxicText, 'toxic', `Saldırı: ${step.tacticName}`);
+      
+      // Render options
+      chatOptions.innerHTML = '';
+      step.options.forEach(opt => {
+        const btn = document.createElement('button');
+        btn.className = 'option-btn';
+        btn.innerHTML = `<span class="option-tactic">${opt.tactic}</span> <span>"${opt.text}"</span>`;
+        btn.onclick = () => selectOption(opt);
+        chatOptions.appendChild(btn);
+      });
+      
+    }, 600);
+  }
+
+  function selectOption(opt) {
+    chatOptions.innerHTML = '';
+    addMessage(opt.text, 'user', opt.tactic);
+    
+    shieldSanity += opt.points;
+    if (shieldSanity < 0) shieldSanity = 0;
+    
+    toxicEnergy += opt.toxicPoints;
+    if (toxicEnergy < 0) toxicEnergy = 0;
+    if (toxicEnergy > 100) toxicEnergy = 100;
+    
+    instructionBox.innerHTML = `<h4>Sistem Analizi</h4><p>${opt.responseRule}</p>`;
+
+    updateHUD();
+
+    if (toxicEnergy === 0) {
+      setTimeout(() => {
+        addMessage("... (Sessizlik) ...", "toxic", "Manipülatör Pes Etti");
+        setTimeout(endGame, 1000);
+      }, 1000);
+      return;
+    }
+
+    currentStep++;
+    setTimeout(renderStep, 1500);
+  }
+
+  function updateHUD() {
+    shieldBar.style.width = `${shieldSanity}%`;
+    shieldScore.innerText = `${shieldSanity}%`;
+    
+    toxicBar.style.width = `${toxicEnergy}%`;
+    toxicScore.innerText = `${toxicEnergy}%`;
+    
+    if (shieldSanity < 40) {
+      shieldBar.style.background = '#ff3b30';
+    } else if (shieldSanity < 70) {
+      shieldBar.style.background = '#ff9500';
+    } else {
+      shieldBar.style.background = '#34c759';
+    }
+  }
+
+  function endGame() {
+    chatOptions.style.display = 'none';
+    gameOverDiv.style.display = 'block';
+    
+    if (shieldSanity >= 80) {
+      gameOverText.innerHTML = "<strong>Savunma Başarılı! (Gri Kaya Ustası)</strong> <br>Toksik kışkırtmalara karşı tamamen tepkisiz kalarak manipülatörün tüm enerjisini tükettiniz. Sınırlarınız güvende.";
+    } else if (shieldSanity > 0) {
+      gameOverText.innerHTML = "<strong>Kısmi Hasar.</strong> Kalkanınız zedelendi. Duygusal tepki vermek manipülatörleri besler, bir dahaki sefere daha sıkıcı olmayı deneyin!";
+    } else {
+      gameOverText.innerHTML = "<strong>Savunma Çöktü.</strong> Manipülatörün tuzağına düştünüz ve sizi kendi dramasına çekti. Kalkanlarınız tamamen parçalandı.";
+    }
+  }
+
+  // Start
+  initGame();
+</script>
+
+<%- include('partials/main-footer') %>

@@ -1,0 +1,210 @@
+<%- include('partials/main-header') %>
+
+<style>
+  body { background: #0f172a; color: #f8fafc; font-family: 'Inter', sans-serif; overflow-x: hidden; }
+  .red-container { padding: 40px 20px; max-width: 800px; margin: 0 auto; min-height: 85vh; display: flex; flex-direction: column; align-items: center; }
+  
+  h1 { font-size: 2.5rem; font-weight: 900; margin-bottom: 5px; color: #fb7185; text-transform: uppercase; letter-spacing: 2px; text-align: center; text-shadow: 0 0 15px rgba(251, 113, 133, 0.4); }
+  p.desc { color: #94a3b8; font-size: 1rem; line-height: 1.6; margin-bottom: 30px; text-align: center; max-width: 600px; }
+
+  /* HUD */
+  .hud { width: 100%; display: flex; justify-content: space-between; align-items: center; background: #1e293b; padding: 20px 30px; border-radius: 20px; border: 2px solid #334155; margin-bottom: 30px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
+  .score-box { text-align: center; }
+  .score-lbl { font-size: 0.8rem; font-weight: 800; color: #94a3b8; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 5px; }
+  .score-val { font-size: 2rem; font-weight: 900; color: #fb7185; }
+  .win-val { color: #10b981; }
+
+  /* Scenario Area */
+  .scenario-card { background: #1e1b4b; border: 2px solid #312e81; border-radius: 20px; width: 100%; padding: 40px; text-align: center; position: relative; overflow: hidden; box-shadow: 0 20px 40px rgba(0,0,0,0.4); }
+  .avatar { font-size: 5rem; margin-bottom: 15px; filter: drop-shadow(0 10px 10px rgba(0,0,0,0.5)); }
+  .target-name { font-size: 1.2rem; font-weight: 800; color: #a5b4fc; text-transform: uppercase; margin-bottom: 25px; letter-spacing: 2px; }
+  .target-desc { font-size: 1.1rem; color: #e0e7ff; line-height: 1.6; margin-bottom: 30px; }
+
+  /* Options */
+  .opt-grid { display: flex; flex-direction: column; gap: 15px; }
+  .btn-opt { background: #0f172a; border: 2px solid #312e81; color: #e2e8f0; padding: 20px; border-radius: 15px; font-size: 1rem; font-weight: 600; cursor: pointer; transition: all 0.2s; text-align: left; }
+  .btn-opt:hover { background: #312e81; border-color: #6366f1; transform: translateY(-2px); box-shadow: 0 10px 20px rgba(99,102,241,0.2); }
+
+  /* Result Overlay */
+  .result-overlay { position: absolute; inset: 0; background: rgba(15, 23, 42, 0.95); z-index: 10; display: none; flex-direction: column; align-items: center; justify-content: center; padding: 30px; text-align: center; }
+  .ro-icon { font-size: 5rem; margin-bottom: 15px; }
+  .ro-title { font-size: 2.5rem; font-weight: 900; margin-bottom: 10px; text-transform: uppercase; }
+  .ro-desc { font-size: 1.1rem; color: #cbd5e1; line-height: 1.6; margin-bottom: 25px; }
+  .btn-next { background: #fb7185; color: #fff; border: none; padding: 15px 40px; border-radius: 30px; font-weight: 900; font-size: 1rem; cursor: pointer; text-transform: uppercase; letter-spacing: 1px; }
+
+  .game-over { display: none; text-align: center; padding: 50px; background: #1e1b4b; border: 2px solid #fb7185; border-radius: 20px; width:100%; }
+</style>
+
+<div class="red-container">
+  <h1>Reddedilme Terapisi</h1>
+  <p class="desc">Amacımız "Evet" almak değil, bilerek rahatsız edici ricalarda bulunup "Hayır" cevabını alarak reddedilme korkusunu (Rejection Sensitivity) yenmek. Derinizi kalınlaştırmaya hazır mısınız?</p>
+
+  <div class="hud" id="hud">
+    <div class="score-box">
+      <div class="score-lbl">Alınan Red (Kazanılan)</div>
+      <div class="score-val" id="rejScore">0</div>
+    </div>
+    <div class="score-box">
+      <div class="score-lbl">Kalın Deri Seviyesi</div>
+      <div class="score-val win-val" id="lvlScore">Zayıf</div>
+    </div>
+  </div>
+
+  <div class="scenario-card" id="sCard">
+    <div class="avatar" id="sAvatar">☕</div>
+    <div class="target-name" id="sName">Kahveci Barista</div>
+    <div class="target-desc" id="sDesc">Kahve almak için sıradasınız. Karşınızda meşgul bir barista var. En absürt ve reddedilecek talebiniz hangisi olurdu?</div>
+    
+    <div class="opt-grid" id="optGrid">
+      <!-- Injected Options -->
+    </div>
+
+    <div class="result-overlay" id="resOverlay">
+      <div class="ro-icon" id="rIcon">✅</div>
+      <div class="ro-title" id="rTitle">REDDEDİLDİNİZ!</div>
+      <div class="ro-desc" id="rDesc">...</div>
+      <button class="btn-next" onclick="nextRound()">Sıradaki Görev ➔</button>
+    </div>
+  </div>
+
+  <div class="game-over" id="gameOver">
+    <div style="font-size: 5rem; margin-bottom:20px;">🦏</div>
+    <h2 style="font-size:2.5rem; color:#fb7185; margin:0 0 15px 0;">Gergedan Derisi!</h2>
+    <p style="color:#cbd5e1; font-size:1.1rem; margin-bottom:30px;">Tebrikler. Reddedilmenin aslında sizi öldürmediğini, sadece geçici ve küçük bir sosyal sürtünme olduğunu deneyimlediniz. Özgüveniniz artık kırılmaz.</p>
+    <a href="/ozguven" style="background:#fb7185; color:#fff; padding:15px 30px; border-radius:30px; text-decoration:none; font-weight:900;">Akademiye Dön</a>
+  </div>
+
+</div>
+
+<script>
+  let rejections = 0;
+  
+  const levels = ["Zayıf", "Normal", "Dirençli", "Gergedan"];
+
+  const scenarios = [
+    {
+      avatar: "☕",
+      name: "Kahve Dükkanı Baristası",
+      desc: "Kasanın önündesiniz. Barista siparişinizi bekliyor. Amacınız 'HAYIR' kelimesini duymak.",
+      options: [
+        { text: "'Bana bir filtre kahve verir misiniz?'", getsRejected: false },
+        { text: "'Kahvemin içine biraz tuz atabilir misiniz?'", getsRejected: false },
+        { text: "'Merhaba, siparişimi vermeden önce bana sırf çok yakışıklıyım/güzelim diye %10 indirim yapar mısınız?'", getsRejected: true }
+      ],
+      successMsg: "MÜKEMMEL RED! Barista size şaşkınlıkla bakıp 'Maalesef yapamam' dedi. Dünyanın sonu gelmedi! İndirim alamadınız ama reddedilme korkunuzu ezdiniz.",
+      failMsg: "Başarısız! Barista 'Tabii ki' dedi ve isteğinizi yaptı. Amacımız reddedilmeyi deneyimlemekti, konfor alanından yeterince çıkmadınız."
+    },
+    {
+      avatar: "👔",
+      name: "Sokaktaki Takım Elbiseli Yabancı",
+      desc: "Yolda yürürken acelesi olan bir iş insanı görüyorsunuz. Onunla bir sosyal bariyeri yıkmanız gerek.",
+      options: [
+        { text: "'Pardon, saatiniz kaç acaba?'", getsRejected: false },
+        { text: "'Pardon, kravatınız çok güzelmiş. Onu benimle 1 dakikalığına değiştirir misiniz?'", getsRejected: true },
+        { text: "'Pardon, en yakın metro durağı nerede?'", getsRejected: false }
+      ],
+      successMsg: "HARİKA RED! Adam size deliymişsiniz gibi bakıp hızlıca uzaklaştı. Midenizdeki o gerginliği hissediyor musunuz? İşte o gerginlik sizi güçlendiriyor.",
+      failMsg: "Başarısız! Size saati veya adresi söyledi ve gitti. Bu çok sıradan bir sohbetti. Risk almadınız."
+    },
+    {
+      avatar: "🍩",
+      name: "Pastane Çalışanı",
+      desc: "Fırına girdiniz, taze çıkmış donutlar var. Öyle bir şey isteyin ki reddedilmek zorunda kalın.",
+      options: [
+        { text: "'Şu donutları olimpiyat halkaları gibi birbirine geçirip verebilir misiniz?'", getsRejected: true },
+        { text: "'Donutların içine ekstra çikolata sıkabilir misiniz?' (Küçük ihtimal red)", getsRejected: false },
+        { text: "'En tazesinden 2 tane alabilir miyim?'", getsRejected: false }
+      ],
+      successMsg: "MÜKEMMEL RED! Çalışan gülerek 'Hayır öyle bir şey yapamayız' dedi. Hem eğlendiniz hem de sosyal reddedilmeyi bir oyuna dönüştürdünüz.",
+      failMsg: "Başarısız! Çalışan isteğinizi makul buldu ve yerine getirdi. Kırmızı çizgileri zorlamadınız."
+    },
+    {
+      avatar: "🎤",
+      name: "Toplantı Odası (Patron)",
+      desc: "Şirkettesiniz. Patron ciddi bir konuda fikir soruyor. Sosyal kariyer riskini göze almanız gerek.",
+      options: [
+        { text: "'Bence pazarlama bütçesini sosyal medyaya kaydırmalıyız.'", getsRejected: false },
+        { text: "'Bence cuma günleri pijamayla çalışma izni verin, verimlilik %100 artar.'", getsRejected: true },
+        { text: "'Ben sizin dediklerinize katılıyorum.'", getsRejected: false }
+      ],
+      successMsg: "GURUR VERİCİ BİR RED! Patron ciddiyetle 'Hayır, öyle saçma şey olmaz' dedi. Otorite figüründen 'Hayır' duymak, en büyük özgüven bariyerini yıkar.",
+      failMsg: "Güvenli Bölgede Kaldınız! Mantıklı veya uyumlu cevaplar vermek sizi konfor alanında tutar. Amacımız o statü duvarını kırmaktı."
+    }
+  ];
+
+  let currIdx = 0;
+
+  function updateHUD() {
+    document.getElementById('rejScore').textContent = rejections;
+    
+    let lvl = levels[0];
+    if(rejections >= 1) lvl = levels[1];
+    if(rejections >= 2) lvl = levels[2];
+    if(rejections >= 3) lvl = levels[3];
+    
+    document.getElementById('lvlScore').textContent = lvl;
+  }
+
+  function loadRound() {
+    if(currIdx >= scenarios.length) {
+      document.getElementById('sCard').style.display = 'none';
+      document.getElementById('gameOver').style.display = 'block';
+      return;
+    }
+
+    const s = scenarios[currIdx];
+    document.getElementById('sAvatar').textContent = s.avatar;
+    document.getElementById('sName').textContent = s.name;
+    document.getElementById('sDesc').textContent = s.desc;
+    
+    const grid = document.getElementById('optGrid');
+    grid.innerHTML = '';
+    
+    // Rastgele sırala
+    const shuffled = [...s.options].sort(() => Math.random() - 0.5);
+    shuffled.forEach(opt => {
+      const btn = document.createElement('button');
+      btn.className = 'btn-opt';
+      btn.textContent = opt.text;
+      btn.onclick = () => selectOpt(opt);
+      grid.appendChild(btn);
+    });
+  }
+
+  function selectOpt(opt) {
+    const s = scenarios[currIdx];
+    const overlay = document.getElementById('resOverlay');
+    const rIcon = document.getElementById('rIcon');
+    const rTitle = document.getElementById('rTitle');
+    const rDesc = document.getElementById('rDesc');
+
+    overlay.style.display = 'flex';
+
+    if(opt.getsRejected) {
+      rejections++;
+      rIcon.textContent = '🎉';
+      rTitle.textContent = 'TEBRİKLER, REDDEDİLDİNİZ!';
+      rTitle.style.color = '#10b981'; // Green (Success in game context)
+      rDesc.textContent = s.successMsg;
+    } else {
+      rIcon.textContent = '😑';
+      rTitle.textContent = 'KABUL EDİLDİNİZ (BAŞARISIZ)';
+      rTitle.style.color = '#f43f5e'; // Red (Failure in game context)
+      rDesc.textContent = s.failMsg;
+    }
+    
+    updateHUD();
+  }
+
+  function nextRound() {
+    document.getElementById('resOverlay').style.display = 'none';
+    currIdx++;
+    loadRound();
+  }
+
+  // Init
+  loadRound();
+
+</script>
+
+<%- include('partials/main-footer') %>

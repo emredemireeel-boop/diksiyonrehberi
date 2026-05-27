@@ -1,0 +1,288 @@
+<%- include('partials/main-header') %>
+
+<style>
+  body { background: #fafaf9 !important; color: #1c1917; margin: 0; padding: 0; font-family: 'Inter', sans-serif; }
+  main.main-content, div.content-wrapper, div.gorgu-page { 
+    max-width: 100% !important; padding: 0 !important; margin: 0 !important; width: 100% !important; background: transparent !important;
+  }
+  
+  @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&family=Playfair+Display:ital,wght@0,600;1,600&display=swap');
+  :root {
+    --gold-primary: #C59D5F; 
+    --gold-dark: #9A7B4F;
+    --text-main: #1c1917;
+    --text-muted: #57534e;
+    --error-red: #ef4444;
+    --success-green: #10b981;
+    --bg-card: #ffffff;
+  }
+
+  .d-container {
+    max-width: 900px;
+    margin: 40px auto;
+    padding: 20px;
+    min-height: 85vh;
+  }
+
+  .d-header { text-align: center; margin-bottom: 40px; }
+  .d-badge {
+    display: inline-block; padding: 6px 20px; background: rgba(197, 157, 95, 0.1); color: var(--gold-dark);
+    border-radius: 20px; font-family: 'Outfit'; font-weight: 700; font-size: 0.8rem; text-transform: uppercase;
+    letter-spacing: 2px; margin-bottom: 20px;
+  }
+  .d-title { font-family: 'Playfair Display', serif; font-size: 3rem; color: var(--text-main); margin: 0 0 10px 0; }
+  .d-desc { font-family: 'Outfit', sans-serif; color: var(--text-muted); font-size: 1.1rem; max-width: 600px; margin: 0 auto; line-height:1.6; }
+
+  /* GAME UI */
+  .game-board {
+    background: var(--bg-card);
+    border: 1px solid rgba(0,0,0,0.05);
+    border-radius: 24px;
+    padding: 50px;
+    box-shadow: 0 20px 50px rgba(0,0,0,0.05);
+    position: relative;
+  }
+  
+  .level-info {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid rgba(0,0,0,0.05);
+    padding-bottom: 20px;
+    margin-bottom: 30px;
+    font-family: 'Outfit', sans-serif;
+  }
+  .level-name { font-weight: 800; font-size: 1.2rem; color: var(--gold-dark); text-transform: uppercase; letter-spacing: 1px; }
+  .mistake-counter { background: #fef2f2; color: var(--error-red); padding: 8px 15px; border-radius: 12px; font-weight: 700; font-size: 0.95rem; }
+  
+  .story-text {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.6rem;
+    line-height: 1.8;
+    color: var(--text-main);
+  }
+
+  .clue-span {
+    cursor: pointer;
+    transition: 0.3s;
+    border-bottom: 2px dashed rgba(197, 157, 95, 0.3);
+    padding: 2px 4px;
+    border-radius: 4px;
+  }
+  .clue-span:hover {
+    background: rgba(197, 157, 95, 0.1);
+  }
+  .clue-span.found-error {
+    background: #fef2f2;
+    border-bottom: 2px solid var(--error-red);
+    color: var(--error-red);
+    pointer-events: none;
+    animation: shake 0.4s;
+  }
+  .clue-span.safe-click {
+    animation: flashSafe 0.5s;
+  }
+
+  /* FEEDBACK BOX */
+  .feedback-area {
+    margin-top: 40px;
+    min-height: 120px;
+  }
+  .fb-item {
+    background: #fafaf9;
+    border-left: 4px solid var(--gold-primary);
+    padding: 15px 20px;
+    border-radius: 0 12px 12px 0;
+    margin-bottom: 15px;
+    font-family: 'Outfit', sans-serif;
+    animation: slideIn 0.3s forwards;
+  }
+  .fb-title { font-weight: 800; color: var(--text-main); margin-bottom: 5px; font-size: 1.1rem; }
+  .fb-desc { color: var(--text-muted); font-size: 0.95rem; line-height: 1.5; }
+
+  /* SUCCESS SCREEN */
+  .success-overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(255,255,255,0.95);
+    border-radius: 24px;
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    z-index: 10;
+    backdrop-filter: blur(5px);
+    animation: fadeIn 0.5s;
+  }
+  .btn-next {
+    background: var(--text-main); color: #fff; border: none; padding: 15px 40px; border-radius: 30px;
+    font-size: 1.2rem; font-weight: 700; font-family: 'Outfit'; cursor: pointer; transition: 0.3s;
+    margin-top: 20px;
+  }
+  .btn-next:hover { background: var(--gold-primary); transform: translateY(-3px); box-shadow: 0 10px 20px rgba(197, 157, 95, 0.2); }
+
+  @keyframes shake { 0%, 100% { transform: translateX(0); } 25% { transform: translateX(-5px); } 75% { transform: translateX(5px); } }
+  @keyframes flashSafe { 0% { background: #f0fdf4; color: var(--success-green); } 100% { background: transparent; color: inherit; } }
+  @keyframes slideIn { from { opacity: 0; transform: translateX(-20px); } to { opacity: 1; transform: translateX(0); } }
+  @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+  @media(max-width: 768px) {
+    .d-title { font-size: 2.2rem; }
+    .game-board { padding: 30px 20px; }
+    .story-text { font-size: 1.3rem; }
+  }
+</style>
+
+<div class="gorgu-page">
+  <div class="d-container">
+    <div class="d-header">
+      <div class="d-badge">Dedektif Modu</div>
+      <h1 class="d-title">Görgü Dedektifi: Hataları Bul</h1>
+      <p class="d-desc">Aşağıdaki hikayeleri okuyun ve metin içinde gizlenmiş görgü kuralları hatalarını (pot kırmaları) bulmak için şüphelendiğiniz cümlelere tıklayın.</p>
+    </div>
+
+    <div class="game-board" id="gameBoard">
+      
+      <div class="success-overlay" id="successOverlay">
+        <div style="font-size: 5rem; margin-bottom: 20px;">🕵️‍♂️</div>
+        <h2 style="font-family: 'Playfair Display'; font-size: 2.5rem; color: var(--gold-dark); margin:0 0 10px 0;">Vaka Çözüldü!</h2>
+        <p style="font-family: 'Outfit'; color: var(--text-muted); margin-bottom: 30px; font-size: 1.1rem;">Tüm hataları başarıyla tespit ettiniz. İnanılmaz bir dikkat!</p>
+        <button class="btn-next" onclick="nextLevel()" id="nextBtn">Sıradaki Vaka</button>
+      </div>
+
+      <div class="level-info">
+        <div class="level-name" id="levelName">Vaka 1: İş Yemeği</div>
+        <div class="mistake-counter" id="mistakeCounter">Bulunan Hatalar: 0 / 3</div>
+      </div>
+
+      <div class="story-text" id="storyText">
+        <!-- Text injected by JS -->
+      </div>
+
+      <div class="feedback-area" id="feedbackArea">
+        <!-- Feedbacks injected by JS -->
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<script>
+  const levels = [
+    {
+      name: "Vaka 1: Yönetim Kurulu Toplantısı",
+      targetErrors: 3,
+      story: [
+        { text: "Murat Bey, yeni şirketin genel müdürüyle tanışmak üzere toplantı odasına girdi.", isError: false },
+        { text: " Girmeden önce kapıyı iki kez nazikçe tıklattı.", isError: false },
+        { text: " Yönetim kurulu masasına yaklaştığında, ceketinin düğmesini ilikleyerek yerine oturdu.", isError: true, explanation: "Otururken ceket düğmesi her zaman açılır. İlikli ceketle oturmak potluk yaratır ve görgü kuralı ihlalidir." },
+        { text: " Karşısındaki yöneticiye kartvizitini sağ eliyle uzattı.", isError: false },
+        { text: " Yönetici kendi kartvizitini uzattığında, Murat Bey kartı alıp hızlıca arka cebine koydu.", isError: true, explanation: "Kartvizit alınca hemen cebe atılmaz. Birkaç saniye incelenir ve toplantı boyunca masada saygıyla tutulur." },
+        { text: " Toplantı ortasında çalan telefonunu sessize almıştı, ancak masanın üzerine koyduğu için sürekli titreyerek dikkat dağıttı.", isError: true, explanation: "Toplantılarda telefon masaya konulmamalı, cepte veya çantada titreşimi kapatılmış şekilde tutulmalıdır." }
+      ]
+    },
+    {
+      name: "Vaka 2: Davetteki İkilem",
+      targetErrors: 3,
+      story: [
+        { text: "Zeynep Hanım, önemli bir gala yemeğine davetliydi.", isError: false },
+        { text: " Davetiyede LCV belirtilmişti, hemen ertesi gün katılım durumunu bildirdi.", isError: false },
+        { text: " Gecenin ilerleyen saatlerinde, masadaki şarabı tadarken kadehi kâsesinden (gövdesinden) kavradı.", isError: true, explanation: "Şarap kadehi gövdesinden değil, her zaman sapından (stem) tutulur. Aksi halde şarabın ısısı değişir." },
+        { text: " Yemek geldiğinde çatalı sol, bıçağı sağ elinde tutarak yemeğine başladı.", isError: false },
+        { text: " Sohbet esnasında masadaki diğer konuğun maaşını ve terfi sürecini sormaya başladı.", isError: true, explanation: "Small talk (küçük sohbet) sırasında maaş, para veya özel hayat gibi tabu konular sorulması büyük bir görgü hatasıdır." },
+        { text: " Yemeğini bitirdiğinde, çatal ve bıçağını tabağının içine ters V şeklinde yerleştirdi.", isError: true, explanation: "Ters V (^) şekli 'mola verdim' demektir. Bitirdiğini göstermek için çatal ve bıçak paralel şekilde (saat 4 yönünde) bırakılmalıdır." }
+      ]
+    },
+    {
+      name: "Vaka 3: Dijital İletişim Krizi",
+      targetErrors: 3,
+      story: [
+        { text: "Emre, yeni bir proje teklifi için müşterisine e-posta göndermeye hazırlanıyordu.", isError: false },
+        { text: " Konu satırına sadece 'ACİL!!!' yazarak dikkat çekmek istedi.", isError: true, explanation: "E-postada 'ACİL!!!' gibi tamamen büyük harf ve ünlem kullanmak dijital ortamda bağırmak anlamına gelir, profesyonellik dışıdır." },
+        { text: " E-postaya 'Sayın Ahmet Bey,' diyerek nazik bir giriş yaptı.", isError: false },
+        { text: " Mesajını bitirdikten sonra, tüm ofis çalışanlarını ilgisi olmayan bir konuda BCC yerine CC'ye ekledi.", isError: true, explanation: "İlgisi olmayan kişilerin adreslerini (CC) herkesin görebileceği şekilde paylaşmak gizlilik ve dijital görgü ihlalidir. Kalabalık gönderimlerde BCC kullanılır." },
+        { text: " Akşam saat 22:30'da, aklına gelen küçük bir detayı WhatsApp üzerinden yöneticisine yazarak gönderdi.", isError: true, explanation: "Çok acil olmayan iş konuları mesai saatleri dışında WhatsApp'tan gönderilmemelidir. E-posta zamanlanarak ertesi sabah atılmalıdır." }
+      ]
+    }
+  ];
+
+  let currentLevel = 0;
+  let errorsFound = 0;
+  let foundIndexes = [];
+
+  function initLevel() {
+    errorsFound = 0;
+    foundIndexes = [];
+    const level = levels[currentLevel];
+    
+    document.getElementById('levelName').innerText = level.name;
+    document.getElementById('mistakeCounter').innerText = `Bulunan Hatalar: 0 / ${level.targetErrors}`;
+    document.getElementById('feedbackArea').innerHTML = '';
+    document.getElementById('successOverlay').style.display = 'none';
+
+    const storyContainer = document.getElementById('storyText');
+    storyContainer.innerHTML = '';
+
+    level.story.forEach((chunk, index) => {
+      const span = document.createElement('span');
+      span.innerText = chunk.text;
+      span.className = 'clue-span';
+      span.onclick = () => handleSpanClick(chunk, span, index);
+      storyContainer.appendChild(span);
+    });
+  }
+
+  function handleSpanClick(chunk, spanElement, index) {
+    if (foundIndexes.includes(index)) return; // Already clicked correctly
+
+    if (chunk.isError) {
+      // Correct deduction
+      spanElement.classList.add('found-error');
+      foundIndexes.push(index);
+      errorsFound++;
+      
+      document.getElementById('mistakeCounter').innerText = `Bulunan Hatalar: ${errorsFound} / ${levels[currentLevel].targetErrors}`;
+      
+      addFeedback(chunk.explanation);
+
+      if (errorsFound >= levels[currentLevel].targetErrors) {
+        setTimeout(showSuccess, 800);
+      }
+    } else {
+      // Wrong deduction, no error here
+      spanElement.classList.remove('safe-click');
+      void spanElement.offsetWidth; // trigger reflow
+      spanElement.classList.add('safe-click');
+    }
+  }
+
+  function addFeedback(text) {
+    const fbArea = document.getElementById('feedbackArea');
+    const div = document.createElement('div');
+    div.className = 'fb-item';
+    div.innerHTML = `<div class="fb-title">HATA TESPİT EDİLDİ!</div><div class="fb-desc">${text}</div>`;
+    fbArea.prepend(div);
+  }
+
+  function showSuccess() {
+    const overlay = document.getElementById('successOverlay');
+    overlay.style.display = 'flex';
+    if(currentLevel === levels.length - 1) {
+      document.getElementById('nextBtn').innerText = "Akademiye Dön";
+      document.getElementById('nextBtn').onclick = () => window.location.href = '/gorgu';
+    }
+  }
+
+  function nextLevel() {
+    if(currentLevel < levels.length - 1) {
+      currentLevel++;
+      initLevel();
+    }
+  }
+
+  // Start game
+  initLevel();
+</script>
+
+<%- include('partials/main-footer') %>

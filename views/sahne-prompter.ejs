@@ -1,0 +1,229 @@
+<%- include('partials/main-header') %>
+
+<style>
+  body { background: #000; color: #fff; margin: 0; overflow: hidden; font-family: 'Inter', sans-serif; }
+  .main-header, .main-footer { display: none !important; } /* Hide headers for app mode */
+
+  .app-container {
+    display: flex; height: 100vh; width: 100vw; position: relative;
+  }
+
+  /* SIDEBAR CONTROLS */
+  .sidebar {
+    width: 320px; background: #18181b; border-right: 1px solid #27272a;
+    display: flex; flex-direction: column; z-index: 10;
+  }
+  .sidebar-header {
+    padding: 24px; border-bottom: 1px solid #27272a;
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  .sidebar-title { font-size: 1.2rem; font-weight: 900; color: #eab308; margin: 0; }
+  .btn-close { color: #a1a1aa; text-decoration: none; font-size: 1.5rem; line-height: 1; }
+  .btn-close:hover { color: #fff; }
+
+  .sidebar-body { padding: 24px; flex-grow: 1; overflow-y: auto; }
+  .control-group { margin-bottom: 24px; }
+  .control-label { font-size: 0.85rem; font-weight: 700; color: #a1a1aa; margin-bottom: 8px; display: block; text-transform: uppercase; letter-spacing: 1px; }
+  
+  .script-input {
+    width: 100%; height: 200px; background: #27272a; border: 1px solid #3f3f46; border-radius: 12px;
+    padding: 16px; color: #fff; font-size: 0.95rem; line-height: 1.5; resize: none; font-family: inherit;
+    box-sizing: border-box;
+  }
+  .script-input:focus { outline: none; border-color: #eab308; }
+
+  .slider {
+    -webkit-appearance: none; width: 100%; height: 6px; border-radius: 3px; background: #3f3f46; outline: none;
+  }
+  .slider::-webkit-slider-thumb {
+    -webkit-appearance: none; appearance: none; width: 20px; height: 20px; border-radius: 50%;
+    background: #eab308; cursor: pointer; border: 2px solid #18181b;
+  }
+
+  .btn-action {
+    display: flex; align-items: center; justify-content: center; width: 100%; padding: 16px;
+    border-radius: 12px; font-weight: 800; font-size: 1.1rem; cursor: pointer; border: none; transition: all 0.2s;
+  }
+  .btn-play { background: #eab308; color: #18181b; }
+  .btn-play:hover { background: #fef08a; transform: translateY(-2px); }
+  
+  .btn-stop { background: #ef4444; color: #fff; display: none; }
+  .btn-stop:hover { background: #f87171; }
+
+  /* PROMPTER AREA */
+  .prompter-area {
+    flex-grow: 1; position: relative; display: flex; justify-content: center; overflow: hidden;
+  }
+  
+  .glass-overlay-top {
+    position: absolute; top: 0; left: 0; right: 0; height: 200px; z-index: 2;
+    background: linear-gradient(to bottom, #000 0%, transparent 100%); pointer-events: none;
+  }
+  .glass-overlay-bottom {
+    position: absolute; bottom: 0; left: 0; right: 0; height: 200px; z-index: 2;
+    background: linear-gradient(to top, #000 0%, transparent 100%); pointer-events: none;
+  }
+
+  /* READING FOCUS LINE */
+  .focus-line {
+    position: absolute; top: 40%; left: 0; right: 0; height: 80px; z-index: 1;
+    background: rgba(234, 179, 8, 0.05); border-top: 1px solid rgba(234, 179, 8, 0.2); border-bottom: 1px solid rgba(234, 179, 8, 0.2);
+    pointer-events: none;
+  }
+  .focus-triangle {
+    position: absolute; left: 0; top: 50%; transform: translateY(-50%);
+    width: 0; height: 0; border-top: 10px solid transparent; border-bottom: 10px solid transparent;
+    border-left: 15px solid #eab308;
+  }
+
+  /* THE TEXT SCROLLER */
+  .scroller-container {
+    width: 80%; max-width: 900px; height: 100%; position: relative; z-index: 0; overflow: hidden;
+  }
+  .scroller-text {
+    position: absolute; top: 50%; width: 100%; font-size: 64px; font-weight: 700;
+    line-height: 1.4; color: #d4d4d8; text-align: center; padding-bottom: 100vh;
+  }
+  
+  /* UTILS */
+  .mirrored { transform: scaleX(-1); }
+
+  /* DEFAULT SCRIPT */
+  .default-script { display: none; }
+</style>
+
+<div class="app-container">
+  
+  <!-- SIDEBAR -->
+  <div class="sidebar">
+    <div class="sidebar-header">
+      <h1 class="sidebar-title">Teleprompter</h1>
+      <a href="/sahne" class="btn-close">&times;</a>
+    </div>
+    
+    <div class="sidebar-body">
+      <div class="control-group">
+        <label class="control-label">Metninizi Girin</label>
+        <textarea class="script-input" id="scriptInput">Sahne Sanatları Teleprompter Aracına Hoş Geldiniz!
+        
+Bu araç sayesinde uzun konuşma metinlerini profesyonel bir sunucu gibi okuyabilirsiniz. 
+
+Okurken göz temasını kaybetmemek için ekrandaki sarı ok işaretinin hizasına odaklanın (Z Kuralı). 
+
+Yandan hızı ayarlayabilir, font büyüklüğünü değiştirebilir ve ayna moduna (gerçek bir prompter camı için) geçebilirsiniz. 
+
+Hadi, nefesinizi alın, duruşunuzu dikleştirin ve sahneye çıkın!</textarea>
+      </div>
+
+      <div class="control-group">
+        <label class="control-label">Okuma Hızı: <span id="speedVal">3</span></label>
+        <input type="range" id="speedSlider" class="slider" min="1" max="10" value="3">
+      </div>
+
+      <div class="control-group">
+        <label class="control-label">Yazı Boyutu: <span id="sizeVal">64</span>px</label>
+        <input type="range" id="sizeSlider" class="slider" min="32" max="120" value="64">
+      </div>
+
+      <div class="control-group">
+        <label class="control-label" style="display:flex;align-items:center;gap:10px;cursor:pointer">
+          <input type="checkbox" id="mirrorToggle" style="width:18px;height:18px;accent-color:#eab308">
+          Ayna Modu (Mirror)
+        </label>
+      </div>
+
+      <button class="btn-action btn-play" id="btnPlay">▶ Başlat</button>
+      <button class="btn-action btn-stop" id="btnStop">⏹ Durdur</button>
+    </div>
+  </div>
+
+  <!-- PROMPTER AREA -->
+  <div class="prompter-area">
+    <div class="glass-overlay-top"></div>
+    <div class="glass-overlay-bottom"></div>
+    
+    <div class="focus-line">
+      <div class="focus-triangle"></div>
+    </div>
+
+    <div class="scroller-container">
+      <div class="scroller-text" id="scrollerText"></div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+  const scriptInput = document.getElementById('scriptInput');
+  const scrollerText = document.getElementById('scrollerText');
+  const speedSlider = document.getElementById('speedSlider');
+  const sizeSlider = document.getElementById('sizeSlider');
+  const mirrorToggle = document.getElementById('mirrorToggle');
+  const btnPlay = document.getElementById('btnPlay');
+  const btnStop = document.getElementById('btnStop');
+  const speedVal = document.getElementById('speedVal');
+  const sizeVal = document.getElementById('sizeVal');
+
+  let isPlaying = false;
+  let scrollPos = 0;
+  let speed = 3; // pixels per frame roughly
+  let animationFrame;
+
+  function updateText() {
+    scrollerText.innerText = scriptInput.value;
+  }
+
+  function resetPosition() {
+    // Start slightly below the focus line
+    scrollPos = window.innerHeight * 0.5;
+    scrollerText.style.transform = `translateY(${scrollPos}px)`;
+  }
+
+  function scrollLoop() {
+    if (!isPlaying) return;
+    scrollPos -= (speed * 0.5); 
+    scrollerText.style.transform = `translateY(${scrollPos}px)`;
+    animationFrame = requestAnimationFrame(scrollLoop);
+  }
+
+  btnPlay.addEventListener('click', () => {
+    updateText();
+    resetPosition();
+    isPlaying = true;
+    btnPlay.style.display = 'none';
+    btnStop.style.display = 'flex';
+    scrollLoop();
+  });
+
+  btnStop.addEventListener('click', () => {
+    isPlaying = false;
+    cancelAnimationFrame(animationFrame);
+    btnPlay.style.display = 'flex';
+    btnStop.style.display = 'none';
+  });
+
+  speedSlider.addEventListener('input', (e) => {
+    speed = parseInt(e.target.value);
+    speedVal.textContent = speed;
+  });
+
+  sizeSlider.addEventListener('input', (e) => {
+    const size = e.target.value;
+    scrollerText.style.fontSize = size + 'px';
+    sizeVal.textContent = size;
+  });
+
+  mirrorToggle.addEventListener('change', (e) => {
+    if (e.target.checked) {
+      scrollerText.classList.add('mirrored');
+    } else {
+      scrollerText.classList.remove('mirrored');
+    }
+  });
+
+  scriptInput.addEventListener('input', updateText);
+
+  // Initialize
+  updateText();
+  resetPosition();
+</script>

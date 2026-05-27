@@ -1,0 +1,191 @@
+<%- include('partials/main-header') %>
+<link rel="stylesheet" href="/retorik.css?v=6" />
+<link rel="stylesheet" href="/safsata.css?v=1" />
+
+<main class="main-content">
+  <div class="content-wrapper">
+    
+    <div class="safsata-header">
+      <h1><%= meta.h1 || 'Mantık Hataları (Safsata)' %></h1>
+      <p>Gerçek hayattaki manipülasyonları tespit etme ve çürütme laboratuvarı.</p>
+    </div>
+
+    <div class="safsata-modules-container">
+      <% exercises.forEach((ex, index) => { %>
+        <section class="saf-module-section <%= ex.type %>" id="lesson-<%= ex.id %>">
+          
+          <div class="saf-mod-header">
+            <div class="smh-left">
+              <div class="smh-icon"><%= ex.icon %></div>
+              <div>
+                <h2><%= ex.title %></h2>
+              </div>
+            </div>
+            <span class="smh-badge <%= ex.badgeCls %>"><%= ex.badge %></span>
+          </div>
+          <p class="smh-desc"><%= ex.desc %></p>
+
+          <!-- TİPE GÖRE İÇERİK RENDER -->
+
+          <!-- 1. ARTICLE -->
+          <% if (ex.type === 'article') { %>
+            <div class="saf-article">
+              <% ex.content.forEach(sec => { %>
+                <div class="sa-section">
+                  <h3><%= sec.sub %></h3>
+                  <% if(sec.text) { %><p><%- sec.text %></p><% } %>
+                  <% if(sec.list) { %>
+                    <ul class="sa-list">
+                      <% sec.list.forEach(li => { %>
+                        <li><%- li %></li>
+                      <% }); %>
+                    </ul>
+                  <% } %>
+                </div>
+              <% }); %>
+              
+              <div class="sa-takeaways">
+                <h4>🔑 Hayati Kurallar</h4>
+                <ul>
+                  <% ex.takeaways.forEach(t => { %>
+                    <li><%= t %></li>
+                  <% }); %>
+                </ul>
+              </div>
+            </div>
+
+          <!-- 2. DETECTIVE -->
+          <% } else if (ex.type === 'detective') { %>
+            <div class="saf-detective" id="detective-<%= ex.id %>">
+              <div class="sd-context">
+                <span class="sd-context-badge">VAKA BİLGİSİ</span>
+                <%= ex.detectiveContext %>
+              </div>
+              
+              <div class="sd-dialogue-box">
+                <% ex.dialogue.forEach(line => { %>
+                  <div class="sd-line">
+                    <strong><%= line.speaker %>:</strong> <span><%= line.text %></span>
+                  </div>
+                <% }); %>
+              </div>
+
+              <div class="sd-investigation">
+                <h4>🔎 Analiz Sorusu</h4>
+                <p><%- ex.question %></p>
+                
+                <div class="sd-options">
+                  <% ex.options.forEach((opt, j) => { %>
+                    <div class="sd-opt" onclick="selectDetectiveOption(this, <%= opt.isCorrect %>, '<%= opt.feedback.replace(/'/g, "\\'") %>')">
+                      <%- opt.text %>
+                    </div>
+                  <% }); %>
+                </div>
+                <div class="sd-feedback" style="display:none;"></div>
+              </div>
+            </div>
+
+          <!-- 3. DEBUNKER -->
+          <% } else if (ex.type === 'debunker') { %>
+            <div class="saf-debunker" id="debunker-<%= ex.id %>">
+              <div class="sb-context">
+                <span class="sb-context-badge">SİMÜLASYON</span>
+                <%= ex.debunkerContext %>
+              </div>
+              
+              <div class="sb-villain-attack">
+                <div class="villain-avatar">👤</div>
+                <div class="villain-bubble">
+                  <%- ex.villainText %>
+                </div>
+              </div>
+
+              <div class="sb-steps-container">
+                <% ex.steps.forEach((step, i) => { %>
+                  <div class="sb-step" data-step="<%= i %>" style="display: <%= i === 0 ? 'block' : 'none' %>;">
+                    <h4>Göreviniz: <span style="font-weight:500; font-size:1rem; color:#475569"><%= step.question %></span></h4>
+                    <div class="sb-options">
+                      <% step.options.forEach((opt, j) => { %>
+                        <div class="sb-opt" onclick="selectDebunkerOption(this, '<%= ex.id %>', <%= i %>, <%= opt.score %>, '<%= opt.feedback.replace(/'/g, "\\'") %>')">
+                          <%- opt.text %>
+                        </div>
+                      <% }); %>
+                    </div>
+                    <div class="sb-feedback" style="display:none;"></div>
+                  </div>
+                <% }); %>
+              </div>
+            </div>
+          <% } %>
+
+          <div style="margin-top:30px; border-top:1px solid #e2e8f0; padding-top:20px; display:flex; justify-content:flex-end;">
+            <button class="saf-complete-btn" onclick="this.innerHTML='✓ Tamamlandı';this.classList.add('completed')">Bölümü Bitir</button>
+          </div>
+
+        </section>
+      <% }); %>
+    </div>
+  </div>
+</main>
+
+<%- include('partials/main-footer') %>
+
+<script>
+  // DETECTIVE LOGIC
+  function selectDetectiveOption(el, isCorrect, feedback) {
+    const container = el.closest('.sd-investigation');
+    const options = container.querySelectorAll('.sd-opt');
+    const feedbackBox = container.querySelector('.sd-feedback');
+
+    if(container.classList.contains('answered')) return;
+    container.classList.add('answered');
+
+    options.forEach(opt => {
+      opt.classList.add('disabled');
+      if (opt === el) {
+        opt.classList.add('selected');
+        if(isCorrect) {
+          opt.style.borderColor = '#10b981';
+          opt.style.background = '#ecfdf5';
+          opt.style.color = '#065f46';
+        } else {
+          opt.style.borderColor = '#ef4444';
+          opt.style.background = '#fef2f2';
+          opt.style.color = '#991b1b';
+        }
+      }
+    });
+
+    feedbackBox.innerHTML = `<strong>${isCorrect ? '🎯 Doğru Tespit' : '❌ Hatalı Analiz'}:</strong> ${feedback}`;
+    feedbackBox.className = 'sd-feedback ' + (isCorrect ? 'success' : 'error');
+    feedbackBox.style.display = 'block';
+  }
+
+  // DEBUNKER LOGIC
+  function selectDebunkerOption(el, debunkerId, stepIdx, score, feedback) {
+    const stepContainer = el.closest('.sb-step');
+    const options = stepContainer.querySelectorAll('.sb-opt');
+    const feedbackBox = stepContainer.querySelector('.sb-feedback');
+
+    if(stepContainer.classList.contains('answered')) return;
+    stepContainer.classList.add('answered');
+
+    options.forEach(opt => {
+      opt.classList.add('disabled');
+      if (opt === el) {
+        opt.classList.add('selected');
+        if(score >= 8) opt.classList.add('opt-perfect');
+        else if(score >= 4) opt.classList.add('opt-okay');
+        else opt.classList.add('opt-bad');
+      }
+    });
+
+    feedbackBox.innerHTML = `<strong>Simülasyon Sonucu:</strong> ${feedback}`;
+    feedbackBox.className = 'sb-feedback';
+    if(score >= 8) feedbackBox.classList.add('fb-perfect');
+    else if(score >= 4) feedbackBox.classList.add('fb-okay');
+    else feedbackBox.classList.add('fb-bad');
+    
+    feedbackBox.style.display = 'block';
+  }
+</script>

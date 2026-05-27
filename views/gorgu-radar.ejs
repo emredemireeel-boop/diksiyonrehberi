@@ -1,0 +1,360 @@
+<%- include('partials/main-header') %>
+
+<style>
+  body { background: #fafaf9 !important; color: #1c1917; margin: 0; padding: 0; font-family: 'Inter', sans-serif; }
+  main.main-content, div.content-wrapper, div.gorgu-page { 
+    max-width: 100% !important; padding: 0 !important; margin: 0 !important; width: 100% !important; background: transparent !important;
+  }
+  
+  @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&family=Playfair+Display:ital,wght@0,600;1,600&display=swap');
+  :root {
+    --gold-primary: #C59D5F; 
+    --gold-dark: #9A7B4F;
+    --text-main: #1c1917;
+    --text-muted: #57534e;
+    --elegant-green: #10b981;
+    --rude-red: #f43f5e;
+  }
+
+  .radar-container {
+    max-width: 800px;
+    margin: 40px auto;
+    padding: 20px;
+    min-height: 85vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .r-header { text-align: center; margin-bottom: 30px; }
+  .r-title { font-family: 'Playfair Display', serif; font-size: 3rem; color: var(--text-main); margin: 0 0 10px 0; }
+  .r-desc { font-family: 'Outfit', sans-serif; color: var(--text-muted); font-size: 1.1rem; max-width: 500px; margin: 0 auto; }
+
+  /* GAME UI */
+  .r-game-area {
+    width: 100%;
+    background: #ffffff;
+    border: 1px solid rgba(0,0,0,0.05);
+    border-radius: 30px;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.04);
+    padding: 40px;
+    position: relative;
+    overflow: hidden;
+    text-align: center;
+  }
+
+  /* HUD */
+  .r-hud {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 40px;
+    font-family: 'Outfit', sans-serif;
+  }
+  .r-score-box {
+    background: #f8fafc;
+    padding: 10px 20px;
+    border-radius: 15px;
+    border: 1px solid #e2e8f0;
+  }
+  .r-score-label { font-size: 0.8rem; color: var(--text-muted); text-transform: uppercase; font-weight: 700; letter-spacing: 1px; }
+  .r-score-value { font-size: 2rem; font-weight: 800; color: var(--gold-dark); margin-top: 5px; }
+  
+  .r-timer-box {
+    position: relative;
+    width: 80px; height: 80px;
+    display: flex; align-items: center; justify-content: center;
+    background: #fff; border-radius: 50%;
+    box-shadow: inset 0 0 15px rgba(0,0,0,0.05);
+    border: 4px solid var(--text-main);
+  }
+  .r-timer-value { font-size: 1.8rem; font-weight: 800; color: var(--text-main); }
+
+  /* MAIN CARD */
+  .r-card-container {
+    perspective: 1000px;
+    height: 200px;
+    margin-bottom: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+  }
+  .r-card {
+    background: #fafaf9;
+    border: 2px solid var(--gold-primary);
+    border-radius: 20px;
+    width: 100%;
+    max-width: 500px;
+    padding: 40px 20px;
+    font-family: 'Playfair Display', serif;
+    font-size: 1.8rem;
+    color: var(--text-main);
+    box-shadow: 0 15px 30px rgba(197, 157, 95, 0.15);
+    transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0.3s;
+    position: absolute;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+  }
+  .r-card.swipe-left { transform: translateX(-150%) rotate(-15deg); opacity: 0; }
+  .r-card.swipe-right { transform: translateX(150%) rotate(15deg); opacity: 0; }
+  .r-card.pop-in { animation: popIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
+
+  /* BUTTONS */
+  .r-controls {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+  }
+  .r-btn {
+    flex: 1;
+    max-width: 200px;
+    padding: 20px;
+    border: none;
+    border-radius: 20px;
+    font-family: 'Outfit', sans-serif;
+    font-size: 1.5rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all 0.2s;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+  }
+  .r-btn-kaba { background: #fff0f2; color: var(--rude-red); border: 2px solid #ffe4e6; }
+  .r-btn-kaba:hover { background: var(--rude-red); color: #fff; transform: translateY(-5px); box-shadow: 0 10px 20px rgba(244, 63, 94, 0.2); }
+  .r-btn-kaba:active { transform: scale(0.95); }
+
+  .r-btn-zarif { background: #ecfdf5; color: var(--elegant-green); border: 2px solid #d1fae5; }
+  .r-btn-zarif:hover { background: var(--elegant-green); color: #fff; transform: translateY(-5px); box-shadow: 0 10px 20px rgba(16, 185, 129, 0.2); }
+  .r-btn-zarif:active { transform: scale(0.95); }
+
+  /* FEEDBACK FLOATER */
+  .r-feedback-floater {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 4rem;
+    font-weight: 900;
+    font-family: 'Outfit', sans-serif;
+    opacity: 0;
+    pointer-events: none;
+    z-index: 10;
+  }
+  .r-feedback-floater.show-good { animation: floatUpGood 0.8s forwards; color: var(--elegant-green); }
+  .r-feedback-floater.show-bad { animation: floatUpBad 0.8s forwards; color: var(--rude-red); }
+
+  /* START / END SCREENS */
+  .r-overlay {
+    position: absolute; inset: 0;
+    background: rgba(255,255,255,0.95);
+    z-index: 20;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    backdrop-filter: blur(5px);
+  }
+  .btn-start {
+    background: var(--text-main); color: #fff; border: none; padding: 15px 40px; border-radius: 30px;
+    font-size: 1.2rem; font-weight: 700; font-family: 'Outfit'; cursor: pointer; transition: 0.3s;
+  }
+  .btn-start:hover { background: var(--gold-primary); transform: scale(1.05); }
+
+  @keyframes popIn { 0% { transform: scale(0.8) translateY(50px); opacity: 0; } 100% { transform: scale(1) translateY(0); opacity: 1; } }
+  @keyframes floatUpGood { 0% { opacity: 1; transform: translate(-50%, -50%) scale(0.5); } 100% { opacity: 0; transform: translate(-50%, -150%) scale(1.2); } }
+  @keyframes floatUpBad { 0% { opacity: 1; transform: translate(-50%, -50%) scale(0.5); } 100% { opacity: 0; transform: translate(-50%, 50%) scale(1.2); } }
+
+  @media(max-width: 600px) {
+    .r-title { font-size: 2.2rem; }
+    .r-card { font-size: 1.4rem; padding: 30px 15px; }
+    .r-btn { font-size: 1.2rem; }
+  }
+</style>
+
+<div class="gorgu-page">
+  <div class="radar-container">
+    <div class="r-header">
+      <h1 class="r-title">Zarafet Radarı</h1>
+      <p class="r-desc">Sosyal reflekslerinizi test edin! Davranışları değerlendirmek için 60 saniyeniz var. Zarif mi, Kaba mı? Hızlı karar verin.</p>
+    </div>
+
+    <div class="r-game-area" id="gameArea">
+      
+      <!-- START SCREEN -->
+      <div class="r-overlay" id="startScreen">
+        <h2 style="font-family: 'Playfair Display'; font-size:2.5rem; margin-bottom:10px;">Hazır mısınız?</h2>
+        <p style="font-family:'Outfit'; color:#57534e; margin-bottom:30px;">Zaman dolmadan olabildiğince çok davranışı doğru sınıflandırın. Yanlış cevaplar eksi puan getirir.</p>
+        <button class="btn-start" onclick="startGame()">Oyuna Başla</button>
+      </div>
+
+      <!-- END SCREEN -->
+      <div class="r-overlay" id="endScreen" style="display:none;">
+        <div style="font-size: 4rem; margin-bottom: 10px;">🏆</div>
+        <h2 style="font-family: 'Playfair Display'; font-size:2.5rem; margin-bottom:5px;">Süre Doldu!</h2>
+        <p style="font-family:'Outfit'; color:#57534e; margin-bottom:20px;">Zarafet Skorunuz:</p>
+        <div style="font-size:4rem; font-weight:800; font-family:'Outfit'; color:var(--gold-primary); margin-bottom:30px;" id="finalScoreText">0</div>
+        <div style="display:flex; gap:15px;">
+          <button class="btn-start" onclick="startGame()">Tekrar Oyna</button>
+          <a href="/gorgu" class="btn-start" style="background:#e2e8f0; color:#1c1917; text-decoration:none;">Geri Dön</a>
+        </div>
+      </div>
+
+      <!-- HUD -->
+      <div class="r-hud">
+        <div class="r-score-box">
+          <div class="r-score-label">Skor</div>
+          <div class="r-score-value" id="scoreDisplay">0</div>
+        </div>
+        <div class="r-timer-box">
+          <div class="r-timer-value" id="timerDisplay">60</div>
+        </div>
+      </div>
+
+      <!-- CARD AREA -->
+      <div class="r-card-container">
+        <div class="r-card pop-in" id="currentCard">
+          Ağızda lokma varken konuşmak
+        </div>
+        <div class="r-feedback-floater" id="feedbackFloater">+10</div>
+      </div>
+
+      <!-- CONTROLS -->
+      <div class="r-controls">
+        <button class="r-btn r-btn-kaba" onclick="judgeCard(false)">
+          <span style="font-size:2rem;">👎</span> Kaba
+        </button>
+        <button class="r-btn r-btn-zarif" onclick="judgeCard(true)">
+          <span style="font-size:2rem;">👍</span> Zarif
+        </button>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<script>
+  const behaviors = [
+    { text: "Kapıyı arkadan gelen kişiye tutmak", isElegant: true },
+    { text: "Yemekte ağzı şapırdatmak", isElegant: false },
+    { text: "Telefonla konuşurken asansöre binmek", isElegant: false },
+    { text: "Lütfen ve Teşekkür ederim kelimelerini sık kullanmak", isElegant: true },
+    { text: "Toplantı sırasında sürekli saati kontrol etmek", isElegant: false },
+    { text: "Göz teması kurarak dinlemek", isElegant: true },
+    { text: "Yürüyen merdivende solda beklemek", isElegant: false },
+    { text: "Hapşırırken ağzı dirseğin içiyle kapatmak", isElegant: true },
+    { text: "Başkasının sözünü keserek araya girmek", isElegant: false },
+    { text: "Davetlere LCV (Lütfen Cevap Veriniz) ile dönüş yapmak", isElegant: true },
+    { text: "Mesajlara Görüldü atıp günlerce cevap vermemek", isElegant: false },
+    { text: "Toplu taşımada yüksek sesle müzik dinlemek", isElegant: false },
+    { text: "Garsona ismiyle hitap etmeye çalışmak", isElegant: true },
+    { text: "Restoranda garsona parmak şıklatmak", isElegant: false },
+    { text: "İş e-postalarına 'Saygılarımla' diyerek son vermek", isElegant: true },
+    { text: "Grup içinde iki kişinin fısıldaşması", isElegant: false },
+    { text: "Yemeğe başlamak için ev sahibini beklemek", isElegant: true },
+    { text: "Kulaklığı olan biriyle zorla konuşmaya çalışmak", isElegant: false },
+    { text: "Aynı fikirde olmasanız bile karşılıklı saygıyı korumak", isElegant: true },
+    { text: "Toplantıya 5 dakika erken gelmek", isElegant: true },
+    { text: "İnternette tamamen büyük harflerle (CAPS LOCK) yazmak", isElegant: false }
+  ];
+
+  let score = 0;
+  let timeLeft = 60;
+  let timerInterval;
+  let currentBehaviorIndex = 0;
+  let gameActive = false;
+
+  const cardEl = document.getElementById('currentCard');
+  const scoreEl = document.getElementById('scoreDisplay');
+  const timerEl = document.getElementById('timerDisplay');
+  const floater = document.getElementById('feedbackFloater');
+
+  function shuffle(array) {
+    return array.sort(() => Math.random() - 0.5);
+  }
+
+  function startGame() {
+    document.getElementById('startScreen').style.display = 'none';
+    document.getElementById('endScreen').style.display = 'none';
+    score = 0;
+    timeLeft = 60;
+    scoreEl.innerText = score;
+    timerEl.innerText = timeLeft;
+    shuffle(behaviors);
+    currentBehaviorIndex = 0;
+    gameActive = true;
+    showNextCard();
+
+    clearInterval(timerInterval);
+    timerInterval = setInterval(() => {
+      timeLeft--;
+      timerEl.innerText = timeLeft;
+      
+      // Pulse effect on low time
+      if(timeLeft <= 10) { timerEl.style.color = 'var(--rude-red)'; } 
+      else { timerEl.style.color = 'var(--text-main)'; }
+
+      if(timeLeft <= 0) {
+        endGame();
+      }
+    }, 1000);
+  }
+
+  function showNextCard() {
+    if(currentBehaviorIndex >= behaviors.length) {
+      shuffle(behaviors); // loop if finished
+      currentBehaviorIndex = 0;
+    }
+    
+    // reset card
+    cardEl.className = 'r-card';
+    cardEl.innerText = behaviors[currentBehaviorIndex].text;
+    
+    // trigger reflow to restart pop-in animation
+    void cardEl.offsetWidth;
+    cardEl.classList.add('pop-in');
+  }
+
+  function judgeCard(userChoice) {
+    if(!gameActive) return;
+
+    const currentBehavior = behaviors[currentBehaviorIndex];
+    const isCorrect = (userChoice === currentBehavior.isElegant);
+
+    // animate card out
+    if(userChoice) { cardEl.classList.add('swipe-right'); } 
+    else { cardEl.classList.add('swipe-left'); }
+
+    // Floater animation
+    floater.className = 'r-feedback-floater'; // reset
+    void floater.offsetWidth; // reflow
+
+    if(isCorrect) {
+      score += 15;
+      floater.innerText = "+15";
+      floater.classList.add('show-good');
+    } else {
+      score -= 10;
+      floater.innerText = "-10";
+      floater.classList.add('show-bad');
+    }
+
+    scoreEl.innerText = score;
+    currentBehaviorIndex++;
+
+    setTimeout(() => {
+      if(gameActive) showNextCard();
+    }, 250); // wait for swipe animation
+  }
+
+  function endGame() {
+    gameActive = false;
+    clearInterval(timerInterval);
+    document.getElementById('endScreen').style.display = 'flex';
+    document.getElementById('finalScoreText').innerText = score;
+  }
+</script>
+
+<%- include('partials/main-footer') %>

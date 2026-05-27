@@ -1,0 +1,520 @@
+<%- include('partials/main-header') %>
+
+<style>
+  /* PREMIUM SPIN DOCTOR / TV NEWS THEME */
+  body { 
+    background: #0f172a !important; /* Dark Slate Blue for TV Studio vibe */
+    color: #f8fafc; 
+    margin: 0; 
+    padding: 0; 
+    font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Inter", Roboto, Helvetica, Arial, sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+  
+  main.main-content, div.content-wrapper { 
+    max-width: 100% !important; 
+    padding: 0 !important; 
+    margin: 0 !important; 
+    width: 100% !important;
+    background: transparent !important;
+  }
+
+  .game-container {
+    max-width: 1100px;
+    margin: 40px auto 100px auto;
+    padding: 0 20px;
+  }
+
+  /* TV Studio Header */
+  .studio-header {
+    text-align: center;
+    margin-bottom: 40px;
+  }
+
+  .live-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(239, 68, 68, 0.15);
+    color: #ef4444;
+    padding: 6px 16px;
+    border-radius: 6px;
+    font-weight: 800;
+    font-size: 0.85rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    border: 1px solid rgba(239, 68, 68, 0.3);
+    margin-bottom: 20px;
+    animation: pulse 2s infinite;
+  }
+
+  .live-dot {
+    width: 8px; height: 8px;
+    background: #ef4444;
+    border-radius: 50%;
+  }
+
+  .game-title {
+    font-size: 3.5rem;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    margin: 0 0 16px 0;
+    color: #ffffff;
+    text-shadow: 0 4px 20px rgba(0,0,0,0.5);
+  }
+
+  .game-desc {
+    font-size: 1.2rem;
+    color: #94a3b8;
+    max-width: 600px;
+    margin: 0 auto;
+  }
+
+  /* Layout */
+  .studio-layout {
+    display: grid;
+    grid-template-columns: 1fr 350px;
+    gap: 30px;
+  }
+
+  @media (max-width: 850px) {
+    .studio-layout { grid-template-columns: 1fr; }
+  }
+
+  /* Main TV Screen */
+  .tv-screen {
+    background: #1e293b;
+    border: 1px solid #334155;
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+    display: flex;
+    flex-direction: column;
+    min-height: 600px;
+    position: relative;
+  }
+
+  /* Journalist Box */
+  .journalist-cam {
+    background: #0f172a;
+    padding: 40px 30px;
+    border-bottom: 1px solid #334155;
+    flex-shrink: 0;
+    position: relative;
+  }
+
+  .j-label {
+    position: absolute;
+    top: 15px; left: 15px;
+    background: #0284c7;
+    color: white;
+    font-size: 0.75rem;
+    font-weight: 700;
+    padding: 4px 10px;
+    border-radius: 4px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  .j-text {
+    font-size: 1.35rem;
+    font-weight: 600;
+    color: #e2e8f0;
+    line-height: 1.5;
+    margin: 20px 0 0 0;
+  }
+
+  /* Podium / Player Options */
+  .podium-cam {
+    flex-grow: 1;
+    background: #1e293b;
+    padding: 30px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+  }
+
+  .options-container {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .opt-btn {
+    background: #334155;
+    border: 2px solid #475569;
+    color: #f8fafc;
+    border-radius: 12px;
+    padding: 20px;
+    font-size: 1.1rem;
+    text-align: left;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .opt-btn:hover {
+    background: #475569;
+    border-color: #64748b;
+    transform: translateY(-2px);
+  }
+
+  .opt-tactic {
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: #ef4444;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  /* Breaking News Ticker */
+  .news-ticker {
+    background: #b91c1c;
+    color: white;
+    padding: 10px 20px;
+    font-weight: 700;
+    font-size: 1rem;
+    letter-spacing: 0.05em;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    overflow: hidden;
+    white-space: nowrap;
+  }
+
+  .ticker-label {
+    background: white;
+    color: #b91c1c;
+    padding: 2px 8px;
+    border-radius: 4px;
+    font-size: 0.8rem;
+  }
+
+  /* HUD Panel */
+  .hud-panel {
+    background: #1e293b;
+    border: 1px solid #334155;
+    border-radius: 20px;
+    padding: 30px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+  }
+
+  .hud-title {
+    font-size: 1.25rem;
+    font-weight: 700;
+    margin: 0 0 24px 0;
+    color: #e2e8f0;
+    border-bottom: 1px solid #334155;
+    padding-bottom: 12px;
+  }
+
+  .stat-block {
+    margin-bottom: 30px;
+  }
+
+  .stat-header {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: #94a3b8;
+  }
+
+  .stat-bar-bg {
+    height: 16px;
+    background: #0f172a;
+    border-radius: 8px;
+    overflow: hidden;
+    border: 1px solid #334155;
+  }
+
+  .stat-bar-fill {
+    height: 100%;
+    border-radius: 8px;
+    transition: width 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .fill-crowd { background: #10b981; width: 50%; }
+  .fill-journalist { background: #f59e0b; width: 0%; }
+
+  .feedback-box {
+    background: rgba(2, 132, 199, 0.1);
+    border-left: 4px solid #0284c7;
+    padding: 16px;
+    border-radius: 0 8px 8px 0;
+    margin-top: 20px;
+  }
+
+  .feedback-box h4 {
+    margin: 0 0 8px 0;
+    color: #38bdf8;
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  .feedback-box p {
+    margin: 0;
+    font-size: 0.95rem;
+    color: #cbd5e1;
+    line-height: 1.5;
+  }
+
+  .game-over {
+    display: none;
+    text-align: center;
+    background: rgba(15, 23, 42, 0.95);
+    position: absolute;
+    inset: 0;
+    z-index: 10;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 40px;
+  }
+
+  .game-over h2 {
+    font-size: 2.5rem;
+    margin: 0 0 16px 0;
+    color: white;
+  }
+
+  .game-over p {
+    font-size: 1.15rem;
+    color: #cbd5e1;
+    margin: 0 0 30px 0;
+    max-width: 500px;
+    line-height: 1.6;
+  }
+
+  .restart-btn {
+    background: #ef4444;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    padding: 16px 32px;
+    font-size: 1.1rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: transform 0.2s;
+  }
+  .restart-btn:hover { transform: scale(1.05); }
+
+  @keyframes pulse {
+    0% { opacity: 1; }
+    50% { opacity: 0.6; }
+    100% { opacity: 1; }
+  }
+</style>
+
+<div class="game-container">
+  
+  <div class="studio-header">
+    <div class="live-badge"><div class="live-dot"></div> CANLI YAYIN</div>
+    <h1 class="game-title">Politikacı Simülatörü</h1>
+    <p class="game-desc">Zor sorulara dürüst cevap vermek kaybettirir! Konuyu saptırmak için mantık hatalarını (safsataları) kullanarak halk desteğini koruyun.</p>
+  </div>
+
+  <div class="studio-layout">
+    
+    <!-- LEFT: TV SCREEN -->
+    <div class="tv-screen">
+      
+      <!-- Gazeteci Ekranı -->
+      <div class="journalist-cam">
+        <div class="j-label">Gazeteci (Soru)</div>
+        <div class="j-text" id="jText">"Sayın yetkili, şehrin altyapı ihalesini neden kendi akrabanızın şirketine verdiniz? Bu açıkça bir yolsuzluk değil mi?"</div>
+      </div>
+
+      <!-- Sizin Ekranınız -->
+      <div class="podium-cam">
+        <div class="options-container" id="optionsContainer">
+          <!-- Seçenekler buraya eklenecek -->
+        </div>
+      </div>
+
+      <!-- Alt Bant -->
+      <div class="news-ticker">
+        <span class="ticker-label">SON DAKİKA</span>
+        <marquee scrollamount="6" id="tickerText">TARTIŞMALI CANLI YAYIN BAŞLADI...</marquee>
+      </div>
+
+      <!-- Oyun Sonu Ekranı -->
+      <div class="game-over" id="gameOver">
+        <h2 id="goTitle">Yayın Bitti</h2>
+        <p id="goText"></p>
+        <button class="restart-btn" onclick="initGame()">Yeni Programa Çık</button>
+      </div>
+
+    </div>
+
+    <!-- RIGHT: HUD -->
+    <div class="hud-panel">
+      <h3 class="hud-title">Reyting Metre</h3>
+      
+      <div class="stat-block">
+        <div class="stat-header">
+          <span>Halk Desteği (Kitle Kontrolü)</span>
+          <span id="crowdScore">50%</span>
+        </div>
+        <div class="stat-bar-bg">
+          <div class="stat-bar-fill fill-crowd" id="crowdBar"></div>
+        </div>
+      </div>
+
+      <div class="stat-block" style="opacity: 0.5;">
+        <div class="stat-header">
+          <span>Dürüstlük (Gereksiz Puan)</span>
+          <span id="honestyScore">0%</span>
+        </div>
+        <div class="stat-bar-bg">
+          <div class="stat-bar-fill" style="background:#64748b; width:0%" id="honestyBar"></div>
+        </div>
+      </div>
+
+      <div class="feedback-box" id="feedbackBox">
+        <h4>Sistem Talimatı</h4>
+        <p>Mantık hatası (safsata) içeren şıkları seçin. Amacınız soruyu cevaplamak değil, seyircinin odağını başka yöne çekmektir.</p>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<script>
+  // SENARYO VERİSİ
+  const questions = [
+    {
+      q: "Sayın sözcü, ekonominin çok kötüye gittiğini ve enflasyonun %80'i aştığını görüyoruz. Bu başarısızlığı nasıl açıklıyorsunuz?",
+      ticker: "EKONOMİDE ZOR SORULAR: HÜKÜMET SÖZCÜSÜ TERLİYOR",
+      options: [
+        { text: "Sen bana başarısız diyeceğine önce kendi kanalınızın borçlarına bak, siz de batıyorsunuz!", tactic: "Ad Hominem (Kişiye Saldırı)", crowd: +20, hon: -10, feedback: "Kişiye Saldırı: Soruyu soranın karakterine veya durumuna saldırarak konuyu mükemmel şekilde saptırdınız. Seyirci kavgayı sevdi." },
+        { text: "Ekonomi iyiye gitmiyor çünkü küresel bir kriz var ve biz de bundan etkileniyoruz.", tactic: "Dürüstlük (Hata!)", crowd: -30, hon: +40, feedback: "Hata! Gerçeği söyleyip başarısızlığı kabul ettiniz. Halk desteğiniz düştü, rakipleriniz bunu size karşı kullanacak." },
+        { text: "Ekonomiden bahsediyorsun ama asıl tehlike dış güçlerin sınırlarımızda oynadığı oyunlar! Güvenlik her şeyden önemlidir.", tactic: "Red Herring (Hedef Şaşırtma)", crowd: +30, hon: -20, feedback: "Hedef Şaşırtma (Kırmızı Ringa Balığı): Konuyu tamamen alakasız ama duygusal olarak daha 'tehlikeli' bir noktaya (güvenlik) çektiniz. Harika bir safsata!" }
+      ]
+    },
+    {
+      q: "Efendim, yeni çevre yasanızın ormanları tahrip edeceği söyleniyor. Bu iddialara yanıtınız nedir?",
+      ticker: "ÇEVRECİLER TEPKİLİ: YENİ YASA NE GETİRİYOR?",
+      options: [
+        { text: "Ormanları korumak önemlidir ancak bu yasayla binlerce kişiye istihdam sağlayacağız.", tactic: "Yanlış İkilem (False Dilemma)", crowd: +25, hon: -10, feedback: "Yanlış İkilem: İnsanlara 'Ya orman ya iş' diye sahte bir seçenek sundunuz. İnsanlar işsiz kalmaktan korkup sizi destekledi." },
+        { text: "Bunu iddia eden çevreciler zaten vatanını sevmeyen, sürekli her şeye itiraz eden marjinal gruplardır.", tactic: "Zehirlenmiş Kuyu (Poisoning the Well)", crowd: +20, hon: -15, feedback: "Zehirlenmiş Kuyu: İddia sahiplerini baştan karalayarak argümanlarını dinlenemez hale getirdiniz. Alkışlar sizinle." },
+        { text: "Yasada bazı eksiklikler olabilir, ekolojik raporları tekrar incelememiz gerekiyor.", tactic: "Dürüstlük (Hata!)", crowd: -25, hon: +30, feedback: "Yine doğruyu söylediniz! Zayıf göründünüz ve muhalefete koz verdiniz." }
+      ]
+    },
+    {
+      q: "Son sızıntılarda, danışmanlarınızın usulsüz ihaleler aldığı belgeleriyle kanıtlandı. İstifa etmeyi düşünüyor musunuz?",
+      ticker: "İSTİFA ÇAĞRILARI BÜYÜYOR: BELGELER ORTAYA ÇIKTI",
+      options: [
+        { text: "Evet, bu ciddi bir hata. Soruşturma başlatılacak ve sorumlular cezalandırılacak.", tactic: "Dürüstlük (Hata!)", crowd: -40, hon: +50, feedback: "Dürüstlük politikada işe yaramaz! İstifa baskılarına boyun eğmiş oldunuz." },
+        { text: "Bizim ihalelerimizi eleştiriyorsunuz ama önceki yönetim döneminde milyarlarca lira çalındı, onlara niye susuyordunuz?", tactic: "Whataboutism (Ama Siz De...)", crowd: +35, hon: -20, feedback: "Whataboutism (Tu Quoque): Kendi hatanızı savunmak yerine 'Öncekiler de yaptı' diyerek suçu normalleştirdiniz. Seyirci kutuplaştı ve sizi savundu!" },
+        { text: "İstifa etmemi isteyenler aslında bu ülkenin gelişmesini istemeyen terör sevicilerdir!", tactic: "Korkuluk (Strawman)", crowd: +30, hon: -15, feedback: "Korkuluk Safsatası: Soruyu soranın niyetini çarpıtıp 'Ülke düşmanlığına' eşitleyerek konuyu kapattınız. Şovmenlik budur." }
+      ]
+    }
+  ];
+
+  let currentStep = 0;
+  let crowdSupport = 50;
+  let honestyLevel = 0;
+
+  const jText = document.getElementById('jText');
+  const optionsContainer = document.getElementById('optionsContainer');
+  const tickerText = document.getElementById('tickerText');
+  const crowdBar = document.getElementById('crowdBar');
+  const crowdScore = document.getElementById('crowdScore');
+  const honestyBar = document.getElementById('honestyBar');
+  const honestyScore = document.getElementById('honestyScore');
+  const feedbackBox = document.getElementById('feedbackBox');
+  const gameOverDiv = document.getElementById('gameOver');
+  const goTitle = document.getElementById('goTitle');
+  const goText = document.getElementById('goText');
+
+  function initGame() {
+    currentStep = 0;
+    crowdSupport = 50;
+    honestyLevel = 0;
+    gameOverDiv.style.display = 'none';
+    updateHUD();
+    renderQuestion();
+  }
+
+  function renderQuestion() {
+    if (currentStep >= questions.length || crowdSupport <= 0) {
+      endGame();
+      return;
+    }
+
+    const qData = questions[currentStep];
+    jText.innerText = `"${qData.q}"`;
+    tickerText.innerText = qData.ticker;
+    
+    optionsContainer.innerHTML = '';
+    
+    qData.options.forEach((opt, index) => {
+      const btn = document.createElement('button');
+      btn.className = 'opt-btn';
+      btn.innerHTML = `<span class="opt-tactic">Seçenek ${index + 1}</span> <span>"${opt.text}"</span>`;
+      btn.onclick = () => selectOption(opt);
+      optionsContainer.appendChild(btn);
+    });
+  }
+
+  function selectOption(opt) {
+    crowdSupport += opt.crowd;
+    if (crowdSupport > 100) crowdSupport = 100;
+    if (crowdSupport < 0) crowdSupport = 0;
+
+    honestyLevel += opt.hon;
+    if (honestyLevel > 100) honestyLevel = 100;
+    if (honestyLevel < 0) honestyLevel = 0;
+
+    // Feedback update
+    feedbackBox.innerHTML = `<h4>Son Hamle Analizi</h4><p>${opt.feedback}</p>`;
+    
+    updateHUD();
+
+    currentStep++;
+    
+    // Geçiş efekti için kısa bir bekleme
+    optionsContainer.innerHTML = '<div style="color:#94a3b8; text-align:center; padding:20px;">Gazeteci yeni sorusunu hazırlıyor...</div>';
+    setTimeout(renderQuestion, 1500);
+  }
+
+  function updateHUD() {
+    crowdBar.style.width = `${crowdSupport}%`;
+    crowdScore.innerText = `${crowdSupport}%`;
+    
+    if (crowdSupport < 30) crowdBar.style.background = '#ef4444';
+    else if (crowdSupport < 60) crowdBar.style.background = '#f59e0b';
+    else crowdBar.style.background = '#10b981';
+
+    honestyBar.style.width = `${honestyLevel}%`;
+    honestyScore.innerText = `${honestyLevel}%`;
+  }
+
+  function endGame() {
+    gameOverDiv.style.display = 'flex';
+    
+    if (crowdSupport >= 70) {
+      goTitle.innerText = "Mükemmel Bir Manipülatörsünüz!";
+      goTitle.style.color = "#10b981";
+      goText.innerHTML = "Hiçbir soruya cevap vermediniz, sürekli konuyu saptırdınız ve halkın kahramanı oldunuz. <strong>İşte televizyonda izlediğiniz tartışma programlarının perde arkasındaki safsata mekaniği budur!</strong>";
+    } else if (crowdSupport > 0) {
+      goTitle.innerText = "Orta Karar Bir Kariyer";
+      goTitle.style.color = "#f59e0b";
+      goText.innerHTML = "Ara sıra dürüst oldunuz, bu yüzden rakiplerinize koz verdiniz. Safsataları daha iyi kullanmalısınız.";
+    } else {
+      goTitle.innerText = "İstifa Ettiniz (Fazla Dürüstsünüz)";
+      goTitle.style.color = "#ef4444";
+      goText.innerHTML = "Zor sorulara mantık hatalarıyla (safsatalarla) kaçmak yerine mantıklı ve dürüst cevaplar verdiniz. Ne yazık ki bu acımasız arenada harcandınız.";
+    }
+  }
+
+  // Başlat
+  initGame();
+</script>
+
+<%- include('partials/main-footer') %>

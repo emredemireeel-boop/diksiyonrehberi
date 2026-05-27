@@ -1,0 +1,130 @@
+<%- include('partials/main-header') %>
+<link rel="stylesheet" href="/retorik.css?v=7" />
+<link rel="stylesheet" href="/giyim.css?v=2" />
+<style>
+  .giyim-page { display: block !important; }
+  .ret-cat-pill { text-decoration: none; }
+  .ret-hero {
+    background: linear-gradient(135deg, #0f172a 0%, #0c4a6e 50%, #0369a1 100%);
+    border-bottom: 2px solid #38bdf8;
+  }
+  .ret-hero-badge { color: #e0f2fe; background: rgba(56,189,248,0.2); border: 1px solid rgba(56,189,248,0.3); }
+  .ret-cat-pill.active { background: #0284c7; border-color: #0284c7; color: #fff; }
+  .gi-link { color: #0284c7; font-weight: 700; text-decoration: none; font-size: 0.9rem; }
+  .gi-link:hover { text-decoration: underline; }
+  .gi-card { background:#f0f9ff;border:1.5px solid #bae6fd;border-radius:16px;padding:24px;text-decoration:none;display:block;transition:border-color 0.2s,transform 0.2s,box-shadow 0.2s; }
+  .gi-card:hover { border-color:#0284c7 !important; transform:translateY(-3px); box-shadow:0 10px 30px rgba(2,132,199,0.12); }
+</style>
+
+<main class="main-content">
+  <div class="content-wrapper">
+    <div id="giyim-container" class="giyim-page">
+
+      <!-- ══ HERO ══ -->
+      <div class="ret-hero">
+        <div class="ret-hero-badge">İmaj ve Stil Eğitimi</div>
+        <h1 class="ret-hero-title">İmaj Yönetimi</h1>
+        <p class="ret-hero-tagline">Kıyafetinizle İlk 7 Saniyeyi Kazanın</p>
+        <p class="ret-hero-desc">Araştırmalar, ilk izlenimin 7 saniyede oluştuğunu ve %55'inin görünüm kaynaklı olduğunu göstermektedir. Dress code'dan renk psikolojisine, vücut tipinize özel giyimden aksesuar sanatına kadar tam bir imaj rehberi.</p>
+        <div class="ret-hero-stats">
+          <div class="ret-stat"><span class="ret-stat-n">6</span><span class="ret-stat-l">Eğitim Modülü</span></div>
+          <div class="ret-stat"><span class="ret-stat-n">15+</span><span class="ret-stat-l">Pratik Kural</span></div>
+          <div class="ret-stat"><span class="ret-stat-n">100%</span><span class="ret-stat-l">Ücretsiz</span></div>
+        </div>
+      </div>
+
+      <!-- ══ KATEGORİLER ══ -->
+      <div class="ret-cat-pills">
+        <a href="/giyim" class="ret-cat-pill active">Tümü</a>
+        <a href="/giyim/dresscode" class="ret-cat-pill">Dress Code</a>
+        <a href="/giyim/renk" class="ret-cat-pill">Renk Psikolojisi</a>
+        <a href="/giyim/vucut-tipi" class="ret-cat-pill">Vücut Tipine Göre</a>
+        <a href="/giyim/aksesuar" class="ret-cat-pill">Aksesuar Sanatı</a>
+        <a href="/giyim/stil" class="ret-cat-pill">Stil Testi</a>
+        <a href="/giyim/outfit" class="ret-cat-pill">Outfit Lab</a>
+      </div>
+
+      <!-- ══ BÖLÜM 1: TEMEL ══ -->
+      <section class="ret-section">
+        <div class="ret-section-header">
+          <div style="background:#e0f2fe;border:1px solid #bae6fd;display:flex;align-items:center;justify-content:center;width:50px;height:50px;border-radius:12px;font-size:1.5rem">👔</div>
+          <div>
+            <h2 style="margin:0;font-size:1.4rem;color:#0f172a">Temel Giyim Prensipleri</h2>
+            <p style="margin:4px 0 0;color:#64748b;font-size:0.85rem">İmajın temel taşları</p>
+          </div>
+        </div>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px">
+          <a href="/giyim/dresscode" class="gi-card">
+            <div style="font-size:0.7rem;font-weight:800;text-transform:uppercase;letter-spacing:1.5px;color:#0369a1;margin-bottom:10px">01 — DRESS CODE</div>
+            <div style="font-size:1.5rem;margin-bottom:10px">🎩</div>
+            <h3 style="color:#0c4a6e;font-size:1.1rem;margin-bottom:8px">Dress Code Rehberi</h3>
+            <p style="color:#0369a1;font-size:0.875rem;line-height:1.6;margin-bottom:12px">Business Casual'dan Black Tie'a, Smart Casual'dan Cocktail Attire'a tüm kıyafet kodları ve ne zaman hangisini giymeli.</p>
+            <span class="gi-link">Eğitime Git →</span>
+          </a>
+          <a href="/giyim/renk" class="gi-card">
+            <div style="font-size:0.7rem;font-weight:800;text-transform:uppercase;letter-spacing:1.5px;color:#0369a1;margin-bottom:10px">02 — RENK PSİKOLOJİSİ</div>
+            <div style="font-size:1.5rem;margin-bottom:10px">🎨</div>
+            <h3 style="color:#0c4a6e;font-size:1.1rem;margin-bottom:8px">Renk Psikolojisi</h3>
+            <p style="color:#0369a1;font-size:0.875rem;line-height:1.6;margin-bottom:12px">Her rengin verdiği mesaj nedir? Hangi renk güven, hangisi otorite, hangisi yaratıcılık verir? Ton ve ten uyumu.</p>
+            <span class="gi-link">Eğitime Git →</span>
+          </a>
+          <a href="/giyim/vucut-tipi" class="gi-card">
+            <div style="font-size:0.7rem;font-weight:800;text-transform:uppercase;letter-spacing:1.5px;color:#0369a1;margin-bottom:10px">03 — VÜCUT TİPİ</div>
+            <div style="font-size:1.5rem;margin-bottom:10px">👗</div>
+            <h3 style="color:#0c4a6e;font-size:1.1rem;margin-bottom:8px">Vücut Tipine Göre Giyim</h3>
+            <p style="color:#0369a1;font-size:0.875rem;line-height:1.6;margin-bottom:12px">Elma, armut, kum saati, ters üçgen, dikdörtgen... Her vücut tipinin güçlü yanlarını öne çıkaran stil seçimleri.</p>
+            <span class="gi-link">Eğitime Git →</span>
+          </a>
+        </div>
+      </section>
+
+      <!-- ══ BÖLÜM 2: İLERİ ══ -->
+      <section class="ret-section">
+        <div class="ret-section-header">
+          <div style="background:#e0f2fe;border:1px solid #bae6fd;display:flex;align-items:center;justify-content:center;width:50px;height:50px;border-radius:12px;font-size:1.5rem">✨</div>
+          <div>
+            <h2 style="margin:0;font-size:1.4rem;color:#0f172a">İleri Seviye İmaj</h2>
+            <p style="margin:4px 0 0;color:#64748b;font-size:0.85rem">Stili kişiselleştir ve test et</p>
+          </div>
+        </div>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px">
+          <a href="/giyim/aksesuar" class="gi-card">
+            <div style="font-size:0.7rem;font-weight:800;text-transform:uppercase;letter-spacing:1.5px;color:#0369a1;margin-bottom:10px">04 — AKSESUAR</div>
+            <div style="font-size:1.5rem;margin-bottom:10px">⌚</div>
+            <h3 style="color:#0c4a6e;font-size:1.1rem;margin-bottom:8px">Aksesuar Sanatı</h3>
+            <p style="color:#0369a1;font-size:0.875rem;line-height:1.6;margin-bottom:12px">Saat, kravat, kemer, çanta, takı seçimi. "Az ama öz" ilkesiyle tüm outfiti tamamlayan dokunuşlar.</p>
+            <span class="gi-link">Eğitime Git →</span>
+          </a>
+          <a href="/giyim/stil" class="gi-card">
+            <div style="font-size:0.7rem;font-weight:800;text-transform:uppercase;letter-spacing:1.5px;color:#0369a1;margin-bottom:10px">05 — STİL TESTİ</div>
+            <div style="font-size:1.5rem;margin-bottom:10px">🔍</div>
+            <h3 style="color:#0c4a6e;font-size:1.1rem;margin-bottom:8px">Stil Testi</h3>
+            <p style="color:#0369a1;font-size:0.875rem;line-height:1.6;margin-bottom:12px">Kişilik tipinize ve yaşam tarzınıza uygun stil kategorinizi keşfedin. Klasik, minimalist, bohem, preppy mi?</p>
+            <span class="gi-link">Teste Başla →</span>
+          </a>
+          <a href="/giyim/outfit" class="gi-card">
+            <div style="font-size:0.7rem;font-weight:800;text-transform:uppercase;letter-spacing:1.5px;color:#0369a1;margin-bottom:10px">06 — OUTFIT LAB</div>
+            <div style="font-size:1.5rem;margin-bottom:10px">🧪</div>
+            <h3 style="color:#0c4a6e;font-size:1.1rem;margin-bottom:8px">Outfit Lab</h3>
+            <p style="color:#0369a1;font-size:0.875rem;line-height:1.6;margin-bottom:12px">Farklı okasyon ve senaryolara göre hazır kombinler. İş toplantısından gece çıkışına pratik set önerileri.</p>
+            <span class="gi-link">Lab'a Gir →</span>
+          </a>
+        </div>
+      </section>
+
+      <!-- ══ NEDEN İMAJ ══ -->
+      <section class="ret-section">
+        <h2 style="color:#0f172a;font-size:1.4rem;margin-bottom:16px">İmaj Yönetimi Neden Bu Kadar Önemli?</h2>
+        <p style="color:#475569;font-size:0.95rem;line-height:1.8;margin-bottom:16px">Princeton Üniversitesi araştırmacılarının yaptığı çalışmaya göre insanlar bir yüzü gördükten sonra <strong>100 milisaniye</strong> içinde güvenilirlik, yetkinlik ve çekicilik gibi sosyal yargılara ulaşmaktadır. Kıyafetiniz bu ilk izlenimi pekiştirir ya da bozar.</p>
+        <p style="color:#475569;font-size:0.95rem;line-height:1.8;margin-bottom:20px">İmaj yönetimi gösteriş değil; kendi değerlerinizi ve profesyonel kimliğinizi görsel olarak doğru iletme becerisidir.</p>
+        <div style="background:#e0f2fe;border-left:4px solid #0284c7;border-radius:0 12px 12px 0;padding:20px 24px">
+          <p style="color:#0c4a6e;font-size:1rem;font-style:italic;margin-bottom:8px;font-weight:500">"Giyim tarzı, kişinin dünyaya sunduğu ilk savunma avukatıdır."</p>
+          <cite style="color:#0284c7;font-size:0.85rem;font-weight:700">— Anna Wintour</cite>
+        </div>
+      </section>
+
+    </div>
+  </div>
+</main>
+
+<%- include('partials/main-footer') %>

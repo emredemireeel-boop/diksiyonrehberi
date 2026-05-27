@@ -1,0 +1,257 @@
+<%- include('partials/main-header') %>
+
+<style>
+  body { background: #000; color: #f8fafc; font-family: 'Inter', sans-serif; overflow-x: hidden; }
+  .detective-container { padding: 40px 20px; max-width: 900px; margin: 0 auto; min-height: 85vh; display: flex; flex-direction: column; align-items: center; }
+  
+  h1 { font-size: 2.5rem; font-weight: 900; margin-bottom: 5px; color: #10b981; text-transform: uppercase; letter-spacing: 2px; text-align: center; text-shadow: 0 0 10px rgba(16, 185, 129, 0.4); }
+  p.desc { color: #94a3b8; font-size: 1rem; line-height: 1.6; margin-bottom: 30px; text-align: center; max-width: 600px; }
+
+  /* Interrogation Room UI */
+  .room { width: 100%; background: radial-gradient(circle at center, #1e293b 0%, #020617 100%); border: 2px solid #334155; border-radius: 20px; box-shadow: inset 0 0 50px rgba(0,0,0,0.8), 0 20px 50px rgba(0,0,0,0.8); display: flex; flex-direction: column; overflow: hidden; position: relative; }
+  
+  /* Top Panel: Scanner & Target Info */
+  .top-panel { padding: 15px 20px; background: rgba(0,0,0,0.6); border-bottom: 1px solid #334155; display: flex; justify-content: space-between; align-items: center; }
+  .tp-status { color: #facc15; font-family: monospace; font-size: 1.1rem; letter-spacing: 2px; }
+  .tp-case { color: #94a3b8; font-size: 0.9rem; font-weight: 700; text-transform: uppercase; }
+
+  /* Camera Feed */
+  .camera-feed { padding: 40px 20px; text-align: center; position: relative; min-height: 250px; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+  
+  .target-avatar { font-size: 6rem; filter: drop-shadow(0 0 20px rgba(255,255,255,0.1)); position: relative; z-index: 2; margin-bottom: 20px; transition: all 0.3s; }
+  .target-avatar.scanning { animation: glitch 0.2s linear infinite; }
+  
+  .speech-box { background: rgba(255,255,255,0.05); border-left: 3px solid #0ea5e9; padding: 15px 20px; text-align: left; max-width: 80%; border-radius: 0 15px 15px 0; margin-bottom: 20px; z-index: 2; position: relative; }
+  .sb-label { font-size: 0.8rem; color: #0ea5e9; font-weight: 800; text-transform: uppercase; margin-bottom: 5px; letter-spacing: 1px; }
+  .sb-text { font-size: 1.2rem; color: #e2e8f0; font-style: italic; line-height: 1.5; }
+
+  .micro-clue { background: rgba(244, 63, 94, 0.1); border: 1px solid #f43f5e; color: #fecdd3; padding: 10px 15px; border-radius: 8px; font-size: 0.95rem; display: flex; align-items: center; gap: 10px; max-width: 80%; opacity: 0; transform: translateY(10px); transition: all 0.5s; z-index: 2; position: relative; }
+  .micro-clue.visible { opacity: 1; transform: translateY(0); }
+  .mc-icon { font-size: 1.2rem; }
+
+  /* Scanline Overlay */
+  .scanline { position: absolute; inset: 0; background: linear-gradient(to bottom, transparent 50%, rgba(0,0,0,0.25) 51%); background-size: 100% 4px; pointer-events: none; z-index: 1; opacity: 0.5; }
+
+  /* Action Panel */
+  .action-panel { background: #0f172a; padding: 30px 20px; border-top: 1px solid #334155; }
+  .ap-title { font-size: 0.9rem; color: #64748b; font-weight: 800; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 15px; text-align: center; }
+  
+  .options-grid { display: grid; grid-template-columns: 1fr; gap: 10px; }
+  @media(min-width:600px){ .options-grid { grid-template-columns: 1fr 1fr; } }
+  
+  .btn-opt { background: #1e293b; border: 2px solid #334155; color: #cbd5e1; padding: 15px; border-radius: 12px; font-size: 1.1rem; font-weight: 700; cursor: pointer; transition: all 0.2s; display: flex; align-items: center; justify-content: center; gap: 10px; }
+  .btn-opt:hover { background: #334155; border-color: #94a3b8; color: #fff; transform: translateY(-2px); }
+
+  /* Modal */
+  .result-modal { position: fixed; inset: 0; background: rgba(0,0,0,0.9); z-index: 100; display: none; flex-direction: column; align-items: center; justify-content: center; padding: 20px; }
+  .rm-box { background: #0f172a; border: 2px solid #10b981; border-radius: 20px; padding: 40px; text-align: center; max-width: 600px; box-shadow: 0 0 50px rgba(16, 185, 129, 0.2); }
+  
+  .rm-icon { font-size: 5rem; margin-bottom: 20px; }
+  .rm-title { font-size: 2rem; font-weight: 900; margin-bottom: 10px; text-transform: uppercase; }
+  .rm-desc { font-size: 1.1rem; color: #cbd5e1; line-height: 1.6; margin-bottom: 30px; }
+  .btn-next { background: #10b981; color: #000; font-weight: 900; font-size: 1.1rem; padding: 15px 30px; border-radius: 30px; border: none; cursor: pointer; text-transform: uppercase; transition: all 0.2s; }
+  .btn-next:hover { transform: scale(1.05); }
+
+  @keyframes glitch { 0% { transform: translate(2px, 1px) } 20% { transform: translate(-2px, -1px) } 40% { transform: translate(1px, -2px) } 60% { transform: translate(-1px, 2px) } 80% { transform: translate(2px, -1px) } 100% { transform: translate(0) } }
+
+  .game-over { display: none; text-align: center; padding: 50px; background: #1e293b; border-radius: 20px; margin-top: 30px; width: 100%; border: 2px solid #10b981; }
+</style>
+
+<div class="detective-container">
+  <h1>Yalan Dedektifi</h1>
+  <p class="desc">Kelimelere değil, mikro beden diline odaklanın. Hedefin sözlerini dinleyin ve saniyenin onda biri hızında gerçekleşen istemsiz fiziksel tepkileri analiz ederek GERÇEK durumunu teşhis edin.</p>
+
+  <div class="room" id="gameRoom">
+    
+    <div class="top-panel">
+      <div class="tp-status" id="scanStatus">SCANNING...</div>
+      <div class="tp-case" id="caseNum">DOSYA #01</div>
+    </div>
+
+    <div class="camera-feed">
+      <div class="scanline"></div>
+      
+      <div class="target-avatar" id="avatar">👤</div>
+      
+      <div class="speech-box">
+        <div class="sb-label">Ses Kaydı:</div>
+        <div class="sb-text" id="speechText">...</div>
+      </div>
+
+      <div class="micro-clue" id="clueBox">
+        <div class="mc-icon">👁️</div>
+        <div id="clueText">Sisteme yükleniyor...</div>
+      </div>
+    </div>
+
+    <div class="action-panel">
+      <div class="ap-title">Mikro İfade Analiz Sonucunuz:</div>
+      <div class="options-grid" id="optGrid">
+        <!-- Injected -->
+      </div>
+    </div>
+
+  </div>
+
+  <div class="game-over" id="gameOver">
+    <div style="font-size: 5rem; margin-bottom:20px;">🕵️‍♂️</div>
+    <h2 style="font-size:2.5rem; color:#10b981; margin:0 0 15px 0;">Sorgu Tamamlandı</h2>
+    <p style="color:#cbd5e1; font-size:1.1rem; margin-bottom:30px;">Tebrikler. İnsanların maskelerinin ardındaki gerçek duyguları deşifre etme konusunda üstün bir yetenek sergilediniz.</p>
+    <a href="/bedendili" style="background:#10b981; color:#000; padding:15px 30px; border-radius:30px; text-decoration:none; font-weight:800; text-transform:uppercase;">Merkeze Dön</a>
+  </div>
+
+</div>
+
+<!-- Result Modal -->
+<div class="result-modal" id="resModal">
+  <div class="rm-box" id="rmBox">
+    <div class="rm-icon" id="rmIcon">✅</div>
+    <div class="rm-title" id="rmTitle">DOĞRU TEŞHİS!</div>
+    <div class="rm-desc" id="rmDesc">...</div>
+    <button class="btn-next" onclick="nextLevel()">Sıradaki Dosya</button>
+  </div>
+</div>
+
+<script>
+  const levels = [
+    {
+      caseNum: "DOSYA #01: İŞ GÖRÜŞMESİ",
+      avatar: "👨‍💼",
+      speech: "Elbette, eski şirketimde büyük bir ekibi başarıyla yönettim. Liderlik benim doğamda var.",
+      clue: "Konuşurken çenesini hafifçe aşağı çekti, göz temasını kırdı ve sol omzunu istemsizce çok hafifçe yukarı kaldırdı.",
+      options: [
+        { text: "Özgüveni Yüksek", isCorrect: false },
+        { text: "Dürüst Değil / Yalan Söylüyor", isCorrect: true },
+        { text: "Mutlu", isCorrect: false },
+        { text: "Agresif", isCorrect: false }
+      ],
+      successMsg: "Mükemmel tespit! Tek taraflı omuz silkme (asimetrik mikro ifade), söylenen söze kişinin kendisinin de inanmadığının evrensel bir işaretidir."
+    },
+    {
+      caseNum: "DOSYA #02: ŞÜPHELİ MÜŞTERİ",
+      avatar: "👩‍💼",
+      speech: "Mağazanızdaki o değerli kolyenin kaybolmasıyla hiçbir ilgim yok. Ben o reyona hiç girmedim.",
+      clue: "Bunu söylerken gözlerini hiç kırpmadan dümdüz size bakıyor ve bedeni tamamen donuk (kaskatı) durumda.",
+      options: [
+        { text: "Baskı Altında Yalan Söylüyor", isCorrect: true },
+        { text: "Kesinlikle Doğru Söylüyor", isCorrect: false },
+        { text: "Rahatlamış", isCorrect: false },
+        { text: "Utangaç", isCorrect: false }
+      ],
+      successMsg: "Harika! Doğru söyleyen insanlar doğal hareket eder. Gözünü hiç kırpmadan, donuk ve 'aşırı' göz teması kuran kişi beyninin yalan kurgulama kapasitesini bedeni dondurarak dengeliyordur."
+    },
+    {
+      caseNum: "DOSYA #03: GİZLİ REKABET",
+      avatar: "👨‍💻",
+      speech: "Terfi almana gerçekten çok sevindim dostum, bunu sonuna kadar hak etmiştin. Harika bir haber!",
+      clue: "Gülümserken dudakları yukarı kıvrıldı ancak göz kenarlarında (kaz ayakları) hiçbir kırışma olmadı.",
+      options: [
+        { text: "Samimi ve İçten", isCorrect: false },
+        { text: "Gururlu", isCorrect: false },
+        { text: "Sahte Gülümseme (Kıskanç)", isCorrect: true },
+        { text: "Korkmuş", isCorrect: false }
+      ],
+      successMsg: "Doğru! Göz kaslarının (orbicularis oculi) dahil olmadığı bir gülümseme 'Duchenne olmayan' yani sahte ve nezaketen yapılmış bir gülümsemedir."
+    },
+    {
+      caseNum: "DOSYA #04: PAZARLIK",
+      avatar: "🤵",
+      speech: "Şirketimizi satın almak için sunduğunuz teklif çok düşük. Bize gelen başka büyük teklifler de var.",
+      clue: "Bu cümleyi kurarken ellerini masanın üzerine koydu ama parmak uçları içe dönük ve parmaklarını masaya ritmik bir şekilde vuruyor.",
+      options: [
+        { text: "Güçlü ve Otoriter", isCorrect: false },
+        { text: "Sabırsız ve Blöf Yapıyor (Stresli)", isCorrect: true },
+        { text: "Açık ve Dürüst", isCorrect: false },
+        { text: "İlgisiz", isCorrect: false }
+      ],
+      successMsg: "Tam isabet! Kendinden emin (güçlü) bir pozisyonda eller sabittir. Parmak tıkırdatmak ve elleri içe kapatmak stres, sabırsızlık ve blöf yapıldığında ortaya çıkan yatıştırıcı jestlerdir (pacifying behaviors)."
+    }
+  ];
+
+  let currentLv = 0;
+
+  function loadLevel() {
+    if(currentLv >= levels.length) {
+      document.getElementById('gameRoom').style.display = 'none';
+      document.getElementById('gameOver').style.display = 'block';
+      return;
+    }
+
+    const lv = levels[currentLv];
+    document.getElementById('caseNum').textContent = lv.caseNum;
+    document.getElementById('avatar').textContent = lv.avatar;
+    document.getElementById('speechText').textContent = lv.speech;
+    
+    const clueBox = document.getElementById('clueBox');
+    clueBox.classList.remove('visible');
+    document.getElementById('clueText').textContent = lv.clue;
+    
+    document.getElementById('scanStatus').textContent = "SİNYAL ARANIYOR...";
+    document.getElementById('scanStatus').style.color = "#facc15";
+    document.getElementById('avatar').classList.add('scanning');
+
+    // Opts
+    const grid = document.getElementById('optGrid');
+    grid.innerHTML = '';
+    
+    const shuffled = [...lv.options].sort(() => Math.random() - 0.5);
+    shuffled.forEach(opt => {
+      const btn = document.createElement('button');
+      btn.className = 'btn-opt';
+      btn.textContent = opt.text;
+      btn.onclick = () => selectOpt(opt);
+      btn.disabled = true;
+      grid.appendChild(btn);
+    });
+
+    // Animate Clue appearance
+    setTimeout(() => {
+      document.getElementById('scanStatus').textContent = "MİKRO İFADE TESPİT EDİLDİ";
+      document.getElementById('scanStatus').style.color = "#f43f5e";
+      document.getElementById('avatar').classList.remove('scanning');
+      clueBox.classList.add('visible');
+      
+      // Enable buttons
+      document.querySelectorAll('.btn-opt').forEach(b => b.disabled = false);
+    }, 2000);
+  }
+
+  function selectOpt(opt) {
+    const lv = levels[currentLv];
+    const modal = document.getElementById('resModal');
+    const mBox = document.getElementById('rmBox');
+    const mIcon = document.getElementById('rmIcon');
+    const mTitle = document.getElementById('rmTitle');
+    const mDesc = document.getElementById('rmDesc');
+
+    modal.style.display = 'flex';
+
+    if(opt.isCorrect) {
+      mBox.style.borderColor = '#10b981';
+      mBox.style.boxShadow = '0 0 50px rgba(16, 185, 129, 0.2)';
+      mIcon.textContent = '✅';
+      mTitle.textContent = 'DOĞRU TEŞHİS!';
+      mTitle.style.color = '#10b981';
+      mDesc.textContent = lv.successMsg;
+    } else {
+      mBox.style.borderColor = '#f43f5e';
+      mBox.style.boxShadow = '0 0 50px rgba(244, 63, 94, 0.2)';
+      mIcon.textContent = '❌';
+      mTitle.textContent = 'YANLIŞ TEŞHİS!';
+      mTitle.style.color = '#f43f5e';
+      mDesc.textContent = "Hedef sizi kandırdı. Gözlemlerinizi ve beden dili okuma tekniklerinizi tekrar gözden geçirin.";
+    }
+  }
+
+  function nextLevel() {
+    document.getElementById('resModal').style.display = 'none';
+    currentLv++;
+    loadLevel();
+  }
+
+  // Init
+  loadLevel();
+
+</script>
+
+<%- include('partials/main-footer') %>

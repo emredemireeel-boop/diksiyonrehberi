@@ -1,0 +1,352 @@
+<%- include('partials/main-header') %>
+
+<style>
+  body { background: #0f172a; color: #f8fafc; font-family: 'Inter', sans-serif; }
+  .lab-container { display: flex; flex-direction: column; md:flex-row; gap: 20px; padding: 40px 20px; max-width: 1200px; margin: 0 auto; min-height: 80vh; }
+  
+  .panel { background: #1e293b; border: 1px solid #334155; border-radius: 20px; padding: 30px; }
+  .left-panel { flex: 1; display: flex; flex-direction: column; gap: 20px; }
+  .right-panel { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; position: relative; overflow: hidden; }
+
+  h1 { font-size: 2rem; font-weight: 900; margin-bottom: 5px; color: #38bdf8; text-transform: uppercase; letter-spacing: 1px; }
+  p.desc { color: #94a3b8; font-size: 0.95rem; line-height: 1.6; margin-bottom: 20px; }
+
+  /* Scenario Selector */
+  .scenario-btn { background: #0f172a; color: #cbd5e1; border: 1px solid #334155; padding: 12px 20px; border-radius: 12px; cursor: pointer; transition: all 0.2s; font-weight: 700; width: 100%; text-align: left; display: flex; justify-content: space-between; align-items: center; }
+  .scenario-btn.active { background: #0284c7; border-color: #38bdf8; color: #fff; box-shadow: 0 0 20px rgba(2, 132, 199, 0.4); }
+
+  /* Garment Selectors */
+  .garment-group { background: #0f172a; padding: 15px; border-radius: 15px; border: 1px solid #334155; }
+  .garment-label { font-size: 0.8rem; font-weight: 800; color: #64748b; text-transform: uppercase; margin-bottom: 10px; display: block; letter-spacing: 1px; }
+  .options-row { display: flex; gap: 10px; overflow-x: auto; padding-bottom: 5px; }
+  .opt-btn { background: #1e293b; border: 1px solid #334155; border-radius: 10px; padding: 10px; cursor: pointer; transition: all 0.2s; min-width: 80px; text-align: center; }
+  .opt-btn:hover { background: #334155; }
+  .opt-btn.active { border-color: #38bdf8; box-shadow: 0 0 10px rgba(56, 189, 248, 0.3); }
+  .opt-icon { font-size: 1.8rem; margin-bottom: 5px; }
+  .opt-name { font-size: 0.7rem; font-weight: 700; color: #e2e8f0; }
+
+  /* Right Panel Visuals */
+  .mannequin { width: 180px; height: 400px; display: flex; flex-direction: column; gap: 5px; position: relative; z-index: 10; }
+  .m-part { border-radius: 10px; display: flex; align-items: center; justify-content: center; font-weight: 900; color: rgba(255,255,255,0.8); transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1); border: 2px solid rgba(255,255,255,0.1); box-shadow: inset 0 0 20px rgba(0,0,0,0.5); }
+  
+  .m-head { height: 50px; background: #cbd5e1; border-radius: 50%; margin: 0 auto; width: 50px; }
+  .m-chest { height: 140px; background: #334155; width: 100%; position: relative; }
+  .m-belt { height: 15px; background: #1e293b; width: 90%; margin: 0 auto; }
+  .m-legs { height: 150px; background: #334155; width: 90%; margin: 0 auto; }
+  .m-feet { height: 30px; background: #1e293b; width: 100%; display: flex; gap: 10px; border: none; box-shadow: none; }
+  .m-foot { flex: 1; background: inherit; border-radius: 10px; border: 2px solid rgba(255,255,255,0.1); box-shadow: inset 0 0 10px rgba(0,0,0,0.5); }
+
+  /* Accessories overlaid */
+  .tie-overlay { position: absolute; top: 0; left: 50%; transform: translateX(-50%); width: 20px; height: 100px; background: transparent; clip-path: polygon(50% 0, 100% 20%, 50% 100%, 0 20%); z-index: 2; transition: all 0.3s; }
+
+  /* HUD */
+  .hud { position: absolute; top: 20px; right: 20px; background: rgba(0,0,0,0.5); padding: 15px; border-radius: 15px; border: 1px solid #334155; text-align: right; z-index: 20; backdrop-filter: blur(10px); }
+  .score-val { font-size: 2.5rem; font-weight: 900; color: #38bdf8; text-shadow: 0 0 20px rgba(56, 189, 248, 0.5); font-variant-numeric: tabular-nums; }
+  
+  /* Analysis Box */
+  .analysis-box { margin-top: 20px; padding: 20px; background: #0f172a; border-left: 4px solid #38bdf8; border-radius: 0 15px 15px 0; display: none; }
+  .an-title { font-weight: 800; margin-bottom: 10px; color: #e2e8f0; }
+  .an-text { font-size: 0.9rem; color: #cbd5e1; line-height: 1.6; }
+  .an-rule { padding: 10px; border-radius: 8px; margin-top: 10px; font-size: 0.85rem; font-weight: 700; display: flex; align-items: center; gap: 10px; }
+  .rule-fail { background: rgba(244, 63, 94, 0.1); color: #f43f5e; border: 1px solid rgba(244, 63, 94, 0.3); }
+  .rule-pass { background: rgba(16, 185, 129, 0.1); color: #10b981; border: 1px solid rgba(16, 185, 129, 0.3); }
+
+  .action-btn { background: linear-gradient(135deg, #0284c7, #0369a1); border: none; color: #fff; font-weight: 800; padding: 15px; border-radius: 12px; cursor: pointer; transition: transform 0.2s; margin-top: 10px; text-transform: uppercase; letter-spacing: 1px; box-shadow: 0 10px 20px rgba(2, 132, 199, 0.3); }
+  .action-btn:hover { transform: scale(1.02); }
+
+  @media (min-width: 1024px) {
+    .lab-container { flex-direction: row; }
+  }
+</style>
+
+<div class="lab-container">
+  
+  <div class="left-panel">
+    <div>
+      <h1>Outfit Lab</h1>
+      <p class="desc">Gerçek hayat senaryolarına göre kombin kurun. Unutmayın, yanlış giyim kodu (dress code) kariyer kapılarını sessizce kapatır.</p>
+    </div>
+
+    <!-- Scenarios -->
+    <div class="garment-group">
+      <span class="garment-label">1. Senaryo Seçin</span>
+      <div style="display:flex; flex-direction:column; gap:10px;">
+        <div class="scenario-btn active" data-scenario="corporate" onclick="setScenario('corporate')">
+          <span>🏢 Kurumsal Toplantı (Boardroom)</span> <span style="font-size:0.8rem; color:#94a3b8">Business Formal</span>
+        </div>
+        <div class="scenario-btn" data-scenario="casual" onclick="setScenario('casual')">
+          <span>☕ Cuma Günü Ofis</span> <span style="font-size:0.8rem; color:#94a3b8">Smart Casual</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Ceket / Üst -->
+    <div class="garment-group">
+      <span class="garment-label">2. Üst Giyim (Ceket)</span>
+      <div class="options-row" id="jacket-opts">
+        <!-- Rendered via JS -->
+      </div>
+    </div>
+
+    <!-- Pantolon -->
+    <div class="garment-group">
+      <span class="garment-label">3. Alt Giyim (Pantolon)</span>
+      <div class="options-row" id="pants-opts">
+        <!-- Rendered via JS -->
+      </div>
+    </div>
+
+    <!-- Ayakkabı -->
+    <div class="garment-group">
+      <span class="garment-label">4. Ayakkabı</span>
+      <div class="options-row" id="shoes-opts">
+        <!-- Rendered via JS -->
+      </div>
+    </div>
+
+    <!-- Kemer -->
+    <div class="garment-group">
+      <span class="garment-label">5. Kemer</span>
+      <div class="options-row" id="belt-opts">
+        <!-- Rendered via JS -->
+      </div>
+    </div>
+
+    <!-- Kravat -->
+    <div class="garment-group">
+      <span class="garment-label">6. Kravat</span>
+      <div class="options-row" id="tie-opts">
+        <!-- Rendered via JS -->
+      </div>
+    </div>
+
+    <button class="action-btn" onclick="analyzeOutfit()">Kombini Analiz Et</button>
+  </div>
+
+  <div class="right-panel">
+    <div class="hud">
+      <div style="font-size:0.7rem; font-weight:800; color:#94a3b8; text-transform:uppercase;">Uyum Skoru</div>
+      <div class="score-val" id="scoreDisplay">--</div>
+    </div>
+
+    <div class="mannequin">
+      <div class="m-head"></div>
+      <div class="m-chest" id="v-chest">
+        <div class="tie-overlay" id="v-tie"></div>
+      </div>
+      <div class="m-belt" id="v-belt"></div>
+      <div class="m-legs" id="v-legs"></div>
+      <div class="m-feet">
+        <div class="m-foot" id="v-foot-l"></div>
+        <div class="m-foot" id="v-foot-r"></div>
+      </div>
+    </div>
+
+    <div class="analysis-box" id="analysisBox">
+      <div class="an-title">Stil Danışmanı Raporu</div>
+      <div class="an-text" id="analysisText"></div>
+      <div id="rulesContainer"></div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+  // --- DATA ---
+  const db = {
+    jacket: [
+      { id: 'j_navy', name: 'Lacivert Takım', color: '#1e3a8a', type: 'formal' },
+      { id: 'j_charcoal', name: 'Antrasit Takım', color: '#334155', type: 'formal' },
+      { id: 'j_tweed', name: 'Kahverengi Blazer', color: '#78350f', type: 'casual' },
+      { id: 'j_none', name: 'Ceketsiz', color: '#f8fafc', type: 'none' } // white shirt
+    ],
+    pants: [
+      { id: 'p_navy', name: 'Lacivert Kumaş', color: '#1e3a8a', type: 'formal' },
+      { id: 'p_charcoal', name: 'Antrasit Kumaş', color: '#334155', type: 'formal' },
+      { id: 'p_chaki', name: 'Bej Chino', color: '#d6d3d1', type: 'casual' },
+      { id: 'p_jeans', name: 'Mavi Jean', color: '#1d4ed8', type: 'casual' }
+    ],
+    shoes: [
+      { id: 's_black_ox', name: 'Siyah Oxford', color: '#000000', type: 'formal', mat: 'black' },
+      { id: 's_brown_derby', name: 'Kahve Derby', color: '#451a03', type: 'smart', mat: 'brown' },
+      { id: 's_sneaker', name: 'Beyaz Sneaker', color: '#ffffff', type: 'casual', mat: 'white' }
+    ],
+    belt: [
+      { id: 'b_black', name: 'Siyah Deri', color: '#000000', mat: 'black' },
+      { id: 'b_brown', name: 'Kahverengi Deri', color: '#451a03', mat: 'brown' },
+      { id: 'b_none', name: 'Kemersiz', color: '#transparent', mat: 'none' }
+    ],
+    tie: [
+      { id: 't_red', name: 'Bordo Kravat', color: '#991b1b', type: 'formal' },
+      { id: 't_navy', name: 'Lacivert Örgü', color: '#1e3a8a', type: 'smart' },
+      { id: 't_none', name: 'Kravatsız', color: 'transparent', type: 'none' }
+    ]
+  };
+
+  let state = {
+    scenario: 'corporate',
+    jacket: 'j_navy',
+    pants: 'p_navy',
+    shoes: 's_black_ox',
+    belt: 'b_black',
+    tie: 't_red'
+  };
+
+  // --- RENDER OPTS ---
+  function renderOpts(cat, containerId) {
+    const container = document.getElementById(containerId);
+    container.innerHTML = '';
+    db[cat].forEach(item => {
+      const btn = document.createElement('div');
+      btn.className = 'opt-btn' + (state[cat] === item.id ? ' active' : '');
+      
+      let icon = '';
+      if(cat === 'jacket') icon = '🧥';
+      if(cat === 'pants') icon = '👖';
+      if(cat === 'shoes') icon = '👞';
+      if(cat === 'belt') icon = '〰️';
+      if(cat === 'tie') icon = '👔';
+
+      btn.innerHTML = `<div class="opt-icon">${icon}</div><div class="opt-name">${item.name}</div>`;
+      
+      btn.onclick = () => {
+        state[cat] = item.id;
+        updateVisuals();
+        renderOpts(cat, containerId); // re-render to update active class
+      };
+      container.appendChild(btn);
+    });
+  }
+
+  function setScenario(s) {
+    state.scenario = s;
+    document.querySelectorAll('.scenario-btn').forEach(b => {
+      b.classList.toggle('active', b.getAttribute('data-scenario') === s);
+    });
+  }
+
+  // --- UPDATE VISUALS ---
+  function updateVisuals() {
+    const j = db.jacket.find(x => x.id === state.jacket);
+    const p = db.pants.find(x => x.id === state.pants);
+    const s = db.shoes.find(x => x.id === state.shoes);
+    const b = db.belt.find(x => x.id === state.belt);
+    const t = db.tie.find(x => x.id === state.tie);
+
+    document.getElementById('v-chest').style.background = j.color;
+    document.getElementById('v-legs').style.background = p.color;
+    document.getElementById('v-foot-l').style.background = s.color;
+    document.getElementById('v-foot-r').style.background = s.color;
+    document.getElementById('v-belt').style.background = b.color === '#transparent' ? p.color : b.color;
+    document.getElementById('v-tie').style.background = t.color;
+  }
+
+  // --- LOGIC ---
+  function analyzeOutfit() {
+    const j = db.jacket.find(x => x.id === state.jacket);
+    const p = db.pants.find(x => x.id === state.pants);
+    const s = db.shoes.find(x => x.id === state.shoes);
+    const b = db.belt.find(x => x.id === state.belt);
+    const t = db.tie.find(x => x.id === state.tie);
+
+    let rules = [];
+    let score = 100;
+
+    // Rule 1: Belt and Shoes MUST match (The golden rule)
+    if (b.mat !== 'none' && s.mat !== 'white') {
+      if (b.mat === s.mat) {
+        rules.push({ pass: true, text: "Kemer ve ayakkabı derileri kusursuz eşleşiyor." });
+      } else {
+        rules.push({ pass: false, text: "CİDDİ HATA: Siyah ayakkabı ile kahve kemer (veya tam tersi) GİYİLMEZ!" });
+        score -= 40;
+      }
+    } else if (s.mat === 'white' && b.mat !== 'none') {
+      rules.push({ pass: false, text: "Sneaker ile klasik deri kemer takılmaz, spor kemer veya kemersiz tercih edilmeli." });
+      score -= 10;
+    }
+
+    // Rule 2: Scenario specific checks
+    if (state.scenario === 'corporate') {
+      // Business Formal needs matching jacket/pants
+      if (j.id === 'j_none') {
+        rules.push({ pass: false, text: "Kurumsal toplantıya ceketsiz (sadece gömlekle) katılamazsınız. Otorite kaybı." });
+        score -= 30;
+      } else if (j.color !== p.color && j.type === 'formal' && p.type === 'formal') {
+        rules.push({ pass: false, text: "Toplantı için ceket ve pantolon AYNI kumaştan (takım) olmalıdır." });
+        score -= 20;
+      } else if (j.type === 'casual' || p.type === 'casual') {
+        rules.push({ pass: false, text: "Jean veya spor blazer ciddi kurumsal toplantılar için yetersizdir." });
+        score -= 30;
+      } else {
+        rules.push({ pass: true, text: "Dress code'a uygun resmi takım." });
+      }
+
+      if (t.type === 'none') {
+        rules.push({ pass: false, text: "Business Formal kodunda kravat takmamak eksik bir görünümdür." });
+        score -= 15;
+      } else {
+        rules.push({ pass: true, text: "Kravat kullanımı resmiyeti tamamlıyor." });
+      }
+
+      if (s.type === 'casual') {
+        rules.push({ pass: false, text: "Takım elbiseyle sneaker giymek kurumsal toplantıda laubali algılanır." });
+        score -= 30;
+      }
+    }
+
+    if (state.scenario === 'casual') {
+      // Smart Casual
+      if (j.type === 'formal' && p.type === 'formal' && j.color === p.color && t.type !== 'none') {
+        rules.push({ pass: false, text: "Cuma günü ofisi (Smart Casual) için fazla resmi! Kravatlı tam takım elbise giymişsiniz." });
+        score -= 20;
+      } else if (j.type === 'none' && p.type === 'casual' && s.type === 'casual') {
+        rules.push({ pass: true, text: "Rahat ve şık bir cuma kombini." });
+      } else if (j.type === 'casual' && p.type === 'casual') {
+        rules.push({ pass: true, text: "Blazer ve Chino/Jean kombini mükemmel bir Smart Casual örneği." });
+      } else {
+        rules.push({ pass: true, text: "Kurallara uygun, dengeli." });
+      }
+    }
+
+    // Edge Cases
+    if (j.id === 'j_navy' && p.id === 'p_navy' && s.id === 's_brown_derby' && b.id === 'b_brown') {
+      rules.push({ pass: true, text: "Lacivert takım + Kahve ayakkabı/kemer harika bir İtalyan klasiğidir." });
+      score += 5; // bonus
+    }
+
+    if (score < 0) score = 0;
+    if (score > 100) score = 100;
+
+    // Display Results
+    document.getElementById('scoreDisplay').textContent = score;
+    document.getElementById('scoreDisplay').style.color = score > 80 ? '#10b981' : score > 50 ? '#facc15' : '#f43f5e';
+
+    const aBox = document.getElementById('analysisBox');
+    const aText = document.getElementById('analysisText');
+    const rCont = document.getElementById('rulesContainer');
+
+    aBox.style.display = 'block';
+    
+    if (score === 100) aText.textContent = "Mükemmel! Giyim kurallarını yalamış yutmuşsunuz. Her kapıyı açacak bir imaj.";
+    else if (score >= 70) aText.textContent = "Fena değil, ama detaylarda bazı hatalarınız var. Klasik erkek giyim kurallarına dikkat.";
+    else aText.textContent = "Maalesef sınıfta kaldınız. Bu kombinle o odaya girerseniz ciddiye alınmazsınız.";
+
+    rCont.innerHTML = '';
+    rules.forEach(r => {
+      rCont.innerHTML += `<div class="an-rule ${r.pass ? 'rule-pass' : 'rule-fail'}">
+        <span>${r.pass ? '✅' : '❌'}</span>
+        <span>${r.text}</span>
+      </div>`;
+    });
+  }
+
+  // Init
+  renderOpts('jacket', 'jacket-opts');
+  renderOpts('pants', 'pants-opts');
+  renderOpts('shoes', 'shoes-opts');
+  renderOpts('belt', 'belt-opts');
+  renderOpts('tie', 'tie-opts');
+  updateVisuals();
+
+</script>
+<%- include('partials/main-footer') %>

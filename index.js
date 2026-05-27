@@ -5,16 +5,48 @@ const compression = require('compression');
 const path = require('path');
 const fs = require('fs');
 const app = express();
-const HTTP_PORT = 3000;
+const HTTP_PORT = 3001;
 const HTTPS_PORT = 3443;
 
 const SITE_URL = 'https://www.diksiyonrehberi.com';
 
+// ── HTTP to HTTPS Redirect ────────────────────────────────────────────────
+app.use((req, res, next) => {
+  if (process.env.NODE_ENV === 'production') {
+    if (req.headers['x-forwarded-proto'] !== 'https' && !req.secure) {
+      return res.redirect(301, ['https://', req.get('Host'), req.url].join(''));
+    }
+  }
+  next();
+});
+
 // ── Gzip Sıkıştırma ───────────────────────────────────────────────────────
 app.use(compression());
 
-// ── Statik dosyalar (index.html hariç — dinamik işleyeceğiz) ─────────────
-app.use(express.static(path.join(__dirname, 'public'), { index: false }));
+// ── EJS Template Engine ───────────────────────────────────────────────────
+app.set('view engine', 'ejs');
+app.set('views', path.join(__dirname, 'views'));
+
+// Production'da EJS view cache aktif et (her render'da dosyayı tekrar okumaz)
+if (process.env.NODE_ENV === 'production') {
+  app.enable('view cache');
+}
+
+// ── Güvenlik Başlıkları ──────────────────────────────────────────────────
+app.use((req, res, next) => {
+  res.setHeader('X-Content-Type-Options', 'nosniff');
+  res.setHeader('X-Frame-Options', 'SAMEORIGIN');
+  res.setHeader('X-XSS-Protection', '1; mode=block');
+  res.setHeader('Referrer-Policy', 'strict-origin-when-cross-origin');
+  next();
+});
+
+// ── Statik dosyalar ──────────────────────────────────────────────────────
+app.use(express.static(path.join(__dirname, 'public'), {
+  index: false,
+  maxAge: process.env.NODE_ENV === 'production' ? '7d' : 0,
+  etag: true
+}));
 
 // ═══════════════════════════════════════════════════════════════════════════
 // Tekerlemeler Veritabanını Oku (SSR ve Sitemap İçin)
@@ -1451,6 +1483,16 @@ const SITEMAP_PAGES = [
     changefreq: 'monthly',
     priority: '1.0',
   })),
+  // İleri Seviye Eğitim Modülleri
+  { loc: '/manipulasyon', changefreq: 'weekly', priority: '1.0' },
+  { loc: '/bedendili', changefreq: 'weekly', priority: '1.0' },
+  { loc: '/safsata', changefreq: 'weekly', priority: '1.0' },
+  { loc: '/giyim', changefreq: 'weekly', priority: '1.0' },
+  { loc: '/sahne', changefreq: 'weekly', priority: '1.0' },
+  { loc: '/ozguven', changefreq: 'weekly', priority: '1.0' },
+  { loc: '/hikaye', changefreq: 'weekly', priority: '1.0' },
+  { loc: '/retorik', changefreq: 'weekly', priority: '1.0' },
+  { loc: '/gorgu', changefreq: 'weekly', priority: '1.0' }
 ];
 
 // ═══════════════════════════════════════════════════════════════════════════
@@ -1577,6 +1619,13 @@ app.get('/robots.txt', (req, res) => {
   res.send(`User-agent: *
 Allow: /
 
+# ========================================================
+#   HELLO GOOGLEBOT AND CURIOUS HUMAN! 🤖
+#   Welcome to Diksiyon Rehberi & Etkili İletişim Platformu
+#   
+#   "Söz ola kese savaşı, söz ola kestire başı" - Yunus Emre
+# ========================================================
+
 # Tarama Optimizasyonu (Googlebot için crawl budget)
 Disallow: /*?blog=
 Disallow: /*?modal=
@@ -1590,12 +1639,20 @@ Sitemap: ${SITE_URL}/sitemap.xml
 // ROUTE: Eski /?blog=slug → /blog/slug (301 Kalıcı Yönlendirme)
 // Bu, sosyal medyada paylaşılmış eski linklerin çalışmaya devam etmesini sağlar.
 // ═══════════════════════════════════════════════════════════════════════════
+app.get('/diksiyon', (req, res) => {
+  res.redirect('/');
+});
+
 app.get('/', (req, res, next) => {
   const slug = req.query.blog;
   if (slug) {
     return res.redirect(301, `/blog/${slug}`);
   }
-  next();
+  const canonicalUrl = `${SITE_URL}/`;
+  const internalLinks = buildInternalLinksBlock();
+  res.setHeader('Link', `<${canonicalUrl}>; rel="canonical"`);
+  res.setHeader('Cache-Control', 'public, max-age=60');
+  res.render('index', { meta: undefined, canonicalUrl, internalLinks, seoBlock: undefined, jsonLdScripts: undefined });
 });
 
 // ═══════════════════════════════════════════════════════════════════════════
@@ -1604,30 +1661,17 @@ app.get('/', (req, res, next) => {
 app.get('/blog/:slug', (req, res) => {
   const { slug } = req.params;
   const meta = BLOG_META[slug];
-  const htmlPath = path.join(__dirname, 'public', 'index.html');
-
   // Bilinmeyen slug → ana sayfaya 301 yönlendir
   if (!meta) {
     return res.redirect(301, '/');
   }
 
-  fs.readFile(htmlPath, 'utf8', (err, html) => {
-    if (err) return res.status(500).send('Sunucu hatası.');
+  const canonicalUrl = `${SITE_URL}/blog/${slug}`;
+  const jsonLdScripts = buildArticleJsonLd(meta, canonicalUrl, slug);
 
-    const canonicalUrl = `${SITE_URL}/blog/${slug}`;
-
-    // 1. Meta tagları enjekte et
-    html = injectMeta(html, meta, canonicalUrl);
-
-    // 2. Article JSON-LD ekle — Google Rich Results + içerik sinyali
-    const jsonLd = buildArticleJsonLd(meta, canonicalUrl, slug);
-    html = html.replace('</head>', `${jsonLd}\n</head>`);
-
-    // 3. Canonical HTTP Link header (Nginx + Node.js çift güvence)
-    res.setHeader('Link', `<${canonicalUrl}>; rel="canonical"`);
-    res.setHeader('Cache-Control', 'public, max-age=300');
-    res.send(html);
-  });
+  res.setHeader('Link', `<${canonicalUrl}>; rel="canonical"`);
+  res.setHeader('Cache-Control', 'public, max-age=300');
+  res.render('index', { meta, canonicalUrl, jsonLdScripts });
 });
 
 // ═══════════════════════════════════════════════════════════════════════════
@@ -1642,7 +1686,6 @@ app.get('/tekerlemeler/:harf', (req, res) => {
     return res.redirect(301, '/');
   }
 
-  const htmlPath = path.join(__dirname, 'public', 'index.html');
   const canonicalUrl = `${SITE_URL}/tekerlemeler/${harfLower}`;
 
   const meta = {
@@ -1650,31 +1693,18 @@ app.get('/tekerlemeler/:harf', (req, res) => {
     desc: `Türkçe diksiyonunuzu geliştirmek için ${harfUpper} harfi ile başlayan en zor, etkili ve eğitici tekerlemeler. ${harfUpper} harfi tekerleme pratikleri ve okunuşları.`,
   };
 
-  fs.readFile(htmlPath, 'utf8', (err, html) => {
-    if (err) return res.status(500).send('Sunucu hatası.');
-
-    // 1. Meta tagları enjekte et
-    html = injectMeta(html, meta, canonicalUrl);
-
-    // 2. Article JSON-LD ekle
-    const jsonLd = buildArticleJsonLd(meta, canonicalUrl, `tekerleme-${harfLower}`);
-    html = html.replace('</head>', `${jsonLd}\n</head>`);
-
-    // 3. SEO için tekerlemeleri HTML'e ekle (Gizli Liste)
-    const listItems = TEKERLEMELER[harfUpper].map(t => `<li>${t}</li>`).join('\n');
-    const seoBlock = `
+  const jsonLdScripts = buildArticleJsonLd(meta, canonicalUrl, `tekerleme-${harfLower}`);
+  const listItems = TEKERLEMELER[harfUpper].map(t => `<li>${t}</li>`).join('\n');
+  const seoBlock = `
 <!-- SEO Tekerlemeler Listesi -->
 <div id="seo-tekerlemeler" style="position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden" aria-hidden="true">
   <h2>${harfUpper} Harfi Tekerlemeleri</h2>
   <ul>${listItems}</ul>
 </div>`;
-    html = html.replace('<script src="/app.js"></script>', `${seoBlock}\n  <script src="/app.js"></script>`);
 
-    // 4. Canonical HTTP Link header
-    res.setHeader('Link', `<${canonicalUrl}>; rel="canonical"`);
-    res.setHeader('Cache-Control', 'public, max-age=300');
-    res.send(html);
-  });
+  res.setHeader('Link', `<${canonicalUrl}>; rel="canonical"`);
+  res.setHeader('Cache-Control', 'public, max-age=300');
+  res.render('index', { meta, canonicalUrl, jsonLdScripts, seoBlock });
 });
 
 // ═══════════════════════════════════════════════════════════════════════════
@@ -1687,7 +1717,6 @@ app.get('/tekerlemeler/kategori/:slug', (req, res) => {
     return res.redirect(301, '/');
   }
 
-  const htmlPath = path.join(__dirname, 'public', 'index.html');
   const canonicalUrl = `${SITE_URL}/tekerlemeler/kategori/${slug}`;
   const kategoriMeta = UZUN_KUYRUK_KATEGORILER[slug];
   const tekerlemeListesi = KATEGORI_VERILERI[slug] || [];
@@ -1697,31 +1726,18 @@ app.get('/tekerlemeler/kategori/:slug', (req, res) => {
     desc: kategoriMeta.desc,
   };
 
-  fs.readFile(htmlPath, 'utf8', (err, html) => {
-    if (err) return res.status(500).send('Sunucu hatası.');
-
-    // 1. Meta tagları enjekte et
-    html = injectMeta(html, meta, canonicalUrl);
-
-    // 2. Article JSON-LD ekle
-    const jsonLd = buildArticleJsonLd(meta, canonicalUrl, `kategori-${slug}`);
-    html = html.replace('</head>', `${jsonLd}\n</head>`);
-
-    // 3. SEO için tekerlemeleri HTML'e ekle (Gizli Liste)
-    const listItems = tekerlemeListesi.map(t => `<li>${t}</li>`).join('\n');
-    const seoBlock = `
+  const jsonLdScripts = buildArticleJsonLd(meta, canonicalUrl, `kategori-${slug}`);
+  const listItems = tekerlemeListesi.map(t => `<li>${t}</li>`).join('\n');
+  const seoBlock = `
 <!-- SEO Kategori Tekerlemeler Listesi -->
 <div id="seo-tekerlemeler" style="position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden" aria-hidden="true">
   <h2>${kategoriMeta.h1}</h2>
   <ul>${listItems}</ul>
 </div>`;
-    html = html.replace('</body>', `${seoBlock}\n</body>`);
 
-    // 4. Canonical HTTP Link header
-    res.setHeader('Link', `<${canonicalUrl}>; rel="canonical"`);
-    res.setHeader('Cache-Control', 'public, max-age=300');
-    res.send(html);
-  });
+  res.setHeader('Link', `<${canonicalUrl}>; rel="canonical"`);
+  res.setHeader('Cache-Control', 'public, max-age=300');
+  res.render('index', { meta, canonicalUrl, jsonLdScripts, seoBlock });
 });
 
 // ═══════════════════════════════════════════════════════════════════════════
@@ -1747,6 +1763,8 @@ const SUBPAGE_META = {
   'retorik/konusma-yazimi': { title:'Konuşma Yazımı Teknikleri | Retorik Eğitimi', desc:'Kanca cümleler, trikolon, güçlü açılış ve kapanış teknikleri.', h1:'Konuşma Yazımı' },
   'retorik/figurler': { title:'Retorik Figürleri — Anafor, Antitez, Metafor | Eğitim', desc:'Anafor, antitez, trikolon ve metafor gibi retorik figürlerini öğrenin.', h1:'Retorik Figürleri' },
   'retorik/analiz': { title:'Konuşma Analizi — Ünlü Konuşmalar | Retorik Eğitimi', desc:'MLK, Steve Jobs gibi ünlü konuşmaların retorik analizi ve teknik çözümleme.', h1:'Konuşma Analizi' },
+  'retorik/savunma': { title:'Güçlü Savunma Kurmak | Retorik Eğitimi', desc:'Karşıt argümanlara karşı sağlam ve mantıklı bir savunma hattı inşa etme, çerçeveleme teknikleri.', h1:'Güçlü Savunma Kurmak' },
+  'retorik/ikna': { title:'İkna Psikolojisi | Retorik Eğitimi', desc:'İkna psikolojisi, Cialdini prensipleri ve karar mekanizmalarını etkileyerek harekete geçirme sanatı.', h1:'İkna Psikolojisi' },
   'diyalektik/sokratik': { title:'Sokratik Yöntem — Sorularla Gerçeğe Ulaşma | Diyalektik', desc:'Sokratik ironi ve doğurtmaca teknikleriyle tartışmalarda gerçeğe ulaşma sanatı.', h1:'Sokratik Yöntem' },
   'diyalektik/hegel': { title:'Hegel Diyalektiği — Tez Antitez Sentez | Eğitim', desc:'Hegel diyalektik yöntemi: Tez, antitez ve sentez ile düşünce geliştirme.', h1:'Hegel Diyalektiği' },
   'diyalektik/curutme': { title:'Argüman Çürütme Teknikleri | Diyalektik Eğitimi', desc:'Öncül çürütme, mantıksal bağ kopma ve reductio ad absurdum teknikleri.', h1:'Argüman Çürütme' },
@@ -1755,28 +1773,498 @@ const SUBPAGE_META = {
   'diyalektik/dusunce': { title:'Eleştirel Düşünce ve Bilişsel Önyargılar | Diyalektik', desc:'Onay önyargısı, Dunning-Kruger ve çapa etkisi gibi bilişsel tuzakları aşma.', h1:'Eleştirel Düşünce' },
 };
 
+
+// ═══════════════════════════════════════════════════════════════════════════
+// ROUTE: Retorik SSR (Ayrı Sayfalar)
+// ═══════════════════════════════════════════════════════════════════════════
+const RETORIK_DATA = require('./retorik-data');
+
+
+// ═══════════════════════════════════════════════════════════════════════════
+// ROUTE: Sahne Ustalığı SSR (Ayrı Sayfalar)
+// ═══════════════════════════════════════════════════════════════════════════
+const SAHNE_DATA = require('./sahne-data');
+
+app.get('/sahne', (req, res, next) => {
+  const meta = TOOLS_META['sahne'];
+  if (!meta) return next();
+  const canonicalUrl = `${SITE_URL}/sahne`;
+  res.render('sahne-index', { meta, canonicalUrl, jsonLdScripts: '' });
+});
+
+app.get('/sahne/:subpage', (req, res, next) => {
+  const subpage = req.params.subpage;
+  const validCats = ['heyecan', 'hareket', 'etkilesim', 'kriz'];
+  
+  if (!validCats.includes(subpage)) return next();
+
+  const slug = `sahne/${subpage}`;
+  
+  // Create dynamic meta if missing in SUBPAGE_META
+  const meta = SUBPAGE_META[slug] || {
+    title: `${subpage.charAt(0).toUpperCase() + subpage.slice(1)} | Sahne Ustalığı`,
+    desc: `Sahne ustalığı eğitiminde ${subpage} teknikleri ve interaktif egzersizler.`,
+    h1: subpage.charAt(0).toUpperCase() + subpage.slice(1) + ' Eğitimi'
+  };
+  
+  const canonicalUrl = `${SITE_URL}/${slug}`;
+  
+  const exercises = SAHNE_DATA.filter(ex => ex.cat === subpage);
+
+  res.render('sahne-detay', { 
+    meta, 
+    canonicalUrl, 
+    jsonLdScripts: '',
+    activeCat: subpage,
+    exercises 
+  });
+});
+
+
+// ═══════════════════════════════════════════════════════════════════════════
+// ROUTE: Beden Dili SSR
+// ═══════════════════════════════════════════════════════════════════════════
+const BEDENDILI_DATA = require('./bedendili-data');
+
+app.get('/bedendili', (req, res, next) => {
+  const meta = TOOLS_META['bedendili'];
+  if (!meta) return next();
+  const canonicalUrl = `${SITE_URL}/bedendili`;
+  res.render('bedendili-index', { meta, canonicalUrl, jsonLdScripts: '' });
+});
+
+app.get('/bedendili/:subpage', (req, res, next) => {
+  const subpage = req.params.subpage;
+  const validCats = ['yuz', 'eller', 'durus', 'mesafe'];
+  
+  if (!validCats.includes(subpage)) return next();
+
+  const slug = `bedendili/${subpage}`;
+  
+  const meta = SUBPAGE_META[slug] || {
+    title: `${subpage.charAt(0).toUpperCase() + subpage.slice(1)} Eğitimi | Beden Dili`,
+    desc: `Beden dili eğitiminde ${subpage} teknikleri ve iletişim ipuçları.`,
+    h1: subpage.charAt(0).toUpperCase() + subpage.slice(1) + ' Kullanımı'
+  };
+  
+  const canonicalUrl = `${SITE_URL}/${slug}`;
+  
+  const exercises = BEDENDILI_DATA.filter(ex => ex.cat === subpage);
+
+  res.render('bedendili-detay', { 
+    meta, 
+    canonicalUrl, 
+    jsonLdScripts: '',
+    activeCat: subpage,
+    exercises 
+  });
+});
+
+
+// ═══════════════════════════════════════════════════════════════════════════
+// ROUTE: Manipülasyon SSR
+// ═══════════════════════════════════════════════════════════════════════════
+const MANIPULASYON_DATA = require('./manipulasyon-data');
+
+app.get('/manipulasyon/araclar/saldiri', (req, res, next) => {
+  res.render('manipulasyon-saldiri', { meta: {title: 'Saldırı Simülatörü - Karanlık Retorik', h1: 'Gaslighting Atölyesi', desc: 'Manipülatörlerin algı yönetimi taktiklerini keşfedin.'}, canonicalUrl: SITE_URL+'/manipulasyon/araclar/saldiri', jsonLdScripts: '' });
+});
+
+app.get('/manipulasyon/araclar/savunma', (req, res, next) => {
+  res.render('manipulasyon-savunma', { meta: {title: 'Savunma Simülatörü - Zihinsel Kalkan', h1: 'Gri Kaya Antrenmanı', desc: 'Manipülasyona karşı gri kaya (grey rock) savunma tekniğini pratik yapın.'}, canonicalUrl: SITE_URL+'/manipulasyon/araclar/savunma', jsonLdScripts: '' });
+});
+
+app.get('/manipulasyon', (req, res, next) => {
+  const meta = TOOLS_META['manipulasyon'] || {
+    title: 'Manipülasyon ve Savunma Eğitimi | Diksiyon Rehberi',
+    desc: 'İnsanları yönlendirme teknikleri ve toksik manipülatörlere karşı savunma yöntemleri.'
+  };
+  const canonicalUrl = `${SITE_URL}/manipulasyon`;
+  res.render('manipulasyon-index', { meta, canonicalUrl, jsonLdScripts: '' });
+});
+
+app.get('/manipulasyon/:subpage', (req, res, next) => {
+  const subpage = req.params.subpage;
+  const validCats = ['psikolojik', 'duygusal', 'pasif'];
+  
+  if (!validCats.includes(subpage)) return next();
+
+  const slug = `manipulasyon/${subpage}`;
+  
+  const meta = SUBPAGE_META[slug] || {
+    title: `${subpage.charAt(0).toUpperCase() + subpage.slice(1)} Manipülasyon Savunması | Diksiyon Rehberi`,
+    desc: `${subpage} şiddet ve manipülasyon taktiklerine karşı savunma eğitimi.`,
+    h1: subpage.charAt(0).toUpperCase() + subpage.slice(1) + ' Savunması'
+  };
+  
+  const canonicalUrl = `${SITE_URL}/${slug}`;
+  
+  const exercises = MANIPULASYON_DATA.filter(ex => ex.cat === subpage);
+
+  res.render('manipulasyon-detay', { 
+    meta, 
+    canonicalUrl, 
+    jsonLdScripts: '',
+    activeCat: subpage,
+    exercises 
+  });
+});
+
+app.get('/retorik', (req, res, next) => {
+  const meta = TOOLS_META['retorik'];
+  if (!meta) return next();
+  const canonicalUrl = `${SITE_URL}/retorik`;
+  res.render('retorik-index', { meta, canonicalUrl, jsonLdScripts: '' });
+});
+
+app.get('/retorik/araclar/muzakere', (req, res, next) => {
+  res.render('retorik-muzakere', { meta: {title: 'Müzakere Ringi', h1: 'İkna Simülatörü', desc: 'Patrona veya müşteriye karşı Cialdini taktikleriyle ikna etme oyunu.'}, canonicalUrl: SITE_URL+'/retorik/araclar/muzakere', jsonLdScripts: '' });
+});
+
+app.get('/retorik/araclar/makine', (req, res, next) => {
+  res.render('retorik-makine', { meta: {title: 'Retorik Makinesi', h1: 'Hitabet Figürleri Pratiği', desc: 'Sıradan cümleleri efsanevi hitabet kalıplarıyla yeniden inşa edin.'}, canonicalUrl: SITE_URL+'/retorik/araclar/makine', jsonLdScripts: '' });
+});
+
+app.get('/retorik/araclar/radar', (req, res, next) => {
+  res.render('retorik-radar', { meta: {title: 'Logos Radarı', h1: 'Mantık Hatası Dedektörü', desc: 'Akan konuşmadaki gizli safsataları anında tespit etme oyunu.'}, canonicalUrl: SITE_URL+'/retorik/araclar/radar', jsonLdScripts: '' });
+});
+
+app.get('/retorik/araclar/kursu', (req, res, next) => {
+  res.render('retorik-kursu', { meta: {title: 'Kürsü Baskısı', h1: 'Çerçeve Bükücü', desc: 'Agresif gazeteci sorularına karşı çerçeveleme refleks testi.'}, canonicalUrl: SITE_URL+'/retorik/araclar/kursu', jsonLdScripts: '' });
+});
+
+app.get('/retorik/araclar/ucgen', (req, res, next) => {
+  res.render('retorik-ucgen', { meta: {title: 'Retorik Üçgeni', h1: 'Denge Simülatörü', desc: 'Ethos, Pathos ve Logos barlarını 100% uyumda tutarak konuşma yaz.'}, canonicalUrl: SITE_URL+'/retorik/araclar/ucgen', jsonLdScripts: '' });
+});
+
+app.get('/retorik/araclar/kitle', (req, res, next) => {
+  res.render('retorik-kitle', { meta: {title: 'Kitle Sörfü', h1: 'Kalabalık Okuyucu', desc: 'Düşmanca, sıkkın veya korkmuş kitlelerin psikolojisine uygun giriş seçimi.'}, canonicalUrl: SITE_URL+'/retorik/araclar/kitle', jsonLdScripts: '' });
+});
+
+app.get('/retorik/araclar/munazara', (req, res, next) => {
+  res.render('retorik-munazara', { meta: {title: 'Münazara Satrancı', h1: 'Canlı Yayın Simülatörü', desc: 'Demagoglara karşı canlı yayında retorik judosu yap.'}, canonicalUrl: SITE_URL+'/retorik/araclar/munazara', jsonLdScripts: '' });
+});
+
+app.get('/retorik/araclar/karanlik', (req, res, next) => {
+  res.render('retorik-karanlik', { meta: {title: 'Karanlık Sanatlar', h1: 'Manipülasyon Laboratuvarı', desc: 'Borsayı kurtarmak için Spin Doctor (Algı Yönetimi) tekniklerini kullan.'}, canonicalUrl: SITE_URL+'/retorik/araclar/karanlik', jsonLdScripts: '' });
+});
+
+app.get('/retorik/araclar/prompter', (req, res, next) => {
+  res.render('retorik-prompter', { meta: {title: 'Liderlik Teleprompterı', h1: 'Ritim Ustası', desc: 'Diksiyonu bir Guitar Hero oyunu gibi refleksle öğren.'}, canonicalUrl: SITE_URL+'/retorik/araclar/prompter', jsonLdScripts: '' });
+});
+
+app.get('/retorik/:subpage', (req, res, next) => {
+  const subpage = req.params.subpage;
+  // Check mapped URLs
+  const catMap = {
+    'ethos': 'ethos', 'pathos': 'pathos', 'logos': 'logos',
+    'konusma-yazimi': 'konusma-yazimi', 'figurler': 'figurler', 'analiz': 'analiz',
+    'savunma': 'savunma', 'ikna': 'ikna'
+  };
+  
+  const cat = catMap[subpage];
+  if (!cat) return next();
+
+  const slug = `retorik/${subpage}`;
+  const meta = SUBPAGE_META[slug] || TOOLS_META['retorik'];
+  const canonicalUrl = `${SITE_URL}/${slug}`;
+  
+  const exercises = RETORIK_DATA.filter(ex => ex.cat === cat);
+
+  res.render('retorik-detay', { 
+    meta, 
+    canonicalUrl, 
+    jsonLdScripts: '',
+    activeCat: subpage,
+    exercises 
+  });
+});
+
 app.get('/:module/:subpage', (req, res, next) => {
   const slug = `${req.params.module}/${req.params.subpage}`;
   const meta = SUBPAGE_META[slug];
   if (!meta) return next();
 
-  const htmlPath = path.join(__dirname, 'public', 'index.html');
   const canonicalUrl = `${SITE_URL}/${slug}`;
 
-  fs.readFile(htmlPath, 'utf8', (err, html) => {
-    if (err) return res.status(500).send('Sunucu hatası.');
-    html = injectMeta(html, meta, canonicalUrl);
-    
-    const schema = { '@context':'https://schema.org','@type':'WebApplication','name':meta.h1,'description':meta.desc,'applicationCategory':'EducationalApplication','operatingSystem':'Any','url':canonicalUrl,'offers':{'@type':'Offer','price':'0','priceCurrency':'TRY'} };
-    html = html.replace('</head>', `<script type="application/ld+json">${JSON.stringify(schema)}</script>\n</head>`);
-    
-    const seoBlock = `<div id="seo-tool-content" style="position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden" aria-hidden="true"><h1>${meta.h1}</h1></div>`;
-    html = html.replace('<script src="/app.js', `${seoBlock}\n  <script src="/app.js`);
-    
-    res.setHeader('Link', `<${canonicalUrl}>; rel="canonical"`);
-    res.setHeader('Cache-Control', 'public, max-age=300');
-    res.send(html);
+  const schema = { '@context':'https://schema.org','@type':'WebApplication','name':meta.h1,'description':meta.desc,'applicationCategory':'EducationalApplication','operatingSystem':'Any','url':canonicalUrl,'offers':{'@type':'Offer','price':'0','priceCurrency':'TRY'} };
+  const jsonLdScripts = `<script type="application/ld+json">${JSON.stringify(schema)}</script>`;
+  const seoBlock = `<div id="seo-tool-content" style="position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden" aria-hidden="true"><h1>${meta.h1}</h1></div>`;
+  
+  res.setHeader('Link', `<${canonicalUrl}>; rel="canonical"`);
+  res.setHeader('Cache-Control', 'public, max-age=300');
+  res.render('index', { meta, canonicalUrl, jsonLdScripts, seoBlock });
+});
+
+// ═══════════════════════════════════════════════════════════════════════════
+// ROUTE: Safsata Alt Sayfaları (/safsata/:slug)
+// ═══════════════════════════════════════════════════════════════════════════
+const SAFSATA_DB = require('./safsata-data');
+
+app.get('/safsata/:slug', (req, res, next) => {
+  const slug = req.params.slug;
+  const idx = SAFSATA_DB.findIndex(f => f.slug === slug);
+  if (idx === -1) return next();
+
+  const fallacy = SAFSATA_DB[idx];
+  const prev = idx > 0 ? { slug: SAFSATA_DB[idx-1].slug, title: SAFSATA_DB[idx-1].title } : null;
+  const next_ = idx < SAFSATA_DB.length - 1 ? { slug: SAFSATA_DB[idx+1].slug, title: SAFSATA_DB[idx+1].title } : null;
+
+  res.render('safsata-detay', {
+    title: `${fallacy.title} — Safsata Rehberi | Diksiyon Rehberi`,
+    desc: fallacy.subtitle + '. ' + fallacy.definition.substring(0, 120) + '...',
+    canonical: `${SITE_URL}/safsata/${slug}`,
+    fallacy,
+    prev,
+    next: next_
   });
+});
+
+// ═══════════════════════════════════════════════════════════════════════════
+// ROUTE: EJS Modül Sayfaları (Zengin İçerik)
+// ═══════════════════════════════════════════════════════════════════════════
+const EJS_MODULES = [];
+
+
+app.get('/safsata', (req, res, next) => {
+  res.render('safsata-index', { meta: {title: 'Safsata Ansiklopedisi', h1: 'Mantık Hataları', desc: 'Safsata (Logical Fallacies) sözlüğü ve analizi.'}, canonicalUrl: SITE_URL+'/safsata', jsonLdScripts: '' });
+});
+
+app.get('/safsata/dedektif', (req, res, next) => {
+  res.render('safsata-dedektif', { meta: {title: 'Safsata Dedektifi', h1: 'Hata Avcısı', desc: 'Gizli mantık hatalarını bul.'}, canonicalUrl: SITE_URL+'/safsata/dedektif', jsonLdScripts: '' });
+});
+
+app.get('/safsata/kalkan', (req, res, next) => {
+  res.render('safsata-kalkan', { meta: {title: 'Çürütme Arenası', h1: 'Zihinsel Kalkan', desc: 'Manipülatörlere karşı kendini savun.'}, canonicalUrl: SITE_URL+'/safsata/kalkan', jsonLdScripts: '' });
+});
+
+app.get('/safsata/karanlik', (req, res, next) => {
+  res.render('safsata-karanlik', { meta: {title: 'Karanlık Sanatlar Laboratuvarı', h1: 'Safsata Üreticisi', desc: 'Düşmanını tanımak için onun gibi düşün.'}, canonicalUrl: SITE_URL+'/safsata/karanlik', jsonLdScripts: '' });
+});
+
+app.get('/safsata/trol-avcisi', (req, res, next) => {
+  res.render('safsata-trol', { meta: {title: 'Trol Avcısı', h1: 'X/Twitter Simülatörü', desc: 'Sosyal medya linçlerini mantıkla sustur.'}, canonicalUrl: SITE_URL+'/safsata/trol-avcisi', jsonLdScripts: '' });
+});
+
+app.get('/safsata/mahkeme', (req, res, next) => {
+  res.render('safsata-mahkeme', { meta: {title: 'İtiraz Ediyorum!', h1: 'Mahkeme Salonu', desc: 'Avukatların gizli safsatalarını çürüt.'}, canonicalUrl: SITE_URL+'/safsata/mahkeme', jsonLdScripts: '' });
+});
+
+app.get('/safsata/spin-doctor', (req, res, next) => {
+  res.render('safsata-spindoctor', { meta: {title: 'Politikacı Simülatörü', h1: 'Kürsüden Kaçış', desc: 'Zor sorulardan safsatalar ile kaç.'}, canonicalUrl: SITE_URL+'/safsata/spin-doctor', jsonLdScripts: '' });
+});
+
+const DATA_BEDENDILI = require('./bedendili-data');
+app.get('/bedendili', (req, res, next) => {
+  res.render('bedendili-index', { meta: {title: 'Beden Dili ve İletişim', desc: 'Mikro ifadeleri ve vücut dilini okuma sanatı.'}, canonicalUrl: SITE_URL+'/bedendili', jsonLdScripts: '' });
+});
+
+app.get('/bedendili/dedektif', (req, res, next) => {
+  res.render('bedendili-dedektif', { meta: {title: 'Yalan Dedektifi', h1: 'Mikro İfade Analizörü', desc: 'Sorgu odasında mikro ifadeleri deşifre et.'}, canonicalUrl: SITE_URL+'/bedendili/dedektif', jsonLdScripts: '' });
+});
+
+app.get('/bedendili/radar', (req, res, next) => {
+  res.render('bedendili-radar', { meta: {title: 'Çekim Radarı', h1: 'Flört ve Çekim Sinyalleri', desc: 'İlgi ve çekim sinyallerini vücut dilinden oku.'}, canonicalUrl: SITE_URL+'/bedendili/radar', jsonLdScripts: '' });
+});
+
+app.get('/bedendili/kriz', (req, res, next) => {
+  res.render('bedendili-kriz', { meta: {title: 'Kriz Yönetimi', h1: 'De-escalation Simülatörü', desc: 'Agresif beden dillerini aynalama ile yatıştır.'}, canonicalUrl: SITE_URL+'/bedendili/kriz', jsonLdScripts: '' });
+});
+
+app.get('/bedendili/:subpage', (req, res, next) => {
+  res.render('bedendili-detay', { meta: {title: 'Beden Dili Detay', h1: 'Beden Dili Detay'}, canonicalUrl: SITE_URL+'/bedendili/'+req.params.subpage, jsonLdScripts: '', activeCat: req.params.subpage, exercises: DATA_BEDENDILI });
+});
+
+const DATA_OZGUVEN = require('./ozguven-data');
+app.get('/ozguven', (req, res, next) => {
+  res.render('ozguven-index', { meta: {title: 'Özgüven İnşası', desc: 'Sarsılmaz bir özgüvenle her ortama hakim olun.'}, canonicalUrl: SITE_URL+'/ozguven', jsonLdScripts: '' });
+});
+app.get('/ozguven/golge-boksu', (req, res, next) => {
+  res.render('ozguven-golgeboksu', { meta: {title: 'Gölge Boksu', h1: 'İç Ses Susturucusu', desc: 'Kendi zihninizdeki negatif sesleri nakavt edin.'}, canonicalUrl: SITE_URL+'/ozguven/golge-boksu', jsonLdScripts: '' });
+});
+app.get('/ozguven/reddedilme', (req, res, next) => {
+  res.render('ozguven-reddedilme', { meta: {title: 'Reddedilme Terapisi', h1: 'Kalın Deri Simülatörü', desc: 'Hayır duymaya alışarak reddedilme korkusunu yen.'}, canonicalUrl: SITE_URL+'/ozguven/reddedilme', jsonLdScripts: '' });
+});
+app.get('/ozguven/statu', (req, res, next) => {
+  res.render('ozguven-statu', { meta: {title: 'Statü Arenası', h1: 'Sosyal Çerçeve Kontrolü', desc: 'Pasif agresif saldırılara karşı yüksek statünü koru.'}, canonicalUrl: SITE_URL+'/ozguven/statu', jsonLdScripts: '' });
+});
+app.get('/ozguven/aura', (req, res, next) => {
+  res.render('ozguven-aura', { meta: {title: 'Aura Mimarı', h1: 'İlk İzlenim Laboratuvarı', desc: 'İlk 7 saniye kuralını kullanarak kusursuz bir ilk izlenim inşa edin.'}, canonicalUrl: SITE_URL+'/ozguven/aura', jsonLdScripts: '' });
+});
+app.get('/ozguven/:subpage', (req, res, next) => {
+  res.render('ozguven-detay', { meta: {title: 'Özgüven İnşası Detay', h1: 'Özgüven İnşası Detay'}, canonicalUrl: SITE_URL+'/ozguven/'+req.params.subpage, jsonLdScripts: '', activeCat: req.params.subpage, exercises: DATA_OZGUVEN });
+});
+
+const DATA_HIKAYE = require('./hikaye-data');
+app.get('/hikaye', (req, res, next) => {
+  res.render('hikaye-index', { meta: {title: 'Hikaye Anlatıcılığı', desc: 'Sıkıcı konuşmaları unutulmaz hikayelere dönüştürün.'}, canonicalUrl: SITE_URL+'/hikaye', jsonLdScripts: '' });
+});
+app.get('/hikaye/kanca', (req, res, next) => {
+  res.render('hikaye-kanca', { meta: {title: 'Kanca Atıcı', h1: 'İlk 10 Saniye', desc: 'Dinleyicinin beynini anında yakalayan kancalar oluşturun.'}, canonicalUrl: SITE_URL+'/hikaye/kanca', jsonLdScripts: '' });
+});
+app.get('/hikaye/kahraman', (req, res, next) => {
+  res.render('hikaye-kahraman', { meta: {title: 'Kahramanın Yolculuğu', h1: 'Epik Hikaye Simülatörü', desc: 'Sıradan olayları epik bir 3-perdelik hikayeye çevirin.'}, canonicalUrl: SITE_URL+'/hikaye/kahraman', jsonLdScripts: '' });
+});
+app.get('/hikaye/:subpage', (req, res, next) => {
+  res.render('hikaye-detay', { meta: {title: 'Hikaye Anlatıcılığı Detay', h1: 'Hikaye Anlatıcılığı Detay'}, canonicalUrl: SITE_URL+'/hikaye/'+req.params.subpage, jsonLdScripts: '', activeCat: req.params.subpage, exercises: DATA_HIKAYE });
+});
+
+const DATA_GORGU = require('./gorgu-data');
+app.get('/gorgu', (req, res, next) => {
+  res.render('gorgu-index', { meta: {title: 'Görgü ve Nezaket', desc: 'Sosyal ortamlarda fark yaratan zarafet kuralları.'}, canonicalUrl: SITE_URL+'/gorgu', jsonLdScripts: '' });
+});
+app.get('/gorgu-similator', (req, res, next) => {
+  res.render('gorgu-similator', { meta: {title: 'Sosyal Zeka Simülatörü', desc: 'İnteraktif Görgü Uygulaması'}, canonicalUrl: SITE_URL+'/gorgu-similator', jsonLdScripts: '' });
+});
+app.get('/gorgu-radar', (req, res, next) => {
+  res.render('gorgu-radar', { meta: {title: 'Zarafet Radarı: Saniye ile Yarış', desc: 'Sosyal reflekslerinizi test edin. 60 saniye içinde ne kadar zarif kararlar verebileceğinizi görelim!'}, canonicalUrl: SITE_URL+'/gorgu-radar', jsonLdScripts: '' });
+});
+app.get('/gorgu-dedektif', (req, res, next) => {
+  res.render('gorgu-dedektif', { meta: {title: 'Görgü Dedektifi: Hataları Bul', desc: 'Gizli görgü hatalarını bulmak için metindeki cümlelere tıklayın ve dedektiflik becerilerinizi konuşturun.'}, canonicalUrl: SITE_URL+'/gorgu-dedektif', jsonLdScripts: '' });
+});
+app.get('/gorgu-sofra', (req, res, next) => {
+  res.render('gorgu-sofra', { meta: {title: 'Sofra Mimarı: Çatal Bıçak Dili', desc: 'Garsonlarla konuşmadan, sadece çatal ve bıçağınızı yerleştirerek onlara mesaj göndermeyi öğrenin.'}, canonicalUrl: SITE_URL+'/gorgu-sofra', jsonLdScripts: '' });
+});
+app.get('/gorgu-diplomasi', (req, res, next) => {
+  res.render('gorgu-diplomasi', { meta: {title: 'Diplomasi Atölyesi: Nezaket Çevirmeni', desc: 'Kaba ve agresif cümleleri kelime kelime yeniden inşa ederek kurumsal diplomasi sanatını öğrenin.'}, canonicalUrl: SITE_URL+'/gorgu-diplomasi', jsonLdScripts: '' });
+});
+
+app.get('/gorgu/:subpage', (req, res, next) => {
+  const cat = req.params.subpage;
+  const exercises = DATA_GORGU.filter(e => e.cat === cat);
+  
+  if(exercises.length === 0) return next(); // Not found
+
+  const catNames = {
+    'yemek-masasi': 'Sofra Adabı ve Fine Dining Kuralları',
+    'is-hayati': 'İş Hayatında Zarafet ve Profesyonellik',
+    'toplum-ici': 'Sosyal Zeka ve Toplum İçi Görgü',
+    'dijital-etiket': 'Dijital Kimlik ve E-Posta Adabı'
+  };
+  const title = catNames[cat] || 'Görgü ve Nezaket';
+
+  res.render('gorgu-detay', { 
+    meta: {title: title, h1: title, desc: 'Sosyal hayatta, iş dünyasında ve dijital ortamda uygulamanız gereken en önemli zarafet ve görgü kuralları rehberi.'}, 
+    canonicalUrl: SITE_URL+'/gorgu/'+cat, 
+    jsonLdScripts: '', 
+    activeCat: cat, 
+    exercises: exercises 
+  });
+});
+
+const DATA_GIYIM = require('./giyim-data');
+app.get('/giyim', (req, res, next) => {
+  res.render('giyim-index', { meta: {title: 'İmaj Yönetimi', desc: 'Kıyafetinizle güven verin, otoritenizi artırın.'}, canonicalUrl: SITE_URL+'/giyim', jsonLdScripts: '' });
+});
+
+app.get('/giyim/outfit', (req, res, next) => {
+  res.render('giyim-outfit', { meta: {title: 'Kombin Laboratuvarı', h1: 'Outfit Lab', desc: 'Senaryolara uygun kombin uyum skoru oluştur.'}, canonicalUrl: SITE_URL+'/giyim/outfit', jsonLdScripts: '' });
+});
+
+app.get('/giyim/renk', (req, res, next) => {
+  res.render('giyim-renk', { meta: {title: 'Aura Tarayıcı', h1: 'Renk Psikolojisi', desc: 'Bilinçaltına hitap eden renklerin gücünü test et.'}, canonicalUrl: SITE_URL+'/giyim/renk', jsonLdScripts: '' });
+});
+
+app.get('/giyim/vucut-tipi', (req, res, next) => {
+  res.render('giyim-vucut', { meta: {title: 'Optik İllüzyon Laboratuvarı', h1: 'Vücut Tipine Göre Giyim', desc: 'Vatka, dikey çizgi ve katmanlarla beden illüzyonu yarat.'}, canonicalUrl: SITE_URL+'/giyim/vucut-tipi', jsonLdScripts: '' });
+});
+
+app.get('/giyim/aksesuar', (req, res, next) => {
+  res.render('giyim-aksesuar', { meta: {title: 'Aksesuar Dedektifi', h1: 'Aksesuar Sanatı', desc: 'Giyimdeki kritik aksesuar hatalarını tespit et.'}, canonicalUrl: SITE_URL+'/giyim/aksesuar', jsonLdScripts: '' });
+});
+
+app.get('/giyim/stil', (req, res, next) => {
+  res.render('giyim-stil', { meta: {title: 'Stil Kimliği Analizörü', h1: 'Stil Testi', desc: 'Sana en uygun giyim profilini keşfet.'}, canonicalUrl: SITE_URL+'/giyim/stil', jsonLdScripts: '' });
+});
+
+app.get('/giyim/dresscode', (req, res, next) => {
+  res.render('giyim-dresscode', { meta: {title: 'Dress Code Çözücü', h1: 'Giyim Kodları', desc: 'Hangi davete ne giyilir? Kuralları öğren.'}, canonicalUrl: SITE_URL+'/giyim/dresscode', jsonLdScripts: '' });
+});
+
+app.get('/giyim/:subpage', (req, res, next) => {
+  const subpage = req.params.subpage;
+  const exercises = DATA_GIYIM.filter(ex => ex.cat === subpage);
+  const meta = {title: 'İmaj Yönetimi Detay', h1: 'İmaj Yönetimi Detay'};
+  if (subpage === 'aksesuar') meta.h1 = 'Aksesuar Sanatı Eğitimi';
+  else if (subpage === 'vucut-tipi') meta.h1 = 'Vücut Tipine Göre Giyim';
+  else if (subpage === 'renk') meta.h1 = 'Renk Psikolojisi';
+  res.render('giyim-detay', { meta, canonicalUrl: SITE_URL+'/giyim/'+subpage, jsonLdScripts: '', activeCat: subpage, exercises });
+});
+
+const DATA_SAHNE = require('./sahne-data');
+app.get('/sahne', (req, res, next) => {
+  res.render('sahne-index', { meta: {title: 'Sahne Sanatları ve Performans', desc: 'Sahnede otoritenizi kurun, karizmanızı yansıtın.'}, canonicalUrl: SITE_URL+'/sahne', jsonLdScripts: '' });
+});
+
+app.get('/sahne/araclar/prompter', (req, res, next) => {
+  res.render('sahne-prompter', { meta: {title: 'Akıllı Teleprompter', h1: 'Profesyonel Teleprompter Okuma Aracı', desc: 'Prompter kullanarak sahne pratikleri yapın.'}, canonicalUrl: SITE_URL+'/sahne/araclar/prompter', jsonLdScripts: '' });
+});
+
+app.get('/sahne/araclar/dogaclama', (req, res, next) => {
+  res.render('sahne-dogaclama', { meta: {title: 'Doğaçlama Sahnesi', h1: 'Rastgele Senaryo ve Duygu Motoru', desc: 'Sahne reflekslerinizi güçlendirecek doğaçlama motoru.'}, canonicalUrl: SITE_URL+'/sahne/araclar/dogaclama', jsonLdScripts: '' });
+});
+
+app.get('/sahne/araclar/nefes', (req, res, next) => {
+  res.render('sahne-nefes', { meta: {title: 'Nefes Koçu (Box Breathing)', h1: 'Sahne Öncesi Nefes Terapisi', desc: 'Sahnede heyecanı yenmek için Kutu Nefesi animasyonu.'}, canonicalUrl: SITE_URL+'/sahne/araclar/nefes', jsonLdScripts: '' });
+});
+
+app.get('/sahne/araclar/sayac', (req, res, next) => {
+  res.render('sahne-sayac', { meta: {title: 'Profesyonel Sahne Sayacı', h1: 'Renk Değiştiren Süre Yönetimi', desc: 'TED sahnesi standartlarında kronometre ve sayaç.'}, canonicalUrl: SITE_URL+'/sahne/araclar/sayac', jsonLdScripts: '' });
+});
+
+app.get('/sahne/araclar/goz-temasi', (req, res, next) => {
+  res.render('sahne-goz-temasi', { meta: {title: 'Göz Teması Simülatörü', h1: 'Z-Kuralı Göz Teması Pratiği', desc: 'Sanal seyirci kitlesi ile göz temasını koruma egzersizi.'}, canonicalUrl: SITE_URL+'/sahne/araclar/goz-temasi', jsonLdScripts: '' });
+});
+
+app.get('/sahne/araclar/vurgu', (req, res, next) => {
+  res.render('sahne-vurgu', { meta: {title: 'Vurgu ve Tonlama Matrisi', h1: 'Alt Metin ve Vurgu Pratiği', desc: 'Aynı cümlede farklı kelimeleri vurgulayarak anlamı değiştirme oyunu.'}, canonicalUrl: SITE_URL+'/sahne/araclar/vurgu', jsonLdScripts: '' });
+});
+
+app.get('/sahne/araclar/rulet', (req, res, next) => {
+  res.render('sahne-rulet', { meta: {title: 'Artikülasyon Ruleti', h1: 'Tekerleme Hız Testi', desc: 'Zorlu Türkçe tekerlemeleri en hızlı sürede hatasız okuma kronometresi.'}, canonicalUrl: SITE_URL+'/sahne/araclar/rulet', jsonLdScripts: '' });
+});
+
+app.get('/sahne/araclar/duygu', (req, res, next) => {
+  res.render('sahne-duygu', { meta: {title: 'Duygu Bukalemunu', h1: 'Ses Oyunculuğu Pratiği', desc: 'Aynı cümleyi rastgele değişen duygularla okuyarak sesin sınırlarını zorlayın.'}, canonicalUrl: SITE_URL+'/sahne/araclar/duygu', jsonLdScripts: '' });
+});
+
+app.get('/sahne/araclar/metronom', (req, res, next) => {
+  res.render('sahne-metronom', { meta: {title: 'Konuşma Metronomu', h1: 'Pacing (Ritim) Eğitmeni', desc: 'Konuşma hızınızı görsel bir sarkaç yardımıyla terbiye edin.'}, canonicalUrl: SITE_URL+'/sahne/araclar/metronom', jsonLdScripts: '' });
+});
+
+app.get('/sahne/araclar/capraz-ates', (req, res, next) => {
+  res.render('sahne-capraz-ates', { meta: {title: 'Çapraz Ateş', h1: 'Zor Soru Simülatörü', desc: 'Aniden gelen kışkırtıcı sorulara baskı altında soğukkanlı cevap verme testi.'}, canonicalUrl: SITE_URL+'/sahne/araclar/capraz-ates', jsonLdScripts: '' });
+});
+
+app.get('/sahne/:subpage', (req, res, next) => {
+  const subpage = req.params.subpage;
+  const exercises = DATA_SAHNE.filter(ex => ex.cat === subpage);
+  const meta = {title: 'Sahne Performansı', h1: 'Sahne Performansı'};
+  if (subpage === 'heyecan') meta.h1 = 'Heyecan Yönetimi';
+  else if (subpage === 'hareket') meta.h1 = 'Sahne Hareketi';
+  else if (subpage === 'etkilesim') meta.h1 = 'Seyirci Etkileşimi';
+  else if (subpage === 'kriz') meta.h1 = 'Kriz Yönetimi';
+  res.render('sahne-detay', { meta, canonicalUrl: SITE_URL+'/sahne/'+subpage, jsonLdScripts: '', activeCat: subpage, exercises });
+});
+
+app.get('/:module', (req, res, next) => {
+  const moduleName = req.params.module;
+  
+  if (EJS_MODULES.includes(moduleName)) {
+    const meta = TOOLS_META[moduleName] || { 
+      title: `${moduleName.charAt(0).toUpperCase() + moduleName.slice(1)} Eğitimi - Diksiyon Rehberi`, 
+      desc: `${moduleName} hakkında detaylı eğitim ve interaktif araçlar.`,
+      h1: `${moduleName.charAt(0).toUpperCase() + moduleName.slice(1)} Eğitimi`
+    };
+    
+    return res.render(moduleName, {
+      title: meta.title,
+      desc: meta.desc,
+      canonical: `${SITE_URL}/${moduleName}`
+    });
+  }
+  
+  next();
 });
 
 // ═══════════════════════════════════════════════════════════════════════════
@@ -1790,95 +2278,64 @@ app.get('/:toolSlug', (req, res, next) => {
     return next(); // Bilinmeyen slug ise SPA fallback'e düşsün
   }
 
-  const htmlPath = path.join(__dirname, 'public', 'index.html');
   const canonicalUrl = `${SITE_URL}/${toolSlug}`;
 
-  fs.readFile(htmlPath, 'utf8', (err, html) => {
-    if (err) return res.status(500).send('Sunucu hatası.');
+  const schema = {
+    '@context': 'https://schema.org',
+    '@type': 'WebApplication',
+    'name': meta.h1,
+    'description': meta.desc,
+    'applicationCategory': 'EducationalApplication',
+    'operatingSystem': 'Any',
+    'url': canonicalUrl,
+    'offers': {
+      '@type': 'Offer',
+      'price': '0',
+      'priceCurrency': 'TRY'
+    }
+  };
+  let jsonLdScripts = `<script type="application/ld+json">${JSON.stringify(schema)}</script>`;
 
-    // 1. Meta tagları enjekte et
-    html = injectMeta(html, meta, canonicalUrl);
-
-    // 2. WebApplication JSON-LD ekle (Rich Results)
-    const schema = {
+  let faqHtml = '';
+  if (meta.faq && meta.faq.length > 0) {
+    const faqSchema = {
       '@context': 'https://schema.org',
-      '@type': 'WebApplication',
-      'name': meta.h1,
-      'description': meta.desc,
-      'applicationCategory': 'EducationalApplication',
-      'operatingSystem': 'Any',
-      'url': canonicalUrl,
-      'offers': {
-        '@type': 'Offer',
-        'price': '0',
-        'priceCurrency': 'TRY'
-      }
+      '@type': 'FAQPage',
+      'mainEntity': meta.faq.map(item => ({
+        '@type': 'Question',
+        'name': item.question,
+        'acceptedAnswer': {
+          '@type': 'Answer',
+          'text': item.answer
+        }
+      }))
     };
-    let jsonLdScripts = `<script type="application/ld+json">${JSON.stringify(schema)}</script>`;
-
-    let faqHtml = '';
-    if (meta.faq && meta.faq.length > 0) {
-      const faqSchema = {
-        '@context': 'https://schema.org',
-        '@type': 'FAQPage',
-        'mainEntity': meta.faq.map(item => ({
-          '@type': 'Question',
-          'name': item.question,
-          'acceptedAnswer': {
-            '@type': 'Answer',
-            'text': item.answer
-          }
-        }))
-      };
-      jsonLdScripts += `\n    <script type="application/ld+json">${JSON.stringify(faqSchema)}</script>`;
-      
-      faqHtml = `
+    jsonLdScripts += `\n    <script type="application/ld+json">${JSON.stringify(faqSchema)}</script>`;
+    
+    faqHtml = `
   <h2>Sıkça Sorulan Sorular</h2>
   <dl>
     ${meta.faq.map(item => `<dt><strong>${item.question}</strong></dt>\n    <dd>${item.answer}</dd>`).join('\n    ')}
   </dl>`;
-    }
+  }
 
-    html = html.replace('</head>', `${jsonLdScripts}\n</head>`);
-
-    // 3. SEO içeriğini app.js SCRIPT'inden ÖNCE enjekte et (DOM sırası kritik!)
-    const seoBlock = `
+  const seoBlock = `
 <!-- SEO Araç İçeriği (Googlebot İçin) -->
 <div id="seo-tool-content" style="position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden" aria-hidden="true">
   <h1>${meta.h1}</h1>
-  <div class="content-body">${meta.content.replace(/\\n/g, '')}</div>${faqHtml}
+  <div class="content-body">${meta.content ? meta.content.replace(/\\n/g, '') : ''}</div>${faqHtml}
 </div>`;
-    html = html.replace('<script src="/app.js?v=2">', `${seoBlock}\n  <script src="/app.js?v=2">`);
 
-    // 4. Canonical HTTP Link header
-    res.setHeader('Link', `<${canonicalUrl}>; rel="canonical"`);
-    res.setHeader('Cache-Control', 'public, max-age=300');
-    res.send(html);
-  });
+  res.setHeader('Link', `<${canonicalUrl}>; rel="canonical"`);
+  res.setHeader('Cache-Control', 'public, max-age=300');
+  res.render('index', { meta, canonicalUrl, jsonLdScripts, seoBlock });
 });
 
 // ═══════════════════════════════════════════════════════════════════════════
 // ROUTE: Ana sayfa + SPA fallback
 // ═══════════════════════════════════════════════════════════════════════════
-app.get('/{*path}', (req, res) => {
-  const htmlPath = path.join(__dirname, 'public', 'index.html');
-  const canonicalUrl = `${SITE_URL}/`;
-
-  fs.readFile(htmlPath, 'utf8', (err, html) => {
-    if (err) return res.status(500).send('Sunucu hatası.');
-
-    // Ana sayfa canonical'ını garanti et
-    html = html.replace(/(<link rel="canonical" href=")[^"]*(")/, `$1${canonicalUrl}$2`);
-    html = html.replace(/(<meta property="og:url" content=")[^"]*(")/, `$1${canonicalUrl}$2`);
-
-    // Tüm blog linklerini statik HTML olarak göm (Googlebot iç linkleme)
-    const internalLinks = buildInternalLinksBlock();
-    html = html.replace('</body>', `${internalLinks}\n</body>`);
-
-    res.setHeader('Link', `<${canonicalUrl}>; rel="canonical"`);
-    res.setHeader('Cache-Control', 'public, max-age=60');
-    res.send(html);
-  });
+app.use((req, res, next) => {
+  res.status(404).render('404');
 });
 
 // ═══════════════════════════════════════════════════════════════════════════

@@ -1470,9 +1470,15 @@ function updateModuleSidebar(moduleName){
     }
   }
   
-  // Hide recorder for non-diksiyon modules
+  // Hide recorder for non-diksiyon and non-retorik modules
   const rec = $('sidebar-recorder');
-  if(rec) rec.style.display = 'none';
+  if(rec) {
+    if (moduleName === 'retorik') {
+      rec.style.display = '';
+    } else {
+      rec.style.display = 'none';
+    }
+  }
 }
 
 function resetDefaultSidebar(){
@@ -1490,15 +1496,27 @@ function resetDefaultSidebar(){
 }
 
 // ── NAV EVENT LISTENERS ───────────────────────────────────── //
+// SSR modules — let browser navigate normally via href
+const SSR_MODULES = ['retorik', 'diyalektik', 'giyim', 'safsata', 'sahne', 'bedendili', 'ozguven', 'manipulasyon', 'hikaye', 'gorgu'];
+
 document.querySelectorAll('[data-cat], [data-page]').forEach(el => {
   el.addEventListener('click', e => {
-    e.preventDefault();
-    
-    // Page Routing Logic
     const page = el.dataset.page;
     const cat = el.dataset.cat;
     const section = el.dataset.section;
     
+    // If this is an SSR module link with a real href, let browser navigate normally
+    if (page && SSR_MODULES.includes(page)) {
+      const href = el.getAttribute('href');
+      if (href && href !== '#' && href.startsWith('/')) {
+        // Don't prevent default — let the browser do a full navigation to the SSR page
+        return;
+      }
+    }
+    
+    e.preventDefault();
+    
+    // Page Routing Logic
     const pageModules = ['retorik', 'diyalektik', 'giyim', 'safsata', 'sahne', 'bedendili', 'ozguven', 'manipulasyon', 'hikaye', 'gorgu'];
     
     if (pageModules.includes(page)) {
@@ -1531,20 +1549,33 @@ document.querySelectorAll('[data-cat], [data-page]').forEach(el => {
       if($(`${page}-container`)) $(`${page}-container`).style.display = 'block';
       window.scrollTo({top: 0, behavior: 'smooth'});
       
-      // Hide left sidebar elements for non-diksiyon modules
-      if($('sidebar-recorder')) $('sidebar-recorder').style.display = 'none';
+      // Hide left sidebar elements for non-diksiyon modules (except recorder for retorik)
+      if($('sidebar-recorder')) {
+        if ($('sidebar-recorder')) $('sidebar-recorder').style.display = (page === 'retorik') ? '' : 'none';
+      }
       
-      // Switch to full-page mode (hide left sidebar)  
+      // Switch to full-page mode (hide left sidebar) ONLY for modules other than retorik
       const layout = document.querySelector('.page-layout');
-      if(layout) layout.classList.add('full-page-mode');
+      if(layout) {
+        if(page === 'retorik') {
+          layout.classList.remove('full-page-mode');
+        } else {
+          layout.classList.add('full-page-mode');
+        }
+      }
       
       // Update right sidebar for module context
       updateModuleSidebar(page);
       
       // Init module if needed
       if(page === 'retorik' && window.initRetorikModule) window.initRetorikModule();
+      if(page === 'giyim' && window.initGiyimModule) window.initGiyimModule();
       
-      history.pushState(null, '', `/${page}`);
+      if (!section) {
+        history.pushState(null, '', `/${page}`);
+      } else if (!['retorik', 'diyalektik', 'giyim'].includes(page)) {
+        history.pushState(null, '', `/${page}#${section}`);
+      }
       
       if (section) {
         // For Retorik, use category sub-page navigation
@@ -1560,6 +1591,14 @@ document.querySelectorAll('[data-cat], [data-page]').forEach(el => {
           const diyCats = ['sokratik','hegel','curutme','celisiki','tartisma','dusunce'];
           if (diyCats.includes(section)) {
             setTimeout(() => window.filterDiyCategory(section, true), 100);
+            return;
+          }
+        }
+        // For Giyim, use category sub-page navigation
+        if (page === 'giyim' && window.filterGiyimCategory) {
+          const giyimCats = ['dresscode', 'renk', 'vucut-tipi', 'aksesuar', 'stil', 'outfit'];
+          if (giyimCats.includes(section)) {
+            setTimeout(() => window.filterGiyimCategory(section, true), 100);
             return;
           }
         }
@@ -1591,6 +1630,12 @@ document.querySelectorAll('[data-cat], [data-page]').forEach(el => {
       }
       
     } else if (cat) {
+      const currentPath = window.location.pathname;
+      if (currentPath !== '/' && currentPath !== '/diksiyon' && !currentPath.startsWith('/diksiyon/')) {
+        window.location.href = cat === 'all' ? '/diksiyon' : `/diksiyon/${cat}`;
+        return;
+      }
+
       // Show Main Exercises, hide all pages
       if($('hero-band')) $('hero-band').style.display = 'flex';
       if($('sidebar-list-section')) $('sidebar-list-section').style.display = 'block';
@@ -1608,7 +1653,7 @@ document.querySelectorAll('[data-cat], [data-page]').forEach(el => {
       // Restore left sidebar layout
       const layout = document.querySelector('.page-layout');
       if(layout) layout.classList.remove('full-page-mode');
-      if($('sidebar-recorder')) $('sidebar-recorder').style.display = '';
+      if($('sidebar-recorder')) if ($('sidebar-recorder')) $('sidebar-recorder').style.display = '';
       
       resetDefaultSidebar();
       setFilter(cat);
@@ -1690,8 +1735,9 @@ document.addEventListener('click', e => {
 // ── MEGA MENU CLICK LOGIC ─────────────────────────────────── //
 document.querySelectorAll('.nav-item.has-mega > .nav-link').forEach(link => {
   link.addEventListener('click', (e) => {
-    e.preventDefault();
-    e.stopPropagation();
+    // Let the browser handle navigation naturally
+    // e.preventDefault();
+    // e.stopPropagation();
     const parent = link.parentElement;
     const isOpen = parent.classList.contains('active');
     
@@ -1728,26 +1774,28 @@ document.querySelectorAll('.mega-menu .top-nav-link').forEach(link => {
 // ── SIDEBAR LIST ──────────────────────────────────────────── //
 function renderSidebarList() {
   const list = filteredExercises();
-  $('sidebar-count').textContent = list.length;
-  $('ex-list').innerHTML = list.map(ex => {
-    const isDone = completed.includes(ex.id);
-    return `
-      <div class="ex-list-item ${isDone ? 'done' : ''}" id="eli-${ex.id}" data-id="${ex.id}">
-        <span class="eli-text">${ex.title}</span>
-        <span class="eli-dur">${ex.dur}</span>
-      </div>`;
-  }).join('');
+  if ($('sidebar-count')) $('sidebar-count').textContent = list.length;
+  if ($('ex-list')) {
+    $('ex-list').innerHTML = list.map(ex => {
+      const isDone = completed.includes(ex.id);
+      return `
+        <div class="ex-list-item ${isDone ? 'done' : ''}" id="eli-${ex.id}" data-id="${ex.id}">
+          <span class="eli-text">${ex.title}</span>
+          <span class="eli-dur">${ex.dur}</span>
+        </div>`;
+    }).join('');
 
-  $('ex-list').querySelectorAll('.ex-list-item').forEach(item => {
-    item.addEventListener('click', () => {
-      const panel = $('panel-' + item.dataset.id);
-      if (panel) {
-        panel.scrollIntoView({ behavior: 'smooth', block: 'start' });
-        document.querySelectorAll('.ex-list-item').forEach(i => i.classList.remove('active'));
-        item.classList.add('active');
-      }
+    $('ex-list').querySelectorAll('.ex-list-item').forEach(item => {
+      item.addEventListener('click', () => {
+        const panel = $('panel-' + item.dataset.id);
+        if (panel) {
+          panel.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          document.querySelectorAll('.ex-list-item').forEach(i => i.classList.remove('active'));
+          item.classList.add('active');
+        }
+      });
     });
-  });
+  }
 }
 
 // ── RENDER PANELS ─────────────────────────────────────────── //
@@ -1879,7 +1927,7 @@ function renderPanels() {
       if (panel) panel.classList.add('done-panel');
       const sideItem = $('eli-' + id);
       if (sideItem) sideItem.classList.add('done');
-      $('done-count').textContent = completed.length;
+      if ($('done-count')) $('done-count').textContent = completed.length;
       updateProgress();
       showToast(`🎉 "${EXERCISES.find(e => e.id === id)?.title}" tamamlandı!`);
     });
@@ -1901,9 +1949,9 @@ function updateProgress() {
   const total = EXERCISES.length;
   const count = completed.length;
   const pct = total ? Math.round(count / total * 100) : 0;
-  $('sp-bar').style.width = pct + '%';
-  $('sp-text').textContent = `${count} / ${total} tamamlandı — %${pct}`;
-  $('done-count').textContent = count;
+  if ($('sp-bar')) $('sp-bar').style.width = pct + '%';
+  if ($('sp-text')) $('sp-text').textContent = `${count} / ${total} tamamlandı — %${pct}`;
+  if ($('done-count')) $('done-count').textContent = count;
 }
 
 $('sp-reset-btn').addEventListener('click', () => {
@@ -2312,9 +2360,9 @@ function renderArena() {
     const td = $('tekerleme-display');
     if (td) { td.classList.add('pulse'); setTimeout(() => td.classList.remove('pulse'), 450); }
   });
-  $('arena-prev-t').addEventListener('click', () => prevTekerleme());
-  $('arena-next-t').addEventListener('click', () => nextTekerleme());
-  $('arena-speed-toggle').addEventListener('click', toggleSpeedTest);
+  if ($('arena-prev-t')) $('arena-prev-t').addEventListener('click', () => prevTekerleme());
+  if ($('arena-next-t')) $('arena-next-t').addEventListener('click', () => nextTekerleme());
+  if ($('arena-speed-toggle')) $('arena-speed-toggle').addEventListener('click', toggleSpeedTest);
 
   // Sesli dinle
   $('arena-listen') && $('arena-listen').addEventListener('click', () => {
@@ -2379,7 +2427,7 @@ function renderArena() {
 
   $('ar-retry') && $('ar-retry').addEventListener('click', () => {
     $('arena-result').classList.remove('show');
-    $('sta-input').value = '';
+    if ($('sta-input')) $('sta-input').value = '';
     resetSpeedTimer();
     $('sta-input').focus();
   });
@@ -2394,7 +2442,7 @@ function renderArena() {
       showTekerlemeSel();
     }
     if (arenaMode === 'speed') {
-      $('sta-input').value = '';
+      if ($('sta-input')) $('sta-input').value = '';
       resetSpeedTimer();
     }
   });
@@ -3034,7 +3082,7 @@ window.toggleNefes = function () {
     nefesState = 'inhale';
     nefesTotalTime = 0;
     if (btn) btn.textContent = 'DURDUR';
-    $('b-action').style.color = '#fff';
+    if ($('b-action')) $('b-action').style.color = '#fff';
     runNefesCycle();
   } else {
     nefesState = 'idle';
@@ -3448,7 +3496,7 @@ function renderInteraktif() {
     if (!btRunning) {
       btRunning = true;
       btStart = Date.now();
-      $('bt-start-btn').textContent = '⏹ Durdur';
+      if ($('bt-start-btn')) $('bt-start-btn').textContent = '⏹ Durdur';
       btLabel.textContent = '"Ssss" sesini çıkarın...';
       btTimer = setInterval(() => {
         const s = ((Date.now() - btStart) / 1000).toFixed(1);
@@ -3458,7 +3506,7 @@ function renderInteraktif() {
       }, 100);
     } else {
       clearInterval(btTimer); btRunning = false;
-      $('bt-start-btn').textContent = '⏱ Başlat';
+      if ($('bt-start-btn')) $('bt-start-btn').textContent = '⏱ Başlat';
       const elapsed = ((Date.now() - btStart) / 1000).toFixed(1);
       btBests.push(parseFloat(elapsed));
       btBests.sort((a, b) => b - a);
@@ -3472,7 +3520,7 @@ function renderInteraktif() {
     clearInterval(btTimer); btRunning = false;
     btDisplay.textContent = '0.0s'; btDisplay.style.color = 'var(--gold)';
     btLabel.textContent = 'Başlatmak için butona bas, nefes alıp "Ssss" yap';
-    $('bt-start-btn').textContent = '⏱ Başlat';
+    if ($('bt-start-btn')) $('bt-start-btn').textContent = '⏱ Başlat';
     btRecords.innerHTML = '';
   });
 
@@ -3490,9 +3538,9 @@ function renderInteraktif() {
   let scdIdx = 0, scdScore = 0, scdStreak = 0, scdTotal = 0, scdRunning = false;
   function scdNewQuestion() {
     scdIdx = Math.floor(Math.random() * scdSentences.length);
-    $('scd-sentence').textContent = scdSentences[scdIdx];
-    $('scd-meta').textContent = `${scdSentences[scdIdx].length} karakter`;
-    $('scd-input').value = '';
+    if ($('scd-sentence')) $('scd-sentence').textContent = scdSentences[scdIdx];
+    if ($('scd-meta')) $('scd-meta').textContent = `${scdSentences[scdIdx].length} karakter`;
+    if ($('scd-input')) $('scd-input').value = '';
     $('scd-input').disabled = false;
     $('scd-input').focus();
     $('scd-skip-btn').disabled = false;
@@ -3514,24 +3562,24 @@ function renderInteraktif() {
       scdStreak = 0;
       showToast(`❌ %${acc} — Tekrar dene!`);
     }
-    $('scd-score').textContent = scdScore;
-    $('scd-streak').textContent = scdStreak + '🔥';
-    $('scd-acc').textContent = `%${acc}`;
+    if ($('scd-score')) $('scd-score').textContent = scdScore;
+    if ($('scd-streak')) $('scd-streak').textContent = scdStreak + '🔥';
+    if ($('scd-acc')) $('scd-acc').textContent = `%${acc}`;
     scdNewQuestion();
   }
   $('scd-start-btn').addEventListener('click', () => {
     if (!scdRunning) {
       scdRunning = true;
       scdScore = 0; scdStreak = 0;
-      $('scd-score').textContent = '0'; $('scd-streak').textContent = '0'; $('scd-acc').textContent = '%100';
-      $('scd-start-btn').textContent = '✓ Tamam';
+      if ($('scd-score')) $('scd-score').textContent = '0'; if ($('scd-streak')) $('scd-streak').textContent = '0'; if ($('scd-acc')) $('scd-acc').textContent = '%100';
+      if ($('scd-start-btn')) $('scd-start-btn').textContent = '✓ Tamam';
       scdNewQuestion();
     } else {
       scdCheck();
     }
   });
-  $('scd-input').addEventListener('keydown', e => { if (e.key === 'Enter') $('scd-start-btn').click(); });
-  $('scd-skip-btn').addEventListener('click', () => { scdStreak = 0; $('scd-streak').textContent = '0'; scdNewQuestion(); showToast('⏭ Atlandı'); });
+  if ($('scd-input')) $('scd-input').addEventListener('keydown', e => { if (e.key === 'Enter') $('scd-start-btn').click(); });
+  if ($('scd-skip-btn')) $('scd-skip-btn').addEventListener('click', () => { scdStreak = 0; if ($('scd-streak')) $('scd-streak').textContent = '0'; scdNewQuestion(); showToast('⏭ Atlandı'); });
 
   // Wire up game #3 — vowel harmony
   const VOWELS = ['A', 'E', 'I', 'İ', 'O', 'Ö', 'U', 'Ü'];
@@ -3548,34 +3596,34 @@ function renderInteraktif() {
     const pick = vowelSequences[Math.floor(Math.random() * vowelSequences.length)];
     currentVSeq = pick.seq;
     userVSeq = [];
-    $('vs-target').innerHTML = pick.seq.map(v => `<span class="vs-v">${v}</span>`).join('<span style="opacity:.4">→</span>');
-    $('vowel-answer').innerHTML = '<span style="color:var(--text-4);font-size:.85rem">Ünlülere tıkla...</span>';
-    $('vowel-feedback').textContent = '';
+    if ($('vs-target')) $('vs-target').innerHTML = pick.seq.map(v => `<span class="vs-v">${v}</span>`).join('<span style="opacity:.4">→</span>');
+    if ($('vowel-answer')) $('vowel-answer').innerHTML = '<span style="color:var(--text-4);font-size:.85rem">Ünlülere tıkla...</span>';
+    if ($('vowel-feedback')) $('vowel-feedback').textContent = '';
     $('vowel-check-btn').disabled = true;
   }
   document.querySelectorAll('.vowel-btn').forEach(btn => {
     btn.addEventListener('click', () => {
       userVSeq.push(btn.dataset.v);
-      $('vowel-answer').innerHTML = userVSeq.map(v => `<span class="vs-v">${v}</span>`).join('<span style="opacity:.4">→</span>');
+      if ($('vowel-answer')) $('vowel-answer').innerHTML = userVSeq.map(v => `<span class="vs-v">${v}</span>`).join('<span style="opacity:.4">→</span>');
       btn.classList.add('vowel-btn-selected');
       setTimeout(() => btn.classList.remove('vowel-btn-selected'), 300);
       $('vowel-check-btn').disabled = userVSeq.length < currentVSeq.length;
     });
   });
-  $('vowel-new-btn').addEventListener('click', () => { newVowelGame(); });
+  if ($('vowel-new-btn')) $('vowel-new-btn').addEventListener('click', () => { newVowelGame(); });
   $('vowel-check-btn').addEventListener('click', () => {
     const correct = JSON.stringify(userVSeq) === JSON.stringify(currentVSeq);
     if (correct) {
       vCorrect++;
-      $('vowel-feedback').innerHTML = '<span style="color:#16A34A;font-weight:800">✅ Doğru! Harika!</span>';
+      if ($('vowel-feedback')) $('vowel-feedback').innerHTML = '<span style="color:#16A34A;font-weight:800">✅ Doğru! Harika!</span>';
       showToast('✅ Doğru!');
     } else {
       vWrong++;
-      $('vowel-feedback').innerHTML = `<span style="color:#C9604A;font-weight:800">❌ Yanlış! Doğrusu: ${currentVSeq.join(' → ')}</span>`;
+      if ($('vowel-feedback')) $('vowel-feedback').innerHTML = `<span style="color:#C9604A;font-weight:800">❌ Yanlış! Doğrusu: ${currentVSeq.join(' → ')}</span>`;
       showToast('❌ Yanlış!');
     }
-    $('vowel-correct').textContent = vCorrect;
-    $('vowel-wrong').textContent = vWrong;
+    if ($('vowel-correct')) $('vowel-correct').textContent = vCorrect;
+    if ($('vowel-wrong')) $('vowel-wrong').textContent = vWrong;
     setTimeout(() => newVowelGame(), 1800);
   });
   $('vowel-speak-btn').addEventListener('click', () => {
@@ -3597,8 +3645,8 @@ function renderInteraktif() {
   document.querySelectorAll('.perde-btn').forEach(btn => {
     btn.addEventListener('click', () => {
       const perde = btn.dataset.perde;
-      $('perde-current').textContent = btn.textContent.replace('\n', '');
-      $('perde-hint').textContent = perdeHints[perde] || '';
+      if ($('perde-current')) $('perde-current').textContent = btn.textContent.replace('\n', '');
+      if ($('perde-hint')) $('perde-hint').textContent = perdeHints[perde] || '';
       document.querySelectorAll('.perde-btn').forEach(b => b.classList.remove('perde-btn-active'));
       btn.classList.add('perde-btn-active');
       if ('speechSynthesis' in window) {
@@ -3623,12 +3671,14 @@ function renderInteraktif() {
   function showVurguQuestion() {
     vurguIdx = Math.floor(Math.random() * vurguQuestions.length);
     const q = vurguQuestions[vurguIdx];
-    $('vq-sentence').textContent = q.sentence;
-    $('vq-context').textContent = `💬 Bağlam: ${q.context}`;
-    $('vurgu-feedback').textContent = '';
-    $('vurgu-options').innerHTML = q.words.map(w =>
-      `<button class="vurgu-opt-btn" data-word="${w}">${w}</button>`
-    ).join('');
+    if ($('vq-sentence')) $('vq-sentence').textContent = q.sentence;
+    if ($('vq-context')) $('vq-context').textContent = `💬 Bağlam: ${q.context}`;
+    if ($('vurgu-feedback')) $('vurgu-feedback').textContent = '';
+    if ($('vurgu-options')) {
+      $('vurgu-options').innerHTML = q.words.map(w =>
+        `<button class="vurgu-opt-btn" data-word="${w}">${w}</button>`
+      ).join('');
+    }
     document.querySelectorAll('.vurgu-opt-btn').forEach(btn => {
       btn.addEventListener('click', () => {
         const chosen = btn.dataset.word.toLowerCase();
@@ -3636,23 +3686,23 @@ function renderInteraktif() {
         if (chosen === correct) {
           vurguRight++;
           vurguScore += 10;
-          $('vurgu-feedback').innerHTML = `<span style="color:#16A34A;font-weight:800">✅ Doğru! ${vurguQuestions[vurguIdx].explanation}</span>`;
+          if ($('vurgu-feedback')) $('vurgu-feedback').innerHTML = `<span style="color:#16A34A;font-weight:800">✅ Doğru! ${vurguQuestions[vurguIdx].explanation}</span>`;
           btn.style.background = '#DCFCE7'; btn.style.borderColor = '#4ADE80';
           showToast('✅ +10 puan!');
         } else {
           vurguWrong_++;
-          $('vurgu-feedback').innerHTML = `<span style="color:#C9604A;font-weight:800">❌ Doğrusu: "${vurguQuestions[vurguIdx].answer}" — ${vurguQuestions[vurguIdx].explanation}</span>`;
+          if ($('vurgu-feedback')) $('vurgu-feedback').innerHTML = `<span style="color:#C9604A;font-weight:800">❌ Doğrusu: "${vurguQuestions[vurguIdx].answer}" — ${vurguQuestions[vurguIdx].explanation}</span>`;
           btn.style.background = '#FEE2E2'; btn.style.borderColor = '#FCA5A5';
           showToast('❌ Yanlış!');
         }
-        $('vurgu-right').textContent = vurguRight;
-        $('vurgu-wrong').textContent = vurguWrong_;
-        $('vurgu-score').textContent = vurguScore;
+        if ($('vurgu-right')) $('vurgu-right').textContent = vurguRight;
+        if ($('vurgu-wrong')) $('vurgu-wrong').textContent = vurguWrong_;
+        if ($('vurgu-score')) $('vurgu-score').textContent = vurguScore;
         document.querySelectorAll('.vurgu-opt-btn').forEach(b => b.disabled = true);
       });
     });
   }
-  $('vurgu-next-btn').addEventListener('click', showVurguQuestion);
+  if ($('vurgu-next-btn')) $('vurgu-next-btn').addEventListener('click', showVurguQuestion);
   showVurguQuestion();
 }
 
@@ -4025,6 +4075,7 @@ function renderProgContent() {
     const matchDiksiyon = path.match(/^\/diksiyon\/([a-z]+)$/i);
     const matchRetorik = path.match(/^\/retorik\/([a-z-]+)$/i);
     const matchDiyalektik = path.match(/^\/diyalektik\/([a-z]+)$/i);
+    const matchGiyim = path.match(/^\/giyim\/([a-z-]+)$/i);
     const matchModule = path.match(/^\/([a-z-]+)$/i);
 
     if (matchCat) {
@@ -4041,28 +4092,9 @@ function renderProgContent() {
       }
     } else if (matchDiksiyon) {
       setFilter(matchDiksiyon[1]);
-    } else if (matchRetorik) {
-      // Navigate to Retorik then filter category
-      const link = document.querySelector('[data-page="retorik"]');
-      if (link) link.click();
-      const urlCat = window.URL_CAT_MAP ? window.URL_CAT_MAP[matchRetorik[1]] : matchRetorik[1];
-      if (urlCat && window.filterRetorikCategory) {
-        setTimeout(() => window.filterRetorikCategory(urlCat, false), 100);
-      }
-    } else if (matchDiyalektik) {
-      const link = document.querySelector('[data-page="diyalektik"]');
-      if (link) link.click();
-      if (window.filterDiyCategory) {
-        setTimeout(() => window.filterDiyCategory(matchDiyalektik[1], false), 100);
-      }
-    } else if (matchModule) {
-      const pageModules = ['retorik','diyalektik','giyim','safsata','sahne','bedendili','ozguven','manipulasyon','hikaye','gorgu'];
-      const mod = matchModule[1];
-      if (pageModules.includes(mod)) {
-        // Simulate click on module page
-        const link = document.querySelector(`[data-page="${mod}"]`);
-        if (link) link.click();
-      }
+    } else if (matchRetorik || matchDiyalektik || matchGiyim || matchModule) {
+      // SSR modules: do full page navigation
+      window.location.reload();
     } else if (path === '/' || path === '/diksiyon') {
       setFilter('all');
     }
@@ -4095,25 +4127,15 @@ function renderProgContent() {
     }, 100);
   }
 
-  // Initial routing for diksiyon sub-pages and module pages
+  // Initial routing for diksiyon sub-pages only (all modules are SSR now)
   const initPath = window.location.pathname;
   const initDiksiyon = initPath.match(/^\/diksiyon\/([a-z]+)$/i);
-  const initModule = initPath.match(/^\/([a-z-]+)$/i);
   
   if (initDiksiyon) {
     setTimeout(() => setFilter(initDiksiyon[1]), 100);
-  } else if (initPath === '/diksiyon') {
+  } else if (initPath === '/diksiyon' || initPath === '/') {
     // /diksiyon = show all diksiyon categories
     setTimeout(() => setFilter('all'), 100);
-  } else if (initModule) {
-    const pageModules = ['retorik','diyalektik','giyim','safsata','sahne','bedendili','ozguven','manipulasyon','hikaye','gorgu'];
-    const mod = initModule[1];
-    if (pageModules.includes(mod)) {
-      setTimeout(() => {
-        const link = document.querySelector(`[data-page="${mod}"]`);
-        if (link) link.click();
-      }, 150);
-    }
   }
 })();
 

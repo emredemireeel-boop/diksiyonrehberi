@@ -1,0 +1,137 @@
+<%- include('partials/main-header') %>
+<link rel="stylesheet" href="/retorik.css?v=11" />
+<style>
+  .ozguven-page { display: block !important; }
+  .ex-card { background: #fff; border: 1px solid #e2e8f0; border-radius: 16px; padding: 30px; margin-bottom: 40px; box-shadow: 0 4px 6px rgba(0,0,0,0.02); }
+  .ex-header { display: flex; align-items: center; gap: 15px; margin-bottom: 20px; }
+  .ex-num { font-size: 2rem; font-weight: 900; color: #7c3aed; opacity: 0.2; }
+  .ex-title { font-size: 1.8rem; color: #0f172a; margin: 0; }
+  .ex-desc { font-size: 1.1rem; color: #475569; line-height: 1.7; margin-bottom: 30px; }
+  
+  .ex-section-title { font-size: 1.2rem; font-weight: 800; color: #1e293b; margin-bottom: 15px; display: flex; align-items: center; gap: 10px; }
+  
+  .step-list { list-style: none; padding: 0; margin: 0 0 30px 0; }
+  .step-list li { position: relative; padding-left: 35px; margin-bottom: 15px; font-size: 1rem; color: #334155; line-height: 1.6; }
+  .step-list li::before { content: '✓'; position: absolute; left: 0; top: 0; width: 22px; height: 22px; background: #ede9fe; color: #7c3aed; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.8rem; font-weight: bold; }
+  
+  .scenario-box { background: #f8fafc; border-left: 4px solid #3b82f6; padding: 20px; border-radius: 0 12px 12px 0; margin-bottom: 30px; }
+  .sb-label { font-size: 0.8rem; font-weight: 800; color: #3b82f6; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px; }
+  .sb-text { font-size: 1.05rem; color: #0f172a; font-style: italic; margin-bottom: 15px; }
+  .sb-analysis { font-size: 0.95rem; color: #475569; border-top: 1px solid #e2e8f0; padding-top: 15px; }
+
+  .practice-box { background: #fffbeb; border: 1px solid #fde68a; padding: 20px; border-radius: 12px; margin-bottom: 30px; }
+  .pb-title { font-size: 1rem; font-weight: 800; color: #d97706; margin-bottom: 10px; display: flex; align-items: center; gap: 8px; }
+  .pb-text { color: #92400e; font-size: 0.95rem; line-height: 1.6; }
+
+  /* Quiz UI */
+  .quiz-box { background: #f1f5f9; padding: 25px; border-radius: 12px; }
+  .q-question { font-size: 1.1rem; font-weight: 700; color: #0f172a; margin-bottom: 20px; }
+  .q-opts { display: flex; flex-direction: column; gap: 10px; }
+  .q-opt { background: #fff; border: 2px solid #e2e8f0; padding: 15px 20px; border-radius: 10px; cursor: pointer; font-size: 1rem; color: #334155; transition: all 0.2s; text-align: left; }
+  .q-opt:hover { border-color: #94a3b8; background: #f8fafc; }
+  .q-opt.correct { border-color: #10b981; background: #d1fae5; color: #065f46; }
+  .q-opt.wrong { border-color: #ef4444; background: #fee2e2; color: #991b1b; }
+  .q-feedback { margin-top: 15px; padding: 15px; border-radius: 8px; font-size: 0.95rem; display: none; }
+  .q-feedback.success { background: #d1fae5; color: #065f46; display: block; border-left: 4px solid #10b981; }
+  .q-feedback.error { background: #fee2e2; color: #991b1b; display: block; border-left: 4px solid #ef4444; }
+</style>
+
+<main class="main-content">
+  <div class="content-wrapper">
+    <div class="ozguven-page">
+      
+      <div style="margin-bottom: 40px;">
+        <a href="/ozguven" style="color:#7c3aed; text-decoration:none; font-weight:700; font-size:0.9rem;">← Akademiye Dön</a>
+        <h1 style="color:#0f172a; font-size:2.5rem; margin-top:15px;"><%= meta.h1 %></h1>
+        <p style="color:#64748b; font-size:1.1rem;">Aşağıdaki adımları sırayla inceleyin ve görevleri gerçek hayatta uygulayın.</p>
+      </div>
+
+      <div class="exercises-container">
+        <% exercises.forEach((ex, i) => { %>
+          <div class="ex-card">
+            <div class="ex-header">
+              <span class="ex-num"><%= ex.num %></span>
+              <h2 class="ex-title"><%= ex.title %></h2>
+              <span class="ret-badge <%= ex.badgeCls %>" style="margin-left:auto;"><%= ex.badge %></span>
+            </div>
+            <p class="ex-desc"><%= ex.desc %></p>
+
+            <% if (ex.steps && ex.steps.length > 0) { %>
+              <div class="ex-section-title">🛠️ Zihinsel Araçlar</div>
+              <ul class="step-list">
+                <% ex.steps.forEach(step => { %>
+                  <li><%= step %></li>
+                <% }) %>
+              </ul>
+            <% } %>
+
+            <% if (ex.scenario) { %>
+              <div class="scenario-box">
+                <div class="sb-label"><%= ex.scenario.label %></div>
+                <div class="sb-text">"<%= ex.scenario.text %>"</div>
+                <div class="sb-analysis"><strong>Çözüm:</strong> <%= ex.scenario.analysis %></div>
+              </div>
+            <% } %>
+
+            <% if (ex.practice) { %>
+              <div class="practice-box">
+                <div class="pb-title">🎯 Saha Görevi (Pratik)</div>
+                <div class="pb-text"><%= ex.practice %></div>
+              </div>
+            <% } %>
+
+            <% if (ex.quiz) { %>
+              <div class="quiz-box" id="quiz-<%= ex.id %>">
+                <div class="ex-section-title">🧠 Refleks Testi</div>
+                <div class="q-question"><%= ex.quiz.q %></div>
+                <div class="q-opts">
+                  <% ex.quiz.opts.forEach((opt, optIdx) => { %>
+                    <button class="q-opt" onclick="checkQuiz('<%= ex.id %>', <%= optIdx %>, <%= ex.quiz.correct %>)"><%= opt %></button>
+                  <% }) %>
+                </div>
+                <div class="q-feedback" id="feedback-<%= ex.id %>"></div>
+              </div>
+              <script>
+                // Store feedback messages globally for the click handler
+                window['quizData_<%= ex.id %>'] = {
+                  ok: <%- JSON.stringify(ex.quiz.ok) %>,
+                  fail: <%- JSON.stringify(ex.quiz.fail) %>
+                };
+              </script>
+            <% } %>
+          </div>
+        <% }); %>
+      </div>
+
+    </div>
+  </div>
+</main>
+
+<script>
+  function checkQuiz(quizId, selectedIdx, correctIdx) {
+    const box = document.getElementById('quiz-' + quizId);
+    const opts = box.querySelectorAll('.q-opt');
+    const feedback = document.getElementById('feedback-' + quizId);
+    const data = window['quizData_' + quizId];
+    
+    // Reset
+    opts.forEach(btn => {
+      btn.classList.remove('correct', 'wrong');
+      btn.disabled = true; // disable after answer
+    });
+    feedback.className = 'q-feedback';
+    
+    if (selectedIdx === correctIdx) {
+      opts[selectedIdx].classList.add('correct');
+      feedback.classList.add('success');
+      feedback.innerHTML = '<strong>✅ DOĞRU:</strong> ' + data.ok;
+    } else {
+      opts[selectedIdx].classList.add('wrong');
+      opts[correctIdx].classList.add('correct'); // Show correct answer
+      feedback.classList.add('error');
+      feedback.innerHTML = '<strong>❌ YANLIŞ:</strong> ' + data.fail;
+    }
+  }
+</script>
+
+<%- include('partials/main-footer') %>

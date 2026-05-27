@@ -1,0 +1,472 @@
+<%- include('partials/main-header') %>
+
+<style>
+  /* APPLE-INSPIRED ULTRA PREMIUM LIGHT MODE - MANIPULASYON */
+  body { 
+    background: #fbfbfd !important; /* Apple's signature off-white */
+    color: #1d1d1f; 
+    margin: 0; 
+    padding: 0; 
+    font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+  
+  main.main-content, div.content-wrapper, div.man-page { 
+    max-width: 100% !important; 
+    padding: 0 !important; 
+    margin: 0 !important; 
+    width: 100% !important;
+    background: transparent !important;
+  }
+  
+  :root {
+    --apple-text: #1d1d1f;
+    --apple-muted: #86868b;
+    --apple-bg: #fbfbfd;
+    --apple-card: #ffffff;
+    --apple-blue: #0066cc;
+    --apple-blue-hover: #0077ed;
+    --apple-red: #ff3b30;
+    --apple-purple: #af52de;
+    --apple-orange: #ff9500;
+  }
+
+  /* HERO SECTION */
+  .man-hero {
+    position: relative;
+    padding: 120px 20px 80px 20px;
+    text-align: center;
+    background: #fbfbfd;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 80vh;
+  }
+
+  .man-hero::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 1000px;
+    height: 1000px;
+    background: radial-gradient(circle, rgba(0, 102, 204, 0.03) 0%, rgba(255, 59, 48, 0.02) 50%, transparent 80%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .man-hero-content {
+    position: relative;
+    z-index: 2;
+    max-width: 800px;
+    animation: manFadeUp 1.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    opacity: 0;
+    transform: translateY(30px);
+  }
+
+  .man-badge {
+    display: inline-block;
+    padding: 6px 18px;
+    border-radius: 20px;
+    background: rgba(0, 0, 0, 0.04);
+    color: var(--apple-text);
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    margin-bottom: 24px;
+    backdrop-filter: blur(20px);
+  }
+
+  .man-title {
+    font-size: 5.5rem;
+    font-weight: 700;
+    letter-spacing: -0.04em;
+    line-height: 1.05;
+    margin: 0 0 24px 0;
+    color: var(--apple-text);
+    /* Subtle gradient text */
+    background: linear-gradient(135deg, #1d1d1f 0%, #434353 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  .man-subtitle {
+    font-size: 1.5rem;
+    font-weight: 400;
+    letter-spacing: -0.015em;
+    line-height: 1.4;
+    color: var(--apple-muted);
+    max-width: 600px;
+    margin: 0 auto 40px auto;
+  }
+
+  .man-hero-buttons {
+    display: flex;
+    gap: 16px;
+    justify-content: center;
+  }
+
+  .apple-btn {
+    display: inline-block;
+    padding: 16px 32px;
+    border-radius: 980px;
+    font-size: 1.05rem;
+    font-weight: 600;
+    text-decoration: none;
+    transition: all 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
+  }
+
+  .apple-btn-primary {
+    background: var(--apple-blue);
+    color: #ffffff;
+  }
+  .apple-btn-primary:hover {
+    background: var(--apple-blue-hover);
+    transform: scale(1.02);
+  }
+
+  .apple-btn-secondary {
+    background: rgba(0, 0, 0, 0.05);
+    color: var(--apple-text);
+  }
+  .apple-btn-secondary:hover {
+    background: rgba(0, 0, 0, 0.08);
+    transform: scale(1.02);
+  }
+
+  /* BENTO GRID LAYOUT */
+  .bento-container {
+    max-width: 1200px;
+    margin: -40px auto 100px auto;
+    padding: 0 20px;
+    position: relative;
+    z-index: 10;
+  }
+
+  .bento-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: auto auto;
+    gap: 24px;
+  }
+
+  .bento-card {
+    background: var(--apple-card);
+    border-radius: 32px;
+    padding: 40px;
+    text-decoration: none;
+    color: var(--apple-text);
+    box-shadow: 0 10px 40px rgba(0,0,0,0.03);
+    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    border: 1px solid rgba(0,0,0,0.02);
+  }
+
+  .bento-card::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: 32px;
+    box-shadow: inset 0 0 0 1px rgba(255,255,255,0.5);
+    pointer-events: none;
+  }
+
+  .bento-card:hover {
+    transform: scale(1.02) translateY(-4px);
+    box-shadow: 0 20px 60px rgba(0,0,0,0.06);
+  }
+
+  /* Specific Card Sizes & Styles */
+  .card-large {
+    grid-column: span 2;
+    background: linear-gradient(145deg, #ffffff 0%, #f5f5f7 100%);
+  }
+  
+  .card-vertical {
+    grid-row: span 2;
+    background: #ffffff;
+  }
+
+  .card-icon {
+    font-size: 2.5rem;
+    margin-bottom: 24px;
+    display: inline-block;
+  }
+
+  .card-badge {
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: 12px;
+  }
+
+  .card-title {
+    font-size: 1.8rem;
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    margin: 0 0 12px 0;
+    line-height: 1.2;
+  }
+
+  .card-desc {
+    font-size: 1.05rem;
+    line-height: 1.5;
+    color: var(--apple-muted);
+    margin: 0 0 24px 0;
+    flex-grow: 1;
+  }
+
+  .card-action {
+    font-size: 1.05rem;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .card-action span {
+    transition: transform 0.3s;
+  }
+  .bento-card:hover .card-action span {
+    transform: translateX(4px);
+  }
+
+  /* COLORS */
+  .color-blue { color: var(--apple-blue); }
+  .color-red { color: var(--apple-red); }
+  .color-purple { color: var(--apple-purple); }
+  .color-orange { color: var(--apple-orange); }
+
+  /* APP SECTION */
+  .app-section {
+    max-width: 1200px;
+    margin: 0 auto 120px auto;
+    padding: 0 20px;
+  }
+
+  .app-section-header {
+    text-align: center;
+    margin-bottom: 60px;
+  }
+
+  .app-section-title {
+    font-size: 3rem;
+    font-weight: 700;
+    letter-spacing: -0.03em;
+    margin: 0 0 16px 0;
+  }
+
+  .app-section-desc {
+    font-size: 1.25rem;
+    color: var(--apple-muted);
+    max-width: 600px;
+    margin: 0 auto;
+  }
+
+  .app-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 24px;
+  }
+
+  .app-card {
+    background: #ffffff;
+    border-radius: 28px;
+    padding: 32px;
+    text-align: center;
+    text-decoration: none;
+    color: var(--apple-text);
+    box-shadow: 0 4px 20px rgba(0,0,0,0.02);
+    border: 1px solid rgba(0,0,0,0.03);
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .app-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 20px 40px rgba(0,0,0,0.06);
+  }
+
+  .app-icon-wrapper {
+    width: 80px;
+    height: 80px;
+    border-radius: 22px;
+    margin: 0 auto 24px auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2.5rem;
+    background: #fbfbfd;
+    box-shadow: inset 0 2px 4px rgba(255,255,255,0.8), 0 4px 12px rgba(0,0,0,0.05);
+  }
+
+  .app-card-title {
+    font-size: 1.3rem;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+    margin: 0 0 12px 0;
+  }
+
+  .app-card-desc {
+    font-size: 0.95rem;
+    color: var(--apple-muted);
+    line-height: 1.5;
+  }
+
+  /* KEYFRAMES */
+  @keyframes manFadeUp {
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* RESPONSIVE */
+  @media (max-width: 1024px) {
+    .bento-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+    .card-large { grid-column: span 2; }
+    .card-vertical { grid-column: span 2; grid-row: auto; }
+  }
+
+  @media (max-width: 768px) {
+    .man-title { font-size: 3.5rem; }
+    .bento-grid { grid-template-columns: 1fr; }
+    .card-large { grid-column: span 1; }
+    .card-vertical { grid-column: span 1; }
+    .man-hero-buttons { flex-direction: column; }
+    .apple-btn { width: 100%; text-align: center; }
+  }
+</style>
+
+<div class="man-page">
+
+  <!-- ══ HERO ══ -->
+  <header class="man-hero">
+    <div class="man-hero-content">
+      <div class="man-badge">Karanlık Retorik</div>
+      <h1 class="man-title">Zihnini Koru.</h1>
+      <p class="man-subtitle">Toksik insanları tanıyın, manipülasyon tekniklerini deşifre edin ve psikolojik sınırlarınızı aşılmaz bir kaleye dönüştürün.</p>
+      <div class="man-hero-buttons">
+        <a href="#dersler" class="apple-btn apple-btn-primary">Masterclass'a Başla</a>
+        <a href="#araclar" class="apple-btn apple-btn-secondary">Savunma Araçları</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- ══ BENTO GRID (DERSLER) ══ -->
+  <div class="bento-container" id="dersler">
+    <div class="bento-grid">
+      
+      <!-- Gaslighting (Büyük Kart) -->
+      <a href="/manipulasyon/psikolojik" class="bento-card card-large">
+        <div class="card-icon">🧠</div>
+        <div class="card-badge color-blue">Modül 01</div>
+        <h2 class="card-title">Gaslighting & Psikolojik Şiddet</h2>
+        <p class="card-desc">Gerçeklik algınızı bozmaya, hafızanızdan şüphe etmenize ve sizi delirdiğinize inandırmaya çalışan toksik insanları durdurmanın bilimsel yolları.</p>
+        <div class="card-action color-blue">Gerçekliği Geri Al <span>→</span></div>
+      </a>
+
+      <!-- Pasif Agresif (Dikey Kart) -->
+      <a href="/manipulasyon/pasif" class="bento-card card-vertical">
+        <div class="card-icon">🧊</div>
+        <div class="card-badge color-purple">Modül 03</div>
+        <h2 class="card-title">Sessizlik Terapisi</h2>
+        <p class="card-desc">Konuşmayı reddeden, kapıları çarpan ve sessizliği bir silah gibi kullanarak sizi cezalandıran pasif-agresif karakterlere karşı stratejiler.</p>
+        <div class="card-action color-purple">Sessizliği Kır <span>→</span></div>
+      </a>
+
+      <!-- Suçluluk Tripi -->
+      <a href="/manipulasyon/duygusal" class="bento-card">
+        <div class="card-icon">🎭</div>
+        <div class="card-badge color-red">Modül 02</div>
+        <h2 class="card-title">Duygusal Şantaj</h2>
+        <p class="card-desc">"Ben senin için saçımı süpürge ettim" diyerek size istemediğiniz şeyleri yaptıran kişilere net sınırlar çizin.</p>
+        <div class="card-action color-red">Özgürleş <span>→</span></div>
+      </a>
+
+      <!-- Sınır Çizme (Ekstra Mini) -->
+      <a href="/manipulasyon/sinirlar" class="bento-card">
+        <div class="card-icon">🛡️</div>
+        <div class="card-badge color-orange">Bonus</div>
+        <h2 class="card-title">Hayır Deme Sanatı</h2>
+        <p class="card-desc">Suçluluk hissetmeden, zarif ama sarsılmaz bir şekilde "Hayır" demenin pratik yolları.</p>
+        <div class="card-action color-orange">İncele <span>→</span></div>
+      </a>
+
+    </div>
+  </div>
+
+  <!-- ══ INTERAKTIF ARAÇLAR (SALDIRI & SAVUNMA) ══ -->
+  <div class="app-section" id="araclar">
+    
+    <!-- SALDIRI BÖLÜMÜ -->
+    <div class="app-section-header" style="margin-bottom: 40px;">
+      <div class="card-badge color-red" style="margin-bottom:10px;">Aşama 1</div>
+      <h2 class="app-section-title">Karanlık Sanatlar (Saldırı)</h2>
+      <p class="app-section-desc">Düşmanı yenmek için önce silahını tanımalısınız. Bir manipülatörün zihnine girin ve onların algı yönetimini nasıl kurduğunu öğrenin.</p>
+    </div>
+
+    <div class="app-grid" style="margin-bottom: 80px;">
+      <!-- Saldırı Simülatörü -->
+      <a href="/manipulasyon/araclar/saldiri" class="app-card" style="border: 1px solid rgba(255, 59, 48, 0.2);">
+        <div class="app-icon-wrapper" style="color: #ff3b30; background: rgba(255, 59, 48, 0.05);">🎭</div>
+        <h3 class="app-card-title">Gaslighting Atölyesi</h3>
+        <p class="app-card-desc">Bir manipülatör rolüne bürünerek kurbanın gerçeklik algısını nasıl bozabileceğinizi (inkar, suçlama, kafa karıştırma) simüle edin.</p>
+      </a>
+
+      <a href="/safsata/dedektif" class="app-card">
+        <div class="app-icon-wrapper" style="color: #ff9500; background: rgba(255, 149, 0, 0.05);">🔍</div>
+        <h3 class="app-card-title">Manipülasyon Dedektifi</h3>
+        <p class="app-card-desc">Size söylenen cümlelerin altındaki gizli niyetleri ve safsataları yapay zeka ile analiz edin.</p>
+      </a>
+    </div>
+
+    <!-- SAVUNMA BÖLÜMÜ -->
+    <div class="app-section-header" style="margin-bottom: 40px;">
+      <div class="card-badge color-blue" style="margin-bottom:10px;">Aşama 2</div>
+      <h2 class="app-section-title">Zihinsel Kalkanlar (Savunma)</h2>
+      <p class="app-section-desc">Gündelik hayatta karşılaşabileceğiniz saldırılara karşı zihinsel sınırlarınızı çizin ve güvenli bir ortamda reflekslerinizi geliştirin.</p>
+    </div>
+
+    <div class="app-grid">
+      <!-- Savunma Simülatörü -->
+      <a href="/manipulasyon/araclar/savunma" class="app-card" style="border: 1px solid rgba(0, 102, 204, 0.2);">
+        <div class="app-icon-wrapper" style="color: #0066cc; background: rgba(0, 102, 204, 0.05);">🛡️</div>
+        <h3 class="app-card-title">Gri Kaya Antrenmanı</h3>
+        <p class="app-card-desc">Toksik kişilerin kışkırtıcı saldırılarına karşı 'Grey Rock' (Duygusuz ve Tepkisiz) kalma tekniğini pratik yapın.</p>
+      </a>
+
+      <a href="/sahne/araclar/capraz-ates" class="app-card">
+        <div class="app-icon-wrapper" style="color: #af52de; background: rgba(175, 82, 222, 0.05);">🔥</div>
+        <h3 class="app-card-title">Baskı Altında Karar</h3>
+        <p class="app-card-desc">Sizi köşeye sıkıştıran, tahrik edici sorulara karşı soğukkanlılıkla cevap verme simülatörü.</p>
+      </a>
+    </div>
+
+  </div>
+
+</div>
+
+<script>
+  // Smooth scroll for anchor links
+  document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+    anchor.addEventListener('click', function (e) {
+      e.preventDefault();
+      const target = document.querySelector(this.getAttribute('href'));
+      if(target) {
+        window.scrollTo({
+          top: target.getBoundingClientRect().top + window.scrollY - 80,
+          behavior: 'smooth'
+        });
+      }
+    });
+  });
+</script>
+
+<%- include('partials/main-footer') %>

@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <title><%= title %></title>
+  <meta name="description" content="<%= desc %>">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="<%= canonical %>">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="<%= title %>">
+  <meta property="og:description" content="<%= desc %>">
+  <meta property="og:url" content="<%= canonical %>">
+  <meta property="og:site_name" content="Diksiyon Rehberi">
+  <meta property="og:locale" content="tr_TR">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="<%= title %>">
+  <meta name="twitter:description" content="<%= desc %>">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-4RVK6ZM9JQ"></script>
+  <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag('js',new Date());gtag('config','G-4RVK6ZM9JQ');</script>
+  <link rel="stylesheet" href="/modules-page.css?v=2">
+  <% if (typeof extraCss !== 'undefined' && extraCss) { %><link rel="stylesheet" href="<%= extraCss %>"><% } %>
+  <%- typeof headExtra !== 'undefined' ? headExtra : '' %>
+</head>
+<body class="module-page">
+
+  <!-- TOPBAR -->
+  <header style="position:fixed;top:0;left:0;right:0;z-index:1000;background:rgba(10,10,15,0.92);backdrop-filter:blur(16px);border-bottom:1px solid rgba(255,255,255,0.06);padding:12px 24px;">
+    <div style="max-width:1200px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;">
+      <a href="/" style="display:flex;align-items:center;gap:10px;text-decoration:none;">
+        <span style="font-size:1.5rem;">🎙️</span>
+        <span style="font-size:1.1rem;font-weight:800;color:#fff;">Diksiyon<span style="color:#7c5cfc;">Rehberi</span></span>
+      </a>
+      <nav style="display:flex;gap:20px;align-items:center;" id="mp-topnav">
+        <a href="/" style="color:#8888a0;text-decoration:none;font-size:14px;font-weight:500;transition:color .2s;" onmouseover="this.style.color='#7c5cfc'" onmouseout="this.style.color='#8888a0'">Ana Sayfa</a>
+        <a href="/retorik" style="color:#8888a0;text-decoration:none;font-size:14px;font-weight:500;transition:color .2s;" onmouseover="this.style.color='#7c5cfc'" onmouseout="this.style.color='#8888a0'">Retorik</a>
+        <a href="/diyalektik" style="color:#8888a0;text-decoration:none;font-size:14px;font-weight:500;transition:color .2s;" onmouseover="this.style.color='#7c5cfc'" onmouseout="this.style.color='#8888a0'">Diyalektik</a>
+        <a href="/safsata" style="color:#8888a0;text-decoration:none;font-size:14px;font-weight:500;transition:color .2s;" onmouseover="this.style.color='#7c5cfc'" onmouseout="this.style.color='#8888a0'">Safsata</a>
+        <a href="/sahne" style="color:#8888a0;text-decoration:none;font-size:14px;font-weight:500;transition:color .2s;" onmouseover="this.style.color='#7c5cfc'" onmouseout="this.style.color='#8888a0'">Sahne</a>
+        <a href="/bedendili" style="color:#8888a0;text-decoration:none;font-size:14px;font-weight:500;transition:color .2s;" onmouseover="this.style.color='#7c5cfc'" onmouseout="this.style.color='#8888a0'">Beden Dili</a>
+        <a href="/ozguven" style="color:#8888a0;text-decoration:none;font-size:14px;font-weight:500;transition:color .2s;" onmouseover="this.style.color='#7c5cfc'" onmouseout="this.style.color='#8888a0'">Özgüven</a>
+        <a href="/manipulasyon" style="color:#8888a0;text-decoration:none;font-size:14px;font-weight:500;transition:color .2s;" onmouseover="this.style.color='#7c5cfc'" onmouseout="this.style.color='#8888a0'">Manipülasyon</a>
+        <a href="/hikaye" style="color:#8888a0;text-decoration:none;font-size:14px;font-weight:500;transition:color .2s;" onmouseover="this.style.color='#7c5cfc'" onmouseout="this.style.color='#8888a0'">Hikaye</a>
+        <a href="/gorgu" style="color:#8888a0;text-decoration:none;font-size:14px;font-weight:500;transition:color .2s;" onmouseover="this.style.color='#7c5cfc'" onmouseout="this.style.color='#8888a0'">Görgü</a>
+        <a href="/giyim" style="color:#8888a0;text-decoration:none;font-size:14px;font-weight:500;transition:color .2s;" onmouseover="this.style.color='#7c5cfc'" onmouseout="this.style.color='#8888a0'">Giyim</a>
+      </nav>
+      <button id="mp-hamburger" onclick="document.getElementById('mp-topnav').classList.toggle('mp-nav-open')" style="display:none;background:none;border:none;color:#fff;font-size:24px;cursor:pointer;">☰</button>
+    </div>
+  </header>
+  <style>
+    @media(max-width:900px){
+      #mp-topnav{display:none;position:absolute;top:100%;left:0;right:0;background:rgba(10,10,15,0.97);flex-direction:column;padding:16px 24px;gap:12px;border-bottom:1px solid rgba(255,255,255,0.06);}
+      #mp-topnav.mp-nav-open{display:flex;}
+      #mp-hamburger{display:block!important;}
+    }
+  </style>
+
+  <!-- CONTENT START -->

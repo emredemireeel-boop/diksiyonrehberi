@@ -1,0 +1,329 @@
+<%- include('partials/main-header') %>
+
+<style>
+  body { background: #000; color: #fff; margin: 0; min-height: 100vh; display: flex; flex-direction: column; font-family: 'Inter', sans-serif; overflow: hidden; }
+  .main-header, .main-footer { display: none !important; }
+
+  /* Studio Elements */
+  .studio-bg { position: fixed; inset: 0; background: radial-gradient(circle at center, #111827 0%, #000 100%); z-index: -2; }
+  
+  .game-container { flex-grow: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; position: relative; height: 100vh; width: 100%; }
+
+  /* HUD */
+  .hud-top { position: absolute; top: 20px; width: 100%; max-width: 800px; display: flex; justify-content: space-between; align-items: center; z-index: 20; padding: 0 20px; }
+  
+  .hype-container { width: 300px; background: rgba(255,255,255,0.1); border: 2px solid #334155; border-radius: 20px; height: 25px; position: relative; overflow: hidden; }
+  .hype-fill { height: 100%; width: 50%; background: linear-gradient(90deg, #f43f5e, #f59e0b, #10b981); transition: width 0.3s ease-out; }
+  .hype-label { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-weight: 900; font-size: 0.8rem; letter-spacing: 2px; text-transform: uppercase; text-shadow: 0 2px 4px rgba(0,0,0,0.8); }
+
+  .score-display { font-size: 2.5rem; font-weight: 900; color: #f43f5e; font-variant-numeric: tabular-nums; text-shadow: 0 0 20px rgba(244,63,94,0.5); }
+
+  /* Controls Hint */
+  .controls-hint { position: absolute; bottom: 20px; display: flex; gap: 30px; z-index: 20; }
+  .key-hint { background: rgba(255,255,255,0.1); padding: 10px 20px; border-radius: 10px; border: 1px solid rgba(255,255,255,0.2); font-weight: bold; display: flex; align-items: center; gap: 10px; }
+  .key-btn { background: #fff; color: #000; padding: 4px 10px; border-radius: 5px; font-family: monospace; font-size: 1.1rem; box-shadow: 0 4px 0 #cbd5e1; }
+  .key-desc.yellow { color: #facc15; }
+  .key-desc.red { color: #f43f5e; }
+
+  /* Prompter Mechanics */
+  .prompter-window { width: 100%; max-width: 900px; height: 60vh; position: relative; overflow: hidden; border-left: 2px solid rgba(255,255,255,0.1); border-right: 2px solid rgba(255,255,255,0.1); mask-image: linear-gradient(to bottom, transparent, black 20%, black 80%, transparent); -webkit-mask-image: linear-gradient(to bottom, transparent, black 20%, black 80%, transparent); }
+  
+  .hit-zone { position: absolute; top: 50%; left: 0; width: 100%; height: 60px; transform: translateY(-50%); border-top: 2px dashed rgba(255,255,255,0.3); border-bottom: 2px dashed rgba(255,255,255,0.3); background: rgba(255,255,255,0.05); z-index: 10; pointer-events: none; }
+  .hit-line { position: absolute; top: 50%; left: 0; width: 100%; height: 2px; background: #fff; box-shadow: 0 0 15px #fff; transform: translateY(-50%); }
+
+  .scrolling-text { position: absolute; top: 100%; left: 0; width: 100%; text-align: center; font-size: 3rem; font-weight: 800; line-height: 1.8; color: rgba(255,255,255,0.4); z-index: 5; /* transform updated via JS */ }
+
+  .word { display: inline-block; transition: color 0.2s; margin: 0 5px; }
+  .word.active { color: #fff; text-shadow: 0 0 20px rgba(255,255,255,0.8); }
+
+  /* Action Nodes */
+  .node { display: inline-block; padding: 5px 15px; border-radius: 10px; font-size: 1.5rem; font-weight: 900; margin: 0 15px; border: 2px solid; position: relative; }
+  .node.es { color: #facc15; border-color: #facc15; background: rgba(250,204,21,0.1); }
+  .node.vurgu { color: #f43f5e; border-color: #f43f5e; background: rgba(244,63,94,0.1); }
+  .node.hit { transform: scale(1.2); box-shadow: 0 0 30px currentColor; background: currentColor; color: #000; transition: all 0.2s; }
+  .node.miss { opacity: 0.2; filter: grayscale(1); }
+
+  /* Start Screen */
+  .start-screen { position: absolute; inset: 0; background: rgba(0,0,0,0.9); z-index: 100; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 20px; }
+  .start-title { font-size: 3rem; font-weight: 900; color: #f43f5e; margin-bottom: 20px; text-transform: uppercase; }
+  .start-desc { font-size: 1.2rem; max-width: 600px; line-height: 1.6; color: #cbd5e1; margin-bottom: 40px; }
+  .btn-start { background: #f43f5e; color: #fff; font-size: 1.5rem; font-weight: 900; padding: 15px 50px; border-radius: 30px; border: none; cursor: pointer; text-transform: uppercase; transition: transform 0.2s; box-shadow: 0 10px 30px rgba(244,63,94,0.4); }
+  .btn-start:hover { transform: scale(1.05); }
+
+  /* Hit Feedback */
+  .hit-feedback { position: absolute; top: 30%; left: 50%; transform: translate(-50%, -50%); font-size: 4rem; font-weight: 900; opacity: 0; z-index: 50; pointer-events: none; text-transform: uppercase; }
+  .hit-anim { animation: flyUp 0.6s cubic-bezier(0.2, 1, 0.3, 1) forwards; }
+  @keyframes flyUp { 0% { opacity: 1; transform: translate(-50%, -50%) scale(0.5); } 100% { opacity: 0; transform: translate(-50%, -100%) scale(1.2); } }
+
+  .btn-back { position: absolute; top: 20px; left: 20px; color: rgba(255,255,255,0.6); text-decoration: none; font-weight: 700; display: flex; align-items: center; gap: 8px; transition: color 0.2s; z-index: 50; }
+  .btn-back:hover { color: #ffffff; }
+
+</style>
+
+<div class="studio-bg"></div>
+
+<a href="/retorik" class="btn-back">← Stüdyodan Çık</a>
+
+<!-- Start Screen -->
+<div class="start-screen" id="startScreen">
+  <div class="start-title">Liderlik Teleprompter'ı</div>
+  <div class="start-desc">Tarihi bir konuşmayı okuyacaksınız. Kelimeler ekrandan kayarken <b>[ES]</b> kutusu çizgiye geldiğinde <b>SPACE</b> (Boşluk) tuşuna, <b>[VURGU]</b> kutusu geldiğinde <b>ENTER</b> tuşuna basmalısınız. Diksiyon bir ritim işidir, kalabalığı coşturun!</div>
+  <button class="btn-start" onclick="startGame()">Konuşmaya Başla</button>
+</div>
+
+<div class="game-container">
+  
+  <div class="hud-top">
+    <div class="hype-container">
+      <div class="hype-fill" id="hypeFill"></div>
+      <div class="hype-label">Seyirci Coşkusu</div>
+    </div>
+    <div class="score-display" id="scoreDisplay">0</div>
+  </div>
+
+  <div class="prompter-window" id="prompterWin">
+    <div class="hit-zone">
+      <div class="hit-line" id="hitLine"></div>
+    </div>
+    <div class="scrolling-text" id="scrollContainer">
+      <!-- Injected Text -->
+    </div>
+  </div>
+
+  <div class="hit-feedback" id="feedbackMsg">PERFECT!</div>
+
+  <div class="controls-hint">
+    <div class="key-hint"><span class="key-btn">SPACE</span> <span class="key-desc yellow">[ES] Duraksama</span></div>
+    <div class="key-hint"><span class="key-btn">ENTER</span> <span class="key-desc red">[VURGU] Patlatma</span></div>
+  </div>
+
+</div>
+
+<script>
+  const speechRaw = `
+    Bugün burada, 
+    <span class="node es" data-type="es">[ES]</span> 
+    tarihimizin en kritik anlarından birinde toplanmış bulunuyoruz. 
+    <span class="node es" data-type="es">[ES]</span> 
+    Bize dediler ki, "Geri dönün." 
+    <span class="node es" data-type="es">[ES]</span> 
+    Bize dediler ki, "Başaramazsınız." 
+    <span class="node es" data-type="es">[ES]</span> 
+    Ama biz onlara 
+    <span class="node vurgu" data-type="vurgu">[VURGU]</span> 
+    kulak asmadık! 
+    <span class="node es" data-type="es">[ES]</span> 
+    Biz, kendi kaderimizi kendi ellerimizle 
+    <span class="node vurgu" data-type="vurgu">[VURGU]</span> 
+    yazmaya karar verdik.
+    <span class="node es" data-type="es">[ES]</span>
+    Şimdi ileriye bakma zamanı. 
+    <span class="node vurgu" data-type="vurgu">[VURGU]</span>
+    Asla pes etmeyeceğiz!
+  `;
+
+  let gameActive = false;
+  let scrollY = 0;
+  const speed = 2.5; // pixels per frame (approx 150px/sec at 60fps)
+  let score = 0;
+  let hype = 50; // 0 to 100
+
+  const scrollContainer = document.getElementById('scrollContainer');
+  const hitLine = document.getElementById('hitLine');
+  const feedbackMsg = document.getElementById('feedbackMsg');
+  const scoreDisplay = document.getElementById('scoreDisplay');
+  const hypeFill = document.getElementById('hypeFill');
+  const startScreen = document.getElementById('startScreen');
+
+  let nodes = [];
+  let words = [];
+
+  function initSpeech() {
+    // Process raw text into words and keep HTML nodes intact
+    const tempDiv = document.createElement('div');
+    tempDiv.innerHTML = speechRaw.trim();
+    
+    let processedHTML = '';
+    
+    // We iterate over child nodes to wrap text in <span class="word">
+    tempDiv.childNodes.forEach(child => {
+      if (child.nodeType === 3) { // Text node
+        const textWords = child.textContent.trim().split(/\s+/).filter(w => w.length > 0);
+        textWords.forEach(w => {
+          processedHTML += `<span class="word">${w}</span> `;
+        });
+      } else {
+        processedHTML += child.outerHTML + ' ';
+      }
+    });
+
+    scrollContainer.innerHTML = processedHTML;
+  }
+
+  function startGame() {
+    initSpeech();
+    startScreen.style.display = 'none';
+    
+    // Cache nodes and calculate initial positions
+    const nodeEls = document.querySelectorAll('.node');
+    nodes = Array.from(nodeEls).map(el => {
+      return { el: el, type: el.getAttribute('data-type'), hit: false };
+    });
+    
+    words = Array.from(document.querySelectorAll('.word'));
+
+    gameActive = true;
+    scrollY = 0;
+    updateHype(0);
+    requestAnimationFrame(gameLoop);
+  }
+
+  function gameLoop() {
+    if (!gameActive) return;
+
+    scrollY -= speed;
+    scrollContainer.style.transform = `translateY(${scrollY}px)`;
+
+    const hitLineRect = hitLine.getBoundingClientRect();
+    const hitY = hitLineRect.top;
+
+    // Check words for reading highlight
+    words.forEach(w => {
+      const rect = w.getBoundingClientRect();
+      // If the word crosses the reading line
+      if (rect.top <= hitY && rect.bottom >= hitY) {
+        w.classList.add('active');
+      } else if (rect.bottom < hitY) {
+        w.classList.remove('active');
+        w.style.color = "rgba(255,255,255,0.1)"; // fade out read words
+      }
+    });
+
+    // Check missed nodes
+    nodes.forEach(n => {
+      if (!n.hit) {
+        const rect = n.el.getBoundingClientRect();
+        // If node passed completely ABOVE the hit line and wasn't hit
+        if (rect.bottom < hitY - 30) {
+          n.hit = true; // Mark resolved
+          n.el.classList.add('miss');
+          showFeedback("KAÇTI!", "#94a3b8");
+          updateHype(-10);
+        }
+      }
+    });
+
+    // End Game condition (if scrolled past container)
+    const containerRect = scrollContainer.getBoundingClientRect();
+    if (containerRect.bottom < 0) {
+      endGame();
+      return;
+    }
+
+    requestAnimationFrame(gameLoop);
+  }
+
+  window.addEventListener('keydown', (e) => {
+    if (!gameActive) return;
+    
+    let actionType = null;
+    if (e.code === 'Space') { actionType = 'es'; e.preventDefault(); }
+    if (e.code === 'Enter') { actionType = 'vurgu'; e.preventDefault(); }
+
+    if (actionType) {
+      checkHit(actionType);
+    }
+  });
+
+  function checkHit(actionType) {
+    const hitLineRect = hitLine.getBoundingClientRect();
+    const hitY = hitLineRect.top;
+    
+    // Tolerance zone: 60px above and below line
+    const tolerance = 60;
+
+    // Find the closest unhit node of the correct type
+    let closestNode = null;
+    let minDistance = Infinity;
+
+    nodes.forEach(n => {
+      if (!n.hit && n.type === actionType) {
+        const rect = n.el.getBoundingClientRect();
+        const nodeY = rect.top + (rect.height / 2);
+        const distance = Math.abs(nodeY - hitY);
+        
+        if (distance < tolerance && distance < minDistance) {
+          minDistance = distance;
+          closestNode = n;
+        }
+      }
+    });
+
+    if (closestNode) {
+      // HIT!
+      closestNode.hit = true;
+      closestNode.el.classList.add('hit');
+      
+      let points = 0;
+      let msg = "";
+      let color = "";
+
+      if (minDistance < 20) {
+        points = 100; msg = "MÜKEMMEL!"; color = "#10b981";
+        updateHype(15);
+      } else {
+        points = 50; msg = "İYİ!"; color = "#eab308";
+        updateHype(5);
+      }
+
+      score += points;
+      scoreDisplay.textContent = score;
+      showFeedback(msg, color);
+      
+      // Visual flash on hitline
+      hitLine.style.background = closestNode.type === 'es' ? '#facc15' : '#f43f5e';
+      hitLine.style.boxShadow = `0 0 30px ${hitLine.style.background}`;
+      setTimeout(() => {
+        hitLine.style.background = '#fff';
+        hitLine.style.boxShadow = '0 0 15px #fff';
+      }, 200);
+
+    } else {
+      // MISS (Pressed button but no node nearby)
+      updateHype(-5);
+      showFeedback("YANLIŞ ZAMAN", "#ef4444");
+    }
+  }
+
+  function updateHype(change) {
+    hype += change;
+    if (hype > 100) hype = 100;
+    if (hype < 0) hype = 0;
+    hypeFill.style.width = hype + '%';
+  }
+
+  function showFeedback(text, color) {
+    feedbackMsg.textContent = text;
+    feedbackMsg.style.color = color;
+    feedbackMsg.style.textShadow = `0 0 20px ${color}`;
+    
+    feedbackMsg.classList.remove('hit-anim');
+    void feedbackMsg.offsetWidth; // trigger reflow
+    feedbackMsg.classList.add('hit-anim');
+  }
+
+  function endGame() {
+    gameActive = false;
+    startScreen.style.display = 'flex';
+    document.querySelector('.start-title').textContent = "KONUŞMA BİTTİ!";
+    
+    let result = "";
+    if (hype >= 80) result = "İnanılmazdınız! Kalabalık çıldırdı, tarihe geçtiniz.";
+    else if (hype >= 40) result = "İyi bir konuşmaydı ama daha coşkulu olabilirdi.";
+    else result = "Çok monoton okudunuz. Seyirciler uyuyakaldı.";
+
+    document.querySelector('.start-desc').innerHTML = `<b>Skorunuz: ${score}</b><br><br>${result}`;
+    document.querySelector('.btn-start').textContent = "Tekrar Oyna";
+  }
+
+</script>

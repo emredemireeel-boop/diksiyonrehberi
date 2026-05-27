@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <title><%= title %></title>
+  <meta name="description" content="<%= desc %>">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="<%= canonical %>">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="<%= title %>">
+  <meta property="og:description" content="<%= desc %>">
+  <meta property="og:url" content="<%= canonical %>">
+  <meta property="og:site_name" content="Diksiyon Rehberi">
+  <meta property="og:locale" content="tr_TR">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="<%= title %>">
+  <meta name="twitter:description" content="<%= desc %>">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-4RVK6ZM9JQ"></script>
+  <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag('js',new Date());gtag('config','G-4RVK6ZM9JQ');</script>
+  <link rel="stylesheet" href="/safsata.css?v=3">
+  <% if (typeof extraCss !== 'undefined' && extraCss) { %><link rel="stylesheet" href="<%= extraCss %>"><% } %>
+  <%- typeof headExtra !== 'undefined' ? headExtra : '' %>
+</head>
+<body class="sf-page">
+
+  <!-- TOPBAR -->
+  <header class="sf-topbar">
+    <div class="sf-topbar-inner">
+      <a href="/" class="sf-logo">
+        <span class="sf-logo-icon">🎙️</span>
+        <span class="sf-logo-text">Diksiyon<span>Rehberi</span></span>
+      </a>
+      <nav class="sf-nav" id="sf-nav">
+        <a href="/" class="sf-nav-item">Ana Sayfa</a>
+
+        <div class="sf-nav-group">
+          <span class="sf-nav-item">Konuşma</span>
+          <div class="sf-dropdown">
+            <a href="/retorik" class="sf-dd-item"><span class="sf-dd-emoji">🎤</span><div><div class="sf-dd-label">Retorik</div><div class="sf-dd-sub">İkna ve hitabet sanatı</div></div></a>
+            <a href="/diyalektik" class="sf-dd-item"><span class="sf-dd-emoji">⚖️</span><div><div class="sf-dd-label">Diyalektik</div><div class="sf-dd-sub">Mantıksal akıl yürütme</div></div></a>
+            <a href="/safsata" class="sf-dd-item"><span class="sf-dd-emoji">🧠</span><div><div class="sf-dd-label">Safsata</div><div class="sf-dd-sub">Mantık hataları ve savunma</div></div></a>
+          </div>
+        </div>
+
+        <div class="sf-nav-group">
+          <span class="sf-nav-item">Sahne</span>
+          <div class="sf-dropdown">
+            <a href="/sahne" class="sf-dd-item"><span class="sf-dd-emoji">🎭</span><div><div class="sf-dd-label">Sahne Ustalığı</div><div class="sf-dd-sub">Topluluk önünde konuşma</div></div></a>
+            <a href="/bedendili" class="sf-dd-item"><span class="sf-dd-emoji">🧍</span><div><div class="sf-dd-label">Beden Dili</div><div class="sf-dd-sub">Sessiz iletişim</div></div></a>
+            <a href="/hikaye" class="sf-dd-item"><span class="sf-dd-emoji">📚</span><div><div class="sf-dd-label">Hikayeleştirme</div><div class="sf-dd-sub">Storytelling teknikleri</div></div></a>
+          </div>
+        </div>
+
+        <div class="sf-nav-group">
+          <span class="sf-nav-item">Zihin</span>
+          <div class="sf-dropdown">
+            <a href="/manipulasyon" class="sf-dd-item"><span class="sf-dd-emoji">🐍</span><div><div class="sf-dd-label">Manipülasyon</div><div class="sf-dd-sub">Karanlık retorik savunma</div></div></a>
+            <a href="/ozguven" class="sf-dd-item"><span class="sf-dd-emoji">💎</span><div><div class="sf-dd-label">Özgüven</div><div class="sf-dd-sub">Karizma ve duruş</div></div></a>
+          </div>
+        </div>
+
+        <div class="sf-nav-group">
+          <span class="sf-nav-item">Profesyonel</span>
+          <div class="sf-dropdown">
+            <a href="/gorgu" class="sf-dd-item"><span class="sf-dd-emoji">✨</span><div><div class="sf-dd-label">Görgü Kuralları</div><div class="sf-dd-sub">Sosyal zarafet</div></div></a>
+            <a href="/giyim" class="sf-dd-item"><span class="sf-dd-emoji">👔</span><div><div class="sf-dd-label">Giyim & İmaj</div><div class="sf-dd-sub">Profesyonel imaj yönetimi</div></div></a>
+          </div>
+        </div>
+      </nav>
+      <button class="sf-hamburger" id="sf-hamburger" onclick="document.getElementById('sf-nav').classList.toggle('open')">☰</button>
+    </div>
+  </header>
+
+  <!-- CONTENT START -->

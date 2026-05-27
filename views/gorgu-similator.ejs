@@ -1,0 +1,335 @@
+<%- include('partials/main-header') %>
+
+<style>
+  /* LIGHT MODE PREMIUM UIX OVERRIDES */
+  body { background: #fafaf9 !important; color: #1c1917; margin: 0; padding: 0; font-family: 'Inter', sans-serif; }
+  main.main-content, div.content-wrapper, div.gorgu-page { 
+    max-width: 100% !important; 
+    padding: 0 !important; 
+    margin: 0 !important; 
+    width: 100% !important;
+    background: transparent !important;
+  }
+  
+  @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&family=Playfair+Display:ital,wght@0,600;1,600&display=swap');
+  :root {
+    --gold-primary: #C59D5F; 
+    --gold-dark: #9A7B4F;
+    --light-bg: #fafaf9;
+    --glass-bg: rgba(255, 255, 255, 0.95);
+    --glass-border: rgba(197, 157, 95, 0.3);
+    --text-main: #1c1917;
+    --text-muted: #57534e;
+  }
+
+  .sim-container {
+    max-width: 900px;
+    margin: 60px auto;
+    padding: 40px 20px;
+    min-height: 80vh;
+  }
+
+  .sim-header {
+    text-align: center;
+    margin-bottom: 50px;
+  }
+  .sim-badge {
+    display: inline-block;
+    padding: 6px 20px;
+    background: rgba(197, 157, 95, 0.1);
+    color: var(--gold-dark);
+    border-radius: 20px;
+    font-family: 'Outfit', sans-serif;
+    font-weight: 700;
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    margin-bottom: 20px;
+  }
+  .sim-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 3.5rem;
+    color: var(--text-main);
+    margin: 0 0 15px 0;
+  }
+  .sim-desc {
+    font-family: 'Outfit', sans-serif;
+    color: var(--text-muted);
+    font-size: 1.1rem;
+    line-height: 1.6;
+    max-width: 600px;
+    margin: 0 auto;
+  }
+
+  /* GAME UI */
+  .game-board {
+    background: var(--glass-bg);
+    border: 1px solid rgba(0,0,0,0.05);
+    border-radius: 24px;
+    padding: 50px;
+    box-shadow: 0 20px 50px rgba(0,0,0,0.05);
+    position: relative;
+    overflow: hidden;
+  }
+  .game-board::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 4px;
+    background: linear-gradient(90deg, var(--gold-primary), var(--gold-dark));
+  }
+
+  .scenario-box {
+    margin-bottom: 40px;
+  }
+  .s-level {
+    font-family: 'Outfit', sans-serif;
+    color: var(--gold-dark);
+    font-weight: 800;
+    font-size: 0.9rem;
+    letter-spacing: 1px;
+    margin-bottom: 15px;
+    text-transform: uppercase;
+  }
+  .s-text {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.8rem;
+    color: var(--text-main);
+    line-height: 1.4;
+  }
+
+  .options-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+  }
+  .option-btn {
+    background: #ffffff;
+    border: 2px solid #e7e5e4;
+    border-radius: 16px;
+    padding: 20px 25px;
+    text-align: left;
+    font-family: 'Outfit', sans-serif;
+    font-size: 1.1rem;
+    color: var(--text-main);
+    cursor: pointer;
+    transition: all 0.3s;
+    position: relative;
+    overflow: hidden;
+  }
+  .option-btn:hover {
+    border-color: var(--gold-primary);
+    background: #fafaf9;
+    transform: translateY(-2px);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.02);
+  }
+  .option-btn.correct {
+    background: #f0fdf4;
+    border-color: #22c55e;
+    color: #166534;
+  }
+  .option-btn.wrong {
+    background: #fef2f2;
+    border-color: #ef4444;
+    color: #991b1b;
+  }
+
+  /* FEEDBACK OVERLAY */
+  .feedback-box {
+    display: none;
+    margin-top: 30px;
+    padding: 25px;
+    border-radius: 16px;
+    font-family: 'Outfit', sans-serif;
+    animation: fadeIn 0.4s;
+  }
+  .feedback-box.show {
+    display: block;
+  }
+  .fb-icon { font-size: 2rem; margin-bottom: 10px; }
+  .fb-text { font-size: 1.1rem; line-height: 1.6; margin-bottom: 20px; font-weight: 500; }
+  .btn-next {
+    background: var(--text-main);
+    color: #fff;
+    border: none;
+    padding: 12px 30px;
+    border-radius: 12px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: 0.3s;
+  }
+  .btn-next:hover { background: var(--gold-primary); }
+
+  /* COMPLETION */
+  .completion-screen {
+    text-align: center;
+    display: none;
+  }
+  .c-score {
+    font-size: 5rem;
+    font-family: 'Playfair Display', serif;
+    color: var(--gold-primary);
+    margin-bottom: 10px;
+  }
+  .c-title {
+    font-size: 2rem;
+    color: var(--text-main);
+    margin-bottom: 20px;
+  }
+
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+  @media(max-width: 768px) {
+    .sim-title { font-size: 2.5rem; }
+    .game-board { padding: 30px 20px; }
+    .s-text { font-size: 1.4rem; }
+  }
+</style>
+
+<div class="gorgu-page">
+  <div class="sim-container">
+    <div class="sim-header">
+      <div class="sim-badge">İnteraktif Uygulama</div>
+      <h1 class="sim-title">Sosyal Zeka Simülatörü</h1>
+      <p class="sim-desc">Gerçek hayatta karşılaşabileceğiniz kriz anlarında nasıl tepki vereceğinizi test edin. Profesyonel imajınızı korumanın inceliklerini uygulamalı olarak öğrenin.</p>
+    </div>
+
+    <div class="game-board" id="gameBoard">
+      <div class="scenario-box">
+        <div class="s-level" id="levelIndicator">Senaryo 1 / 3</div>
+        <div class="s-text" id="scenarioText">Yükleniyor...</div>
+      </div>
+      
+      <div class="options-grid" id="optionsGrid">
+        <!-- Seçenekler buraya gelecek -->
+      </div>
+
+      <div class="feedback-box" id="feedbackBox">
+        <div class="fb-icon" id="fbIcon">✅</div>
+        <div class="fb-text" id="fbText">Geri bildirim...</div>
+        <button class="btn-next" onclick="nextScenario()">Devam Et</button>
+      </div>
+    </div>
+
+    <div class="game-board completion-screen" id="completionScreen">
+      <div class="c-score" id="finalScore">100</div>
+      <h2 class="c-title">Simülasyon Tamamlandı</h2>
+      <p class="sim-desc" style="margin-bottom: 30px;">Zarafet ve görgü kuralları kaslarınızı başarıyla çalıştırdınız. Unutmayın, gerçek profesyonellik kriz anlarında belli olur.</p>
+      <a href="/gorgu" class="btn-next" style="text-decoration:none; display:inline-block;">Akademiye Dön</a>
+    </div>
+
+  </div>
+</div>
+
+<script>
+  const scenarios = [
+    {
+      text: "Önemli bir iş yemeğindesiniz ve yanlışlıkla yanınızdaki müşterinin ceketine şarap döktünüz. İlk tepkiniz ne olmalı?",
+      options: [
+        { text: "Panikleyip kendi peçetenizle müşterinin ceketini silmeye çalışmak.", isCorrect: false, feedback: "Kişisel alana müdahale ettiniz ve lekeyi daha çok yaydınız. Üstelik panik havası profesyonel imajınızı zedeledi." },
+        { text: "Hiçbir şey olmamış gibi şakaya vurarak ortamı yumuşatmaya çalışmak.", isCorrect: false, feedback: "Kaba ve umursamaz bir izlenim bıraktınız. Karşınızdaki kişi durumun ciddiye alınmadığını düşünecektir." },
+        { text: "Sakin kalıp garsonu çağırmak, kuru temizleme masrafını üstlenmeyi teklif etmek ve özür dilemek.", isCorrect: true, feedback: "Mükemmel! Kriz anında sakin kalarak profesyonelliğinizi korudunuz ve sorumluluğu nezaketle aldınız." }
+      ]
+    },
+    {
+      text: "Açık ofiste çok yoğun çalışıyorsunuz ve kulaklığınız takılı. Bir iş arkadaşınız masanıza gelip aniden sizinle kendi projesi hakkında konuşmaya başladı.",
+      options: [
+        { text: "Göz temasından kaçınıp 'Şu an çok meşgulüm' demek.", isCorrect: false, feedback: "Gereksiz yere sert bir duvar ördünüz. İş ilişkilerinde saygı esastır." },
+        { text: "Kulaklığı çıkarıp, hafifçe gülümseyerek 'Çok bölmemen mümkün mü, 10 dakikaya yetiştirmem gereken acil bir işim var' demek.", isCorrect: true, feedback: "Harika! Hem nezaketinizi korudunuz hem de kendi sınırlarınızı net bir şekilde belirlediniz. Görgü, kendi hakkını da savunabilmektir." },
+        { text: "Susup sadece onu dinlemek ve kendi işinizi aksatmak.", isCorrect: false, feedback: "Sınır çizemediniz. Bu durum uzun vadede sizin profesyonel verimliliğinizi düşürür ve tükenmişliğe yol açar." }
+      ]
+    },
+    {
+      text: "Büyük bir salonda kritik bir sunum yaparken, izleyicilerden biri sürekli araya girip alakasız sorular sorarak akışı bozuyor.",
+      options: [
+        { text: "'Katkınız için teşekkürler, bu değerli detayı sunum sonunda Q&A bölümünde konuşalım' diyerek akışa devam etmek.", isCorrect: true, feedback: "Otoriteyi sarsmadan, kibarca durumu yönettiniz. Gerçek bir liderlik ve sunum görgüsü örneği." },
+        { text: "Sorularını bitirmesini sabırla bekleyip her birine uzun uzun cevap vermek.", isCorrect: false, feedback: "Zaman yönetimini kaybettiniz ve diğer dinleyicilerin ilgisini dağıttınız. Liderliği salona bıraktınız." },
+        { text: "Bozularak 'Lütfen sözümü kesmeyin, daha bitirmedim' demek.", isCorrect: false, feedback: "Savunmaya geçtiniz ve izleyiciyle aranızda gereksiz bir çatışma yarattınız. Otoriteniz sarsıldı." }
+      ]
+    }
+  ];
+
+  let currentStep = 0;
+  let score = 0;
+
+  function loadScenario() {
+    const s = scenarios[currentStep];
+    document.getElementById('levelIndicator').innerText = `Senaryo ${currentStep + 1} / ${scenarios.length}`;
+    document.getElementById('scenarioText').innerText = s.text;
+    
+    const grid = document.getElementById('optionsGrid');
+    grid.innerHTML = '';
+    document.getElementById('feedbackBox').classList.remove('show');
+
+    // Shuffle options
+    const shuffledOptions = [...s.options].sort(() => Math.random() - 0.5);
+
+    shuffledOptions.forEach((opt, index) => {
+      const btn = document.createElement('button');
+      btn.className = 'option-btn';
+      btn.innerText = opt.text;
+      btn.onclick = () => selectOption(btn, opt);
+      grid.appendChild(btn);
+    });
+  }
+
+  function selectOption(btnElement, optData) {
+    // Disable all buttons
+    const btns = document.querySelectorAll('.option-btn');
+    btns.forEach(b => {
+      b.disabled = true;
+      b.style.pointerEvents = 'none';
+      b.style.opacity = '0.6';
+    });
+
+    btnElement.style.opacity = '1';
+
+    const fbBox = document.getElementById('feedbackBox');
+    const fbIcon = document.getElementById('fbIcon');
+    const fbText = document.getElementById('fbText');
+
+    if (optData.isCorrect) {
+      btnElement.classList.add('correct');
+      fbBox.style.backgroundColor = '#f0fdf4';
+      fbBox.style.border = '1px solid #bbf7d0';
+      fbIcon.innerText = '✅ Doğru Yaklaşım';
+      fbIcon.style.color = '#16a34a';
+      fbText.style.color = '#166534';
+      score += 100;
+    } else {
+      btnElement.classList.add('wrong');
+      fbBox.style.backgroundColor = '#fef2f2';
+      fbBox.style.border = '1px solid #fecaca';
+      fbIcon.innerText = '❌ Yanlış Hamle';
+      fbIcon.style.color = '#dc2626';
+      fbText.style.color = '#991b1b';
+      
+      // Highlight the correct one
+      btns.forEach(b => {
+        if(b.innerText === scenarios[currentStep].options.find(x => x.isCorrect).text) {
+          b.style.opacity = '1';
+          b.classList.add('correct');
+        }
+      });
+    }
+
+    fbText.innerText = optData.feedback;
+    fbBox.classList.add('show');
+  }
+
+  function nextScenario() {
+    currentStep++;
+    if (currentStep >= scenarios.length) {
+      document.getElementById('gameBoard').style.display = 'none';
+      document.getElementById('completionScreen').style.display = 'block';
+      document.getElementById('finalScore').innerText = score + " Puan";
+    } else {
+      loadScenario();
+    }
+  }
+
+  // Init
+  loadScenario();
+</script>
+
+<%- include('partials/main-footer') %>

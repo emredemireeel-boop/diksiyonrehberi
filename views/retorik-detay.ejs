@@ -1,0 +1,262 @@
+<%- include('partials/main-header') %>
+<link rel="stylesheet" href="/retorik.css?v=7" />
+
+<style>
+  .retorik-page { display: block !important; }
+  .ret-cat-pill { text-decoration: none; }
+</style>
+
+<main class="main-content">
+  <div class="content-wrapper">
+    <div id="retorik-container" class="retorik-page">
+
+      <!-- ══ KATEGORİLER ══ -->
+      <div style="margin-top:20px;margin-bottom:30px;text-align:center;">
+        <div class="ret-cat-pills">
+          <a href="/retorik" class="ret-cat-pill">Tumu</a>
+          <a href="/retorik/ethos" class="ret-cat-pill <%= activeCat === 'ethos' ? 'active' : '' %>">Ethos</a>
+          <a href="/retorik/pathos" class="ret-cat-pill <%= activeCat === 'pathos' ? 'active' : '' %>">Pathos</a>
+          <a href="/retorik/logos" class="ret-cat-pill <%= activeCat === 'logos' ? 'active' : '' %>">Logos</a>
+          <a href="/retorik/konusma-yazimi" class="ret-cat-pill <%= activeCat === 'konusma-yazimi' ? 'active' : '' %>">Konusma Yazimi</a>
+          <a href="/retorik/figurler" class="ret-cat-pill <%= activeCat === 'figurler' ? 'active' : '' %>">Retorik Figurleri</a>
+          <a href="/retorik/analiz" class="ret-cat-pill <%= activeCat === 'analiz' ? 'active' : '' %>">Konusma Analizi</a>
+          <a href="/retorik/savunma" class="ret-cat-pill <%= activeCat === 'savunma' ? 'active' : '' %>">Guclu Savunma</a>
+          <a href="/retorik/ikna" class="ret-cat-pill <%= activeCat === 'ikna' ? 'active' : '' %>">Ikna Psikolojisi</a>
+        </div>
+      </div>
+
+      <!-- ══ SAYFA BAŞLIĞI ══ -->
+      <section style="background:#fff;border:1px solid #e2e8f0;border-radius:20px;padding:35px 30px;margin-bottom:30px">
+        <div style="display:flex;align-items:center;gap:18px;margin-bottom:25px">
+          <div style="width:56px;height:56px;border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:1.6rem;background:#f1f5f9;border:1px solid #e2e8f0;flex-shrink:0"><%= exercises.length > 0 ? exercises[0].icon : '📚' %></div>
+          <div>
+            <h1 style="font-size:1.6rem;font-weight:800;color:#0f172a;margin:0"><%= meta.h1 %></h1>
+            <p style="font-size:0.9rem;color:#64748b;margin-top:4px"><%= exercises.length %> detayli calisma bolumu</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- ══ EGZERSİZLER (YENİ İNTERAKTİF YAPI) ══ -->
+      <% exercises.forEach((ex, index) => { %>
+        <section class="ret-adv-section <%= ex.type %>" id="lesson-<%= ex.id %>">
+          
+          <!-- Ortak Başlık Alanı -->
+          <div class="ret-adv-header">
+            <div class="rah-left">
+              <div class="rah-icon"><%= ex.icon %></div>
+              <div>
+                <h2><%= ex.title %></h2>
+              </div>
+            </div>
+            <span class="rah-badge <%= ex.badgeCls %>"><%= ex.badge %></span>
+          </div>
+
+          <p class="rah-desc"><%= ex.desc %></p>
+
+          <!-- TİPE GÖRE İÇERİK RENDER -->
+          
+          <% if (ex.type === 'article') { %>
+            <div class="ret-article">
+              <% ex.content.forEach(sec => { %>
+                <div class="ra-section">
+                  <h3><%= sec.sub %></h3>
+                  <% if(sec.text) { %><p><%- sec.text %></p><% } %>
+                  <% if(sec.list) { %>
+                    <ul class="ra-list">
+                      <% sec.list.forEach(li => { %>
+                        <li><%- li %></li>
+                      <% }); %>
+                    </ul>
+                  <% } %>
+                </div>
+              <% }); %>
+              
+              <div class="ra-takeaways">
+                <h4>🔑 Temel Çıkarımlar</h4>
+                <ul>
+                  <% ex.takeaways.forEach(t => { %>
+                    <li><%= t %></li>
+                  <% }); %>
+                </ul>
+              </div>
+            </div>
+
+          <% } else if (ex.type === 'analyzer') { %>
+            <div class="ret-analyzer">
+              <div class="an-context">
+                <strong>Bağlam:</strong> <%= ex.speechContext %>
+              </div>
+              <div class="an-text-box">
+                <% ex.speechText.forEach((st, i) => { %>
+                  <% if(st.type === 'neutral') { %>
+                    <span class="an-neutral"><%= st.text %></span>
+                  <% } else { %>
+                    <span class="an-highlight an-<%= st.type %>" onclick="showAnalyzerTooltip(this, '<%= st.note.replace(/'/g, "\\'") %>')"><%= st.text %></span>
+                  <% } %>
+                <% }); %>
+              </div>
+              <div class="an-tooltip-container">
+                <div class="an-tooltip" style="display:none;"></div>
+              </div>
+              <div class="an-hint">💡 Analiz detaylarını görmek için renkli metinlere tıklayın.</div>
+            </div>
+
+          <% } else if (ex.type === 'builder') { %>
+            <div class="ret-builder" id="builder-<%= ex.id %>">
+              <div class="bu-context">
+                <strong>Senaryo:</strong> <%= ex.scenarioContext %>
+              </div>
+              <div class="bu-steps-container">
+                <% ex.steps.forEach((step, i) => { %>
+                  <div class="bu-step" data-step="<%= i %>" style="display: <%= i === 0 ? 'block' : 'none' %>;">
+                    <h4><%= step.question %></h4>
+                    <div class="bu-options">
+                      <% step.options.forEach((opt, j) => { %>
+                        <div class="bu-opt" onclick="selectBuilderOption(this, '<%= ex.id %>', <%= i %>, <%= opt.score %>, '<%= opt.feedback.replace(/'/g, "\\'") %>')">
+                          <%- opt.text %>
+                        </div>
+                      <% }); %>
+                    </div>
+                    <div class="bu-feedback" style="display:none;"></div>
+                    <% if(i < ex.steps.length - 1) { %>
+                      <button class="bu-next-btn" style="display:none;" onclick="nextBuilderStep('<%= ex.id %>', <%= i+1 %>)">Sonraki Adım ➔</button>
+                    <% } else { %>
+                      <button class="bu-next-btn" style="display:none;" onclick="finishBuilder('<%= ex.id %>')">Sonucu Gör ➔</button>
+                    <% } %>
+                  </div>
+                <% }); %>
+              </div>
+              <div class="bu-result" style="display:none;">
+                <h3>Simülasyon Tamamlandı</h3>
+                <div class="bu-score"></div>
+                <div class="bu-final-feedback"></div>
+              </div>
+            </div>
+          <% } else { %>
+             <!-- Eski tip fallback -->
+             <div style="padding:20px;background:#f8fafc;border-radius:10px;">İçerik güncelleniyor...</div>
+          <% } %>
+
+          <div style="margin-top:24px;border-top:1px solid #e2e8f0;padding-top:20px;">
+            <button class="ret-complete-btn" onclick="this.innerHTML='✓ Modül Tamamlandı';this.classList.add('completed')">Bu Modülü Tamamla</button>
+          </div>
+        </section>
+      <% }); %>
+
+    </div>
+  </div>
+</main>
+
+<%- include('partials/main-footer') %>
+
+<script>
+  // Analyzer Interactions
+  function showAnalyzerTooltip(el, note) {
+    const container = el.closest('.ret-analyzer');
+    const tooltip = container.querySelector('.an-tooltip');
+    
+    // Remove active class from all
+    container.querySelectorAll('.an-highlight').forEach(h => h.classList.remove('active'));
+    
+    // Add active class to clicked
+    el.classList.add('active');
+    
+    // Show tooltip
+    tooltip.innerHTML = `<strong>Analiz:</strong> ${note}`;
+    tooltip.style.display = 'block';
+    
+    // Scroll into view slightly if needed
+    tooltip.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  }
+
+  // Builder Interactions
+  const builderScores = {}; // store scores per builder id
+
+  function selectBuilderOption(el, builderId, stepIdx, score, feedback) {
+    const stepContainer = el.closest('.bu-step');
+    const options = stepContainer.querySelectorAll('.bu-opt');
+    const feedbackBox = stepContainer.querySelector('.bu-feedback');
+    const nextBtn = stepContainer.querySelector('.bu-next-btn');
+
+    // Prevent re-selection if already selected
+    if(stepContainer.classList.contains('answered')) return;
+    
+    stepContainer.classList.add('answered');
+
+    // Style the options
+    options.forEach(opt => {
+      opt.classList.add('disabled');
+      if (opt === el) {
+        opt.classList.add('selected');
+        // Good or bad score coloring
+        if(score >= 8) opt.style.borderColor = '#10b981';
+        else if(score >= 5) opt.style.borderColor = '#f59e0b';
+        else opt.style.borderColor = '#ef4444';
+      }
+    });
+
+    // Update Score
+    if(!builderScores[builderId]) builderScores[builderId] = 0;
+    builderScores[builderId] += parseInt(score);
+
+    // Show Feedback
+    feedbackBox.innerHTML = feedback;
+    feedbackBox.style.display = 'block';
+    if(score >= 8) {
+      feedbackBox.style.background = '#ecfdf5';
+      feedbackBox.style.color = '#065f46';
+      feedbackBox.style.borderLeft = '4px solid #10b981';
+    } else if(score >= 5) {
+      feedbackBox.style.background = '#fffbeb';
+      feedbackBox.style.color = '#92400e';
+      feedbackBox.style.borderLeft = '4px solid #f59e0b';
+    } else {
+      feedbackBox.style.background = '#fef2f2';
+      feedbackBox.style.color = '#991b1b';
+      feedbackBox.style.borderLeft = '4px solid #ef4444';
+    }
+
+    // Show Next Button
+    nextBtn.style.display = 'block';
+  }
+
+  function nextBuilderStep(builderId, nextStepIdx) {
+    const builder = document.getElementById('builder-' + builderId);
+    const steps = builder.querySelectorAll('.bu-step');
+    
+    steps.forEach((step, idx) => {
+      if(idx === nextStepIdx) {
+        step.style.display = 'block';
+        step.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      } else {
+        step.style.display = 'none';
+      }
+    });
+  }
+
+  function finishBuilder(builderId) {
+    const builder = document.getElementById('builder-' + builderId);
+    builder.querySelectorAll('.bu-step').forEach(s => s.style.display = 'none');
+    
+    const resultBox = builder.querySelector('.bu-result');
+    const scoreBox = builder.querySelector('.bu-score');
+    const finalFeedback = builder.querySelector('.bu-final-feedback');
+    
+    const totalScore = builderScores[builderId] || 0;
+    let rank = '';
+    
+    if(totalScore >= 25) {
+      rank = '🏆 İkna Ustası';
+      finalFeedback.innerHTML = 'Harika bir iş çıkardınız. Ethos, Pathos ve Logos\'u mükemmel bir uyumla kullandınız. Dinleyiciyi sadece ikna etmediniz, onlara ilham verdiniz.';
+    } else if (totalScore >= 15) {
+      rank = '👍 Etkili Hatip';
+      finalFeedback.innerHTML = 'İyi bir konuşma inşa ettiniz ancak bazı noktalarda argümanlarınızı ya çok duygusal ya da çok teknik bıraktınız. Pratikle mükemmelleşeceksiniz.';
+    } else {
+      rank = '⚠️ Acemi Konuşmacı';
+      finalFeedback.innerHTML = 'Konuşmanız dinleyicide yankı bulmakta zorlanacaktır. Karşı tarafın duygularını ve mantıksal itirazlarını daha iyi okumaya çalışın.';
+    }
+
+    scoreBox.innerHTML = `Toplam İkna Puanınız: <strong>${totalScore} / 30</strong><br><span style="font-size:1.2rem; color:#0f172a; margin-top:8px; display:inline-block;">Seviye: ${rank}</span>`;
+    resultBox.style.display = 'block';
+  }
+</script>

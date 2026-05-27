@@ -1,0 +1,206 @@
+<%- include('partials/main-header') %>
+
+<style>
+  body { background: #0f172a; color: #f8fafc; font-family: 'Inter', sans-serif; overflow-x: hidden; }
+  .kanca-container { padding: 40px 20px; max-width: 900px; margin: 0 auto; min-height: 85vh; display: flex; flex-direction: column; align-items: center; }
+  
+  h1 { font-size: 2.5rem; font-weight: 900; margin-bottom: 5px; color: #14b8a6; text-transform: uppercase; letter-spacing: 2px; text-align: center; text-shadow: 0 0 15px rgba(20, 184, 166, 0.4); }
+  p.desc { color: #94a3b8; font-size: 1rem; line-height: 1.6; margin-bottom: 30px; text-align: center; max-width: 700px; }
+
+  /* Arena */
+  .arena { width: 100%; background: #1e293b; border: 3px solid #0f766e; border-radius: 20px; overflow: hidden; box-shadow: 0 20px 50px rgba(0,0,0,0.6); position: relative; display: flex; flex-direction: column; }
+  
+  /* Status Bar */
+  .status-hud { display: flex; flex-direction: column; align-items: center; background: #0f172a; padding: 20px; border-bottom: 2px solid #334155; }
+  .sh-lbl { font-size: 0.9rem; font-weight: 900; color: #ccfbf1; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 10px; }
+  .sh-bar { width: 80%; max-width: 400px; height: 25px; background: #334155; border-radius: 20px; position: relative; overflow: hidden; border: 2px solid #0f766e; }
+  .sh-fill { height: 100%; width: 0%; background: linear-gradient(90deg, #14b8a6, #2dd4bf); transition: width 0.5s ease-out; position: relative; }
+  .sh-fill::after { content: ''; position: absolute; right: 0; top: 0; bottom: 0; width: 10px; background: rgba(255,255,255,0.5); filter: blur(2px); }
+
+  /* Topic Zone */
+  .topic-zone { padding: 40px; background: radial-gradient(circle at center, #115e59 0%, #064e3b 100%); display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 200px; position: relative; text-align: center; }
+  .tz-icon { font-size: 4rem; margin-bottom: 15px; filter: drop-shadow(0 5px 5px rgba(0,0,0,0.5)); }
+  .tz-lbl { font-size: 0.8rem; font-weight: 900; color: #99f6e4; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 10px; }
+  .tz-topic { font-size: 1.8rem; font-weight: 800; color: #fff; }
+
+  /* Options */
+  .opt-zone { padding: 30px; background: #0f172a; border-top: 2px solid #334155; }
+  .oz-title { font-size: 1rem; font-weight: 800; color: #94a3b8; text-transform: uppercase; margin-bottom: 20px; text-align: center; }
+  .opt-grid { display: flex; flex-direction: column; gap: 15px; }
+  
+  .btn-opt { background: #1e293b; border: 2px solid #475569; color: #e2e8f0; padding: 20px; border-radius: 15px; font-size: 1.05rem; font-weight: 600; cursor: pointer; transition: all 0.2s; text-align: left; position: relative; overflow: hidden; }
+  .btn-opt:hover { background: #334155; border-color: #14b8a6; transform: translateY(-2px); box-shadow: 0 10px 20px rgba(20, 184, 166, 0.15); }
+  .btn-opt span.type-tag { font-size: 0.7rem; background: #334155; color: #cbd5e1; padding: 3px 8px; border-radius: 10px; position: absolute; top: 10px; right: 10px; text-transform: uppercase; font-weight: 800; opacity: 0; transition: opacity 0.3s; }
+  .btn-opt:hover span.type-tag { opacity: 1; }
+
+  /* Result Overlay */
+  .result-overlay { position: absolute; inset: 0; background: rgba(15, 23, 42, 0.95); z-index: 100; display: none; flex-direction: column; align-items: center; justify-content: center; padding: 30px; text-align: center; }
+  .ro-icon { font-size: 5rem; margin-bottom: 20px; }
+  .ro-title { font-size: 2.5rem; font-weight: 900; margin-bottom: 15px; text-transform: uppercase; }
+  .ro-desc { font-size: 1.1rem; color: #cbd5e1; line-height: 1.6; margin-bottom: 30px; max-width: 550px; }
+  .btn-next { background: #14b8a6; color: #fff; font-weight: 900; padding: 15px 40px; border-radius: 30px; border: none; cursor: pointer; text-transform: uppercase; letter-spacing: 1px; }
+
+  .game-over { display: none; text-align: center; padding: 50px; background: #064e3b; border: 2px solid #14b8a6; border-radius: 20px; margin-top:30px; width:100%; }
+</style>
+
+<div class="kanca-container">
+  <h1>🪝 Kanca Atıcı</h1>
+  <p class="desc">Seyircinin dikkat süresi sadece 10 saniyedir. Sıkıcı bir konuyu, onları sarsacak bir kancayla (Hook) açabilir misiniz? En vurucu açılış cümlesini bulun!</p>
+
+  <div class="arena" id="arena">
+    
+    <div class="status-hud">
+      <div class="sh-lbl">Seyirci Dikkat Seviyesi</div>
+      <div class="sh-bar"><div class="sh-fill" id="sFill"></div></div>
+    </div>
+
+    <div class="topic-zone">
+      <div class="tz-icon" id="tIcon">📊</div>
+      <div class="tz-lbl">Sunum Konusu</div>
+      <div class="tz-topic" id="tTopic">Şirketimizin Q3 Satış Raporu</div>
+    </div>
+
+    <div class="opt-zone">
+      <div class="oz-title">Açılış Cümlenizi Seçin:</div>
+      <div class="opt-grid" id="optGrid">
+        <!-- Injected -->
+      </div>
+    </div>
+
+    <div class="result-overlay" id="resOverlay">
+      <div class="ro-icon" id="rIcon">✅</div>
+      <div class="ro-title" id="rTitle">KANCA ATILDI!</div>
+      <div class="ro-desc" id="rDesc">...</div>
+      <button class="btn-next" onclick="nextRound()">Sıradaki Konu ➔</button>
+    </div>
+
+  </div>
+
+  <div class="game-over" id="gameOver">
+    <div style="font-size: 5rem; margin-bottom:20px;">🎬</div>
+    <h2 style="font-size:2.5rem; color:#99f6e4; margin:0 0 15px 0;">Kanca Ustası</h2>
+    <p style="color:#ccfbf1; font-size:1.1rem; margin-bottom:30px;">Tebrikler. İnsanların beynine sızmanın yolunun "Merhaba bugün size şundan bahsedeceğim" demek değil, doğrudan aksiyona girmek olduğunu anladınız.</p>
+    <a href="/hikaye" style="background:#14b8a6; color:#fff; padding:15px 30px; border-radius:30px; text-decoration:none; font-weight:900;">Akademiye Dön</a>
+  </div>
+
+</div>
+
+<script>
+  let dikat = 0;
+
+  const scenarios = [
+    {
+      icon: "📊",
+      topic: "Şirketimizin Q3 Satış Raporu",
+      options: [
+        { text: "'Merhaba arkadaşlar, adım Ahmet. Bugün sizlere 3. çeyrekteki satış rakamlarımızı ve verilerimizi sunacağım.'", type: "Klişe", isHook: false },
+        { text: "'Geçen hafta en iyi müşterilerimizden biri beni ağlayarak aradı. Bugün size bu rakamların o gözyaşlarıyla neden doğrudan ilgili olduğunu anlatacağım.'", type: "Gizem & Duygu", isHook: true },
+        { text: "'Sunumuma hoş geldiniz. Satışlarımız geçen çeyreğe göre %10 arttı. İşte tablolarımız.'", type: "Veri", isHook: false }
+      ],
+      successMsg: "MÜKEMMEL KANCA! 'Ağlayan müşteri' imgesi beynin empati ve merak merkezini anında ateşler. Rakamları sıkıcı bir tablo olmaktan çıkarıp bir hikayeye dönüştürdünüz.",
+      failMsg: "SEYİRCİ UYUDU! Klişe girişler beynin 'Bunu daha önce duydum, dinlememe gerek yok' diyerek filtrelemesine sebep olur."
+    },
+    {
+      icon: "🏃",
+      topic: "Erken Kalkmanın ve Sporun Faydaları",
+      options: [
+        { text: "'Tıp dünyasında yapılan araştırmalara göre spor yapmak endorfin salgısını artırır ve bizi sağlıklı kılar.'", type: "Ders Kitabı", isHook: false },
+        { text: "'Sabahları hep yorgun uyanıyorsunuz değil mi? İşte size erken kalkmayı sevdirecek bir teknik.'", type: "Faydacı", isHook: false },
+        { text: "'Tam 3 yıl önce, doktorum bana eğer böyle yaşamaya devam edersem 40 yaşımı göremeyeceğimi söyledi.'", type: "Şok & Kırılganlık", isHook: true }
+      ],
+      successMsg: "ÇARPICI GİRİŞ! İnsanlar kırılganlığa (vulnerability) ve ölüm kalım meselelerine (survival) karşı koyamaz. En klasik konuyu bile ölüm kalım meselesi haline getirdiniz.",
+      failMsg: "SİGORTA ATTI! Beynimiz didaktik (öğretici) bilgiyi reddetmeye eğilimlidir. Bilgiyi bilgi olarak verirseniz Wikipedia'dan farkınız kalmaz."
+    },
+    {
+      icon: "🤖",
+      topic: "Yapay Zekanın Geleceği",
+      options: [
+        { text: "'Yapay zeka, son yıllarda büyük bir ivme kazanan bir teknolojidir.'", type: "Zaman Kaybı", isHook: false },
+        { text: "'Şu an bu salondaki mesleklerin %40'ı önümüzdeki 5 yıl içinde yok olacak. Ancak bu bir son değil, sadece yeni bir başlangıç.'", type: "Provokatif İstatistik", isHook: true },
+        { text: "'Bugün sizlere yapay zekanın tarihçesini ve nerelerde kullanıldığını anlatmak istiyorum.'", type: "Tarihçe", isHook: false }
+      ],
+      successMsg: "BEYİNLERİ HACKLEDİNİZ! 'Mesleklerinizin %40'ı yok olacak' cümlesi doğrudan beynin tehdit algılama merkezi olan Amigdala'ya vurur. Hayatta kalma içgüdüsü herkesin pür dikkat dinlemesini sağlar.",
+      failMsg: "SIKICI TARİHÇE! Hiç kimse bir teknolojinin tarihçesini dinlemek istemez. İnsanlar sadece 'Bu benim hayatımı nasıl etkileyecek?' sorusuyla ilgilenir."
+    },
+    {
+      icon: "🌍",
+      topic: "Çevre Kirliliği ve İklim Krizi",
+      options: [
+        { text: "'Küresel ısınma nedeniyle buzullar eriyor ve karbon emisyonunu azaltmamız gerekiyor.'", type: "Haber Bülteni", isHook: false },
+        { text: "'Elinizdeki o plastik su şişesinin yolculuğunu biliyor musunuz? O şişe sizin torununuzun torunundan daha uzun yaşayacak.'", type: "Perspektif Kaydırması", isHook: true },
+        { text: "'Çevre kirliliği dünyamızın en büyük sorunlarından biridir. Çöpleri denize atmamalıyız.'", type: "Kamu Spotu", isHook: false }
+      ],
+      successMsg: "SANATSAL KANCA! Gözle görülmeyen makro bir sorunu (iklim krizi), herkesin o an elinde tuttuğu mikro bir nesneye (su şişesi) bağladınız. Soyutu somutlaştırdınız.",
+      failMsg: "KLİŞE TUZAĞI! Haber bültenlerinde her gün duyduğumuz klişe cümleler beynimizde anında 'Spam' klasörüne atılır. Farklı bir açı bulmalıydınız."
+    }
+  ];
+
+  let currIdx = 0;
+
+  function updateHUD() {
+    let pct = (currIdx / scenarios.length) * 100;
+    if(pct > 100) pct = 100;
+    document.getElementById('sFill').style.width = pct + "%";
+  }
+
+  function loadRound() {
+    if(currIdx >= scenarios.length) {
+      document.getElementById('arena').style.display = 'none';
+      document.getElementById('gameOver').style.display = 'block';
+      return;
+    }
+
+    const s = scenarios[currIdx];
+    document.getElementById('tIcon').textContent = s.icon;
+    document.getElementById('tTopic').textContent = s.topic;
+    
+    const grid = document.getElementById('optGrid');
+    grid.innerHTML = '';
+    
+    const shuffled = [...s.options].sort(() => Math.random() - 0.5);
+    shuffled.forEach(opt => {
+      const btn = document.createElement('button');
+      btn.className = 'btn-opt';
+      btn.innerHTML = `${opt.text} <span class="type-tag">${opt.type}</span>`;
+      btn.onclick = () => selectOpt(opt);
+      grid.appendChild(btn);
+    });
+  }
+
+  function selectOpt(opt) {
+    const s = scenarios[currIdx];
+    const overlay = document.getElementById('resOverlay');
+    const rIcon = document.getElementById('rIcon');
+    const rTitle = document.getElementById('rTitle');
+    const rDesc = document.getElementById('rDesc');
+
+    overlay.style.display = 'flex';
+
+    if(opt.isHook) {
+      rIcon.textContent = '🎣';
+      rTitle.textContent = 'KANCA ATILDI!';
+      rTitle.style.color = '#14b8a6';
+      rDesc.textContent = s.successMsg;
+      currIdx++;
+      updateHUD();
+    } else {
+      rIcon.textContent = '😴';
+      rTitle.textContent = 'SEYİRCİ UYUDU...';
+      rTitle.style.color = '#f43f5e';
+      rDesc.textContent = s.failMsg;
+      // Do not advance index on fail to force them to retry? Or advance?
+      // Let's let them retry.
+    }
+  }
+
+  function nextRound() {
+    document.getElementById('resOverlay').style.display = 'none';
+    loadRound(); // reload
+  }
+
+  // Init
+  loadRound();
+
+</script>
+
+<%- include('partials/main-footer') %>

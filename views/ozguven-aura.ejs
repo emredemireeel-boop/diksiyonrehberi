@@ -1,0 +1,333 @@
+<%- include('partials/main-header') %>
+
+<style>
+  /* LIGHT MODE PREMIUM UIX OVERRIDES - FULL SCREEN */
+  body { background: #fafaf9 !important; color: #1c1917; margin: 0; padding: 0; font-family: 'Inter', sans-serif; }
+  main.main-content, div.content-wrapper, div.aura-page { 
+    max-width: 100% !important; 
+    padding: 0 !important; 
+    margin: 0 !important; 
+    width: 100% !important;
+    background: transparent !important;
+  }
+  
+  /* FONTS & VARIABLES */
+  @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&family=Playfair+Display:ital,wght@0,600;1,600&display=swap');
+  :root {
+    --au-primary: #8b5cf6; 
+    --au-dark: #5b21b6;
+    --au-light: #ddd6fe;
+    --gold: #C59D5F; 
+    --glass-bg: rgba(255, 255, 255, 0.85);
+    --glass-border: rgba(139, 92, 246, 0.2);
+    --text-main: #1c1917;
+    --text-muted: #57534e;
+  }
+
+  .aura-page {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: radial-gradient(circle at top right, #ffffff 0%, #f5f3ff 100%);
+    padding: 40px 20px;
+    position: relative;
+    overflow: hidden;
+  }
+  
+  /* DECORATIVE BACKGROUND */
+  .aura-page::before {
+    content: ''; position: absolute; top: -20%; left: -10%; width: 50%; height: 50%;
+    background: radial-gradient(circle, rgba(197, 157, 95, 0.1) 0%, transparent 70%);
+    z-index: 0;
+  }
+
+  /* HEADER */
+  .au-header { text-align: center; margin-bottom: 40px; position: relative; z-index: 2; animation: fadeDown 1s ease; }
+  .au-badge { display: inline-block; padding: 6px 20px; border-radius: 30px; background: rgba(139, 92, 246, 0.1); border: 1px solid var(--au-primary); color: var(--au-dark); font-family: 'Outfit'; font-size: 0.8rem; font-weight: 800; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 15px; }
+  .au-title { font-family: 'Playfair Display', serif; font-size: 3.5rem; color: var(--text-main); margin: 0 0 10px 0; }
+  .au-desc { font-family: 'Outfit', sans-serif; font-size: 1.1rem; color: var(--text-muted); max-width: 600px; margin: 0 auto; line-height: 1.6; }
+
+  /* GAME CONTAINER */
+  .au-board {
+    background: var(--glass-bg);
+    backdrop-filter: blur(20px);
+    border: 1px solid var(--glass-border);
+    border-radius: 30px;
+    padding: 50px;
+    width: 100%;
+    max-width: 900px;
+    box-shadow: 0 30px 60px rgba(139, 92, 246, 0.08);
+    position: relative;
+    z-index: 2;
+    min-height: 400px;
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* TIMER */
+  .timer-container { position: absolute; top: -35px; left: 50%; transform: translateX(-50%); background: #fff; width: 70px; height: 70px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-family: 'Playfair Display', serif; font-size: 2rem; font-weight: 700; color: var(--au-primary); box-shadow: 0 10px 30px rgba(139, 92, 246, 0.2); border: 2px solid var(--au-light); transition: all 0.3s; z-index: 10; }
+  .timer-container.danger { color: #e11d48; border-color: #fecdd3; animation: pulse 1s infinite; }
+
+  /* SCENE */
+  .scene-box { text-align: center; margin-bottom: 40px; }
+  .scene-icon { font-size: 4rem; margin-bottom: 15px; filter: drop-shadow(0 10px 20px rgba(0,0,0,0.1)); }
+  .scene-text { font-family: 'Outfit', sans-serif; font-size: 1.3rem; font-weight: 600; color: var(--text-main); line-height: 1.5; }
+
+  /* OPTIONS */
+  .options-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; margin-top: auto; }
+  
+  .opt-card {
+    background: #ffffff; border: 2px solid #f3f4f6; border-radius: 20px; padding: 25px 20px; text-align: center; cursor: pointer; transition: all 0.3s; position: relative; overflow: hidden;
+  }
+  .opt-card:hover { border-color: var(--au-primary); transform: translateY(-5px); box-shadow: 0 15px 30px rgba(139, 92, 246, 0.1); }
+  .opt-card.selected { border-color: var(--au-primary); background: rgba(139, 92, 246, 0.05); }
+  
+  .opt-icon { font-size: 2.5rem; margin-bottom: 15px; }
+  .opt-title { font-family: 'Outfit', sans-serif; font-size: 1.1rem; font-weight: 700; color: var(--text-main); margin-bottom: 8px; }
+  .opt-desc { font-family: 'Outfit', sans-serif; font-size: 0.9rem; color: var(--text-muted); line-height: 1.4; }
+
+  /* START BUTTON */
+  .btn-start { background: var(--au-primary); color: #fff; font-family: 'Outfit', sans-serif; font-weight: 800; font-size: 1.2rem; padding: 18px 40px; border-radius: 30px; border: none; cursor: pointer; text-transform: uppercase; letter-spacing: 2px; transition: all 0.3s; box-shadow: 0 10px 20px rgba(139, 92, 246, 0.3); align-self: center; margin-top: 40px; }
+  .btn-start:hover { background: var(--au-dark); transform: translateY(-3px); box-shadow: 0 15px 30px rgba(139, 92, 246, 0.4); }
+
+  /* RESULTS */
+  .result-box { display: none; text-align: center; animation: fadeUp 0.5s ease; }
+  .score-circle { width: 150px; height: 150px; border-radius: 50%; margin: 0 auto 30px auto; display: flex; align-items: center; justify-content: center; font-family: 'Playfair Display', serif; font-size: 4rem; font-weight: 700; color: #fff; box-shadow: 0 20px 40px rgba(0,0,0,0.1); }
+  .res-title { font-family: 'Playfair Display', serif; font-size: 2.5rem; margin-bottom: 15px; color: var(--text-main); }
+  .res-desc { font-family: 'Outfit', sans-serif; font-size: 1.1rem; color: var(--text-muted); max-width: 600px; margin: 0 auto 30px auto; line-height: 1.6; }
+  .res-breakdown { text-align: left; background: #fff; padding: 25px; border-radius: 20px; border: 1px solid var(--glass-border); margin-bottom: 30px; }
+  .bk-item { font-family: 'Outfit', sans-serif; margin-bottom: 15px; padding-bottom: 15px; border-bottom: 1px solid #f3f4f6; }
+  .bk-item:last-child { margin-bottom: 0; padding-bottom: 0; border-bottom: none; }
+  .bk-title { font-weight: 800; color: var(--au-dark); font-size: 1.05rem; }
+  .bk-text { font-size: 0.95rem; color: var(--text-muted); margin-top: 5px; }
+
+  @keyframes pulse { 0% { transform: translateX(-50%) scale(1); } 50% { transform: translateX(-50%) scale(1.1); } 100% { transform: translateX(-50%) scale(1); } }
+  @keyframes fadeDown { from { opacity: 0; transform: translateY(-30px); } to { opacity: 1; transform: translateY(0); } }
+  @keyframes fadeUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+
+  .btn-back { position: absolute; top: 30px; left: 30px; color: var(--text-muted); font-family: 'Outfit'; font-weight: 700; text-decoration: none; display: flex; align-items: center; gap: 8px; transition: 0.3s; z-index: 10; }
+  .btn-back:hover { color: var(--au-primary); }
+
+</style>
+
+<a href="/ozguven" class="btn-back">← Özgüven Akademisi</a>
+
+<div class="aura-page">
+  
+  <div class="au-header">
+    <div class="au-badge">İlk İzlenim Laboratuvarı</div>
+    <h1 class="au-title">Aura Mimarı</h1>
+    <p class="au-desc">Araştırmalara göre beynimiz karşımızdaki kişi hakkında kararı ilk 7 saniyede verir. Geriye kalan süre sadece bu kararı haklı çıkarmak içindir. Doğru auraları seçerek bu 7 saniyeyi yönetin.</p>
+  </div>
+
+  <div class="au-board" id="gameBoard">
+    
+    <!-- Intro Screen -->
+    <div id="introScreen" style="text-align:center; margin:auto;">
+      <div style="font-size: 5rem; margin-bottom:20px;">⏱️</div>
+      <h2 style="font-family:'Playfair Display',serif; font-size:2rem; color:var(--text-main);">7 Saniyeniz Var.</h2>
+      <p style="font-family:'Outfit',sans-serif; color:var(--text-muted); margin-bottom:30px; font-size:1.1rem;">Birazdan çok önemli bir yatırımcı/VIP ile tanışmak üzere odaya gireceksiniz.<br>Her saniye akarken doğru duruşu, bakışı ve sözü seçmelisiniz.</p>
+      <button class="btn-start" onclick="startGame()">Simülasyonu Başlat</button>
+    </div>
+
+    <!-- Active Game Screen -->
+    <div id="activeScreen" style="display:none; height:100%; display:flex; flex-direction:column;">
+      <div class="timer-container" id="timerUI">7</div>
+      
+      <div class="scene-box">
+        <div class="scene-icon" id="sIcon">🚪</div>
+        <div class="scene-text" id="sText">Odaya giriyorsunuz... Duruşunuz nasıl olmalı?</div>
+      </div>
+
+      <div class="options-grid" id="optGrid">
+        <!-- Rendered via JS -->
+      </div>
+    </div>
+
+    <!-- Result Screen -->
+    <div class="result-box" id="resultScreen">
+      <div class="score-circle" id="scoreUI">100</div>
+      <h2 class="res-title" id="rTitle">Mükemmel Aura!</h2>
+      <p class="res-desc" id="rDesc">Odaya girdiğiniz andan itibaren tüm kontrolü elinize aldınız.</p>
+      
+      <div class="res-breakdown" id="breakdownGrid">
+        <!-- Breakdown filled by JS -->
+      </div>
+      
+      <button class="btn-start" onclick="resetGame()" style="margin-top:0;">Tekrar Dene</button>
+    </div>
+
+  </div>
+
+</div>
+
+<script>
+  const stages = [
+    {
+      icon: "🚶",
+      text: "Aşama 1: Odaya giriş ve Duruş (Posture)",
+      options: [
+        { icon: "📉", title: "Omuzlar Düşük", desc: "Küçük adımlarla, kimseyi rahatsız etmemeye çalışarak girmek.", score: 0, feedback: "Güvensiz giriş. Karşı taraf hemen baskın hissetti." },
+        { icon: "🧍", title: "Dik ve Geniş", desc: "Omuzlar geride, göğüs açık, adımlar yavaş ama kararlı.", score: 35, feedback: "Mükemmel postür. Otoritenizi ve rahatlığınızı hissettirdiniz." },
+        { icon: "🦍", title: "Aşırı Baskın", desc: "Kolları çok açarak, fazla ses çıkararak ve agresif yürümek.", score: 10, feedback: "Kibirli giriş. Özgüven yerine tehdit algısı yarattınız." }
+      ]
+    },
+    {
+      icon: "👁️",
+      text: "Aşama 2: Göz Teması (Eye Contact)",
+      options: [
+        { icon: "🎯", title: "Üçgen Odak", desc: "Gözler ve burun arasındaki ters üçgene rahatça odaklanmak.", score: 35, feedback: "İdeal göz teması. Samimi, dinleyen ve profesyonel bir bağ kurdunuz." },
+        { icon: "👀", title: "Sürekli Kaçırma", desc: "Yere veya etrafa bakmak, göz göze gelmekten çekinmek.", score: 0, feedback: "Şüpheli ve güvensiz. Karşı tarafın size olan inancını zedelediniz." },
+        { icon: "🦅", title: "Gözünü Dikmek", desc: "Gözlerini hiç kırpmadan, rekabetçi bir şekilde dümdüz bakmak.", score: 10, feedback: "Agresif ve rahatsız edici. Psikolojik bir savaş başlatmış oldunuz." }
+      ]
+    },
+    {
+      icon: "🤝",
+      text: "Aşama 3: İlk Temas ve Söz",
+      options: [
+        { icon: "🤝", title: "Eşit Tokalaşma", desc: "Eli dikey uzatıp, aynı güçte sıkmak ve 'Tanıştığımıza memnun oldum' demek.", score: 30, feedback: "Mükemmel uyum. Eşitlik ve profesyonel saygı çerçevesini çizdiniz." },
+        { icon: "🐠", title: "Ölü Balık", desc: "Eli cansız uzatmak, sadece parmak uçlarıyla tokalaşmak.", score: 0, feedback: "Ölü balık tokalaşması! Tüm enerjiyi ve ciddiyeti yok ettiniz." },
+        { icon: "💪", title: "Kemik Kıran", desc: "Karşı tarafın elini üstten kavrayıp çok sert sıkmak.", score: 10, feedback: "Gereksiz bir 'Ben buranın patronuyum' şovu. İtici bulundunuz." }
+      ]
+    }
+  ];
+
+  let currentStage = 0;
+  let timerInterval;
+  let timeLeft = 7;
+  let totalScore = 0;
+  let userChoices = [];
+
+  const introScreen = document.getElementById('introScreen');
+  const activeScreen = document.getElementById('activeScreen');
+  const resultScreen = document.getElementById('resultScreen');
+  const timerUI = document.getElementById('timerUI');
+
+  function startGame() {
+    introScreen.style.display = 'none';
+    resultScreen.style.display = 'none';
+    activeScreen.style.display = 'flex';
+    
+    currentStage = 0;
+    totalScore = 0;
+    userChoices = [];
+    
+    loadStage();
+  }
+
+  function loadStage() {
+    if (currentStage >= stages.length) {
+      endGame(true);
+      return;
+    }
+
+    const stage = stages[currentStage];
+    document.getElementById('sIcon').textContent = stage.icon;
+    document.getElementById('sText').textContent = stage.text;
+    
+    const grid = document.getElementById('optGrid');
+    grid.innerHTML = '';
+    
+    // Shuffle options
+    const shuffled = [...stage.options].sort(() => Math.random() - 0.5);
+    
+    shuffled.forEach(opt => {
+      const card = document.createElement('div');
+      card.className = 'opt-card';
+      card.innerHTML = `
+        <div class="opt-icon">${opt.icon}</div>
+        <div class="opt-title">${opt.title}</div>
+        <div class="opt-desc">${opt.desc}</div>
+      `;
+      card.onclick = () => selectOption(opt);
+      grid.appendChild(card);
+    });
+
+    // Reset and start timer for this stage
+    timeLeft = 7;
+    timerUI.textContent = timeLeft;
+    timerUI.classList.remove('danger');
+    
+    clearInterval(timerInterval);
+    timerInterval = setInterval(() => {
+      timeLeft--;
+      timerUI.textContent = timeLeft;
+      if (timeLeft <= 3) {
+        timerUI.classList.add('danger');
+      }
+      if (timeLeft <= 0) {
+        clearInterval(timerInterval);
+        endGame(false); // Time out
+      }
+    }, 1000);
+  }
+
+  function selectOption(opt) {
+    clearInterval(timerInterval);
+    totalScore += opt.score;
+    userChoices.push({ stage: currentStage, title: opt.title, feedback: opt.feedback });
+    
+    currentStage++;
+    loadStage();
+  }
+
+  function endGame(completed) {
+    activeScreen.style.display = 'none';
+    resultScreen.style.display = 'block';
+    
+    const scoreCircle = document.getElementById('scoreUI');
+    const rTitle = document.getElementById('rTitle');
+    const rDesc = document.getElementById('rDesc');
+    const breakdown = document.getElementById('breakdownGrid');
+    
+    breakdown.innerHTML = '';
+
+    if (!completed) {
+      scoreCircle.textContent = "0";
+      scoreCircle.style.background = "#e11d48";
+      rTitle.textContent = "Zaman Doldu!";
+      rTitle.style.color = "#e11d48";
+      rDesc.textContent = "İlk izlenim saniyeler içinde gerçekleşir. Tereddüt ettiğiniz için fırsatı kaçırdınız.";
+      return;
+    }
+
+    scoreCircle.textContent = totalScore;
+    
+    if (totalScore === 100) {
+      scoreCircle.style.background = "#10b981"; // green
+      rTitle.textContent = "Mükemmel Aura!";
+      rTitle.style.color = "#10b981";
+      rDesc.textContent = "Kusursuz bir giriş. Beden dilinizle otorite, saygı ve güven inşa ettiniz.";
+    } else if (totalScore >= 60) {
+      scoreCircle.style.background = "#eab308"; // yellow
+      rTitle.textContent = "Ortalama İzlenim";
+      rTitle.style.color = "#ca8a04";
+      rDesc.textContent = "Fena değildi ama bazı küçük hatalar auranızı zayıflattı.";
+    } else {
+      scoreCircle.style.background = "#e11d48"; // red
+      rTitle.textContent = "Aura Çöküşü";
+      rTitle.style.color = "#e11d48";
+      rDesc.textContent = "Verdiğiniz ilk izlenim güvensizlik ve yanlış sinyallerle doluydu.";
+    }
+
+    userChoices.forEach(choice => {
+      breakdown.innerHTML += `
+        <div class="bk-item">
+          <div class="bk-title">Aşama ${choice.stage + 1}: ${choice.title}</div>
+          <div class="bk-text">${choice.feedback}</div>
+        </div>
+      `;
+    });
+  }
+
+  function resetGame() {
+    introScreen.style.display = 'block';
+    resultScreen.style.display = 'none';
+    activeScreen.style.display = 'none';
+  }
+
+</script>
+
+<%- include('partials/main-footer') %>

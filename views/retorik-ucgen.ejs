@@ -1,0 +1,192 @@
+<%- include('partials/main-header') %>
+
+<style>
+  body { background: #0f172a; color: #ffffff; margin: 0; min-height: 100vh; display: flex; flex-direction: column; font-family: 'Inter', sans-serif; overflow: hidden; }
+  .main-header, .main-footer { display: none !important; }
+
+  .ru-container { flex-grow: 1; padding: 40px; display: flex; flex-direction: column; align-items: center; justify-content: flex-start; position: relative; max-width: 1000px; margin: 0 auto; width: 100%; gap: 30px; }
+  
+  .instruction-panel { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); padding: 20px 40px; border-radius: 20px; text-align: center; z-index: 10; backdrop-filter: blur(10px); width: 100%; }
+  .instruction-title { font-size: 1.5rem; font-weight: 900; margin: 0 0 10px; color: #8b5cf6; text-transform: uppercase; letter-spacing: 1px; }
+  .instruction-desc { font-size: 1rem; color: #cbd5e1; margin: 0 auto; max-width: 700px; line-height: 1.5; }
+
+  .dashboard { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; width: 100%; }
+
+  /* Left: Triangle Bars */
+  .bars-panel { background: #1e293b; padding: 30px; border-radius: 20px; border: 2px solid #334155; display: flex; flex-direction: column; gap: 20px; }
+  .bar-group { display: flex; flex-direction: column; gap: 8px; }
+  .bar-header { display: flex; justify-content: space-between; font-weight: 800; font-size: 0.9rem; text-transform: uppercase; }
+  .bar-header.ethos { color: #3b82f6; }
+  .bar-header.pathos { color: #ef4444; }
+  .bar-header.logos { color: #10b981; }
+  
+  .bar-track { width: 100%; height: 16px; background: #0f172a; border-radius: 8px; overflow: hidden; box-shadow: inset 0 2px 4px rgba(0,0,0,0.5); }
+  .bar-fill { height: 100%; transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1); width: 0%; }
+  .bar-fill.ethos { background: #3b82f6; }
+  .bar-fill.pathos { background: #ef4444; }
+  .bar-fill.logos { background: #10b981; }
+
+  /* Right: Speech Builder */
+  .speech-panel { background: #1e293b; padding: 30px; border-radius: 20px; border: 2px solid #334155; display: flex; flex-direction: column; }
+  .speech-title { font-size: 1.2rem; font-weight: 800; color: #f8fafc; margin: 0 0 20px; text-transform: uppercase; border-bottom: 2px solid #334155; padding-bottom: 10px; }
+  .speech-text { flex-grow: 1; font-size: 1.1rem; line-height: 1.6; color: #cbd5e1; font-style: italic; min-height: 150px; background: #0f172a; padding: 20px; border-radius: 12px; }
+
+  /* Options */
+  .options-panel { width: 100%; display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 15px; }
+  .opt-btn {
+    background: #0f172a; border: 2px solid #475569; color: #ffffff; padding: 20px; border-radius: 16px;
+    font-size: 1rem; font-weight: 600; cursor: pointer; transition: all 0.2s; text-align: left; line-height: 1.5;
+  }
+  .opt-btn:hover { border-color: #8b5cf6; background: rgba(139, 92, 246, 0.1); transform: translateY(-5px); box-shadow: 0 10px 20px rgba(139, 92, 246, 0.2); }
+
+  .feedback-box { position: absolute; inset: 0; background: rgba(15,23,42,0.95); z-index: 20; display: none; flex-direction: column; align-items: center; justify-content: center; padding: 40px; text-align: center; backdrop-filter: blur(10px); }
+  .feedback-title { font-size: 3rem; font-weight: 900; margin-bottom: 20px; }
+  .feedback-desc { font-size: 1.2rem; color: #cbd5e1; max-width: 600px; line-height: 1.6; margin-bottom: 40px; }
+  .btn-next { background: #8b5cf6; color: #fff; border: none; padding: 15px 40px; border-radius: 30px; font-size: 1.1rem; font-weight: 800; cursor: pointer; text-transform: uppercase; }
+
+  .btn-back { position: absolute; top: 30px; left: 30px; color: rgba(255,255,255,0.6); text-decoration: none; font-weight: 700; display: flex; align-items: center; gap: 8px; transition: color 0.2s; z-index: 10; }
+  .btn-back:hover { color: #ffffff; }
+
+</style>
+
+<a href="/retorik" class="btn-back">← Retorik'e Dön</a>
+
+<div class="ru-container">
+  
+  <div class="instruction-panel">
+    <h1 class="instruction-title">Retorik Üçgeni (Denge Simülatörü)</h1>
+    <p class="instruction-desc">Bir kriz anında halka sesleniyorsunuz. Sadece duygulara hitap ederseniz inandırıcılığınızı (Ethos) kaybedersiniz. Sadece rakam verirseniz (Logos) halk sıkılır. 3 barı da yeşil bölgede tutarak mükemmel konuşmayı yazın!</p>
+  </div>
+
+  <div class="dashboard">
+    <div class="bars-panel">
+      <div class="bar-group">
+        <div class="bar-header ethos"><span>Ethos (Karakter & Güven)</span> <span id="valE">0%</span></div>
+        <div class="bar-track"><div class="bar-fill ethos" id="barE"></div></div>
+      </div>
+      <div class="bar-group">
+        <div class="bar-header pathos"><span>Pathos (Duygu & Bağ)</span> <span id="valP">0%</span></div>
+        <div class="bar-track"><div class="bar-fill pathos" id="barP"></div></div>
+      </div>
+      <div class="bar-group">
+        <div class="bar-header logos"><span>Logos (Mantık & Veri)</span> <span id="valL">0%</span></div>
+        <div class="bar-track"><div class="bar-fill logos" id="barL"></div></div>
+      </div>
+      <p style="font-size:0.85rem; color:#64748b; margin-top:10px; font-style:italic;">* Hedef: 3 barı da %30'un üzerine çıkarmak ve %100'ü aşmamak.</p>
+    </div>
+
+    <div class="speech-panel">
+      <h3 class="speech-title">Konuşma Metni (<span id="stepCounter">Adım 1/3</span>)</h3>
+      <div class="speech-text" id="speechText"></div>
+    </div>
+  </div>
+
+  <div class="options-panel" id="optionsPanel">
+    <!-- Options injected here -->
+  </div>
+
+</div>
+
+<div class="feedback-box" id="feedbackBox">
+  <div class="feedback-title" id="fTitle">Sonuç</div>
+  <div class="feedback-desc" id="fDesc">Açıklama</div>
+  <button class="btn-next" onclick="location.reload()">Tekrar Oyna</button>
+</div>
+
+<script>
+  let e = 0, p = 0, l = 0;
+  let currentStep = 0;
+  
+  const steps = [
+    {
+      options: [
+        { text: "Biliyorum, çoğunuz korkuyorsunuz ve aileleriniz için endişeleniyorsunuz. Sizi anlıyorum.", e: 10, p: 40, l: 0 },
+        { text: "20 yıllık devlet tecrübemle karşınızdayım. Bu krizi daha önce de yönettim.", e: 40, p: 0, l: 10 },
+        { text: "Son 24 saatte enflasyon %5 arttı ve işsizlik oranı %12'ye ulaştı.", e: 0, p: 0, l: 40 }
+      ]
+    },
+    {
+      options: [
+        { text: "Ancak bu rakamların arkasında bir çözüm planımız var. Merkez Bankası ile 3 aşamalı bir eylem planı hazırladık.", e: 10, p: 0, l: 40 },
+        { text: "Biz bu topraklarda nice zorlukları aşmış bir milletiz. Yine omuz omuza verip ayağa kalkacağız!", e: 0, p: 40, l: 0 },
+        { text: "Hükümet olarak tüm sorumluluğu alıyorum ve şeffaflıkla süreci yöneteceğime söz veriyorum.", e: 40, p: 10, l: 0 }
+      ]
+    },
+    {
+      options: [
+        { text: "Bu yüzden yarın sabahtan itibaren faiz oranlarını %2 düşürecek ve piyasaya 5 Milyar dolar likidite sağlayacağız.", e: 0, p: 0, l: 40 },
+        { text: "Gelin çocuklarımızın geleceği için, aydınlık yarınlar için umudumuzu kaybetmeyelim.", e: 0, p: 40, l: 0 },
+        { text: "Sizden bana ve ekibime güvenmenizi rica ediyorum. Bugüne kadar sizi hiç yanıltmadık.", e: 40, p: 0, l: 0 }
+      ]
+    }
+  ];
+
+  function renderStep() {
+    if(currentStep >= steps.length) {
+      checkWin();
+      return;
+    }
+    
+    document.getElementById('stepCounter').textContent = `Adım ${currentStep+1}/3`;
+    const panel = document.getElementById('optionsPanel');
+    panel.innerHTML = '';
+    
+    steps[currentStep].options.forEach(opt => {
+      const btn = document.createElement('button');
+      btn.className = 'opt-btn';
+      btn.textContent = `"${opt.text}"`;
+      btn.onclick = () => selectOption(opt);
+      panel.appendChild(btn);
+    });
+  }
+
+  function selectOption(opt) {
+    e += opt.e; p += opt.p; l += opt.l;
+    
+    document.getElementById('valE').textContent = e + '%';
+    document.getElementById('barE').style.width = Math.min(e, 100) + '%';
+    
+    document.getElementById('valP').textContent = p + '%';
+    document.getElementById('barP').style.width = Math.min(p, 100) + '%';
+    
+    document.getElementById('valL').textContent = l + '%';
+    document.getElementById('barL').style.width = Math.min(l, 100) + '%';
+    
+    const sText = document.getElementById('speechText');
+    sText.innerHTML += (sText.innerHTML ? '<br><br>' : '') + opt.text;
+    
+    currentStep++;
+    renderStep();
+  }
+
+  function checkWin() {
+    const fBox = document.getElementById('feedbackBox');
+    const fTitle = document.getElementById('fTitle');
+    const fDesc = document.getElementById('fDesc');
+    
+    document.getElementById('optionsPanel').innerHTML = '';
+    
+    if (e >= 30 && p >= 30 && l >= 30) {
+      fTitle.textContent = "MÜKEMMEL KONUŞMA!";
+      fTitle.style.color = '#10b981';
+      fDesc.textContent = `Aristoteles seninle gurur duyardı. Ethos (${e}%), Pathos (${p}%) ve Logos (${l}%) dengesini harika kurdun. Halk sana inandı, duygulandı ve mantıklı buldu.`;
+    } else {
+      fTitle.textContent = "DENGE BOZULDU!";
+      fTitle.style.color = '#ef4444';
+      
+      let reason = [];
+      if(e < 30) reason.push("Karakter ve otoriteni (Ethos) yeterince hissettirmedin.");
+      if(p < 30) reason.push("İnsanların duygularına (Pathos) hiç dokunmadın, çok robotik oldun.");
+      if(l < 30) reason.push("Ortada hiçbir mantıklı plan veya veri (Logos) yoktu, sadece boş laf yaptın.");
+      
+      fDesc.textContent = reason.join(' ');
+    }
+    
+    setTimeout(() => {
+      fBox.style.display = 'flex';
+    }, 1000);
+  }
+
+  // Init
+  renderStep();
+</script>

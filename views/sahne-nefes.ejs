@@ -1,0 +1,144 @@
+<%- include('partials/main-header') %>
+
+<style>
+  body { background: #f8fafc; color: #0f172a; margin: 0; min-height: 100vh; display: flex; flex-direction: column; font-family: 'Inter', sans-serif; overflow: hidden; }
+  .main-header, .main-footer { display: none !important; }
+
+  .nefes-container { flex-grow: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; position: relative; }
+
+  .instruction-text { font-size: 2rem; font-weight: 800; color: #0f172a; margin-bottom: 60px; height: 40px; text-transform: uppercase; letter-spacing: 2px; text-align: center; transition: all 0.5s; }
+
+  .circle-container { position: relative; width: 300px; height: 300px; display: flex; align-items: center; justify-content: center; }
+
+  .breathing-circle {
+    width: 100px; height: 100px; border-radius: 50%;
+    background: radial-gradient(circle, #0ea5e9 0%, #0284c7 100%);
+    box-shadow: 0 0 50px rgba(14, 165, 233, 0.4);
+    display: flex; align-items: center; justify-content: center;
+    transition: all 4s linear; /* 4 second duration */
+  }
+
+  /* States for JS toggling */
+  .breathing-circle.inhale { transform: scale(3.5); background: radial-gradient(circle, #38bdf8 0%, #0ea5e9 100%); box-shadow: 0 0 80px rgba(56, 189, 248, 0.6); }
+  .breathing-circle.hold { /* Keeps current size, just pulses color slightly maybe */ }
+  .breathing-circle.exhale { transform: scale(1); background: radial-gradient(circle, #0ea5e9 0%, #0284c7 100%); box-shadow: 0 0 30px rgba(14, 165, 233, 0.4); }
+
+  .timer-text { font-size: 2rem; font-weight: 900; color: #ffffff; position: absolute; z-index: 10; font-variant-numeric: tabular-nums; }
+
+  .controls { margin-top: 80px; display: flex; gap: 20px; }
+  .btn-control {
+    background: #0f172a; color: #ffffff; border: none; padding: 16px 40px; border-radius: 30px;
+    font-size: 1.1rem; font-weight: 800; cursor: pointer; transition: all 0.2s; text-transform: uppercase; letter-spacing: 1px; box-shadow: 0 10px 20px rgba(15,23,42,0.15);
+  }
+  .btn-control:hover { background: #1e293b; transform: translateY(-2px); box-shadow: 0 15px 25px rgba(15,23,42,0.25); }
+  
+  .btn-back { position: absolute; top: 30px; left: 30px; color: #64748b; text-decoration: none; font-weight: 700; display: flex; align-items: center; gap: 8px; transition: color 0.2s; z-index: 10; }
+  .btn-back:hover { color: #0f172a; }
+  
+  /* Settings */
+  .settings { position: absolute; top: 30px; right: 30px; background: #ffffff; border: 1px solid #e2e8f0; padding: 15px 20px; border-radius: 16px; box-shadow: 0 10px 30px rgba(0,0,0,0.05); }
+  .setting-label { font-size: 0.85rem; font-weight: 800; color: #64748b; text-transform: uppercase; margin-bottom: 8px; display: block; }
+  .setting-select { padding: 8px 12px; border-radius: 8px; border: 1px solid #cbd5e1; font-family: inherit; font-weight: 600; outline: none; }
+</style>
+
+<a href="/sahne" class="btn-back">← Sahne'ye Dön</a>
+
+<div class="settings">
+  <label class="setting-label">Nefes Süresi</label>
+  <select class="setting-select" id="durationSelect" onchange="updateDuration()">
+    <option value="3">3 Saniye (Hızlı)</option>
+    <option value="4" selected>4 Saniye (Klasik Kutu)</option>
+    <option value="5">5 Saniye (Derin)</option>
+  </select>
+</div>
+
+<div class="nefes-container">
+  
+  <div class="instruction-text" id="instruction">Hazır mısınız?</div>
+
+  <div class="circle-container">
+    <div class="breathing-circle" id="circle"></div>
+    <div class="timer-text" id="timer"></div>
+  </div>
+
+  <div class="controls">
+    <button class="btn-control" id="btnStart" onclick="startBreathing()">Başla</button>
+  </div>
+
+</div>
+
+<script>
+  let phase = 0; // 0: inhale, 1: hold, 2: exhale, 3: hold
+  let baseDuration = 4; // seconds
+  let currentTimer = baseDuration;
+  let interval;
+  let isRunning = false;
+  
+  const circle = document.getElementById('circle');
+  const instruction = document.getElementById('instruction');
+  const timerEl = document.getElementById('timer');
+  const btnStart = document.getElementById('btnStart');
+  const durationSelect = document.getElementById('durationSelect');
+
+  function updateDuration() {
+    baseDuration = parseInt(durationSelect.value);
+    circle.style.transition = `all ${baseDuration}s linear`;
+  }
+
+  function reset() {
+    clearInterval(interval);
+    isRunning = false;
+    phase = 0;
+    circle.className = 'breathing-circle';
+    instruction.textContent = 'Hazır mısınız?';
+    timerEl.textContent = '';
+    btnStart.textContent = 'Başla';
+    durationSelect.disabled = false;
+  }
+
+  function runPhase() {
+    currentTimer = baseDuration;
+    timerEl.textContent = currentTimer;
+    
+    // Update visuals based on phase
+    if (phase === 0) {
+      instruction.textContent = 'Nefes Al...';
+      circle.className = 'breathing-circle inhale';
+    } else if (phase === 1) {
+      instruction.textContent = 'Tut...';
+      circle.className = 'breathing-circle inhale hold'; // keep it big
+    } else if (phase === 2) {
+      instruction.textContent = 'Nefes Ver...';
+      circle.className = 'breathing-circle exhale';
+    } else if (phase === 3) {
+      instruction.textContent = 'Tut...';
+      circle.className = 'breathing-circle exhale hold'; // keep it small
+    }
+
+    interval = setInterval(() => {
+      currentTimer--;
+      if (currentTimer > 0) {
+        timerEl.textContent = currentTimer;
+      } else {
+        clearInterval(interval);
+        phase = (phase + 1) % 4;
+        runPhase();
+      }
+    }, 1000);
+  }
+
+  function startBreathing() {
+    if (isRunning) {
+      reset();
+    } else {
+      isRunning = true;
+      btnStart.textContent = 'Durdur';
+      durationSelect.disabled = true;
+      updateDuration();
+      runPhase();
+    }
+  }
+
+  // Initialize transition time
+  updateDuration();
+</script>

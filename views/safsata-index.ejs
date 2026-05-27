@@ -1,0 +1,275 @@
+<%- include('partials/main-header') %>
+
+<style>
+  body { background: #0f172a; color: #f8fafc; font-family: 'Inter', sans-serif; overflow-x: hidden; }
+  .hub-container { padding: 40px 20px; max-width: 1300px; margin: 0 auto; min-height: 85vh; display: flex; flex-direction: column; lg:flex-row; gap: 30px; }
+  
+  h1 { font-size: 2.5rem; font-weight: 900; margin-bottom: 5px; color: #a855f7; text-transform: uppercase; letter-spacing: 1px; }
+  p.desc { color: #94a3b8; font-size: 1rem; line-height: 1.6; margin-bottom: 30px; }
+
+  /* Left Panel: Fallacy List */
+  .list-panel { flex: 1; display: flex; flex-direction: column; gap: 10px; max-height: 700px; overflow-y: auto; padding-right: 10px; }
+  
+  /* Scrollbar styles for list */
+  .list-panel::-webkit-scrollbar { width: 8px; }
+  .list-panel::-webkit-scrollbar-track { background: #1e293b; border-radius: 4px; }
+  .list-panel::-webkit-scrollbar-thumb { background: #475569; border-radius: 4px; }
+  .list-panel::-webkit-scrollbar-thumb:hover { background: #a855f7; }
+
+  .fallacy-btn { background: #1e293b; border: 1px solid #334155; border-radius: 12px; padding: 15px 20px; cursor: pointer; transition: all 0.2s; display: flex; align-items: center; justify-content: space-between; position: relative; overflow: hidden; }
+  .fallacy-btn::before { content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 4px; background: transparent; transition: all 0.2s; }
+  
+  .fallacy-btn:hover { background: #334155; transform: translateX(5px); }
+  .fallacy-btn.active { background: #2e1065; border-color: #a855f7; }
+  .fallacy-btn.active::before { background: #a855f7; }
+
+  .fb-content { display: flex; flex-direction: column; }
+  .fb-title { font-weight: 800; color: #e2e8f0; font-size: 1.1rem; margin-bottom: 3px; }
+  .fb-eng { font-size: 0.75rem; color: #a855f7; text-transform: uppercase; letter-spacing: 1px; font-weight: 700; }
+  .fb-icon { font-size: 1.5rem; opacity: 0.5; transition: opacity 0.2s; }
+  .fallacy-btn.active .fb-icon { opacity: 1; }
+
+  /* Right Panel: Matrix Display */
+  .matrix-panel { flex: 2; background: #0f172a; border: 2px solid #334155; border-radius: 20px; position: relative; overflow: hidden; display: flex; flex-direction: column; box-shadow: 0 20px 50px rgba(0,0,0,0.5); }
+  
+  .matrix-bg { position: absolute; inset: 0; opacity: 0.03; font-family: monospace; font-size: 10px; color: #a855f7; user-select: none; pointer-events: none; overflow: hidden; white-space: pre-wrap; line-height: 1; z-index: 0; }
+  
+  .mp-content { padding: 40px; position: relative; z-index: 10; flex-grow: 1; overflow-y: auto; }
+  
+  .mp-header { border-bottom: 1px solid #334155; padding-bottom: 20px; margin-bottom: 30px; }
+  .mp-title { font-size: 2.5rem; font-weight: 900; color: #f8fafc; margin: 0 0 5px 0; }
+  .mp-latin { font-size: 1rem; color: #a855f7; font-style: italic; }
+
+  .mp-def { font-size: 1.1rem; color: #cbd5e1; line-height: 1.7; margin-bottom: 30px; border-left: 4px solid #a855f7; padding-left: 20px; }
+
+  /* Formula Box */
+  .formula-box { background: rgba(168, 85, 247, 0.05); border: 1px dashed rgba(168, 85, 247, 0.3); padding: 20px; border-radius: 12px; margin-bottom: 30px; }
+  .form-title { font-size: 0.8rem; font-weight: 800; color: #a855f7; text-transform: uppercase; margin-bottom: 10px; letter-spacing: 1px; }
+  .form-code { font-family: 'Courier New', Courier, monospace; font-size: 1.1rem; color: #e2e8f0; font-weight: 700; }
+
+  /* Examples */
+  .ex-grid { display: grid; grid-template-columns: 1fr; gap: 20px; }
+  .ex-card { background: #1e293b; border-radius: 12px; padding: 20px; border: 1px solid #334155; position: relative; }
+  .ex-card::before { content: '💬'; position: absolute; top: -15px; left: 20px; font-size: 1.5rem; }
+  .ex-text { font-size: 1rem; color: #f8fafc; font-style: italic; margin-bottom: 15px; margin-top: 5px; line-height: 1.5; }
+  .ex-analysis { background: #0f172a; padding: 15px; border-radius: 8px; font-size: 0.85rem; color: #94a3b8; border-left: 2px solid #ef4444; }
+
+  /* Navigation to Games */
+  .games-nav { display: flex; gap: 15px; margin-top: 30px; }
+  .g-btn { flex: 1; padding: 15px; border-radius: 12px; font-weight: 800; text-align: center; text-decoration: none; text-transform: uppercase; letter-spacing: 1px; transition: all 0.2s; }
+  .g-btn-det { background: #1e293b; border: 1px solid #38bdf8; color: #38bdf8; }
+  .g-btn-det:hover { background: #38bdf8; color: #0f172a; }
+  .g-btn-kal { background: #1e293b; border: 1px solid #10b981; color: #10b981; }
+  .g-btn-kal:hover { background: #10b981; color: #0f172a; }
+
+  @media (min-width: 1024px) {
+    .hub-container { flex-direction: row; }
+  }
+</style>
+
+<div class="hub-container">
+  
+  <!-- Left: Dictionary List -->
+  <div class="list-panel">
+    <div>
+      <h1>Safsata Ansiklopedisi</h1>
+      <p class="desc">Mantık hatalarını tanıyın. Karşınızdakinin zihinsel illüzyonlarını anında deşifre edin.</p>
+    </div>
+    <div id="fallacyList">
+      <!-- Generated by JS -->
+    </div>
+    
+    <div class="games-nav" style="flex-wrap: wrap;">
+      <a href="/safsata/spin-doctor" class="g-btn" style="background: #1e293b; border: 1px solid #ef4444; color: #ef4444; min-width: 30%;">📺 Politikacı Simülatörü</a>
+      <a href="/safsata/dedektif" class="g-btn g-btn-det">🕵️ Safsata Dedektifi</a>
+      <a href="/safsata/kalkan" class="g-btn g-btn-kal">🛡️ Çürütme Arenası</a>
+      <a href="/safsata/karanlik" class="g-btn g-btn-kar" style="background: #1e293b; border: 1px solid #f43f5e; color: #f43f5e; min-width: 30%;">😈 Karanlık Sanatlar</a>
+      <a href="/safsata/trol-avcisi" class="g-btn" style="background: #1e293b; border: 1px solid #eab308; color: #eab308; min-width: 30%;">📱 Trol Avcısı</a>
+      <a href="/safsata/mahkeme" class="g-btn" style="background: #1e293b; border: 1px solid #a855f7; color: #a855f7; min-width: 30%;">⚖️ İtiraz Ediyorum!</a>
+    </div>
+  </div>
+
+  <!-- Right: Matrix Panel -->
+  <div class="matrix-panel">
+    <div class="matrix-bg" id="matrixBg"></div>
+    
+    <div class="mp-content" id="mpContent">
+      <div class="mp-header">
+        <h2 class="mp-title" id="mTitle">Ad Hominem</h2>
+        <div class="mp-latin" id="mLatin">(Kişiye Saldırı / Argumentum ad Hominem)</div>
+      </div>
+      
+      <div class="mp-def" id="mDef">
+        Karşıdaki kişinin öne sürdüğü argümanı veya fikri mantıksal olarak çürütmek yerine, o fikri savunan kişinin karakterine, geçmişine veya özelliklerine saldırma eylemidir.
+      </div>
+
+      <div class="formula-box">
+        <div class="form-title">Mantıksal Formül</div>
+        <div class="form-code" id="mForm">
+          1. A kişisi X iddiasında bulunur.<br>
+          2. B kişisi A'nın karakterine saldırır.<br>
+          3. Dolayısıyla X iddiası yanlıştır (Mantıksız Sonuç).
+        </div>
+      </div>
+
+      <div class="ex-grid" id="mExamples">
+        <!-- Generated by JS -->
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+  // Dynamic Matrix Background Effect
+  const mBg = document.getElementById('matrixBg');
+  let bgText = "";
+  for(let i=0; i<100; i++) {
+    bgText += "01001010 01101111 01101000 01101110 " + Math.random().toString(36).substring(2, 8) + " ";
+  }
+  mBg.textContent = bgText;
+
+  const fallacies = [
+    {
+      id: 'adhominem', title: 'Kişiye Saldırı', latin: 'Ad Hominem', icon: '🎯',
+      def: 'Karşıdaki kişinin öne sürdüğü argümanı veya fikri mantıksal olarak çürütmek yerine, o fikri savunan kişinin karakterine, geçmişine, kimliğine veya niyetine saldırma eylemidir. Tartışmayı fikirlerden koparıp kişisel kavgaya çeker.',
+      form: 'A kişisi X iddiasında bulunur.\nB kişisi A\'nın kötü bir özelliği olduğunu söyler.\nBu nedenle X iddiası yanlıştır.',
+      examples: [
+        {
+          quote: '"Doktor bana sigarayı bırakmam gerektiğini söyledi ama kendisi günde bir paket içiyor, neden onu dinleyeyim ki?"',
+          analysis: 'Doktorun sigara içmesi (karakter/davranış) sigaranın zararlı olduğu (argüman) gerçeğini değiştirmez. Bu bir Tu Quoque (Sen de) türü Ad Hominem\'dir.'
+        },
+        {
+          quote: '"Onun ekonomi politikalarını ciddiye alamayız, daha geçen yıl vergi kaçırmakla suçlanmıştı."',
+          analysis: 'Kişinin geçmiş suçları, öne sürdüğü ekonomi teorisinin matematiksel olarak yanlış olduğunu kanıtlamaz.'
+        }
+      ]
+    },
+    {
+      id: 'strawman', title: 'Saman Adam', latin: 'Straw Man Fallacy', icon: '🌾',
+      def: 'Karşınızdaki kişinin gerçek argümanını alıp, onu aşırı, saçma veya kolayca çürütülebilecek zayıf bir versiyona ("saman adam"a) çevirmek ve bu uydurma argümana saldırmaktır.',
+      form: 'A kişisi X fikrini savunur.\nB kişisi X\'i çarpıtarak Y (Saman Adam) fikrini yaratır.\nB kişisi Y fikrine saldırır ve X\'i çürüttüğünü iddia eder.',
+      examples: [
+        {
+          quote: 'A: "Savunma bütçesinden biraz kısıp eğitime yatırmalıyız."\nB: "Yani ülkemizi düşmanlara karşı tamamen savunmasız bırakalım, askerleri terhis edelim diyorsun!"',
+          analysis: 'A kişisi "bütçeyi kısalım" dedi, B kişisi bunu "ülkeyi savunmasız bırakalım" şeklinde aşırı uç bir noktaya (saman adam) çarpıtarak saldırdı.'
+        }
+      ]
+    },
+    {
+      id: 'redherring', title: 'Kırmızı Ringa Balığı', latin: 'Red Herring (Ignoratio Elenchi)', icon: '🐟',
+      def: 'Tartışmada zor duruma düşüldüğünde, karşı tarafın dikkatini dağıtmak ve asıl meseleden kaçmak için konuyu tamamen alakasız ama duygusal olarak kışkırtıcı başka bir yöne çekme taktiğidir.',
+      form: 'Konu A tartışılmaktadır.\nB kişisi, A ile ilgisiz olan Konu B\'yi (Kırmızı Ringa) ortaya atar.\nKonu A terk edilir ve Konu B tartışılmaya başlanır.',
+      examples: [
+        {
+          quote: 'Gazeteci: "Şirketinizin nehri zehirlediğine dair raporlar var, ne diyorsunuz?"\nCEO: "Biz bu ülkenin en büyük vergi rekortmeniyiz, binlerce aileye ekmek kapısı açıyoruz. Bu vatanseverliği kimse sorgulayamaz!"',
+          analysis: 'Nehrin zehirlenmesi (Asıl konu), vergi vermek ve vatanseverlik (Kırmızı Ringa) konusuyla örtbas ediliyor.'
+        }
+      ]
+    },
+    {
+      id: 'slippery', title: 'Kaygan Zemin', latin: 'Slippery Slope', icon: '⛷️',
+      def: 'Zararsız veya küçük bir adımın, aradaki bağlantılar kanıtlanmadan, kaçınılmaz olarak felaketle veya çok aşırı bir sonuçla biteceğini iddia etmektir. Bir nevi korkutma taktiğidir.',
+      form: 'Eğer A olursa, ardından B olur.\nB olursa, kesinlikle C olur.\nC çok kötüdür. Bu yüzden A asla yapılmamalıdır.',
+      examples: [
+        {
+          quote: '"Eğer öğrencilerin derste telefonla 5 dakika bakmasına izin verirsek, yarın derste oyun oynarlar, haftaya okula gelmezler, en sonunda hepsi suç çetelerine katılır."',
+          analysis: 'Telefon kontrolü ile suç çetesi arasında kanıtlanmış hiçbir mantıksal zincir yoktur, olaylar felaket senaryosuna bağlanarak abartılmıştır.'
+        }
+      ]
+    },
+    {
+      id: 'false', title: 'Sahte İkilem', latin: 'False Dilemma / Siyah-Beyaz Safsatası', icon: '🌗',
+      def: 'Ortada aslında pek çok farklı seçenek, gri alan veya ara yol varken; durumu sadece iki zıt seçenekten ibaretmiş gibi sunarak insanları bu iki seçenekten birine zorlama taktiğidir.',
+      form: 'Sadece A veya B seçenekleri vardır.\nB seçeneği kötüdür/yanlıştır.\nÖyleyse mecburen A seçeneğini kabul etmelisin.',
+      examples: [
+        {
+          quote: '"Ya bizimlesin, ya da düşmanlarımızın tarafındasın!"',
+          analysis: 'Kişi tarafsız olabilir, her iki tarafı da eleştiriyor olabilir veya konuyu umursamıyor olabilir. Sadece 2 seçenek dayatmak manipülasyondur.'
+        }
+      ]
+    },
+    {
+      id: 'bandwagon', title: 'Sürü Psikolojisi', latin: 'Ad Populum / Bandwagon', icon: '🐑',
+      def: 'Bir fikrin, inancın veya eylemin sırf "çoğunluk tarafından" yapıldığı veya kabul edildiği için doğru, mantıklı veya iyi olduğunu savunmaktır.',
+      form: 'Çoğu insan X\'in doğru olduğuna inanır.\nÖyleyse X doğrudur.',
+      examples: [
+        {
+          quote: '"Dünya çapında milyonlarca insan bu diyeti yapıyor, demek ki en sağlıklı zayıflama yöntemi bu olmalı."',
+          analysis: 'Çok sayıda insanın bir şeyi yapması o şeyin biyolojik veya bilimsel olarak doğru/sağlıklı olduğunu kanıtlamaz. Eskiden çoğunluk dünyanın düz olduğuna da inanıyordu.'
+        }
+      ]
+    },
+    {
+      id: 'authority', title: 'Otoriteye Başvurma', latin: 'Ad Verecundiam', icon: '👑',
+      def: 'Bir argümanın doğruluğunu, o konunun gerçek uzmanı olmayan, sadece ünlü, saygın veya güçlü bir isme dayandırarak kanıtlamaya çalışmaktır.',
+      form: 'Otorite X (ilgili konuda uzman olmayan), Y iddiasında bulunuyor.\nÖyleyse Y iddiası doğrudur.',
+      examples: [
+        {
+          quote: '"Ünlü aktör X, bu yeni kripto paranın geleceğin yatırımı olduğunu söyledi, hemen almalıyım."',
+          analysis: 'Aktörün sinemada başarılı olması (Otorite), onu finans veya blokzincir teknolojisinde (Farklı Alan) güvenilir bir uzman yapmaz.'
+        }
+      ]
+    },
+    {
+      id: 'posthoc', title: 'Yanlış Neden', latin: 'Post Hoc Ergo Propter Hoc', icon: '🎲',
+      def: 'Bir olay diğerinden sonra gerçekleştiği için, ilk olayın ikinci olayın "nedeni" olduğunu (Aralarında sadece zamansal korelasyon varken) iddia etmektir.',
+      form: 'A olayı gerçekleşti.\nSonra B olayı gerçekleşti.\nÖyleyse A, B\'nin sebebidir.',
+      examples: [
+        {
+          quote: '"Güneş tutulması oldu ve ertesi gün kral hastalandı. Demek ki kralı güneş tutulması hasta etti."',
+          analysis: 'Sadece zaman olarak arka arkaya gelmeleri (Korelasyon), aralarında bir sebep-sonuç (Nedensellik) ilişkisi olduğunu kanıtlamaz.'
+        }
+      ]
+    }
+  ];
+
+  function loadFallacy(id) {
+    document.querySelectorAll('.fallacy-btn').forEach(b => b.classList.remove('active'));
+    document.getElementById('btn-' + id).classList.add('active');
+
+    const f = fallacies.find(x => x.id === id);
+    
+    document.getElementById('mTitle').textContent = f.title;
+    document.getElementById('mLatin').textContent = f.latin;
+    document.getElementById('mDef').textContent = f.def;
+    
+    // Format formula
+    document.getElementById('mForm').innerHTML = f.form.replace(/\n/g, '<br>');
+
+    // Format examples
+    const exCont = document.getElementById('mExamples');
+    exCont.innerHTML = '';
+    f.examples.forEach(ex => {
+      exCont.innerHTML += `
+        <div class="ex-card">
+          <div class="ex-text">${ex.quote}</div>
+          <div class="ex-analysis"><strong>Dedektif Analizi:</strong> ${ex.analysis}</div>
+        </div>
+      `;
+    });
+  }
+
+  // Render Left List
+  const listCont = document.getElementById('fallacyList');
+  fallacies.forEach(f => {
+    const btn = document.createElement('div');
+    btn.className = 'fallacy-btn';
+    btn.id = 'btn-' + f.id;
+    btn.onclick = () => loadFallacy(f.id);
+    btn.innerHTML = `
+      <div class="fb-content">
+        <span class="fb-title">${f.title}</span>
+        <span class="fb-eng">${f.latin.split(' / ')[0]}</span>
+      </div>
+      <div class="fb-icon">${f.icon}</div>
+    `;
+    listCont.appendChild(btn);
+  });
+
+  // Init
+  loadFallacy(fallacies[0].id);
+
+</script>
+
+<%- include('partials/main-footer') %>

@@ -1,0 +1,309 @@
+/* ═══════════════════════════════════════════════════════════════
+   MODULES.CSS — Premium Styles for All Learning Modules
+   Safsata, Sahne, Beden Dili, Özgüven, Manipülasyon, Hikaye, Görgü
+   ═══════════════════════════════════════════════════════════════ */
+
+/* ── Module page wrapper — only affects standalone module pages ── */
+.content-wrapper {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0 16px 60px;
+  min-height: auto;
+}
+.content-wrapper + * { min-height: auto; }
+
+/* Override diksiyon sidebar border when in standalone module pages */
+main.main-content:has(> .content-wrapper) {
+  min-height: auto !important;
+  border-right: none !important;
+  padding: 24px 0 0 !important;
+  background: transparent !important;
+}
+/* Fallback for browsers not supporting :has() */
+.gorgu-page, .safsata-page, .hikaye-page, .ozguven-page, .giyim-page, .sahne-page, .man-page, .beden-page {
+  display: block;
+}
+
+
+/* ── ret-hero — compact, no full-viewport height ── */
+.ret-hero {
+  padding: 50px 24px 36px !important;
+  margin-bottom: 28px !important;
+  border-radius: 20px !important;
+}
+@media (max-width: 768px) {
+  .content-wrapper { padding: 0 12px 40px; }
+  .ret-hero { padding: 36px 16px 24px !important; margin-bottom: 20px !important; }
+  .ret-hero-title { font-size: 2rem !important; }
+  .ret-hero-tagline { font-size: 1.1rem !important; }
+  .ret-hero-desc { font-size: 0.9rem !important; }
+  .ret-hero-stats { gap: 18px !important; flex-wrap: wrap; justify-content: center; }
+  .ret-stat-n { font-size: 1.5rem !important; }
+}
+@media (max-width: 480px) {
+  .ret-hero { padding: 28px 14px 20px !important; border-radius: 14px !important; }
+  .ret-hero-title { font-size: 1.7rem !important; }
+  .ret-section { padding: 20px 14px !important; }
+}
+
+/* ── ret-section responsive ── */
+.ret-section {
+  padding: 30px 28px;
+  border-radius: 18px;
+  margin-bottom: 20px;
+}
+@media (max-width: 768px) {
+  .ret-section { padding: 22px 16px; border-radius: 14px; }
+  .ret-section-header h2 { font-size: 1.25rem; }
+  .ret-pillars { grid-template-columns: 1fr !important; }
+}
+@media (max-width: 480px) {
+  .ret-section { padding: 18px 12px; }
+}
+
+/* ── Category pills — horizontal scroll on mobile ── */
+.ret-cat-pills {
+  margin: 16px 0 28px !important;
+}
+@media (max-width: 600px) {
+  .ret-cat-pills {
+    flex-wrap: nowrap !important;
+    overflow-x: auto;
+    justify-content: flex-start !important;
+    padding-bottom: 8px;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+    gap: 8px !important;
+    margin: 12px 0 20px !important;
+  }
+  .ret-cat-pills::-webkit-scrollbar { display: none; }
+  .ret-cat-pill { white-space: nowrap; flex-shrink: 0; padding: 8px 16px !important; font-size: 0.82rem !important; }
+}
+
+/* ── Card grid responsive ── */
+.ret-exercises-grid {
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+}
+@media (max-width: 640px) {
+  .ret-exercises-grid { grid-template-columns: 1fr; gap: 14px; }
+  .ret-ex-card { padding: 18px; }
+}
+
+
+/* ── Shared Module Base ─────────────────────────────────────── */
+.module-container{position:relative;padding:70px 30px 50px;border-radius:24px;overflow:hidden;color:#e2e8f0}
+.module-container::before{content:'';position:absolute;inset:0;background:url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%239C92AC' fill-opacity='0.03'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");pointer-events:none;opacity:.4;z-index:0}
+.module-container>*{position:relative;z-index:1}
+
+/* ── Module Hero ────────────────────────────────────────────── */
+.mod-hero{text-align:center;margin-bottom:40px}
+.mod-hero-badge{display:inline-block;padding:6px 20px;border-radius:50px;font-size:.78rem;font-weight:700;letter-spacing:.5px;text-transform:uppercase;margin-bottom:18px}
+.mod-hero-title{font-size:3.2rem;font-weight:900;color:#fff;margin:0 0 10px;letter-spacing:-1px}
+.mod-hero-tagline{font-size:1.1rem;font-weight:600;margin:0 0 12px}
+.mod-hero-desc{font-size:1rem;color:#cbd5e1;max-width:650px;margin:0 auto 30px;line-height:1.7}
+.mod-hero-stats{display:flex;justify-content:center;gap:40px;flex-wrap:wrap}
+.mod-stat{text-align:center}
+.mod-stat-n{display:block;font-size:1.6rem;font-weight:900;color:#fff}
+.mod-stat-l{display:block;font-size:.72rem;font-weight:600;text-transform:uppercase;letter-spacing:.5px;margin-top:2px}
+
+/* ── Section Panels ─────────────────────────────────────────── */
+.mod-section{background:rgba(15,23,42,.5);border:1px solid rgba(255,255,255,.06);border-radius:20px;padding:35px 30px;margin-bottom:30px;backdrop-filter:blur(8px);transition:border-color .3s}
+.mod-section:hover{border-color:rgba(255,255,255,.12)}
+.mod-section-header{display:flex;align-items:center;gap:14px;margin-bottom:22px}
+.mod-section-icon{width:50px;height:50px;border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:1.4rem;flex-shrink:0}
+.mod-section-title{font-size:1.3rem;font-weight:800;color:#e2e8f0;margin:0}
+.mod-section-sub{font-size:.83rem;color:#94a3b8;margin-top:3px}
+
+/* ── Card Grid ──────────────────────────────────────────────── */
+.mod-cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:20px}
+.mod-card{background:rgba(30,41,59,.55);border:1px solid rgba(255,255,255,.06);border-radius:16px;padding:25px;transition:all .35s;position:relative;overflow:hidden}
+.mod-card::before{content:'';position:absolute;top:0;left:0;width:4px;height:100%;border-radius:4px 0 0 4px;opacity:.6;transition:opacity .3s}
+.mod-card:hover{transform:translateY(-4px);box-shadow:0 12px 40px rgba(0,0,0,.25)}
+.mod-card:hover::before{opacity:1}
+.mod-card h4{color:#e2e8f0;font-size:1.05rem;font-weight:700;margin:0 0 8px}
+.mod-card p{color:#94a3b8;font-size:.85rem;line-height:1.6;margin:0}
+
+/* ── Accordion ──────────────────────────────────────────────── */
+.mod-accordion{display:flex;flex-direction:column;gap:10px}
+.mod-acc-item{background:rgba(30,41,59,.5);border:1px solid rgba(255,255,255,.06);border-radius:14px;overflow:hidden;transition:all .3s}
+.mod-acc-item.active{border-color:rgba(255,255,255,.15)}
+.mod-acc-header{width:100%;padding:18px 20px;background:none;border:none;color:#e2e8f0;font-size:.95rem;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:space-between;text-align:left;font-family:inherit}
+.mod-acc-header:hover{background:rgba(255,255,255,.03)}
+.mod-acc-title{display:flex;align-items:center;gap:12px}
+.mod-acc-icon{font-size:1.3rem}
+.mod-acc-arrow{font-size:.7rem;color:#94a3b8;transition:transform .3s}
+.mod-acc-item.active .mod-acc-arrow{transform:rotate(180deg)}
+.mod-acc-body{max-height:0;overflow:hidden;transition:max-height .4s ease;padding:0 20px}
+.mod-acc-item.active .mod-acc-body{max-height:500px;padding:0 20px 20px}
+.mod-acc-body p{color:#cbd5e1;font-size:.9rem;line-height:1.7}
+
+/* ── Alert/Tip Box ──────────────────────────────────────────── */
+.mod-alert{padding:16px 18px;border-radius:12px;font-size:.88rem;line-height:1.6;margin-top:12px}
+.mod-alert strong{display:block;margin-bottom:4px}
+
+/* ── Compare Grid (Doğru/Yanlış) ────────────────────────────── */
+.mod-compare{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin:20px 0}
+.mod-compare-wrong{background:rgba(239,68,68,.08);border:1px solid rgba(239,68,68,.2);border-left:3px solid #ef4444;padding:18px;border-radius:12px}
+.mod-compare-wrong strong{color:#fca5a5;display:block;margin-bottom:6px}
+.mod-compare-wrong p,.mod-compare-wrong span{color:#fecaca;font-size:.9rem;margin:0}
+.mod-compare-right{background:rgba(16,185,129,.08);border:1px solid rgba(16,185,129,.2);border-left:3px solid #10b981;padding:18px;border-radius:12px}
+.mod-compare-right strong{color:#6ee7b7;display:block;margin-bottom:6px}
+.mod-compare-right p,.mod-compare-right span{color:#a7f3d0;font-size:.9rem;margin:0}
+
+/* ── Stat Card ──────────────────────────────────────────────── */
+.mod-stat-card{background:rgba(15,23,42,.6);border:1px solid rgba(255,255,255,.06);border-radius:14px;padding:20px;display:flex;align-items:center;gap:16px}
+.mod-stat-card-icon{font-size:2.5rem;flex-shrink:0}
+.mod-stat-card h4{color:#fff;margin:0 0 5px;font-size:1rem}
+.mod-stat-card p{color:#cbd5e1;font-size:.9rem;line-height:1.5;margin:0}
+
+/* ── Quiz ───────────────────────────────────────────────────── */
+.mod-quiz{background:rgba(15,23,42,.6);border:1px solid rgba(255,255,255,.08);border-radius:18px;padding:28px;margin:20px 0}
+.mod-quiz-q{font-size:1.05rem;font-weight:700;color:#e2e8f0;margin-bottom:18px;padding-left:16px;border-left:3px solid currentColor}
+.mod-quiz-opts{display:flex;flex-direction:column;gap:10px}
+.mod-quiz-opt{padding:14px 18px;background:rgba(30,41,59,.7);border:1.5px solid rgba(100,116,139,.15);border-radius:12px;color:#cbd5e1;cursor:pointer;transition:all .25s;font-size:.9rem}
+.mod-quiz-opt:hover{border-color:rgba(255,255,255,.2);transform:translateX(4px)}
+.mod-quiz-opt.correct{border-color:#10b981;background:rgba(16,185,129,.12);color:#34d399;pointer-events:none}
+.mod-quiz-opt.wrong{border-color:#ef4444;background:rgba(239,68,68,.08);color:#f87171;pointer-events:none}
+.mod-quiz-feedback{margin-top:14px;padding:14px 18px;border-radius:12px;font-size:.88rem;display:none}
+.mod-quiz-feedback.show{display:block;animation:modFadeIn .3s ease}
+
+/* ── Timeline ───────────────────────────────────────────────── */
+.mod-timeline{position:relative;padding:30px 0}
+.mod-timeline::before{content:'';position:absolute;top:35px;left:10%;right:10%;height:4px;border-radius:2px;z-index:0}
+.mod-timeline-steps{display:flex;justify-content:space-between;position:relative;z-index:1;gap:20px}
+.mod-timeline-step{flex:1;text-align:center}
+.mod-timeline-num{width:56px;height:56px;border-radius:50%;margin:0 auto 14px;display:flex;align-items:center;justify-content:center;font-size:1.3rem;font-weight:900;color:#fff;border:4px solid rgba(0,0,0,.3);box-shadow:0 4px 15px rgba(0,0,0,.2)}
+.mod-timeline-step h4{color:#e2e8f0;font-size:1rem;margin:0 0 8px}
+.mod-timeline-step p{color:#94a3b8;font-size:.85rem;line-height:1.5}
+
+/* ── Decoder Cards (Manipülasyon) ───────────────────────────── */
+.mod-decoder{background:rgba(30,41,59,.6);padding:28px;border-radius:14px;border-left:3px solid rgba(255,255,255,.1);position:relative;overflow:hidden;cursor:pointer;margin-bottom:14px;min-height:90px}
+.mod-decoder-cover{position:absolute;inset:0;background:rgba(30,41,59,.95);display:flex;align-items:center;padding:28px;transition:opacity .4s,transform .4s;z-index:2}
+.mod-decoder-cover p{font-size:1.1rem;color:#e4e4e7;margin:0;font-style:italic}
+.mod-decoder-cover .mod-decoder-hint{position:absolute;right:20px;font-size:.75rem;color:#71717a;text-transform:uppercase;letter-spacing:1.5px}
+.mod-decoder:hover .mod-decoder-cover{opacity:0;transform:translateY(-10px);pointer-events:none}
+.mod-decoder-reveal h4{margin:0 0 10px;font-family:'Courier New',monospace;font-size:.95rem}
+.mod-decoder-reveal p{color:#d4d4d8;margin:0;line-height:1.6;font-size:.9rem}
+
+/* ── Glass Break Cards (Özgüven) ────────────────────────────── */
+.mod-glass{background:rgba(30,41,59,.5);border:1px solid rgba(255,255,255,.08);border-radius:20px;padding:40px 24px;cursor:pointer;position:relative;overflow:hidden;min-height:200px;display:flex;align-items:center;justify-content:center;flex-direction:column;transition:all .4s}
+.mod-glass:hover{border-color:rgba(255,255,255,.15);transform:translateY(-3px)}
+.mod-glass-front{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;flex-direction:column;padding:24px;transition:all .5s;z-index:2;background:rgba(30,41,59,.9)}
+.mod-glass-front h3{color:#ef4444;margin:0 0 8px;font-size:1.15rem;text-align:center}
+.mod-glass-front .mod-glass-hint{font-size:.78rem;color:#94a3b8;position:absolute;bottom:14px}
+.mod-glass.broken .mod-glass-front{opacity:0;transform:scale(.8);pointer-events:none}
+.mod-glass-back{opacity:0;transition:all .5s .1s;padding:10px;text-align:center}
+.mod-glass.broken .mod-glass-back{opacity:1}
+.mod-glass-back h3{color:#10b981;margin:0 0 10px;font-size:1.1rem}
+.mod-glass-back p{color:#cbd5e1;font-size:.9rem;line-height:1.6}
+
+/* ── Body Part Cards (Beden Dili) ───────────────────────────── */
+.mod-body-card{background:rgba(30,41,59,.55);border:1px solid rgba(255,255,255,.06);border-radius:16px;padding:25px;margin-bottom:16px;transition:all .3s;cursor:pointer}
+.mod-body-card:hover{transform:translateX(6px);border-color:rgba(255,255,255,.15)}
+.mod-body-card h3{margin:0 0 8px;font-size:1.05rem;font-weight:700}
+.mod-body-card p{color:#94a3b8;font-size:.88rem;line-height:1.6;margin:0}
+
+/* ── Scenario Dialog ────────────────────────────────────────── */
+.mod-dialog{display:flex;flex-direction:column;gap:14px;margin-top:15px}
+.mod-dialog-bubble{padding:16px;border-radius:14px;font-size:.9rem;line-height:1.6;width:85%;color:#cbd5e1}
+.mod-dialog-wrong{background:rgba(239,68,68,.08);border-left:3px solid #ef4444;border-radius:14px 14px 14px 4px}
+.mod-dialog-wrong .mod-dialog-label{font-size:.78rem;color:#fca5a5;display:block;margin-bottom:5px;font-weight:700}
+.mod-dialog-right{background:rgba(16,185,129,.08);border-right:3px solid #10b981;align-self:flex-end;border-radius:14px 14px 4px 14px}
+.mod-dialog-right .mod-dialog-label{font-size:.78rem;color:#6ee7b7;display:block;margin-bottom:5px;font-weight:700}
+
+/* ── Breathing Circle ───────────────────────────────────────── */
+.mod-breathe{width:140px;height:140px;border-radius:50%;margin:0 auto;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:1.1rem;color:#fff;animation:modBreathe 8s infinite ease-in-out}
+@keyframes modBreathe{0%,100%{transform:scale(1);box-shadow:0 0 20px rgba(59,130,246,.3)}50%{transform:scale(1.25);box-shadow:0 0 50px rgba(59,130,246,.6)}}
+
+/* ── Tips Grid ──────────────────────────────────────────────── */
+.mod-tips{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:16px;margin-top:20px}
+.mod-tip{background:rgba(30,41,59,.5);border:1px solid rgba(255,255,255,.06);border-radius:14px;padding:20px;display:flex;gap:12px;align-items:flex-start;transition:all .3s}
+.mod-tip:hover{border-color:rgba(255,255,255,.12);transform:translateY(-2px)}
+.mod-tip-icon{font-size:1.4rem;flex-shrink:0}
+.mod-tip strong{color:#e2e8f0;display:block;margin-bottom:4px;font-size:.9rem}
+.mod-tip p{color:#94a3b8;font-size:.82rem;line-height:1.5;margin:0}
+
+/* ── Animations ─────────────────────────────────────────────── */
+@keyframes modFadeIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+
+/* ═══════════════════════════════════════════════════════════════
+   MODULE-SPECIFIC ACCENT COLORS
+   ═══════════════════════════════════════════════════════════════ */
+
+/* ── Safsata (Orange) ──────────────────────────────────────── */
+#safsata-container{background:linear-gradient(135deg,#1a0a00 0%,#271200 30%,#431407 60%,#1a0a00 100%)}
+#safsata-container .mod-hero-badge{background:rgba(249,115,22,.15);border:1px solid rgba(249,115,22,.3);color:#fdba74}
+#safsata-container .mod-hero-tagline{color:#fb923c}
+#safsata-container .mod-stat-l{color:#f97316}
+#safsata-container .mod-section-icon{background:rgba(249,115,22,.12)}
+#safsata-container .mod-card::before{background:linear-gradient(180deg,#ea580c,#f97316)}
+#safsata-container .mod-acc-item.active{border-color:rgba(249,115,22,.3)}
+#safsata-container .mod-alert{background:rgba(249,115,22,.08);border:1px solid rgba(249,115,22,.2);color:#fdba74}
+#safsata-container .mod-quiz-q{border-left-color:#f97316}
+
+/* ── Sahne (Blue) ──────────────────────────────────────────── */
+#sahne-container{background:linear-gradient(135deg,#0a0f1a 0%,#0c1929 30%,#1e3a5f 60%,#0c1929 100%)}
+#sahne-container .mod-hero-badge{background:rgba(59,130,246,.15);border:1px solid rgba(59,130,246,.3);color:#93c5fd}
+#sahne-container .mod-hero-tagline{color:#60a5fa}
+#sahne-container .mod-stat-l{color:#3b82f6}
+#sahne-container .mod-section-icon{background:rgba(59,130,246,.12)}
+#sahne-container .mod-card::before{background:linear-gradient(180deg,#2563eb,#3b82f6)}
+#sahne-container .mod-breathe{background:#3b82f6}
+
+/* ── Beden Dili (Emerald) ──────────────────────────────────── */
+#bedendili-container{background:linear-gradient(135deg,#021a0f 0%,#022c22 30%,#064e3b 60%,#022c22 100%)}
+#bedendili-container .mod-hero-badge{background:rgba(16,185,129,.15);border:1px solid rgba(16,185,129,.3);color:#6ee7b7}
+#bedendili-container .mod-hero-tagline{color:#34d399}
+#bedendili-container .mod-stat-l{color:#10b981}
+#bedendili-container .mod-section-icon{background:rgba(16,185,129,.12)}
+#bedendili-container .mod-card::before{background:linear-gradient(180deg,#059669,#10b981)}
+#bedendili-container .mod-body-card:hover{border-color:rgba(16,185,129,.3)}
+
+/* ── Özgüven (Violet) ──────────────────────────────────────── */
+#ozguven-container{background:linear-gradient(135deg,#0f0520 0%,#1e1b4b 30%,#4c1d95 60%,#1e1b4b 100%)}
+#ozguven-container .mod-hero-badge{background:rgba(139,92,246,.15);border:1px solid rgba(139,92,246,.3);color:#c4b5fd}
+#ozguven-container .mod-hero-tagline{color:#a78bfa}
+#ozguven-container .mod-stat-l{color:#8b5cf6}
+#ozguven-container .mod-section-icon{background:rgba(139,92,246,.12)}
+
+/* ── Manipülasyon (Red) ────────────────────────────────────── */
+#manipulasyon-container{background:linear-gradient(135deg,#1a0505 0%,#450a0a 30%,#7f1d1d 60%,#450a0a 100%)}
+#manipulasyon-container .mod-hero-badge{background:rgba(239,68,68,.15);border:1px solid rgba(239,68,68,.3);color:#fca5a5}
+#manipulasyon-container .mod-hero-tagline{color:#f87171}
+#manipulasyon-container .mod-stat-l{color:#ef4444}
+#manipulasyon-container .mod-decoder{border-left-color:rgba(239,68,68,.2)}
+#manipulasyon-container .mod-decoder:hover{border-left-color:#ef4444}
+#manipulasyon-container .mod-decoder-reveal h4{color:#f87171}
+
+/* ── Hikaye (Amber) ────────────────────────────────────────── */
+#hikaye-container{background:linear-gradient(135deg,#1a0f00 0%,#451a03 30%,#78350f 60%,#451a03 100%)}
+#hikaye-container .mod-hero-badge{background:rgba(245,158,11,.15);border:1px solid rgba(245,158,11,.3);color:#fcd34d}
+#hikaye-container .mod-hero-tagline{color:#fbbf24}
+#hikaye-container .mod-stat-l{color:#f59e0b}
+#hikaye-container .mod-timeline::before{background:linear-gradient(90deg,#f59e0b,#ea580c,#10b981)}
+#hikaye-container .mod-section-icon{background:rgba(245,158,11,.12)}
+
+/* ── Görgü (Purple) ────────────────────────────────────────── */
+#gorgu-container{background:linear-gradient(135deg,#0f0a1a 0%,#1e1b4b 30%,#312e81 60%,#1e1b4b 100%)}
+#gorgu-container .mod-hero-badge{background:rgba(167,139,250,.15);border:1px solid rgba(167,139,250,.3);color:#ddd6fe}
+#gorgu-container .mod-hero-tagline{color:#c084fc}
+#gorgu-container .mod-stat-l{color:#a78bfa}
+#gorgu-container .mod-section-icon{background:rgba(167,139,250,.12)}
+#gorgu-container .mod-card::before{background:linear-gradient(180deg,#7c3aed,#a78bfa)}
+
+/* ── Responsive ─────────────────────────────────────────────── */
+@media(max-width:768px){
+  .module-container{padding:45px 18px 35px}
+  .mod-hero-title{font-size:2.2rem}
+  .mod-hero-stats{gap:20px}
+  .mod-section{padding:22px 18px}
+  .mod-cards{grid-template-columns:1fr}
+  .mod-compare{grid-template-columns:1fr}
+  .mod-timeline-steps{flex-direction:column;align-items:center}
+  .mod-timeline::before{display:none}
+  .mod-tips{grid-template-columns:1fr}
+  .mod-dialog-bubble{width:95%}
+}
+@media(max-width:480px){
+  .mod-hero-title{font-size:1.8rem}
+}

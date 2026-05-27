@@ -1,0 +1,296 @@
+<%- include('partials/main-header') %>
+
+<style>
+  body { background: #0f172a; color: #f8fafc; font-family: 'Inter', sans-serif; overflow-x: hidden; }
+  .arena-container { padding: 40px 20px; max-width: 1100px; margin: 0 auto; min-height: 85vh; display: flex; flex-direction: column; align-items: center; }
+  
+  h1 { font-size: 2.5rem; font-weight: 900; margin-bottom: 5px; color: #10b981; text-transform: uppercase; letter-spacing: 1px; text-align: center; }
+  p.desc { color: #94a3b8; font-size: 1rem; line-height: 1.6; margin-bottom: 40px; text-align: center; max-width: 700px; }
+
+  /* HUD */
+  .combat-hud { width: 100%; display: flex; justify-content: space-between; align-items: center; background: #1e293b; padding: 20px; border-radius: 15px; border: 1px solid #334155; margin-bottom: 30px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
+  
+  .hp-box { display: flex; flex-direction: column; width: 40%; }
+  .hp-box.player { align-items: flex-start; }
+  .hp-box.enemy { align-items: flex-end; }
+  
+  .hp-name { font-weight: 900; font-size: 1.1rem; margin-bottom: 8px; text-transform: uppercase; letter-spacing: 1px; display: flex; align-items: center; gap: 8px; }
+  .player .hp-name { color: #38bdf8; }
+  .enemy .hp-name { color: #f43f5e; }
+
+  .hp-bar-bg { width: 100%; height: 20px; background: #0f172a; border-radius: 10px; overflow: hidden; border: 1px solid #334155; }
+  .hp-bar-fill { height: 100%; transition: width 0.5s ease-out; }
+  .player .hp-bar-fill { background: linear-gradient(90deg, #0284c7, #38bdf8); width: 100%; }
+  .enemy .hp-bar-fill { background: linear-gradient(90deg, #e11d48, #f43f5e); width: 100%; float: right; }
+
+  .vs-badge { background: #0f172a; border: 2px solid #facc15; color: #facc15; padding: 10px 15px; border-radius: 50%; font-weight: 900; font-style: italic; font-size: 1.2rem; }
+
+  /* Arena Area */
+  .combat-area { width: 100%; display: flex; flex-direction: column; gap: 30px; }
+
+  .enemy-dialogue { background: rgba(244, 63, 94, 0.1); border: 2px solid #f43f5e; padding: 30px; border-radius: 20px; position: relative; text-align: center; }
+  .enemy-avatar { font-size: 3rem; margin-bottom: 10px; }
+  .enemy-text { font-size: 1.3rem; color: #f8fafc; font-style: italic; line-height: 1.6; }
+  .enemy-text::before { content: '"'; font-size: 2rem; color: #f43f5e; opacity: 0.5; }
+  .enemy-text::after { content: '"'; font-size: 2rem; color: #f43f5e; opacity: 0.5; }
+
+  /* Options */
+  .options-grid { display: flex; flex-direction: column; gap: 15px; }
+  .reply-btn { background: #1e293b; border: 2px solid #334155; color: #e2e8f0; padding: 20px; border-radius: 15px; font-size: 1.1rem; font-weight: 600; cursor: pointer; text-align: left; transition: all 0.2s; position: relative; overflow: hidden; }
+  .reply-btn:hover:not(:disabled) { background: #334155; border-color: #38bdf8; transform: translateY(-2px); }
+  .reply-btn:disabled { opacity: 0.6; cursor: not-allowed; }
+
+  /* Feedback Overlay */
+  .result-modal { position: fixed; inset: 0; background: rgba(15, 23, 42, 0.9); z-index: 100; display: none; flex-direction: column; align-items: center; justify-content: center; padding: 20px; }
+  .rm-content { background: #1e293b; border: 2px solid #334155; padding: 40px; border-radius: 20px; max-width: 600px; text-align: center; box-shadow: 0 20px 50px rgba(0,0,0,0.8); }
+  
+  .rm-icon { font-size: 4rem; margin-bottom: 20px; }
+  .rm-title { font-size: 2rem; font-weight: 900; margin-bottom: 15px; text-transform: uppercase; }
+  .rm-title.success { color: #10b981; }
+  .rm-title.fail { color: #f43f5e; }
+  
+  .rm-desc { font-size: 1.1rem; color: #cbd5e1; line-height: 1.6; margin-bottom: 30px; }
+  
+  .rm-btn { background: #38bdf8; color: #0f172a; border: none; padding: 15px 30px; border-radius: 12px; font-weight: 900; font-size: 1.1rem; text-transform: uppercase; cursor: pointer; }
+
+  .game-over { text-align: center; padding: 50px; display: none; background: #1e293b; border-radius: 20px; border: 2px solid #10b981; width: 100%; }
+
+  @keyframes shake {
+    0% { transform: translateX(0); }
+    25% { transform: translateX(-10px); }
+    50% { transform: translateX(10px); }
+    75% { transform: translateX(-10px); }
+    100% { transform: translateX(0); }
+  }
+  .shake { animation: shake 0.4s ease-in-out; border-color: #f43f5e !important; }
+  .flash-green { animation: flashGreen 0.5s ease-in-out; }
+  @keyframes flashGreen { 0% { background: #10b981; } 100% { background: transparent; } }
+
+</style>
+
+<div class="arena-container">
+  <h1>Çürütme Arenası (Debunker)</h1>
+  <p class="desc">Gerçek hayatta karşınıza çıkacak manipülatif insanlarla yüzleşin. Onların mantık hatalarına (safsatalara) duygularınızla değil, zekanızla cevap verin.</p>
+
+  <div class="combat-hud" id="hud">
+    <div class="hp-box player">
+      <div class="hp-name">🛡️ Siz (Zihinsel Kalkan)</div>
+      <div class="hp-bar-bg"><div class="hp-bar-fill" id="pHP"></div></div>
+    </div>
+    
+    <div class="vs-badge">VS</div>
+    
+    <div class="hp-box enemy">
+      <div class="hp-name" id="eName">Manipülatör Patron 👺</div>
+      <div class="hp-bar-bg"><div class="hp-bar-fill" id="eHP"></div></div>
+    </div>
+  </div>
+
+  <div class="combat-area" id="combatArea">
+    <div class="enemy-dialogue" id="eDial">
+      <div class="enemy-avatar" id="eAvatar">👺</div>
+      <div class="enemy-text" id="eText">...</div>
+    </div>
+
+    <div class="options-grid" id="optGrid">
+      <!-- Injected -->
+    </div>
+  </div>
+
+  <div class="game-over" id="gameOver">
+    <div style="font-size: 4rem; margin-bottom:20px;">👑</div>
+    <h2 style="font-size:2.5rem; color:#10b981; margin:0 0 15px 0;">Arena Şampiyonu!</h2>
+    <p style="color:#cbd5e1; font-size:1.1rem; margin-bottom:30px;">Tüm manipülatörleri zekanızla alt ettiniz. Duygusal tuzaklara düşmediniz ve tartışmaların kontrolünü elinizde tuttunuz.</p>
+    <a href="/safsata/karanlik" style="background:#f43f5e; color:#fff; padding:15px 30px; border-radius:12px; text-decoration:none; font-weight:800; text-transform:uppercase;">Sonraki Seviye: Karanlık Sanatlar ➔</a>
+  </div>
+
+</div>
+
+<!-- Modal -->
+<div class="result-modal" id="resModal">
+  <div class="rm-content">
+    <div class="rm-icon" id="rmIcon">✅</div>
+    <div class="rm-title" id="rmTitle">Mükemmel Savuşturma</div>
+    <div class="rm-desc" id="rmDesc">...</div>
+    <button class="rm-btn" onclick="nextRound()">Sonraki Round</button>
+  </div>
+</div>
+
+<script>
+  let playerHP = 100;
+  let enemyHP = 100;
+
+  const rounds = [
+    {
+      enemyName: "Manipülatör Patron",
+      avatar: "👔",
+      text: "Bu projeyi savunduğunu biliyorum ama sen geçen yılki projede de bütçeyi aşmıştın. Üstelik bu dijitalleşme işine girersek yarın tüm departmanlar robotlaşacak ve hepimiz işsiz kalacağız. Senin maliyet hesaplarına nasıl güvenelim?",
+      options: [
+        { 
+          text: "Sen de 2 yıl önce sunum yaparken terden sırılsıklam olup verileri unutmuştun, bana işimi sen mi öğreteceksin?", 
+          type: "fail", 
+          fbTitle: "Tuzağa Düştünüz! (Tu Quoque)", 
+          fbDesc: "Karşı Ad Hominem yaptınız. Tartışmayı profesyonel zeminden çıkarıp mahalle kavgasına çevirdiniz. Jüri (diğer çalışanlar) gözünde güvenilirliğiniz sıfırlandı." 
+        },
+        { 
+          text: "Geçen yılki bütçe aşımının sebebi piyasadaki çip kriziydi, benim hatam değildi. Ayrıca robotlaşma hemen olacak bir şey değil.", 
+          type: "mid", 
+          fbTitle: "Savunma Pozisyonu (Zayıf)", 
+          fbDesc: "Rakibin sizi asıl konudan koparıp geçmişi tartıştırma tuzağına düştünüz. Kontrolü kaybettiniz, ancak çok da zarar görmediniz." 
+        },
+        { 
+          text: "Geçen yılın raporunu ayrı bir oturumda memnuniyetle tartışırım. Ayrıca bu proje bir robotlaşma değil, yazılım güncellemesidir. Şimdi asıl konumuza, bu projenin yatırım getiri verilerine geri dönelim.", 
+          type: "success", 
+          fbTitle: "Kalkan Aktif! (Sınır Çizme)", 
+          fbDesc: "Mükemmel çürütme! Geçmişi reddetmediniz ama konuyu böldünüz. Kaygan zemin abartısını patlattınız ve tartışmayı zorla asıl konuya (Logos) çektiniz." 
+        }
+      ]
+    },
+    {
+      enemyName: "Agresif Kayınvalide",
+      avatar: "👵",
+      text: "Çocuğa bu organik mamayı yedirmiyorsun demek... Bizim zamanımızda biz hep inek sütüyle büyüdük, hiçbirimiz de ölmedik. Sen bu gidişle çocuğu hasta edeceksin, ya bizim dediğimizi yaparsın ya da çocuğa zarar verirsin!",
+      options: [
+        { 
+          text: "İnek sütünün zararlarını anlatan yüzlerce yeni tıbbi araştırma var, sadece iki seçenek yok. Kendi doktorumuzun onayladığı özel formülü kullanıyoruz.", 
+          type: "success", 
+          fbTitle: "Sahte İkilemi Kırdınız!", 
+          fbDesc: "Karşı tarafın yarattığı 'Ya benim dediğim ya felaket' (False Dilemma) safsatasını üçüncü bir seçenek (Doktor Onayı) sunarak ustaca savuşturdunuz." 
+        },
+        { 
+          text: "Sizin zamanınızla bu zaman bir mi? O zamanlar teknoloji mi vardı, sen tıp profesörü müsün de bana akıl veriyorsun?", 
+          type: "fail", 
+          fbTitle: "Gereksiz Agresyon (Ad Hominem)", 
+          fbDesc: "Haklıyken haksız duruma düştünüz. Tartışmayı tamamen kişisel bir saldırıya çevirdiniz." 
+        },
+        { 
+          text: "Tamam belki haklı olabilirsin, inek sütünü de bir deneriz.", 
+          type: "fail", 
+          fbTitle: "Geri Adım (Otoriteye Boyun Eğme)", 
+          fbDesc: "Karşı tarafın geleneksel baskısına (Ad Antiquitatem - Geleneklere Başvurma) boyun eğdiniz." 
+        }
+      ]
+    },
+    {
+      enemyName: "Kurnaz Satıcı",
+      avatar: "🚙",
+      text: "Bu arabayı hemen almalısın dostum. Dün 3 tane sattım, şehirdeki herkes bu modeli konuşuyor. Zaten bunu almazsan o külüstür arabanla yarın yolda kalırsın, rezil olursun.",
+      options: [
+        { 
+          text: "Evet haklısın, herkes alıyorsa vardır bir bildikleri, işlemleri başlatalım.", 
+          type: "fail", 
+          fbTitle: "Sürü Psikolojisine Kapıldınız!", 
+          fbDesc: "Çok satılması (Bandwagon) aracın sizin ihtiyaçlarınıza uygun olduğunu kanıtlamaz. Manipülasyona yenik düştünüz." 
+        },
+        { 
+          text: "Senin tek derdin komisyon almak, bana yalan söyleme!", 
+          type: "fail", 
+          fbTitle: "Niyet Okuma (Ad Hominem)", 
+          fbDesc: "Satıcının niyetini okuyarak saldırganlaştınız. Haklı bile olsanız gereksiz bir çatışma başlattınız." 
+        },
+        { 
+          text: "Başkalarının ne aldığı beni ilgilendirmiyor. Ayrıca eski arabamla yolda kalacağım sadece senin abartılı bir varsayımın. Bana arabanın motor ekspertiz raporunu gösterir misin?", 
+          type: "success", 
+          fbTitle: "Mükemmel Savuşturma!", 
+          fbDesc: "Hem 'Sürü Psikolojisi' hem de 'Kaygan Zemin' felaket senaryosunu tek hamlede boşa çıkardınız ve somut kanıt (Logos) talep ettiniz." 
+        }
+      ]
+    }
+  ];
+
+  let currentRound = 0;
+
+  function updateHUD() {
+    document.getElementById('pHP').style.width = playerHP + '%';
+    document.getElementById('eHP').style.width = enemyHP + '%';
+  }
+
+  function loadRound() {
+    if (currentRound >= rounds.length) {
+      document.getElementById('hud').style.display = 'none';
+      document.getElementById('combatArea').style.display = 'none';
+      document.getElementById('gameOver').style.display = 'block';
+      return;
+    }
+
+    const r = rounds[currentRound];
+    document.getElementById('eName').textContent = r.enemyName;
+    document.getElementById('eAvatar').textContent = r.avatar;
+    document.getElementById('eText').textContent = r.text;
+
+    // Reset Enemy HP for new opponent
+    enemyHP = 100;
+    updateHUD();
+
+    const optGrid = document.getElementById('optGrid');
+    optGrid.innerHTML = '';
+    
+    // Shuffle options
+    const shuffled = [...r.options].sort(() => Math.random() - 0.5);
+
+    shuffled.forEach(opt => {
+      const btn = document.createElement('button');
+      btn.className = 'reply-btn';
+      btn.textContent = opt.text;
+      btn.onclick = () => handleChoice(opt);
+      optGrid.appendChild(btn);
+    });
+  }
+
+  function handleChoice(opt) {
+    const modal = document.getElementById('resModal');
+    const mIcon = document.getElementById('rmIcon');
+    const mTitle = document.getElementById('rmTitle');
+    const mDesc = document.getElementById('rmDesc');
+
+    modal.style.display = 'flex';
+    mTitle.textContent = opt.fbTitle;
+    mDesc.textContent = opt.fbDesc;
+
+    if (opt.type === 'success') {
+      enemyHP -= 100; // Defeated
+      mIcon.textContent = '🛡️';
+      mTitle.className = 'rm-title success';
+      document.body.classList.add('flash-green');
+      setTimeout(() => document.body.classList.remove('flash-green'), 500);
+    } 
+    else if (opt.type === 'fail') {
+      playerHP -= 35;
+      mIcon.textContent = '🩸';
+      mTitle.className = 'rm-title fail';
+      document.getElementById('hud').classList.add('shake');
+      setTimeout(() => document.getElementById('hud').classList.remove('shake'), 400);
+    }
+    else {
+      // mid
+      playerHP -= 15;
+      enemyHP -= 50;
+      mIcon.textContent = '⚠️';
+      mTitle.className = 'rm-title fail';
+      mTitle.style.color = '#facc15';
+    }
+
+    updateHUD();
+
+    if (playerHP <= 0) {
+      mTitle.textContent = "Sistemsel Çöküş!";
+      mDesc.textContent = "Duygularınıza yenik düştünüz ve manipülatörlerin oyuncağı oldunuz. Yeniden başlamalısınız.";
+      mIcon.textContent = '💀';
+      document.querySelector('.rm-btn').textContent = "Baştan Başla";
+      document.querySelector('.rm-btn').onclick = () => location.reload();
+    }
+  }
+
+  function nextRound() {
+    if (playerHP <= 0) return;
+    document.getElementById('resModal').style.display = 'none';
+    currentRound++;
+    loadRound();
+  }
+
+  // Init
+  loadRound();
+
+</script>
+
+<%- include('partials/main-footer') %>

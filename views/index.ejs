@@ -1,0 +1,1624 @@
+<%- include('partials/main-header') %>
+<div class="hero-band" id="hero-band">
+    <div class="hero-band-inner">
+      <div class="hero-band-text">
+        <h1>Türkçe Diksiyon <span class="hl">Egzersizleri</span></h1>
+        <p>Sesinizi güçlendirin!</p>
+      </div>
+      <div class="hero-stats-row">
+        <div class="hstat" id="hstat-1"><span class="hstat-n">32</span><span class="hstat-l">Egzersiz</span></div>
+        <div class="hstat" id="hstat-2"><span class="hstat-n">8</span><span class="hstat-l">Kategori</span></div>
+        <div class="hstat" id="hstat-3"><span class="hstat-n" id="done-count">0</span><span
+            class="hstat-l">Tamamlanan</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════ LAYOUT ══════ -->
+  <div class="page-layout" id="page-layout">
+
+    <!-- ── LEFT SIDEBAR ──────────────────────────────────────── -->
+    <aside class="sidebar" id="sidebar">
+
+
+
+      <!-- Exercise list -->
+      <div class="sidebar-section" id="sidebar-list-section">
+        <div class="sidebar-title" id="sidebar-title">
+          <span class="sidebar-title-text">Egzersiz Listesi</span>
+          <span class="sidebar-count" id="sidebar-count">32</span>
+        </div>
+        <nav class="ex-list" id="ex-list">
+          <!-- filled by JS -->
+        </nav>
+      </div>
+
+      <!-- Progress in sidebar -->
+      <div class="sidebar-progress" id="sidebar-progress">
+        <div class="sp-header">
+          <span class="sp-label">İlerlemeniz</span>
+          <button class="sp-reset" id="sp-reset-btn" title="Sıfırla">↺</button>
+        </div>
+        <div class="sp-bar-wrap">
+          <div class="sp-bar" id="sp-bar"></div>
+        </div>
+        <div class="sp-text" id="sp-text">0 / 32 tamamlandı</div>
+      </div>
+
+      <!-- Voice Recorder in sidebar -->
+      <div class="sidebar-recorder" id="sidebar-recorder">
+        <div class="sr-header">
+          <span class="sr-icon">🎤</span>
+          <div>
+            <div class="sr-title">Ses Kaydı</div>
+            <div class="sr-subtitle">Kendinizi kaydedin &amp; analiz edin</div>
+          </div>
+        </div>
+
+        <!-- Waveform visualizer -->
+        <div class="sr-visualizer" id="sr-visualizer">
+          <div class="sr-bars" id="sr-bars">
+            <span></span><span></span><span></span><span></span><span></span>
+            <span></span><span></span><span></span><span></span><span></span>
+          </div>
+          <div class="sr-status" id="sr-status">HAZIR</div>
+        </div>
+
+        <!-- Timer -->
+        <div class="sr-timer" id="sr-timer">0:00</div>
+
+        <!-- Playback progress (hidden until recording ready) -->
+        <div class="sr-playback-wrap" id="sr-playback-wrap" style="display:none">
+          <div class="sr-pb-bar-wrap" id="sr-pb-bar-wrap">
+            <div class="sr-pb-bar" id="sr-pb-bar"></div>
+          </div>
+          <div class="sr-pb-times">
+            <span id="sr-pb-cur">0:00</span>
+            <span id="sr-pb-dur">0:00</span>
+          </div>
+        </div>
+
+        <!-- Control buttons -->
+        <div class="sr-controls">
+          <button class="sr-btn sr-record" id="sr-record-btn" title="Kaydet / Durdur">⏺</button>
+          <button class="sr-btn sr-play" id="sr-play-btn" title="Dinle / Duraklat" disabled>▶</button>
+          <button class="sr-btn sr-delete" id="sr-delete-btn" title="Kaydı Sil" disabled>🗑</button>
+        </div>
+
+        <!-- Hint text -->
+        <div class="sr-note" id="sr-note">⏺ tuşuna basarak kaydı başlat</div>
+
+        <!-- Hidden audio -->
+        <audio id="sr-audio" style="display:none"></audio>
+      </div>
+
+
+
+    </aside>
+
+    <!-- ── MAIN CONTENT ───────────────────────────────────────── -->
+    <main class="main-content" id="main-content">
+
+
+
+      <!-- Okunuşlar -->
+      <div id="okunuslar-container" style="display:none"></div>
+
+      <!-- Blog -->
+      <div id="blog-container" style="display:none"></div>
+
+      <!-- Okuma Egzersizleri -->
+      <div id="okuma-container" style="display:none"></div>
+
+      <!-- Teleprompter -->
+      <div id="teleprompter-container" style="display:none"></div>
+
+      <!-- Tekerleme Arenası (Tekerleme sekmesinde gösterilir) -->
+      <div id="arena-container" style="display:none"></div>
+
+      <!-- Ses İnteraktif Stüdyo -->
+      <div id="ses-interactive-container" style="display:none"></div>
+
+      <!-- Ritim İnteraktif Stüdyo -->
+      <div id="ritim-interactive-container" style="display:none"></div>
+
+      <!-- Interactive Breathing Assistant -->
+      <div id="nefes-interactive-container" style="display:none"></div>
+
+            <!-- Interactive Resonance Lab -->
+      <div id="rezonans-interactive-container" style="display:none"></div>
+
+      <!-- Interactive Mini Games (now embedded in exercises, not separate) -->
+      <div id="interaktif-container" style="display:none"></div>
+
+      <!-- Training Programs -->
+      <div id="programlar-container" style="display:none"></div>
+
+      <!-- Exercise panels — rendered by JS -->
+      <div id="exercises-container"></div>
+
+      <!-- Retorik Sayfası Container -->
+      <div id="retorik-container" class="retorik-page" style="display:none">
+
+        <!-- ══ HERO ══ -->
+        <div class="ret-hero">
+          <div class="ret-hero-badge">🏛️ Antik Yunan'dan Günümüze</div>
+          <h1 class="ret-hero-title">Retorik</h1>
+          <p class="ret-hero-tagline">Etkili Konuşma & İkna Sanatı</p>
+          <p class="ret-hero-desc">Sadece doğru konuşmak yetmez — ikna etmek, ilham vermek ve iz bırakmak gerekir. Retorik, binlerce yıllık bilgeliği modern iletişime taşıyan en güçlü araçtır.</p>
+          <div class="ret-hero-stats">
+            <div class="ret-stat"><span class="ret-stat-n">2500+</span><span class="ret-stat-l">Yıllık Tarih</span></div>
+            <div class="ret-stat"><span class="ret-stat-n">3</span><span class="ret-stat-l">Aristoteles Sütunu</span></div>
+            <div class="ret-stat"><span class="ret-stat-n">5</span><span class="ret-stat-l">Temel Kanon</span></div>
+          </div>
+        </div>
+
+        <!-- ══ RETORİK KATEGORİLERİ ══ -->
+        <div style="margin-top:-20px;margin-bottom:30px;text-align:center;">
+          <div class="ret-cat-pills">
+            <a href="#" class="ret-cat-pill active" data-ret-cat="all" data-ret-nav="all">Tümü</a>
+            <a href="/retorik/ethos" class="ret-cat-pill" data-ret-cat="ethos" data-ret-nav="ethos">🛡️ Ethos</a>
+            <a href="/retorik/pathos" class="ret-cat-pill" data-ret-cat="pathos" data-ret-nav="pathos">❤️ Pathos</a>
+            <a href="/retorik/logos" class="ret-cat-pill" data-ret-cat="logos" data-ret-nav="logos">🧠 Logos</a>
+            <a href="/retorik/konusma-yazimi" class="ret-cat-pill" data-ret-cat="yazim" data-ret-nav="yazim">✍️ Konuşma Yazımı</a>
+            <a href="/retorik/figurler" class="ret-cat-pill" data-ret-cat="figurler" data-ret-nav="figurler">🎭 Retorik Figürleri</a>
+            <a href="/retorik/analiz" class="ret-cat-pill" data-ret-cat="analiz" data-ret-nav="analiz">🔍 Konuşma Analizi</a>
+            <a href="/retorik/savunma" class="ret-cat-pill" data-ret-cat="savunma" data-ret-nav="savunma">⚖️ Savunma</a>
+            <a href="/retorik/ikna" class="ret-cat-pill" data-ret-cat="ikna" data-ret-nav="ikna">💡 İkna</a>
+          </div>
+        </div>
+
+        <!-- ══ İLERLEME ══ -->
+        <div class="ret-progress-wrap">
+          <div class="ret-progress-header">
+            <span class="ret-progress-label">🏛️ Retorik İlerlemeniz</span>
+            <span class="ret-progress-count" id="ret-progress-count">0 / 20</span>
+          </div>
+          <div class="ret-progress-bar-bg"><div class="ret-progress-bar-fill" id="ret-progress-fill"></div></div>
+          <div class="ret-progress-msg" id="ret-progress-msg">🚀 Retoriğe ilk adımınızı atın!</div>
+        </div>
+
+        <!-- ══ RETORİK ANA İÇERİK (TÜMÜ) ══ -->
+        <div id="retorik-main-content">
+        <section class="ret-section">
+          <div class="ret-section-header">
+            <span class="ret-section-icon">📜</span>
+            <div>
+              <h2>Retorik Nedir?</h2>
+              <p class="ret-section-sub">Kelimelerin gücünü anlamak</p>
+            </div>
+          </div>
+          <div class="ret-section-body">
+            <p>Retorik (Yunanca: <em>rhētorikḗ</em>), söz söyleme, ikna etme ve etkili iletişim kurma sanatı ve bilimidir. Milattan önce 5. yüzyılda Antik Yunan'da doğmuş, Aristoteles tarafından sistemleştirilmiş ve yüzyıllar boyunca eğitimin temel taşlarından biri olmuştur.</p>
+            <p>Diksiyon <strong>"nasıl"</strong> söylediğinizle ilgilenirken, Retorik <strong>"ne"</strong> söylediğiniz, <strong>"kime"</strong> söylediğiniz ve <strong>"neden"</strong> söylediğinizle ilgilenir. Bir konuşmacının sözlerinin dinleyici üzerinde istenen etkiyi yaratması için gereken tüm strateji ve teknikleri kapsar.</p>
+            <blockquote class="ret-quote">
+              <p>"Retorik, her konuda ikna edici olanı bulma yeteneğidir."</p>
+              <cite>— Aristoteles, M.Ö. 384–322</cite>
+            </blockquote>
+          </div>
+        </section>
+
+        <!-- ══ ARİSTOTELES'İN 3 SÜTUNU ══ -->
+        <section class="ret-section">
+          <div class="ret-section-header">
+            <span class="ret-section-icon">🏛️</span>
+            <div>
+              <h2>Aristoteles'in 3 İkna Sütunu</h2>
+              <p class="ret-section-sub">Her büyük konuşmanın temel yapı taşları</p>
+            </div>
+          </div>
+          <div class="ret-pillars">
+            <div class="ret-pillar ret-pillar-ethos">
+              <div class="ret-pillar-icon">🛡️</div>
+              <h3>Ethos <span>(Güvenilirlik)</span></h3>
+              <p class="ret-pillar-q">"Bu kişiye neden güvenmeliyim?"</p>
+              <p>Konuşmacının karakteri, uzmanlığı ve ahlaki duruşu. Dinleyici, sözlerin arkasındaki insana güvenmezse hiçbir argüman işe yaramaz. Ethos, konuşmadan önce başlar — itibar, deneyim ve tutarlılıkla inşa edilir.</p>
+              <ul>
+                <li>Uzmanlık ve yetkinlik gösterme</li>
+                <li>Dürüstlük ve tutarlılık</li>
+                <li>Dinleyiciyle ortak değerler kurma</li>
+              </ul>
+            </div>
+            <div class="ret-pillar ret-pillar-pathos">
+              <div class="ret-pillar-icon">❤️</div>
+              <h3>Pathos <span>(Duygu)</span></h3>
+              <p class="ret-pillar-q">"Bu konu beni neden ilgilendirmeli?"</p>
+              <p>Dinleyicinin duygularına hitap etme sanatı. İnsanlar kararlarını mantıkla değil, duygularla alır — sonra mantıkla gerekçelendirir. Pathos, hikâye anlatımı, metafor ve empatik bağlantı yoluyla çalışır.</p>
+              <ul>
+                <li>Hikâye anlatımı (storytelling)</li>
+                <li>Empati ve duygusal bağ kurma</li>
+                <li>Görsel ve işitsel imgeler yaratma</li>
+              </ul>
+            </div>
+            <div class="ret-pillar ret-pillar-logos">
+              <div class="ret-pillar-icon">🧠</div>
+              <h3>Logos <span>(Mantık)</span></h3>
+              <p class="ret-pillar-q">"Bu argüman mantıklı mı?"</p>
+              <p>Argümanın rasyonel tutarlılığı. Kanıtlar, istatistikler, nedensellik ilişkileri ve mantıksal çıkarımlar. Logos, iknanın omurgasıdır — duygular dikkat çeker, ama mantık karar verdirir.</p>
+              <ul>
+                <li>Veri ve istatistik kullanımı</li>
+                <li>Neden-sonuç ilişkileri</li>
+                <li>Tümdengelim ve tümevarım</li>
+              </ul>
+            </div>
+          </div>
+        </section>
+
+        <!-- ══ TARİHİ YOLCULUK ══ -->
+        <section class="ret-section">
+          <div class="ret-section-header">
+            <span class="ret-section-icon">⏳</span>
+            <div>
+              <h2>Retoriğin Tarihi Yolculuğu</h2>
+              <p class="ret-section-sub">2500 yıllık ikna geleneği</p>
+            </div>
+          </div>
+          <div class="ret-timeline">
+            <div class="ret-tl-item">
+              <div class="ret-tl-dot"></div>
+              <div class="ret-tl-content">
+                <h4>M.Ö. 5. Yüzyıl — Doğuş</h4>
+                <p>Sicilya'da mülkiyet davalarında vatandaşlar kendi davalarını savunmak zorunda kaldı. <strong>Koraks</strong> ve öğrencisi <strong>Tisias</strong>, ilk retorik kurallarını yazdı. Sofistler (Gorgias, Protagoras) retoriği Atina'ya taşıdı.</p>
+              </div>
+            </div>
+            <div class="ret-tl-item">
+              <div class="ret-tl-dot"></div>
+              <div class="ret-tl-content">
+                <h4>M.Ö. 4. Yüzyıl — Aristoteles</h4>
+                <p><strong>Aristoteles</strong> "Retorik" adlı eserinde Ethos, Pathos ve Logos üçlemesini tanımladı. Retoriği "her konuda ikna edici olanı bulma yeteneği" olarak sistemleştirdi. Bu çerçeve 2400 yıl sonra hâlâ geçerlidir.</p>
+              </div>
+            </div>
+            <div class="ret-tl-item">
+              <div class="ret-tl-dot"></div>
+              <div class="ret-tl-content">
+                <h4>M.Ö. 1. Yüzyıl — Roma Altın Çağı</h4>
+                <p><strong>Cicero</strong> retoriği hukuk ve politikada zirveye taşıdı. Beş kanonu (Inventio, Dispositio, Elocutio, Memoria, Actio) belirledi. <strong>Quintilianus</strong> eğitim sistemini oluşturdu.</p>
+              </div>
+            </div>
+            <div class="ret-tl-item">
+              <div class="ret-tl-dot"></div>
+              <div class="ret-tl-content">
+                <h4>Orta Çağ — Trivium</h4>
+                <p>Retorik, <strong>Trivium</strong>'un (Gramer, Mantık, Retorik) üç temel disiplininden biri olarak Avrupa üniversitelerinin müfredatına girdi. Kilise vaazları ve diplomatik yazışmalar retoriğin yaşamasını sağladı.</p>
+              </div>
+            </div>
+            <div class="ret-tl-item">
+              <div class="ret-tl-dot"></div>
+              <div class="ret-tl-content">
+                <h4>20–21. Yüzyıl — Modern Retorik</h4>
+                <p>Reklam, siyaset, TED Talks, sosyal medya ve kişisel markalaşma. Retorik bugün her zamankinden daha kritik. <strong>Martin Luther King Jr.</strong>, <strong>Steve Jobs</strong> ve <strong>Barack Obama</strong> gibi isimler modern retoriğin ustaları oldu.</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ══ 5 KANON ══ -->
+        <section class="ret-section">
+          <div class="ret-section-header">
+            <span class="ret-section-icon">📐</span>
+            <div>
+              <h2>Retoriğin 5 Kanonu</h2>
+              <p class="ret-section-sub">Cicero'dan miras kalan konuşma hazırlık çerçevesi</p>
+            </div>
+          </div>
+          <div class="ret-canons">
+            <div class="ret-canon"><span class="ret-canon-num">I</span><h4>Inventio</h4><p>Keşif — Ne söylenecek? Argümanları ve kanıtları bulmak.</p></div>
+            <div class="ret-canon"><span class="ret-canon-num">II</span><h4>Dispositio</h4><p>Düzenleme — Söyleneceklerin sıralanması. Giriş, gelişme, sonuç.</p></div>
+            <div class="ret-canon"><span class="ret-canon-num">III</span><h4>Elocutio</h4><p>Üslup — Nasıl söylenecek? Kelime seçimi, metafor, figürler.</p></div>
+            <div class="ret-canon"><span class="ret-canon-num">IV</span><h4>Memoria</h4><p>Hafıza — Konuşmayı ezberleme ve doğaçlama yeteneği.</p></div>
+            <div class="ret-canon"><span class="ret-canon-num">V</span><h4>Actio</h4><p>Sunum — Ses tonu, beden dili, göz teması, sahne hakimiyeti.</p></div>
+          </div>
+        </section>
+
+        <!-- ══ NEDEN GEREKLİ? ══ -->
+        <section class="ret-section">
+          <div class="ret-section-header">
+            <span class="ret-section-icon">🎯</span>
+            <div>
+              <h2>Neden Retoriğe İhtiyacımız Var?</h2>
+              <p class="ret-section-sub">Modern dünyada ikna gücü</p>
+            </div>
+          </div>
+          <div class="ret-why-grid">
+            <div class="ret-why-card">
+              <div class="ret-why-icon">💼</div>
+              <h4>Kariyer Başarısı</h4>
+              <p>İş mülakatlarından yönetim toplantılarına, fikirlerinizi etkili sunmak terfi ve liderlik fırsatlarını artırır. İkna edemeyen, yönetemez.</p>
+            </div>
+            <div class="ret-why-card">
+              <div class="ret-why-icon">🤝</div>
+              <h4>İlişki Yönetimi</h4>
+              <p>Aile, arkadaşlık ve romantik ilişkilerde çatışmaları yapıcı şekilde çözmek, empatiyle iletişim kurmak retoriğin günlük kullanımıdır.</p>
+            </div>
+            <div class="ret-why-card">
+              <div class="ret-why-icon">🛡️</div>
+              <h4>Manipülasyona Karşı Savunma</h4>
+              <p>Reklamlar, siyasi söylemler ve sosyal medya sürekli ikna teknikleri kullanır. Retoriği bilmek, bu taktikleri tanımanızı sağlar.</p>
+            </div>
+            <div class="ret-why-card">
+              <div class="ret-why-icon">🎤</div>
+              <h4>Topluluk Önünde Konuşma</h4>
+              <p>Sunum, panel, düğün konuşması... Hayatınızda en az bir kez sahneye çıkarsınız. Retorik, o anı unutulmaz kılar.</p>
+            </div>
+            <div class="ret-why-card">
+              <div class="ret-why-icon">✍️</div>
+              <h4>Yazılı İletişim</h4>
+              <p>E-posta, rapor, sosyal medya paylaşımı — yazılı ikna da retoriğin alanıdır. İyi yazılmış bir mesaj, yüzlerce sözden değerlidir.</p>
+            </div>
+            <div class="ret-why-card">
+              <div class="ret-why-icon">🧭</div>
+              <h4>Eleştirel Düşünce</h4>
+              <p>Retorik öğrenmek, argüman çürütme ve mantık hatası tespiti becerisi kazandırır. Bu, günlük hayatta daha iyi kararlar almanızı sağlar.</p>
+            </div>
+          </div>
+        </section>
+
+        <!-- ══ KİMLER KULLANIR? ══ -->
+        <section class="ret-section">
+          <div class="ret-section-header">
+            <span class="ret-section-icon">👥</span>
+            <div>
+              <h2>Kimler Kullanır?</h2>
+              <p class="ret-section-sub">Tarihten günümüze retorik ustaları</p>
+            </div>
+          </div>
+          <div class="ret-users-grid">
+            <div class="ret-user"><span class="ret-user-emoji">👔</span><strong>Yöneticiler & CEO'lar</strong><p>Vizyon sunumları, yatırımcı toplantıları</p></div>
+            <div class="ret-user"><span class="ret-user-emoji">⚖️</span><strong>Avukatlar</strong><p>Jüri ikna, savunma ve iddia</p></div>
+            <div class="ret-user"><span class="ret-user-emoji">🎓</span><strong>Akademisyenler</strong><p>Ders anlatımı, tez savunması</p></div>
+            <div class="ret-user"><span class="ret-user-emoji">📢</span><strong>Politikacılar</strong><p>Kampanya, miting, meclis konuşmaları</p></div>
+            <div class="ret-user"><span class="ret-user-emoji">📈</span><strong>Satış Uzmanları</strong><p>Müşteri ikna, ürün lansmanı</p></div>
+            <div class="ret-user"><span class="ret-user-emoji">🎬</span><strong>İçerik Üreticileri</strong><p>YouTube, podcast, sosyal medya</p></div>
+            <div class="ret-user"><span class="ret-user-emoji">💊</span><strong>Sağlık Profesyonelleri</strong><p>Hasta iletişimi, ekip koordinasyonu</p></div>
+            <div class="ret-user"><span class="ret-user-emoji">🎭</span><strong>Sanatçılar & Aktörler</strong><p>Sahne performansı, karakter yorumu</p></div>
+          </div>
+        </section>
+
+        <!-- ══ ÜNLÜ ALINTILAR ══ -->
+        <section class="ret-section ret-quotes-section">
+          <div class="ret-section-header">
+            <span class="ret-section-icon">💬</span>
+            <div>
+              <h2>Büyük Hatiplerin Sözleri</h2>
+              <p class="ret-section-sub">Tarih boyunca retorik üzerine düşünceler</p>
+            </div>
+          </div>
+          <div class="ret-quotes-grid">
+            <blockquote class="ret-famous-quote">
+              <p>"Bir hayalim var ki..."</p>
+              <cite>— Martin Luther King Jr.</cite>
+            </blockquote>
+            <blockquote class="ret-famous-quote">
+              <p>"Ülkenizin sizin için ne yapabileceğini değil, sizin ülkeniz için ne yapabileceğinizi sorun."</p>
+              <cite>— John F. Kennedy</cite>
+            </blockquote>
+            <blockquote class="ret-famous-quote">
+              <p>"İnsanlar söylediklerinizi unutur, yaptıklarınızı unutur, ama onlara hissettirdiklerinizi asla unutmaz."</p>
+              <cite>— Maya Angelou</cite>
+            </blockquote>
+          </div>
+        </section>
+
+        <!-- ══ RETORİK EGZERSİZLER ══ -->
+        <div id="retorik-exercises-container"></div>
+
+        <!-- ══ RETORİK İPUÇLARI ══ -->
+        <section class="tips-section-inline" style="margin-top: 50px;">
+          <div class="tsi-header">
+            <h2>🌟 Retorik İpuçları</h2>
+            <p>İkna sanatında ustalaşmak için günlük pratikler</p>
+          </div>
+          <div class="tips-grid-inline">
+            <div class="tip-card-inline">
+              <span class="tci-icon">👁️</span>
+              <div>
+                <strong>Göz Teması</strong>
+                <p>İzleyicinizle kurduğunuz bağ, kelimelerinizden daha güçlüdür.</p>
+              </div>
+            </div>
+            <div class="tip-card-inline">
+              <span class="tci-icon">⏳</span>
+              <div>
+                <strong>Es Verme (Duraklama)</strong>
+                <p>En vurucu cümlenizi söyledikten sonra 3 saniye durun ve etkinin yayılmasını bekleyin.</p>
+              </div>
+            </div>
+            <div class="tip-card-inline">
+              <span class="tci-icon">📖</span>
+              <div>
+                <strong>Hikayeleştirme</strong>
+                <p>Veriler mantığa hitap eder ama kararları hikayeler (duygular) verdirir.</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        </div> <!-- End of retorik-main-content -->
+      </div> <!-- End of retorik-container -->
+
+      <!-- Diyalektik Sayfası Container -->
+      <div id="diyalektik-container" class="retorik-page" style="display:none">
+        <div class="diy-hero">
+          <div class="ret-hero-badge">⚖️ Gerçeğe Ulaşma Sanatı</div>
+          <h1 class="diy-hero-title">Diyalektik</h1>
+          <p class="diy-hero-tagline">Karşıtların Sentezi ve Mantıksal Akıl Yürütme</p>
+          <p class="diy-hero-desc">Diyalektik, zıt görüşlerin çatışmasından yeni bir gerçeğe ulaşma sanatıdır. 18 interaktif egzersiz ile tartışma becerilerinizi geliştirin.</p>
+          <div class="ret-hero-stats">
+            <div class="ret-stat"><span class="ret-stat-n">18</span><span class="ret-stat-l">Egzersiz</span></div>
+            <div class="ret-stat"><span class="ret-stat-n">6</span><span class="ret-stat-l">Kategori</span></div>
+            <div class="ret-stat"><span class="ret-stat-n">Sokratik</span><span class="ret-stat-l">Yöntem</span></div>
+          </div>
+        </div>
+
+        <!-- Category Pills -->
+        <div style="margin-top:-20px;margin-bottom:30px;text-align:center">
+          <div class="diy-cat-pills">
+            <a href="#" class="diy-cat-pill active" data-diy-cat="all">Tümü</a>
+            <a href="/diyalektik/sokratik" class="diy-cat-pill" data-diy-cat="sokratik">❓ Sokratik Yöntem</a>
+            <a href="/diyalektik/hegel" class="diy-cat-pill" data-diy-cat="hegel">🔄 Hegel Diyalektiği</a>
+            <a href="/diyalektik/curutme" class="diy-cat-pill" data-diy-cat="curutme">🎯 Argüman Çürütme</a>
+            <a href="/diyalektik/celisiki" class="diy-cat-pill" data-diy-cat="celisiki">🔍 Çelişki Analizi</a>
+            <a href="/diyalektik/tartisma" class="diy-cat-pill" data-diy-cat="tartisma">⚔️ Tartışma Stratejisi</a>
+            <a href="/diyalektik/dusunce" class="diy-cat-pill" data-diy-cat="dusunce">🧠 Eleştirel Düşünce</a>
+          </div>
+        </div>
+
+        <!-- Dynamic Exercise Container -->
+        <div id="diyalektik-exercises-container"></div>
+
+        <!-- İpuçları -->
+        <section class="tips-section-inline diy-tips" style="margin-top:50px">
+          <div class="tsi-header">
+            <h2 style="">🌟 Diyalektik İpuçları</h2>
+            <p>Tartışmalarda zihinsel esneklik kazanmak için</p>
+          </div>
+          <div class="tips-grid-inline">
+            <div class="tip-card-inline"><span class="tci-icon">🤔</span><div><strong>Soru Sorarak Dinle</strong><p>Sokratik yöntemin temeli, karşı tarafın kendi açığını bulmasını sağlayacak doğru soruları sormaktır.</p></div></div>
+            <div class="tip-card-inline"><span class="tci-icon">🛡️</span><div><strong>Duyguyu Ayır</strong><p>Fikrinize saldırıldığında kişisel algılamayın. Antitez, gerçeğe ulaşmak için sadece bir basamaktır.</p></div></div>
+            <div class="tip-card-inline"><span class="tci-icon">🤝</span><div><strong>Haklılık Payı Ara</strong><p>Karşınızdakinin argümanındaki doğruları bulup kendi argümanınızla birleştirin (Sentez).</p></div></div>
+          </div>
+        </section>
+      </div>
+
+      <!-- Giyim Sayfası Container -->
+      <div id="giyim-container" class="retorik-page" style="display:none">
+        
+        <!-- Hero Section -->
+        <div class="giyim-hero">
+          <span class="giyim-hero-badge">👔 İleri Seviye Profesyonel İmaj</span>
+          <h1 class="giyim-hero-title">Giyim ve İmaj Yönetimi</h1>
+          <p class="giyim-hero-tagline">İlk İzlenimi Sanata Dönüştürün</p>
+          <p class="giyim-hero-desc">Kıyafetleriniz siz konuşmadan önce mesajınızı iletir. Renklerin, kalıpların ve tarzların ardındaki psikolojiyi keşfederek etkinizi maksimuma çıkarın.</p>
+          <div class="giyim-hero-stats">
+            <div class="giyim-stat"><span class="giyim-stat-n">7 sn</span><span class="giyim-stat-l">İlk İzlenim Süresi</span></div>
+            <div class="giyim-stat"><span class="giyim-stat-n">%55</span><span class="giyim-stat-l">Görsel Algı Etkisi</span></div>
+            <div class="giyim-stat"><span class="giyim-stat-n">6+</span><span class="giyim-stat-l">İnteraktif Modül</span></div>
+          </div>
+        </div>
+
+        <!-- Category Pills -->
+        <div class="giyim-cats">
+          <div class="giyim-cats-title">İmaj Geliştirme Modülleri</div>
+          <div class="giyim-pills">
+            <a href="#" class="giyim-pill active" data-section="all">Tüm Eğitimler</a>
+            <a href="#" class="giyim-pill" data-section="dresscode">👔 Dress Code</a>
+            <a href="#" class="giyim-pill" data-section="renk">🎨 Renk Psikolojisi</a>
+            <a href="#" class="giyim-pill" data-section="vucut-tipi">📐 Vücut Tipi</a>
+            <a href="#" class="giyim-pill" data-section="aksesuar">⌚ Aksesuar</a>
+            <a href="#" class="giyim-pill" data-section="stil">👤 Stil Testi</a>
+            <a href="#" class="giyim-pill" data-section="outfit">🧪 Outfit Lab</a>
+          </div>
+        </div>
+
+        <!-- Progress Bar -->
+        <div class="giy-progress">
+          <div class="giy-progress-header">
+            <span class="giy-progress-label">Giyim Modülü İlerlemeniz</span>
+            <span class="giy-progress-count">0 / 6</span>
+          </div>
+          <div class="giy-progress-bar">
+            <div class="giy-progress-fill"></div>
+          </div>
+        </div>
+
+        <!-- SUBPAGE: ALL (Main Overview) -->
+        <div id="all" class="giyim-subpage active">
+           <!-- Intro Grid -->
+           <div class="giy-cards">
+             <div class="giy-card" data-section="dresscode" onclick="window.filterGiyimCategory('dresscode', true)">
+               <div class="giy-card-emoji">👔</div>
+               <h4>Dress Code Rehberi</h4>
+               <p>İş görüşmesinden gala gecesine kadar her ortama uygun kurallar.</p>
+               <span class="giy-card-arrow">➔</span>
+             </div>
+             <div class="giy-card" data-section="renk" onclick="window.filterGiyimCategory('renk', true)">
+               <div class="giy-card-emoji">🎨</div>
+               <h4>Renk Psikolojisi</h4>
+               <p>Hangi renk güven verir, hangisi otorite kurar? Detaylı renk çarkı.</p>
+               <span class="giy-card-arrow">➔</span>
+             </div>
+             <div class="giy-card" data-section="outfit" onclick="window.filterGiyimCategory('outfit', true)">
+               <div class="giy-card-emoji">🧪</div>
+               <h4>Outfit Lab</h4>
+               <p>Kendi kombininizi oluşturun, sistem size profesyonellik puanı versin.</p>
+               <span class="giy-card-arrow">➔</span>
+             </div>
+           </div>
+
+           <!-- Scenario / Tip -->
+           <div class="giy-scenario">
+             <div class="giy-scenario-label">Durum Analizi</div>
+             <div class="giy-scenario-text">"Önemli bir yönetim kurulu toplantısına katılacaksınız ve karşınızdaki yatırımcıları ikna etmeniz gerekiyor. Hangi kombini seçerdiniz?" Eğitimleri tamamlayarak en doğru kararı verin.</div>
+           </div>
+        </div>
+
+        <!-- SUBPAGE: DRESS CODE -->
+        <div id="dresscode" class="giyim-subpage">
+          <div class="giy-section">
+            <div class="giy-section-header">
+              <div class="giy-section-icon">👔</div>
+              <div>
+                <h2 class="giy-section-title">Profesyonel Dress Code</h2>
+                <p class="giy-section-sub">Kurumsal ortamlardaki giyim standartları</p>
+              </div>
+            </div>
+            
+            <div class="giy-cards">
+              <div class="giy-card" data-modal="modal-business-formal">
+                <div class="giy-card-emoji">🕴️</div>
+                <h4>Business Formal</h4>
+                <p>En yüksek kurumsal seviye. Ciddiyet, otorite ve güvenilirlik hedeflenir.</p>
+                <span class="giy-card-arrow">İncele ➔</span>
+              </div>
+              <div class="giy-card" data-modal="modal-business-casual">
+                <div class="giy-card-emoji">💼</div>
+                <h4>Business Casual</h4>
+                <p>Modern iş dünyasının standardı. Rahat ama profesyonel görünüm.</p>
+                <span class="giy-card-arrow">İncele ➔</span>
+              </div>
+              <div class="giy-card" data-modal="modal-smart-casual">
+                <div class="giy-card-emoji">☕</div>
+                <h4>Smart Casual</h4>
+                <p>Yaratıcı ofisler ve networking etkinlikleri için mükemmel denge.</p>
+                <span class="giy-card-arrow">İncele ➔</span>
+              </div>
+            </div>
+
+            <!-- Quiz for Dress Code -->
+            <div class="giy-quiz" data-task-id="dresscode">
+              <div class="giy-quiz-q">Senaryo: İlk kez katılacağınız bir "Startup Networking" etkinliğine davetlisiniz. Hangi tercih daha uygundur?</div>
+              <div class="giy-quiz-opts">
+                <div class="giy-quiz-opt"><span class="opt-letter">A</span> Tam takım elbise ve kravat</div>
+                <div class="giy-quiz-opt correct-answer"><span class="opt-letter">B</span> Kanvas pantolon, gömlek ve spor ceket (Smart Casual)</div>
+                <div class="giy-quiz-opt"><span class="opt-letter">C</span> Eşofman altı ve kapüşonlu sweatshirt</div>
+              </div>
+              <div class="giy-quiz-feedback" data-correct-text="Smart Casual, yaratıcı ve enerjik startup ortamları için hem profesyonel hem de yaklaşılabilir ideal seviyedir." data-wrong-text="Takım elbise fazla resmi kalırken, eşofman saygısızlık olarak algılanabilir."></div>
+            </div>
+
+            <button class="giy-complete-btn" data-task-id="dresscode">Bu Modülü Tamamla</button>
+          </div>
+        </div>
+
+        <!-- SUBPAGE: RENK -->
+        <div id="renk" class="giyim-subpage">
+          <div class="giy-section">
+            <div class="giy-section-header">
+              <div class="giy-section-icon">🎨</div>
+              <div>
+                <h2 class="giy-section-title">Renk Psikolojisi</h2>
+                <p class="giy-section-sub">Renklerin karşınızdaki kişi üzerindeki bilinçaltı etkileri</p>
+              </div>
+            </div>
+
+            <p style="; margin-bottom:20px; font-size:0.95rem;">Renginizi seçin ve yarattığı psikolojik etkiyi görün:</p>
+
+            <div class="giy-color-wheel">
+              <div class="giy-color-swatch" style="background: linear-gradient(135deg, #1e3a8a, #1e40af);" data-content="Lacivert, güvenin ve otoritenin evrensel rengidir. Finans, hukuk ve resmi iş görüşmeleri için 1 numaralı tercihtir. Karşınızdakine 'bana güvenebilirsin' mesajı verir.">
+                <span>Lacivert</span>
+              </div>
+              <div class="giy-color-swatch" style="background: linear-gradient(135deg, #020617, #0f172a);" data-content="Siyah güç, lüks, sofistikasyon ve resmiyet ifade eder. Akşam etkinlikleri ve resmi toplantılar için çok etkilidir. Ancak tamamen siyah giyinmek bazen ulaşılamaz ve soğuk algılanabilir.">
+                <span>Siyah</span>
+              </div>
+              <div class="giy-color-swatch" style="background: linear-gradient(135deg, #64748b, #94a3b8);" data-content="Gri, nötr ve tarafsız bir renktir. Konservatif ve analitik bir izlenim bırakır. Beyaz bir gömlekle kombinlendiğinde çok profesyonel durur.">
+                <span>Gri</span>
+              </div>
+              <div class="giy-color-swatch" style="background: linear-gradient(135deg, #7f1d1d, #b91c1c);" data-content="Kırmızı enerji, tutku, tehlike ve dikkat çekme rengidir. Liderliği vurgular. Kravat veya eşarp gibi küçük detaylarda kullanıldığında (power tie) özgüven ve kararlılık mesajı verir.">
+                <span>Kırmızı</span>
+              </div>
+              <div class="giy-color-swatch" style="background: linear-gradient(135deg, #14532d, #15803d);" data-content="Yeşil, doğayı, büyümeyi ve yeniliği temsil eder. Güven verici ve sakinleştiricidir. Koyu orman yeşili, takım elbiselerde modern ve sofistike bir alternatif oluşturur.">
+                <span>Yeşil</span>
+              </div>
+            </div>
+
+            <div class="giy-tip">
+              <span class="giy-tip-icon">💡</span>
+              <div class="giy-tip-text">3 Renk Kuralı: Profesyonel görünüm için bir kombinde 3'ten fazla ana renk kullanmaktan kaçının. Altın oran %60 Ana Renk, %30 İkincil Renk, %10 Vurgu Rengidir.</div>
+            </div>
+
+            <button class="giy-complete-btn" data-task-id="renk">Bu Modülü Tamamla</button>
+          </div>
+        </div>
+
+        <!-- SUBPAGE: VÜCUT TİPİ (WIZARD) -->
+        <div id="vucut-tipi" class="giyim-subpage">
+          <div class="giy-section">
+            <div class="giy-section-header">
+              <div class="giy-section-icon">📐</div>
+              <div>
+                <h2 class="giy-section-title">Vücut Tipine Göre Giyim</h2>
+                <p class="giy-section-sub">Proporsiyonlarınızı en iyi şekilde değerlendirin</p>
+              </div>
+            </div>
+
+            <div class="giy-wizard" data-task-id="vucut">
+              <div class="giy-wizard-steps">
+                <div class="giy-wizard-dot active"></div>
+                <div class="giy-wizard-dot"></div>
+                <div class="giy-wizard-dot"></div>
+              </div>
+              
+              <div class="giy-wizard-page active">
+                <h3>Boyunuz hangi aralıkta?</h3>
+                <div class="giy-wizard-options">
+                  <div class="giy-wizard-opt"><span class="wo-emoji">📏</span>Ortalamadan Kısa</div>
+                  <div class="giy-wizard-opt"><span class="wo-emoji">🧍</span>Ortalama Boy</div>
+                  <div class="giy-wizard-opt"><span class="wo-emoji">🦒</span>Ortalamadan Uzun</div>
+                </div>
+              </div>
+
+              <div class="giy-wizard-page">
+                <h3>Omuz / Basen Oranınız?</h3>
+                <div class="giy-wizard-options">
+                  <div class="giy-wizard-opt"><span class="wo-emoji">🔻</span>Geniş Omuz / Dar Basen</div>
+                  <div class="giy-wizard-opt"><span class="wo-emoji">◼️</span>Omuz ve Basen Eşit</div>
+                  <div class="giy-wizard-opt"><span class="wo-emoji">🔺</span>Dar Omuz / Geniş Basen</div>
+                </div>
+              </div>
+
+              <div class="giy-wizard-page">
+                <h3>Genel Vücut Yapınız?</h3>
+                <div class="giy-wizard-options">
+                  <div class="giy-wizard-opt"><span class="wo-emoji">⚡</span>İnce Yapılı</div>
+                  <div class="giy-wizard-opt"><span class="wo-emoji">💪</span>Atletik Yapılı</div>
+                  <div class="giy-wizard-opt"><span class="wo-emoji">🐻</span>Geniş / Kilolu Yapılı</div>
+                </div>
+              </div>
+
+              <div class="giy-wizard-result">
+                <h3>🌟 Özel Stil Reçeteniz</h3>
+                <p>Proporsiyonlarınızı dengelemek için tek renk (monokrom) giyinmeyi tercih edin. Yatay çizgilerden kaçının, dikey çizgiler boyunuzu daha uzun gösterecektir. Omuz vatkaları ile üst bedeninizi genişleterek V silueti oluşturabilirsiniz.</p>
+                <div style="margin-top:20px;">
+                  <button class="giy-complete-btn" data-task-id="vucut">Reçetemi Kaydet</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- SUBPAGE: AKSESUAR -->
+        <div id="aksesuar" class="giyim-subpage">
+          <div class="giy-section">
+            <div class="giy-section-header">
+              <div class="giy-section-icon">⌚</div>
+              <div>
+                <h2 class="giy-section-title">Aksesuar Sanatı</h2>
+                <p class="giy-section-sub">Detaylarda gizli olan kalite ve karakter</p>
+              </div>
+            </div>
+
+            <div class="giy-accordion">
+              <div class="giy-acc-item">
+                <button class="giy-acc-trigger">Saat Seçimi <span class="giy-acc-arrow">▼</span></button>
+                <div class="giy-acc-body">
+                  <p style="; font-size:0.9rem; line-height:1.6; margin-top:10px;">Deri kordonlu klasik saatler her zaman en güvenli profesyonel seçenektir. Kordon rengi ayakkabı ve kemerinizle uyumlu olmalıdır (siyah deri, kahve deri). Metal kordonlu saatler iş ortamında kabul görür ancak aşırı büyük ve gösterişli spor saatlerden resmi ortamlarda kaçınılmalıdır. Akıllı saatler pratik olsa da "klasik zarafet" açısından mekanik saatlerin yerini tutmaz.</p>
+                </div>
+              </div>
+              <div class="giy-acc-item">
+                <button class="giy-acc-trigger">Kemer & Ayakkabı Uyumu Kuralı <span class="giy-acc-arrow">▼</span></button>
+                <div class="giy-acc-body">
+                  <p style="; font-size:0.9rem; line-height:1.6; margin-top:10px;">Altın kural çok basittir: Kemeriniz ve ayakkabınız aynı renk ve ideal olarak aynı deri dokusunda olmalıdır. Siyah ayakkabı ile siyah kemer, kahverengi ayakkabı ile kahverengi kemer takılır. Kemer tokası gümüş renkliyse saat kasasının da gümüş renkli olması bütünlüğü artırır.</p>
+                </div>
+              </div>
+              <div class="giy-acc-item">
+                <button class="giy-acc-trigger">Kravat ve Cep Mendili (Pocket Square) <span class="giy-acc-arrow">▼</span></button>
+                <div class="giy-acc-body">
+                  <p style="; font-size:0.9rem; line-height:1.6; margin-top:10px;">Kravat genişliği, ceketinizin yaka (lapel) genişliğiyle orantılı olmalıdır. Cep mendili kullanımı, klasik bir takıma anında kişilik katar. Önemli Kural: Cep mendili kravatla BİREBİR aynı desen ve kumaşta OLMAMALIDIR. Renk uyumu aranmalı ancak desenler farklılık göstermelidir.</p>
+                </div>
+              </div>
+            </div>
+
+            <div style="margin-top:25px;">
+              <button class="giy-complete-btn" data-task-id="aksesuar">Bu Modülü Tamamla</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- SUBPAGE: STİL TESTİ -->
+        <div id="stil" class="giyim-subpage">
+          <div class="giy-section">
+            <div class="giy-section-header">
+              <div class="giy-section-icon">👤</div>
+              <div>
+                <h2 class="giy-section-title">Stil Kişilik Testi</h2>
+                <p class="giy-section-sub">Sizi en iyi ifade eden giyim dilini bulun</p>
+              </div>
+            </div>
+
+            <div class="giy-style-test">
+              <div class="giy-st-progress">
+                <div class="giy-st-dot active"></div>
+                <div class="giy-st-dot"></div>
+                <div class="giy-st-dot"></div>
+              </div>
+
+              <div class="giy-st-question active">
+                <h3>Bir konferansta sunum yapacaksınız. En güvende hissettiğiniz parça hangisi?</h3>
+                <div class="giy-st-options">
+                  <div class="giy-st-opt" data-type="klasik"><span class="sto-emoji">👔</span>Lacivert Takım Elbise</div>
+                  <div class="giy-st-opt" data-type="modern"><span class="sto-emoji">🧥</span>Blazer ve Chinos Pantolon</div>
+                  <div class="giy-st-opt" data-type="minimalist"><span class="sto-emoji">👕</span>Kaliteli, Desensiz Düz Tişört</div>
+                  <div class="giy-st-opt" data-type="avantgarde"><span class="sto-emoji">🕶️</span>İlgi Çekici Tasarım Bir Ceket</div>
+                </div>
+              </div>
+
+              <div class="giy-st-question">
+                <h3>Renk paletiniz genellikle nasıldır?</h3>
+                <div class="giy-st-options">
+                  <div class="giy-st-opt" data-type="klasik"><span class="sto-emoji">🌑</span>Siyah, Gri, Lacivert ağırlıklı</div>
+                  <div class="giy-st-opt" data-type="modern"><span class="sto-emoji">🍂</span>Toprak Tonları, Haki, Bordo</div>
+                  <div class="giy-st-opt" data-type="minimalist"><span class="sto-emoji">☁️</span>Sadece Siyah ve Beyaz Monokrom</div>
+                  <div class="giy-st-opt" data-type="avantgarde"><span class="sto-emoji">🔥</span>Kontrast, Canlı Renkler, Desenler</div>
+                </div>
+              </div>
+
+              <div class="giy-st-question">
+                <h3>Aksesuar tercihiniz nedir?</h3>
+                <div class="giy-st-options">
+                  <div class="giy-st-opt" data-type="klasik"><span class="sto-emoji">⌚</span>Sadece kaliteli bir saat</div>
+                  <div class="giy-st-opt" data-type="modern"><span class="sto-emoji">🕶️</span>Güneş gözlüğü ve şık ayakkabı</div>
+                  <div class="giy-st-opt" data-type="minimalist"><span class="sto-emoji">🚫</span>Hiçbir aksesuar kullanmam</div>
+                  <div class="giy-st-opt" data-type="avantgarde"><span class="sto-emoji">💍</span>Kalın yüzükler, kolyeler, broşlar</div>
+                </div>
+              </div>
+
+              <div class="giy-st-result">
+                <div class="giy-st-result-icon">✨</div>
+                <h2>Sonuç Hesaplanıyor...</h2>
+                <p>Kişisel imajınız, iç dünyanızın bir yansımasıdır.</p>
+                <div class="giy-st-result-tags">
+                  <span class="giy-st-result-tag">Güvenilir</span>
+                  <span class="giy-st-result-tag">Net</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- SUBPAGE: OUTFIT LAB -->
+        <div id="outfit" class="giyim-subpage">
+          <div class="giy-section">
+            <div class="giy-section-header">
+              <div class="giy-section-icon">🧪</div>
+              <div>
+                <h2 class="giy-section-title">Outfit Lab: Kombin Puanı</h2>
+                <p class="giy-section-sub">Kurumsal bir toplantı için en iyi kombini tasarlayın</p>
+              </div>
+            </div>
+
+            <div class="giy-outfit-lab">
+              <div class="giy-outfit-selectors">
+                <div class="giy-outfit-sel">
+                  <label>Üst Giyim (Ceket/Gömlek)</label>
+                  <select id="ol-top">
+                    <option value="">Seçiniz...</option>
+                    <option value="30">Lacivert Blazer Ceket</option>
+                    <option value="25">Açık Mavi Gömlek</option>
+                    <option value="15">Siyah Kapüşonlu</option>
+                    <option value="5">Baskılı Tişört</option>
+                  </select>
+                </div>
+                <div class="giy-outfit-sel">
+                  <label>Alt Giyim (Pantolon)</label>
+                  <select id="ol-bottom">
+                    <option value="">Seçiniz...</option>
+                    <option value="25">Antrasit Kumaş Pantolon</option>
+                    <option value="20">Bej Chinos</option>
+                    <option value="15">Koyu Renk Kot (Yırtıksız)</option>
+                    <option value="5">Yırtık Kot</option>
+                  </select>
+                </div>
+                <div class="giy-outfit-sel">
+                  <label>Ayakkabı</label>
+                  <select id="ol-shoes">
+                    <option value="">Seçiniz...</option>
+                    <option value="25">Kahverengi Oxford</option>
+                    <option value="20">Siyah Loafer</option>
+                    <option value="15">Temiz Beyaz Sneaker</option>
+                    <option value="5">Sandalet / Terlik</option>
+                  </select>
+                </div>
+                <div class="giy-outfit-sel">
+                  <label>Kemer</label>
+                  <select id="ol-belt">
+                    <option value="">Seçiniz...</option>
+                    <option value="20">Ayakkabı ile aynı renk deri</option>
+                    <option value="10">Ayakkabıdan farklı renk deri</option>
+                    <option value="0">Örgü/Spor kemer</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="giy-outfit-score">
+                <div class="giy-outfit-score-num" id="outfit-score-num">--</div>
+                <div class="giy-outfit-score-label">Profesyonellik Puanı</div>
+                <div class="giy-outfit-feedback" id="outfit-feedback">Lütfen tüm parçaları seçerek kombininizi tamamlayın. Puanınız otomatik hesaplanacaktır.</div>
+              </div>
+            </div>
+            
+            <button class="giy-complete-btn" data-task-id="outfit" style="margin-top:20px; display:none;">Bu Modülü Tamamla</button>
+          </div>
+        </div>
+
+        <!-- Modals -->
+        <div class="giy-modal-overlay" id="giy-modal-overlay"></div>
+        
+        <!-- Modal: Business Formal -->
+        <div class="giy-modal" id="modal-business-formal">
+          <div class="giy-modal-head">
+            <span class="giy-modal-title">🕴️ Business Formal</span>
+            <button class="giy-modal-close">✕</button>
+          </div>
+          <div class="giy-modal-body">
+            <p>İş dünyasının en resmi, standart ve kabul görmüş giyim kodudur. Amaç kişiselliği geri planda tutarak kurumun ciddiyetini yansıtmaktır.</p>
+            <h3>Temel Parçalar</h3>
+            <ul>
+              <li>Koyu renk (Lacivert, Antrasit) tam takım elbise</li>
+              <li>Sert yakalı, desensiz beyaz veya açık mavi gömlek</li>
+              <li>İpek, sade desenli veya düz renk kravat</li>
+              <li>Siyah veya koyu kahverengi bağcıklı deri ayakkabı (Oxford)</li>
+              <li>Ayakkabıyla aynı renk deri kemer</li>
+            </ul>
+            <h3>Kaçınılması Gerekenler</h3>
+            <ul>
+              <li>Parlak veya çok açık renkli takım elbiseler</li>
+              <li>Kısa kollu gömlekler</li>
+              <li>Loafer veya slip-on tarzı bağcıksız ayakkabılar</li>
+              <li>Gösterişli ve aşırı büyük saatler</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- Modal: Business Casual -->
+        <div class="giy-modal" id="modal-business-casual">
+          <div class="giy-modal-head">
+            <span class="giy-modal-title">💼 Business Casual</span>
+            <button class="giy-modal-close">✕</button>
+          </div>
+          <div class="giy-modal-body">
+            <p>Business Formal'ın ciddiyetini yumuşatan, günümüz iş dünyasının çoğunda kabul gören standarttır. Takım elbisenin zorunlu olmadığı ancak kot ve tişörtün de fazla rahat kaçtığı durumlar içindir.</p>
+            <h3>Temel Parçalar</h3>
+            <ul>
+              <li>Blazer ceket veya spor ceket (tek renk veya hafif desenli)</li>
+              <li>Chinos, kanvas veya yün kumaş pantolon (ceketten farklı renkte)</li>
+              <li>Düğmeli yaka (button-down) gömlek, kravatsız</li>
+              <li>Loafer, Brogue tarzı deri veya kaliteli süet ayakkabılar</li>
+            </ul>
+            <h3>Kaçınılması Gerekenler</h3>
+            <ul>
+              <li>Jean (kot) pantolonlar (bazı şirketler çok koyu renge izin verse de risklidir)</li>
+              <li>Spor ayakkabılar ve sneakerlar</li>
+              <li>Tişört veya polo yaka tişörtler (şirket kültürüne göre değişebilir)</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- Modal: Smart Casual -->
+        <div class="giy-modal" id="modal-smart-casual">
+          <div class="giy-modal-head">
+            <span class="giy-modal-title">☕ Smart Casual</span>
+            <button class="giy-modal-close">✕</button>
+          </div>
+          <div class="giy-modal-body">
+            <p>Gündelik rahatlık ile profesyonel şıklığın dengelendiği, "özenli ama çabasız" görünüm. Startup'lar, teknoloji şirketleri ve cuma günleri (Casual Friday) için idealdir.</p>
+            <h3>Temel Parçalar</h3>
+            <ul>
+              <li>Kaliteli, koyu renk, yırtıksız jean veya kaliteli pamuklu pantolon</li>
+              <li>Üzerinize tam oturan Polo yaka tişört veya iyi kesimli düz tişört</li>
+              <li>Hırka, V yaka triko veya rahat kesim bir ceket</li>
+              <li>Temiz deri sneaker veya loafer ayakkabılar</li>
+            </ul>
+            <h3>Kaçınılması Gerekenler</h3>
+            <ul>
+              <li>Grafik baskılı, logolu veya yazılı tişörtler</li>
+              <li>Yırtık, aşırı soluk veya bol kesim jeanler</li>
+              <li>Parmak arası terlik veya koşu ayakkabıları</li>
+              <li>Şortlar</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- Modal: Color Wheel Detail -->
+        <div class="giy-modal" id="modal-color-detail">
+          <div class="giy-modal-head">
+            <span class="giy-modal-title">🎨 Renk Psikolojisi</span>
+            <button class="giy-modal-close">✕</button>
+          </div>
+          <div class="giy-modal-body">
+            <!-- Content injected via JS -->
+          </div>
+        </div>
+
+      </div>
+      <!-- Giyim Sayfası Container Bitiş -->
+
+      <!-- Safsata Sayfası Container -->
+      <div id="safsata-container" class="retorik-page" style="display:none">
+        <div class="saf-hero">
+          <div class="ret-hero-badge">⚠️ Mantık Hataları (Fallacy)</div>
+          <h1 class="saf-hero-title">Safsata</h1>
+          <p class="saf-hero-tagline">Kusurlu Akıl Yürütme ve Manipülasyon</p>
+          <p class="saf-hero-desc">Safsatalar, geçerli gibi görünen ama aslında mantıksal olarak kusurlu olan argümanlardır. Kendi düşünce hatalarınızı düzeltmek ve başkalarının manipülasyonlarını fark etmek için safsataları öğrenin.</p>
+          <div class="ret-hero-stats">
+            <div class="ret-stat"><span class="ret-stat-n">Mantık</span><span class="ret-stat-l">Ötesi</span></div>
+            <div class="ret-stat"><span class="ret-stat-n">Analitik</span><span class="ret-stat-l">Düşünce</span></div>
+            <div class="ret-stat"><span class="ret-stat-n">Bilişsel</span><span class="ret-stat-l">Farkındalık</span></div>
+          </div>
+        </div>
+
+        <!-- ══ SAFSATA KATEGORİLERİ ══ -->
+        <div class="arena-categories" style="margin-top: -20px; margin-bottom: 40px; border: none; background: rgba(249, 115, 22, 0.05);">
+          <div class="ac-title" style="">Safsata Modülleri</div>
+          <div class="ac-pills">
+            <a href="#" class="ac-pill active" onclick="event.preventDefault()" style="background: #ea580c; border-; ;">Tümü</a>
+            <a href="#" class="ac-pill" onclick="event.preventDefault()">Kişiye Saldırı</a>
+            <a href="#" class="ac-pill" onclick="event.preventDefault()">Duygu Sömürüsü</a>
+            <a href="#" class="ac-pill" onclick="event.preventDefault()">Mantık Çarpıtma</a>
+            <a href="#" class="ac-pill" onclick="event.preventDefault()">Dikkat Dağıtma</a>
+          </div>
+        </div>
+
+        <section class="saf-accordion-section">
+          <div class="ret-section-header">
+            <span class="ret-section-icon">🕵️</span>
+            <div>
+              <h2>Mantık Dedektifi</h2>
+              <p class="ret-section-sub">En yaygın safsatalar ve savunma yolları (Genişletmek için tıklayın)</p>
+            </div>
+          </div>
+          
+          <div class="saf-accordion">
+            <!-- Item 1 -->
+            <div class="saf-acc-item" onclick="this.classList.toggle('active')">
+              <div class="saf-acc-header">
+                <div class="saf-acc-title">
+                  <span class="saf-acc-icon">👤</span>
+                  <h4>Ad Hominem (Kişiye Saldırı)</h4>
+                </div>
+                <span class="saf-acc-arrow">▼</span>
+              </div>
+              <div class="saf-acc-body">
+                <p style="margin-bottom:15px;"><strong>Örnek:</strong> "Sen önce kendi işine bak, senin tavsiyene mi kaldık!"</p>
+                <div class="saf-alert">
+                  <strong>Dedektif Diyor ki:</strong> Argümanı çürütmek yerine argümanı sunanın karakterine saldırılır. Sakin kalın ve konuyu asıl argümana geri çekin.
+                </div>
+              </div>
+            </div>
+            <!-- Item 2 -->
+            <div class="saf-acc-item" onclick="this.classList.toggle('active')">
+              <div class="saf-acc-header">
+                <div class="saf-acc-title">
+                  <span class="saf-acc-icon">🌾</span>
+                  <h4>Straw Man (Korkuluk)</h4>
+                </div>
+                <span class="saf-acc-arrow">▼</span>
+              </div>
+              <div class="saf-acc-body">
+                <p style="margin-bottom:15px;"><strong>Örnek:</strong><br>- "Eğitime daha fazla bütçe ayırmalıyız."<br>- "Yani savunma bütçesini sıfırlayıp ülkeyi savunmasız mı bırakalım diyorsun?"</p>
+                <div class="saf-alert">
+                  <strong>Dedektif Diyor ki:</strong> Söylemediğiniz bir şeyi söylemişsiniz gibi abartarak saldırırlar. "Ben öyle demedim, dediğim şey tam olarak şu..." diyerek sınırlarınızı tekrar çizin.
+                </div>
+              </div>
+            </div>
+            <!-- Item 3 -->
+            <div class="saf-acc-item" onclick="this.classList.toggle('active')">
+              <div class="saf-acc-header">
+                <div class="saf-acc-title">
+                  <span class="saf-acc-icon">🐟</span>
+                  <h4>Red Herring (Konudan Sapma)</h4>
+                </div>
+                <span class="saf-acc-arrow">▼</span>
+              </div>
+              <div class="saf-acc-body">
+                <p style="margin-bottom:15px;"><strong>Örnek:</strong><br>- "Şirket karları düşerken neden kendine zam yaptın?"<br>- "Bırakın zammı, asıl rakip firmanın çıkardığı yeni ürüne odaklanmalıyız!"</p>
+                <div class="saf-alert">
+                  <strong>Dedektif Diyor ki:</strong> Tartışmayı asıl konudan sapıtmak için ilgisiz, kışkırtıcı bir detay öne sürülür. "O ayrı bir konu, biz şu an asıl meselemizi konuşuyoruz" deyin.
+                </div>
+              </div>
+            </div>
+            <!-- Item 4 -->
+            <div class="saf-acc-item" onclick="this.classList.toggle('active')">
+              <div class="saf-acc-header">
+                <div class="saf-acc-title">
+                  <span class="saf-acc-icon">🎭</span>
+                  <h4>Appeal to Emotion (Duygu Sömürüsü)</h4>
+                </div>
+                <span class="saf-acc-arrow">▼</span>
+              </div>
+              <div class="saf-acc-body">
+                <p style="margin-bottom:15px;"><strong>Örnek:</strong><br>"Benim fikrimi kabul etmelisiniz, çünkü o kadar yoruldum ve uykusuz kaldım ki..."</p>
+                <div class="saf-alert">
+                  <strong>Dedektif Diyor ki:</strong> Mantıklı bir argüman sunmak yerine acıma, korku veya gurur gibi duygular tetiklenerek ikna edilmeye çalışılır. Emeğe saygı duyduğunuzu ancak argümanın kendisinin tartışılması gerektiğini belirtin.
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ══ SAFSATA İPUÇLARI ══ -->
+        <section class="tips-section-inline saf-tips" style="margin-top: 50px;">
+          <div class="tsi-header">
+            <h2 style="">🌟 Mantık İpuçları</h2>
+            <p>Manipülasyonlardan korunmak için zihinsel kalkanlar</p>
+          </div>
+          <div class="tips-grid-inline">
+            <div class="tip-card-inline">
+              <span class="tci-icon">🛑</span>
+              <div>
+                <strong>Dur ve Düşün</strong>
+                <p>Size hızlıca "evet" dedirtmeye çalışan her duygusal argümanın arkasında bir mantık hatası arayın.</p>
+              </div>
+            </div>
+            <div class="tip-card-inline">
+              <span class="tci-icon">🎯</span>
+              <div>
+                <strong>Konudan Sapma</strong>
+                <p>Rakibiniz sizi kışkırtıp asıl konudan uzaklaştırıyorsa, derin nefes alın ve aynı soruyu tekrar sorun.</p>
+              </div>
+            </div>
+            <div class="tip-card-inline">
+              <span class="tci-icon">🪞</span>
+              <div>
+                <strong>Ayna Tutun</strong>
+                <p>Mantık hatası yapıldığında öfkelenmek yerine sakince "Şu an konuyu benim şahsıma getirdiğinin farkında mısın?" deyin.</p>
+              </div>
+            </div>
+          </div>
+        </section>
+      </div>
+
+      <!-- Sahne Ustalığı Sayfası Container -->
+      <div id="sahne-container" class="retorik-page module-container" style="display:none">
+        <div class="mod-hero">
+          <div class="mod-hero-badge">🎭 Sahne & Sunum</div>
+          <h1 class="mod-hero-title">Sahne Ustalığı</h1>
+          <p class="mod-hero-tagline">Spot ışıklarının altındaki tek hakim sizsiniz.</p>
+          <p class="mod-hero-desc">Sahne korkusu, hazırlıksız zihnin panik düğmesidir. Bu modülde korkuyu enerjiye dönüştürmeyi, nefes kontrolüyle sakinleşmeyi ve sahne yanılsamalarını aşmayı öğreneceksiniz.</p>
+          <div class="mod-hero-stats">
+            <div class="mod-stat"><span class="mod-stat-n">3</span><span class="mod-stat-l">Modül</span></div>
+            <div class="mod-stat"><span class="mod-stat-n">%73</span><span class="mod-stat-l">Glossofobi Oranı</span></div>
+            <div class="mod-stat"><span class="mod-stat-n">60sn</span><span class="mod-stat-l">Kutu Nefesi</span></div>
+          </div>
+        </div>
+
+        <div class="arena-categories" style="margin-top:-20px;margin-bottom:40px;border:none;background:rgba(59,130,246,.05)">
+          <div class="ac-title" style="">Sahne Modülleri</div>
+          <div class="ac-pills">
+            <a href="#" class="ac-pill active" onclick="event.preventDefault()" style="background:#60a5fa;border-;">Tümü</a>
+            <a href="#" class="ac-pill" data-section="sahne">Sahne Korkusu</a>
+            <a href="#" class="ac-pill" data-section="nefes">Nefes Kontrolü</a>
+            <a href="#" class="ac-pill" data-section="spotlight">Spotlight Efekti</a>
+          </div>
+        </div>
+
+        <div style="display:flex;flex-direction:column;gap:30px;max-width:900px;margin:0 auto">
+          <!-- Sahne Korkusu -->
+          <div id="sahne" class="mod-section">
+            <div class="mod-section-header">
+              <div class="mod-section-icon">😰</div>
+              <div>
+                <h2 class="mod-section-title">Sahne Korkusu ile Yüzleşmek</h2>
+                <p class="mod-section-sub">Glossofobi: Halk önünde konuşma korkusu</p>
+              </div>
+            </div>
+            <p style=";line-height:1.7;margin-bottom:20px">Sahne korkusu (Glossofobi) bir hastalık değil, vücudunuzun sizi korumak için salgıladığı aşırı adrenalinin bir sonucudur. Savaş ya da kaç mekanizmanız devrededir. Bu enerjiyi bastırmak yerine performansa dönüştürmeyi öğrenmelisiniz.</p>
+            <div class="mod-compare">
+              <div class="mod-compare-wrong">
+                <strong>❌ Yanlış Yaklaşım:</strong>
+                <p>"Sakin olmalıyım, heyecanlanmamam lazım." (Bu, beyninize 'gerçek bir tehlike var' mesajı verir.)</p>
+              </div>
+              <div class="mod-compare-right">
+                <strong>✅ Doğru Yaklaşım:</strong>
+                <p>"Şu an çok heyecanlıyım çünkü bu konuşmayı çok önemsiyorum. Bu enerjiyi onlara aktaracağım."</p>
+              </div>
+            </div>
+            <div class="mod-alert" style="background:rgba(59,130,246,.08);border:1px solid rgba(59,130,246,.2);;margin-top:20px">
+              <strong>💡 Profesyonel İpucu</strong>
+              Sahnede ilk 30 saniye en kritik andır. Bu sürede güçlü bir açılış cümlesi, göz teması ve dik duruş ile hâkimiyet kurarsanız, geri kalan konuşma çok daha kolay akar.
+            </div>
+          </div>
+
+          <!-- Spotlight Efekti -->
+          <div id="spotlight" class="mod-section">
+            <div class="mod-section-header">
+              <div class="mod-section-icon">🔦</div>
+              <div>
+                <h2 class="mod-section-title">Spotlight Efekti (Sahne Yanılsaması)</h2>
+                <p class="mod-section-sub">Herkes beni izliyor yanılgısı</p>
+              </div>
+            </div>
+            <p style=";line-height:1.7;margin-bottom:20px">Spotlight efekti, insanların bizim hatalarımızı, terlememizi veya ses titrememizi gerçekte olduğundan çok daha fazla fark ettiklerini sanma eğilimidir.</p>
+            <div class="mod-stat-card">
+              <div class="mod-stat-card-icon">📉</div>
+              <div>
+                <h4>Gerçeklik Kontrolü</h4>
+                <p>Psikolojik araştırmalar, dinleyicilerin sizin hatalarınızın sadece <strong style="">%20'sini</strong> fark ettiğini gösteriyor. Kalan %80 tamamen sizin zihninizdedir. Seyirci mükemmellik değil, samimiyet arar.</p>
+              </div>
+            </div>
+            <!-- 5-4-3-2-1 Grounding -->
+            <div style="margin-top:24px">
+              <h3 style=";margin-bottom:16px">🧘 5-4-3-2-1 Grounding Tekniği</h3>
+              <p style=";margin-bottom:16px;font-size:.9rem">Sahneye çıkmadan önce panik hissediyorsanız, bu teknik sizi "şimdiye" çeker:</p>
+              <div class="mod-tips">
+                <div class="mod-tip"><span class="mod-tip-icon">👀</span><div><strong>5 Şey GÖR</strong><p>Çevrenizde 5 farklı nesne bulun ve adlandırın.</p></div></div>
+                <div class="mod-tip"><span class="mod-tip-icon">🤚</span><div><strong>4 Şey DOKUN</strong><p>Masanın soğukluğu, kumaşın dokusu gibi 4 şeye dokunun.</p></div></div>
+                <div class="mod-tip"><span class="mod-tip-icon">👂</span><div><strong>3 Ses DUY</strong><p>Klima sesi, adımlar, uzaktaki konuşma — 3 ses bulun.</p></div></div>
+                <div class="mod-tip"><span class="mod-tip-icon">👃</span><div><strong>2 Şey KOKLA</strong><p>Parfümünüz, kahve, hava — 2 koku tespit edin.</p></div></div>
+                <div class="mod-tip"><span class="mod-tip-icon">👅</span><div><strong>1 Şey TAT</strong><p>Dudağınızın, diş macununun tadını hissedin.</p></div></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Nefes Kontrolü -->
+          <div id="nefes" class="mod-section" style="text-align:center">
+            <div class="mod-section-header" style="justify-content:center">
+              <div class="mod-section-icon">🧘</div>
+              <div>
+                <h2 class="mod-section-title">Nefes Kontrolü: 60 Saniye Kuralı</h2>
+                <p class="mod-section-sub">Kalp ritminizi yavaşlatın, sahneye hazır olun</p>
+              </div>
+            </div>
+            <p style=";margin-bottom:30px">Sahneye çıkmadan hemen önce kalp ritminizi yavaşlatmak ve parasempatik sinir sistemini devreye sokmak için aşağıdaki dairenin ritmiyle nefes alın.</p>
+            <div class="mod-breathe">Kutu Nefesi</div>
+            <p style=";font-size:.82rem;margin-top:16px">4sn nefes al → 4sn tut → 4sn ver → 4sn bekle</p>
+          </div>
+
+          <!-- Sahne Quiz -->
+          <div class="mod-section">
+            <div class="mod-section-header">
+              <div class="mod-section-icon">🎯</div>
+              <div>
+                <h2 class="mod-section-title">Sahne Korkusu Seviyeniz</h2>
+                <p class="mod-section-sub">Aşağıdaki senaryoda ne yapardınız?</p>
+              </div>
+            </div>
+            <div class="mod-quiz">
+              <div class="mod-quiz-q" style="border-left-">200 kişilik bir salonda sunum yapmak üzeresiniz. Elleriniz titriyor. Ne yaparsınız?</div>
+              <div class="mod-quiz-opts">
+                <div class="mod-quiz-opt" onclick="this.classList.add('wrong');this.parentNode.querySelector('[data-correct]').classList.add('correct');this.closest('.mod-quiz').querySelector('.mod-quiz-feedback').className='mod-quiz-feedback show'">"Sakin ol, sakin ol" diye tekrar ederim.</div>
+                <div class="mod-quiz-opt" data-correct onclick="this.classList.add('correct');this.closest('.mod-quiz').querySelector('.mod-quiz-feedback').className='mod-quiz-feedback show'">Kutu nefesi yaparım ve "Bu heyecanı enerjiye dönüştüreceğim" derim.</div>
+                <div class="mod-quiz-opt" onclick="this.classList.add('wrong');this.parentNode.querySelector('[data-correct]').classList.add('correct');this.closest('.mod-quiz').querySelector('.mod-quiz-feedback').className='mod-quiz-feedback show'">Hızlıca başlarım ki düşünmeye vakit kalmasın.</div>
+              </div>
+              <div class="mod-quiz-feedback" style="background:rgba(16,185,129,.1);border:1px solid rgba(16,185,129,.25);">
+                ✅ Doğru! Heyecanı bastırmak yerine dönüştürmek, bilimsel olarak kanıtlanmış en etkili yöntemdir. Kutu nefesi parasempatik sistemi aktive eder.
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Beden Dili Sayfası Container -->
+      <div id="bedendili-container" class="retorik-page module-container" style="display:none">
+        <div class="mod-hero">
+          <div class="mod-hero-badge">🤝 Sözsüz İletişim</div>
+          <h1 class="mod-hero-title">Beden Dili</h1>
+          <p class="mod-hero-tagline">Kelimeleriniz ne derse desin, bedeniniz daima gerçeği haykırır.</p>
+          <p class="mod-hero-desc">İletişimin %55'i beden dili, %38'i ses tonu, sadece %7'si kelimelerdir (Mehrabian Kuralı). Güçlü bir konuşmacı olmak için bedeninizi de eğitmelisiniz.</p>
+          <div class="mod-hero-stats">
+            <div class="mod-stat"><span class="mod-stat-n">%55</span><span class="mod-stat-l">Beden Dili</span></div>
+            <div class="mod-stat"><span class="mod-stat-n">%38</span><span class="mod-stat-l">Ses Tonu</span></div>
+            <div class="mod-stat"><span class="mod-stat-n">%7</span><span class="mod-stat-l">Kelimeler</span></div>
+          </div>
+        </div>
+
+        <div class="arena-categories" style="margin-top:-20px;margin-bottom:40px;border:none;background:rgba(16,185,129,.05)">
+          <div class="ac-title" style="">Beden Dili Modülleri</div>
+          <div class="ac-pills">
+            <a href="#" class="ac-pill active" onclick="event.preventDefault()" style="background:#10b981;border-;">Tümü</a>
+            <a href="#" class="ac-pill" data-section="avuç">Avuç İçleri</a>
+            <a href="#" class="ac-pill" data-section="göz">Göz Teması</a>
+            <a href="#" class="ac-pill" data-section="ayak">Ayak Yönü</a>
+          </div>
+        </div>
+
+        <div style="max-width:900px;margin:0 auto;display:flex;flex-direction:column;gap:24px">
+          <div id="avuç" class="mod-section">
+            <div class="mod-section-header">
+              <div class="mod-section-icon">👐</div>
+              <div><h2 class="mod-section-title">Avuç İçleri</h2><p class="mod-section-sub">Güven ve dürüstlük sinyali</p></div>
+            </div>
+            <p style=";line-height:1.7;margin-bottom:16px">Açık avuç içleri göstermek (avuçların yukarı bakması) evrensel bir dürüstlük ve teslimiyet işaretidir. Konuşurken avuçlarınızı göstermek dinleyicide güven oluşturur.</p>
+            <div class="mod-compare">
+              <div class="mod-compare-wrong"><strong>❌ Kapalı Yumruk:</strong><p>Gerginlik, gizlilik, savunma hissi verir.</p></div>
+              <div class="mod-compare-right"><strong>✅ Açık Avuç:</strong><p>Samimiyet, şeffaflık, güven hissi yaratır.</p></div>
+            </div>
+          </div>
+
+          <div id="göz" class="mod-section">
+            <div class="mod-section-header">
+              <div class="mod-section-icon">👀</div>
+              <div><h2 class="mod-section-title">Göz Teması</h2><p class="mod-section-sub">İletişimin en güçlü aracı</p></div>
+            </div>
+            <p style=";line-height:1.7;margin-bottom:16px">Sürekli ve delici bakışlar tehditkar algılanabilir. İdeal göz teması, üçgen (iki göz ve alın) şeklinde gezinmelidir. Her kişiye 3-5 saniye bakış idealdir.</p>
+            <div class="mod-tips" style="margin-top:16px">
+              <div class="mod-tip"><span class="mod-tip-icon">⏱️</span><div><strong>3-5 Saniye Kuralı</strong><p>Bir kişiye 3-5 saniye bakın, sonra yavaşça başkasına geçin.</p></div></div>
+              <div class="mod-tip"><span class="mod-tip-icon">🔺</span><div><strong>Üçgen Tekniği</strong><p>Sol göz → Sağ göz → Alın. Bu üçgende dolaşın.</p></div></div>
+              <div class="mod-tip"><span class="mod-tip-icon">🚫</span><div><strong>Kaçınılacak</strong><p>Yere bakmak (güvensiz), tavana bakmak (ilgisiz) algısı yaratır.</p></div></div>
+            </div>
+          </div>
+
+          <div id="ayak" class="mod-section">
+            <div class="mod-section-header">
+              <div class="mod-section-icon">🦶</div>
+              <div><h2 class="mod-section-title">Ayak Yönü</h2><p class="mod-section-sub">Bedenin en dürüst parçası</p></div>
+            </div>
+            <p style=";line-height:1.7;margin-bottom:16px">Bir kişinin ayakları size dönükse o sohbettedir. Ayak uçları kapıya dönükse, zihnen oradan ayrılmıştır. İnsanlar yüz ifadelerini kontrol edebilir ama ayaklarını nadiren kontrol eder.</p>
+            <div class="mod-alert" style="background:rgba(16,185,129,.08);border:1px solid rgba(16,185,129,.2);">
+              <strong>💡 FBI İpucu</strong>
+              Eski FBI davranış analisti Joe Navarro'ya göre ayaklar, bedenin en dürüst parçasıdır. Yüz yalan söyleyebilir ama ayaklar söyleyemez.
+            </div>
+          </div>
+
+          <!-- Beden Dili Quiz -->
+          <div class="mod-section">
+            <div class="mod-section-header">
+              <div class="mod-section-icon">🎯</div>
+              <div><h2 class="mod-section-title">Beden Dili Okuyucu</h2><p class="mod-section-sub">Senaryoyu okuyun, doğru yorumu seçin</p></div>
+            </div>
+            <div class="mod-quiz">
+              <div class="mod-quiz-q" style="border-left-">Toplantıda karşınızdaki kişi kollarını kavuşturmuş, bacak bacak üstüne atmış ve gövdesini geriye yaslamış. Bu ne anlama gelir?</div>
+              <div class="mod-quiz-opts">
+                <div class="mod-quiz-opt" onclick="this.classList.add('wrong');this.parentNode.querySelector('[data-correct]').classList.add('correct');this.closest('.mod-quiz').querySelector('.mod-quiz-feedback').className='mod-quiz-feedback show'">Rahat ve ilgili — beden dili olumlu.</div>
+                <div class="mod-quiz-opt" data-correct onclick="this.classList.add('correct');this.closest('.mod-quiz').querySelector('.mod-quiz-feedback').className='mod-quiz-feedback show'">Kapalı ve mesafeli — savunmada veya ilgisiz.</div>
+                <div class="mod-quiz-opt" onclick="this.classList.add('wrong');this.parentNode.querySelector('[data-correct]').classList.add('correct');this.closest('.mod-quiz').querySelector('.mod-quiz-feedback').className='mod-quiz-feedback show'">Otoriter — liderlik gösteriyor.</div>
+              </div>
+              <div class="mod-quiz-feedback" style="background:rgba(16,185,129,.1);border:1px solid rgba(16,185,129,.25);">
+                ✅ Doğru! Kol kavuşturma + geriye yaslanma, kişinin zihinsel olarak kapalı olduğunu gösterir. Bu durumda açık bir soru sorarak onu sohbete dahil edin.
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Özgüven Sayfası Container -->
+      <div id="ozguven-container" class="retorik-page module-container" style="display:none">
+        <div class="mod-hero">
+          <div class="mod-hero-badge">💎 Kişisel Gelişim</div>
+          <h1 class="mod-hero-title">Sarsılmaz Özgüven</h1>
+          <p class="mod-hero-tagline">Özgüven hissetmekle başlamaz, öyle davranmakla başlar.</p>
+          <p class="mod-hero-desc">Zihnindeki cam tavanları kır. Bu modülde özgüveni engelleyen düşünce kalıplarını tanıyacak ve onları kırmayı öğreneceksiniz.</p>
+          <div class="mod-hero-stats">
+            <div class="mod-stat"><span class="mod-stat-n">5</span><span class="mod-stat-l">Cam Tavan</span></div>
+            <div class="mod-stat"><span class="mod-stat-n">%90</span><span class="mod-stat-l">Yanılgı Oranı</span></div>
+            <div class="mod-stat"><span class="mod-stat-n">∞</span><span class="mod-stat-l">Potansiyel</span></div>
+          </div>
+        </div>
+
+        <div class="arena-categories" style="margin-top:-20px;margin-bottom:40px;border:none;background:rgba(139,92,246,.05)">
+          <div class="ac-title" style="">Özgüven Modülleri</div>
+          <div class="ac-pills">
+            <a href="#" class="ac-pill active" onclick="event.preventDefault()" style="background:#8b5cf6;border-;">Tümü</a>
+            <a href="#" class="ac-pill" data-section="mükemmel">Mükemmeliyetçilik</a>
+            <a href="#" class="ac-pill" data-section="kıyas">Başkalarıyla Kıyas</a>
+            <a href="#" class="ac-pill" data-section="sessizlik">Sessizliğin Gücü</a>
+          </div>
+        </div>
+
+        <div style="max-width:900px;margin:0 auto">
+          <p style=";text-align:center;margin-bottom:30px;font-size:.9rem">🔮 Aşağıdaki cam tavanları kırmak için kartlara tıklayın</p>
+          <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:20px;margin-bottom:30px">
+            <div id="mükemmel" class="mod-glass" onclick="this.classList.add('broken')">
+              <div class="mod-glass-front"><h3>"Mükemmel olmak zorundayım."</h3><span class="mod-glass-hint">🔨 Kırmak için tıkla</span></div>
+              <div class="mod-glass-back"><h3>✨ Kusurlar Bağ Kurdurur</h3><p>Mükemmellik robotlara özgüdür. İnsanlar, hata yapabilen ama yoluna devam eden samimi insanlara güvenir.</p></div>
+            </div>
+            <div id="kıyas" class="mod-glass" onclick="this.classList.add('broken')">
+              <div class="mod-glass-front"><h3>"Ya bana gülerlerse?"</h3><span class="mod-glass-hint">🔨 Kırmak için tıkla</span></div>
+              <div class="mod-glass-back"><h3>✨ Sen Merkezde Değilsin</h3><p>İnsanların %90'ı sadece kendi hayatlarıyla meşguldür. Olası bir potu 5 dakika sonra kimse hatırlamayacak.</p></div>
+            </div>
+            <div id="sessizlik" class="mod-glass" onclick="this.classList.add('broken')">
+              <div class="mod-glass-front"><h3>"Boşlukları doldurmalıyım."</h3><span class="mod-glass-hint">🔨 Kırmak için tıkla</span></div>
+              <div class="mod-glass-back"><h3>✨ Sessizliğin Gücü</h3><p>Sessizliğe tahammül edebilmek büyük bir özgüven göstergesidir. Kelimelerinden emin olan acele etmez.</p></div>
+            </div>
+            <div class="mod-glass" onclick="this.classList.add('broken')">
+              <div class="mod-glass-front"><h3>"Herkes benden daha iyi."</h3><span class="mod-glass-hint">🔨 Kırmak için tıkla</span></div>
+              <div class="mod-glass-back"><h3>✨ Kıyas Tuzağı</h3><p>Başkalarının highlight reel'ini kendi sahne arkasıyla kıyaslıyorsunuz. Herkes kendi mücadelesini yaşar.</p></div>
+            </div>
+            <div class="mod-glass" onclick="this.classList.add('broken')">
+              <div class="mod-glass-front"><h3>"Daha hazır değilim."</h3><span class="mod-glass-hint">🔨 Kırmak için tıkla</span></div>
+              <div class="mod-glass-back"><h3>✨ Hazır Olan Beklemez</h3><p>%100 hazır hissedilen an asla gelmez. Cesaret, korkuya rağmen harekete geçmektir.</p></div>
+            </div>
+          </div>
+
+          <!-- Güç Pozu -->
+          <div class="mod-section">
+            <div class="mod-section-header">
+              <div class="mod-section-icon">💪</div>
+              <div><h2 class="mod-section-title">Güç Pozu Tekniği</h2><p class="mod-section-sub">Amy Cuddy — Harvard Araştırması</p></div>
+            </div>
+            <p style=";line-height:1.7;margin-bottom:16px">2 dakika boyunca "güç pozu" almak (eller belde, omuzlar geniş, çene yukarı) testosteron seviyesini %20 artırıp kortizol (stres hormonu) seviyesini %25 düşürür.</p>
+            <div class="mod-tips">
+              <div class="mod-tip"><span class="mod-tip-icon">🦸</span><div><strong>Süperman Pozu</strong><p>Eller belde, ayaklar omuz genişliğinde, göğüs dışarıda. 2 dakika tutun.</p></div></div>
+              <div class="mod-tip"><span class="mod-tip-icon">🏆</span><div><strong>Zafer Pozu</strong><p>Kolları V şeklinde havaya kaldırın. Beyin bunu başarı olarak kodlar.</p></div></div>
+              <div class="mod-tip"><span class="mod-tip-icon">⏰</span><div><strong>Ne Zaman?</strong><p>Sunumdan, mülakatdan veya zor konuşmadan 2 dk önce yapın.</p></div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Manipülasyon Sayfası Container -->
+      <div id="manipulasyon-container" class="retorik-page module-container" style="display:none">
+        <div class="mod-hero">
+          <div class="mod-hero-badge">🔴 Dikkat: Farkındalık İçin</div>
+          <h1 class="mod-hero-title" style="font-family:'Courier New',monospace;text-transform:lowercase">dark_psychology</h1>
+          <p class="mod-hero-tagline">Karanlık ikna sanatı. Kullanmak için değil, korunmak için öğrenin.</p>
+          <p class="mod-hero-desc">Manipülasyon teknikleri günlük hayatta, iş ortamında ve ilişkilerde sıkça kullanılır. Gerçek niyetleri deşifre etmeyi öğrenin.</p>
+          <div class="mod-hero-stats">
+            <div class="mod-stat"><span class="mod-stat-n">5+</span><span class="mod-stat-l">Teknik</span></div>
+            <div class="mod-stat"><span class="mod-stat-n">%65</span><span class="mod-stat-l">Farkında Olmaz</span></div>
+            <div class="mod-stat"><span class="mod-stat-n">🛡️</span><span class="mod-stat-l">Savunma</span></div>
+          </div>
+        </div>
+
+        <div class="arena-categories" style="margin-top:-20px;margin-bottom:40px;border:none;background:rgba(239,68,68,.05)">
+          <div class="ac-title" style="">Manipülasyon Modülleri</div>
+          <div class="ac-pills">
+            <a href="#" class="ac-pill active" onclick="event.preventDefault()" style="background:#ef4444;border-;">Tümü</a>
+            <a href="#" class="ac-pill" data-section="suçluluk">Suçluluk Aşılama</a>
+            <a href="#" class="ac-pill" data-section="zekisin">Egodan Vurma</a>
+            <a href="#" class="ac-pill" data-section="deşifre">Deşifre Etme</a>
+          </div>
+        </div>
+
+        <div style="max-width:900px;margin:0 auto">
+          <p style=";text-align:center;margin-bottom:30px;font-size:.9rem">🔍 Cümlelerin üzerine gelerek gerçek niyeti deşifre edin</p>
+
+          <div id="suçluluk" class="mod-decoder">
+            <div class="mod-decoder-cover"><p>"Bunu senin iyiliğin için söylüyorum..."</p><span class="mod-decoder-hint">Deşifre et →</span></div>
+            <div class="mod-decoder-reveal"><h4>[DEŞİFRE] Suçluluk Aşılama</h4><p>Bu cümle eleştiriyi maskelemek ve itiraz etmenizi engellemek için kullanılır. İtiraz ederseniz "iyiliğinizi istemeyen nankör" konumuna düşersiniz. <strong style="">Savunma:</strong> "Niyetini anlıyorum, ama konuyu olgu bazında tartışalım."</p></div>
+          </div>
+
+          <div id="zekisin" class="mod-decoder">
+            <div class="mod-decoder-cover"><p>"Sen çok zekisin, bunu hemen anlarsın."</p><span class="mod-decoder-hint">Deşifre et →</span></div>
+            <div class="mod-decoder-reveal"><h4>[DEŞİFRE] Egodan Vurma</h4><p>Sahte bir övgü verilerek, sunulacak kötü veya haksız bir fikre itiraz etmeniz zorlaştırılır. İtiraz etmek zekasını inkar etmek gibi hissettirilir. <strong style="">Savunma:</strong> "Teşekkürler, ama konuyu detaylıca düşünmem gerek."</p></div>
+          </div>
+
+          <div id="deşifre" class="mod-decoder">
+            <div class="mod-decoder-cover"><p>"Nasıl istersen, sen bilirsin."</p><span class="mod-decoder-hint">Deşifre et →</span></div>
+            <div class="mod-decoder-reveal"><h4>[DEŞİFRE] Pasif Agresif Ceza</h4><p>Görünürde kabul gibi dursa da, alt metninde "Benim dediğimi yapmadın, bunun bedelini duygusal olarak ödeyeceksin" tehdidi barındırır. <strong style="">Savunma:</strong> "Görünüşe göre bu konuda farklı düşünüyoruz, açıkça konuşalım."</p></div>
+          </div>
+
+          <div class="mod-decoder">
+            <div class="mod-decoder-cover"><p>"Herkes böyle yapıyor, sen niye farklısın?"</p><span class="mod-decoder-hint">Deşifre et →</span></div>
+            <div class="mod-decoder-reveal"><h4>[DEŞİFRE] Sürü Psikolojisi</h4><p>Toplumsal baskı yaratılarak bireysel düşünme yeteneğiniz bastırılır. "Herkes" aslında belirsiz bir çoğunluktur. <strong style="">Savunma:</strong> "Herkes kim? Ben kendi kararlarımı veriyorum."</p></div>
+          </div>
+
+          <div class="mod-decoder">
+            <div class="mod-decoder-cover"><p>"Bunu senden başka kimseye söylemem..."</p><span class="mod-decoder-hint">Deşifre et →</span></div>
+            <div class="mod-decoder-reveal"><h4>[DEŞİFRE] Sahte Yakınlık</h4><p>Size özel olduğunuz hissi verilerek, sır paylaşma yükümlülüğü yaratılır. Aynı cümleyi başkalarına da söylüyor olabilir. <strong style="">Savunma:</strong> "Paylaştığın için teşekkürler, ama karar vermek için zamana ihtiyacım var."</p></div>
+          </div>
+
+          <!-- Quiz -->
+          <div class="mod-section" style="margin-top:30px">
+            <div class="mod-section-header">
+              <div class="mod-section-icon">🎯</div>
+              <div><h2 class="mod-section-title">Manipülasyon Radarı</h2><p class="mod-section-sub">Bu cümlede hangi teknik kullanılıyor?</p></div>
+            </div>
+            <div class="mod-quiz">
+              <div class="mod-quiz-q" style="border-left-">"Seni gerçekten sevdiğim için söylüyorum, bu projede çok kötüydün. Ama merak etme, ben hep arkandayım."</div>
+              <div class="mod-quiz-opts">
+                <div class="mod-quiz-opt" onclick="this.classList.add('wrong');this.parentNode.querySelector('[data-correct]').classList.add('correct');this.closest('.mod-quiz').querySelector('.mod-quiz-feedback').className='mod-quiz-feedback show'">Egodan Vurma</div>
+                <div class="mod-quiz-opt" data-correct onclick="this.classList.add('correct');this.closest('.mod-quiz').querySelector('.mod-quiz-feedback').className='mod-quiz-feedback show'">Suçluluk Aşılama + Sahte Yakınlık (Sandwich Tekniği)</div>
+                <div class="mod-quiz-opt" onclick="this.classList.add('wrong');this.parentNode.querySelector('[data-correct]').classList.add('correct');this.closest('.mod-quiz').querySelector('.mod-quiz-feedback').className='mod-quiz-feedback show'">Pasif Agresif Ceza</div>
+              </div>
+              <div class="mod-quiz-feedback" style="background:rgba(16,185,129,.1);border:1px solid rgba(16,185,129,.25);">
+                ✅ Doğru! Eleştiri, iki "sevgi" ifadesi arasına sıkıştırılarak (Sandwich Tekniği) itiraz etmeniz zorlaştırılmıştır.
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+          
+
+      <!-- Hikayeleştirme Sayfası Container -->
+      <div id="hikaye-container" class="retorik-page module-container" style="display:none">
+        <div class="mod-hero">
+          <div class="mod-hero-badge">📖 Anlatı Sanatı</div>
+          <h1 class="mod-hero-title">Hikayeleştirme</h1>
+          <p class="mod-hero-tagline">Gerçekler anlatılır, hikayeler satılır.</p>
+          <p class="mod-hero-desc">İnsan zihni maddelere değil, kurguya aşıktır. Joseph Campbell'ın "Kahramanın Yolculuğu" yapısını kullanarak etkili hikayeler oluşturmayı öğrenin.</p>
+          <div class="mod-hero-stats">
+            <div class="mod-stat"><span class="mod-stat-n">3</span><span class="mod-stat-l">Aşama</span></div>
+            <div class="mod-stat"><span class="mod-stat-n">22x</span><span class="mod-stat-l">Daha Akılda Kalıcı</span></div>
+            <div class="mod-stat"><span class="mod-stat-n">%65</span><span class="mod-stat-l">İkna Gücü</span></div>
+          </div>
+        </div>
+
+        <div class="arena-categories" style="margin-top:-20px;margin-bottom:40px;border:none;background:rgba(245,158,11,.05)">
+          <div class="ac-title" style="">Hikaye Modülleri</div>
+          <div class="ac-pills">
+            <a href="#" class="ac-pill active" onclick="event.preventDefault()" style="background:#f59e0b;border-;">Tümü</a>
+            <a href="#" class="ac-pill" data-section="sıradan">Sıradan Dünya</a>
+            <a href="#" class="ac-pill" data-section="kriz">Çatışma (Kriz)</a>
+            <a href="#" class="ac-pill" data-section="sentez">Çözüm ve Sentez</a>
+          </div>
+        </div>
+
+        <div style="max-width:900px;margin:0 auto">
+          <!-- Timeline -->
+          <div class="mod-timeline">
+            <div class="mod-timeline-steps">
+              <div id="sıradan" class="mod-timeline-step">
+                <div class="mod-timeline-num" style="background:#f59e0b">1</div>
+                <h4>Sıradan Dünya</h4>
+                <p>Karakteri veya mevcut durumu tanıtın. Dinleyici önce tanıdık bir şey görmek ister.</p>
+              </div>
+              <div id="kriz" class="mod-timeline-step">
+                <div class="mod-timeline-num" style="background:#ea580c">2</div>
+                <h4>Çatışma (Kriz)</h4>
+                <p>Her iyi hikayede bir sorun, aşılması gereken bir dağ vardır. Çatışma yoksa dikkat de yoktur.</p>
+              </div>
+              <div id="sentez" class="mod-timeline-step">
+                <div class="mod-timeline-num" style="background:#10b981">3</div>
+                <h4>Çözüm & Sentez</h4>
+                <p>Karakterin krizi nasıl aştığını ve nasıl değiştiğini anlatın. Mesajınız burada.</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Detaylı Açıklamalar -->
+          <div class="mod-section">
+            <div class="mod-section-header">
+              <div class="mod-section-icon">🎬</div>
+
+          <!-- Section 3: Dijital Etiket -->
+          <section id="dijital-etiket" style="text-align: left; margin-bottom: 60px; background: rgba(255,255,255,0.03); border: 1px solid rgba(167, 139, 250, 0.2); padding: 40px; border-radius: 20px; backdrop-filter: blur(10px);">
+            <h2 style="; border-bottom: 1px solid rgba(167, 139, 250, 0.2); padding-bottom: 15px; margin-bottom: 30px; font-family: 'Georgia', serif;">📱 Dijital Etiket (Netiquette)</h2>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px;">
+              <div style="background: #1e1b4b; padding: 20px; border-radius: 10px; text-align: center; border: 1px solid #312e81;">
+                <span style="font-size: 2rem;">📧</span>
+                <h4 style=";">E-posta Yanıtı</h4>
+                <p style="; font-size: 0.9rem;">Profesyonel e-postalara en geç 24 saat içinde, hatta sadece "Aldım, inceliyorum" demek için bile yanıt verilmeli.</p>
+              </div>
+              <div style="background: #1e1b4b; padding: 20px; border-radius: 10px; text-align: center; border: 1px solid #312e81;">
+                <span style="font-size: 2rem;">📵</span>
+                <h4 style=";">Masa Üstü Telefon</h4>
+                <p style="; font-size: 0.9rem;">Biriyle sohbet ederken telefonu masaya koymak, "Telefonum senden daha önemli" mesajı verir.</p>
+              </div>
+              <div style="background: #1e1b4b; padding: 20px; border-radius: 10px; text-align: center; border: 1px solid #312e81;">
+                <span style="font-size: 2rem;">💬</span>
+                <h4 style=";">WhatsApp Mesaîsi</h4>
+                <p style="; font-size: 0.9rem;">Çok acil değilse mesai saatleri dışında iş gruplarına mesaj atmak profesyonelliğe aykırıdır.</p>
+              </div>
+            </div>
+          </section>
+
+          <!-- Section 4: Toplum İçi -->
+          <section id="toplum-ici" style="text-align: left; background: rgba(255,255,255,0.03); border: 1px solid rgba(167, 139, 250, 0.2); padding: 40px; border-radius: 20px; backdrop-filter: blur(10px);">
+            <h2 style="; border-bottom: 1px solid rgba(167, 139, 250, 0.2); padding-bottom: 15px; margin-bottom: 30px; font-family: 'Georgia', serif;">🏙️ Toplum İçinde Zarafet</h2>
+            <ul style="; font-size: 1.1rem; line-height: 2; list-style: none; padding: 0;">
+              <li style="margin-bottom: 15px;"><span style="; margin-right: 10px;">✨</span><strong>Yürüyen Merdiven:</strong> Her zaman sağda durulur, sol taraf acelesi olanlar için boş bırakılır.</li>
+              <li style="margin-bottom: 15px;"><span style="; margin-right: 10px;">✨</span><strong>Kapı Tutma:</strong> Sizden sonra biri geliyorsa, kadın/erkek fark etmeksizin kapı tutulur, bu centilmenlik değil insani nezakettir.</li>
+              <li style="margin-bottom: 15px;"><span style="; margin-right: 10px;">✨</span><strong>Kişisel Alan:</strong> Kuyrukta beklerken öndeki kişiyle aranızda en az bir kol mesafesi bırakmak saygının temelidir.</li>
+            </ul>
+          </section>
+
+        </div>
+      </div>
+      <!-- Tips section -->
+      <section class="tips-section-inline" id="tips-inline">
+        <div class="tsi-header">
+          <h2>🌟 Altın İpuçları</h2>
+          <p>Profesyonellerin kullandığı teknikler</p>
+        </div>
+        <div class="tips-grid-inline">
+          <div class="tip-card-inline" id="tip-i-1">
+            <span class="tci-icon">🌅</span>
+            <div>
+              <strong>Sabah Rutini</strong>
+              <p>Her sabah 5–10 dakika nefes egzersizi yapın. Ses tellerinizi güne hazırlar.</p>
+            </div>
+          </div>
+          <div class="tip-card-inline" id="tip-i-2">
+            <span class="tci-icon">💧</span>
+            <div>
+              <strong>Bol Su İçin</strong>
+              <p>Egzersizlerden önce ve sonra bol su tüketin. Ses telleri nemli kalmalıdır.</p>
+            </div>
+          </div>
+          <div class="tip-card-inline" id="tip-i-3">
+            <span class="tci-icon">🎧</span>
+            <div>
+              <strong>Kendinizi Kaydedin</strong>
+              <p>Ses kaydı alın ve dinleyin. Kendi sesinizi duymak en hızlı öğrenme yöntemidir.</p>
+            </div>
+          </div>
+          <div class="tip-card-inline" id="tip-i-4">
+            <span class="tci-icon">🪞</span>
+            <div>
+              <strong>Ayna Kullanın</strong>
+              <p>Telaffuz egzersizlerinde ayna karşısında durun ve ağız hareketlerinizi izleyin.</p>
+            </div>
+          </div>
+          <div class="tip-card-inline" id="tip-i-5">
+            <span class="tci-icon">📅</span>
+            <div>
+              <strong>Düzenli Pratik</strong>
+              <p>Günde 10 dakika, haftada bir 2 saat yapmaktan çok daha etkilidir.</p>
+            </div>
+          </div>
+          <div class="tip-card-inline" id="tip-i-6">
+            <span class="tci-icon">🧘</span>
+            <div>
+              <strong>Rahat Duruş</strong>
+              <p>Omuzları ve çeneyi gevşetin. Gergin kaslar sesin doğal akışını engeller.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Reklam Alanı Kaldırıldı -->
+
+    </main>
+
+    <!-- ── RIGHT SIDEBAR ─────────────────────────────────────── -->
+    <aside class="sidebar-right" id="sidebar-right">
+
+      <!-- Reklam Alanı Kaldırıldı -->
+
+      <!-- ✨ Günün İpucu Widget — Premium -->
+      <div class="rw-widget rw-tip-widget" id="widget-tip">
+        <div class="rw-widget-head">
+          <div class="rw-widget-icon">💡</div>
+          <div class="rw-widget-title">Günün İpucu</div>
+        </div>
+        <div class="rw-widget-body" id="daily-tip-text">
+          <!-- filled by JS -->
+        </div>
+      </div>
+
+      <!-- 📊 Kategoriler Widget — Premium -->
+      <div class="rw-widget rw-cat-widget" id="widget-cats">
+        <div class="rw-widget-head">
+          <div class="rw-widget-icon">📊</div>
+          <div class="rw-widget-title">Kategoriler</div>
+        </div>
+        <div class="rw-cat-list" id="cat-summary-widget">
+          <!-- filled by JS -->
+        </div>
+      </div>
+
+      <!-- 🎯 İlerleme Widget — Yeni -->
+      <div class="rw-widget rw-progress-widget" id="widget-progress">
+        <div class="rw-widget-head">
+          <div class="rw-widget-icon">🎯</div>
+          <div class="rw-widget-title">İlerleme</div>
+        </div>
+        <div class="rw-progress-body" id="progress-widget-body">
+          <!-- filled by JS -->
+        </div>
+      </div>
+
+      <!-- Reklam: Sağ Sidebar Orta (300x250 — aynı birim) -->
+      <div class="ad-block" id="ad-right-mid" style="min-height:270px;text-align:center;">
+        <span class="ad-label">Sponsorlu</span>
+        <ins class="adsbygoogle" style="display:inline-block;width:300px;height:250px;"
+          data-ad-client="ca-pub-6387001035314883" data-ad-slot="7863826576" data-ad-format="rectangle"
+          data-full-width-responsive="false"></ins>
+        <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+      </div>
+
+    </aside>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════ FOOTER ═════ -->
+  
+<%- include('partials/main-footer') %>

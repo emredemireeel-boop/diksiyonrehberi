@@ -1,0 +1,191 @@
+<%- include('partials/main-header') %>
+
+<style>
+  body { background: #0f172a; color: #f8fafc; font-family: 'Inter', sans-serif; overflow-x: hidden; }
+  .stil-container { display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 40px 20px; max-width: 1000px; margin: 0 auto; min-height: 85vh; }
+  
+  h1 { font-size: 2.5rem; font-weight: 900; margin-bottom: 10px; color: #38bdf8; text-transform: uppercase; letter-spacing: 1px; text-align: center; }
+  p.desc { color: #94a3b8; font-size: 1.1rem; line-height: 1.6; margin-bottom: 40px; text-align: center; max-width: 600px; }
+
+  /* Quiz Area */
+  .quiz-box { width: 100%; max-width: 800px; background: #1e293b; border-radius: 20px; padding: 40px; border: 1px solid #334155; position: relative; overflow: hidden; box-shadow: 0 20px 50px rgba(0,0,0,0.5); }
+  
+  .progress-bar { position: absolute; top: 0; left: 0; height: 6px; background: #38bdf8; width: 25%; transition: width 0.3s; }
+  
+  .q-title { font-size: 1.5rem; font-weight: 800; text-align: center; margin-bottom: 30px; color: #e2e8f0; }
+
+  /* Options Grid */
+  .opts-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+  
+  .opt-card { background: #0f172a; border: 2px solid #334155; border-radius: 15px; padding: 30px 20px; cursor: pointer; text-align: center; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); position: relative; overflow: hidden; }
+  .opt-card:hover { transform: translateY(-5px); border-color: #38bdf8; box-shadow: 0 10px 30px rgba(56, 189, 248, 0.15); }
+  
+  .opt-icon { font-size: 4rem; margin-bottom: 15px; transition: transform 0.3s; }
+  .opt-card:hover .opt-icon { transform: scale(1.1); }
+  
+  .opt-title { font-size: 1.1rem; font-weight: 800; color: #cbd5e1; }
+
+  /* Result Area */
+  .result-box { width: 100%; max-width: 800px; display: none; flex-direction: column; align-items: center; animation: fadeInUp 0.8s forwards; }
+  
+  .id-card { background: linear-gradient(135deg, #cbd5e1 0%, #f8fafc 100%); width: 100%; max-width: 450px; border-radius: 20px; padding: 40px; color: #0f172a; position: relative; overflow: hidden; box-shadow: 0 30px 60px rgba(0,0,0,0.6); }
+  .id-card::before { content: 'STİL KİMLİĞİ'; position: absolute; top: 15px; right: 20px; font-size: 0.6rem; font-weight: 900; letter-spacing: 2px; opacity: 0.5; }
+  
+  .id-avatar { font-size: 5rem; margin-bottom: 20px; text-shadow: 0 10px 20px rgba(0,0,0,0.2); }
+  .id-title { font-size: 2rem; font-weight: 900; margin: 0 0 10px 0; text-transform: uppercase; letter-spacing: 1px; color: #0f172a; }
+  .id-desc { font-size: 0.95rem; line-height: 1.6; color: #334155; font-weight: 500; margin-bottom: 20px; }
+  
+  .id-list { list-style: none; padding: 0; margin: 0; border-top: 1px solid #94a3b8; padding-top: 20px; }
+  .id-list li { font-size: 0.85rem; font-weight: 700; margin-bottom: 10px; display: flex; align-items: center; gap: 10px; }
+  .id-list li span { color: #10b981; }
+
+  .action-btn { background: transparent; border: 2px solid #38bdf8; color: #38bdf8; font-weight: 800; padding: 15px 30px; border-radius: 12px; cursor: pointer; transition: all 0.2s; margin-top: 30px; text-transform: uppercase; letter-spacing: 1px; }
+  .action-btn:hover { background: #38bdf8; color: #0f172a; }
+
+  @keyframes fadeInUp { from { opacity: 0; transform: translateY(40px); } to { opacity: 1; transform: translateY(0); } }
+
+  /* Mobile Tweaks */
+  @media (max-width: 600px) {
+    .opts-grid { grid-template-columns: 1fr; }
+  }
+</style>
+
+<div class="stil-container">
+  
+  <div id="introArea">
+    <h1>Stil Kimliği Analizörü</h1>
+    <p class="desc">Bize ne giydiğini söyle, sana kim olduğunu (ve nasıl daha güçlü bir imaj çizeceğini) söyleyelim. İki seçenekten sana en yakın olanı seçerek DNA'nı çıkar.</p>
+  </div>
+
+  <div class="quiz-box" id="quizBox">
+    <div class="progress-bar" id="pBar"></div>
+    
+    <div class="q-title" id="qTitle">Bileğinde ne var?</div>
+    
+    <div class="opts-grid" id="optsGrid">
+      <div class="opt-card" onclick="answer('classic')">
+        <div class="opt-icon">⌚</div>
+        <div class="opt-title">Deri Kordonlu Klasik Saat</div>
+      </div>
+      <div class="opt-card" onclick="answer('modern')">
+        <div class="opt-icon">📱</div>
+        <div class="opt-title">Akıllı Saat / Spor Kordon</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="result-box" id="resultBox">
+    <div class="id-card">
+      <div class="id-avatar" id="resAvatar">🎩</div>
+      <h2 class="id-title" id="resTitle">Klasik Centilmen</h2>
+      <p class="id-desc" id="resDesc">Trendlerin gelip geçici, stilin ise kalıcı olduğuna inanırsın. Zamansız parçalarla otoriter ve saygın bir imajın var.</p>
+      
+      <ul class="id-list" id="resList">
+        <li><span>✔</span> Must-have: Kaliteli lacivert blazer</li>
+        <li><span>✔</span> Ana Renk: Lacivert, Kahve, Beyaz</li>
+        <li><span>❌</span> Uzak Dur: Devasa marka logoları</li>
+      </ul>
+    </div>
+    
+    <button class="action-btn" onclick="location.reload()">Testi Tekrarla</button>
+  </div>
+
+</div>
+
+<script>
+  const questions = [
+    {
+      q: "Bileğinde ne var?",
+      optA: { icon: "⌚", text: "Deri Kordonlu Klasik Saat", type: "classic" },
+      optB: { icon: "📱", text: "Akıllı Saat / Spor Kordon", type: "modern" }
+    },
+    {
+      q: "Hafta sonu arkadaşlarınla kahve içmeye gidiyorsun...",
+      optA: { icon: "🧥", text: "Blazer Ceket ve Chino Pantolon", type: "classic" },
+      optB: { icon: "👕", text: "Kapşonlu Sweatshirt ve Eşofman", type: "casual" }
+    },
+    {
+      q: "Ayakkabı dolabının hakimi hangisi?",
+      optA: { icon: "👞", text: "Oxford ve Loafer'lar", type: "classic" },
+      optB: { icon: "👟", text: "Beyaz ve Renkli Sneaker'lar", type: "modern" }
+    },
+    {
+      q: "Renk paletini seç:",
+      optA: { icon: "🍂", text: "Toprak Tonları, Bej, Lacivert", type: "classic" },
+      optB: { icon: "🖤", text: "Siyah, Füme, Beyaz (Monokrom)", type: "modern" }
+    }
+  ];
+
+  const results = {
+    classic: {
+      avatar: "🎩", title: "Klasik Centilmen",
+      desc: "Trendlerin gelip geçici, stilin ise kalıcı olduğuna inanırsın. 'Old Money' estetiği senin kanında var. Güvenilir, saygın ve otoriter bir izlenim bırakıyorsun.",
+      list: ["<span>✔</span> Must-have: İtalyan kesim lacivert blazer", "<span>✔</span> Ana Renkler: Lacivert, Toprak tonları", "<span>❌</span> Uzak Dur: Neon renkler ve büyük logolar"]
+    },
+    modern: {
+      avatar: "💻", title: "Modern Minimalist",
+      desc: "Steve Jobs vari bir fonksiyonelliği savunuyorsun. Giyim senin için zihni yormaması gereken bir araç. Sadelik ve teknolojiyle iç içe bir havan var.",
+      list: ["<span>✔</span> Must-have: Siyah boğazlı kazak & beyaz sneaker", "<span>✔</span> Ana Renkler: Siyah, Beyaz, Füme", "<span>❌</span> Uzak Dur: Karmaşık desenler ve kravat"]
+    },
+    casual: {
+      avatar: "🛹", title: "Rahat Sporcu",
+      desc: "Konfor senin için her şeyden önce gelir. Takım elbiseler sana göre birer hapishane. Enerjik, dinamik ve her an harekete hazır görünüyorsun.",
+      list: ["<span>✔</span> Must-have: Premium kalın kumaşlı sweatshirt", "<span>✔</span> Ana Renkler: Gri melanj, Haki", "<span>❌</span> Uzak Dur: Dar kesim (Skinny) pantolonlar"]
+    }
+  };
+
+  let currentQ = 0;
+  let scores = { classic: 0, modern: 0, casual: 0 };
+
+  function renderQ() {
+    const q = questions[currentQ];
+    document.getElementById('pBar').style.width = ((currentQ + 1) / questions.length) * 100 + '%';
+    document.getElementById('qTitle').textContent = q.q;
+    
+    document.getElementById('optsGrid').innerHTML = `
+      <div class="opt-card" onclick="answer('${q.optA.type}')">
+        <div class="opt-icon">${q.optA.icon}</div>
+        <div class="opt-title">${q.optA.text}</div>
+      </div>
+      <div class="opt-card" onclick="answer('${q.optB.type}')">
+        <div class="opt-icon">${q.optB.icon}</div>
+        <div class="opt-title">${q.optB.text}</div>
+      </div>
+    `;
+  }
+
+  function answer(type) {
+    scores[type]++;
+    currentQ++;
+
+    if (currentQ < questions.length) {
+      renderQ();
+    } else {
+      showResult();
+    }
+  }
+
+  function showResult() {
+    document.getElementById('introArea').style.display = 'none';
+    document.getElementById('quizBox').style.display = 'none';
+    document.getElementById('resultBox').style.display = 'flex';
+
+    // Determine Winner
+    let winner = 'modern';
+    if (scores.classic >= 3) winner = 'classic';
+    else if (scores.casual >= 2) winner = 'casual';
+
+    const r = results[winner];
+    document.getElementById('resAvatar').textContent = r.avatar;
+    document.getElementById('resTitle').textContent = r.title;
+    document.getElementById('resDesc').textContent = r.desc;
+    
+    document.getElementById('resList').innerHTML = r.list.map(l => `<li>${l}</li>`).join('');
+  }
+
+  // Init
+  renderQ();
+
+</script>
+
+<%- include('partials/main-footer') %>

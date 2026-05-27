@@ -1,0 +1,223 @@
+<%- include('partials/main-header') %>
+<link rel="stylesheet" href="/retorik.css?v=7" />
+
+<style>
+  .retorik-page { display: block !important; }
+  .ret-cat-pill { text-decoration: none; }
+</style>
+
+<main class="main-content">
+  <div class="content-wrapper">
+    <div id="retorik-container" class="retorik-page">
+
+      <!-- ══ HERO ══ -->
+      <div class="ret-hero">
+        <div class="ret-hero-badge">Antik Yunandan Gunumuze</div>
+        <h1 class="ret-hero-title"><%= meta.h1 %></h1>
+        <p class="ret-hero-tagline">Etkili Konusma ve Ikna Sanati</p>
+        <p class="ret-hero-desc">Sadece dogru konusmak yetmez — ikna etmek, ilham vermek ve iz birakmak gerekir. Retorik, binlerce yillik bilgeligi modern iletisime tasiyan en guclu aractir.</p>
+        <div class="ret-hero-stats">
+          <div class="ret-stat"><span class="ret-stat-n">2500+</span><span class="ret-stat-l">Yillik Tarih</span></div>
+          <div class="ret-stat"><span class="ret-stat-n">8</span><span class="ret-stat-l">Egitim Modulu</span></div>
+          <div class="ret-stat"><span class="ret-stat-n">20</span><span class="ret-stat-l">Interaktif Ders</span></div>
+        </div>
+      </div>
+
+      <!-- ══ İNTERAKTİF ARAÇLAR ══ -->
+      <div style="margin-bottom: 60px; margin-top: 20px;">
+        <h2 class="section-heading" style="color:#0f172a;font-size:1.8rem;margin-bottom:10px">İnteraktif Retorik Araçları</h2>
+        <p style="color:#64748b; margin-bottom: 30px; font-size: 1.05rem;">Sadece okumayın, ikna edin! İkna kabiliyetinizi ve hitabetinizi ölçecek premium simülatörler.</p>
+        
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 24px;">
+          
+          <!-- BAŞYAPIT: Münazara Satrancı -->
+          <a href="/retorik/araclar/munazara" style="grid-column: 1 / -1; background:linear-gradient(135deg, #1e1b4b 0%, #0f172a 100%); border-radius:20px; padding:40px; text-decoration:none; color:#fff; display:flex; flex-direction:column; align-items:center; text-align:center; transition:all 0.4s; position:relative; overflow:hidden; border: 2px solid #eab308; box-shadow: 0 0 30px rgba(234, 179, 8, 0.2);" onmouseover="this.style.transform='scale(1.02)'; this.style.boxShadow='0 0 50px rgba(234, 179, 8, 0.4)';" onmouseout="this.style.transform='scale(1)'; this.style.boxShadow='0 0 30px rgba(234, 179, 8, 0.2)';">
+            <div style="position:absolute; top:15px; right:20px; background:#eab308; color:#0f172a; font-size:0.75rem; font-weight:900; padding:5px 15px; border-radius:20px; text-transform:uppercase; letter-spacing:1px; animation: pulse 2s infinite;">🏆 BAŞYAPIT SİMÜLATÖRÜ</div>
+            <div style="font-size:4.5rem; margin-bottom:15px; text-shadow: 0 0 20px rgba(234,179,8,0.5);">📺</div>
+            <h3 style="font-size:2rem; font-weight:900; margin:0 0 15px 0; color:#eab308; text-transform:uppercase; letter-spacing:1px;">Münazara Satrancı</h3>
+            <p style="font-size:1.1rem; color:#cbd5e1; line-height:1.6; margin-bottom:25px; max-width:800px;">Canlı yayındasınız. Karşınızdaki demagog size safsatalarla ve bel altı taktiklerle saldırıyor. Süre bitmeden saldırıyı teşhis edin ve doğru retorik judosuyla onu canlı yayında mat edin!</p>
+            <div style="background:#eab308; color:#0f172a; font-weight:900; padding:15px 40px; border-radius:30px; font-size:1.1rem; text-transform:uppercase; box-shadow: 0 10px 20px rgba(234,179,8,0.3);">Canlı Yayına Bağlan</div>
+          </a>
+
+          <!-- BAŞYAPIT 2: Karanlık Sanatlar -->
+          <a href="/retorik/araclar/karanlik" style="grid-column: 1 / -1; background:linear-gradient(135deg, #022c22 0%, #0f172a 100%); border-radius:20px; padding:40px; text-decoration:none; color:#fff; display:flex; flex-direction:column; align-items:center; text-align:center; transition:all 0.4s; position:relative; overflow:hidden; border: 2px solid #10b981; box-shadow: 0 0 30px rgba(16, 185, 129, 0.2);" onmouseover="this.style.transform='scale(1.02)'; this.style.boxShadow='0 0 50px rgba(16, 185, 129, 0.4)';" onmouseout="this.style.transform='scale(1)'; this.style.boxShadow='0 0 30px rgba(16, 185, 129, 0.2)';">
+            <div style="position:absolute; top:15px; right:20px; background:#10b981; color:#0f172a; font-size:0.75rem; font-weight:900; padding:5px 15px; border-radius:20px; text-transform:uppercase; letter-spacing:1px; animation: pulse 2s infinite;">☠️ KARANLIK BAŞYAPIT</div>
+            <div style="font-size:4.5rem; margin-bottom:15px; text-shadow: 0 0 20px rgba(16,185,129,0.5);">📉</div>
+            <h3 style="font-size:2rem; font-weight:900; margin:0 0 15px 0; color:#10b981; text-transform:uppercase; letter-spacing:1px;">Karanlık Sanatlar</h3>
+            <p style="font-size:1.1rem; color:#cbd5e1; line-height:1.6; margin-bottom:25px; max-width:800px;">Bir "Spin Doctor" (Algı Yöneticisi) olun! Skandala batmış şirketinizi kurtarmak için Örtmece (Euphemism) ve Red Herring (Saptırma) kullanarak Wall Street borsasını yeşilde tutun.</p>
+            <div style="background:#10b981; color:#0f172a; font-weight:900; padding:15px 40px; border-radius:30px; font-size:1.1rem; text-transform:uppercase; box-shadow: 0 10px 20px rgba(16,185,129,0.3);">Laboratuvara Gir</div>
+          </a>
+
+          <!-- BAŞYAPIT 3: Liderlik Teleprompterı -->
+          <a href="/retorik/araclar/prompter" style="grid-column: 1 / -1; background:linear-gradient(135deg, #4c0519 0%, #000000 100%); border-radius:20px; padding:40px; text-decoration:none; color:#fff; display:flex; flex-direction:column; align-items:center; text-align:center; transition:all 0.4s; position:relative; overflow:hidden; border: 2px solid #f43f5e; box-shadow: 0 0 30px rgba(244, 63, 94, 0.2);" onmouseover="this.style.transform='scale(1.02)'; this.style.boxShadow='0 0 50px rgba(244, 63, 94, 0.4)';" onmouseout="this.style.transform='scale(1)'; this.style.boxShadow='0 0 30px rgba(244, 63, 94, 0.2)';">
+            <div style="position:absolute; top:15px; right:20px; background:#f43f5e; color:#ffffff; font-size:0.75rem; font-weight:900; padding:5px 15px; border-radius:20px; text-transform:uppercase; letter-spacing:1px; animation: pulse 2s infinite;">🎙️ E-SPOR BAŞYAPITI</div>
+            <div style="font-size:4.5rem; margin-bottom:15px; text-shadow: 0 0 20px rgba(244,63,94,0.5);">🎵</div>
+            <h3 style="font-size:2rem; font-weight:900; margin:0 0 15px 0; color:#f43f5e; text-transform:uppercase; letter-spacing:1px;">Liderlik Teleprompter'ı</h3>
+            <p style="font-size:1.1rem; color:#cbd5e1; line-height:1.6; margin-bottom:25px; max-width:800px;">Diksiyonu bir Guitar Hero oyunu gibi oynamaya hazır mısınız? Kayan metindeki "Es" ve "Vurgu" notalarını tam zamanında yakalayarak seyircinin coşku barını doldurun!</p>
+            <div style="background:#f43f5e; color:#ffffff; font-weight:900; padding:15px 40px; border-radius:30px; font-size:1.1rem; text-transform:uppercase; box-shadow: 0 10px 20px rgba(244,63,94,0.3);">Stüdyoya Gir</div>
+          </a>
+          <!-- Müzakere Ringi -->
+          <a href="/retorik/araclar/muzakere" style="background:#0f172a; border-radius:20px; padding:30px; text-decoration:none; color:#fff; display:flex; flex-direction:column; align-items:flex-start; transition:all 0.3s; position:relative; overflow:hidden;" onmouseover="this.style.transform='translateY(-5px)'; this.style.boxShadow='0 20px 40px rgba(15,23,42,0.3)';" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='none';">
+            <div style="font-size:3rem; margin-bottom:15px">🤝</div>
+            <h3 style="font-size:1.4rem; font-weight:800; margin:0 0 10px 0; color:#38bdf8;">Müzakere Ringi</h3>
+            <p style="font-size:0.95rem; color:#cbd5e1; line-height:1.6; margin-bottom:20px;">Zorlu bir patrona veya müşteriye karşı Cialdini'nin ikna prensiplerini kullanarak "Evet" cevabını almaya çalışın.</p>
+            <div style="margin-top:auto; background:#38bdf8; color:#0f172a; font-weight:800; padding:10px 20px; border-radius:30px; font-size:0.9rem; text-transform:uppercase;">Masaya Otur</div>
+          </a>
+
+          <!-- Retorik Makinesi -->
+          <a href="/retorik/araclar/makine" style="background:#0f172a; border-radius:20px; padding:30px; text-decoration:none; color:#fff; display:flex; flex-direction:column; align-items:flex-start; transition:all 0.3s; position:relative; overflow:hidden;" onmouseover="this.style.transform='translateY(-5px)'; this.style.boxShadow='0 20px 40px rgba(15,23,42,0.3)';" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='none';">
+            <div style="font-size:3rem; margin-bottom:15px">⚙️</div>
+            <h3 style="font-size:1.4rem; font-weight:800; margin:0 0 10px 0; color:#10b981;">Retorik Makinesi</h3>
+            <p style="font-size:0.95rem; color:#cbd5e1; line-height:1.6; margin-bottom:20px;">Sıradan, sıkıcı cümleleri alın ve Trikolon, Antitez gibi efsanevi hitabet figürleriyle yeniden inşa edin.</p>
+            <div style="margin-top:auto; background:#10b981; color:#ffffff; font-weight:800; padding:10px 20px; border-radius:30px; font-size:0.9rem; text-transform:uppercase;">Makineyi Başlat</div>
+          </a>
+
+          <!-- Logos Radarı -->
+          <a href="/retorik/araclar/radar" style="background:#0f172a; border-radius:20px; padding:30px; text-decoration:none; color:#fff; display:flex; flex-direction:column; align-items:flex-start; transition:all 0.3s; position:relative; overflow:hidden;" onmouseover="this.style.transform='translateY(-5px)'; this.style.boxShadow='0 20px 40px rgba(15,23,42,0.3)';" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='none';">
+            <div style="font-size:3rem; margin-bottom:15px">📡</div>
+            <h3 style="font-size:1.4rem; font-weight:800; margin:0 0 10px 0; color:#ef4444;">Logos Radarı</h3>
+            <p style="font-size:0.95rem; color:#cbd5e1; line-height:1.6; margin-bottom:20px;">Akan bir konuşmanın içindeki gizli "Mantık Hatalarını (Safsata)" konuşma bitmeden anında tespit edin.</p>
+            <div style="margin-top:auto; background:#ef4444; color:#ffffff; font-weight:800; padding:10px 20px; border-radius:30px; font-size:0.9rem; text-transform:uppercase;">Radarı Aç</div>
+          </a>
+
+          <!-- Kürsü Baskısı -->
+          <a href="/retorik/araclar/kursu" style="background:#0f172a; border-radius:20px; padding:30px; text-decoration:none; color:#fff; display:flex; flex-direction:column; align-items:flex-start; transition:all 0.3s; position:relative; overflow:hidden;" onmouseover="this.style.transform='translateY(-5px)'; this.style.boxShadow='0 20px 40px rgba(15,23,42,0.3)';" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='none';">
+            <div style="font-size:3rem; margin-bottom:15px">🎤</div>
+            <h3 style="font-size:1.4rem; font-weight:800; margin:0 0 10px 0; color:#f97316;">Kürsü Baskısı</h3>
+            <p style="font-size:0.95rem; color:#cbd5e1; line-height:1.6; margin-bottom:20px;">Agresif gazeteci sorularına karşı savunmaya geçmek yerine Çerçeveleme (Reframing) refleksinizi test edin.</p>
+            <div style="margin-top:auto; background:#f97316; color:#ffffff; font-weight:800; padding:10px 20px; border-radius:30px; font-size:0.9rem; text-transform:uppercase;">Kürsüye Çık</div>
+          </a>
+
+          <!-- Retorik Üçgeni -->
+          <a href="/retorik/araclar/ucgen" style="background:#0f172a; border-radius:20px; padding:30px; text-decoration:none; color:#fff; display:flex; flex-direction:column; align-items:flex-start; transition:all 0.3s; position:relative; overflow:hidden;" onmouseover="this.style.transform='translateY(-5px)'; this.style.boxShadow='0 20px 40px rgba(15,23,42,0.3)';" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='none';">
+            <div style="font-size:3rem; margin-bottom:15px">⚖️</div>
+            <h3 style="font-size:1.4rem; font-weight:800; margin:0 0 10px 0; color:#8b5cf6;">Retorik Üçgeni</h3>
+            <p style="font-size:0.95rem; color:#cbd5e1; line-height:1.6; margin-bottom:20px;">Ethos (Karakter), Pathos (Duygu) ve Logos (Mantık) barlarını %100 dengede tutarak konuşmanızı inşa edin.</p>
+            <div style="margin-top:auto; background:#8b5cf6; color:#ffffff; font-weight:800; padding:10px 20px; border-radius:30px; font-size:0.9rem; text-transform:uppercase;">Dengeyi Kur</div>
+          </a>
+
+          <!-- Kitle Sörfü -->
+          <a href="/retorik/araclar/kitle" style="background:#0f172a; border-radius:20px; padding:30px; text-decoration:none; color:#fff; display:flex; flex-direction:column; align-items:flex-start; transition:all 0.3s; position:relative; overflow:hidden;" onmouseover="this.style.transform='translateY(-5px)'; this.style.boxShadow='0 20px 40px rgba(15,23,42,0.3)';" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='none';">
+            <div style="font-size:3rem; margin-bottom:15px">🏄‍♂️</div>
+            <h3 style="font-size:1.4rem; font-weight:800; margin:0 0 10px 0; color:#eab308;">Kitle Sörfü</h3>
+            <p style="font-size:0.95rem; color:#cbd5e1; line-height:1.6; margin-bottom:20px;">Düşmanca, sıkılmış veya endişeli kitlelerin anlık psikolojisine uygun hitabet stratejisini hızlıca seçin.</p>
+            <div style="margin-top:auto; background:#eab308; color:#0f172a; font-weight:800; padding:10px 20px; border-radius:30px; font-size:0.9rem; text-transform:uppercase;">Kitleyi Oku</div>
+          </a>
+
+        </div>
+      </div>
+
+      <!-- ══ KATEGORİLER ══ -->
+      <div style="margin-top:-20px;margin-bottom:40px;text-align:center;">
+        <div class="ret-cat-pills">
+          <a href="/retorik" class="ret-cat-pill active">Tumu</a>
+          <a href="/retorik/ethos" class="ret-cat-pill">Ethos</a>
+          <a href="/retorik/pathos" class="ret-cat-pill">Pathos</a>
+          <a href="/retorik/logos" class="ret-cat-pill">Logos</a>
+          <a href="/retorik/konusma-yazimi" class="ret-cat-pill">Konusma Yazimi</a>
+          <a href="/retorik/figurler" class="ret-cat-pill">Retorik Figurleri</a>
+          <a href="/retorik/analiz" class="ret-cat-pill">Konusma Analizi</a>
+          <a href="/retorik/savunma" class="ret-cat-pill">Guclu Savunma</a>
+          <a href="/retorik/ikna" class="ret-cat-pill">Ikna Psikolojisi</a>
+        </div>
+      </div>
+
+      <!-- ══ ARİSTOTELES'İN TEMEL TAŞLARI ══ -->
+      <section style="background:#fff;border:1px solid #e2e8f0;border-radius:20px;padding:35px;margin-bottom:30px">
+        <h2 style="color:#0f172a;font-size:1.5rem;margin-bottom:8px">Aristoteles'in Temel Taslari</h2>
+        <p style="color:#64748b;margin-bottom:25px">Ikna sanatinin 2500 yillik uc sutunu</p>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:20px">
+
+          <a href="/retorik/ethos" style="background:#f8fafc;border:1.5px solid #e2e8f0;border-radius:16px;padding:28px;text-decoration:none;transition:all .3s;display:block">
+            <div style="font-size:0.7rem;font-weight:800;text-transform:uppercase;letter-spacing:1.5px;color:#64748b;margin-bottom:12px">01 — ETHOS</div>
+            <h3 style="color:#0f172a;font-size:1.3rem;margin-bottom:10px">Karakter ve Guven</h3>
+            <p style="color:#475569;font-size:0.9rem;line-height:1.7;margin-bottom:18px">Konusmacinin guvenilirligi ve ahlaki durusu. Dinleyicinin size neden inanmasi gerektigini kanitlama sanati.</p>
+            <div style="color:#0f172a;font-weight:700;font-size:0.85rem">3 Egitim Modulu →</div>
+          </a>
+
+          <a href="/retorik/pathos" style="background:#f8fafc;border:1.5px solid #e2e8f0;border-radius:16px;padding:28px;text-decoration:none;transition:all .3s;display:block">
+            <div style="font-size:0.7rem;font-weight:800;text-transform:uppercase;letter-spacing:1.5px;color:#64748b;margin-bottom:12px">02 — PATHOS</div>
+            <h3 style="color:#0f172a;font-size:1.3rem;margin-bottom:10px">Duygu ve Bag</h3>
+            <p style="color:#475569;font-size:0.9rem;line-height:1.7;margin-bottom:18px">Dinleyicinin duygularina hitap etme. Hikaye, empati ve duygusal zirve ile kalpleri fethetme.</p>
+            <div style="color:#0f172a;font-weight:700;font-size:0.85rem">3 Egitim Modulu →</div>
+          </a>
+
+          <a href="/retorik/logos" style="background:#f8fafc;border:1.5px solid #e2e8f0;border-radius:16px;padding:28px;text-decoration:none;transition:all .3s;display:block">
+            <div style="font-size:0.7rem;font-weight:800;text-transform:uppercase;letter-spacing:1.5px;color:#64748b;margin-bottom:12px">03 — LOGOS</div>
+            <h3 style="color:#0f172a;font-size:1.3rem;margin-bottom:10px">Mantik ve Kanit</h3>
+            <p style="color:#475569;font-size:0.9rem;line-height:1.7;margin-bottom:18px">Veriler, istatistikler ve rasyonel argumanlar. Mantigin keskinligiyle ikna etme.</p>
+            <div style="color:#0f172a;font-weight:700;font-size:0.85rem">3 Egitim Modulu →</div>
+          </a>
+
+        </div>
+      </section>
+
+      <!-- ══ HİTABET SANATI ══ -->
+      <section style="background:#fff;border:1px solid #e2e8f0;border-radius:20px;padding:35px;margin-bottom:30px">
+        <h2 style="color:#0f172a;font-size:1.5rem;margin-bottom:8px">Hitabet Sanati</h2>
+        <p style="color:#64748b;margin-bottom:25px">Kelimelerin gucunu harekete gecirin</p>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:20px">
+
+          <a href="/retorik/konusma-yazimi" style="background:#f8fafc;border:1.5px solid #e2e8f0;border-radius:16px;padding:28px;text-decoration:none;display:block">
+            <div style="font-size:0.7rem;font-weight:800;text-transform:uppercase;letter-spacing:1.5px;color:#64748b;margin-bottom:12px">YAZI</div>
+            <h3 style="color:#0f172a;font-size:1.2rem;margin-bottom:10px">Konusma Yazimi</h3>
+            <p style="color:#475569;font-size:0.9rem;line-height:1.7;margin-bottom:12px">Kanca cumleler, uclu yapi (trikolon) ve guclu kapanis teknikleri.</p>
+            <div style="color:#0f172a;font-weight:700;font-size:0.85rem">3 Ders →</div>
+          </a>
+
+          <a href="/retorik/figurler" style="background:#f8fafc;border:1.5px solid #e2e8f0;border-radius:16px;padding:28px;text-decoration:none;display:block">
+            <div style="font-size:0.7rem;font-weight:800;text-transform:uppercase;letter-spacing:1.5px;color:#64748b;margin-bottom:12px">FIGURLER</div>
+            <h3 style="color:#0f172a;font-size:1.2rem;margin-bottom:10px">Retorik Figurleri</h3>
+            <p style="color:#475569;font-size:0.9rem;line-height:1.7;margin-bottom:12px">Anafor, antitez, metafor ve konusmaniza derinlik katan sozel silahlar.</p>
+            <div style="color:#0f172a;font-weight:700;font-size:0.85rem">3 Ders →</div>
+          </a>
+
+        </div>
+      </section>
+
+      <!-- ══ İLERİ SEVİYE ══ -->
+      <section style="background:#fff;border:1px solid #e2e8f0;border-radius:20px;padding:35px;margin-bottom:30px">
+        <h2 style="color:#0f172a;font-size:1.5rem;margin-bottom:8px">Ileri Seviye Uygulamalar</h2>
+        <p style="color:#64748b;margin-bottom:25px">Retorigi hayata gecirin</p>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:20px">
+
+          <a href="/retorik/analiz" style="background:#f8fafc;border:1.5px solid #e2e8f0;border-radius:16px;padding:28px;text-decoration:none;display:block">
+            <div style="font-size:0.7rem;font-weight:800;text-transform:uppercase;letter-spacing:1.5px;color:#64748b;margin-bottom:12px">ANALIZ</div>
+            <h3 style="color:#0f172a;font-size:1.2rem;margin-bottom:10px">Konusma Analizi</h3>
+            <p style="color:#475569;font-size:0.9rem;line-height:1.7;margin-bottom:12px">MLK, Steve Jobs ve gunluk hayattaki ikna tekniklerini kesfedin.</p>
+            <div style="color:#0f172a;font-weight:700;font-size:0.85rem">3 Analiz →</div>
+          </a>
+
+          <a href="/retorik/savunma" style="background:#f8fafc;border:1.5px solid #e2e8f0;border-radius:16px;padding:28px;text-decoration:none;display:block">
+            <div style="font-size:0.7rem;font-weight:800;text-transform:uppercase;letter-spacing:1.5px;color:#64748b;margin-bottom:12px">SAVUNMA</div>
+            <h3 style="color:#0f172a;font-size:1.2rem;margin-bottom:10px">Guclu Savunma Kurmak</h3>
+            <p style="color:#475569;font-size:0.9rem;line-height:1.7;margin-bottom:12px">Karsi argumanlara mantikli, sogukkanli ve ikna edici yanit verme.</p>
+            <div style="color:#0f172a;font-weight:700;font-size:0.85rem">2 Teknik →</div>
+          </a>
+
+          <a href="/retorik/ikna" style="background:#f8fafc;border:1.5px solid #e2e8f0;border-radius:16px;padding:28px;text-decoration:none;display:block">
+            <div style="font-size:0.7rem;font-weight:800;text-transform:uppercase;letter-spacing:1.5px;color:#64748b;margin-bottom:12px">IKNA</div>
+            <h3 style="color:#0f172a;font-size:1.2rem;margin-bottom:10px">Ikna Psikolojisi</h3>
+            <p style="color:#475569;font-size:0.9rem;line-height:1.7;margin-bottom:12px">Cialdini prensipleri, kitlik, sosyal kanit ve karar mekanizmalari.</p>
+            <div style="color:#0f172a;font-weight:700;font-size:0.85rem">1 Ileri Ders →</div>
+          </a>
+
+        </div>
+      </section>
+
+      <!-- ══ RETORİK NEDİR? ══ -->
+      <section style="background:#fff;border:1px solid #e2e8f0;border-radius:20px;padding:35px;margin-bottom:30px">
+        <h2 style="color:#0f172a;font-size:1.5rem;margin-bottom:16px">Retorik Nedir?</h2>
+        <p style="color:#475569;font-size:0.95rem;line-height:1.8;margin-bottom:16px">Retorik (Yunanca: <em>rhetorike</em>), soz soyleme, ikna etme ve etkili iletisim kurma sanati ve bilimidir. Milattan once 5. yuzyilda Antik Yunanda dogmus, Aristoteles tarafindan sistematize edilmis ve yuzyillar boyunca egitimin temel taslarindan biri olmustur.</p>
+        <p style="color:#475569;font-size:0.95rem;line-height:1.8;margin-bottom:20px">Diksiyon <strong>"nasil"</strong> soylediginizle ilgilenirken, Retorik <strong>"ne"</strong> soylediginiz, <strong>"kime"</strong> soylediginiz ve <strong>"neden"</strong> soylediginizle ilgilenir.</p>
+        <div style="background:#f1f5f9;border-left:4px solid #0f172a;border-radius:0 12px 12px 0;padding:20px 24px">
+          <p style="color:#0f172a;font-size:1.1rem;font-style:italic;margin-bottom:8px;font-weight:500">"Retorik, her konuda ikna edici olani bulma yetenegidir."</p>
+          <cite style="color:#64748b;font-size:0.85rem;font-weight:700">— Aristoteles</cite>
+        </div>
+      </section>
+
+    </div>
+  </div>
+</main>
+
+<%- include('partials/main-footer') %>

@@ -1,0 +1,241 @@
+<%- include('partials/main-header') %>
+<link rel="stylesheet" href="/retorik.css?v=7" />
+
+<style>
+  /* Tam ekran yayılması için content-wrapper'ı eziyoruz */
+  .content-wrapper { max-width: 100% !important; padding: 0 4% !important; }
+  .sahne-page { display: block !important; width: 100%; max-width: 1400px; margin: 0 auto; padding-top: 40px; padding-bottom: 60px; }
+  
+  /* PREMIUM LIGHT NAV PILLS */
+  .ret-cat-pills { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; margin-bottom: 40px; }
+  .ret-cat-pill { padding: 8px 20px; border-radius: 30px; font-weight: 700; font-size: 0.9rem; background: #ffffff; border: 1px solid #cbd5e1; color: #64748b; text-decoration: none; transition: all 0.2s; }
+  .ret-cat-pill:hover { background: #f8fafc; color: #0f172a; border-color: #94a3b8; }
+  .ret-cat-pill.active { background: #0f172a; border-color: #0f172a; color: #ffffff; box-shadow: 0 4px 15px rgba(15,23,42,0.15); }
+
+  /* PAGE HEADER */
+  .masterclass-header { background: linear-gradient(145deg, #ffffff, #f8fafc); border: 1px solid #e2e8f0; border-radius: 24px; padding: 40px; margin-bottom: 40px; display: flex; align-items: center; gap: 24px; position: relative; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.03); }
+  .masterclass-header::after { content: ''; position: absolute; top: -50px; right: -50px; width: 200px; height: 200px; background: radial-gradient(circle, rgba(14,165,233,0.1) 0%, transparent 70%); border-radius: 50%; }
+  .mc-icon { width: 80px; height: 80px; border-radius: 20px; background: rgba(14,165,233,0.1); color: #0284c7; display: flex; align-items: center; justify-content: center; font-size: 2rem; font-weight: 900; border: 1px solid rgba(14,165,233,0.2); flex-shrink: 0; }
+
+  /* DYNAMIC LESSON CARDS */
+  .lesson-card { background: #ffffff; border: 1px solid #e2e8f0; border-radius: 24px; padding: 40px; margin-bottom: 40px; position: relative; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.02); transition: all 0.3s ease; }
+  .lesson-badge { position: absolute; top: 0; right: 40px; background: #0ea5e9; color: #ffffff; padding: 6px 16px; border-radius: 0 0 12px 12px; font-weight: 800; font-size: 0.8rem; letter-spacing: 0.5px; }
+
+  /* STATES */
+  .state-section { display: none; animation: fadeIn 0.4s ease; }
+  .state-section.active { display: block; }
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+  /* EDUCATION STATE (THEORY) */
+  .theory-scenario-box { background: rgba(14,165,233,0.03); border: 1px solid rgba(14,165,233,0.15); border-radius: 16px; padding: 24px; margin-bottom: 24px; position: relative; }
+  .theory-scenario-label { position: absolute; top: -12px; left: 24px; background: #0284c7; color: #ffffff; padding: 4px 12px; border-radius: 20px; font-weight: 800; font-size: 0.75rem; text-transform: uppercase; }
+  .theory-step-box { display: flex; gap: 16px; background: #f8fafc; padding: 20px; border-radius: 16px; margin-bottom: 12px; align-items: flex-start; border: 1px solid #e2e8f0; }
+  .theory-step-num { width: 32px; height: 32px; min-width: 32px; background: #0ea5e9; color: #ffffff; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 900; }
+
+  .btn-start-sim { display: inline-flex; align-items: center; justify-content: center; background: #0f172a; color: #ffffff; padding: 16px 32px; border-radius: 14px; font-size: 1.1rem; font-weight: 800; cursor: pointer; border: none; transition: all 0.2s; box-shadow: 0 10px 25px rgba(15,23,42,0.2); margin-top: 30px; width: 100%; text-transform: uppercase; letter-spacing: 1px; }
+  .btn-start-sim:hover { background: #1e293b; transform: translateY(-2px); }
+
+  /* SIMULATION STATE (ACTION) */
+  .sim-container { background: #f8fafc; border: 2px solid #e2e8f0; border-radius: 20px; padding: 40px; position: relative; overflow: hidden; text-align: center; }
+  .sim-timer-bar { position: absolute; top: 0; left: 0; height: 8px; background: #ef4444; width: 100%; transition: width 0.1s linear; }
+  .sim-question { font-size: 1.4rem; font-weight: 900; color: #0f172a; line-height: 1.5; margin-bottom: 30px; }
+  
+  .sim-options { display: grid; grid-template-columns: 1fr; gap: 12px; }
+  .sim-btn { background: #ffffff; border: 2px solid #cbd5e1; padding: 18px 24px; border-radius: 12px; font-size: 1.05rem; font-weight: 700; color: #334155; text-align: left; cursor: pointer; transition: all 0.1s; }
+  .sim-btn:hover { border-color: #0ea5e9; background: #f0f9ff; color: #0284c7; }
+  
+  /* DEBRIEF STATE (RESULT & PRACTICE) */
+  .result-banner { padding: 20px 24px; border-radius: 16px; margin-bottom: 30px; display: flex; align-items: center; gap: 16px; }
+  .result-banner.success { background: rgba(34, 197, 94, 0.1); border: 1px solid #22c55e; color: #15803d; }
+  .result-banner.fail { background: rgba(239, 68, 68, 0.1); border: 1px solid #ef4444; color: #b91c1c; }
+  .result-icon { font-size: 2rem; font-weight: 900; }
+
+  textarea { width: 100%; min-height: 120px; background: #f8fafc; border: 1px solid #cbd5e1; border-radius: 16px; padding: 20px; color: #0f172a; font-size: 1rem; resize: vertical; font-family: inherit; margin-bottom: 24px; transition: border-color 0.2s; }
+  textarea:focus { outline: none; border-color: #0ea5e9; background: #ffffff; }
+
+  .btn-complete { background: transparent; color: #0ea5e9; border: 2px solid #0ea5e9; font-weight: 800; padding: 14px 32px; border-radius: 12px; font-size: 1rem; cursor: pointer; transition: all 0.2s; }
+  .btn-complete:hover { background: #0ea5e9; color: #ffffff; box-shadow: 0 5px 15px rgba(14,165,233,0.2); }
+
+</style>
+
+<main class="main-content" style="background:#f1f5f9">
+  <div class="content-wrapper">
+    <div id="sahne-container" class="sahne-page">
+
+      <div class="ret-cat-pills">
+        <a href="/sahne" class="ret-cat-pill">Tümü</a>
+        <a href="/sahne/heyecan" class="ret-cat-pill <%= activeCat === 'heyecan' ? 'active' : '' %>">Heyecan Yönetimi</a>
+        <a href="/sahne/hareket" class="ret-cat-pill <%= activeCat === 'hareket' ? 'active' : '' %>">Sahne Hareketi</a>
+        <a href="/sahne/etkilesim" class="ret-cat-pill <%= activeCat === 'etkilesim' ? 'active' : '' %>">Seyirci Etkileşimi</a>
+        <a href="/sahne/kriz" class="ret-cat-pill <%= activeCat === 'kriz' ? 'active' : '' %>">Kriz Yönetimi</a>
+      </div>
+
+      <section class="masterclass-header">
+        <div class="mc-icon"><%= activeCat === 'heyecan' ? 'H' : activeCat === 'hareket' ? 'A' : activeCat === 'etkilesim' ? 'E' : 'K' %></div>
+        <div>
+          <div style="color:#0284c7;font-weight:800;font-size:0.85rem;letter-spacing:1px;margin-bottom:6px">PROFESYONEL EĞİTİM MODÜLÜ</div>
+          <h1 style="font-size:2rem;font-weight:900;color:#0f172a;margin:0;"><%= meta.h1 %></h1>
+          <p style="font-size:1rem;color:#64748b;margin-top:8px"><%= exercises.length %> detaylı ders ve simülasyon</p>
+        </div>
+      </section>
+
+      <% exercises.forEach((ex, index) => { %>
+        <!-- Her bir ders için izole state yönetimi -->
+        <section class="lesson-card" id="lesson-<%= ex.id %>">
+          <div class="lesson-badge"><%= ex.badge %></div>
+
+          <!-- STATE 1: EĞİTİM (THEORY) -->
+          <div class="state-section active" id="state-theory-<%= ex.id %>">
+            <div style="display:flex;align-items:center;gap:16px;margin-bottom:24px">
+              <div style="font-size:1.4rem;font-weight:900;color:#94a3b8"><%= ex.num %></div>
+              <h2 style="font-size:1.6rem;font-weight:900;color:#0f172a;margin:0"><%= ex.title %></h2>
+            </div>
+            
+            <p style="color:#334155;font-size:1.1rem;line-height:1.7;margin-bottom:32px;max-width:800px;border-left:4px solid #0ea5e9;padding-left:20px;"><%= ex.desc %></p>
+            
+            <h4 style="color:#0f172a;font-size:1.2rem;margin-bottom:16px;font-weight:900">1. Ustaların Yaklaşımı</h4>
+            <div class="theory-scenario-box">
+              <div class="theory-scenario-label"><%= ex.scenario.label %></div>
+              <div style="color:#0f172a;font-size:1.05rem;line-height:1.7;margin-top:12px;font-style:italic">"<%= ex.scenario.text %>"</div>
+              <div style="margin-top:20px;padding-top:20px;border-top:1px solid rgba(14,165,233,0.15)">
+                <h5 style="color:#0284c7;font-size:0.85rem;margin:0 0 8px;font-weight:900;text-transform:uppercase;letter-spacing:1px">Analiz</h5>
+                <p style="color:#475569;font-size:0.95rem;line-height:1.7;margin:0"><%= ex.scenario.analysis %></p>
+              </div>
+            </div>
+
+            <h4 style="color:#0f172a;font-size:1.2rem;margin-top:40px;margin-bottom:16px;font-weight:900">2. Adım Adım Eylem Planı</h4>
+            <div style="margin-bottom:32px">
+              <% ex.steps.forEach((step, i) => { %>
+                <div class="theory-step-box">
+                  <div class="theory-step-num"><%= i + 1 %></div>
+                  <div style="color:#334155;font-size:1.05rem;line-height:1.6;font-weight:500"><%= step %></div>
+                </div>
+              <% }); %>
+            </div>
+            
+            <button class="btn-start-sim" onclick="startSimulation('<%= ex.id %>')">
+              Eğitimi Tamamladım, Beni Test Et (Simülasyon)
+            </button>
+            <div style="text-align:center;margin-top:12px;font-size:0.85rem;color:#94a3b8;font-weight:700">Uyarı: Karar vermek için sadece 7 saniyeniz olacak!</div>
+          </div>
+
+          <!-- STATE 2: SIMULATION (ACTION) -->
+          <div class="state-section" id="state-sim-<%= ex.id %>">
+            <div class="sim-container">
+              <div class="sim-timer-bar" id="timer-bar-<%= ex.id %>"></div>
+              
+              <div style="margin-bottom: 40px; padding-top: 10px;">
+                <span style="background:#ef4444;color:#fff;padding:6px 14px;border-radius:20px;font-size:0.85rem;font-weight:900;text-transform:uppercase;margin-bottom:20px;display:inline-block;letter-spacing:1px;box-shadow:0 4px 10px rgba(239,68,68,0.2)">Sahnede Kriz Anı</span>
+                <div class="sim-question"><%= ex.quiz.q %></div>
+              </div>
+
+              <div class="sim-options">
+                <% ex.quiz.opts.forEach((opt, i) => { %>
+                  <button class="sim-btn" onclick="handleDecision('<%= ex.id %>', <%= i %>, <%= ex.quiz.correct %>)">
+                    <%= opt %>
+                  </button>
+                <% }); %>
+              </div>
+            </div>
+          </div>
+
+          <!-- STATE 3: DEBRIEF & HOMEWORK -->
+          <div class="state-section" id="state-debrief-<%= ex.id %>">
+            
+            <div class="result-banner" id="result-banner-<%= ex.id %>">
+              <div class="result-icon" id="result-icon-<%= ex.id %>">!</div>
+              <div>
+                <h3 style="font-size:1.2rem;font-weight:900;margin:0 0 4px" id="result-title-<%= ex.id %>">Sonuç</h3>
+                <p style="margin:0;font-size:0.95rem;font-weight:600" id="result-desc-<%= ex.id %>">Açıklama</p>
+              </div>
+            </div>
+
+            <div style="margin-top: 40px;">
+              <h4 style="color:#0f172a;font-size:1.2rem;margin-bottom:16px;font-weight:900">3. Kendi Pratiğini Yaz (Ev Ödevi)</h4>
+              <p style="color:#64748b;font-size:0.95rem;margin-bottom:16px;">Öğrendiğiniz teoriyi pekiştirmek için aşağıdaki egzersizi tamamlayın:</p>
+              <textarea placeholder="<%= ex.practice %>"></textarea>
+            </div>
+
+            <button class="btn-complete" onclick="this.innerHTML='✓ Modül Başarıyla Tamamlandı';this.style.background='#0ea5e9';this.style.color='#ffffff'">Modülü Bitir</button>
+
+          </div>
+
+        </section>
+      <% }); %>
+
+    </div>
+  </div>
+</main>
+
+<%- include('partials/main-footer') %>
+
+<script>
+  const timers = {};
+
+  function startSimulation(lessonId) {
+    // Hide Theory, Show Sim
+    document.getElementById(`state-theory-${lessonId}`).classList.remove('active');
+    document.getElementById(`state-sim-${lessonId}`).classList.add('active');
+
+    // Scroll to the simulation box for better UX
+    document.getElementById(`lesson-${lessonId}`).scrollIntoView({ behavior: 'smooth', block: 'center' });
+
+    // Start 7-second timer bar
+    const bar = document.getElementById(`timer-bar-${lessonId}`);
+    bar.style.width = '100%';
+    
+    // Force reflow
+    void bar.offsetWidth;
+
+    // We animate the width using JS for precise control so we can stop it
+    let timeLeft = 7000; // 7 seconds
+    const interval = 50; // update every 50ms
+    
+    timers[lessonId] = setInterval(() => {
+      timeLeft -= interval;
+      const percentage = (timeLeft / 7000) * 100;
+      bar.style.width = percentage + '%';
+
+      if (timeLeft <= 0) {
+        clearInterval(timers[lessonId]);
+        handleTimeOut(lessonId);
+      }
+    }, interval);
+  }
+
+  function handleDecision(lessonId, chosenIdx, correctIdx) {
+    clearInterval(timers[lessonId]); // stop timer
+    showDebrief(lessonId, chosenIdx === correctIdx, false);
+  }
+
+  function handleTimeOut(lessonId) {
+    showDebrief(lessonId, false, true);
+  }
+
+  function showDebrief(lessonId, isSuccess, isTimeout) {
+    document.getElementById(`state-sim-${lessonId}`).classList.remove('active');
+    document.getElementById(`state-debrief-${lessonId}`).classList.add('active');
+
+    const banner = document.getElementById(`result-banner-${lessonId}`);
+    const title = document.getElementById(`result-title-${lessonId}`);
+    const desc = document.getElementById(`result-desc-${lessonId}`);
+    const icon = document.getElementById(`result-icon-${lessonId}`);
+
+    if (isSuccess) {
+      banner.className = 'result-banner success';
+      icon.textContent = '✓';
+      title.textContent = 'Harika Refleks! Doğru Karar.';
+      desc.textContent = 'Sahnede bu krizi profesyonelce atlattınız. Seyircinin güveni sarsılmadı.';
+    } else {
+      banner.className = 'result-banner fail';
+      icon.textContent = '✕';
+      if (isTimeout) {
+        title.textContent = 'Süre Doldu! (Sahnede Donup Kaldınız)';
+        desc.textContent = 'Gerçek hayatta sessizlik uzadıkça seyirci gerilir. Baskı altında daha hızlı karar vermelisiniz.';
+      } else {
+        title.textContent = 'Hatalı Karar!';
+        desc.textContent = 'Verdiğiniz bu tepki seyirciyle aranızı açar veya amatör görünmenize sebep olur.';
+      }
+    }
+  }
+</script>

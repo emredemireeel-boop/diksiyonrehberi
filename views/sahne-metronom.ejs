@@ -1,0 +1,162 @@
+<%- include('partials/main-header') %>
+
+<style>
+  body { background: #1e293b; color: #ffffff; margin: 0; min-height: 100vh; display: flex; flex-direction: column; font-family: 'Inter', sans-serif; overflow: hidden; }
+  .main-header, .main-footer { display: none !important; }
+
+  .m-container { flex-grow: 1; padding: 40px; display: flex; flex-direction: column; align-items: center; justify-content: center; position: relative; }
+  
+  .instruction-panel { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); padding: 20px 40px; border-radius: 20px; text-align: center; margin-bottom: 60px; z-index: 10; backdrop-filter: blur(10px); }
+  .instruction-title { font-size: 1.5rem; font-weight: 900; margin: 0 0 10px; color: #10b981; text-transform: uppercase; letter-spacing: 1px; }
+  .instruction-desc { font-size: 1rem; color: #cbd5e1; margin: 0; max-width: 600px; line-height: 1.5; }
+
+  /* Pendulum */
+  .pendulum-wrapper { width: 300px; height: 150px; position: relative; overflow: hidden; margin-bottom: 40px; }
+  .pendulum-pivot { width: 10px; height: 10px; background: #94a3b8; border-radius: 50%; position: absolute; top: -5px; left: 50%; transform: translateX(-50%); z-index: 5; }
+  .pendulum-arm { width: 4px; height: 130px; background: #64748b; position: absolute; top: 0; left: 50%; margin-left: -2px; transform-origin: top center; transform: rotate(0deg); }
+  .pendulum-weight { width: 40px; height: 40px; background: #10b981; border-radius: 50%; position: absolute; bottom: -20px; left: -18px; box-shadow: 0 0 20px rgba(16, 185, 129, 0.5); }
+
+  /* We will use JS to inject a keyframe animation so we can dynamically change speed */
+  .pendulum-arm.swing { animation: swingAnim infinite ease-in-out alternate; }
+
+  .reading-text { font-size: 1.6rem; font-weight: 600; text-align: center; color: #94a3b8; max-width: 800px; line-height: 1.6; margin-bottom: 40px; transition: color 0.1s; }
+  
+  .controls { display: flex; flex-direction: column; align-items: center; gap: 20px; background: rgba(0,0,0,0.2); padding: 30px; border-radius: 20px; }
+  
+  .speed-slider { -webkit-appearance: none; width: 300px; height: 8px; background: #334155; border-radius: 5px; outline: none; }
+  .speed-slider::-webkit-slider-thumb { -webkit-appearance: none; appearance: none; width: 25px; height: 25px; border-radius: 50%; background: #10b981; cursor: pointer; }
+  .bpm-display { font-size: 2rem; font-weight: 900; color: #10b981; font-variant-numeric: tabular-nums; margin-bottom: 10px; }
+
+  .btn-control {
+    background: #10b981; color: #ffffff; border: none; padding: 14px 40px; border-radius: 30px;
+    font-size: 1.1rem; font-weight: 800; cursor: pointer; transition: all 0.2s; text-transform: uppercase; letter-spacing: 1px;
+  }
+  .btn-control:hover { background: #059669; transform: translateY(-2px); }
+  
+  .btn-back { position: absolute; top: 30px; left: 30px; color: rgba(255,255,255,0.6); text-decoration: none; font-weight: 700; display: flex; align-items: center; gap: 8px; transition: color 0.2s; z-index: 10; }
+  .btn-back:hover { color: #ffffff; }
+
+</style>
+
+<a href="/sahne" class="btn-back">← Sahne'ye Dön</a>
+
+<div class="m-container">
+  
+  <div class="instruction-panel">
+    <h1 class="instruction-title">Konuşma Metronomu</h1>
+    <p class="instruction-desc">Aşağıdaki metni sarkacın "tik-tak" ritmine tam olarak uyacak şekilde okuyun. Her vuruşta bir kelime söyleyin. Çok hızlı (makineli tüfek) veya çok yavaş konuşmayı terbiye edin.</p>
+  </div>
+
+  <div class="pendulum-wrapper">
+    <div class="pendulum-pivot"></div>
+    <div class="pendulum-arm" id="pendulum">
+      <div class="pendulum-weight"></div>
+    </div>
+  </div>
+
+  <div class="reading-text" id="text">
+    "Sayın seyirciler, bugün sizlere, etkili iletişimin, aslında ne kadar güçlü, ve dönüştürücü bir silah olduğunu anlatacağım."
+  </div>
+
+  <div class="controls">
+    <div class="bpm-display" id="bpmLabel">60 BPM</div>
+    <input type="range" min="40" max="140" value="60" class="speed-slider" id="speedSlider">
+    <button class="btn-control" id="btnAction" onclick="toggleMetronome()">Başlat</button>
+  </div>
+
+</div>
+
+<!-- Dynamic Style for Keyframes -->
+<style id="dynamicStyles"></style>
+
+<script>
+  let isRunning = false;
+  let bpm = 60;
+  let tickInterval = null;
+  
+  const pendulum = document.getElementById('pendulum');
+  const slider = document.getElementById('speedSlider');
+  const bpmLabel = document.getElementById('bpmLabel');
+  const btnAction = document.getElementById('btnAction');
+  const dynamicStyles = document.getElementById('dynamicStyles');
+  const readingText = document.getElementById('text');
+
+  // Audio Context for the "Tick" sound
+  const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+  
+  function playTick() {
+    if (!isRunning) return;
+    
+    // Visual flash on text
+    readingText.style.color = '#ffffff';
+    setTimeout(() => { readingText.style.color = '#94a3b8'; }, 100);
+
+    // Audio beep
+    if (audioCtx.state === 'suspended') audioCtx.resume();
+    const osc = audioCtx.createOscillator();
+    const gainNode = audioCtx.createGain();
+    
+    osc.type = 'sine';
+    osc.frequency.setValueAtTime(800, audioCtx.currentTime); // 800Hz beep
+    
+    gainNode.gain.setValueAtTime(0.1, audioCtx.currentTime); // Volume
+    gainNode.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.1);
+    
+    osc.connect(gainNode);
+    gainNode.connect(audioCtx.destination);
+    
+    osc.start();
+    osc.stop(audioCtx.currentTime + 0.1);
+  }
+
+  function updateAnimationSpeed() {
+    // BPM = beats per minute. 
+    // Swing goes from Left to Right. One full cycle (Left -> Right -> Left) is 2 beats.
+    // So animation duration = (60 / BPM) * 2
+    const duration = (60 / bpm) * 2;
+    
+    const keyframes = `
+      @keyframes swingAnim {
+        0% { transform: rotate(-30deg); }
+        100% { transform: rotate(30deg); }
+      }
+    `;
+    dynamicStyles.innerHTML = keyframes;
+    
+    if (isRunning) {
+      pendulum.style.animation = `swingAnim ${duration/2}s infinite ease-in-out alternate`;
+      
+      clearInterval(tickInterval);
+      // tick every beat
+      tickInterval = setInterval(playTick, (60 / bpm) * 1000);
+    } else {
+      pendulum.style.animation = 'none';
+      clearInterval(tickInterval);
+    }
+  }
+
+  slider.addEventListener('input', (e) => {
+    bpm = e.target.value;
+    bpmLabel.textContent = bpm + ' BPM';
+    updateAnimationSpeed();
+  });
+
+  function toggleMetronome() {
+    if (isRunning) {
+      isRunning = false;
+      btnAction.textContent = 'Başlat';
+      btnAction.style.background = '#10b981';
+      updateAnimationSpeed();
+    } else {
+      isRunning = true;
+      btnAction.textContent = 'Durdur';
+      btnAction.style.background = '#ef4444';
+      
+      // sync first tick
+      pendulum.style.animation = 'none';
+      void pendulum.offsetWidth; // trigger reflow
+      updateAnimationSpeed();
+      playTick();
+    }
+  }
+</script>

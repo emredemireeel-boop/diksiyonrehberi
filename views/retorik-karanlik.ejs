@@ -1,0 +1,201 @@
+<%- include('partials/main-header') %>
+
+<style>
+  body { background: #020617; color: #ffffff; margin: 0; min-height: 100vh; display: flex; flex-direction: column; font-family: 'Courier New', Courier, monospace; overflow: hidden; }
+  .main-header, .main-footer { display: none !important; }
+
+  /* Hacker / Wall Street Background */
+  .grid-bg { position: fixed; inset: 0; background-size: 40px 40px; background-image: linear-gradient(to right, rgba(16, 185, 129, 0.05) 1px, transparent 1px), linear-gradient(to bottom, rgba(16, 185, 129, 0.05) 1px, transparent 1px); z-index: -2; }
+  
+  /* Animated Stock Line CSS Magic */
+  .stock-line-container { position: fixed; top: 50%; left: -10%; width: 120%; height: 2px; background: rgba(16, 185, 129, 0.2); z-index: -1; transform: translateY(-50%); }
+  .stock-line { width: 100%; height: 100%; border-top: 3px solid #10b981; filter: drop-shadow(0 0 10px #10b981); position: relative; transition: border-color 0.5s, filter 0.5s, transform 1s cubic-bezier(0.4, 0, 0.2, 1); transform-origin: left center; }
+  .stock-line.crashing { border-top-color: #ef4444; filter: drop-shadow(0 0 15px #ef4444); transform: rotate(15deg); }
+  .stock-line.rising { border-top-color: #10b981; filter: drop-shadow(0 0 20px #10b981); transform: rotate(-15deg); }
+
+  .kr-container { flex-grow: 1; padding: 30px; display: flex; flex-direction: column; align-items: center; justify-content: flex-start; max-width: 1000px; margin: 0 auto; width: 100%; position: relative; z-index: 10; gap: 20px; }
+
+  /* Stock HUD */
+  .stock-hud { background: rgba(2, 6, 23, 0.9); border: 1px solid #1e293b; padding: 20px 40px; border-radius: 15px; display: flex; justify-content: space-between; align-items: center; width: 100%; backdrop-filter: blur(10px); box-shadow: 0 10px 30px rgba(0,0,0,0.8); }
+  .stock-label { font-size: 1.2rem; font-weight: bold; color: #94a3b8; text-transform: uppercase; letter-spacing: 2px; }
+  .stock-price { font-size: 3.5rem; font-weight: 900; color: #10b981; text-shadow: 0 0 20px rgba(16,185,129,0.5); display: flex; align-items: center; gap: 15px; transition: color 0.5s; }
+  .stock-price.down { color: #ef4444; text-shadow: 0 0 20px rgba(239,68,68,0.5); }
+  
+  .trend-icon { font-size: 2.5rem; }
+
+  /* Crisis Terminal */
+  .terminal-box { background: rgba(15, 23, 42, 0.95); border: 1px solid #334155; border-left: 5px solid #ef4444; padding: 30px; border-radius: 10px; width: 100%; box-shadow: 0 20px 50px rgba(0,0,0,0.5); position: relative; }
+  .terminal-header { color: #ef4444; font-weight: 900; margin-bottom: 15px; display: flex; align-items: center; gap: 10px; font-size: 1.1rem; }
+  .blink { animation: blink 1s infinite; }
+  @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
+  .raw-truth { font-size: 1.4rem; color: #f8fafc; line-height: 1.5; font-family: 'Inter', sans-serif; font-weight: 600; }
+
+  /* Manipulation Options */
+  .options-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; width: 100%; }
+  .spin-btn {
+    background: #020617; border: 1px solid #1e293b; color: #cbd5e1; padding: 20px; border-radius: 10px;
+    font-family: 'Inter', sans-serif; font-size: 1.05rem; font-weight: 500; cursor: pointer; transition: all 0.2s; text-align: left; line-height: 1.5; position: relative; overflow: hidden;
+  }
+  .spin-btn:hover { border-color: #10b981; background: rgba(16,185,129,0.05); transform: translateY(-3px); box-shadow: 0 10px 20px rgba(16,185,129,0.1); }
+  .spin-tactic { display: block; font-size: 0.8rem; font-weight: 900; font-family: 'Courier New', Courier, monospace; letter-spacing: 1px; margin-bottom: 8px; color: #64748b; }
+
+  /* Feedback Overlay */
+  .feedback-box { position: fixed; inset: 0; background: rgba(2,6,23,0.95); z-index: 100; display: none; flex-direction: column; align-items: center; justify-content: center; padding: 40px; text-align: center; }
+  .f-market-effect { font-size: 5rem; font-weight: 900; margin-bottom: 10px; }
+  .f-tactic-name { font-size: 2rem; color: #10b981; font-family: 'Courier New', Courier, monospace; margin-bottom: 20px; font-weight: bold; }
+  .f-desc { font-size: 1.3rem; color: #cbd5e1; font-family: 'Inter', sans-serif; max-width: 700px; line-height: 1.6; margin-bottom: 40px; }
+  .btn-next { background: #10b981; color: #020617; border: none; padding: 15px 40px; border-radius: 5px; font-size: 1.2rem; font-weight: 900; font-family: 'Courier New', Courier, monospace; cursor: pointer; text-transform: uppercase; transition: transform 0.2s; }
+  .btn-next:hover { transform: scale(1.05); }
+
+  .btn-back { position: absolute; top: 20px; left: 20px; color: rgba(16,185,129,0.5); text-decoration: none; font-weight: 700; display: flex; align-items: center; gap: 8px; transition: color 0.2s; z-index: 50; }
+  .btn-back:hover { color: #10b981; }
+
+</style>
+
+<div class="grid-bg"></div>
+<div class="stock-line-container"><div class="stock-line" id="stockLine"></div></div>
+
+<a href="/retorik" class="btn-back">← Sistemi Kapat</a>
+
+<div class="kr-container">
+  
+  <div class="stock-hud">
+    <div class="stock-label">MEGACORP HİSSE DEĞERİ</div>
+    <div class="stock-price" id="stockDisplay">$124.50 <span class="trend-icon" id="trendIcon">➖</span></div>
+  </div>
+
+  <div class="terminal-box">
+    <div class="terminal-header"><span class="blink">🔴</span> GİZLİ ŞİRKET BİLGİSİ (SIZDIRILMAMALI)</div>
+    <div class="raw-truth" id="rawTruth">"Sisteme sızılıyor..."</div>
+  </div>
+
+  <div style="color:#64748b; font-size:0.9rem; text-transform:uppercase; letter-spacing:2px; margin-top:10px;">Basın Açıklaması Seçenekleri:</div>
+  <div class="options-grid" id="optionsGrid">
+    <!-- Buttons injected here -->
+  </div>
+
+</div>
+
+<div class="feedback-box" id="feedbackBox">
+  <div class="f-market-effect" id="fMarket">+$20.00</div>
+  <div class="f-tactic-name" id="fTactic">Taktik Adı</div>
+  <div class="f-desc" id="fDesc">Açıklama</div>
+  <button class="btn-next" onclick="nextCrisis()" id="fNextBtn">SIRADAKİ KRİZ</button>
+</div>
+
+<script>
+  let currentPrice = 124.50;
+  let currentRound = 0;
+
+  const crises = [
+    {
+      truth: "Okyanusa 10.000 ton petrol döktük ve bölgedeki balık popülasyonunu yok ettik.",
+      options: [
+        { tactic: "Dürüstlük (İflas)", text: "Büyük bir hata yaptık, okyanusa petrol döktük ve ekosisteme zarar verdik.", effect: -60, color: "#ef4444", feedback: "Borsada dürüstlük cezalandırılır. Yatırımcılar panikledi ve hisseler yarı yarıya eridi. (Ama vicdanınız rahat)." },
+        { tactic: "Örtmece (Euphemism)", text: "Tesisimizde planlanmamış bir sıvı deşarjı vakası yaşanmıştır.", effect: +5, color: "#10b981", feedback: "Kelimeleri yumuşattınız. 'Petrol' yerine 'Sıvı', 'Dökülme' yerine 'Deşarj' diyerek felaketi sıradan bir teknik arıza gibi gösterdiniz." },
+        { tactic: "Konu Saptırma (Red Herring)", text: "Bölgedeki balıkçılık yasaları zaten çok eskiydi, hükümetin acilen yeni yasa çıkarması gerekiyor.", effect: +15, color: "#10b981", feedback: "Suçu kendinizden alıp 'yasaların eksikliğine' attınız. Basın artık sizi değil, hükümeti tartışıyor." },
+        { tactic: "Yeşile Boyama (Greenwashing)", text: "Okyanus temizleme Ar-Ge çalışmalarımız kapsamında bölgede devasa bir veri toplama ve test süreci başlattık.", effect: +40, color: "#38bdf8", feedback: "İnanılmaz bir Spin Doctor başarısı! Felaketi bir 'Çevre Projesi' gibi pazarladınız. Hisseleriniz tavan yaptı." }
+      ]
+    },
+    {
+      truth: "Ürettiğimiz yeni diyet hapı insanlarda kalp krizine yol açıyor, 5 kişi hastanelik oldu.",
+      options: [
+        { tactic: "Minimize Etme", text: "İlaçlarımızın 1 Milyon kullanıcısı var, sadece 5 kişide yan etki görüldü. %0.0005 harika bir oran.", effect: +20, color: "#10b981", feedback: "Rakamlarla oynayarak (Logos manipülasyonu) mağdurları istatistiksel bir detaya indirgediniz." },
+        { tactic: "Kurbanı Suçlama (Victim Blaming)", text: "Hastanelik olan kullanıcıların hapla birlikte aşırı kafein tükettikleri ve talimatlara uymadıkları tespit edilmiştir.", effect: +35, color: "#38bdf8", feedback: "Mükemmel şeytani hamle! Suçu ürününüzden alıp kullanıcının hatası gibi gösterdiniz. Şirket aklandı." },
+        { tactic: "Şeffaflık", text: "Hapımız maalesef kalp sorunlarına yol açıyor. Ürünü derhal piyasadan çekiyoruz.", effect: -80, color: "#ef4444", feedback: "Şirketi batırdınız. Etik olarak doğruyu yaptınız ama Wall Street sizi affetmedi." },
+        { tactic: "Vagon Safsatası (Bandwagon)", text: "Hollywood yıldızlarının ve elit sporcuların 1 numaralı tercihi olan hapımızı üretmeye devam edeceğiz.", effect: +10, color: "#10b981", feedback: "İnsanlara 'Herkes kullanıyor, sen de kullan' mesajı vererek tehlikeyi popülaritenin arkasına sakladınız." }
+      ]
+    }
+  ];
+
+  const stockDisplay = document.getElementById('stockDisplay');
+  const trendIcon = document.getElementById('trendIcon');
+  const stockLine = document.getElementById('stockLine');
+  const rawTruth = document.getElementById('rawTruth');
+  const optionsGrid = document.getElementById('optionsGrid');
+  
+  const feedbackBox = document.getElementById('feedbackBox');
+  const fMarket = document.getElementById('fMarket');
+  const fTactic = document.getElementById('fTactic');
+  const fDesc = document.getElementById('fDesc');
+  const fNextBtn = document.getElementById('fNextBtn');
+
+  function updatePrice(change) {
+    currentPrice += change;
+    if(currentPrice < 0) currentPrice = 0.00;
+    
+    stockDisplay.innerHTML = `$${currentPrice.toFixed(2)} <span class="trend-icon" id="trendIcon">${change >= 0 ? '📈' : '📉'}</span>`;
+    
+    if (change < 0) {
+      stockDisplay.classList.add('down');
+      stockLine.className = 'stock-line crashing';
+    } else {
+      stockDisplay.classList.remove('down');
+      stockLine.className = 'stock-line rising';
+    }
+  }
+
+  function renderCrisis() {
+    if (currentRound >= crises.length) {
+      showEthicalMirror();
+      return;
+    }
+
+    const item = crises[currentRound];
+    rawTruth.textContent = `"${item.truth}"`;
+    
+    optionsGrid.innerHTML = '';
+    const opts = [...item.options].sort(() => Math.random() - 0.5);
+    
+    opts.forEach(opt => {
+      const btn = document.createElement('button');
+      btn.className = 'spin-btn';
+      btn.innerHTML = `<span class="spin-tactic">> ${opt.tactic}</span>${opt.text}`;
+      btn.onclick = () => handleChoice(opt);
+      optionsGrid.appendChild(btn);
+    });
+  }
+
+  function handleChoice(opt) {
+    updatePrice(opt.effect);
+    
+    fMarket.textContent = `${opt.effect > 0 ? '+' : ''}$${opt.effect.toFixed(2)}`;
+    fMarket.style.color = opt.color;
+    fTactic.textContent = `TEKNİK: ${opt.tactic}`;
+    fTactic.style.color = opt.color;
+    fDesc.textContent = opt.feedback;
+    
+    feedbackBox.style.display = 'flex';
+  }
+
+  function nextCrisis() {
+    feedbackBox.style.display = 'none';
+    currentRound++;
+    renderCrisis();
+  }
+
+  function showEthicalMirror() {
+    fMarket.textContent = "SİMÜLASYON BİTTİ";
+    fMarket.style.color = "#f8fafc";
+    fMarket.style.fontSize = "3rem";
+    
+    fTactic.textContent = "Etik Yüzleşme";
+    fTactic.style.color = "#64748b";
+    
+    let resultText = "";
+    if (currentPrice > 150) {
+      resultText = "Siz karanlık bir dahisiniz. Şirketi kurtardınız ama halkı kandırdınız. İşte bugün haberlerde, siyasetçilerin konuşmalarında ve reklamlarda tam olarak bu 'Spin (Algı Yönetimi)' teknikleri kullanılıyor. Artık kelimelerin arkasındaki gerçek niyeti (Örtmece, Saptırma) görebileceksiniz.";
+    } else {
+      resultText = "Etik değerleriniz ağır bastı ve şirketin hisseleri çakıldı. Zor bir seçim yaptınız ama doğru olanı seçtiniz. Manipülasyonun mekaniğini görmek, sizi gelecekteki yalanlara karşı bağışık hale getirecektir.";
+    }
+    
+    fDesc.textContent = resultText;
+    fNextBtn.textContent = "TEKRAR OYNA";
+    fNextBtn.onclick = () => location.reload();
+    
+    feedbackBox.style.display = 'flex';
+  }
+
+  // Init
+  renderCrisis();
+</script>

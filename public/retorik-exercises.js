@@ -140,6 +140,30 @@ const EX = [
    ok:'Ünlü kişi ödünç alınmış Ethos (güvenilirlik transferi) sağlar.',fail:'Ünlü = ödünç Ethos, güvenilirlik transferidir.'},
    scenario:{label:'Senaryo',text:'Bir diş macunu reklamı: "Diş hekimleri tarafından önerilir."',analysis:'Ethos (uzman otoritesi) + Logos (uzmanlar bilir) birlikte kullanılmış.'},
    practice:'Bugün gördüğünüz bir reklamı retorik açıdan analiz edin.'}
+   // SAVUNMA
+  {id:'s1',cat:'savunma',icon:'⚖️',num:'S1',badge:'Başlangıç',badgeCls:'ret-badge-beginner',
+   title:'Güçlü Savunma Kurmak',desc:'Karşıt argümanlara karşı sağlam ve mantıklı bir savunma hattı inşa etme.',
+   steps:['Saldırıyı kişisel almayın','Karşı argümanın zayıf noktasını bulun','Gerçeklerle yanıt verin'],
+   quiz:{q:'Bir tartışmada saldırıya uğradığınızda ilk tepkiniz ne olmalıdır?',opts:['Saldırmak','Savunmaya geçmek','Sakin kalıp argümanı analiz etmek','Konuyu değiştirmek'],correct:2,
+   ok:'Sakin kalmak ve analiz etmek en iyi başlangıçtır.',fail:'Duygusal tepki vermek yerine analiz etmek gerekir.'},
+   scenario:{label:'Senaryo',text:'Bir projede gecikme yaşandı ve suçlanıyorsunuz.',analysis:'Duygusal savunma yerine, gecikmenin veriye dayalı sebeplerini ve çözüm planını sunun.'},
+   practice:'Size yöneltilen haksız bir eleştiriye mantıksal bir savunma yazın.'},
+  {id:'s2',cat:'savunma',icon:'⚖️',num:'S2',badge:'Orta',badgeCls:'ret-badge-intermediate',
+   title:'Çerçeveleme Tekniği',desc:'Tartışmanın yönünü ve bağlamını kendi lehinize değiştirme.',
+   steps:['Rakibin çerçevesini reddedin','Konuyu kendi güçlü olduğunuz alana çekin','Yeni bir perspektif sunun'],
+   quiz:{q:'Çerçeveleme nedir?',opts:['Soruyu görmezden gelmek','Sorunun sorulma şeklini değiştirmek','Sesini yükseltmek','Sürekli aynı şeyi tekrar etmek'],correct:1,
+   ok:'Tartışmanın kurallarını yeniden belirlemektir.',fail:'Sorunun soruluş bağlamını değiştirmektir.'},
+   scenario:{label:'Senaryo',text:'"Bu ürün neden bu kadar pahalı?" sorusuyla karşılaştınız.',analysis:'"Pahalı değil, uzun vadeli ve değerli bir yatırım" diyerek çerçeveyi maliyetten değere çekin.'},
+   practice:'Fiyat itirazı yapan birine çerçeveleme tekniğiyle yanıt yazın.'},
+
+  // İKNA
+  {id:'i1',cat:'ikna',icon:'💡',num:'I1',badge:'İleri',badgeCls:'ret-badge-advanced',
+   title:'İkna Psikolojisi ve Karar Alma',desc:'İnsanların nasıl karar verdiğini anlayarak onları eyleme geçirme.',
+   steps:['Karar mekanizmalarını anlayın','Aciliyet ve kıtlık hissi yaratın','Sosyal kanıt (social proof) sunun'],
+   quiz:{q:'Cialdini\'nin ikna prensiplerinden "Kıtlık" ne işe yarar?',opts:['İnsanları korkutur','Fırsatın kaçma korkusuyla harekete geçirir','Ürünü ucuz gösterir','Hiçbiri'],correct:1,
+   ok:'Kıtlık aciliyet hissi yaratır.',fail:'Kıtlık (FOMO) insanları hızlı karar almaya zorlar.'},
+   scenario:{label:'Senaryo',text:'Bir ürün satışı yapıyorsunuz.',analysis:'"Bu fiyata son 3 ürün" diyerek aciliyet hissini tetikleyin.'},
+   practice:'Bir hizmetiniz için ikna edici ve aciliyet barındıran bir metin yazın.'}
 ];
 
 function renderExercises(){
@@ -147,7 +171,8 @@ function renderExercises(){
   if(!container) return;
 
   const cats = {ethos:'Ethos — Güvenilirlik',pathos:'Pathos — Duygu',logos:'Logos — Mantık',
-    yazim:'Konuşma Yazımı',figurler:'Retorik Figürleri',analiz:'Konuşma Analizi'};
+    yazim:'Konuşma Yazımı',figurler:'Retorik Figürleri',analiz:'Konuşma Analizi',
+    savunma:'Güçlü Savunma Kurmak',ikna:'İkna Psikolojisi'};
 
   let html = '';
   for(const [catKey, catTitle] of Object.entries(cats)){
@@ -199,13 +224,16 @@ function renderExercises(){
   }
 
   container.innerHTML = html;
+  // Hide old static content — replaced by dynamic exercises
+  const oldContent = document.getElementById('retorik-main-content');
+  if(oldContent) oldContent.style.display = 'none';
   initRetCatNav();
   if(window.initRetorikModule) window.initRetorikModule();
 }
 
 // Category slug mapping for URLs
-const CAT_URL_MAP = {ethos:'ethos',pathos:'pathos',logos:'logos',yazim:'konusma-yazimi',figurler:'figurler',analiz:'analiz'};
-const URL_CAT_MAP = {ethos:'ethos',pathos:'pathos',logos:'logos','konusma-yazimi':'yazim',figurler:'figurler',analiz:'analiz'};
+const CAT_URL_MAP = {ethos:'ethos',pathos:'pathos',logos:'logos',yazim:'konusma-yazimi',figurler:'figurler',analiz:'analiz',savunma:'savunma',ikna:'ikna'};
+const URL_CAT_MAP = {ethos:'ethos',pathos:'pathos',logos:'logos','konusma-yazimi':'yazim',figurler:'figurler',analiz:'analiz',savunma:'savunma',ikna:'ikna'};
 
 function filterRetorikCategory(cat, pushUrl){
   const sections = document.querySelectorAll('.ret-exercise-section');
@@ -214,6 +242,7 @@ function filterRetorikCategory(cat, pushUrl){
   const progress = document.querySelector('.ret-progress-wrap');
   const tips = document.querySelector('#retorik-container .tips-section-inline');
   const pillBar = document.querySelector('.ret-cat-pills')?.parentElement;
+  const oldContent = document.getElementById('retorik-main-content');
   
   // Update active pill
   pills.forEach(p => {
@@ -225,14 +254,14 @@ function filterRetorikCategory(cat, pushUrl){
     if(hero) hero.style.display = '';
     if(progress) progress.style.display = '';
     if(tips) tips.style.display = '';
+    if(oldContent) oldContent.style.display = 'none';
     sections.forEach(s => s.style.display = '');
     if(pushUrl) history.pushState(null, '', '/retorik');
     document.title = 'Retorik Eğitimi ve Etkili İkna Sanatı - Diksiyon Rehberi';
   } else {
-    // Show only selected category, hide hero/progress/tips for focused view
+    // Show only selected category, hide hero for focused view
     if(hero) hero.style.display = 'none';
-    if(progress) progress.style.display = 'none';
-    if(tips) tips.style.display = 'none';
+    if(oldContent) oldContent.style.display = 'none';
     sections.forEach(s => {
       s.style.display = s.dataset.category === cat ? '' : 'none';
     });
@@ -240,7 +269,7 @@ function filterRetorikCategory(cat, pushUrl){
     if(pushUrl) history.pushState(null, '', `/retorik/${urlSlug}`);
     
     // Update page title for SEO
-    const catNames = {ethos:'Ethos — Güvenilirlik',pathos:'Pathos — Duygu',logos:'Logos — Mantık',yazim:'Konuşma Yazımı',figurler:'Retorik Figürleri',analiz:'Konuşma Analizi'};
+    const catNames = {ethos:'Ethos — Güvenilirlik',pathos:'Pathos — Duygu',logos:'Logos — Mantık',yazim:'Konuşma Yazımı',figurler:'Retorik Figürleri',analiz:'Konuşma Analizi',savunma:'Güçlü Savunma',ikna:'İkna Psikolojisi'};
     document.title = `${catNames[cat] || cat} | Retorik Eğitimi - Diksiyon Rehberi`;
   }
   

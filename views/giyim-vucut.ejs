@@ -1,0 +1,293 @@
+<%- include('partials/main-header') %>
+
+<style>
+  body { background: #0f172a; color: #f8fafc; font-family: 'Inter', sans-serif; }
+  .vucut-container { display: flex; flex-direction: column; md:flex-row; gap: 40px; padding: 40px 20px; max-width: 1200px; margin: 0 auto; min-height: 80vh; }
+  
+  .panel { flex: 1; }
+  
+  h1 { font-size: 2.2rem; font-weight: 900; margin-bottom: 5px; color: #38bdf8; text-transform: uppercase; letter-spacing: 1px; }
+  p.desc { color: #94a3b8; font-size: 0.95rem; line-height: 1.6; margin-bottom: 30px; }
+
+  /* Controls */
+  .control-group { margin-bottom: 30px; background: #1e293b; padding: 25px; border-radius: 15px; border: 1px solid #334155; }
+  .c-label { font-size: 0.85rem; font-weight: 800; color: #38bdf8; text-transform: uppercase; margin-bottom: 15px; display: block; letter-spacing: 1px; }
+  
+  .btn-row { display: flex; gap: 10px; flex-wrap: wrap; }
+  .c-btn { background: #0f172a; color: #cbd5e1; border: 1px solid #334155; padding: 12px 20px; border-radius: 10px; cursor: pointer; transition: all 0.2s; font-weight: 700; flex: 1; text-align: center; }
+  .c-btn:hover { background: #334155; }
+  .c-btn.active { background: #0284c7; border-color: #38bdf8; color: #fff; box-shadow: 0 0 15px rgba(2, 132, 199, 0.4); }
+
+  /* Toggles */
+  .toggle-row { display: flex; align-items: center; justify-content: space-between; padding: 15px; background: #0f172a; border-radius: 10px; margin-bottom: 10px; border: 1px solid #334155; cursor: pointer; transition: border-color 0.2s; }
+  .toggle-row:hover { border-color: #38bdf8; }
+  .toggle-text h4 { margin: 0 0 5px 0; color: #e2e8f0; font-size: 1rem; }
+  .toggle-text p { margin: 0; color: #64748b; font-size: 0.8rem; }
+  
+  /* Toggle Switch */
+  .switch { position: relative; display: inline-block; width: 50px; height: 26px; }
+  .switch input { opacity: 0; width: 0; height: 0; }
+  .slider { position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: #334155; transition: .4s; border-radius: 34px; }
+  .slider:before { position: absolute; content: ""; height: 18px; width: 18px; left: 4px; bottom: 4px; background-color: white; transition: .4s; border-radius: 50%; }
+  input:checked + .slider { background-color: #10b981; }
+  input:checked + .slider:before { transform: translateX(24px); }
+
+  /* Right Panel: Visualization */
+  .visual-box { background: #e2e8f0; border-radius: 20px; padding: 40px; display: flex; justify-content: center; align-items: center; position: relative; min-height: 500px; box-shadow: inset 0 0 50px rgba(0,0,0,0.1); border: 4px solid #cbd5e1; }
+  
+  /* Mannequin Structure */
+  .mannequin-wrap { position: relative; width: 300px; height: 450px; display: flex; justify-content: center; }
+  
+  /* The SVG */
+  #bodySvg { width: 100%; height: 100%; transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1); }
+  
+  .b-skin { fill: #fcd34d; }
+  .b-shirt { fill: #ffffff; transition: fill 0.3s; }
+  .b-pants { fill: #1e3a8a; transition: d 0.5s; }
+  
+  /* Dynamic Parts */
+  .b-shoulders { transition: d 0.5s cubic-bezier(0.4, 0, 0.2, 1); }
+  .b-torso { transition: d 0.5s cubic-bezier(0.4, 0, 0.2, 1); }
+  .b-jacket { fill: transparent; transition: all 0.5s; stroke-width: 0; }
+
+  /* Guides */
+  .guide-lines { position: absolute; top: 0; left: 50%; transform: translateX(-50%); width: 100%; height: 100%; pointer-events: none; opacity: 0; transition: opacity 0.3s; }
+  .g-line-v { position: absolute; top: 10%; bottom: 10%; width: 2px; background: rgba(244, 63, 94, 0.6); border-left: 2px dashed #f43f5e; }
+  
+  .analysis-card { position: absolute; bottom: -20px; right: -20px; background: #0f172a; padding: 15px 20px; border-radius: 12px; border-left: 4px solid #10b981; max-width: 250px; box-shadow: 0 10px 30px rgba(0,0,0,0.3); opacity: 0; transform: translateY(20px); transition: all 0.3s; }
+  .analysis-card.show { opacity: 1; transform: translateY(0); }
+
+</style>
+
+<div class="vucut-container">
+  
+  <!-- Left: Controls -->
+  <div class="panel">
+    <h1>Optik İllüzyon Lab</h1>
+    <p class="desc">Giyim, gözü yönlendirme sanatıdır. Vücut tipinizi seçin ve doğru giyim hileleriyle beden oranlarının görsel olarak nasıl "hacklendiğini" izleyin.</p>
+
+    <!-- Body Shape -->
+    <div class="control-group">
+      <span class="c-label">1. Vücut Tipi</span>
+      <div class="btn-row">
+        <div class="c-btn active" onclick="setBodyShape('normal')" id="btn-normal">Klasik</div>
+        <div class="c-btn" onclick="setBodyShape('oval')" id="btn-oval">Oval (Göbekli)</div>
+        <div class="c-btn" onclick="setBodyShape('triangle')" id="btn-triangle">Dar Omuz</div>
+      </div>
+    </div>
+
+    <!-- Illusions -->
+    <div class="control-group">
+      <span class="c-label">2. Optik İllüzyonlar</span>
+      
+      <label class="toggle-row">
+        <div class="toggle-text">
+          <h4>Vatka (Omuz Yapısı)</h4>
+          <p>Omuz hattını uzatarak "V" efekti yaratır.</p>
+        </div>
+        <div class="switch">
+          <input type="checkbox" id="chk-vatka" onchange="applyIllusions()">
+          <span class="slider"></span>
+        </div>
+      </label>
+
+      <label class="toggle-row">
+        <div class="toggle-text">
+          <h4>Dikey Çizgiler</h4>
+          <p>Gözü yukarıdan aşağıya çekerek boyu uzatır.</p>
+        </div>
+        <div class="switch">
+          <input type="checkbox" id="chk-cizgi" onchange="applyIllusions()">
+          <span class="slider"></span>
+        </div>
+      </label>
+
+      <label class="toggle-row">
+        <div class="toggle-text">
+          <h4>Ceket Önünü Açmak</h4>
+          <p>Ortada dikey bir sütun yaratarak karnı böler.</p>
+        </div>
+        <div class="switch">
+          <input type="checkbox" id="chk-ceket" onchange="applyIllusions()">
+          <span class="slider"></span>
+        </div>
+      </label>
+
+    </div>
+
+  </div>
+
+  <!-- Right: Visualizer -->
+  <div class="panel">
+    <div class="visual-box">
+      
+      <div class="mannequin-wrap">
+        
+        <!-- CSS Grid/Pattern for lines -->
+        <svg id="patternSvg" style="position:absolute; width:0; height:0;">
+          <defs>
+            <pattern id="pinstripe" width="10" height="10" patternUnits="userSpaceOnUse">
+              <rect width="10" height="10" fill="#ffffff"></rect>
+              <line x1="5" y1="0" x2="5" y2="10" stroke="#1e3a8a" stroke-width="1.5" />
+            </pattern>
+          </defs>
+        </svg>
+
+        <svg id="bodySvg" viewBox="0 0 200 450" xmlns="http://www.w3.org/2000/svg">
+          <!-- Head -->
+          <circle cx="100" cy="40" r="25" class="b-skin" />
+          <rect x="90" y="60" width="20" height="20" class="b-skin" />
+          
+          <!-- Base Torso (Shirt) -->
+          <!-- Normal: M60,80 L140,80 L130,220 L70,220 Z -->
+          <path id="svg-torso" class="b-shirt" d="M 60,80 L 140,80 L 130,220 L 70,220 Z" />
+          
+          <!-- Pants -->
+          <!-- Normal: M70,220 L130,220 L130,420 L70,420 Z -->
+          <path id="svg-pants" class="b-pants" d="M 70,220 L 130,220 L 125,420 L 105,420 L 100,280 L 95,420 L 75,420 Z" />
+
+          <!-- Jacket Overlay (Normally Hidden) -->
+          <path id="svg-jacket-left" class="b-jacket" d="M 60,80 L 95,140 L 90,240 L 50,240 Z" />
+          <path id="svg-jacket-right" class="b-jacket" d="M 140,80 L 105,140 L 110,240 L 150,240 Z" />
+        </svg>
+
+        <div class="guide-lines" id="guideLines">
+          <div class="g-line-v" style="left: 35%;"></div>
+          <div class="g-line-v" style="left: 65%;"></div>
+        </div>
+
+      </div>
+
+      <div class="analysis-card" id="anCard">
+        <h4 style="margin:0 0 5px; color:#10b981; font-size:0.9rem">İllüzyon Aktif</h4>
+        <p id="anText" style="margin:0; font-size:0.8rem; color:#cbd5e1;"></p>
+      </div>
+
+    </div>
+  </div>
+
+</div>
+
+<script>
+  let currentShape = 'normal';
+
+  // SVG Path Data Dictionary
+  const paths = {
+    normal: {
+      torso: "M 60,80 L 140,80 L 130,220 L 70,220 Z",
+      pants: "M 70,220 L 130,220 L 125,420 L 105,420 L 100,280 L 95,420 L 75,420 Z"
+    },
+    oval: {
+      // Wider waist/belly
+      torso: "M 60,80 L 140,80 L 155,220 L 45,220 Z",
+      pants: "M 45,220 L 155,220 L 135,420 L 105,420 L 100,280 L 95,420 L 65,420 Z"
+    },
+    triangle: {
+      // Narrow shoulders, wide hips
+      torso: "M 75,80 L 125,80 L 145,220 L 55,220 Z",
+      pants: "M 55,220 L 145,220 L 130,420 L 105,420 L 100,280 L 95,420 L 70,420 Z"
+    }
+  };
+
+  function setBodyShape(shape) {
+    currentShape = shape;
+    document.querySelectorAll('.c-btn').forEach(b => b.classList.remove('active'));
+    document.getElementById('btn-' + shape).classList.add('active');
+
+    updateBaseShape();
+    applyIllusions(); // re-apply current toggles to new shape
+  }
+
+  function updateBaseShape() {
+    const data = paths[currentShape];
+    document.getElementById('svg-torso').setAttribute('d', data.torso);
+    document.getElementById('svg-pants').setAttribute('d', data.pants);
+  }
+
+  function applyIllusions() {
+    const isVatka = document.getElementById('chk-vatka').checked;
+    const isCizgi = document.getElementById('chk-cizgi').checked;
+    const isCeket = document.getElementById('chk-ceket').checked;
+
+    const tSvg = document.getElementById('svg-torso');
+    const jL = document.getElementById('svg-jacket-left');
+    const jR = document.getElementById('svg-jacket-right');
+    const guide = document.getElementById('guideLines');
+    const anCard = document.getElementById('anCard');
+    const anText = document.getElementById('anText');
+
+    let analysisMsg = [];
+
+    // 1. Vatka (Broaden Shoulders)
+    let currentTorsoStr = paths[currentShape].torso;
+    
+    if (isVatka) {
+      // Modify the top points to be wider
+      // M x1,y1 L x2,y2 ...
+      // We subtract 15 from x1, add 15 to x2
+      const parts = currentTorsoStr.split(' ');
+      // parts[1] is x1,y1 e.g. "60,80"
+      let p1 = parts[1].split(',');
+      let p2 = parts[3].split(',');
+      
+      p1[0] = parseInt(p1[0]) - 15;
+      p2[0] = parseInt(p2[0]) + 15;
+
+      parts[1] = p1.join(',');
+      parts[3] = p2.join(',');
+
+      currentTorsoStr = parts.join(' ');
+      analysisMsg.push("Omuz genişletildi (Ters V etkisi).");
+    }
+
+    tSvg.setAttribute('d', currentTorsoStr);
+
+    // 2. Dikey Çizgi (Pinstripe)
+    if (isCizgi) {
+      tSvg.style.fill = "url(#pinstripe)";
+      analysisMsg.push("Göz dikey olarak yönlendirildi.");
+    } else {
+      tSvg.style.fill = "#ffffff";
+    }
+
+    // 3. Ceket Açık (The Column of Color)
+    if (isCeket) {
+      jL.style.fill = "#0f172a"; // Dark Jacket
+      jR.style.fill = "#0f172a";
+      
+      // Calculate jacket path based on current torso shoulders
+      const parts = currentTorsoStr.split(' ');
+      const tx1 = parts[1].split(',')[0]; // Left shoulder X
+      const tx2 = parts[3].split(',')[0]; // Right shoulder X
+      const bx1 = parts[5].split(',')[0]; // Right waist X
+      const bx2 = parts[7].split(',')[0]; // Left waist X
+
+      // Left Jacket panel (covers left side of torso, leaves middle open)
+      jL.setAttribute('d', `M ${tx1},80 L ${parseInt(tx1)+25},140 L ${parseInt(bx2)+35},240 L ${parseInt(bx2)-10},240 Z`);
+      
+      // Right Jacket panel
+      jR.setAttribute('d', `M ${tx2},80 L ${parseInt(tx2)-25},140 L ${parseInt(bx1)-35},240 L ${parseInt(bx1)+10},240 Z`);
+
+      guide.style.opacity = '1';
+      analysisMsg.push("Ortada dikey sütun (İncelme efekti) oluştu.");
+    } else {
+      jL.style.fill = "transparent";
+      jR.style.fill = "transparent";
+      guide.style.opacity = '0';
+    }
+
+    // Update Card
+    if (analysisMsg.length > 0) {
+      anCard.classList.add('show');
+      anText.innerHTML = analysisMsg.join('<br><br>');
+    } else {
+      anCard.classList.remove('show');
+    }
+  }
+
+  // Init
+  setBodyShape('normal');
+
+</script>
+
+<%- include('partials/main-footer') %>

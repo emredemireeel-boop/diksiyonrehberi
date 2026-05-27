@@ -1,0 +1,169 @@
+<%- include('partials/main-header') %>
+
+<style>
+  body { background: #0f172a; color: #ffffff; margin: 0; min-height: 100vh; display: flex; flex-direction: column; font-family: 'Inter', sans-serif; overflow: hidden; }
+  .main-header, .main-footer { display: none !important; }
+
+  .kb-container { flex-grow: 1; padding: 40px; display: flex; flex-direction: column; align-items: center; justify-content: center; position: relative; max-width: 900px; margin: 0 auto; width: 100%; }
+  
+  .instruction-panel { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); padding: 20px 40px; border-radius: 20px; text-align: center; margin-bottom: 40px; z-index: 10; backdrop-filter: blur(10px); }
+  .instruction-title { font-size: 1.5rem; font-weight: 900; margin: 0 0 10px; color: #f97316; text-transform: uppercase; letter-spacing: 1px; }
+  .instruction-desc { font-size: 1rem; color: #cbd5e1; margin: 0; max-width: 600px; line-height: 1.5; }
+
+  .reporter-box { background: #1e293b; padding: 40px; border-radius: 20px; text-align: center; border: 2px solid #334155; margin-bottom: 20px; width: 100%; position: relative; box-shadow: 0 20px 40px rgba(0,0,0,0.4); }
+  .reporter-box::before { content: "🎤 GAZETECİ SORUSU"; display: block; position: absolute; top: -15px; left: 50%; transform: translateX(-50%); background: #f97316; color: #fff; padding: 5px 20px; border-radius: 20px; font-weight: 800; font-size: 0.9rem; }
+  .question-text { font-size: 1.8rem; font-weight: 800; color: #f8fafc; line-height: 1.4; margin: 0; }
+
+  .timer-bar { width: 100%; height: 10px; background: #334155; border-radius: 5px; margin-bottom: 30px; overflow: hidden; }
+  .timer-fill { height: 100%; background: #ef4444; width: 100%; transition: width 0.1s linear; }
+
+  .options-grid { display: grid; grid-template-columns: 1fr; gap: 15px; width: 100%; }
+  .reframe-btn {
+    background: #0f172a; border: 2px solid #475569; color: #ffffff; padding: 20px; border-radius: 16px;
+    font-size: 1.1rem; font-weight: 600; cursor: pointer; transition: all 0.2s; text-align: left; line-height: 1.5;
+  }
+  .reframe-btn:hover { border-color: #f97316; background: rgba(249, 115, 22, 0.1); transform: translateX(10px); }
+  .reframe-btn .tactic { display: block; color: #f97316; font-size: 0.8rem; font-weight: 900; text-transform: uppercase; margin-bottom: 5px; }
+
+  .feedback-box { position: absolute; inset: 0; background: rgba(15,23,42,0.95); z-index: 20; display: none; flex-direction: column; align-items: center; justify-content: center; padding: 40px; text-align: center; backdrop-filter: blur(10px); }
+  .feedback-title { font-size: 3rem; font-weight: 900; margin-bottom: 20px; }
+  .feedback-desc { font-size: 1.2rem; color: #cbd5e1; max-width: 600px; line-height: 1.6; margin-bottom: 40px; }
+  .btn-next { background: #f97316; color: #fff; border: none; padding: 15px 40px; border-radius: 30px; font-size: 1.1rem; font-weight: 800; cursor: pointer; text-transform: uppercase; }
+
+  .btn-back { position: absolute; top: 30px; left: 30px; color: rgba(255,255,255,0.6); text-decoration: none; font-weight: 700; display: flex; align-items: center; gap: 8px; transition: color 0.2s; z-index: 10; }
+  .btn-back:hover { color: #ffffff; }
+
+</style>
+
+<a href="/retorik" class="btn-back">← Retorik'e Dön</a>
+
+<div class="kb-container">
+  
+  <div class="instruction-panel">
+    <h1 class="instruction-title">Kürsü Baskısı (Çerçeve Bükücü)</h1>
+    <p class="instruction-desc">Karşınızda agresif gazeteciler var ve size tuzak sorular soruyorlar. Asla savunmaya geçmeyin! Süre bitmeden önce soruyu kendi lehinize ÇERÇEVELEYİN.</p>
+  </div>
+
+  <div class="reporter-box">
+    <p class="question-text" id="qText">"Başlamak için hazır mısınız?"</p>
+  </div>
+
+  <div class="timer-bar" style="display:none;" id="timerWrap">
+    <div class="timer-fill" id="timerFill"></div>
+  </div>
+
+  <div class="options-grid" id="optionsGrid">
+    <button class="reframe-btn" style="text-align:center" onclick="startGame()">SİMÜLASYONU BAŞLAT</button>
+  </div>
+
+</div>
+
+<div class="feedback-box" id="feedbackBox">
+  <div class="feedback-title" id="fTitle">Sonuç</div>
+  <div class="feedback-desc" id="fDesc">Açıklama</div>
+  <button class="btn-next" onclick="nextQuestion()">Devam Et</button>
+</div>
+
+<script>
+  const questions = [
+    {
+      q: "Şirketinizin kârı son çeyrekte %50 düştü. Batıyor musunuz?",
+      time: 10000,
+      options: [
+        { tactic: "Savunma (HATA!)", text: "Hayır, batmıyoruz. Sadece geçici bir kriz yaşıyoruz, her şey kontrol altında.", isCorrect: false, feedback: "Savunmaya geçmek suçluluk psikolojisi yaratır. 'Batmıyoruz' dediğiniz an insanlar battığınızı düşünür." },
+        { tactic: "Suçlama (HATA!)", text: "Bu tamamen ekonominin ve hükümetin suçu, biz elimizden geleni yaptık.", isCorrect: false, feedback: "Sorumluluktan kaçmak, liderliğinize olan güveni (Ethos) yok eder." },
+        { tactic: "Çerçeveleme (DOĞRU!)", text: "Kârımız düşmedi, geleceğin Ar-Ge projelerine tüm zamanların en büyük yatırımını yaptık. Biz bugünü değil, yarını inşa ediyoruz.", isCorrect: true, feedback: "Mükemmel! 'Para kaybı' çerçevesini yıktınız ve durumu 'Geleceğe Yatırım' çerçevesine başarıyla oturttunuz." }
+      ]
+    },
+    {
+      q: "Yeni yasa tasarınızla halkın cebindeki parayı çalacağınız söyleniyor, ne diyeceksiniz?",
+      time: 8000,
+      options: [
+        { tactic: "Çerçeveleme (DOĞRU!)", text: "Biz kimsenin parasını almıyoruz; tam aksine, çocuklarımızın geleceğini güvence altına alacak bir dayanışma fonu kuruyoruz.", isCorrect: true, feedback: "Harika! 'Vergi/Hırsızlık' çerçevesini reddedip yerine 'Gelecek ve Dayanışma' (Pathos) çerçevesini kurdunuz." },
+        { tactic: "Mantık (HATA!)", text: "Matematiksel olarak bakarsanız bu bir çalma değil, %3'lük bir vergi düzenlemesidir.", isCorrect: false, feedback: "Duygusal bir saldırıya soğuk rakamlarla (Logos) cevap vermek, kitleyi ikna etmez." },
+        { tactic: "Karşı Saldırı (HATA!)", text: "Bunu söyleyenler asıl geçmişte halkı soyanlardır!", isCorrect: false, feedback: "Ad Hominem (Kişiye Saldırı). Belki alkış alırsınız ama soruyu cevaplamadığınız için şüphe uyandırırsınız." }
+      ]
+    }
+  ];
+
+  let currentQ = 0;
+  let timer;
+  let timeLeft = 0;
+  let maxTime = 0;
+
+  const qText = document.getElementById('qText');
+  const optionsGrid = document.getElementById('optionsGrid');
+  const timerWrap = document.getElementById('timerWrap');
+  const timerFill = document.getElementById('timerFill');
+  
+  const feedbackBox = document.getElementById('feedbackBox');
+  const fTitle = document.getElementById('fTitle');
+  const fDesc = document.getElementById('fDesc');
+
+  function startGame() {
+    currentQ = 0;
+    renderQuestion();
+  }
+
+  function renderQuestion() {
+    if (currentQ >= questions.length) {
+      qText.textContent = "Basın toplantısı bitti. Krizleri başarıyla yönettiniz!";
+      timerWrap.style.display = 'none';
+      optionsGrid.innerHTML = '<button class="reframe-btn" style="text-align:center" onclick="location.reload()">Tekrar Oyna</button>';
+      return;
+    }
+
+    const item = questions[currentQ];
+    qText.textContent = `"${item.q}"`;
+    timerWrap.style.display = 'block';
+    
+    // Shuffle options
+    const opts = [...item.options].sort(() => Math.random() - 0.5);
+    
+    optionsGrid.innerHTML = '';
+    opts.forEach(opt => {
+      const btn = document.createElement('button');
+      btn.className = 'reframe-btn';
+      btn.innerHTML = `<span class="tactic">${opt.tactic}</span>${opt.text}`;
+      btn.onclick = () => handleChoice(opt);
+      optionsGrid.appendChild(btn);
+    });
+
+    maxTime = item.time;
+    timeLeft = maxTime;
+    
+    clearInterval(timer);
+    timer = setInterval(() => {
+      timeLeft -= 50;
+      const pct = (timeLeft / maxTime) * 100;
+      timerFill.style.width = pct + '%';
+      
+      if (timeLeft <= 0) {
+        clearInterval(timer);
+        showFeedback(false, "SÜRE BİTTİ!", "Cevap vermekte çok geciktiniz, sessizliğiniz suçluluk olarak algılandı.");
+      }
+    }, 50);
+  }
+
+  function handleChoice(opt) {
+    clearInterval(timer);
+    if (opt.isCorrect) {
+      showFeedback(true, "MÜKEMMEL ÇERÇEVELEME!", opt.feedback);
+    } else {
+      showFeedback(false, "KÖTÜ CEVAP!", opt.feedback);
+    }
+  }
+
+  function showFeedback(win, title, desc) {
+    fTitle.textContent = title;
+    fTitle.style.color = win ? '#10b981' : '#ef4444';
+    fDesc.textContent = desc;
+    feedbackBox.style.display = 'flex';
+  }
+
+  function nextQuestion() {
+    feedbackBox.style.display = 'none';
+    currentQ++;
+    renderQuestion();
+  }
+</script>
