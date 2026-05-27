@@ -5,7 +5,7 @@ const compression = require('compression');
 const path = require('path');
 const fs = require('fs');
 const app = express();
-const HTTP_PORT = 3001;
+const HTTP_PORT = process.env.PORT || 3001;
 const HTTPS_PORT = 3443;
 
 const SITE_URL = 'https://www.diksiyonrehberi.com';
