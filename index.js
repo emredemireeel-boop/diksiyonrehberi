@@ -11,14 +11,16 @@ const HTTPS_PORT = 3443;
 const SITE_URL = 'https://www.diksiyonrehberi.com';
 
 // ── HTTP to HTTPS Redirect ────────────────────────────────────────────────
-app.use((req, res, next) => {
-  if (process.env.NODE_ENV === 'production') {
-    if (req.headers['x-forwarded-proto'] !== 'https' && !req.secure) {
-      return res.redirect(301, ['https://', req.get('Host'), req.url].join(''));
-    }
-  }
-  next();
-});
+// Nginx veya Cloudflare üzerinden zaten HTTPS sağlandığı için, Node.js tarafında
+// yönlendirme yapmak sonsuz döngüye (infinite redirect loop) sebep olabilir.
+// app.use((req, res, next) => {
+//   if (process.env.NODE_ENV === 'production') {
+//     if (req.headers['x-forwarded-proto'] !== 'https' && !req.secure) {
+//       return res.redirect(301, ['https://', req.get('Host'), req.url].join(''));
+//     }
+//   }
+//   next();
+// });
 
 // ── Gzip Sıkıştırma ───────────────────────────────────────────────────────
 app.use(compression());
