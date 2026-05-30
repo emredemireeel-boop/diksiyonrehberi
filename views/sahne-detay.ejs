@@ -93,6 +93,40 @@
             
             <p style="color:#334155;font-size:1.1rem;line-height:1.7;margin-bottom:32px;max-width:800px;border-left:4px solid #0ea5e9;padding-left:20px;"><%= ex.desc %></p>
             
+            <% if (ex.benefits && ex.benefits.length > 0) { %>
+              <div style="margin-bottom: 24px;">
+                <h4 style="color:#0f172a;font-size:1.1rem;margin-bottom:12px;font-weight:900">🎯 Kazanımlar</h4>
+                <ul style="list-style:none; padding:0; margin:0; display:flex; flex-direction:column; gap:8px;">
+                  <% ex.benefits.forEach(ben => { %>
+                    <li style="display:flex; align-items:flex-start; gap:10px;">
+                      <span style="color:#16a34a; font-weight:bold;">✓</span>
+                      <span style="color:#334155; line-height:1.5;"><%= ben %></span>
+                    </li>
+                  <% }) %>
+                </ul>
+              </div>
+            <% } %>
+
+            <% if (ex.mistakes && ex.mistakes.length > 0) { %>
+              <div style="margin-bottom: 28px;">
+                <h4 style="color:#0f172a;font-size:1.1rem;margin-bottom:12px;font-weight:900">⚠️ Sık Yapılan Hatalar</h4>
+                <ul style="list-style:none; padding:0; margin:0; display:flex; flex-direction:column; gap:8px;">
+                  <% ex.mistakes.forEach(mis => { %>
+                    <li style="display:flex; align-items:flex-start; gap:10px;">
+                      <span style="color:#ef4444; font-weight:bold;">✗</span>
+                      <span style="color:#334155; line-height:1.5;"><%= mis %></span>
+                    </li>
+                  <% }) %>
+                </ul>
+              </div>
+            <% } %>
+
+            <% if (ex.tip) { %>
+              <div style="background:#f0f9ff; border-left:4px solid #0ea5e9; padding:20px; border-radius:0 12px 12px 0; margin-bottom:32px;">
+                <div style="color:#0284c7; font-size:1.05rem; font-style:italic; line-height:1.6;"><%= ex.tip %></div>
+              </div>
+            <% } %>
+
             <h4 style="color:#0f172a;font-size:1.2rem;margin-bottom:16px;font-weight:900">1. Ustaların Yaklaşımı</h4>
             <div class="theory-scenario-box">
               <div class="theory-scenario-label"><%= ex.scenario.label %></div>

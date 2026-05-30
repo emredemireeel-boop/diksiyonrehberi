@@ -57,6 +57,40 @@
           <!-- Açıklama -->
           <p style="color:#475569;font-size:0.95rem;line-height:1.75;margin-bottom:24px;padding:18px 22px;background:#f8fafc;border-radius:14px;border-left:3px solid #0f172a"><%= ex.desc %></p>
 
+          <% if (ex.benefits && ex.benefits.length > 0) { %>
+            <div style="margin-bottom: 24px;">
+              <div style="font-size:0.75rem;font-weight:800;text-transform:uppercase;letter-spacing:1px;color:#16a34a;margin-bottom:12px">🎯 Kazanımlar</div>
+              <ul style="list-style:none; padding:0; margin:0; display:flex; flex-direction:column; gap:8px;">
+                <% ex.benefits.forEach(ben => { %>
+                  <li style="display:flex; align-items:flex-start; gap:10px;">
+                    <span style="color:#16a34a; font-weight:bold;">✓</span>
+                    <span style="color:#334155; font-size:0.9rem; line-height:1.5;"><%= ben %></span>
+                  </li>
+                <% }) %>
+              </ul>
+            </div>
+          <% } %>
+
+          <% if (ex.mistakes && ex.mistakes.length > 0) { %>
+            <div style="margin-bottom: 28px;">
+              <div style="font-size:0.75rem;font-weight:800;text-transform:uppercase;letter-spacing:1px;color:#ef4444;margin-bottom:12px">⚠️ Sık Yapılan Hatalar</div>
+              <ul style="list-style:none; padding:0; margin:0; display:flex; flex-direction:column; gap:8px;">
+                <% ex.mistakes.forEach(mis => { %>
+                  <li style="display:flex; align-items:flex-start; gap:10px;">
+                    <span style="color:#ef4444; font-weight:bold;">✗</span>
+                    <span style="color:#334155; font-size:0.9rem; line-height:1.5;"><%= mis %></span>
+                  </li>
+                <% }) %>
+              </ul>
+            </div>
+          <% } %>
+
+          <% if (ex.tip) { %>
+            <div style="background:#f0f9ff; border-left:4px solid #0ea5e9; padding:18px; border-radius:0 12px 12px 0; margin-bottom:24px;">
+              <div style="color:#0369a1; font-size:0.95rem; font-style:italic; line-height:1.6;"><%= ex.tip %></div>
+            </div>
+          <% } %>
+
           <!-- Adımlar -->
           <div style="margin-bottom:24px">
             <div style="font-size:0.75rem;font-weight:800;text-transform:uppercase;letter-spacing:1px;color:#94a3b8;margin-bottom:12px">Stil Adimlari</div>
@@ -76,12 +110,18 @@
             <div style="font-size:1rem;font-weight:800;color:#0f172a;margin-bottom:16px;padding-left:16px;border-left:4px solid #0f172a;line-height:1.5"><%= ex.quiz.q %></div>
             <div style="display:flex;flex-direction:column;gap:10px">
               <% ex.quiz.opts.forEach((opt, i) => { %>
-                <div class="ret-quiz-option" onclick="handleQuiz(this, <%= ex.quiz.correct %>, <%= i %>)" style="padding:14px 18px;background:#fff;border:1.5px solid #e2e8f0;border-radius:12px;color:#475569;cursor:pointer;font-size:0.92rem;display:flex;align-items:center;gap:14px;transition:all .2s">
+                <div class="ret-quiz-option" onclick="handleQuiz(this, <%= ex.quiz.correct %>, <%= i %>, '<%= ex.id %>')" style="padding:14px 18px;background:#fff;border:1.5px solid #e2e8f0;border-radius:12px;color:#475569;cursor:pointer;font-size:0.92rem;display:flex;align-items:center;gap:14px;transition:all .2s">
                   <span style="width:30px;height:30px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:0.85rem;font-weight:800;background:#f8fafc;color:#64748b;flex-shrink:0;border:1px solid #e2e8f0"><%= String.fromCharCode(65 + i) %></span> <%= opt %>
                 </div>
               <% }); %>
             </div>
             <div class="quiz-feedback" style="margin-top:14px;padding:14px 18px;border-radius:12px;font-size:0.9rem;line-height:1.6;display:none"></div>
+            <script>
+              window['quizData_<%= ex.id %>'] = {
+                ok: <%- JSON.stringify(ex.quiz.ok) %>,
+                fail: <%- JSON.stringify(ex.quiz.fail) %>
+              };
+            </script>
           </div>
           <% } %>
 
@@ -118,9 +158,10 @@
 <%- include('partials/main-footer') %>
 
 <script>
-  function handleQuiz(el, correctIdx, currentIdx) {
+  function handleQuiz(el, correctIdx, currentIdx, quizId) {
     const parent = el.parentElement;
     const feedback = parent.parentElement.querySelector('.quiz-feedback');
+    const data = window['quizData_' + quizId];
 
     parent.querySelectorAll('.ret-quiz-option').forEach(o => {
       o.style.background = '#fff';
@@ -132,14 +173,14 @@
       el.style.background = '#ecfdf5';
       el.style.borderColor = '#10b981';
       el.style.color = '#065f46';
-      feedback.textContent = 'Dogru cevap!';
+      feedback.innerHTML = '<strong>✅ DOĞRU:</strong> ' + data.ok;
       feedback.style.background = '#ecfdf5';
       feedback.style.color = '#065f46';
     } else {
       el.style.background = '#fef2f2';
       el.style.borderColor = '#ef4444';
       el.style.color = '#991b1b';
-      feedback.textContent = 'Yanlis, tekrar deneyin.';
+      feedback.innerHTML = '<strong>❌ YANLIŞ:</strong> ' + data.fail;
       feedback.style.background = '#fef2f2';
       feedback.style.color = '#991b1b';
     }

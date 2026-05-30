@@ -14,6 +14,9 @@
   .step-list li { position: relative; padding-left: 35px; margin-bottom: 15px; font-size: 1rem; color: #334155; line-height: 1.6; }
   .step-list li::before { content: '✓'; position: absolute; left: 0; top: 0; width: 22px; height: 22px; background: #ede9fe; color: #7c3aed; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.8rem; font-weight: bold; }
   
+  .benefit-list li::before { content: '✓'; background: #dcfce7; color: #16a34a; }
+  .mistake-list li::before { content: '✗'; background: #fee2e2; color: #ef4444; }
+  
   .scenario-box { background: #f8fafc; border-left: 4px solid #3b82f6; padding: 20px; border-radius: 0 12px 12px 0; margin-bottom: 30px; }
   .sb-label { font-size: 0.8rem; font-weight: 800; color: #3b82f6; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px; }
   .sb-text { font-size: 1.05rem; color: #0f172a; font-style: italic; margin-bottom: 15px; }
@@ -56,8 +59,32 @@
             </div>
             <p class="ex-desc"><%= ex.desc %></p>
 
+            <% if (ex.benefits && ex.benefits.length > 0) { %>
+              <div class="ex-section-title">🎯 Kazanımlar</div>
+              <ul class="step-list benefit-list">
+                <% ex.benefits.forEach(ben => { %>
+                  <li><%= ben %></li>
+                <% }) %>
+              </ul>
+            <% } %>
+
+            <% if (ex.mistakes && ex.mistakes.length > 0) { %>
+              <div class="ex-section-title">⚠️ Sık Yapılan Hatalar</div>
+              <ul class="step-list mistake-list">
+                <% ex.mistakes.forEach(mis => { %>
+                  <li><%= mis %></li>
+                <% }) %>
+              </ul>
+            <% } %>
+
+            <% if (ex.tip) { %>
+              <div style="background:#f0f9ff; border-left:4px solid #0ea5e9; padding:20px; margin-bottom:30px; border-radius:0 12px 12px 0; color:#0369a1; font-style:italic; font-size:1.05rem; line-height:1.6;">
+                <%= ex.tip %>
+              </div>
+            <% } %>
+
             <% if (ex.steps && ex.steps.length > 0) { %>
-              <div class="ex-section-title">🛠️ Zihinsel Araçlar</div>
+              <div class="ex-section-title">🛠️ Zihinsel Araçlar ve Adımlar</div>
               <ul class="step-list">
                 <% ex.steps.forEach(step => { %>
                   <li><%= step %></li>

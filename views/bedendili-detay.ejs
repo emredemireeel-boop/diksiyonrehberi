@@ -41,6 +41,34 @@
               <h4 style="color:#0f172a"><%= ex.title %></h4>
               <p style="color:#475569"><%= ex.desc %></p>
 
+              <% if (ex.benefits && ex.benefits.length > 0) { %>
+                <div style="margin-top:20px; margin-bottom: 20px;">
+                  <strong style="color:#16a34a; font-size:1.1rem;">🎯 Kazanımlar</strong>
+                  <ul style="list-style:none; padding:0; margin-top:10px;">
+                    <% ex.benefits.forEach(ben => { %>
+                      <li style="margin-bottom:8px; position:relative; padding-left:25px; color:#334155;"><span style="position:absolute; left:0; color:#16a34a; font-weight:bold;">✓</span> <%= ben %></li>
+                    <% }) %>
+                  </ul>
+                </div>
+              <% } %>
+
+              <% if (ex.mistakes && ex.mistakes.length > 0) { %>
+                <div style="margin-bottom: 25px;">
+                  <strong style="color:#ef4444; font-size:1.1rem;">⚠️ Sık Yapılan Hatalar</strong>
+                  <ul style="list-style:none; padding:0; margin-top:10px;">
+                    <% ex.mistakes.forEach(mis => { %>
+                      <li style="margin-bottom:8px; position:relative; padding-left:25px; color:#334155;"><span style="position:absolute; left:0; color:#ef4444; font-weight:bold;">✗</span> <%= mis %></li>
+                    <% }) %>
+                  </ul>
+                </div>
+              <% } %>
+
+              <% if (ex.tip) { %>
+                <div style="background:#f0f9ff; border-left:4px solid #0ea5e9; padding:20px; margin-bottom:30px; border-radius:0 12px 12px 0; color:#0369a1; font-style:italic; font-size:1.05rem; line-height:1.6;">
+                  <%= ex.tip %>
+                </div>
+              <% } %>
+
               <div class="ret-steps">
                 <% ex.steps.forEach((step, i) => { %>
                   <div class="ret-step" style="background:#f8fafc;border-color:#e2e8f0">

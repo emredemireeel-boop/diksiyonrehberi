@@ -1,0 +1,247 @@
+<%- include('partials/main-header') %>
+
+<style>
+  body { background: #0f172a; color: #f8fafc; font-family: 'Inter', sans-serif; overflow-x: hidden; }
+  .det-container { padding: 40px 20px; max-width: 1000px; margin: 0 auto; min-height: 85vh; display: flex; flex-direction: column; align-items: center; }
+  
+  h1 { font-size: 2.5rem; font-weight: 900; margin-bottom: 5px; color: #ff9500; text-transform: uppercase; letter-spacing: 1px; text-align: center; }
+  p.desc { color: #94a3b8; font-size: 1rem; line-height: 1.6; margin-bottom: 40px; text-align: center; max-width: 600px; }
+
+  /* Game Area */
+  .game-board { width: 100%; max-width: 800px; background: #1e293b; border-radius: 20px; border: 1px solid #334155; position: relative; overflow: hidden; box-shadow: 0 20px 50px rgba(0,0,0,0.5); display: flex; flex-direction: column; }
+  
+  /* Top HUD */
+  .hud { background: #0f172a; padding: 15px 30px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #334155; }
+  .hud-level { font-size: 0.9rem; font-weight: 800; color: #ff9500; text-transform: uppercase; letter-spacing: 1px; }
+  .hud-score { font-size: 1.2rem; font-weight: 900; color: #10b981; }
+
+  /* Case File */
+  .case-area { padding: 40px 30px; background: #1e293b; flex-grow: 1; }
+  .case-title { font-size: 1.5rem; font-weight: 800; color: #f8fafc; margin-bottom: 20px; display: flex; align-items: center; gap: 10px; }
+  .case-context { background: rgba(0,0,0,0.3); padding: 15px; border-radius: 10px; font-size: 0.9rem; color: #94a3b8; margin-bottom: 30px; border-left: 3px solid #ff9500; }
+  
+  /* Dialogue Box */
+  .dialogue { display: flex; flex-direction: column; gap: 15px; margin-bottom: 40px; }
+  .msg { padding: 15px 20px; border-radius: 15px; max-width: 85%; line-height: 1.5; font-size: 1.05rem; }
+  .msg-a { background: #334155; color: #e2e8f0; align-self: flex-start; border-bottom-left-radius: 0; }
+  .msg-b { background: #ff9500; color: #0f172a; align-self: flex-end; border-bottom-right-radius: 0; box-shadow: 0 5px 15px rgba(255, 149, 0, 0.2); }
+  .msg-b span.target { background: rgba(255,255,255,0.4); padding: 2px 5px; border-radius: 4px; font-weight: 700; border-bottom: 2px dashed #0f172a; }
+  
+  .speaker { font-size: 0.75rem; font-weight: 800; margin-bottom: 5px; text-transform: uppercase; letter-spacing: 1px; opacity: 0.8; }
+
+  /* Question Area */
+  .q-area { padding: 30px; background: #0f172a; border-top: 1px solid #334155; }
+  .q-text { font-size: 1.1rem; font-weight: 700; color: #e2e8f0; margin-bottom: 20px; text-align: center; }
+  
+  .opts-grid { display: grid; grid-template-columns: 1fr; gap: 15px; }
+  @media (min-width: 600px) { .opts-grid { grid-template-columns: 1fr 1fr; } }
+  
+  .opt-btn { background: #1e293b; border: 2px solid #334155; padding: 15px; border-radius: 12px; color: #cbd5e1; font-weight: 700; font-size: 1rem; cursor: pointer; transition: all 0.2s; }
+  .opt-btn:hover:not(:disabled) { background: #334155; border-color: #64748b; transform: translateY(-2px); }
+  .opt-btn.correct { background: rgba(16, 185, 129, 0.1); border-color: #10b981; color: #10b981; }
+  .opt-btn.wrong { background: rgba(244, 63, 94, 0.1); border-color: #f43f5e; color: #f43f5e; }
+  .opt-btn:disabled { cursor: not-allowed; opacity: 0.7; }
+
+  /* Feedback overlay */
+  .feedback-box { margin-top: 20px; padding: 20px; border-radius: 12px; font-size: 0.95rem; line-height: 1.6; display: none; animation: fadeIn 0.5s forwards; }
+  .feedback-box.success { background: rgba(16, 185, 129, 0.1); border: 1px solid #10b981; color: #a7f3d0; }
+  .feedback-box.error { background: rgba(244, 63, 94, 0.1); border: 1px solid #f43f5e; color: #fecdd3; }
+
+  .next-btn { background: #ff9500; color: #0f172a; border: none; padding: 12px 25px; border-radius: 8px; font-weight: 800; text-transform: uppercase; cursor: pointer; margin-top: 15px; display: inline-block; }
+
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+  .game-over { text-align: center; padding: 50px; display: none; }
+  .go-icon { font-size: 4rem; margin-bottom: 20px; }
+</style>
+
+<div class="det-container">
+  <h1>Manipülasyon Dedektifi</h1>
+  <p class="desc">Diyaloglar arasına gizlenmiş manipülasyon taktiklerini bulun. Toksik niyetleri deşifre ederek zihinsel kalkanınızı güçlendirin.</p>
+
+  <div class="game-board" id="gameBoard">
+    <div class="hud">
+      <div class="hud-level" id="hudLevel">Vaka 1 / 4</div>
+      <div class="hud-score">Skor: <span id="scoreVal">0</span></div>
+    </div>
+
+    <div class="case-area">
+      <div class="case-title" id="cTitle">Vaka #1: Ofis Gerilimi</div>
+      <div class="case-context" id="cContext">Konu: Verilen bir sözün tutulmaması</div>
+      
+      <div class="dialogue" id="cDialogue">
+        <!-- Injected -->
+      </div>
+    </div>
+
+    <div class="q-area">
+      <div class="q-text" id="qText">Kırmızı ile işaretli kısımda uygulanan manipülasyon taktiği nedir?</div>
+      <div class="opts-grid" id="qOpts">
+        <!-- Injected -->
+      </div>
+      
+      <div class="feedback-box" id="feedbackBox">
+        <div id="fbText"></div>
+        <button class="next-btn" id="btnNext" onclick="nextLevel()">Sıradaki Vaka ➔</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="game-board game-over" id="gameOver">
+    <div class="go-icon">🧠</div>
+    <h2 style="font-size:2.5rem; color:#10b981; margin:0 0 10px 0;">Zihin Ustası!</h2>
+    <p style="color:#94a3b8; font-size:1.1rem; margin-bottom:30px;">Tüm vakaları başarıyla analiz ettiniz. Manipülatif niyetleri okuma konusunda harika bir refleks geliştirdiniz.</p>
+    <a href="/manipulasyon" style="background:#ff9500; color:#0f172a; padding:15px 30px; border-radius:12px; text-decoration:none; font-weight:800;">Manipülasyon Ana Sayfasına Dön</a>
+  </div>
+
+</div>
+
+<script>
+  const cases = [
+    {
+      title: "Vaka #1: Unutulan Söz",
+      context: "Konu: Geçen hafta verilen ancak tutulmayan bir söz.",
+      dialogue: [
+        { speaker: "Sen", class: "msg-a", text: "Geçen hafta bu raporu cuma gününe kadar bitireceğini söylemiştin ama hala bekliyorum." },
+        { speaker: "İş Arkadaşı", class: "msg-b", text: "<span class='target'>Ben asla öyle bir şey söylemedim. Sen son günlerde çok streslisin, her şeyi yanlış hatırlıyorsun.</span>" }
+      ],
+      question: "İş arkadaşının kullandığı bu psikolojik savunma mekanizması hangi taktiktir?",
+      options: [
+        { id: "o1", text: "Gaslighting", correct: true, fb: "Doğru! Karşı tarafın hafızasından veya gerçeklik algısından şüphe etmesini sağlamak Gaslighting'in en temel adımıdır." },
+        { id: "o2", text: "Suçluluk Tripi (Guilt Tripping)", correct: false, fb: "Yanlış. Burada seni vicdanen suçlu hissettirecek bir fedakarlık vurgusu yapılmıyor." },
+        { id: "o3", text: "Sessizlik Terapisi (Silent Treatment)", correct: false, fb: "Yanlış. İletişimi tamamen koparma söz konusu değil." },
+        { id: "o4", text: "Aşırı Genelleme", correct: false, fb: "Yanlış. Bu bir safsata türü, buradaki taktik manipülatiftir." }
+      ]
+    },
+    {
+      title: "Vaka #2: Beklenmedik Talep",
+      context: "Konu: Hafta sonu planları.",
+      dialogue: [
+        { speaker: "Sen", class: "msg-a", text: "Üzgünüm, bu hafta sonu dinlenmek için plan yaptım, size katılamayacağım." },
+        { speaker: "Arkadaş", class: "msg-b", text: "<span class='target'>Tabii sen dinlen. Biz burada sensiz eğlenmeye çalışırız... Keşke geçen hafta zor anında sana o kadar yardım etmeseydim.</span>" }
+      ],
+      question: "Arkadaşının sana kararını değiştirtmek için kullandığı bu taktik nedir?",
+      options: [
+        { id: "o1", text: "Pasif Agresyon", correct: false, fb: "Kısmen pasif agresif öğeler taşısa da, geçmişteki bir iyiliği koz olarak kullanması bu taktiğin asıl adını belirler." },
+        { id: "o2", text: "Gaslighting", correct: false, fb: "Yanlış. Geçmiş olay inkar edilmiyor." },
+        { id: "o3", text: "Suçluluk Tripi (Guilt Tripping)", correct: true, fb: "Mükemmel Tespit! Sana geçmişteki bir fedakarlığı hatırlatarak kendini borçlu ve suçlu hissetmeni sağlamaya çalışıyor." },
+        { id: "o4", text: "Üçgenleme (Triangulation)", correct: false, fb: "Yanlış. Olayın içine üçüncü bir kişiyi dahil etmiyor." }
+      ]
+    },
+    {
+      title: "Vaka #3: Açıklanmayan Öfke",
+      context: "Konu: Sabah yaşanan ufak bir tartışma sonrası durum.",
+      dialogue: [
+        { speaker: "Sen", class: "msg-a", text: "Sabahtan beri benimle göz teması kurmuyorsun ve sorularıma tek kelimeyle cevap veriyorsun. Bir sorun mu var?" },
+        { speaker: "Partner", class: "msg-b", text: "<span class='target'>Yok bir şey... (Gözlerini devirerek uzaklaşır ve gün boyu tek kelime etmez)</span>" }
+      ],
+      question: "Partnerin uyguladığı bu cezalandırma yöntemi hangisidir?",
+      options: [
+        { id: "o1", text: "Sessizlik Terapisi (Silent Treatment)", correct: true, fb: "Harika! Çatışmayı çözmek yerine iletişimi tamamen keserek seni peşinden koşturmaya ve cezalandırmaya çalışıyor." },
+        { id: "o2", text: "Gaslighting", correct: false, fb: "Yanlış. Gerçekliğin inkarı üzerine bir konuşma geçmiyor." },
+        { id: "o3", text: "Aşk Bombardımanı (Love Bombing)", correct: false, fb: "Yanlış. Aksine ilgi tamamen geri çekilmiş durumda." },
+        { id: "o4", text: "Aşağılama", correct: false, fb: "Yanlış. Açık bir sözlü aşağılama yok, pasif bir eylem var." }
+      ]
+    },
+    {
+      title: "Vaka #4: Üçüncü Kişi",
+      context: "Konu: Yöneticinin proje performansı hakkındaki yorumu.",
+      dialogue: [
+        { speaker: "Sen", class: "msg-a", text: "Projedeki bazı adımların hızlanması için destek talep etmiştim, yardımcı olabilir misiniz?" },
+        { speaker: "Yönetici", class: "msg-b", text: "<span class='target'>Merve aynı projeyi geçen ay hiç yardım almadan, üstelik çok daha az kaynakla tek başına halletmişti. Sence de ondan öğrenmen gereken şeyler yok mu?</span>" }
+      ],
+      question: "Yöneticinin burada seni manipüle etmek için kullandığı taktik nedir?",
+      options: [
+        { id: "o1", text: "Suçluluk Tripi", correct: false, fb: "Yanlış. Burada bir iyilik karşılığı ve suçluluk hissi odaklı değil." },
+        { id: "o2", text: "Üçgenleme (Triangulation)", correct: true, fb: "Tebrikler! Konuya alakasız üçüncü bir kişiyi (Merve) dahil edip kıyaslama yaparak rekabet, özgüvensizlik ve baskı yaratıyor." },
+        { id: "o3", text: "Gaslighting", correct: false, fb: "Yanlış. Senin algın çarpıtılmıyor." },
+        { id: "o4", text: "Sessizlik Terapisi", correct: false, fb: "Yanlış. İletişim kopartılmıyor." }
+      ]
+    }
+  ];
+
+  let currentLevel = 0;
+  let score = 0;
+
+  function loadLevel() {
+    if (currentLevel >= cases.length) {
+      document.getElementById('gameBoard').style.display = 'none';
+      document.getElementById('gameOver').style.display = 'block';
+      return;
+    }
+
+    const c = cases[currentLevel];
+    document.getElementById('hudLevel').textContent = \`Vaka \${currentLevel + 1} / \${cases.length}\`;
+    document.getElementById('cTitle').textContent = c.title;
+    document.getElementById('cContext').textContent = c.context;
+    
+    // Render Dialogue
+    const dCont = document.getElementById('cDialogue');
+    dCont.innerHTML = '';
+    c.dialogue.forEach(d => {
+      dCont.innerHTML += \`
+        <div class="msg \${d.class}">
+          <div class="speaker">\${d.speaker}</div>
+          \${d.text}
+        </div>
+      \`;
+    });
+
+    document.getElementById('qText').innerHTML = c.question;
+
+    // Render Options
+    const qOpts = document.getElementById('qOpts');
+    qOpts.innerHTML = '';
+    c.options.forEach(o => {
+      const btn = document.createElement('button');
+      btn.className = 'opt-btn';
+      btn.textContent = o.text;
+      btn.onclick = () => selectOption(btn, o, c.options);
+      qOpts.appendChild(btn);
+    });
+
+    const fbBox = document.getElementById('feedbackBox');
+    fbBox.style.display = 'none';
+    fbBox.className = 'feedback-box';
+  }
+
+  function selectOption(btn, opt, allOpts) {
+    // Disable all
+    const buttons = document.getElementById('qOpts').querySelectorAll('.opt-btn');
+    buttons.forEach(b => b.disabled = true);
+
+    const fbBox = document.getElementById('feedbackBox');
+    const fbText = document.getElementById('fbText');
+
+    fbBox.style.display = 'block';
+
+    if (opt.correct) {
+      btn.classList.add('correct');
+      fbBox.classList.add('success');
+      fbText.innerHTML = \`<strong>🏆 Harika Tespit!</strong><br>\${opt.fb}\`;
+      score += 100;
+      document.getElementById('scoreVal').textContent = score;
+    } else {
+      btn.classList.add('wrong');
+      fbBox.classList.add('error');
+      fbText.innerHTML = \`<strong>❌ Yanlış Analiz.</strong><br>\${opt.fb}\`;
+      
+      // Highlight correct one
+      const correctOpt = allOpts.find(o => o.correct);
+      const correctBtn = Array.from(buttons).find(b => b.textContent === correctOpt.text);
+      correctBtn.style.borderColor = '#10b981';
+      correctBtn.style.color = '#10b981';
+    }
+  }
+
+  function nextLevel() {
+    currentLevel++;
+    loadLevel();
+  }
+
+  // Init
+  loadLevel();
+
+</script>
+
+<%- include('partials/main-footer') %>

@@ -395,6 +395,40 @@
         <h2 class="ex-title"><%= ex.title %></h2>
         <p class="ex-desc"><%= ex.desc %></p>
 
+        <% if (ex.benefits && ex.benefits.length > 0) { %>
+          <div style="margin-bottom: 24px;">
+            <strong style="color:var(--apple-green); font-size:1.1rem; display:block; margin-bottom:12px;">🎯 Kazanımlar</strong>
+            <div style="display:flex; flex-direction:column; gap:8px;">
+              <% ex.benefits.forEach(ben => { %>
+                <div style="display:flex; align-items:flex-start; gap:10px;">
+                  <span style="color:var(--apple-green); font-weight:bold;">✓</span>
+                  <span style="color:var(--apple-text); line-height:1.5;"><%= ben %></span>
+                </div>
+              <% }) %>
+            </div>
+          </div>
+        <% } %>
+
+        <% if (ex.mistakes && ex.mistakes.length > 0) { %>
+          <div style="margin-bottom: 28px;">
+            <strong style="color:var(--apple-red); font-size:1.1rem; display:block; margin-bottom:12px;">⚠️ Sık Yapılan Hatalar</strong>
+            <div style="display:flex; flex-direction:column; gap:8px;">
+              <% ex.mistakes.forEach(mis => { %>
+                <div style="display:flex; align-items:flex-start; gap:10px;">
+                  <span style="color:var(--apple-red); font-weight:bold;">✗</span>
+                  <span style="color:var(--apple-text); line-height:1.5;"><%= mis %></span>
+                </div>
+              <% }) %>
+            </div>
+          </div>
+        <% } %>
+
+        <% if (ex.tip) { %>
+          <div style="background:rgba(0, 102, 204, 0.05); border-left:4px solid var(--apple-blue); padding:20px; border-radius:0 16px 16px 0; margin-bottom:32px;">
+            <div style="color:var(--apple-blue); font-size:1.05rem; font-style:italic; line-height:1.6;"><%= ex.tip %></div>
+          </div>
+        <% } %>
+
         <!-- STEPS -->
         <div class="ex-steps">
           <% ex.steps.forEach((step, i) => { %>

@@ -1876,6 +1876,10 @@ app.get('/manipulasyon/araclar/savunma', (req, res, next) => {
   res.render('manipulasyon-savunma', { meta: {title: 'Savunma Simülatörü - Zihinsel Kalkan', h1: 'Gri Kaya Antrenmanı', desc: 'Manipülasyona karşı gri kaya (grey rock) savunma tekniğini pratik yapın.'}, canonicalUrl: SITE_URL+'/manipulasyon/araclar/savunma', jsonLdScripts: '' });
 });
 
+app.get('/manipulasyon/araclar/dedektif', (req, res, next) => {
+  res.render('manipulasyon-dedektif', { meta: {title: 'Manipülasyon Dedektifi - Diksiyon Rehberi', h1: 'Manipülasyon Dedektifi', desc: 'Gizli manipülasyon taktiklerini deşifre edin.'}, canonicalUrl: SITE_URL+'/manipulasyon/araclar/dedektif', jsonLdScripts: '' });
+});
+
 app.get('/manipulasyon', (req, res, next) => {
   const meta = TOOLS_META['manipulasyon'] || {
     title: 'Manipülasyon ve Savunma Eğitimi | Diksiyon Rehberi',
@@ -1887,7 +1891,7 @@ app.get('/manipulasyon', (req, res, next) => {
 
 app.get('/manipulasyon/:subpage', (req, res, next) => {
   const subpage = req.params.subpage;
-  const validCats = ['psikolojik', 'duygusal', 'pasif'];
+  const validCats = ['psikolojik', 'duygusal', 'pasif', 'sinirlar'];
   
   if (!validCats.includes(subpage)) return next();
 
@@ -1955,6 +1959,10 @@ app.get('/retorik/araclar/prompter', (req, res, next) => {
   res.render('retorik-prompter', { meta: {title: 'Liderlik Teleprompterı', h1: 'Ritim Ustası', desc: 'Diksiyonu bir Guitar Hero oyunu gibi refleksle öğren.'}, canonicalUrl: SITE_URL+'/retorik/araclar/prompter', jsonLdScripts: '' });
 });
 
+app.get('/retorik/araclar/asistan', (req, res, next) => {
+  res.render('retorik-asistan', { meta: {title: 'Etkili Konuşma Metni Sihirbazı | Diksiyon Rehberi', h1: 'Konuşma Asistanı', desc: 'Kendi hitabet senaryonuzu belirleyin, Cicero kurallarıyla profesyonel konuşma iskeletinizi oluşturun.'}, canonicalUrl: SITE_URL+'/retorik/araclar/asistan', jsonLdScripts: '' });
+});
+
 app.get('/retorik/:subpage', (req, res, next) => {
   const subpage = req.params.subpage;
   // Check mapped URLs
@@ -1972,6 +1980,16 @@ app.get('/retorik/:subpage', (req, res, next) => {
   const canonicalUrl = `${SITE_URL}/${slug}`;
   
   const exercises = RETORIK_DATA.filter(ex => ex.cat === cat);
+
+  if (subpage === 'ethos') {
+    return res.render('retorik-ethos', { 
+      meta, 
+      canonicalUrl, 
+      jsonLdScripts: '',
+      activeCat: subpage,
+      exercises 
+    });
+  }
 
   res.render('retorik-detay', { 
     meta, 

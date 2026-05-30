@@ -1,0 +1,320 @@
+<%- include('partials/main-header') %>
+
+<style>
+  body { background: #fbfbfd; color: #1d1d1f; font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", sans-serif; overflow-x: hidden; }
+  
+  .asistan-container { padding: 40px 20px; max-width: 1000px; margin: 0 auto; min-height: 85vh; display: flex; flex-direction: column; align-items: center; }
+  
+  .asistan-header { text-align: center; margin-bottom: 50px; animation: slideDown 0.8s cubic-bezier(0.16, 1, 0.3, 1); }
+  .asistan-title { font-size: 3rem; font-weight: 800; letter-spacing: -0.04em; color: #1d1d1f; margin-bottom: 15px; }
+  .asistan-subtitle { font-size: 1.1rem; color: #86868b; max-width: 600px; margin: 0 auto; line-height: 1.6; }
+
+  /* WIZARD CONTAINER */
+  .wizard { width: 100%; max-width: 800px; background: #ffffff; border-radius: 24px; box-shadow: 0 20px 40px rgba(0,0,0,0.04); padding: 40px; border: 1px solid rgba(0,0,0,0.05); position: relative; overflow: hidden; }
+  
+  .step-indicator { display: flex; justify-content: space-between; margin-bottom: 40px; position: relative; }
+  .step-indicator::before { content: ''; position: absolute; top: 15px; left: 0; width: 100%; height: 2px; background: #f5f5f7; z-index: 1; }
+  .step-progress { position: absolute; top: 15px; left: 0; width: 0%; height: 2px; background: #0066cc; z-index: 2; transition: width 0.4s ease; }
+  
+  .step-dot { width: 32px; height: 32px; border-radius: 50%; background: #f5f5f7; color: #86868b; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 0.9rem; z-index: 3; position: relative; transition: all 0.3s; }
+  .step-dot.active { background: #0066cc; color: white; box-shadow: 0 0 0 4px rgba(0, 102, 204, 0.2); }
+  .step-dot.completed { background: #10b981; color: white; }
+
+  .step-content { display: none; animation: fadeIn 0.4s ease; }
+  .step-content.active { display: block; }
+  
+  .step-title { font-size: 1.5rem; font-weight: 700; margin-bottom: 25px; color: #1d1d1f; }
+  
+  /* GRID SELECTION */
+  .selection-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; }
+  .sel-card { padding: 20px; border: 2px solid #f5f5f7; border-radius: 16px; cursor: pointer; transition: all 0.2s; text-align: center; }
+  .sel-card:hover { border-color: #0066cc; background: rgba(0, 102, 204, 0.02); }
+  .sel-card.selected { border-color: #0066cc; background: rgba(0, 102, 204, 0.05); }
+  .sel-icon { font-size: 2rem; margin-bottom: 10px; display: block; }
+  .sel-label { font-weight: 600; font-size: 1.05rem; }
+
+  .nav-buttons { display: flex; justify-content: space-between; margin-top: 40px; padding-top: 20px; border-top: 1px solid #f5f5f7; }
+  .btn { padding: 14px 28px; border-radius: 12px; font-weight: 600; font-size: 1rem; cursor: pointer; transition: all 0.2s; border: none; }
+  .btn-prev { background: #f5f5f7; color: #1d1d1f; }
+  .btn-prev:hover { background: #e5e5ea; }
+  .btn-next { background: #0066cc; color: white; }
+  .btn-next:hover { background: #0077ed; transform: translateY(-2px); box-shadow: 0 5px 15px rgba(0,102,204,0.3); }
+  .btn-next:disabled { background: #e5e5ea; color: #86868b; cursor: not-allowed; transform: none; box-shadow: none; }
+
+  /* RESULT AREA */
+  .result-area { display: none; background: #fff; padding: 40px; border-radius: 20px; box-shadow: 0 20px 50px rgba(0,0,0,0.08); margin-top: 40px; width: 100%; max-width: 900px; animation: slideUp 0.6s ease; border: 1px solid rgba(0,0,0,0.05); }
+  
+  .speech-section { margin-bottom: 30px; position: relative; padding-left: 20px; border-left: 3px solid #0066cc; }
+  .speech-section h3 { font-size: 1.2rem; color: #0066cc; margin-top: 0; margin-bottom: 10px; text-transform: uppercase; font-weight: 800; letter-spacing: 1px; }
+  .speech-section p { font-size: 1.1rem; line-height: 1.7; color: #333; margin: 0; }
+  .speech-hint { font-size: 0.85rem; color: #86868b; font-style: italic; margin-top: 8px; display: block; }
+  
+  .copy-btn { margin-top: 20px; background: #1d1d1f; color: white; padding: 15px 30px; border-radius: 12px; border: none; font-weight: 700; cursor: pointer; display: flex; align-items: center; justify-content: center; width: 100%; transition: background 0.2s; }
+  .copy-btn:hover { background: #333; }
+
+  @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+  @keyframes slideDown { from { opacity: 0; transform: translateY(-20px); } to { opacity: 1; transform: translateY(0); } }
+  @keyframes slideUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+
+  .generator-loading { display: none; text-align: center; padding: 40px; }
+  .spinner { width: 40px; height: 40px; border: 4px solid rgba(0, 102, 204, 0.2); border-left-color: #0066cc; border-radius: 50%; animation: spin 1s linear infinite; margin: 0 auto 20px auto; }
+  @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+
+</style>
+
+<div class="asistan-container">
+  
+  <div class="asistan-header">
+    <h1 class="asistan-title">Etkili Konuşma Asistanı</h1>
+    <p class="asistan-subtitle">Konunuzu ve hedeflerinizi seçin. Size Cicero ve Aristoteles'in formüllerine dayalı profesyonel bir "Konuşma Metni İskeleti" hazırlayalım.</p>
+  </div>
+
+  <div class="wizard" id="wizardBox">
+    <div class="step-indicator">
+      <div class="step-progress" id="stepProgress"></div>
+      <div class="step-dot active" id="dot1">1</div>
+      <div class="step-dot" id="dot2">2</div>
+      <div class="step-dot" id="dot3">3</div>
+    </div>
+
+    <!-- STEP 1: Konu -->
+    <div class="step-content active" id="step1">
+      <h2 class="step-title">Konuşmanızın Temel Amacı Nedir?</h2>
+      <div class="selection-grid">
+        <div class="sel-card" onclick="selectOption('topic', 'motivasyon', this)">
+          <span class="sel-icon">🔥</span><span class="sel-label">İlham / Motivasyon</span>
+        </div>
+        <div class="sel-card" onclick="selectOption('topic', 'satis', this)">
+          <span class="sel-icon">📈</span><span class="sel-label">İkna / Satış</span>
+        </div>
+        <div class="sel-card" onclick="selectOption('topic', 'kriz', this)">
+          <span class="sel-icon">🛡️</span><span class="sel-label">Savunma / Kriz</span>
+        </div>
+        <div class="sel-card" onclick="selectOption('topic', 'veda', this)">
+          <span class="sel-icon">🎓</span><span class="sel-label">Kutlama / Veda</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- STEP 2: Kitle -->
+    <div class="step-content" id="step2">
+      <h2 class="step-title">Kime Hitap Edeceksiniz?</h2>
+      <div class="selection-grid">
+        <div class="sel-card" onclick="selectOption('audience', 'ekip', this)">
+          <span class="sel-icon">👥</span><span class="sel-label">Çalışanlar / Ekip</span>
+        </div>
+        <div class="sel-card" onclick="selectOption('audience', 'yonetici', this)">
+          <span class="sel-icon">👔</span><span class="sel-label">Yöneticiler / Yatırımcılar</span>
+        </div>
+        <div class="sel-card" onclick="selectOption('audience', 'musteri', this)">
+          <span class="sel-icon">🛒</span><span class="sel-label">Müşteriler</span>
+        </div>
+        <div class="sel-card" onclick="selectOption('audience', 'topluluk', this)">
+          <span class="sel-icon">🌍</span><span class="sel-label">Geniş Halk Kitlesi</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- STEP 3: Duygu -->
+    <div class="step-content" id="step3">
+      <h2 class="step-title">Uyandırmak İstediğiniz Ana Duygu Nedir?</h2>
+      <div class="selection-grid">
+        <div class="sel-card" onclick="selectOption('emotion', 'guven', this)">
+          <span class="sel-icon">🤝</span><span class="sel-label">Güven ve Otorite</span>
+        </div>
+        <div class="sel-card" onclick="selectOption('emotion', 'cosku', this)">
+          <span class="sel-icon">⚡</span><span class="sel-label">Coşku ve Heyecan</span>
+        </div>
+        <div class="sel-card" onclick="selectOption('emotion', 'empati', this)">
+          <span class="sel-icon">❤️</span><span class="sel-label">Empati ve Bağ</span>
+        </div>
+        <div class="sel-card" onclick="selectOption('emotion', 'aciliyet', this)">
+          <span class="sel-icon">⏱️</span><span class="sel-label">Aciliyet ve Hız</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="nav-buttons">
+      <button class="btn btn-prev" id="btnPrev" style="visibility:hidden;" onclick="prevStep()">Geri</button>
+      <button class="btn btn-next" id="btnNext" disabled onclick="nextStep()">İleri</button>
+    </div>
+  </div>
+
+  <div class="generator-loading" id="loader">
+    <div class="spinner"></div>
+    <h3>Retorik Kanonları İşleniyor...</h3>
+    <p style="color:#86868b">Konuşma iskeletiniz Cicero'nun kurallarına göre oluşturuluyor.</p>
+  </div>
+
+  <div class="result-area" id="resultArea">
+    <h2 style="font-size:2rem; margin-top:0; color:#1d1d1f; text-align:center;">Özelleştirilmiş Konuşma Taslağınız</h2>
+    <p style="text-align:center; color:#86868b; margin-bottom:40px;">Seçimlerinize özel olarak yapılandırılmış retorik adımlarını kendi kelimelerinizle doldurun.</p>
+    
+    <div id="dynamicContent"></div>
+    
+    <button class="copy-btn" onclick="copyToClipboard(this)">Taslağı Kopyala 📋</button>
+  </div>
+
+</div>
+
+<script>
+  let currentStep = 1;
+  const selections = { topic: null, audience: null, emotion: null };
+
+  function selectOption(category, value, el) {
+    selections[category] = value;
+    
+    // UI update
+    const cards = el.parentElement.querySelectorAll('.sel-card');
+    cards.forEach(c => c.classList.remove('selected'));
+    el.classList.add('selected');
+    
+    // Enable next button
+    document.getElementById('btnNext').disabled = false;
+  }
+
+  function updateWizardUI() {
+    // Hide all steps
+    document.querySelectorAll('.step-content').forEach(el => el.classList.remove('active'));
+    // Show current
+    document.getElementById(`step${currentStep}`).classList.add('active');
+    
+    // Update dots & progress line
+    document.querySelectorAll('.step-dot').forEach((dot, idx) => {
+      dot.classList.remove('active', 'completed');
+      if(idx + 1 < currentStep) dot.classList.add('completed');
+      else if(idx + 1 === currentStep) dot.classList.add('active');
+    });
+    
+    const progressMap = {1: '0%', 2: '50%', 3: '100%'};
+    document.getElementById('stepProgress').style.width = progressMap[currentStep];
+
+    // Update buttons
+    const btnPrev = document.getElementById('btnPrev');
+    const btnNext = document.getElementById('btnNext');
+    
+    btnPrev.style.visibility = currentStep === 1 ? 'hidden' : 'visible';
+    
+    // Check if current step has selection
+    let cat = currentStep === 1 ? 'topic' : (currentStep === 2 ? 'audience' : 'emotion');
+    btnNext.disabled = selections[cat] === null;
+    
+    if (currentStep === 3) {
+      btnNext.textContent = 'Metni Oluştur 🪄';
+    } else {
+      btnNext.textContent = 'İleri';
+    }
+  }
+
+  function nextStep() {
+    if (currentStep < 3) {
+      currentStep++;
+      updateWizardUI();
+    } else {
+      generateSpeech();
+    }
+  }
+
+  function prevStep() {
+    if (currentStep > 1) {
+      currentStep--;
+      updateWizardUI();
+    }
+  }
+
+  function generateSpeech() {
+    document.getElementById('wizardBox').style.display = 'none';
+    document.getElementById('loader').style.display = 'block';
+
+    setTimeout(() => {
+      document.getElementById('loader').style.display = 'none';
+      buildContent();
+      document.getElementById('resultArea').style.display = 'block';
+    }, 1500);
+  }
+
+  function buildContent() {
+    const { topic, audience, emotion } = selections;
+    const contentBox = document.getElementById('dynamicContent');
+    
+    // Logic for hooks based on topic and audience
+    let hookTitle = "1. Kanca (Exordium) - Dikkati Ele Geçir";
+    let hookText = "Bilinmeyen ve sarsıcı bir istatistik vererek veya doğrudan kitleyi ilgilendiren retorik bir soru sorarak başlayın.";
+    let hookHint = "Örn: 'Bugün bu odada toplanmamızın tesadüf olmayan bir nedeni var...'";
+
+    if(topic === 'motivasyon') {
+        hookText = "Herkesin yaşadığı zorlukları ortak bir hikaye ile dile getirerek giriş yapın.";
+        hookHint = "Örn: 'Bana başaramazsın dediklerinde, onlara gülümsedim. Siz de gülümsediniz mi hiç?'";
+    } else if(topic === 'kriz') {
+        hookText = "Sorunu gizlemeyin; tam tersine, odadaki fili ilk saniyede masaya koyarak dürüstlükle dikkat çekin.";
+        hookHint = "Örn: 'Hepimiz buradayız çünkü zorlu bir süreçten geçiyoruz. Söylentileri bir kenara bırakıp gerçeği konuşalım.'";
+    }
+
+    let narratioTitle = "2. Hikaye ve Problem (Narratio) - Bağ Kur";
+    let narratioText = "Sorunun veya mevcut durumun ciddiyetini hissettirin. Duygusal bir bağ kurarak dinleyiciyi konunun içine çekin.";
+    let narratioHint = emotion === 'empati' ? "Kişisel bir zayıflığınızı veya ortak bir başarısızlık anısını paylaşın (Pathos)." : "Karşılaşılan tehdidin veya fırsatın verilerle büyüklüğünü gösterin.";
+
+    let confirmatioTitle = "3. Çözüm ve Argümanlar (Confirmatio) - Mantığı Kur";
+    let confirmatioText = "Neden sizin çözümünüz, fikriniz veya vizyonunuz en doğrusu? Kanıtlar, veriler ve güçlü argümanlar sunun (Logos).";
+    let confirmatioHint = audience === 'yonetici' ? "Yatırım getirisi, risk analizi ve somut sayılarla konuşun." : "Üçlü kuralı (Trikolon) kullanın: 'Daha hızlı, daha güvenli, daha yenilikçi!'";
+
+    let refutatioTitle = "4. Çürütme (Refutatio) - İtirazları Yok Et";
+    let refutatioText = "Dinleyicinin kafasındaki sessiz şüpheleri onlar dile getirmeden siz söyleyin ve hemen çürütün.";
+    let refutatioHint = "Örn: 'Bazılarınız bunun imkansız olduğunu düşünüyor olabilir. Ancak...'";
+
+    let peroratioTitle = "5. Vuruş (Peroratio) - Eyleme Çağrı";
+    let peroratioText = "Konuşmayı asla yavaşlayarak bitirmeyin. Hızı ve enerjiyi yükselterek onlara net bir görev verin.";
+    let peroratioHint = emotion === 'aciliyet' ? "Hemen şu an başlamamız gerektiğinin altını çizin." : "Unutulmaz bir alıntı veya özlü bir söz ile noktalayın.";
+
+    contentBox.innerHTML = `
+      <div class="speech-section">
+        <h3>\${hookTitle}</h3>
+        <p>\${hookText}</p>
+        <span class="speech-hint">\${hookHint}</span>
+      </div>
+      <div class="speech-section">
+        <h3>\${narratioTitle}</h3>
+        <p>\${narratioText}</p>
+        <span class="speech-hint">\${narratioHint}</span>
+      </div>
+      <div class="speech-section">
+        <h3>\${confirmatioTitle}</h3>
+        <p>\${confirmatioText}</p>
+        <span class="speech-hint">\${confirmatioHint}</span>
+      </div>
+      <div class="speech-section">
+        <h3>\${refutatioTitle}</h3>
+        <p>\${refutatioText}</p>
+        <span class="speech-hint">\${refutatioHint}</span>
+      </div>
+      <div class="speech-section">
+        <h3>\${peroratioTitle}</h3>
+        <p>\${peroratioText}</p>
+        <span class="speech-hint">\${peroratioHint}</span>
+      </div>
+    `;
+  }
+
+  function copyToClipboard(btn) {
+    const sections = document.querySelectorAll('.speech-section');
+    let text = "--- Konuşma Metni Taslağı ---\n\n";
+    sections.forEach(sec => {
+        text += sec.querySelector('h3').innerText + "\n";
+        text += sec.querySelector('p').innerText + "\n";
+        text += "(" + sec.querySelector('.speech-hint').innerText + ")\n\n";
+    });
+    
+    navigator.clipboard.writeText(text).then(() => {
+        const originalText = btn.innerHTML;
+        btn.innerHTML = "Panoya Kopyalandı! ✅";
+        btn.style.background = "#10b981";
+        setTimeout(() => {
+            btn.innerHTML = originalText;
+            btn.style.background = "#1d1d1f";
+        }, 2000);
+    });
+  }
+
+</script>
+
+<%- include('partials/main-footer') %>
