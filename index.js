@@ -2130,6 +2130,9 @@ app.get('/hikaye/kahraman', (req, res, next) => {
 app.get('/hikaye/mimari', (req, res, next) => {
   res.render('hikaye-mimari', { meta: {title: 'Hikaye Mimarı', h1: '3 Perde Tasarımcısı', desc: 'Sıkıcı sunumlarınızı gişe rekortmeni bir hikayeye dönüştürün.'}, canonicalUrl: SITE_URL+'/hikaye/mimari', jsonLdScripts: '' });
 });
+app.get('/hikaye/goster', (req, res, next) => {
+  res.render('hikaye-goster', { meta: {title: 'Göster, Söyleme Laboratuvarı', h1: 'Show, Don\'t Tell', desc: 'Kelimeleri kameraya dönüştürerek hikaye anlatıcılığının altın kuralını test edin.'}, canonicalUrl: SITE_URL+'/hikaye/goster', jsonLdScripts: '' });
+});
 app.get('/hikaye/:subpage', (req, res, next) => {
   res.render('hikaye-detay', { meta: {title: 'Hikaye Anlatıcılığı Detay', h1: 'Hikaye Anlatıcılığı Detay'}, canonicalUrl: SITE_URL+'/hikaye/'+req.params.subpage, jsonLdScripts: '', activeCat: req.params.subpage, exercises: DATA_HIKAYE });
 });

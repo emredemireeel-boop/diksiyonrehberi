@@ -1,99 +1,604 @@
 <%- include('partials/main-header') %>
 
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&family=Playfair+Display:ital,wght@0,600;1,600;1,800&display=swap');
-  
-  body { background: #f8fafc !important; color: #0f172a; font-family: 'Inter', sans-serif; overflow-x: hidden; margin: 0; padding: 0; }
-  .hub-container { padding: 40px 20px; max-width: 1400px; margin: 0 auto; min-height: 85vh; display: flex; flex-direction: column; lg:flex-row; gap: 40px; }
-  
-  h1 { font-family: 'Playfair Display', serif; font-size: 3.5rem; font-weight: 800; margin-bottom: 5px; color: #1e1b4b; line-height: 1.1; }
-  p.desc { font-family: 'Outfit', sans-serif; color: #64748b; font-size: 1.1rem; line-height: 1.6; margin-bottom: 30px; max-width: 500px; }
+  @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700;800;900&family=Playfair+Display:ital,wght@0,600;0,700;0,800;0,900;1,600&family=JetBrains+Mono:wght@400;700&display=swap');
 
-  /* Left Panel: Fallacy List */
-  .list-panel { flex: 1; display: flex; flex-direction: column; gap: 12px; max-height: 800px; overflow-y: auto; padding-right: 15px; }
-  
-  /* Scrollbar styles for list */
-  .list-panel::-webkit-scrollbar { width: 6px; }
-  .list-panel::-webkit-scrollbar-track { background: transparent; }
-  .list-panel::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
-  .list-panel::-webkit-scrollbar-thumb:hover { background: #a855f7; }
+  /* ═══════════════════════════════════════════════════════════
+     SAFSATA ANSİKLOPEDİSİ — Surrealist Competition UI
+     ═══════════════════════════════════════════════════════════ */
 
-  .fallacy-btn { background: #ffffff; border: 1px solid #e2e8f0; border-radius: 16px; padding: 18px 24px; cursor: pointer; transition: all 0.3s ease; display: flex; align-items: center; justify-content: space-between; position: relative; overflow: hidden; box-shadow: 0 4px 6px rgba(0,0,0,0.02); }
-  .fallacy-btn::before { content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 4px; background: transparent; transition: all 0.3s; }
-  
-  .fallacy-btn:hover { background: #faf5ff; transform: translateX(5px); border-color: #d8b4fe; box-shadow: 0 10px 20px rgba(168, 85, 247, 0.05); }
-  .fallacy-btn.active { background: #f3e8ff; border-color: #a855f7; box-shadow: 0 10px 20px rgba(168, 85, 247, 0.1); }
-  .fallacy-btn.active::before { background: #a855f7; }
+  :root {
+    --saf-bg: #06060f;
+    --saf-surface: #0d0d1f;
+    --saf-glass: rgba(13, 13, 35, 0.65);
+    --saf-glass2: rgba(20, 20, 50, 0.5);
+    --saf-border: rgba(139, 92, 246, 0.12);
+    --saf-border-h: rgba(139, 92, 246, 0.3);
+    --saf-glow: #8b5cf6;
+    --saf-glow2: #c084fc;
+    --saf-cyan: #22d3ee;
+    --saf-amber: #fbbf24;
+    --saf-emerald: #34d399;
+    --saf-rose: #fb7185;
+    --saf-text: #f0eeff;
+    --saf-text2: #a8a3cc;
+    --saf-text3: #6b6899;
+  }
 
-  .fb-content { display: flex; flex-direction: column; }
-  .fb-title { font-family: 'Outfit', sans-serif; font-weight: 800; color: #1e1b4b; font-size: 1.15rem; margin-bottom: 4px; }
-  .fb-eng { font-family: 'Outfit', sans-serif; font-size: 0.75rem; color: #9333ea; text-transform: uppercase; letter-spacing: 1.5px; font-weight: 700; }
-  .fb-icon { font-size: 1.8rem; filter: grayscale(100%); opacity: 0.4; transition: all 0.3s; }
-  .fallacy-btn.active .fb-icon { filter: grayscale(0%); opacity: 1; transform: scale(1.1); }
+  body {
+    background: var(--saf-bg) !important;
+    color: var(--saf-text);
+    font-family: 'Outfit', sans-serif;
+    overflow-x: hidden;
+    margin: 0;
+    padding: 0;
+  }
 
-  /* Right Panel: Matrix Display -> Now Light Mode Encyclopedia */
-  .matrix-panel { flex: 2; background: #ffffff; border: 1px solid #e2e8f0; border-radius: 24px; position: relative; overflow: hidden; display: flex; flex-direction: column; box-shadow: 0 30px 60px rgba(0,0,0,0.05); }
-  
-  .matrix-bg { position: absolute; inset: 0; opacity: 0.03; font-family: monospace; font-size: 12px; color: #a855f7; user-select: none; pointer-events: none; overflow: hidden; white-space: pre-wrap; line-height: 1; z-index: 0; }
-  
-  .mp-content { padding: 50px; position: relative; z-index: 10; flex-grow: 1; overflow-y: auto; }
-  
-  .mp-header { border-bottom: 2px dashed #f1f5f9; padding-bottom: 25px; margin-bottom: 30px; }
-  .mp-title { font-family: 'Playfair Display', serif; font-size: 3rem; font-weight: 900; color: #1e1b4b; margin: 0 0 10px 0; }
-  .mp-latin { font-family: 'Outfit', sans-serif; font-size: 1.1rem; color: #9333ea; font-style: italic; font-weight: 600; }
+  /* ── COSMIC BACKGROUND ── */
+  .saf-cosmos {
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+  }
+  .saf-cosmos::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(ellipse 90% 50% at 10% 20%, rgba(139, 92, 246, 0.10) 0%, transparent 60%),
+      radial-gradient(ellipse 70% 60% at 90% 80%, rgba(34, 211, 238, 0.07) 0%, transparent 55%),
+      radial-gradient(ellipse 50% 40% at 50% 50%, rgba(251, 191, 36, 0.03) 0%, transparent 40%),
+      radial-gradient(ellipse 30% 30% at 75% 15%, rgba(251, 113, 133, 0.05) 0%, transparent 50%);
+    animation: cosmosPulse 15s ease-in-out infinite alternate;
+  }
+  .saf-cosmos::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+    background-size: 256px 256px;
+    opacity: 0.7;
+  }
+  @keyframes cosmosPulse {
+    0% { opacity: 0.6; transform: scale(1) rotate(0deg); }
+    100% { opacity: 1; transform: scale(1.03) rotate(0.5deg); }
+  }
 
-  .mp-def { font-family: 'Outfit', sans-serif; font-size: 1.2rem; color: #475569; line-height: 1.8; margin-bottom: 40px; border-left: 5px solid #a855f7; padding-left: 25px; background: linear-gradient(90deg, #faf5ff, transparent); padding-top: 15px; padding-bottom: 15px; border-radius: 0 12px 12px 0; }
+  /* ── SCAN LINES ── */
+  .saf-scanlines {
+    position: fixed;
+    inset: 0;
+    z-index: 1;
+    pointer-events: none;
+    background: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(255,255,255,0.006) 2px, rgba(255,255,255,0.006) 4px);
+  }
 
-  /* Formula Box */
-  .formula-box { background: #ffffff; border: 2px solid #e9d5ff; padding: 30px; border-radius: 20px; margin-bottom: 40px; box-shadow: 0 10px 30px rgba(168, 85, 247, 0.05); }
-  .form-title { font-family: 'Outfit', sans-serif; font-size: 0.85rem; font-weight: 800; color: #7e22ce; text-transform: uppercase; margin-bottom: 15px; letter-spacing: 2px; display: flex; align-items: center; gap: 10px; }
-  .form-title::before { content: '⚡'; }
-  .form-code { font-family: 'Inter', sans-serif; font-size: 1.1rem; color: #1e293b; font-weight: 600; line-height: 1.8; }
+  /* ── PARTICLE FIELD ── */
+  .saf-particles { position: fixed; inset: 0; z-index: 1; pointer-events: none; }
+  .saf-p {
+    position: absolute;
+    border-radius: 50%;
+    opacity: 0;
+    animation: safParticleRise linear infinite;
+  }
+  @keyframes safParticleRise {
+    0% { opacity: 0; transform: translateY(100vh) scale(0.3); }
+    15% { opacity: 0.7; }
+    85% { opacity: 0.3; }
+    100% { opacity: 0; transform: translateY(-10vh) scale(0.8); }
+  }
 
-  /* Examples */
-  .ex-grid { display: grid; grid-template-columns: 1fr; gap: 25px; }
-  .ex-card { background: #f8fafc; border-radius: 16px; padding: 25px; border: 1px solid #e2e8f0; position: relative; transition: 0.3s; }
-  .ex-card:hover { border-color: #cbd5e1; box-shadow: 0 10px 20px rgba(0,0,0,0.03); }
-  .ex-card::before { content: '💬'; position: absolute; top: -15px; left: 25px; font-size: 1.5rem; background: #fff; border-radius: 50%; padding: 5px; box-shadow: 0 5px 10px rgba(0,0,0,0.05); }
-  .ex-text { font-family: 'Playfair Display', serif; font-size: 1.25rem; color: #0f172a; font-style: italic; margin-bottom: 20px; margin-top: 10px; line-height: 1.6; }
-  .ex-analysis { background: #ffffff; padding: 20px; border-radius: 12px; font-family: 'Outfit', sans-serif; font-size: 0.95rem; color: #64748b; border-left: 3px solid #ef4444; line-height: 1.6; box-shadow: 0 4px 6px rgba(0,0,0,0.02); }
+  /* ── ORBIT RINGS ── */
+  .saf-orbit {
+    position: fixed;
+    border: 1px solid rgba(139, 92, 246, 0.05);
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 0;
+  }
+  .saf-orbit:nth-child(1) { width: 700px; height: 700px; top: -300px; right: -250px; animation: orbitSpin 35s linear infinite; }
+  .saf-orbit:nth-child(2) { width: 500px; height: 500px; bottom: -150px; left: -150px; animation: orbitSpin 28s linear infinite reverse; }
+  .saf-orbit:nth-child(3) { width: 300px; height: 300px; top: 40%; left: 50%; transform: translate(-50%, -50%); animation: orbitSpin 22s linear infinite; border-color: rgba(34, 211, 238, 0.04); }
+  @keyframes orbitSpin { to { transform: rotate(360deg); } }
 
-  /* Navigation to Games */
-  .games-nav { display: flex; gap: 15px; margin-top: 40px; border-top: 1px solid #e2e8f0; padding-top: 30px; }
-  .g-btn { flex: 1; padding: 15px 20px; border-radius: 16px; font-family: 'Outfit', sans-serif; font-weight: 800; font-size: 0.9rem; text-align: center; text-decoration: none; text-transform: uppercase; letter-spacing: 1px; transition: all 0.3s; display: flex; align-items: center; justify-content: center; gap: 8px; }
-  
-  .g-btn-pol { background: #fff1f2; border: 1px solid #fda4af; color: #e11d48; }
-  .g-btn-pol:hover { background: #e11d48; color: #fff; transform: translateY(-3px); box-shadow: 0 10px 20px rgba(225, 29, 72, 0.2); }
-  
-  .g-btn-det { background: #f0f9ff; border: 1px solid #bae6fd; color: #0284c7; }
-  .g-btn-det:hover { background: #0284c7; color: #fff; transform: translateY(-3px); box-shadow: 0 10px 20px rgba(2, 132, 199, 0.2); }
-  
-  .g-btn-kal { background: #ecfdf5; border: 1px solid #a7f3d0; color: #059669; }
-  .g-btn-kal:hover { background: #059669; color: #fff; transform: translateY(-3px); box-shadow: 0 10px 20px rgba(5, 150, 105, 0.2); }
-  
-  .g-btn-kar { background: #fdf2f8; border: 1px solid #fbcfe8; color: #db2777; }
-  .g-btn-kar:hover { background: #db2777; color: #fff; transform: translateY(-3px); box-shadow: 0 10px 20px rgba(219, 39, 119, 0.2); }
-  
-  .g-btn-trol { background: #fefce8; border: 1px solid #fde047; color: #ca8a04; }
-  .g-btn-trol:hover { background: #ca8a04; color: #fff; transform: translateY(-3px); box-shadow: 0 10px 20px rgba(202, 138, 4, 0.2); }
-  
-  .g-btn-mah { background: #faf5ff; border: 1px solid #e9d5ff; color: #9333ea; }
-  .g-btn-mah:hover { background: #9333ea; color: #fff; transform: translateY(-3px); box-shadow: 0 10px 20px rgba(147, 51, 234, 0.2); }
-
+  /* ═══════════════════════════════════════
+     MAIN LAYOUT
+     ═══════════════════════════════════════ */
+  .hub-container {
+    position: relative;
+    z-index: 10;
+    padding: 30px 20px 60px;
+    max-width: 1500px;
+    margin: 0 auto;
+    min-height: 90vh;
+    display: flex;
+    flex-direction: column;
+    gap: 35px;
+  }
   @media (min-width: 1024px) {
     .hub-container { flex-direction: row; }
   }
+
+  /* ═══════════════════════════════════════
+     LEFT PANEL — Fallacy Navigator
+     ═══════════════════════════════════════ */
+  .list-panel {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    max-height: 92vh;
+    overflow-y: auto;
+    padding-right: 10px;
+    position: relative;
+  }
+
+  /* Scrollbar */
+  .list-panel::-webkit-scrollbar { width: 4px; }
+  .list-panel::-webkit-scrollbar-track { background: transparent; }
+  .list-panel::-webkit-scrollbar-thumb { background: rgba(139, 92, 246, 0.25); border-radius: 10px; }
+  .list-panel::-webkit-scrollbar-thumb:hover { background: var(--saf-glow); }
+
+  /* Hero Header */
+  .saf-hero-block {
+    margin-bottom: 20px;
+    padding: 5px 0;
+  }
+  .saf-hero-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 5px 16px;
+    border-radius: 50px;
+    background: rgba(139, 92, 246, 0.08);
+    border: 1px solid rgba(139, 92, 246, 0.15);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.6rem;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--saf-glow2);
+    margin-bottom: 18px;
+    backdrop-filter: blur(8px);
+  }
+  .saf-hero-badge::before {
+    content: '';
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--saf-emerald);
+    box-shadow: 0 0 8px var(--saf-emerald);
+    animation: safPulse 2s ease-in-out infinite;
+  }
+  @keyframes safPulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.4; transform: scale(0.6); }
+  }
+
+  h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: 3rem;
+    font-weight: 900;
+    margin: 0 0 12px;
+    line-height: 1.05;
+    color: transparent;
+    background: linear-gradient(135deg, #e0d4ff, #c084fc, #8b5cf6);
+    -webkit-background-clip: text;
+    background-clip: text;
+    animation: titleShimmer 5s ease-in-out infinite alternate;
+  }
+  @keyframes titleShimmer {
+    0% { filter: brightness(1); }
+    100% { filter: brightness(1.15); }
+  }
+
+  p.desc {
+    font-family: 'Outfit', sans-serif;
+    color: var(--saf-text2);
+    font-size: 1rem;
+    line-height: 1.7;
+    margin-bottom: 25px;
+    max-width: 480px;
+  }
+
+  /* ── Fallacy Buttons ── */
+  .fallacy-btn {
+    background: var(--saf-glass);
+    backdrop-filter: blur(15px);
+    border: 1px solid var(--saf-border);
+    border-radius: 14px;
+    padding: 16px 20px;
+    cursor: pointer;
+    transition: all 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+  }
+  .fallacy-btn::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 3px;
+    background: transparent;
+    transition: all 0.35s;
+    border-radius: 0 3px 3px 0;
+  }
+  .fallacy-btn::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, transparent 60%, rgba(139, 92, 246, 0.03));
+    pointer-events: none;
+  }
+
+  .fallacy-btn:hover {
+    background: rgba(139, 92, 246, 0.08);
+    transform: translateX(6px) scale(1.01);
+    border-color: var(--saf-border-h);
+    box-shadow: 0 8px 30px rgba(139, 92, 246, 0.1);
+  }
+  .fallacy-btn.active {
+    background: rgba(139, 92, 246, 0.1);
+    border-color: var(--saf-glow);
+    box-shadow: 0 10px 35px rgba(139, 92, 246, 0.15), 0 0 0 1px rgba(139, 92, 246, 0.15);
+  }
+  .fallacy-btn.active::before {
+    background: linear-gradient(180deg, var(--saf-glow), var(--saf-cyan));
+    box-shadow: 0 0 12px var(--saf-glow);
+  }
+
+  .fb-content { display: flex; flex-direction: column; position: relative; z-index: 2; }
+  .fb-title {
+    font-family: 'Outfit', sans-serif;
+    font-weight: 800;
+    color: var(--saf-text);
+    font-size: 1.05rem;
+    margin-bottom: 3px;
+    transition: color 0.3s;
+  }
+  .fallacy-btn.active .fb-title { color: #fff; }
+  .fb-eng {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.6rem;
+    color: var(--saf-glow2);
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    font-weight: 700;
+    opacity: 0.7;
+  }
+  .fallacy-btn.active .fb-eng { opacity: 1; }
+  .fb-icon {
+    font-size: 1.6rem;
+    filter: grayscale(100%);
+    opacity: 0.3;
+    transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+    position: relative;
+    z-index: 2;
+  }
+  .fallacy-btn.active .fb-icon {
+    filter: grayscale(0%);
+    opacity: 1;
+    transform: scale(1.2) rotate(-5deg);
+  }
+  .fallacy-btn:hover .fb-icon {
+    filter: grayscale(50%);
+    opacity: 0.6;
+  }
+
+  /* ── Game Navigation Cards ── */
+  .games-nav {
+    display: flex;
+    gap: 10px;
+    margin-top: 30px;
+    padding-top: 25px;
+    border-top: 1px solid var(--saf-border);
+    flex-wrap: wrap;
+  }
+  .g-btn {
+    flex: 1;
+    min-width: 30%;
+    padding: 13px 16px;
+    border-radius: 12px;
+    font-family: 'Outfit', sans-serif;
+    font-weight: 800;
+    font-size: 0.75rem;
+    text-align: center;
+    text-decoration: none;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    transition: all 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    backdrop-filter: blur(10px);
+    position: relative;
+    overflow: hidden;
+  }
+  .g-btn::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, transparent, rgba(255,255,255,0.05), transparent);
+    transform: translateX(-100%);
+    transition: transform 0.6s;
+  }
+  .g-btn:hover::before { transform: translateX(100%); }
+
+  .g-btn-pol { background: rgba(225, 29, 72, 0.08); border: 1px solid rgba(225, 29, 72, 0.2); color: #fb7185; }
+  .g-btn-pol:hover { background: rgba(225, 29, 72, 0.6); color: #fff; transform: translateY(-4px); box-shadow: 0 12px 30px rgba(225, 29, 72, 0.2); }
+
+  .g-btn-det { background: rgba(2, 132, 199, 0.08); border: 1px solid rgba(2, 132, 199, 0.2); color: #38bdf8; }
+  .g-btn-det:hover { background: rgba(2, 132, 199, 0.6); color: #fff; transform: translateY(-4px); box-shadow: 0 12px 30px rgba(2, 132, 199, 0.2); }
+
+  .g-btn-kal { background: rgba(5, 150, 105, 0.08); border: 1px solid rgba(5, 150, 105, 0.2); color: #34d399; }
+  .g-btn-kal:hover { background: rgba(5, 150, 105, 0.6); color: #fff; transform: translateY(-4px); box-shadow: 0 12px 30px rgba(5, 150, 105, 0.2); }
+
+  .g-btn-kar { background: rgba(219, 39, 119, 0.08); border: 1px solid rgba(219, 39, 119, 0.2); color: #f472b6; }
+  .g-btn-kar:hover { background: rgba(219, 39, 119, 0.6); color: #fff; transform: translateY(-4px); box-shadow: 0 12px 30px rgba(219, 39, 119, 0.2); }
+
+  .g-btn-trol { background: rgba(202, 138, 4, 0.08); border: 1px solid rgba(202, 138, 4, 0.2); color: #fbbf24; }
+  .g-btn-trol:hover { background: rgba(202, 138, 4, 0.6); color: #fff; transform: translateY(-4px); box-shadow: 0 12px 30px rgba(202, 138, 4, 0.2); }
+
+  .g-btn-mah { background: rgba(147, 51, 234, 0.08); border: 1px solid rgba(147, 51, 234, 0.2); color: var(--saf-glow2); }
+  .g-btn-mah:hover { background: rgba(147, 51, 234, 0.6); color: #fff; transform: translateY(-4px); box-shadow: 0 12px 30px rgba(147, 51, 234, 0.2); }
+
+  /* ═══════════════════════════════════════
+     RIGHT PANEL — Encyclopedia Matrix
+     ═══════════════════════════════════════ */
+  .matrix-panel {
+    flex: 2;
+    background: var(--saf-glass);
+    backdrop-filter: blur(30px);
+    border: 1px solid var(--saf-border);
+    border-radius: 24px;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    box-shadow:
+      0 40px 80px rgba(0,0,0,0.4),
+      0 0 0 1px rgba(255,255,255,0.03),
+      inset 0 1px 0 rgba(255,255,255,0.04);
+  }
+  /* Top glow line */
+  .matrix-panel::before {
+    content: '';
+    position: absolute;
+    top: -1px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 250px;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, var(--saf-glow), var(--saf-cyan), transparent);
+    border-radius: 2px;
+    z-index: 20;
+  }
+
+  .matrix-bg {
+    position: absolute;
+    inset: 0;
+    opacity: 0.025;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--saf-glow2);
+    user-select: none;
+    pointer-events: none;
+    overflow: hidden;
+    white-space: pre-wrap;
+    line-height: 1.4;
+    z-index: 0;
+    animation: matrixDrift 60s linear infinite;
+  }
+  @keyframes matrixDrift {
+    0% { transform: translateY(0); }
+    100% { transform: translateY(-50%); }
+  }
+
+  .mp-content {
+    padding: 45px;
+    position: relative;
+    z-index: 10;
+    flex-grow: 1;
+    overflow-y: auto;
+  }
+  .mp-content::-webkit-scrollbar { width: 4px; }
+  .mp-content::-webkit-scrollbar-track { background: transparent; }
+  .mp-content::-webkit-scrollbar-thumb { background: rgba(139, 92, 246, 0.2); border-radius: 10px; }
+
+  /* Header */
+  .mp-header {
+    border-bottom: 1px solid var(--saf-border);
+    padding-bottom: 25px;
+    margin-bottom: 30px;
+    position: relative;
+  }
+  .mp-header::after {
+    content: '';
+    position: absolute;
+    bottom: -1px;
+    left: 0;
+    width: 80px;
+    height: 2px;
+    background: linear-gradient(90deg, var(--saf-glow), transparent);
+    border-radius: 2px;
+  }
+  .mp-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 2.8rem;
+    font-weight: 900;
+    margin: 0 0 10px 0;
+    color: transparent;
+    background: linear-gradient(135deg, #fff, #e0d4ff, #c084fc);
+    -webkit-background-clip: text;
+    background-clip: text;
+    line-height: 1.1;
+    transition: all 0.5s;
+  }
+  .mp-latin {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.8rem;
+    color: var(--saf-glow2);
+    font-style: italic;
+    font-weight: 400;
+    letter-spacing: 1px;
+    opacity: 0.7;
+  }
+
+  /* Definition */
+  .mp-def {
+    font-family: 'Outfit', sans-serif;
+    font-size: 1.1rem;
+    color: var(--saf-text2);
+    line-height: 1.85;
+    margin-bottom: 35px;
+    border-left: 3px solid var(--saf-glow);
+    padding: 18px 25px;
+    background: linear-gradient(90deg, rgba(139, 92, 246, 0.05), transparent);
+    border-radius: 0 14px 14px 0;
+    position: relative;
+  }
+  .mp-def::before {
+    content: '📖';
+    position: absolute;
+    top: -14px;
+    left: 15px;
+    font-size: 1.2rem;
+    background: var(--saf-surface);
+    padding: 2px 6px;
+    border-radius: 6px;
+    border: 1px solid var(--saf-border);
+  }
+
+  /* Formula Box */
+  .formula-box {
+    background: rgba(139, 92, 246, 0.04);
+    border: 1px solid var(--saf-border);
+    padding: 28px;
+    border-radius: 18px;
+    margin-bottom: 35px;
+    position: relative;
+    overflow: hidden;
+    backdrop-filter: blur(5px);
+  }
+  .formula-box::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, var(--saf-glow), var(--saf-cyan), transparent);
+    border-radius: 2px;
+  }
+  .form-title {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.7rem;
+    font-weight: 700;
+    color: var(--saf-glow2);
+    text-transform: uppercase;
+    margin-bottom: 15px;
+    letter-spacing: 3px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .form-title::before { content: '⚡'; font-size: 0.9rem; }
+  .form-code {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.95rem;
+    color: var(--saf-text);
+    font-weight: 400;
+    line-height: 2;
+    opacity: 0.85;
+  }
+
+  /* Examples */
+  .ex-grid { display: grid; grid-template-columns: 1fr; gap: 22px; }
+  .ex-card {
+    background: rgba(255,255,255,0.02);
+    border-radius: 16px;
+    padding: 25px;
+    border: 1px solid var(--saf-border);
+    position: relative;
+    transition: all 0.35s;
+    overflow: hidden;
+  }
+  .ex-card::before {
+    content: '💬';
+    position: absolute;
+    top: -12px;
+    left: 22px;
+    font-size: 1.3rem;
+    background: var(--saf-surface);
+    border-radius: 50%;
+    padding: 4px 6px;
+    border: 1px solid var(--saf-border);
+    box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+  }
+  .ex-card:hover {
+    border-color: var(--saf-border-h);
+    box-shadow: 0 10px 40px rgba(139, 92, 246, 0.08);
+    transform: translateY(-2px);
+  }
+  .ex-text {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.15rem;
+    color: var(--saf-text);
+    font-style: italic;
+    margin-bottom: 18px;
+    margin-top: 10px;
+    line-height: 1.7;
+    opacity: 0.9;
+  }
+  .ex-analysis {
+    background: rgba(239, 68, 68, 0.04);
+    padding: 18px;
+    border-radius: 12px;
+    font-family: 'Outfit', sans-serif;
+    font-size: 0.9rem;
+    color: var(--saf-text2);
+    border-left: 3px solid var(--saf-rose);
+    line-height: 1.7;
+  }
+
+  /* ═══════════════════════════════════════
+     RESPONSIVE
+     ═══════════════════════════════════════ */
   @media (max-width: 768px) {
-    h1 { font-size: 2.5rem; }
+    h1 { font-size: 2.2rem; }
     .mp-title { font-size: 2rem; }
+    .mp-content { padding: 25px; }
+    .games-nav { gap: 8px; }
+    .g-btn { font-size: 0.65rem; padding: 10px 12px; min-width: 45% !important; }
+    .fallacy-btn { padding: 14px 16px; }
+    .formula-box { padding: 20px; }
+  }
+  @media (max-width: 480px) {
+    h1 { font-size: 1.8rem; }
+    .mp-title { font-size: 1.6rem; }
   }
 </style>
+
+<!-- ═══════════ BACKGROUND FX ═══════════ -->
+<div class="saf-cosmos"></div>
+<div class="saf-scanlines"></div>
+<div class="saf-particles" id="safParticles"></div>
+<div class="saf-orbit"></div>
+<div class="saf-orbit"></div>
+<div class="saf-orbit"></div>
 
 <div class="hub-container">
   
   <!-- Left: Dictionary List -->
   <div class="list-panel">
-    <div style="margin-bottom: 20px;">
+    <div class="saf-hero-block">
+      <div class="saf-hero-badge">Mantık Kalkanı • Ansiklopedi</div>
       <h1>Safsata Ansiklopedisi</h1>
       <p class="desc">Mantık hatalarını tanıyın. Karşınızdakinin zihinsel illüzyonlarını ve manipülasyonlarını anında deşifre edin.</p>
     </div>
@@ -101,13 +606,13 @@
       <!-- Generated by JS -->
     </div>
     
-    <div class="games-nav" style="flex-wrap: wrap;">
+    <div class="games-nav">
       <a href="/safsata/spin-doctor" class="g-btn g-btn-pol" style="min-width: 30%;">📺 Politikacı</a>
       <a href="/safsata/dedektif" class="g-btn g-btn-det" style="min-width: 30%;">🕵️ Dedektif</a>
       <a href="/safsata/kalkan" class="g-btn g-btn-kal" style="min-width: 30%;">🛡️ Çürütme</a>
       <a href="/safsata/karanlik" class="g-btn g-btn-kar" style="min-width: 30%;">😈 Karanlık</a>
       <a href="/safsata/trol-avcisi" class="g-btn g-btn-trol" style="min-width: 30%;">📱 Trol Avcısı</a>
-      <a href="/safsata/mahkeme" class="g-btn g-btn-mah" style="min-width: 30%;">⚖️ İtiraz!</a>
+      <a href="/safsata/mahkeme" class="g-btn g-btn-mah" style="min-width: 30%;">⚖️ Mahkeme</a>
     </div>
   </div>
 
@@ -142,14 +647,39 @@
 
 </div>
 
+
 <script>
-  // Dynamic Matrix Background Effect
+  // ═══════════ PARTICLE SYSTEM ═══════════
+  (function initParticles() {
+    const field = document.getElementById('safParticles');
+    if (!field) return;
+    const colors = ['#c084fc', '#8b5cf6', '#22d3ee', '#34d399', '#fbbf24', '#fb7185'];
+    for (let i = 0; i < 25; i++) {
+      const p = document.createElement('div');
+      p.className = 'saf-p';
+      p.style.left = Math.random() * 100 + '%';
+      p.style.animationDuration = (10 + Math.random() * 18) + 's';
+      p.style.animationDelay = (Math.random() * 12) + 's';
+      const size = (2 + Math.random() * 3) + 'px';
+      p.style.width = size;
+      p.style.height = size;
+      const c = colors[Math.floor(Math.random() * colors.length)];
+      p.style.background = c;
+      p.style.boxShadow = `0 0 8px ${c}`;
+      field.appendChild(p);
+    }
+  })();
+
+  // ═══════════ MATRIX BACKGROUND ═══════════
   const mBg = document.getElementById('matrixBg');
   let bgText = "";
-  for(let i=0; i<100; i++) {
-    bgText += "01001010 01101111 01101000 01101110 " + Math.random().toString(36).substring(2, 8) + " ";
+  const safsataTerms = ['AD_HOMINEM','STRAWMAN','RED_HERRING','SLIPPERY_SLOPE','FALSE_DILEMMA','BANDWAGON','POST_HOC','TU_QUOQUE','POISONING','EQUIVOCATION','BURDEN','GENETIC','ACCENT','NOVELTY'];
+  for(let i=0; i<200; i++) {
+    bgText += (Math.random() > 0.7 ? safsataTerms[Math.floor(Math.random()*safsataTerms.length)] : Math.random().toString(36).substring(2,8).toUpperCase()) + " ";
+    if (i % 15 === 0) bgText += "\n";
   }
-  mBg.textContent = bgText;
+  mBg.textContent = bgText + bgText;
+
 
   const fallacies = [
     {

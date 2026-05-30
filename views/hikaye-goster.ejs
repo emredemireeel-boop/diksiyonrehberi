@@ -1,0 +1,201 @@
+<%- include('partials/main-header') %>
+
+<style>
+  body { background: #0f172a; color: #f8fafc; font-family: 'Inter', sans-serif; overflow-x: hidden; }
+  .sdt-container { padding: 40px 20px; max-width: 900px; margin: 0 auto; min-height: 85vh; display: flex; flex-direction: column; align-items: center; }
+  
+  h1 { font-size: 2.5rem; font-weight: 900; margin-bottom: 5px; color: #d97706; text-transform: uppercase; letter-spacing: 2px; text-align: center; text-shadow: 0 0 15px rgba(217, 119, 6, 0.4); }
+  p.desc { color: #94a3b8; font-size: 1rem; line-height: 1.6; margin-bottom: 30px; text-align: center; max-width: 700px; }
+
+  /* Arena */
+  .arena { width: 100%; background: #1e293b; border: 3px solid #92400e; border-radius: 20px; overflow: hidden; box-shadow: 0 20px 50px rgba(0,0,0,0.6); position: relative; display: flex; flex-direction: column; }
+  
+  /* Status Bar */
+  .status-hud { display: flex; justify-content: space-between; align-items: center; background: #0f172a; padding: 20px 30px; border-bottom: 2px solid #334155; }
+  .sh-lbl { font-size: 1rem; font-weight: 900; color: #fef3c7; text-transform: uppercase; letter-spacing: 1px; }
+  .score-lbl { font-size: 1.2rem; font-weight: 900; color: #fbbf24; }
+
+  /* Topic Zone (The Tell) */
+  .topic-zone { padding: 50px 30px; background: radial-gradient(circle at center, #78350f 0%, #451a03 100%); display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; }
+  .tz-badge { background: #b45309; color: #fff; padding: 5px 15px; border-radius: 20px; font-size: 0.8rem; font-weight: 800; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 20px; }
+  .tz-tell { font-size: 2rem; font-weight: 800; color: #fff; font-style: italic; }
+  .tz-tell::before { content: '"'; color: rgba(255,255,255,0.3); }
+  .tz-tell::after { content: '"'; color: rgba(255,255,255,0.3); }
+
+  /* Options */
+  .opt-zone { padding: 30px; background: #0f172a; border-top: 2px solid #334155; }
+  .oz-title { font-size: 1rem; font-weight: 800; color: #94a3b8; text-transform: uppercase; margin-bottom: 20px; text-align: center; }
+  .opt-grid { display: flex; flex-direction: column; gap: 15px; }
+  
+  .btn-opt { background: #1e293b; border: 2px solid #475569; color: #e2e8f0; padding: 20px; border-radius: 15px; font-size: 1.05rem; font-weight: 600; cursor: pointer; transition: all 0.2s; text-align: left; position: relative; overflow: hidden; line-height: 1.5; }
+  .btn-opt:hover { background: #334155; border-color: #d97706; transform: translateY(-2px); box-shadow: 0 10px 20px rgba(217, 119, 6, 0.15); }
+
+  /* Result Overlay */
+  .result-overlay { position: absolute; inset: 0; background: rgba(15, 23, 42, 0.95); z-index: 100; display: none; flex-direction: column; align-items: center; justify-content: center; padding: 30px; text-align: center; }
+  .ro-icon { font-size: 5rem; margin-bottom: 20px; }
+  .ro-title { font-size: 2.5rem; font-weight: 900; margin-bottom: 15px; text-transform: uppercase; }
+  .ro-desc { font-size: 1.1rem; color: #cbd5e1; line-height: 1.6; margin-bottom: 30px; max-width: 550px; }
+  .btn-next { background: #d97706; color: #fff; font-weight: 900; padding: 15px 40px; border-radius: 30px; border: none; cursor: pointer; text-transform: uppercase; letter-spacing: 1px; }
+
+  .game-over { display: none; text-align: center; padding: 50px; background: #451a03; border: 2px solid #d97706; border-radius: 20px; margin-top:30px; width:100%; }
+</style>
+
+<div class="sdt-container">
+  <h1>🎬 Göster, Söyleme Laboratuvarı</h1>
+  <p class="desc">"Show, Don't Tell" kuralı hikaye anlatıcılığının belkemiğidir. Duyguları veya olayları doğrudan "söylemek" dinleyiciyi sıkar. Kelimeleri kameraya dönüştürerek dinleyicinin zihninde bir film oynatmalısınız. Aşağıdaki yavan cümleleri (Tell), 5 duyunuzu kullanarak sahnelere (Show) çevirin.</p>
+
+  <div class="arena" id="arena">
+    
+    <div class="status-hud">
+      <div class="sh-lbl" id="hudLvl">Bölüm 1 / 5</div>
+      <div class="score-lbl">Skor: <span id="sScore">0</span></div>
+    </div>
+
+    <div class="topic-zone">
+      <div class="tz-badge">SÖYLEME (Tell)</div>
+      <div class="tz-tell" id="tTell">Adam çok sinirliydi.</div>
+    </div>
+
+    <div class="opt-zone">
+      <div class="oz-title">Aşağıdakilerden hangisi en iyi "GÖSTER" (Show) cümlesidir?</div>
+      <div class="opt-grid" id="optGrid">
+        <!-- Injected -->
+      </div>
+    </div>
+
+    <div class="result-overlay" id="resOverlay">
+      <div class="ro-icon" id="rIcon">✅</div>
+      <div class="ro-title" id="rTitle">HARİKA SAHNE!</div>
+      <div class="ro-desc" id="rDesc">...</div>
+      <button class="btn-next" onclick="nextRound()">Sıradaki Cümle ➔</button>
+    </div>
+
+  </div>
+
+  <div class="game-over" id="gameOver">
+    <div style="font-size: 5rem; margin-bottom:20px;">🏆</div>
+    <h2 style="font-size:2.5rem; color:#fef3c7; margin:0 0 15px 0;">Kamera Ustası!</h2>
+    <p style="color:#fde68a; font-size:1.1rem; margin-bottom:30px;">Mükemmel! Cümlelerinizin içine duyguları etiket olarak yapıştırmak yerine (Tell), fizyolojik detaylarla dinleyicinin zihninde o anı yaşatmayı başardınız (Show). Artık hikayeleriniz birer sinema filmi gibi hissettirecek.</p>
+    <a href="/hikaye" style="background:#d97706; color:#fff; padding:15px 30px; border-radius:30px; text-decoration:none; font-weight:900;">Akademiye Dön</a>
+  </div>
+
+</div>
+
+<script>
+  let currIdx = 0;
+  let score = 0;
+
+  const scenarios = [
+    {
+      tell: "Müdür çok sinirliydi.",
+      options: [
+        { text: "Müdür ofise girdiğinde etrafındakilere bağırdı ve çok sinirlendiği her halinden belli oluyordu.", isCorrect: false },
+        { text: "Müdür, kapıyı hızla çarptı. Çenesindeki kaslar seğiriyor, elindeki kahve bardağını çatlatırcasına sıkıyordu.", isCorrect: true },
+        { text: "Müdür gerçekten o kadar öfkeliydi ki herkes ondan korkarak kaçıştı.", isCorrect: false }
+      ],
+      successMsg: "MÜKEMMEL! 'Sinirli' kelimesini hiç kullanmadınız. Çarpan kapı, seğiren çene ve sıkılan bardak ile öfkeyi görselleştirdiniz.",
+      failMsg: "SÖYLEDİNİZ, GÖSTERMEDİNİZ! İzleyiciye karakterin 'sinirli' olduğunu dikte ediyorsunuz. Bunun yerine öfkenin fiziksel belirtilerini betimlemelisiniz."
+    },
+    {
+      tell: "Kadın çok yaşlıydı.",
+      options: [
+        { text: "Kadın yaşlılık belirtileri gösteriyordu ve yüzünde geçmişin izlerini taşıyan yılların yorgunluğu vardı.", isCorrect: false },
+        { text: "Kadın o kadar yaşlıydı ki yürümekte bile zorlanıyordu, yaşı tahminen seksenden fazlaydı.", isCorrect: false },
+        { text: "Kadının elleri kahverengi lekelerle kaplıydı. Çay bardağını tutarken titreyen parmakları, yüzündeki derin uçurumlara benzeyen kırışıklıklarla uyum içindeydi.", isCorrect: true }
+      ],
+      successMsg: "HARİKA DETAYLAR! 'Yaşlı' kelimesini hiç kullanmadan; kahverengi lekeler, titreyen parmaklar ve derin kırışıklıklar ile izleyicinin beyninde yaşlı bir kadın portresi çizdiniz.",
+      failMsg: "GÖRÜNTÜ YOK! İzleyicinin gözünde canlanacak somut bir detay veya doku sunmadınız. Sadece soyut bir bilgi verdiniz."
+    },
+    {
+      tell: "Ahmet çok korkmuştu.",
+      options: [
+        { text: "Ahmet arkasından gelen ayak seslerini duyduğunda nefesi boğazında düğümlendi, avuç içleri terlemeye başladı.", isCorrect: true },
+        { text: "Ahmet karanlık sokakta yalnız başınayken inanılmaz bir korku hissetti.", isCorrect: false },
+        { text: "Ahmet o an korkudan ne yapacağını bilemedi ve paniğe kapıldı.", isCorrect: false }
+      ],
+      successMsg: "KORKUYU HİSSETTİRDİNİZ! 'Nefesin düğümlenmesi' ve 'avuç içinin terlemesi' insan beynindeki amigdalayı tetikleyerek seyirciye aynı korkuyu yaşatır.",
+      failMsg: "DİKKAT! 'Korktu' ve 'paniğe kapıldı' gibi etiketler duyguyu izleyiciye geçirmez. Duygunun bedendeki fizyolojik yansımasını anlatmalısınız."
+    },
+    {
+      tell: "Hava dondurucu derecede soğuktu.",
+      options: [
+        { text: "Sıcaklık sıfırın çok altındaydı, dışarıdaki herkes kalın montlar giyiyordu.", isCorrect: false },
+        { text: "Aldığım her nefes ciğerlerimde cam kırıkları gibi batıyor, parmak uçlarımı artık hissetmiyordum.", isCorrect: true },
+        { text: "Hava o kadar soğuktu ki, dışarı çıkmak insan sağlığı için tehlikeli bir hal almıştı.", isCorrect: false }
+      ],
+      successMsg: "SOĞUĞU İLİKLERİMİZE KADAR HİSSETTİK! 'Cam kırıkları' gibi çok güçlü bir metafor kullanarak ve 'hissizlik' hissini (dokunma duyusu) vererek ortamı yaşattınız.",
+      failMsg: "METEOROLOJİ BÜLTENİ GİBİ! Havayı termometre gibi ölçtünüz. Hikaye anlatıcısı havanın derecesini değil, bedene verdiği hissi anlatır."
+    },
+    {
+      tell: "Oda çok pisti.",
+      options: [
+        { text: "Odanın her yeri dağılmıştı, aylardır temizlik yapılmadığı belliydi ve çöpler birikmişti.", isCorrect: false },
+        { text: "Kapıyı açtığım an burnuma ekşimiş süt kokusu vurdu. Halının üzerindeki pizza kutularının etrafında karıncalar geziniyordu.", isCorrect: true },
+        { text: "Oda inanılmaz derecede kirliydi, eşyalar her yere saçılmış durumdaydı.", isCorrect: false }
+      ],
+      successMsg: "KOKU VE GÖRÜNTÜ! Koku duyusu anıları en hızlı tetikleyen duyudur. 'Ekşimiş süt' ve 'karıncalar' izleyicide doğrudan iğrenme duygusu yarattı. İşi başardınız!",
+      failMsg: "YİNE SADECE BİLGİ! Odanın pis olduğunu 'pisti' diyerek anlattınız. İzleyici oranın havasını solumadı, orayı gözünde canlandıramadı."
+    }
+  ];
+
+  function loadRound() {
+    if(currIdx >= scenarios.length) {
+      document.getElementById('arena').style.display = 'none';
+      document.getElementById('gameOver').style.display = 'block';
+      return;
+    }
+
+    const s = scenarios[currIdx];
+    document.getElementById('hudLvl').textContent = "Bölüm " + (currIdx + 1) + " / " + scenarios.length;
+    document.getElementById('sScore').textContent = score;
+    document.getElementById('tTell').textContent = s.tell;
+    
+    const grid = document.getElementById('optGrid');
+    grid.innerHTML = '';
+    
+    // Rastgele sırala
+    const shuffled = [...s.options].sort(() => Math.random() - 0.5);
+    shuffled.forEach(opt => {
+      const btn = document.createElement('button');
+      btn.className = 'btn-opt';
+      btn.textContent = opt.text;
+      btn.onclick = () => selectOpt(opt);
+      grid.appendChild(btn);
+    });
+  }
+
+  function selectOpt(opt) {
+    const s = scenarios[currIdx];
+    const overlay = document.getElementById('resOverlay');
+    const rIcon = document.getElementById('rIcon');
+    const rTitle = document.getElementById('rTitle');
+    const rDesc = document.getElementById('rDesc');
+
+    overlay.style.display = 'flex';
+
+    if(opt.isCorrect) {
+      rIcon.textContent = '🎥';
+      rTitle.textContent = 'HARİKA SAHNE!';
+      rTitle.style.color = '#10b981';
+      rDesc.textContent = s.successMsg;
+      score += 100;
+      currIdx++;
+    } else {
+      rIcon.textContent = '😴';
+      rTitle.textContent = 'ÇOK YAVAN...';
+      rTitle.style.color = '#f43f5e';
+      rDesc.textContent = s.failMsg;
+    }
+  }
+
+  function nextRound() {
+    document.getElementById('resOverlay').style.display = 'none';
+    loadRound(); 
+  }
+
+  // Init
+  loadRound();
+
+</script>
+
+<%- include('partials/main-footer') %>

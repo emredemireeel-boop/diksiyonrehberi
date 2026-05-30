@@ -1,245 +1,1397 @@
 <%- include('partials/main-header') %>
 
 <style>
-  body { background: #0f172a; color: #f8fafc; font-family: 'Inter', sans-serif; overflow-x: hidden; }
-  .det-container { padding: 40px 20px; max-width: 1000px; margin: 0 auto; min-height: 85vh; display: flex; flex-direction: column; align-items: center; }
-  
-  h1 { font-size: 2.5rem; font-weight: 900; margin-bottom: 5px; color: #38bdf8; text-transform: uppercase; letter-spacing: 1px; text-align: center; }
-  p.desc { color: #94a3b8; font-size: 1rem; line-height: 1.6; margin-bottom: 40px; text-align: center; max-width: 600px; }
+  @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700;800;900&family=Playfair+Display:ital,wght@0,600;0,700;0,800;0,900;1,600&family=JetBrains+Mono:wght@400;700&display=swap');
 
-  /* Game Area */
-  .game-board { width: 100%; max-width: 800px; background: #1e293b; border-radius: 20px; border: 1px solid #334155; position: relative; overflow: hidden; box-shadow: 0 20px 50px rgba(0,0,0,0.5); display: flex; flex-direction: column; }
-  
-  /* Top HUD */
-  .hud { background: #0f172a; padding: 15px 30px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #334155; }
-  .hud-level { font-size: 0.9rem; font-weight: 800; color: #38bdf8; text-transform: uppercase; letter-spacing: 1px; }
-  .hud-score { font-size: 1.2rem; font-weight: 900; color: #10b981; }
+  /* ═══════════════════════════════════════════════════════════
+     SAFSATA DEDEKTİFİ — Surrealist Competition Grade Design
+     ═══════════════════════════════════════════════════════════ */
 
-  /* Case File */
-  .case-area { padding: 40px 30px; background: #1e293b; flex-grow: 1; }
-  .case-title { font-size: 1.5rem; font-weight: 800; color: #f8fafc; margin-bottom: 20px; display: flex; align-items: center; gap: 10px; }
-  .case-context { background: rgba(0,0,0,0.3); padding: 15px; border-radius: 10px; font-size: 0.9rem; color: #94a3b8; margin-bottom: 30px; border-left: 3px solid #64748b; }
-  
-  /* Dialogue Box */
-  .dialogue { display: flex; flex-direction: column; gap: 15px; margin-bottom: 40px; }
-  .msg { padding: 15px 20px; border-radius: 15px; max-width: 85%; line-height: 1.5; font-size: 1.05rem; }
-  .msg-a { background: #334155; color: #e2e8f0; align-self: flex-start; border-bottom-left-radius: 0; }
-  .msg-b { background: #0284c7; color: #ffffff; align-self: flex-end; border-bottom-right-radius: 0; box-shadow: 0 5px 15px rgba(2, 132, 199, 0.3); }
-  .msg-b span.target { background: rgba(255,255,255,0.2); padding: 2px 5px; border-radius: 4px; font-weight: 700; border-bottom: 2px dashed #facc15; }
-  
-  .speaker { font-size: 0.75rem; font-weight: 800; margin-bottom: 5px; text-transform: uppercase; letter-spacing: 1px; opacity: 0.7; }
+  :root {
+    --det-bg: #050510;
+    --det-surface: #0c0c24;
+    --det-glass: rgba(15, 15, 50, 0.6);
+    --det-border: rgba(120, 80, 255, 0.15);
+    --det-glow: #7c3aed;
+    --det-glow2: #c084fc;
+    --det-cyan: #22d3ee;
+    --det-amber: #fbbf24;
+    --det-emerald: #34d399;
+    --det-rose: #fb7185;
+    --det-text: #f1f0ff;
+    --det-text2: #a5a3c9;
+    --det-text3: #6b6899;
+    --noise: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.04'/%3E%3C/svg%3E");
+  }
 
-  /* Question Area */
-  .q-area { padding: 30px; background: #0f172a; border-top: 1px solid #334155; }
-  .q-text { font-size: 1.1rem; font-weight: 700; color: #e2e8f0; margin-bottom: 20px; text-align: center; }
-  
-  .opts-grid { display: grid; grid-template-columns: 1fr; gap: 15px; }
-  @media (min-width: 600px) { .opts-grid { grid-template-columns: 1fr 1fr; } }
-  
-  .opt-btn { background: #1e293b; border: 2px solid #334155; padding: 15px; border-radius: 12px; color: #cbd5e1; font-weight: 700; font-size: 1rem; cursor: pointer; transition: all 0.2s; }
-  .opt-btn:hover:not(:disabled) { background: #334155; border-color: #64748b; transform: translateY(-2px); }
-  .opt-btn.correct { background: rgba(16, 185, 129, 0.1); border-color: #10b981; color: #10b981; }
-  .opt-btn.wrong { background: rgba(244, 63, 94, 0.1); border-color: #f43f5e; color: #f43f5e; }
-  .opt-btn:disabled { cursor: not-allowed; opacity: 0.7; }
+  body {
+    background: var(--det-bg) !important;
+    color: var(--det-text);
+    font-family: 'Outfit', sans-serif;
+    overflow-x: hidden;
+    margin: 0;
+    padding: 0;
+  }
 
-  /* Feedback overlay */
-  .feedback-box { margin-top: 20px; padding: 20px; border-radius: 12px; font-size: 0.95rem; line-height: 1.6; display: none; animation: fadeIn 0.5s forwards; }
-  .feedback-box.success { background: rgba(16, 185, 129, 0.1); border: 1px solid #10b981; color: #a7f3d0; }
-  .feedback-box.error { background: rgba(244, 63, 94, 0.1); border: 1px solid #f43f5e; color: #fecdd3; }
+  /* ── Cosmic Background ── */
+  .cosmic-bg {
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    overflow: hidden;
+  }
+  .cosmic-bg::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: 
+      radial-gradient(ellipse 80% 60% at 20% 10%, rgba(124, 58, 237, 0.12) 0%, transparent 60%),
+      radial-gradient(ellipse 60% 50% at 80% 90%, rgba(34, 211, 238, 0.08) 0%, transparent 60%),
+      radial-gradient(ellipse 40% 40% at 50% 50%, rgba(251, 191, 36, 0.04) 0%, transparent 50%);
+    animation: cosmicPulse 12s ease-in-out infinite alternate;
+  }
+  .cosmic-bg::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image: var(--noise);
+    background-size: 256px 256px;
+    opacity: 0.6;
+  }
 
-  .next-btn { background: #38bdf8; color: #0f172a; border: none; padding: 12px 25px; border-radius: 8px; font-weight: 800; text-transform: uppercase; cursor: pointer; margin-top: 15px; display: inline-block; }
+  @keyframes cosmicPulse {
+    0% { opacity: 0.7; transform: scale(1); }
+    100% { opacity: 1; transform: scale(1.05); }
+  }
 
-  @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+  /* ── Floating Particles ── */
+  .particle-field {
+    position: fixed;
+    inset: 0;
+    z-index: 1;
+    pointer-events: none;
+  }
+  .particle {
+    position: absolute;
+    width: 3px;
+    height: 3px;
+    background: var(--det-glow2);
+    border-radius: 50%;
+    opacity: 0;
+    animation: particleFloat linear infinite;
+    box-shadow: 0 0 6px var(--det-glow2);
+  }
+  @keyframes particleFloat {
+    0% { opacity: 0; transform: translateY(100vh) scale(0); }
+    10% { opacity: 0.8; }
+    90% { opacity: 0.4; }
+    100% { opacity: 0; transform: translateY(-10vh) scale(1); }
+  }
 
-  .game-over { text-align: center; padding: 50px; display: none; }
-  .go-icon { font-size: 4rem; margin-bottom: 20px; }
+  /* ── Scanning Lines (CRT Effect) ── */
+  .scan-lines {
+    position: fixed;
+    inset: 0;
+    z-index: 2;
+    pointer-events: none;
+    background: repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 2px,
+      rgba(255,255,255,0.008) 2px,
+      rgba(255,255,255,0.008) 4px
+    );
+  }
+
+  /* ══════════════════════════════════
+     MAIN CONTAINER
+     ══════════════════════════════════ */
+  .det-world {
+    position: relative;
+    z-index: 10;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 30px 20px 60px;
+  }
+
+  /* ── Cinematic Intro Overlay ── */
+  .cinema-intro {
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    background: #050510;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    transition: opacity 1s ease, visibility 1s ease;
+  }
+  .cinema-intro.hidden {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+  }
+  .cinema-badge {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.7rem;
+    letter-spacing: 6px;
+    text-transform: uppercase;
+    color: var(--det-glow2);
+    opacity: 0;
+    animation: typeReveal 0.8s ease forwards;
+    animation-delay: 0.3s;
+    margin-bottom: 20px;
+  }
+  .cinema-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 4rem;
+    font-weight: 900;
+    color: transparent;
+    background: linear-gradient(135deg, #c084fc, #7c3aed, #22d3ee);
+    -webkit-background-clip: text;
+    background-clip: text;
+    opacity: 0;
+    animation: titleGlitch 1.2s ease forwards;
+    animation-delay: 0.8s;
+    text-align: center;
+    line-height: 1.1;
+  }
+  .cinema-sub {
+    font-family: 'Outfit', sans-serif;
+    font-size: 1rem;
+    color: var(--det-text2);
+    opacity: 0;
+    animation: fadeSlideUp 0.8s ease forwards;
+    animation-delay: 1.6s;
+    margin-top: 15px;
+  }
+  .cinema-line {
+    width: 60px;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, var(--det-glow), transparent);
+    opacity: 0;
+    animation: lineExpand 1s ease forwards;
+    animation-delay: 2.2s;
+    margin-top: 25px;
+  }
+
+  @keyframes typeReveal {
+    from { opacity: 0; transform: translateY(10px); letter-spacing: 12px; }
+    to { opacity: 1; transform: translateY(0); letter-spacing: 6px; }
+  }
+  @keyframes titleGlitch {
+    0% { opacity: 0; transform: scale(0.8) translateY(20px); filter: blur(10px); }
+    60% { opacity: 1; transform: scale(1.02) translateY(-3px); filter: blur(0); }
+    80% { transform: scale(0.99) translateY(1px) skewX(-1deg); }
+    100% { opacity: 1; transform: scale(1) translateY(0) skewX(0); }
+  }
+  @keyframes fadeSlideUp {
+    from { opacity: 0; transform: translateY(15px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes lineExpand {
+    from { opacity: 0; width: 0; }
+    to { opacity: 1; width: 120px; }
+  }
+
+  /* ══════════════════════════════════
+     HEADER SECTION
+     ══════════════════════════════════ */
+  .det-header {
+    text-align: center;
+    margin-bottom: 40px;
+    padding: 0 20px;
+    opacity: 0;
+    animation: fadeSlideUp 1s ease forwards;
+    animation-delay: 3s;
+  }
+  .det-header-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 18px;
+    border-radius: 50px;
+    background: rgba(124, 58, 237, 0.1);
+    border: 1px solid rgba(124, 58, 237, 0.2);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--det-glow2);
+    margin-bottom: 20px;
+    backdrop-filter: blur(10px);
+  }
+  .det-header-badge::before {
+    content: '';
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--det-emerald);
+    box-shadow: 0 0 10px var(--det-emerald);
+    animation: livePulse 2s ease-in-out infinite;
+  }
+  @keyframes livePulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.4; transform: scale(0.7); }
+  }
+
+  .det-hero-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 3rem;
+    font-weight: 900;
+    line-height: 1.1;
+    margin: 0 0 15px;
+    color: transparent;
+    background: linear-gradient(135deg, #e0d4ff, #c084fc, #7c3aed);
+    -webkit-background-clip: text;
+    background-clip: text;
+  }
+  .det-hero-sub {
+    font-family: 'Outfit', sans-serif;
+    font-size: 1.05rem;
+    color: var(--det-text2);
+    line-height: 1.6;
+    max-width: 600px;
+    margin: 0 auto;
+  }
+
+  /* ══════════════════════════════════
+     HUD BAR (Score + Level + Timer)
+     ══════════════════════════════════ */
+  .hud-bar {
+    width: 100%;
+    max-width: 960px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 30px;
+    padding: 16px 28px;
+    background: var(--det-glass);
+    backdrop-filter: blur(20px);
+    border: 1px solid var(--det-border);
+    border-radius: 20px;
+    box-shadow: 
+      0 8px 32px rgba(0,0,0,0.4),
+      inset 0 1px 0 rgba(255,255,255,0.04);
+    opacity: 0;
+    animation: fadeSlideUp 0.8s ease forwards;
+    animation-delay: 3.2s;
+  }
+  .hud-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .hud-icon {
+    width: 38px;
+    height: 38px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.1rem;
+  }
+  .hud-icon.level { background: rgba(124, 58, 237, 0.15); color: var(--det-glow2); }
+  .hud-icon.score { background: rgba(52, 211, 153, 0.15); color: var(--det-emerald); }
+  .hud-icon.streak { background: rgba(251, 191, 36, 0.15); color: var(--det-amber); }
+  .hud-label {
+    font-size: 0.65rem;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: var(--det-text3);
+    font-weight: 700;
+  }
+  .hud-value {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 1.2rem;
+    font-weight: 900;
+    color: var(--det-text);
+  }
+  .hud-value.glow-score {
+    color: var(--det-emerald);
+    text-shadow: 0 0 15px rgba(52, 211, 153, 0.4);
+  }
+
+  /* Progress Bar */
+  .hud-progress {
+    flex: 1;
+    max-width: 200px;
+    height: 6px;
+    background: rgba(255,255,255,0.06);
+    border-radius: 10px;
+    overflow: hidden;
+    position: relative;
+  }
+  .hud-progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--det-glow), var(--det-cyan));
+    border-radius: 10px;
+    transition: width 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);
+    box-shadow: 0 0 10px var(--det-glow);
+    position: relative;
+  }
+  .hud-progress-fill::after {
+    content: '';
+    position: absolute;
+    right: 0;
+    top: -2px;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: #fff;
+    box-shadow: 0 0 15px var(--det-cyan), 0 0 30px var(--det-glow);
+  }
+
+  /* ══════════════════════════════════
+     MAIN GAME BOARD
+     ══════════════════════════════════ */
+  .game-stage {
+    width: 100%;
+    max-width: 960px;
+    opacity: 0;
+    animation: fadeSlideUp 1s ease forwards;
+    animation-delay: 3.4s;
+  }
+
+  /* ── Case File Card ── */
+  .case-file {
+    background: var(--det-glass);
+    backdrop-filter: blur(30px);
+    border: 1px solid var(--det-border);
+    border-radius: 24px;
+    overflow: hidden;
+    box-shadow: 
+      0 30px 80px rgba(0,0,0,0.5),
+      0 0 0 1px rgba(255,255,255,0.03),
+      inset 0 1px 0 rgba(255,255,255,0.05);
+    position: relative;
+    transition: transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+  .case-file::before {
+    content: '';
+    position: absolute;
+    top: -1px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 200px;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, var(--det-glow), var(--det-cyan), transparent);
+    border-radius: 2px;
+    z-index: 5;
+  }
+
+  /* Case Header */
+  .case-header {
+    padding: 30px 35px 25px;
+    background: linear-gradient(180deg, rgba(124, 58, 237, 0.06) 0%, transparent 100%);
+    border-bottom: 1px solid var(--det-border);
+    position: relative;
+  }
+  .case-number {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.6rem;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: var(--det-glow2);
+    opacity: 0.7;
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .case-number::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(90deg, var(--det-border), transparent);
+  }
+  .case-name {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.8rem;
+    font-weight: 800;
+    color: var(--det-text);
+    margin: 0 0 10px;
+    line-height: 1.2;
+  }
+  .case-context-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: rgba(34, 211, 238, 0.08);
+    border: 1px solid rgba(34, 211, 238, 0.15);
+    padding: 6px 14px;
+    border-radius: 8px;
+    font-size: 0.8rem;
+    color: var(--det-cyan);
+    font-weight: 600;
+  }
+
+  /* ── Dialogue Area ── */
+  .dialogue-stage {
+    padding: 35px;
+    position: relative;
+  }
+  .dialogue-stage::before {
+    content: '';
+    position: absolute;
+    left: 35px;
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    background: linear-gradient(180deg, var(--det-border), transparent);
+  }
+
+  /* Message Bubbles */
+  .msg-card {
+    position: relative;
+    padding-left: 40px;
+    margin-bottom: 28px;
+    opacity: 0;
+    animation: msgAppear 0.6s ease forwards;
+  }
+  .msg-card:nth-child(1) { animation-delay: 0.1s; }
+  .msg-card:nth-child(2) { animation-delay: 0.4s; }
+  .msg-card:nth-child(3) { animation-delay: 0.7s; }
+
+  @keyframes msgAppear {
+    from { opacity: 0; transform: translateX(-15px); }
+    to { opacity: 1; transform: translateX(0); }
+  }
+
+  .msg-dot {
+    position: absolute;
+    left: -5px;
+    top: 18px;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    border: 2px solid;
+    background: var(--det-bg);
+    z-index: 2;
+  }
+  .msg-card.speaker-a .msg-dot { border-color: var(--det-cyan); box-shadow: 0 0 12px rgba(34, 211, 238, 0.3); }
+  .msg-card.speaker-b .msg-dot { border-color: var(--det-rose); box-shadow: 0 0 12px rgba(251, 113, 133, 0.3); }
+
+  .msg-speaker {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+    font-weight: 700;
+  }
+  .msg-card.speaker-a .msg-speaker { color: var(--det-cyan); }
+  .msg-card.speaker-b .msg-speaker { color: var(--det-rose); }
+
+  .msg-bubble {
+    padding: 20px 24px;
+    border-radius: 16px;
+    font-size: 1.05rem;
+    line-height: 1.7;
+    position: relative;
+  }
+  .msg-card.speaker-a .msg-bubble {
+    background: rgba(34, 211, 238, 0.04);
+    border: 1px solid rgba(34, 211, 238, 0.12);
+    color: var(--det-text);
+  }
+  .msg-card.speaker-b .msg-bubble {
+    background: rgba(251, 113, 133, 0.04);
+    border: 1px solid rgba(251, 113, 133, 0.12);
+    color: var(--det-text);
+  }
+
+  /* Target Highlight - The fallacy */
+  .fallacy-target {
+    position: relative;
+    background: linear-gradient(135deg, rgba(251, 191, 36, 0.15), rgba(251, 113, 133, 0.15));
+    padding: 3px 8px;
+    border-radius: 6px;
+    font-weight: 700;
+    border-bottom: 2px solid var(--det-amber);
+    cursor: default;
+    transition: all 0.3s;
+  }
+  .fallacy-target:hover {
+    background: linear-gradient(135deg, rgba(251, 191, 36, 0.25), rgba(251, 113, 133, 0.25));
+    box-shadow: 0 0 20px rgba(251, 191, 36, 0.15);
+  }
+  .fallacy-target::before {
+    content: '⚠';
+    position: absolute;
+    top: -18px;
+    left: 5px;
+    font-size: 0.7rem;
+    animation: warningPulse 2s ease-in-out infinite;
+  }
+  @keyframes warningPulse {
+    0%, 100% { opacity: 0.5; transform: translateY(0); }
+    50% { opacity: 1; transform: translateY(-3px); }
+  }
+
+  /* ── Question Zone ── */
+  .question-zone {
+    padding: 35px;
+    background: linear-gradient(0deg, rgba(124, 58, 237, 0.04), transparent);
+    border-top: 1px solid var(--det-border);
+    position: relative;
+  }
+
+  .q-prompt {
+    display: flex;
+    align-items: flex-start;
+    gap: 15px;
+    margin-bottom: 28px;
+  }
+  .q-prompt-icon {
+    width: 42px;
+    height: 42px;
+    border-radius: 12px;
+    background: linear-gradient(135deg, var(--det-glow), #9333ea);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
+    flex-shrink: 0;
+    box-shadow: 0 8px 25px rgba(124, 58, 237, 0.3);
+  }
+  .q-prompt-text {
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: var(--det-text);
+    line-height: 1.5;
+    padding-top: 6px;
+  }
+
+  /* Options Grid */
+  .options-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 14px;
+  }
+  @media (min-width: 640px) {
+    .options-grid { grid-template-columns: 1fr 1fr; }
+  }
+
+  .opt-card {
+    position: relative;
+    padding: 18px 22px;
+    border-radius: 16px;
+    border: 1px solid var(--det-border);
+    background: rgba(255,255,255,0.02);
+    color: var(--det-text);
+    font-size: 0.95rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    backdrop-filter: blur(5px);
+  }
+  .opt-card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: 16px;
+    opacity: 0;
+    transition: opacity 0.3s;
+  }
+  .opt-card:hover:not(.disabled) {
+    border-color: var(--det-glow2);
+    transform: translateY(-3px) scale(1.01);
+    box-shadow: 
+      0 15px 40px rgba(124, 58, 237, 0.15),
+      0 0 0 1px rgba(192, 132, 252, 0.2);
+    background: rgba(124, 58, 237, 0.06);
+  }
+  .opt-letter {
+    width: 32px;
+    height: 32px;
+    border-radius: 8px;
+    background: rgba(124, 58, 237, 0.1);
+    border: 1px solid rgba(124, 58, 237, 0.2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.75rem;
+    font-weight: 900;
+    color: var(--det-glow2);
+    flex-shrink: 0;
+    transition: all 0.3s;
+  }
+
+  /* States */
+  .opt-card.correct {
+    border-color: var(--det-emerald) !important;
+    background: rgba(52, 211, 153, 0.08) !important;
+    box-shadow: 0 0 40px rgba(52, 211, 153, 0.15), 0 15px 50px rgba(52, 211, 153, 0.1);
+    transform: scale(1.02);
+  }
+  .opt-card.correct .opt-letter {
+    background: var(--det-emerald);
+    border-color: var(--det-emerald);
+    color: #050510;
+  }
+  .opt-card.wrong {
+    border-color: var(--det-rose) !important;
+    background: rgba(251, 113, 133, 0.06) !important;
+    box-shadow: 0 0 20px rgba(251, 113, 133, 0.1);
+  }
+  .opt-card.wrong .opt-letter {
+    background: var(--det-rose);
+    border-color: var(--det-rose);
+    color: #050510;
+  }
+  .opt-card.disabled {
+    cursor: not-allowed;
+    opacity: 0.45;
+    pointer-events: none;
+  }
+  .opt-card.disabled.correct,
+  .opt-card.disabled.wrong {
+    opacity: 1;
+    pointer-events: none;
+  }
+
+  /* ── Feedback Panel ── */
+  .feedback-panel {
+    margin-top: 25px;
+    padding: 25px 28px;
+    border-radius: 18px;
+    display: none;
+    animation: feedbackReveal 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+    position: relative;
+    overflow: hidden;
+  }
+  .feedback-panel::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    border-radius: 3px 3px 0 0;
+  }
+  .feedback-panel.success {
+    background: rgba(52, 211, 153, 0.06);
+    border: 1px solid rgba(52, 211, 153, 0.2);
+  }
+  .feedback-panel.success::before { background: linear-gradient(90deg, var(--det-emerald), #22d3ee); }
+  .feedback-panel.error {
+    background: rgba(251, 113, 133, 0.06);
+    border: 1px solid rgba(251, 113, 133, 0.2);
+  }
+  .feedback-panel.error::before { background: linear-gradient(90deg, var(--det-rose), var(--det-amber)); }
+
+  @keyframes feedbackReveal {
+    from { opacity: 0; transform: translateY(15px) scale(0.97); }
+    to { opacity: 1; transform: translateY(0) scale(1); }
+  }
+
+  .fb-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 12px;
+  }
+  .fb-icon {
+    width: 36px;
+    height: 36px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
+  }
+  .feedback-panel.success .fb-icon { background: rgba(52, 211, 153, 0.15); }
+  .feedback-panel.error .fb-icon { background: rgba(251, 113, 133, 0.15); }
+
+  .fb-title-text {
+    font-family: 'Outfit', sans-serif;
+    font-size: 1rem;
+    font-weight: 800;
+  }
+  .feedback-panel.success .fb-title-text { color: var(--det-emerald); }
+  .feedback-panel.error .fb-title-text { color: var(--det-rose); }
+
+  .fb-body {
+    font-size: 0.95rem;
+    line-height: 1.7;
+    color: var(--det-text2);
+  }
+
+  /* ── Next Button ── */
+  .next-action {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 20px;
+    padding: 14px 32px;
+    border: none;
+    border-radius: 14px;
+    background: linear-gradient(135deg, var(--det-glow), #9333ea);
+    color: #fff;
+    font-family: 'Outfit', sans-serif;
+    font-size: 0.9rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 8px 30px rgba(124, 58, 237, 0.3);
+    position: relative;
+    overflow: hidden;
+  }
+  .next-action::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, transparent, rgba(255,255,255,0.15), transparent);
+    transform: translateX(-100%);
+    transition: transform 0.5s;
+  }
+  .next-action:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 40px rgba(124, 58, 237, 0.4);
+  }
+  .next-action:hover::before {
+    transform: translateX(100%);
+  }
+
+  /* ══════════════════════════════════
+     GAME OVER SCREEN
+     ══════════════════════════════════ */
+  .victory-screen {
+    display: none;
+    width: 100%;
+    max-width: 700px;
+    text-align: center;
+    padding: 60px 40px;
+    background: var(--det-glass);
+    backdrop-filter: blur(30px);
+    border: 1px solid var(--det-border);
+    border-radius: 30px;
+    box-shadow: 
+      0 40px 100px rgba(0,0,0,0.5),
+      0 0 100px rgba(124, 58, 237, 0.08);
+    position: relative;
+    overflow: hidden;
+  }
+  .victory-screen::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: conic-gradient(
+      from 0deg,
+      transparent,
+      rgba(124, 58, 237, 0.06),
+      transparent,
+      rgba(34, 211, 238, 0.06),
+      transparent
+    );
+    animation: victoryRotate 8s linear infinite;
+  }
+  @keyframes victoryRotate {
+    to { transform: rotate(360deg); }
+  }
+
+  .victory-content { position: relative; z-index: 2; }
+  .victory-trophy {
+    font-size: 5rem;
+    margin-bottom: 20px;
+    animation: trophyFloat 3s ease-in-out infinite;
+    display: inline-block;
+  }
+  @keyframes trophyFloat {
+    0%, 100% { transform: translateY(0) rotate(-5deg); }
+    50% { transform: translateY(-15px) rotate(5deg); }
+  }
+  .victory-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 2.5rem;
+    font-weight: 900;
+    margin: 0 0 10px;
+    color: transparent;
+    background: linear-gradient(135deg, var(--det-emerald), var(--det-cyan));
+    -webkit-background-clip: text;
+    background-clip: text;
+  }
+  .victory-sub {
+    color: var(--det-text2);
+    font-size: 1.05rem;
+    line-height: 1.7;
+    margin-bottom: 15px;
+  }
+  .victory-stats {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    margin: 30px 0;
+    flex-wrap: wrap;
+  }
+  .vs-item {
+    text-align: center;
+    padding: 20px;
+    background: rgba(255,255,255,0.03);
+    border-radius: 16px;
+    border: 1px solid var(--det-border);
+    min-width: 100px;
+  }
+  .vs-num {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 2rem;
+    font-weight: 900;
+    color: var(--det-glow2);
+  }
+  .vs-label {
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: var(--det-text3);
+    margin-top: 5px;
+    font-weight: 700;
+  }
+
+  .victory-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 16px 36px;
+    border-radius: 16px;
+    background: linear-gradient(135deg, var(--det-glow), #9333ea);
+    color: #fff;
+    text-decoration: none;
+    font-weight: 800;
+    font-size: 0.95rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    transition: all 0.3s;
+    box-shadow: 0 10px 40px rgba(124, 58, 237, 0.3);
+    margin-top: 10px;
+  }
+  .victory-link:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 15px 50px rgba(124, 58, 237, 0.4);
+  }
+
+  /* ══════════════════════════════════
+     SCENE TRANSITION
+     ══════════════════════════════════ */
+  .scene-transition {
+    position: fixed;
+    inset: 0;
+    z-index: 8888;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    pointer-events: none;
+    opacity: 0;
+    visibility: hidden;
+  }
+  .scene-transition.active {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: all;
+  }
+  .st-bg {
+    position: absolute;
+    inset: 0;
+    background: var(--det-bg);
+    transform: scaleY(0);
+    transform-origin: center;
+    transition: transform 0.5s cubic-bezier(0.65, 0, 0.35, 1);
+  }
+  .scene-transition.active .st-bg {
+    transform: scaleY(1);
+  }
+  .st-text {
+    position: relative;
+    z-index: 2;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.8rem;
+    letter-spacing: 6px;
+    text-transform: uppercase;
+    color: var(--det-glow2);
+    opacity: 0;
+    transition: opacity 0.3s ease 0.3s;
+  }
+  .scene-transition.active .st-text {
+    opacity: 1;
+  }
+
+  /* ══════════════════════════════════
+     SCORE POPUP
+     ══════════════════════════════════ */
+  .score-popup {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(0.5);
+    z-index: 7777;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 4rem;
+    font-weight: 900;
+    pointer-events: none;
+    opacity: 0;
+    transition: all 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+  .score-popup.show {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+  }
+  .score-popup.correct-pop {
+    color: var(--det-emerald);
+    text-shadow: 0 0 40px rgba(52, 211, 153, 0.5), 0 0 80px rgba(52, 211, 153, 0.2);
+  }
+  .score-popup.wrong-pop {
+    color: var(--det-rose);
+    text-shadow: 0 0 40px rgba(251, 113, 133, 0.5);
+  }
+
+  /* ══════════════════════════════════
+     DECORATIVE ELEMENTS
+     ══════════════════════════════════ */
+  .orbit-ring {
+    position: fixed;
+    border: 1px solid rgba(124, 58, 237, 0.06);
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 0;
+  }
+  .orbit-ring:nth-child(1) {
+    width: 600px; height: 600px;
+    top: -200px; right: -200px;
+    animation: orbitSpin 30s linear infinite;
+  }
+  .orbit-ring:nth-child(2) {
+    width: 400px; height: 400px;
+    bottom: -100px; left: -100px;
+    animation: orbitSpin 25s linear infinite reverse;
+  }
+  @keyframes orbitSpin { to { transform: rotate(360deg); } }
+
+  /* ══════════════════════════════════
+     RESPONSIVE
+     ══════════════════════════════════ */
+  @media (max-width: 768px) {
+    .det-hero-title { font-size: 2.2rem; }
+    .cinema-title { font-size: 2.5rem; }
+    .case-name { font-size: 1.4rem; }
+    .hud-bar { flex-wrap: wrap; justify-content: center; padding: 14px 18px; gap: 10px; }
+    .hud-progress { max-width: 100%; order: 10; flex-basis: 100%; }
+    .case-header { padding: 25px 20px; }
+    .dialogue-stage { padding: 25px 20px; }
+    .question-zone { padding: 25px 20px; }
+    .msg-card { padding-left: 30px; }
+    .dialogue-stage::before { left: 20px; }
+    .options-grid { grid-template-columns: 1fr; }
+    .victory-screen { padding: 40px 25px; }
+    .victory-title { font-size: 1.8rem; }
+    .vs-item { min-width: 80px; padding: 15px; }
+    .vs-num { font-size: 1.5rem; }
+  }
+  @media (max-width: 480px) {
+    .det-hero-title { font-size: 1.8rem; }
+    .hud-bar { gap: 8px; }
+    .cinema-title { font-size: 2rem; }
+  }
 </style>
 
-<div class="det-container">
-  <h1>Safsata Dedektifi</h1>
-  <p class="desc">Diyaloglar arasına gizlenmiş mantık hatalarını bulun. Karşı tarafın hileli zihin oyunlarını çökerterek puan kazanın.</p>
+<!-- ═══════════════ BACKGROUND EFFECTS ═══════════════ -->
+<div class="cosmic-bg"></div>
+<div class="particle-field" id="particleField"></div>
+<div class="scan-lines"></div>
+<div class="orbit-ring"></div>
+<div class="orbit-ring"></div>
 
-  <div class="game-board" id="gameBoard">
-    <div class="hud">
-      <div class="hud-level" id="hudLevel">Vaka 1 / 4</div>
-      <div class="hud-score">Skor: <span id="scoreVal">0</span></div>
+<!-- ═══════════════ CINEMATIC INTRO ═══════════════ -->
+<div class="cinema-intro" id="cinemaIntro">
+  <div class="cinema-badge">Diksiyon Rehberi • Modül</div>
+  <div class="cinema-title">Safsata<br>Dedektifi</div>
+  <div class="cinema-sub">Mantık hatalarını deşifre edin. Zihinsel illüzyonları çözün.</div>
+  <div class="cinema-line"></div>
+</div>
+
+<!-- ═══════════════ SCENE TRANSITION ═══════════════ -->
+<div class="scene-transition" id="sceneTransition">
+  <div class="st-bg"></div>
+  <div class="st-text" id="stText">Dosya yükleniyor…</div>
+</div>
+
+<!-- ═══════════════ SCORE POPUP ═══════════════ -->
+<div class="score-popup" id="scorePopup"></div>
+
+<!-- ═══════════════ MAIN WORLD ═══════════════ -->
+<div class="det-world">
+
+  <!-- Header -->
+  <div class="det-header">
+    <div class="det-header-badge">
+      <span>Canlı Soruşturma</span>
     </div>
+    <h1 class="det-hero-title">Safsata Dedektifi</h1>
+    <p class="det-hero-sub">Diyaloglar arasına gizlenmiş mantık hatalarını bulun. Karşı tarafın hileli zihin oyunlarını çökerterek puan kazanın.</p>
+  </div>
 
-    <div class="case-area">
-      <div class="case-title" id="cTitle">Vaka #1: TV Tartışması</div>
-      <div class="case-context" id="cContext">Konu: Küresel Isınma ve Karbon Salınımı</div>
-      
-      <div class="dialogue" id="cDialogue">
-        <!-- Injected -->
+  <!-- HUD Bar -->
+  <div class="hud-bar">
+    <div class="hud-item">
+      <div class="hud-icon level">🕵️</div>
+      <div>
+        <div class="hud-label">Vaka</div>
+        <div class="hud-value" id="hudLevel">1 / 4</div>
       </div>
     </div>
-
-    <div class="q-area">
-      <div class="q-text" id="qText">Kırmızı ile işaretli kısımda yapılan safsata nedir?</div>
-      <div class="opts-grid" id="qOpts">
-        <!-- Injected -->
+    <div class="hud-progress">
+      <div class="hud-progress-fill" id="hudProgressFill" style="width: 0%;"></div>
+    </div>
+    <div class="hud-item">
+      <div class="hud-icon streak">🔥</div>
+      <div>
+        <div class="hud-label">Seri</div>
+        <div class="hud-value" id="hudStreak">0</div>
       </div>
-      
-      <div class="feedback-box" id="feedbackBox">
-        <div id="fbText"></div>
-        <button class="next-btn" id="btnNext" onclick="nextLevel()">Sıradaki Vaka ➔</button>
+    </div>
+    <div class="hud-item">
+      <div class="hud-icon score">💎</div>
+      <div>
+        <div class="hud-label">Skor</div>
+        <div class="hud-value glow-score" id="hudScore">0</div>
       </div>
     </div>
   </div>
 
-  <div class="game-board game-over" id="gameOver">
-    <div class="go-icon">🏆</div>
-    <h2 style="font-size:2.5rem; color:#10b981; margin:0 0 10px 0;">Görev Tamamlandı!</h2>
-    <p style="color:#94a3b8; font-size:1.1rem; margin-bottom:30px;">Tüm vakaları başarıyla analiz ettiniz. Artık kimse sizi ucuz mantık oyunlarıyla kandıramaz.</p>
-    <a href="/safsata/kalkan" style="background:#38bdf8; color:#0f172a; padding:15px 30px; border-radius:12px; text-decoration:none; font-weight:800;">Sıradaki Eğitime Geç: Zihinsel Kalkan</a>
+  <!-- Game Stage -->
+  <div class="game-stage" id="gameStage">
+    <div class="case-file" id="caseFile">
+      <!-- Case Header -->
+      <div class="case-header">
+        <div class="case-number" id="caseNumber">Dosya No: 001</div>
+        <h2 class="case-name" id="caseName">TV Tartışması</h2>
+        <div class="case-context-tag" id="caseContext">
+          <span>📋</span>
+          <span>Küresel Isınma ve Karbon Salınımı</span>
+        </div>
+      </div>
+
+      <!-- Dialogue -->
+      <div class="dialogue-stage" id="dialogueStage">
+        <!-- Injected by JS -->
+      </div>
+
+      <!-- Question Zone -->
+      <div class="question-zone">
+        <div class="q-prompt">
+          <div class="q-prompt-icon">🔍</div>
+          <div class="q-prompt-text" id="questionText">Kırmızı ile işaretli kısımda yapılan safsata nedir?</div>
+        </div>
+
+        <div class="options-grid" id="optionsGrid">
+          <!-- Injected by JS -->
+        </div>
+
+        <div class="feedback-panel" id="feedbackPanel">
+          <div class="fb-header">
+            <div class="fb-icon" id="fbIcon"></div>
+            <div class="fb-title-text" id="fbTitleText"></div>
+          </div>
+          <div class="fb-body" id="fbBody"></div>
+          <button class="next-action" id="btnNext" onclick="nextLevel()">
+            Sıradaki Vaka <span>→</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Victory Screen -->
+  <div class="victory-screen" id="victoryScreen">
+    <div class="victory-content">
+      <div class="victory-trophy">🏆</div>
+      <h2 class="victory-title">Görev Tamamlandı!</h2>
+      <p class="victory-sub">Tüm vakaları başarıyla analiz ettiniz. Artık kimse sizi ucuz mantık oyunlarıyla kandıramaz.</p>
+      <div class="victory-stats">
+        <div class="vs-item">
+          <div class="vs-num" id="finalScore">0</div>
+          <div class="vs-label">Toplam Skor</div>
+        </div>
+        <div class="vs-item">
+          <div class="vs-num" id="finalCorrect">0</div>
+          <div class="vs-label">Doğru</div>
+        </div>
+        <div class="vs-item">
+          <div class="vs-num" id="finalStreak">0</div>
+          <div class="vs-label">En İyi Seri</div>
+        </div>
+      </div>
+      <a href="/safsata/kalkan" class="victory-link">
+        Sıradaki Eğitim: Zihinsel Kalkan <span>→</span>
+      </a>
+    </div>
   </div>
 
 </div>
 
 <script>
+  // ═══════════════ PARTICLE SYSTEM ═══════════════
+  (function initParticles() {
+    const field = document.getElementById('particleField');
+    for (let i = 0; i < 30; i++) {
+      const p = document.createElement('div');
+      p.className = 'particle';
+      p.style.left = Math.random() * 100 + '%';
+      p.style.animationDuration = (8 + Math.random() * 15) + 's';
+      p.style.animationDelay = (Math.random() * 10) + 's';
+      p.style.width = (2 + Math.random() * 3) + 'px';
+      p.style.height = p.style.width;
+      const colors = ['#c084fc', '#7c3aed', '#22d3ee', '#34d399', '#fbbf24'];
+      p.style.background = colors[Math.floor(Math.random() * colors.length)];
+      p.style.boxShadow = `0 0 8px ${p.style.background}`;
+      field.appendChild(p);
+    }
+  })();
+
+  // ═══════════════ CINEMA INTRO ═══════════════
+  setTimeout(() => {
+    document.getElementById('cinemaIntro').classList.add('hidden');
+  }, 2800);
+
+  // ═══════════════ GAME DATA ═══════════════
   const cases = [
     {
-      title: "Vaka #1: TV Tartışması",
-      context: "Konu: Küresel Isınma ve Karbon Salınımı",
+      title: "TV Tartışması",
+      context: "Küresel Isınma ve Karbon Salınımı",
       dialogue: [
-        { speaker: "Bilim İnsanı", class: "msg-a", text: "Veriler gösteriyor ki, fosil yakıt tüketimini önümüzdeki 10 yıl içinde %30 azaltmazsak geri dönülemez bir eşiği geçeceğiz." },
-        { speaker: "Sanayici", class: "msg-b", text: "Senin tuzun kuru tabii! <span class='target'>İnsanları işsiz bırakıp hepimizi mağaralara geri döndürmek istiyorsunuz!</span>" }
+        { speaker: "Bilim İnsanı", side: "a", text: "Veriler gösteriyor ki, fosil yakıt tüketimini önümüzdeki 10 yıl içinde %30 azaltmazsak geri dönülemez bir eşiği geçeceğiz." },
+        { speaker: "Sanayici", side: "b", text: 'Senin tuzun kuru tabii! <span class="fallacy-target">İnsanları işsiz bırakıp hepimizi mağaralara geri döndürmek istiyorsunuz!</span>' }
       ],
       question: "Sanayicinin kullandığı bu savunma mekanizması hangi safsatadır?",
       options: [
-        { id: "o1", text: "Saman Adam (Strawman)", correct: true, fb: "Doğru! Bilim insanı '%30 azaltalım' dedi, sanayici ise bunu 'hepimizi mağaralara döndürmek' şeklinde uydurma ve abartılı bir pozisyona (saman adam) çevirerek ona saldırdı." },
-        { id: "o2", text: "Otoriteye Başvurma", correct: false, fb: "Yanlış. Burada bir otorite veya uzmana atıf yapılmamıştır." },
-        { id: "o3", text: "Yanlış Neden", correct: false, fb: "Yanlış. İki olayın art arda gelmesinden bahsedilmiyor." },
-        { id: "o4", text: "Sürü Psikolojisi", correct: false, fb: "Yanlış. Çoğunluğun ne düşündüğüne dair bir argüman yok." }
+        { letter: "A", text: "Saman Adam (Strawman)", correct: true, fb: "Doğru! Bilim insanı '%30 azaltalım' dedi, sanayici ise bunu 'hepimizi mağaralara döndürmek' şeklinde uydurma ve abartılı bir pozisyona (saman adam) çevirerek ona saldırdı." },
+        { letter: "B", text: "Otoriteye Başvurma", correct: false, fb: "Yanlış. Burada bir otorite veya uzmana atıf yapılmamıştır." },
+        { letter: "C", text: "Yanlış Neden", correct: false, fb: "Yanlış. İki olayın art arda gelmesinden bahsedilmiyor." },
+        { letter: "D", text: "Sürü Psikolojisi", correct: false, fb: "Yanlış. Çoğunluğun ne düşündüğüne dair bir argüman yok." }
       ]
     },
     {
-      title: "Vaka #2: Sosyal Medya Linci",
-      context: "Konu: Yeni Moda Zayıflama Çayı",
+      title: "Sosyal Medya Linci",
+      context: "Yeni Moda Zayıflama Çayı",
       dialogue: [
-        { speaker: "Diyetisyen", class: "msg-a", text: "Bu çayın içindeki maddelerin karaciğere zarar verdiğine dair 3 yeni klinik araştırma yayınlandı." },
-        { speaker: "Influencer", class: "msg-b", text: "Benim 2 milyon takipçim var ve <span class='target'>yüz binlerce insan bunu içip zayıfladı. Herkes memnunsak, o araştırmalar saçmalıktır.</span>" }
+        { speaker: "Diyetisyen", side: "a", text: "Bu çayın içindeki maddelerin karaciğere zarar verdiğine dair 3 yeni klinik araştırma yayınlandı." },
+        { speaker: "Influencer", side: "b", text: 'Benim 2 milyon takipçim var ve <span class="fallacy-target">yüz binlerce insan bunu içip zayıfladı. Herkes memnunsak, o araştırmalar saçmalıktır.</span>' }
       ],
       question: "Influencer'ın argümanını çürüten safsata türü nedir?",
       options: [
-        { id: "o1", text: "Kişiye Saldırı", correct: false, fb: "Yanlış. Influencer diyetisyenin şahsına hakaret etmiyor." },
-        { id: "o2", text: "Kaygan Zemin", correct: false, fb: "Yanlış. Burada bir felaket senaryosu zinciri bulunmuyor." },
-        { id: "o3", text: "Sürü Psikolojisi (Bandwagon)", correct: true, fb: "Mükemmel! Bir şeyin çok kişi tarafından yapılması (yüz binlerce insanın içmesi) o şeyin biyolojik veya bilimsel olarak doğru/sağlıklı olduğunu kanıtlamaz." },
-        { id: "o4", text: "Kırmızı Ringa Balığı", correct: false, fb: "Yanlış. Konu hala zayıflama çayı, konu saptırılmıyor." }
+        { letter: "A", text: "Kişiye Saldırı", correct: false, fb: "Yanlış. Influencer diyetisyenin şahsına hakaret etmiyor." },
+        { letter: "B", text: "Kaygan Zemin", correct: false, fb: "Yanlış. Burada bir felaket senaryosu zinciri bulunmuyor." },
+        { letter: "C", text: "Sürü Psikolojisi (Bandwagon)", correct: true, fb: "Mükemmel! Bir şeyin çok kişi tarafından yapılması (yüz binlerce insanın içmesi) o şeyin biyolojik veya bilimsel olarak doğru/sağlıklı olduğunu kanıtlamaz." },
+        { letter: "D", text: "Kırmızı Ringa Balığı", correct: false, fb: "Yanlış. Konu hala zayıflama çayı, konu saptırılmıyor." }
       ]
     },
     {
-      title: "Vaka #3: Bütçe Toplantısı",
-      context: "Konu: Okula Yeni Bilgisayar Laboratuvarı Kurulması",
+      title: "Bütçe Toplantısı",
+      context: "Okula Yeni Bilgisayar Laboratuvarı Kurulması",
       dialogue: [
-        { speaker: "Veli", class: "msg-a", text: "Çocukların kodlama öğrenmesi için yeni bilgisayarlara bütçe ayırmalıyız." },
-        { speaker: "Müdür", class: "msg-b", text: "<span class='target'>Ya okulun çatısını tamir ettiririz ya da bilgisayar alırız. İkisi birden olamaz,</span> çatı daha önemli!" }
+        { speaker: "Veli", side: "a", text: "Çocukların kodlama öğrenmesi için yeni bilgisayarlara bütçe ayırmalıyız." },
+        { speaker: "Müdür", side: "b", text: '<span class="fallacy-target">Ya okulun çatısını tamir ettiririz ya da bilgisayar alırız. İkisi birden olamaz,</span> çatı daha önemli!' }
       ],
       question: "Müdürün veliyi köşeye sıkıştırmak için kullandığı safsata hangisidir?",
       options: [
-        { id: "o1", text: "Sahte İkilem (False Dilemma)", correct: true, fb: "Harika! Müdür durumu sadece 2 seçenek varmış gibi sunuyor. Oysa bütçe bölünebilir, bağış toplanabilir veya farklı kaynaklar bulunabilir." },
-        { id: "o2", text: "Saman Adam", correct: false, fb: "Yanlış. Velinin argümanı çarpıtılmamıştır." },
-        { id: "o3", text: "Kaygan Zemin", correct: false, fb: "Yanlış. Geleceğe dair bir felaket senaryosu yok." },
-        { id: "o4", text: "Otoriteye Başvurma", correct: false, fb: "Yanlış. Herhangi bir sahte otoriteden bahsedilmiyor." }
+        { letter: "A", text: "Sahte İkilem (False Dilemma)", correct: true, fb: "Harika! Müdür durumu sadece 2 seçenek varmış gibi sunuyor. Oysa bütçe bölünebilir, bağış toplanabilir veya farklı kaynaklar bulunabilir." },
+        { letter: "B", text: "Saman Adam", correct: false, fb: "Yanlış. Velinin argümanı çarpıtılmamıştır." },
+        { letter: "C", text: "Kaygan Zemin", correct: false, fb: "Yanlış. Geleceğe dair bir felaket senaryosu yok." },
+        { letter: "D", text: "Otoriteye Başvurma", correct: false, fb: "Yanlış. Herhangi bir sahte otoriteden bahsedilmiyor." }
       ]
     },
     {
-      title: "Vaka #4: Ofis Dedikodusu",
-      context: "Konu: Şirketteki Yeni Güvenlik Kuralları",
+      title: "Ofis Dedikodusu",
+      context: "Şirketteki Yeni Güvenlik Kuralları",
       dialogue: [
-        { speaker: "Çalışan A", class: "msg-a", text: "İnternet kısıtlamaları işimizi çok yavaşlatıyor, kaynaklara erişemiyoruz." },
-        { speaker: "İK Müdürü", class: "msg-b", text: "<span class='target'>Eğer interneti serbest bırakırsak, herkes işte oyun oynar, verim düşer, şirket batar ve hepimiz işsiz kalırız!</span>" }
+        { speaker: "Çalışan A", side: "a", text: "İnternet kısıtlamaları işimizi çok yavaşlatıyor, kaynaklara erişemiyoruz." },
+        { speaker: "İK Müdürü", side: "b", text: '<span class="fallacy-target">Eğer interneti serbest bırakırsak, herkes işte oyun oynar, verim düşer, şirket batar ve hepimiz işsiz kalırız!</span>' }
       ],
       question: "İK Müdürünün kullandığı korkutma taktiği hangi safsatadır?",
       options: [
-        { id: "o1", text: "Kırmızı Ringa Balığı", correct: false, fb: "Yanlış. Konu internet erişimi, alakasız bir konu açılmadı." },
-        { id: "o2", text: "Kaygan Zemin (Slippery Slope)", correct: true, fb: "Tebrikler! Ufak bir kısıtlama kaldırma eylemi, kanıtsız bir şekilde 'şirketin batması' gibi uç bir felaket senaryosuna (domino taşı gibi) bağlanmıştır." },
-        { id: "o3", text: "Kişiye Saldırı", correct: false, fb: "Yanlış. Çalışana hakaret edilmedi." },
-        { id: "o4", text: "Sahte İkilem", correct: false, fb: "Yanlış. İki zıt seçenek dayatılmadı." }
+        { letter: "A", text: "Kırmızı Ringa Balığı", correct: false, fb: "Yanlış. Konu internet erişimi, alakasız bir konu açılmadı." },
+        { letter: "B", text: "Kaygan Zemin (Slippery Slope)", correct: true, fb: "Tebrikler! Ufak bir kısıtlama kaldırma eylemi, kanıtsız bir şekilde 'şirketin batması' gibi uç bir felaket senaryosuna (domino taşı gibi) bağlanmıştır." },
+        { letter: "C", text: "Kişiye Saldırı", correct: false, fb: "Yanlış. Çalışana hakaret edilmedi." },
+        { letter: "D", text: "Sahte İkilem", correct: false, fb: "Yanlış. İki zıt seçenek dayatılmadı." }
       ]
     }
   ];
 
   let currentLevel = 0;
   let score = 0;
+  let streak = 0;
+  let maxStreak = 0;
+  let correctCount = 0;
 
+  // ═══════════════ LOAD LEVEL ═══════════════
   function loadLevel() {
     if (currentLevel >= cases.length) {
-      document.getElementById('gameBoard').style.display = 'none';
-      document.getElementById('gameOver').style.display = 'block';
+      showVictory();
       return;
     }
 
     const c = cases[currentLevel];
-    document.getElementById('hudLevel').textContent = `Vaka ${currentLevel + 1} / ${cases.length}`;
-    document.getElementById('cTitle').textContent = c.title;
-    document.getElementById('cContext').textContent = c.context;
-    
-    // Render Dialogue
-    const dCont = document.getElementById('cDialogue');
-    dCont.innerHTML = '';
-    c.dialogue.forEach(d => {
-      dCont.innerHTML += `
-        <div class="msg ${d.class}">
-          <div class="speaker">${d.speaker}</div>
-          ${d.text}
-        </div>
+
+    // HUD
+    document.getElementById('hudLevel').textContent = `${currentLevel + 1} / ${cases.length}`;
+    document.getElementById('hudProgressFill').style.width = `${((currentLevel) / cases.length) * 100}%`;
+
+    // Case Header
+    document.getElementById('caseNumber').innerHTML = `Dosya No: ${String(currentLevel + 1).padStart(3, '0')}`;
+    document.getElementById('caseName').textContent = c.title;
+    document.getElementById('caseContext').innerHTML = `<span>📋</span><span>${c.context}</span>`;
+
+    // Dialogue
+    const dStage = document.getElementById('dialogueStage');
+    dStage.innerHTML = '';
+    c.dialogue.forEach((d, i) => {
+      const card = document.createElement('div');
+      card.className = `msg-card speaker-${d.side}`;
+      card.style.animationDelay = `${0.1 + i * 0.3}s`;
+      card.innerHTML = `
+        <div class="msg-dot"></div>
+        <div class="msg-speaker">${d.speaker}</div>
+        <div class="msg-bubble">${d.text}</div>
       `;
+      dStage.appendChild(card);
     });
 
-    document.getElementById('qText').innerHTML = c.question;
+    // Question
+    document.getElementById('questionText').innerHTML = c.question;
 
-    // Render Options
-    const qOpts = document.getElementById('qOpts');
-    qOpts.innerHTML = '';
+    // Options
+    const grid = document.getElementById('optionsGrid');
+    grid.innerHTML = '';
     c.options.forEach(o => {
-      const btn = document.createElement('button');
-      btn.className = 'opt-btn';
-      btn.textContent = o.text;
-      btn.onclick = () => selectOption(btn, o, c.options);
-      qOpts.appendChild(btn);
+      const card = document.createElement('div');
+      card.className = 'opt-card';
+      card.innerHTML = `
+        <div class="opt-letter">${o.letter}</div>
+        <div class="opt-text">${o.text}</div>
+      `;
+      card.onclick = () => selectAnswer(card, o, c.options);
+      grid.appendChild(card);
     });
 
-    const fbBox = document.getElementById('feedbackBox');
-    fbBox.style.display = 'none';
-    fbBox.className = 'feedback-box';
+    // Reset feedback
+    const fb = document.getElementById('feedbackPanel');
+    fb.style.display = 'none';
+    fb.className = 'feedback-panel';
   }
 
-  function selectOption(btn, opt, allOpts) {
-    // Disable all
-    const buttons = document.getElementById('qOpts').querySelectorAll('.opt-btn');
-    buttons.forEach(b => b.disabled = true);
+  // ═══════════════ SELECT ANSWER ═══════════════
+  function selectAnswer(card, opt, allOpts) {
+    const allCards = document.querySelectorAll('.opt-card');
+    allCards.forEach(c => c.classList.add('disabled'));
 
-    const fbBox = document.getElementById('feedbackBox');
-    const fbText = document.getElementById('fbText');
-
-    fbBox.style.display = 'block';
+    const fb = document.getElementById('feedbackPanel');
+    fb.style.display = 'block';
 
     if (opt.correct) {
-      btn.classList.add('correct');
-      fbBox.classList.add('success');
-      fbText.innerHTML = `<strong>🏆 Harika Tespit!</strong><br>${opt.fb}`;
-      score += 100;
-      document.getElementById('scoreVal').textContent = score;
-    } else {
-      btn.classList.add('wrong');
-      fbBox.classList.add('error');
-      fbText.innerHTML = `<strong>❌ Yanlış Analiz.</strong><br>${opt.fb}`;
+      card.classList.add('correct');
+      fb.classList.add('success');
+      document.getElementById('fbIcon').textContent = '🏆';
+      document.getElementById('fbTitleText').textContent = 'Harika Tespit!';
       
-      // Highlight correct one
+      // Score
+      score += 100;
+      streak++;
+      correctCount++;
+      if (streak > maxStreak) maxStreak = streak;
+
+      // Bonus for streak
+      if (streak >= 3) {
+        score += 50;
+        document.getElementById('fbTitleText').textContent = `🔥 ${streak}x Seri Bonusu! Harika Tespit!`;
+      }
+
+      showScorePopup(`+${streak >= 3 ? 150 : 100}`, true);
+      
+    } else {
+      card.classList.add('wrong');
+      fb.classList.add('error');
+      document.getElementById('fbIcon').textContent = '❌';
+      document.getElementById('fbTitleText').textContent = 'Yanlış Analiz';
+      streak = 0;
+
+      // Highlight correct
       const correctOpt = allOpts.find(o => o.correct);
-      const correctBtn = Array.from(buttons).find(b => b.textContent === correctOpt.text);
-      correctBtn.style.borderColor = '#10b981';
-      correctBtn.style.color = '#10b981';
+      allCards.forEach(c => {
+        if (c.querySelector('.opt-text').textContent === correctOpt.text) {
+          c.classList.remove('disabled');
+          c.classList.add('correct');
+        }
+      });
+
+      showScorePopup('✕', false);
     }
+
+    document.getElementById('fbBody').textContent = opt.fb;
+    document.getElementById('hudScore').textContent = score;
+    document.getElementById('hudStreak').textContent = streak;
   }
 
+  // ═══════════════ SCORE POPUP ═══════════════
+  function showScorePopup(text, isCorrect) {
+    const popup = document.getElementById('scorePopup');
+    popup.textContent = text;
+    popup.className = `score-popup ${isCorrect ? 'correct-pop' : 'wrong-pop'} show`;
+    setTimeout(() => {
+      popup.classList.remove('show');
+    }, 900);
+  }
+
+  // ═══════════════ NEXT LEVEL ═══════════════
   function nextLevel() {
     currentLevel++;
-    loadLevel();
+
+    if (currentLevel >= cases.length) {
+      showVictory();
+      return;
+    }
+
+    // Scene transition
+    const st = document.getElementById('sceneTransition');
+    document.getElementById('stText').textContent = `Dosya #${String(currentLevel + 1).padStart(3, '0')} yükleniyor…`;
+    st.classList.add('active');
+
+    setTimeout(() => {
+      loadLevel();
+    }, 500);
+
+    setTimeout(() => {
+      st.classList.remove('active');
+    }, 1000);
   }
 
-  // Init
+  // ═══════════════ VICTORY ═══════════════
+  function showVictory() {
+    document.getElementById('gameStage').style.display = 'none';
+    document.getElementById('hudProgressFill').style.width = '100%';
+    
+    const vs = document.getElementById('victoryScreen');
+    vs.style.display = 'block';
+    vs.style.animation = 'fadeSlideUp 0.8s ease forwards';
+
+    document.getElementById('finalScore').textContent = score;
+    document.getElementById('finalCorrect').textContent = `${correctCount}/${cases.length}`;
+    document.getElementById('finalStreak').textContent = maxStreak;
+  }
+
+  // ═══════════════ INIT ═══════════════
   loadLevel();
 
 </script>

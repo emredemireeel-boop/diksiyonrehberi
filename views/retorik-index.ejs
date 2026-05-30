@@ -2,258 +2,1006 @@
 <link rel="stylesheet" href="/retorik.css?v=7" />
 
 <style>
+  @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Playfair+Display:ital,wght@0,600;0,700;0,800;0,900;1,600&family=JetBrains+Mono:wght@400;700&display=swap');
+
+  /* ═══════════════════════════════════════════════════════════
+     RETORIK — Ultra Luxury Light Mode / Competition Grade
+     ═══════════════════════════════════════════════════════════ */
+
+  :root {
+    --r-bg: #faf9f7;
+    --r-bg2: #ffffff;
+    --r-surface: #ffffff;
+    --r-surface2: #f5f3ef;
+    --r-navy: #0f172a;
+    --r-navy2: #1e293b;
+    --r-gold: #b8860b;
+    --r-gold2: #d4a017;
+    --r-gold-light: rgba(184, 134, 11, 0.06);
+    --r-gold-glow: rgba(212, 160, 23, 0.15);
+    --r-text: #1a1a2e;
+    --r-text2: #4a4a68;
+    --r-text3: #8b8ba3;
+    --r-border: rgba(0,0,0,0.06);
+    --r-border-h: rgba(184, 134, 11, 0.2);
+    --r-shadow: 0 8px 30px rgba(0,0,0,0.04);
+    --r-shadow-h: 0 20px 60px rgba(0,0,0,0.08);
+  }
+
+  body {
+    background: var(--r-bg) !important;
+    color: var(--r-text);
+    font-family: 'Outfit', sans-serif;
+    overflow-x: hidden;
+  }
+
   .retorik-page { display: block !important; }
   .ret-cat-pill { text-decoration: none; }
+
+  /* ── AMBIENT LIGHT BLOBS ── */
+  .r-ambient {
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    overflow: hidden;
+  }
+  .r-blob {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(80px);
+    opacity: 0.35;
+    animation: blobFloat 20s ease-in-out infinite alternate;
+  }
+  .r-blob:nth-child(1) { width: 500px; height: 500px; top: -100px; right: -100px; background: linear-gradient(135deg, #fde68a, #fbbf24); animation-duration: 18s; }
+  .r-blob:nth-child(2) { width: 400px; height: 400px; bottom: -80px; left: -80px; background: linear-gradient(135deg, #c7d2fe, #818cf8); animation-duration: 22s; animation-delay: -5s; }
+  .r-blob:nth-child(3) { width: 300px; height: 300px; top: 40%; left: 60%; background: linear-gradient(135deg, #fecaca, #f87171); opacity: 0.15; animation-duration: 25s; animation-delay: -10s; }
+
+  @keyframes blobFloat {
+    0% { transform: translate(0, 0) scale(1); }
+    33% { transform: translate(30px, -40px) scale(1.1); }
+    66% { transform: translate(-20px, 30px) scale(0.95); }
+    100% { transform: translate(10px, -10px) scale(1.05); }
+  }
+
+  /* ── GOLD PARTICLE FIELD ── */
+  .r-sparkles { position: fixed; inset: 0; z-index: 1; pointer-events: none; }
+  .r-spark {
+    position: absolute;
+    width: 3px;
+    height: 3px;
+    border-radius: 50%;
+    background: var(--r-gold2);
+    opacity: 0;
+    animation: sparkRise linear infinite;
+  }
+  @keyframes sparkRise {
+    0% { opacity: 0; transform: translateY(100vh) scale(0.5); }
+    20% { opacity: 0.6; }
+    80% { opacity: 0.2; }
+    100% { opacity: 0; transform: translateY(-5vh) scale(0.3); }
+  }
+
+  /* ── SUBTLE GRID ── */
+  .r-grid-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    background-image:
+      linear-gradient(rgba(0,0,0,0.015) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(0,0,0,0.015) 1px, transparent 1px);
+    background-size: 60px 60px;
+  }
+
+  /* ═══════════════════════════════════════
+     MAIN CONTENT WRAPPER
+     ═══════════════════════════════════════ */
+  .r-world {
+    position: relative;
+    z-index: 10;
+  }
+
+  /* ═══════════════════════════════════════
+     HERO SECTION
+     ═══════════════════════════════════════ */
+  .r-hero {
+    text-align: center;
+    padding: 70px 30px 60px;
+    position: relative;
+    overflow: hidden;
+  }
+  .r-hero::before {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80%;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--r-border-h), transparent);
+  }
+
+  .r-hero-overline {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 20px;
+    border-radius: 50px;
+    background: var(--r-gold-light);
+    border: 1px solid var(--r-border-h);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.6rem;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--r-gold);
+    font-weight: 700;
+    margin-bottom: 25px;
+  }
+  .r-hero-overline::before {
+    content: '';
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--r-gold2);
+    box-shadow: 0 0 8px var(--r-gold2);
+    animation: goldPulse 2s ease-in-out infinite;
+  }
+  @keyframes goldPulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.4; transform: scale(0.6); }
+  }
+
+  .r-hero-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 4rem;
+    font-weight: 900;
+    color: var(--r-navy);
+    line-height: 1.05;
+    margin: 0 0 10px;
+    letter-spacing: -1px;
+  }
+  .r-hero-tagline {
+    font-family: 'Outfit', sans-serif;
+    font-size: 1.4rem;
+    font-weight: 600;
+    color: var(--r-gold);
+    margin-bottom: 18px;
+  }
+  .r-hero-desc {
+    font-size: 1.05rem;
+    color: var(--r-text2);
+    max-width: 620px;
+    margin: 0 auto 35px;
+    line-height: 1.8;
+  }
+  .r-hero-stats {
+    display: flex;
+    justify-content: center;
+    gap: 40px;
+    flex-wrap: wrap;
+  }
+  .r-stat {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  .r-stat-n {
+    font-family: 'Playfair Display', serif;
+    font-size: 2.2rem;
+    font-weight: 900;
+    color: var(--r-navy);
+    line-height: 1;
+  }
+  .r-stat-l {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.6rem;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--r-text3);
+    margin-top: 5px;
+    font-weight: 700;
+  }
+
+  /* ═══════════════════════════════════════
+     INTERACTIVE TOOLS SECTION
+     ═══════════════════════════════════════ */
+  .r-tools-section {
+    padding: 0 30px 60px;
+    max-width: 1300px;
+    margin: 0 auto;
+  }
+  .r-section-header {
+    text-align: center;
+    margin-bottom: 40px;
+  }
+  .r-section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 2rem;
+    font-weight: 800;
+    color: var(--r-navy);
+    margin: 0 0 8px;
+  }
+  .r-section-sub {
+    font-size: 1rem;
+    color: var(--r-text3);
+  }
+
+  /* ── Masterpiece Cards (Full Width) ── */
+  .r-tools-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 24px;
+  }
+
+  .r-master-card {
+    grid-column: 1 / -1;
+    border-radius: 24px;
+    padding: 45px 40px;
+    text-decoration: none;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+    position: relative;
+    overflow: hidden;
+    border: 1px solid transparent;
+  }
+  .r-master-card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: 24px;
+    padding: 2px;
+    background: linear-gradient(135deg, var(--mc-c1), var(--mc-c2), transparent);
+    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    opacity: 0.5;
+    transition: opacity 0.4s;
+  }
+  .r-master-card:hover::before { opacity: 1; }
+  .r-master-card::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, var(--mc-bg1), var(--mc-bg2));
+    z-index: -1;
+    border-radius: 24px;
+  }
+  .r-master-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 30px 80px var(--mc-shadow);
+  }
+
+  .r-mc-badge {
+    position: absolute;
+    top: 18px;
+    right: 22px;
+    background: var(--mc-accent);
+    color: var(--mc-badge-text, #0f172a);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.6rem;
+    font-weight: 900;
+    padding: 5px 16px;
+    border-radius: 50px;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    animation: badgePulse 3s ease-in-out infinite;
+  }
+  @keyframes badgePulse {
+    0%, 100% { box-shadow: 0 0 0 0 var(--mc-accent-glow); }
+    50% { box-shadow: 0 0 0 8px transparent; }
+  }
+
+  .r-mc-icon {
+    font-size: 4rem;
+    margin-bottom: 15px;
+    filter: drop-shadow(0 8px 20px var(--mc-shadow));
+  }
+  .r-mc-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.8rem;
+    font-weight: 900;
+    margin: 0 0 12px;
+    color: var(--mc-title);
+    letter-spacing: -0.5px;
+  }
+  .r-mc-desc {
+    font-size: 1rem;
+    color: var(--mc-desc);
+    line-height: 1.7;
+    margin-bottom: 25px;
+    max-width: 700px;
+  }
+  .r-mc-cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--mc-accent);
+    color: var(--mc-badge-text, #0f172a);
+    font-weight: 800;
+    padding: 14px 36px;
+    border-radius: 50px;
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    transition: all 0.3s;
+    box-shadow: 0 8px 25px var(--mc-accent-glow);
+  }
+  .r-master-card:hover .r-mc-cta {
+    transform: scale(1.05);
+    box-shadow: 0 12px 35px var(--mc-accent-glow);
+  }
+
+  /* Master Card Themes */
+  .r-mc-munazara { --mc-bg1: #1e1b4b; --mc-bg2: #0f172a; --mc-c1: #eab308; --mc-c2: #f59e0b; --mc-accent: #eab308; --mc-accent-glow: rgba(234,179,8,0.3); --mc-shadow: rgba(234,179,8,0.15); --mc-title: #eab308; --mc-desc: #cbd5e1; --mc-badge-text: #0f172a; }
+  .r-mc-karanlik { --mc-bg1: #022c22; --mc-bg2: #0f172a; --mc-c1: #10b981; --mc-c2: #34d399; --mc-accent: #10b981; --mc-accent-glow: rgba(16,185,129,0.3); --mc-shadow: rgba(16,185,129,0.15); --mc-title: #10b981; --mc-desc: #cbd5e1; --mc-badge-text: #0f172a; }
+  .r-mc-prompter { --mc-bg1: #4c0519; --mc-bg2: #000000; --mc-c1: #f43f5e; --mc-c2: #fb7185; --mc-accent: #f43f5e; --mc-accent-glow: rgba(244,63,94,0.3); --mc-shadow: rgba(244,63,94,0.15); --mc-title: #f43f5e; --mc-desc: #fecdd3; --mc-badge-text: #fff; }
+  .r-mc-asistan { --mc-bg1: #0f172a; --mc-bg2: #0066cc; --mc-c1: #38bdf8; --mc-c2: #7dd3fc; --mc-accent: #38bdf8; --mc-accent-glow: rgba(56,189,248,0.3); --mc-shadow: rgba(56,189,248,0.15); --mc-title: #38bdf8; --mc-desc: #e0f2fe; --mc-badge-text: #0f172a; }
+
+  /* ── Mini Tool Cards ── */
+  .r-tool-card {
+    background: var(--r-surface);
+    border: 1px solid var(--r-border);
+    border-radius: 20px;
+    padding: 30px;
+    text-decoration: none;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+    position: relative;
+    overflow: hidden;
+    box-shadow: var(--r-shadow);
+  }
+  .r-tool-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, var(--tc-color), transparent);
+    opacity: 0;
+    transition: opacity 0.3s;
+  }
+  .r-tool-card:hover {
+    transform: translateY(-8px) scale(1.01);
+    box-shadow: var(--r-shadow-h);
+    border-color: var(--r-border-h);
+  }
+  .r-tool-card:hover::before { opacity: 1; }
+
+  .r-tc-icon { font-size: 2.5rem; margin-bottom: 15px; }
+  .r-tc-title {
+    font-family: 'Outfit', sans-serif;
+    font-size: 1.3rem;
+    font-weight: 800;
+    color: var(--tc-color);
+    margin: 0 0 10px;
+  }
+  .r-tc-desc {
+    font-size: 0.9rem;
+    color: var(--r-text2);
+    line-height: 1.65;
+    margin-bottom: 20px;
+    flex-grow: 1;
+  }
+  .r-tc-cta {
+    margin-top: auto;
+    background: var(--tc-color);
+    color: #fff;
+    font-weight: 800;
+    padding: 10px 22px;
+    border-radius: 50px;
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    transition: all 0.3s;
+  }
+  .r-tool-card:hover .r-tc-cta { box-shadow: 0 8px 25px var(--tc-glow); }
+
+  /* ═══════════════════════════════════════
+     CATEGORY PILLS
+     ═══════════════════════════════════════ */
+  .r-pills-wrap {
+    text-align: center;
+    padding: 0 30px;
+    margin-bottom: 50px;
+  }
+  .r-pills {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    justify-content: center;
+  }
+  .r-pill {
+    padding: 10px 24px;
+    border-radius: 50px;
+    border: 1.5px solid var(--r-border);
+    background: var(--r-surface);
+    color: var(--r-text3);
+    font-size: 0.9rem;
+    font-weight: 600;
+    text-decoration: none;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.02);
+  }
+  .r-pill:hover {
+    border-color: var(--r-border-h);
+    color: var(--r-gold);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(184, 134, 11, 0.08);
+  }
+  .r-pill.active {
+    background: var(--r-navy);
+    border-color: var(--r-navy);
+    color: #fff;
+    box-shadow: 0 8px 25px rgba(15, 23, 42, 0.2);
+  }
+
+  /* ═══════════════════════════════════════
+     CONTENT SECTIONS (Aristotle, etc)
+     ═══════════════════════════════════════ */
+  .r-content-section {
+    max-width: 1300px;
+    margin: 0 auto 40px;
+    padding: 0 30px;
+  }
+
+  .r-glass-section {
+    background: var(--r-surface);
+    border: 1px solid var(--r-border);
+    border-radius: 24px;
+    padding: 40px;
+    box-shadow: var(--r-shadow);
+    position: relative;
+    overflow: hidden;
+    transition: all 0.4s;
+  }
+  .r-glass-section::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 120px;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, var(--r-gold), transparent);
+    opacity: 0;
+    transition: opacity 0.4s;
+  }
+  .r-glass-section:hover::before { opacity: 1; }
+  .r-glass-section:hover {
+    box-shadow: var(--r-shadow-h);
+    border-color: var(--r-border-h);
+  }
+
+  .r-gs-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.6rem;
+    font-weight: 800;
+    color: var(--r-navy);
+    margin: 0 0 6px;
+  }
+  .r-gs-sub {
+    color: var(--r-text3);
+    font-size: 0.95rem;
+    margin-bottom: 28px;
+  }
+
+  /* ── Pillar Cards ── */
+  .r-pillars-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 20px;
+  }
+
+  .r-pillar-card {
+    background: var(--r-surface2);
+    border: 1px solid var(--r-border);
+    border-radius: 18px;
+    padding: 30px;
+    text-decoration: none;
+    display: block;
+    transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+    position: relative;
+    overflow: hidden;
+  }
+  .r-pillar-card::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 4px;
+    background: var(--pc-color, var(--r-gold));
+    border-radius: 4px 0 0 4px;
+    opacity: 0.5;
+    transition: opacity 0.3s;
+  }
+  .r-pillar-card:hover {
+    transform: translateY(-5px) scale(1.01);
+    box-shadow: 0 15px 40px rgba(0,0,0,0.06);
+    border-color: var(--r-border-h);
+  }
+  .r-pillar-card:hover::before { opacity: 1; }
+
+  .r-pc-num {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.6rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: var(--r-text3);
+    margin-bottom: 14px;
+  }
+  .r-pc-title {
+    font-family: 'Outfit', sans-serif;
+    color: var(--r-navy);
+    font-size: 1.25rem;
+    font-weight: 800;
+    margin-bottom: 10px;
+  }
+  .r-pc-desc {
+    color: var(--r-text2);
+    font-size: 0.88rem;
+    line-height: 1.7;
+    margin-bottom: 18px;
+  }
+  .r-pc-link {
+    font-weight: 700;
+    font-size: 0.85rem;
+    color: var(--r-navy);
+    display: flex;
+    align-items: center;
+    gap: 5px;
+  }
+
+  /* ═══════════════════════════════════════
+     ONBOARDING / ACADEMY SECTION
+     ═══════════════════════════════════════ */
+  .r-academy {
+    background: linear-gradient(135deg, #faf9f7 0%, #f0ede6 100%);
+    border: 2px solid var(--r-border-h);
+    border-radius: 28px;
+    padding: 50px;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 15px 50px rgba(184, 134, 11, 0.06);
+  }
+  .r-academy::before {
+    content: '';
+    position: absolute;
+    top: -1px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 200px;
+    height: 3px;
+    background: linear-gradient(90deg, transparent, var(--r-gold), var(--r-gold2), transparent);
+    border-radius: 3px;
+  }
+
+  .r-academy-header {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    margin-bottom: 28px;
+  }
+  .r-academy-icon {
+    font-size: 3rem;
+    filter: drop-shadow(0 5px 15px rgba(184, 134, 11, 0.2));
+  }
+  .r-academy-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 2rem;
+    font-weight: 900;
+    color: var(--r-navy);
+    margin: 0 0 5px;
+    letter-spacing: -0.5px;
+  }
+  .r-academy-sub {
+    color: var(--r-gold);
+    font-size: 1rem;
+    font-weight: 600;
+    margin: 0;
+  }
+
+  .r-academy-text {
+    color: var(--r-text2);
+    font-size: 1.05rem;
+    line-height: 1.85;
+    margin-bottom: 18px;
+  }
+
+  .r-academy-features {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+    margin: 30px 0;
+  }
+  .r-academy-feature {
+    background: var(--r-surface);
+    padding: 25px;
+    border-radius: 16px;
+    border-left: 4px solid var(--af-color);
+    box-shadow: 0 4px 15px rgba(0,0,0,0.03);
+    transition: all 0.3s;
+  }
+  .r-academy-feature:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.06);
+  }
+  .r-af-title {
+    font-size: 1.1rem;
+    font-weight: 800;
+    color: var(--r-navy);
+    margin-bottom: 10px;
+  }
+  .r-af-text {
+    font-size: 0.9rem;
+    color: var(--r-text2);
+    line-height: 1.7;
+    margin: 0;
+  }
+
+  /* Quote block */
+  .r-quote-block {
+    background: var(--r-navy);
+    border-radius: 18px;
+    padding: 28px 32px;
+    color: #fff;
+    margin-top: 30px;
+  }
+  .r-quote-text {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.15rem;
+    font-style: italic;
+    line-height: 1.7;
+    margin-bottom: 15px;
+    font-weight: 500;
+    opacity: 0.9;
+  }
+  .r-quote-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .r-quote-cite {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.7rem;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.5);
+    font-weight: 700;
+  }
+  .r-quote-cta {
+    background: var(--r-gold);
+    color: var(--r-navy);
+    font-weight: 800;
+    padding: 10px 24px;
+    border-radius: 50px;
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    text-decoration: none;
+    transition: all 0.3s;
+  }
+  .r-quote-cta:hover {
+    transform: scale(1.05);
+    box-shadow: 0 8px 25px rgba(184, 134, 11, 0.3);
+  }
+
+  /* ═══════════════════════════════════════
+     RESPONSIVE
+     ═══════════════════════════════════════ */
+  @media (max-width: 768px) {
+    .r-hero { padding: 50px 20px 40px; }
+    .r-hero-title { font-size: 2.5rem; }
+    .r-hero-stats { gap: 20px; }
+    .r-tools-section, .r-content-section { padding: 0 16px; }
+    .r-master-card { padding: 30px 24px; }
+    .r-mc-title { font-size: 1.4rem; }
+    .r-glass-section { padding: 28px 22px; }
+    .r-academy { padding: 30px 22px; }
+    .r-academy-title { font-size: 1.5rem; }
+    .r-pills { gap: 8px; }
+    .r-pill { padding: 8px 18px; font-size: 0.82rem; }
+  }
+  @media (max-width: 480px) {
+    .r-hero-title { font-size: 2rem; }
+    .r-pills { flex-wrap: nowrap; overflow-x: auto; justify-content: flex-start; scrollbar-width: none; }
+    .r-pills::-webkit-scrollbar { display: none; }
+    .r-pill { white-space: nowrap; flex-shrink: 0; }
+  }
+
+  /* pulse animation for badges */
+  @keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.6; }
+  }
 </style>
 
+<!-- ═══════════ AMBIENT EFFECTS ═══════════ -->
+<div class="r-ambient">
+  <div class="r-blob"></div>
+  <div class="r-blob"></div>
+  <div class="r-blob"></div>
+</div>
+<div class="r-sparkles" id="rSparkles"></div>
+<div class="r-grid-overlay"></div>
+
+<div class="r-world">
 <main class="main-content">
   <div class="content-wrapper">
     <div id="retorik-container" class="retorik-page">
 
       <!-- ══ HERO ══ -->
-      <div class="ret-hero">
-        <div class="ret-hero-badge">Antik Yunandan Gunumuze</div>
-        <h1 class="ret-hero-title"><%= meta.h1 %></h1>
-        <p class="ret-hero-tagline">Etkili Konusma ve Ikna Sanati</p>
-        <p class="ret-hero-desc">Sadece dogru konusmak yetmez — ikna etmek, ilham vermek ve iz birakmak gerekir. Retorik, binlerce yillik bilgeligi modern iletisime tasiyan en guclu aractir.</p>
-        <div class="ret-hero-stats">
-          <div class="ret-stat"><span class="ret-stat-n">2500+</span><span class="ret-stat-l">Yillik Tarih</span></div>
-          <div class="ret-stat"><span class="ret-stat-n">8</span><span class="ret-stat-l">Egitim Modulu</span></div>
-          <div class="ret-stat"><span class="ret-stat-n">20</span><span class="ret-stat-l">Interaktif Ders</span></div>
+      <div class="r-hero">
+        <div class="r-hero-overline">Antik Yunan'dan Günümüze</div>
+        <h1 class="r-hero-title"><%= meta.h1 %></h1>
+        <p class="r-hero-tagline">Etkili Konuşma ve İkna Sanatı</p>
+        <p class="r-hero-desc">Sadece doğru konuşmak yetmez — ikna etmek, ilham vermek ve iz bırakmak gerekir. Retorik, binlerce yıllık bilgeliği modern iletişime taşıyan en güçlü araçtır.</p>
+        <div class="r-hero-stats">
+          <div class="r-stat"><span class="r-stat-n">2500+</span><span class="r-stat-l">Yıllık Tarih</span></div>
+          <div class="r-stat"><span class="r-stat-n">8</span><span class="r-stat-l">Eğitim Modülü</span></div>
+          <div class="r-stat"><span class="r-stat-n">20</span><span class="r-stat-l">İnteraktif Ders</span></div>
         </div>
       </div>
 
       <!-- ══ İNTERAKTİF ARAÇLAR ══ -->
-      <div style="margin-bottom: 60px; margin-top: 20px;">
-        <h2 class="section-heading" style="color:#0f172a;font-size:1.8rem;margin-bottom:10px">İnteraktif Retorik Araçları</h2>
-        <p style="color:#64748b; margin-bottom: 30px; font-size: 1.05rem;">Sadece okumayın, ikna edin! İkna kabiliyetinizi ve hitabetinizi ölçecek premium simülatörler.</p>
+      <div class="r-tools-section">
+        <div class="r-section-header">
+          <h2 class="r-section-title">İnteraktif Retorik Araçları</h2>
+          <p class="r-section-sub">Sadece okumayın, ikna edin! İkna kabiliyetinizi ve hitabetinizi ölçecek premium simülatörler.</p>
+        </div>
         
-        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 24px;">
+        <div class="r-tools-grid">
           
           <!-- BAŞYAPIT: Münazara Satrancı -->
-          <a href="/retorik/araclar/munazara" style="grid-column: 1 / -1; background:linear-gradient(135deg, #1e1b4b 0%, #0f172a 100%); border-radius:20px; padding:40px; text-decoration:none; color:#fff; display:flex; flex-direction:column; align-items:center; text-align:center; transition:all 0.4s; position:relative; overflow:hidden; border: 2px solid #eab308; box-shadow: 0 0 30px rgba(234, 179, 8, 0.2);" onmouseover="this.style.transform='scale(1.02)'; this.style.boxShadow='0 0 50px rgba(234, 179, 8, 0.4)';" onmouseout="this.style.transform='scale(1)'; this.style.boxShadow='0 0 30px rgba(234, 179, 8, 0.2)';">
-            <div style="position:absolute; top:15px; right:20px; background:#eab308; color:#0f172a; font-size:0.75rem; font-weight:900; padding:5px 15px; border-radius:20px; text-transform:uppercase; letter-spacing:1px; animation: pulse 2s infinite;">🏆 BAŞYAPIT SİMÜLATÖRÜ</div>
-            <div style="font-size:4.5rem; margin-bottom:15px; text-shadow: 0 0 20px rgba(234,179,8,0.5);">📺</div>
-            <h3 style="font-size:2rem; font-weight:900; margin:0 0 15px 0; color:#eab308; text-transform:uppercase; letter-spacing:1px;">Münazara Satrancı</h3>
-            <p style="font-size:1.1rem; color:#cbd5e1; line-height:1.6; margin-bottom:25px; max-width:800px;">Canlı yayındasınız. Karşınızdaki demagog size safsatalarla ve bel altı taktiklerle saldırıyor. Süre bitmeden saldırıyı teşhis edin ve doğru retorik judosuyla onu canlı yayında mat edin!</p>
-            <div style="background:#eab308; color:#0f172a; font-weight:900; padding:15px 40px; border-radius:30px; font-size:1.1rem; text-transform:uppercase; box-shadow: 0 10px 20px rgba(234,179,8,0.3);">Canlı Yayına Bağlan</div>
+          <a href="/retorik/araclar/munazara" class="r-master-card r-mc-munazara">
+            <div class="r-mc-badge">🏆 Başyapıt Simülatörü</div>
+            <div class="r-mc-icon">📺</div>
+            <h3 class="r-mc-title">Münazara Satrancı</h3>
+            <p class="r-mc-desc">Canlı yayındasınız. Karşınızdaki demagog size safsatalarla ve bel altı taktiklerle saldırıyor. Süre bitmeden saldırıyı teşhis edin ve doğru retorik judosuyla onu canlı yayında mat edin!</p>
+            <div class="r-mc-cta">Canlı Yayına Bağlan →</div>
           </a>
 
           <!-- BAŞYAPIT 2: Karanlık Sanatlar -->
-          <a href="/retorik/araclar/karanlik" style="grid-column: 1 / -1; background:linear-gradient(135deg, #022c22 0%, #0f172a 100%); border-radius:20px; padding:40px; text-decoration:none; color:#fff; display:flex; flex-direction:column; align-items:center; text-align:center; transition:all 0.4s; position:relative; overflow:hidden; border: 2px solid #10b981; box-shadow: 0 0 30px rgba(16, 185, 129, 0.2);" onmouseover="this.style.transform='scale(1.02)'; this.style.boxShadow='0 0 50px rgba(16, 185, 129, 0.4)';" onmouseout="this.style.transform='scale(1)'; this.style.boxShadow='0 0 30px rgba(16, 185, 129, 0.2)';">
-            <div style="position:absolute; top:15px; right:20px; background:#10b981; color:#0f172a; font-size:0.75rem; font-weight:900; padding:5px 15px; border-radius:20px; text-transform:uppercase; letter-spacing:1px; animation: pulse 2s infinite;">☠️ KARANLIK BAŞYAPIT</div>
-            <div style="font-size:4.5rem; margin-bottom:15px; text-shadow: 0 0 20px rgba(16,185,129,0.5);">📉</div>
-            <h3 style="font-size:2rem; font-weight:900; margin:0 0 15px 0; color:#10b981; text-transform:uppercase; letter-spacing:1px;">Karanlık Sanatlar</h3>
-            <p style="font-size:1.1rem; color:#cbd5e1; line-height:1.6; margin-bottom:25px; max-width:800px;">Bir "Spin Doctor" (Algı Yöneticisi) olun! Skandala batmış şirketinizi kurtarmak için Örtmece (Euphemism) ve Red Herring (Saptırma) kullanarak Wall Street borsasını yeşilde tutun.</p>
-            <div style="background:#10b981; color:#0f172a; font-weight:900; padding:15px 40px; border-radius:30px; font-size:1.1rem; text-transform:uppercase; box-shadow: 0 10px 20px rgba(16,185,129,0.3);">Laboratuvara Gir</div>
+          <a href="/retorik/araclar/karanlik" class="r-master-card r-mc-karanlik">
+            <div class="r-mc-badge">☠️ Karanlık Başyapıt</div>
+            <div class="r-mc-icon">📉</div>
+            <h3 class="r-mc-title">Karanlık Sanatlar</h3>
+            <p class="r-mc-desc">Bir "Spin Doctor" (Algı Yöneticisi) olun! Skandala batmış şirketinizi kurtarmak için Örtmece (Euphemism) ve Red Herring (Saptırma) kullanarak Wall Street borsasını yeşilde tutun.</p>
+            <div class="r-mc-cta">Laboratuvara Gir →</div>
           </a>
 
-          <!-- BAŞYAPIT 3: Liderlik Teleprompterı -->
-          <a href="/retorik/araclar/prompter" style="grid-column: 1 / -1; background:linear-gradient(135deg, #4c0519 0%, #000000 100%); border-radius:20px; padding:40px; text-decoration:none; color:#fff; display:flex; flex-direction:column; align-items:center; text-align:center; transition:all 0.4s; position:relative; overflow:hidden; border: 2px solid #f43f5e; box-shadow: 0 0 30px rgba(244, 63, 94, 0.2);" onmouseover="this.style.transform='scale(1.02)'; this.style.boxShadow='0 0 50px rgba(244, 63, 94, 0.4)';" onmouseout="this.style.transform='scale(1)'; this.style.boxShadow='0 0 30px rgba(244, 63, 94, 0.2)';">
-            <div style="position:absolute; top:15px; right:20px; background:#f43f5e; color:#ffffff; font-size:0.75rem; font-weight:900; padding:5px 15px; border-radius:20px; text-transform:uppercase; letter-spacing:1px; animation: pulse 2s infinite;">🎙️ E-SPOR BAŞYAPITI</div>
-            <div style="font-size:4.5rem; margin-bottom:15px; text-shadow: 0 0 20px rgba(244,63,94,0.5);">🎵</div>
-            <h3 style="font-size:2rem; font-weight:900; margin:0 0 15px 0; color:#f43f5e; text-transform:uppercase; letter-spacing:1px;">Liderlik Teleprompter'ı</h3>
-            <p style="font-size:1.1rem; color:#cbd5e1; line-height:1.6; margin-bottom:25px; max-width:800px;">Diksiyonu bir Guitar Hero oyunu gibi oynamaya hazır mısınız? Kayan metindeki "Es" ve "Vurgu" notalarını tam zamanında yakalayarak seyircinin coşku barını doldurun!</p>
-            <div style="background:#f43f5e; color:#ffffff; font-weight:900; padding:15px 40px; border-radius:30px; font-size:1.1rem; text-transform:uppercase; box-shadow: 0 10px 20px rgba(244,63,94,0.3);">Stüdyoya Gir</div>
-          </a>
-          <!-- Etkili Konuşma Asistanı (YENİ) -->
-          <a href="/retorik/araclar/asistan" style="grid-column: 1 / -1; background:linear-gradient(135deg, #0f172a 0%, #0066cc 100%); border-radius:20px; padding:40px; text-decoration:none; color:#fff; display:flex; flex-direction:column; align-items:center; text-align:center; transition:all 0.4s; position:relative; overflow:hidden; border: 2px solid #38bdf8; box-shadow: 0 0 30px rgba(56, 189, 248, 0.2);" onmouseover="this.style.transform='scale(1.02)'; this.style.boxShadow='0 0 50px rgba(56, 189, 248, 0.4)';" onmouseout="this.style.transform='scale(1)'; this.style.boxShadow='0 0 30px rgba(56, 189, 248, 0.2)';">
-            <div style="position:absolute; top:15px; right:20px; background:#38bdf8; color:#0f172a; font-size:0.75rem; font-weight:900; padding:5px 15px; border-radius:20px; text-transform:uppercase; letter-spacing:1px; animation: pulse 2s infinite;">✨ YENİ SEO ASİSTANI</div>
-            <div style="font-size:4.5rem; margin-bottom:15px; text-shadow: 0 0 20px rgba(56,189,248,0.5);">📝</div>
-            <h3 style="font-size:2rem; font-weight:900; margin:0 0 15px 0; color:#38bdf8; text-transform:uppercase; letter-spacing:1px;">Etkili Konuşma Metni Sihirbazı</h3>
-            <p style="font-size:1.1rem; color:#e0f2fe; line-height:1.6; margin-bottom:25px; max-width:800px;">Hedef kitlenizi, konunuzu ve duygunuzu seçin; Cicero ve Aristoteles'in formüllerini kullanarak profesyonel konuşma iskeletinizi saniyeler içinde oluştursun. Liderlik konuşmaları veya zorlu mülakatlar için birebir!</p>
-            <div style="background:#38bdf8; color:#0f172a; font-weight:900; padding:15px 40px; border-radius:30px; font-size:1.1rem; text-transform:uppercase; box-shadow: 0 10px 20px rgba(56,189,248,0.3);">Asistanı Başlat</div>
+          <!-- BAŞYAPIT 3: Teleprompter -->
+          <a href="/retorik/araclar/prompter" class="r-master-card r-mc-prompter">
+            <div class="r-mc-badge">🎙️ E-Spor Başyapıtı</div>
+            <div class="r-mc-icon">🎵</div>
+            <h3 class="r-mc-title">Liderlik Teleprompter'ı</h3>
+            <p class="r-mc-desc">Diksiyonu bir Guitar Hero oyunu gibi oynamaya hazır mısınız? Kayan metindeki "Es" ve "Vurgu" notalarını tam zamanında yakalayarak seyircinin coşku barını doldurun!</p>
+            <div class="r-mc-cta">Stüdyoya Gir →</div>
           </a>
 
-          <!-- Müzakere Ringi -->
-          <a href="/retorik/araclar/muzakere" style="background:#0f172a; border-radius:20px; padding:30px; text-decoration:none; color:#fff; display:flex; flex-direction:column; align-items:flex-start; transition:all 0.3s; position:relative; overflow:hidden;" onmouseover="this.style.transform='translateY(-5px)'; this.style.boxShadow='0 20px 40px rgba(15,23,42,0.3)';" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='none';">
-            <div style="font-size:3rem; margin-bottom:15px">🤝</div>
-            <h3 style="font-size:1.4rem; font-weight:800; margin:0 0 10px 0; color:#38bdf8;">Müzakere Ringi</h3>
-            <p style="font-size:0.95rem; color:#cbd5e1; line-height:1.6; margin-bottom:20px;">Zorlu bir patrona veya müşteriye karşı Cialdini'nin ikna prensiplerini kullanarak "Evet" cevabını almaya çalışın.</p>
-            <div style="margin-top:auto; background:#38bdf8; color:#0f172a; font-weight:800; padding:10px 20px; border-radius:30px; font-size:0.9rem; text-transform:uppercase;">Masaya Otur</div>
+          <!-- BAŞYAPIT 4: Asistan -->
+          <a href="/retorik/araclar/asistan" class="r-master-card r-mc-asistan">
+            <div class="r-mc-badge">✨ Yeni SEO Asistanı</div>
+            <div class="r-mc-icon">📝</div>
+            <h3 class="r-mc-title">Etkili Konuşma Metni Sihirbazı</h3>
+            <p class="r-mc-desc">Hedef kitlenizi, konunuzu ve duygunuzu seçin; Cicero ve Aristoteles'in formüllerini kullanarak profesyonel konuşma iskeletinizi saniyeler içinde oluştursun.</p>
+            <div class="r-mc-cta">Asistanı Başlat →</div>
           </a>
 
-          <!-- Retorik Makinesi -->
-          <a href="/retorik/araclar/makine" style="background:#0f172a; border-radius:20px; padding:30px; text-decoration:none; color:#fff; display:flex; flex-direction:column; align-items:flex-start; transition:all 0.3s; position:relative; overflow:hidden;" onmouseover="this.style.transform='translateY(-5px)'; this.style.boxShadow='0 20px 40px rgba(15,23,42,0.3)';" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='none';">
-            <div style="font-size:3rem; margin-bottom:15px">⚙️</div>
-            <h3 style="font-size:1.4rem; font-weight:800; margin:0 0 10px 0; color:#10b981;">Retorik Makinesi</h3>
-            <p style="font-size:0.95rem; color:#cbd5e1; line-height:1.6; margin-bottom:20px;">Sıradan, sıkıcı cümleleri alın ve Trikolon, Antitez gibi efsanevi hitabet figürleriyle yeniden inşa edin.</p>
-            <div style="margin-top:auto; background:#10b981; color:#ffffff; font-weight:800; padding:10px 20px; border-radius:30px; font-size:0.9rem; text-transform:uppercase;">Makineyi Başlat</div>
+          <!-- Mini Cards -->
+          <a href="/retorik/araclar/muzakere" class="r-tool-card" style="--tc-color:#38bdf8; --tc-glow:rgba(56,189,248,0.2);">
+            <div class="r-tc-icon">🤝</div>
+            <h3 class="r-tc-title">Müzakere Ringi</h3>
+            <p class="r-tc-desc">Zorlu bir patrona veya müşteriye karşı Cialdini'nin ikna prensiplerini kullanarak "Evet" cevabını almaya çalışın.</p>
+            <div class="r-tc-cta">Masaya Otur</div>
           </a>
 
-          <!-- Logos Radarı -->
-          <a href="/retorik/araclar/radar" style="background:#0f172a; border-radius:20px; padding:30px; text-decoration:none; color:#fff; display:flex; flex-direction:column; align-items:flex-start; transition:all 0.3s; position:relative; overflow:hidden;" onmouseover="this.style.transform='translateY(-5px)'; this.style.boxShadow='0 20px 40px rgba(15,23,42,0.3)';" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='none';">
-            <div style="font-size:3rem; margin-bottom:15px">📡</div>
-            <h3 style="font-size:1.4rem; font-weight:800; margin:0 0 10px 0; color:#ef4444;">Logos Radarı</h3>
-            <p style="font-size:0.95rem; color:#cbd5e1; line-height:1.6; margin-bottom:20px;">Akan bir konuşmanın içindeki gizli "Mantık Hatalarını (Safsata)" konuşma bitmeden anında tespit edin.</p>
-            <div style="margin-top:auto; background:#ef4444; color:#ffffff; font-weight:800; padding:10px 20px; border-radius:30px; font-size:0.9rem; text-transform:uppercase;">Radarı Aç</div>
+          <a href="/retorik/araclar/makine" class="r-tool-card" style="--tc-color:#10b981; --tc-glow:rgba(16,185,129,0.2);">
+            <div class="r-tc-icon">⚙️</div>
+            <h3 class="r-tc-title">Retorik Makinesi</h3>
+            <p class="r-tc-desc">Sıradan, sıkıcı cümleleri alın ve Trikolon, Antitez gibi efsanevi hitabet figürleriyle yeniden inşa edin.</p>
+            <div class="r-tc-cta">Makineyi Başlat</div>
           </a>
 
-          <!-- Kürsü Baskısı -->
-          <a href="/retorik/araclar/kursu" style="background:#0f172a; border-radius:20px; padding:30px; text-decoration:none; color:#fff; display:flex; flex-direction:column; align-items:flex-start; transition:all 0.3s; position:relative; overflow:hidden;" onmouseover="this.style.transform='translateY(-5px)'; this.style.boxShadow='0 20px 40px rgba(15,23,42,0.3)';" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='none';">
-            <div style="font-size:3rem; margin-bottom:15px">🎤</div>
-            <h3 style="font-size:1.4rem; font-weight:800; margin:0 0 10px 0; color:#f97316;">Kürsü Baskısı</h3>
-            <p style="font-size:0.95rem; color:#cbd5e1; line-height:1.6; margin-bottom:20px;">Agresif gazeteci sorularına karşı savunmaya geçmek yerine Çerçeveleme (Reframing) refleksinizi test edin.</p>
-            <div style="margin-top:auto; background:#f97316; color:#ffffff; font-weight:800; padding:10px 20px; border-radius:30px; font-size:0.9rem; text-transform:uppercase;">Kürsüye Çık</div>
+          <a href="/retorik/araclar/radar" class="r-tool-card" style="--tc-color:#ef4444; --tc-glow:rgba(239,68,68,0.2);">
+            <div class="r-tc-icon">📡</div>
+            <h3 class="r-tc-title">Logos Radarı</h3>
+            <p class="r-tc-desc">Akan bir konuşmanın içindeki gizli "Mantık Hatalarını (Safsata)" konuşma bitmeden anında tespit edin.</p>
+            <div class="r-tc-cta">Radarı Aç</div>
           </a>
 
-          <!-- Retorik Üçgeni -->
-          <a href="/retorik/araclar/ucgen" style="background:#0f172a; border-radius:20px; padding:30px; text-decoration:none; color:#fff; display:flex; flex-direction:column; align-items:flex-start; transition:all 0.3s; position:relative; overflow:hidden;" onmouseover="this.style.transform='translateY(-5px)'; this.style.boxShadow='0 20px 40px rgba(15,23,42,0.3)';" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='none';">
-            <div style="font-size:3rem; margin-bottom:15px">⚖️</div>
-            <h3 style="font-size:1.4rem; font-weight:800; margin:0 0 10px 0; color:#8b5cf6;">Retorik Üçgeni</h3>
-            <p style="font-size:0.95rem; color:#cbd5e1; line-height:1.6; margin-bottom:20px;">Ethos (Karakter), Pathos (Duygu) ve Logos (Mantık) barlarını %100 dengede tutarak konuşmanızı inşa edin.</p>
-            <div style="margin-top:auto; background:#8b5cf6; color:#ffffff; font-weight:800; padding:10px 20px; border-radius:30px; font-size:0.9rem; text-transform:uppercase;">Dengeyi Kur</div>
+          <a href="/retorik/araclar/kursu" class="r-tool-card" style="--tc-color:#f97316; --tc-glow:rgba(249,115,22,0.2);">
+            <div class="r-tc-icon">🎤</div>
+            <h3 class="r-tc-title">Kürsü Baskısı</h3>
+            <p class="r-tc-desc">Agresif gazeteci sorularına karşı savunmaya geçmek yerine Çerçeveleme (Reframing) refleksinizi test edin.</p>
+            <div class="r-tc-cta">Kürsüye Çık</div>
           </a>
 
-          <!-- Kitle Sörfü -->
-          <a href="/retorik/araclar/kitle" style="background:#0f172a; border-radius:20px; padding:30px; text-decoration:none; color:#fff; display:flex; flex-direction:column; align-items:flex-start; transition:all 0.3s; position:relative; overflow:hidden;" onmouseover="this.style.transform='translateY(-5px)'; this.style.boxShadow='0 20px 40px rgba(15,23,42,0.3)';" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='none';">
-            <div style="font-size:3rem; margin-bottom:15px">🏄‍♂️</div>
-            <h3 style="font-size:1.4rem; font-weight:800; margin:0 0 10px 0; color:#eab308;">Kitle Sörfü</h3>
-            <p style="font-size:0.95rem; color:#cbd5e1; line-height:1.6; margin-bottom:20px;">Düşmanca, sıkılmış veya endişeli kitlelerin anlık psikolojisine uygun hitabet stratejisini hızlıca seçin.</p>
-            <div style="margin-top:auto; background:#eab308; color:#0f172a; font-weight:800; padding:10px 20px; border-radius:30px; font-size:0.9rem; text-transform:uppercase;">Kitleyi Oku</div>
+          <a href="/retorik/araclar/ucgen" class="r-tool-card" style="--tc-color:#8b5cf6; --tc-glow:rgba(139,92,246,0.2);">
+            <div class="r-tc-icon">⚖️</div>
+            <h3 class="r-tc-title">Retorik Üçgeni</h3>
+            <p class="r-tc-desc">Ethos (Karakter), Pathos (Duygu) ve Logos (Mantık) barlarını %100 dengede tutarak konuşmanızı inşa edin.</p>
+            <div class="r-tc-cta">Dengeyi Kur</div>
+          </a>
+
+          <a href="/retorik/araclar/kitle" class="r-tool-card" style="--tc-color:#eab308; --tc-glow:rgba(234,179,8,0.2);">
+            <div class="r-tc-icon">🏄‍♂️</div>
+            <h3 class="r-tc-title">Kitle Sörfü</h3>
+            <p class="r-tc-desc">Düşmanca, sıkılmış veya endişeli kitlelerin anlık psikolojisine uygun hitabet stratejisini hızlıca seçin.</p>
+            <div class="r-tc-cta">Kitleyi Oku</div>
           </a>
 
         </div>
       </div>
 
       <!-- ══ KATEGORİLER ══ -->
-      <div style="margin-top:-20px;margin-bottom:40px;text-align:center;">
-        <div class="ret-cat-pills">
-          <a href="/retorik" class="ret-cat-pill active">Tumu</a>
-          <a href="/retorik/ethos" class="ret-cat-pill">Ethos</a>
-          <a href="/retorik/pathos" class="ret-cat-pill">Pathos</a>
-          <a href="/retorik/logos" class="ret-cat-pill">Logos</a>
-          <a href="/retorik/konusma-yazimi" class="ret-cat-pill">Konusma Yazimi</a>
-          <a href="/retorik/figurler" class="ret-cat-pill">Retorik Figurleri</a>
-          <a href="/retorik/analiz" class="ret-cat-pill">Konusma Analizi</a>
-          <a href="/retorik/savunma" class="ret-cat-pill">Guclu Savunma</a>
-          <a href="/retorik/ikna" class="ret-cat-pill">Ikna Psikolojisi</a>
+      <div class="r-pills-wrap">
+        <div class="r-pills">
+          <a href="/retorik" class="r-pill active">Tümü</a>
+          <a href="/retorik/ethos" class="r-pill">Ethos</a>
+          <a href="/retorik/pathos" class="r-pill">Pathos</a>
+          <a href="/retorik/logos" class="r-pill">Logos</a>
+          <a href="/retorik/konusma-yazimi" class="r-pill">Konuşma Yazımı</a>
+          <a href="/retorik/figurler" class="r-pill">Retorik Figürleri</a>
+          <a href="/retorik/analiz" class="r-pill">Konuşma Analizi</a>
+          <a href="/retorik/savunma" class="r-pill">Güçlü Savunma</a>
+          <a href="/retorik/ikna" class="r-pill">İkna Psikolojisi</a>
         </div>
       </div>
 
       <!-- ══ ARİSTOTELES'İN TEMEL TAŞLARI ══ -->
-      <section style="background:#fff;border:1px solid #e2e8f0;border-radius:20px;padding:35px;margin-bottom:30px">
-        <h2 style="color:#0f172a;font-size:1.5rem;margin-bottom:8px">Aristoteles'in Temel Taslari</h2>
-        <p style="color:#64748b;margin-bottom:25px">Ikna sanatinin 2500 yillik uc sutunu</p>
-        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:20px">
-
-          <a href="/retorik/ethos" style="background:#f8fafc;border:1.5px solid #e2e8f0;border-radius:16px;padding:28px;text-decoration:none;transition:all .3s;display:block">
-            <div style="font-size:0.7rem;font-weight:800;text-transform:uppercase;letter-spacing:1.5px;color:#64748b;margin-bottom:12px">01 — ETHOS</div>
-            <h3 style="color:#0f172a;font-size:1.3rem;margin-bottom:10px">Karakter ve Guven</h3>
-            <p style="color:#475569;font-size:0.9rem;line-height:1.7;margin-bottom:18px">Konusmacinin guvenilirligi ve ahlaki durusu. Dinleyicinin size neden inanmasi gerektigini kanitlama sanati.</p>
-            <div style="color:#0f172a;font-weight:700;font-size:0.85rem">5 Egitim Modulu →</div>
-          </a>
-
-          <a href="/retorik/pathos" style="background:#f8fafc;border:1.5px solid #e2e8f0;border-radius:16px;padding:28px;text-decoration:none;transition:all .3s;display:block">
-            <div style="font-size:0.7rem;font-weight:800;text-transform:uppercase;letter-spacing:1.5px;color:#64748b;margin-bottom:12px">02 — PATHOS</div>
-            <h3 style="color:#0f172a;font-size:1.3rem;margin-bottom:10px">Duygu ve Bag</h3>
-            <p style="color:#475569;font-size:0.9rem;line-height:1.7;margin-bottom:18px">Dinleyicinin duygularina hitap etme. Hikaye, empati ve duygusal zirve ile kalpleri fethetme.</p>
-            <div style="color:#0f172a;font-weight:700;font-size:0.85rem">6 Egitim Modulu →</div>
-          </a>
-
-          <a href="/retorik/logos" style="background:#f8fafc;border:1.5px solid #e2e8f0;border-radius:16px;padding:28px;text-decoration:none;transition:all .3s;display:block">
-            <div style="font-size:0.7rem;font-weight:800;text-transform:uppercase;letter-spacing:1.5px;color:#64748b;margin-bottom:12px">03 — LOGOS</div>
-            <h3 style="color:#0f172a;font-size:1.3rem;margin-bottom:10px">Mantik ve Kanit</h3>
-            <p style="color:#475569;font-size:0.9rem;line-height:1.7;margin-bottom:18px">Veriler, istatistikler ve rasyonel argumanlar. Mantigin keskinligiyle ikna etme.</p>
-            <div style="color:#0f172a;font-weight:700;font-size:0.85rem">5 Egitim Modulu →</div>
-          </a>
-
+      <div class="r-content-section">
+        <div class="r-glass-section">
+          <h2 class="r-gs-title">Aristoteles'in Temel Taşları</h2>
+          <p class="r-gs-sub">İkna sanatının 2500 yıllık üç sütunu</p>
+          <div class="r-pillars-grid">
+            <a href="/retorik/ethos" class="r-pillar-card" style="--pc-color:#10b981;">
+              <div class="r-pc-num">01 — Ethos</div>
+              <h3 class="r-pc-title">Karakter ve Güven</h3>
+              <p class="r-pc-desc">Konuşmacının güvenilirliği ve ahlaki duruşu. Dinleyicinin size neden inanması gerektiğini kanıtlama sanatı.</p>
+              <div class="r-pc-link">5 Eğitim Modülü →</div>
+            </a>
+            <a href="/retorik/pathos" class="r-pillar-card" style="--pc-color:#f43f5e;">
+              <div class="r-pc-num">02 — Pathos</div>
+              <h3 class="r-pc-title">Duygu ve Bağ</h3>
+              <p class="r-pc-desc">Dinleyicinin duygularına hitap etme. Hikaye, empati ve duygusal zirve ile kalpleri fethetme.</p>
+              <div class="r-pc-link">6 Eğitim Modülü →</div>
+            </a>
+            <a href="/retorik/logos" class="r-pillar-card" style="--pc-color:#3b82f6;">
+              <div class="r-pc-num">03 — Logos</div>
+              <h3 class="r-pc-title">Mantık ve Kanıt</h3>
+              <p class="r-pc-desc">Veriler, istatistikler ve rasyonel argümanlar. Mantığın keskinliğiyle ikna etme.</p>
+              <div class="r-pc-link">5 Eğitim Modülü →</div>
+            </a>
+          </div>
         </div>
-      </section>
+      </div>
 
       <!-- ══ HİTABET SANATI ══ -->
-      <section style="background:#fff;border:1px solid #e2e8f0;border-radius:20px;padding:35px;margin-bottom:30px">
-        <h2 style="color:#0f172a;font-size:1.5rem;margin-bottom:8px">Hitabet Sanati</h2>
-        <p style="color:#64748b;margin-bottom:25px">Kelimelerin gucunu harekete gecirin</p>
-        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:20px">
-
-          <a href="/retorik/konusma-yazimi" style="background:#f8fafc;border:1.5px solid #e2e8f0;border-radius:16px;padding:28px;text-decoration:none;display:block">
-            <div style="font-size:0.7rem;font-weight:800;text-transform:uppercase;letter-spacing:1.5px;color:#64748b;margin-bottom:12px">YAZI</div>
-            <h3 style="color:#0f172a;font-size:1.2rem;margin-bottom:10px">Konusma Yazimi</h3>
-            <p style="color:#475569;font-size:0.9rem;line-height:1.7;margin-bottom:12px">Kanca cumleler, uclu yapi (trikolon) ve guclu kapanis teknikleri.</p>
-            <div style="color:#0f172a;font-weight:700;font-size:0.85rem">5 Ders →</div>
-          </a>
-
-          <a href="/retorik/figurler" style="background:#f8fafc;border:1.5px solid #e2e8f0;border-radius:16px;padding:28px;text-decoration:none;display:block">
-            <div style="font-size:0.7rem;font-weight:800;text-transform:uppercase;letter-spacing:1.5px;color:#64748b;margin-bottom:12px">FIGURLER</div>
-            <h3 style="color:#0f172a;font-size:1.2rem;margin-bottom:10px">Retorik Figurleri</h3>
-            <p style="color:#475569;font-size:0.9rem;line-height:1.7;margin-bottom:12px">Anafor, antitez, metafor ve konusmaniza derinlik katan sozel silahlar.</p>
-            <div style="color:#0f172a;font-weight:700;font-size:0.85rem">4 Ders →</div>
-          </a>
-
+      <div class="r-content-section">
+        <div class="r-glass-section">
+          <h2 class="r-gs-title">Hitabet Sanatı</h2>
+          <p class="r-gs-sub">Kelimelerin gücünü harekete geçirin</p>
+          <div class="r-pillars-grid">
+            <a href="/retorik/konusma-yazimi" class="r-pillar-card" style="--pc-color:#8b5cf6;">
+              <div class="r-pc-num">Yazı</div>
+              <h3 class="r-pc-title">Konuşma Yazımı</h3>
+              <p class="r-pc-desc">Kanca cümleler, üçlü yapı (trikolon) ve güçlü kapanış teknikleri.</p>
+              <div class="r-pc-link">5 Ders →</div>
+            </a>
+            <a href="/retorik/figurler" class="r-pillar-card" style="--pc-color:#eab308;">
+              <div class="r-pc-num">Figürler</div>
+              <h3 class="r-pc-title">Retorik Figürleri</h3>
+              <p class="r-pc-desc">Anafor, antitez, metafor ve konuşmanıza derinlik katan sözlü silahlar.</p>
+              <div class="r-pc-link">4 Ders →</div>
+            </a>
+          </div>
         </div>
-      </section>
+      </div>
 
       <!-- ══ İLERİ SEVİYE ══ -->
-      <section style="background:#fff;border:1px solid #e2e8f0;border-radius:20px;padding:35px;margin-bottom:30px">
-        <h2 style="color:#0f172a;font-size:1.5rem;margin-bottom:8px">Ileri Seviye Uygulamalar</h2>
-        <p style="color:#64748b;margin-bottom:25px">Retorigi hayata gecirin</p>
-        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:20px">
-
-          <a href="/retorik/analiz" style="background:#f8fafc;border:1.5px solid #e2e8f0;border-radius:16px;padding:28px;text-decoration:none;display:block">
-            <div style="font-size:0.7rem;font-weight:800;text-transform:uppercase;letter-spacing:1.5px;color:#64748b;margin-bottom:12px">ANALIZ</div>
-            <h3 style="color:#0f172a;font-size:1.2rem;margin-bottom:10px">Konusma Analizi</h3>
-            <p style="color:#475569;font-size:0.9rem;line-height:1.7;margin-bottom:12px">MLK, Steve Jobs ve gunluk hayattaki ikna tekniklerini kesfedin.</p>
-            <div style="color:#0f172a;font-weight:700;font-size:0.85rem">4 Analiz →</div>
-          </a>
-
-          <a href="/retorik/savunma" style="background:#f8fafc;border:1.5px solid #e2e8f0;border-radius:16px;padding:28px;text-decoration:none;display:block">
-            <div style="font-size:0.7rem;font-weight:800;text-transform:uppercase;letter-spacing:1.5px;color:#64748b;margin-bottom:12px">SAVUNMA</div>
-            <h3 style="color:#0f172a;font-size:1.2rem;margin-bottom:10px">Guclu Savunma Kurmak</h3>
-            <p style="color:#475569;font-size:0.9rem;line-height:1.7;margin-bottom:12px">Karsi argumanlara mantikli, sogukkanli ve ikna edici yanit verme.</p>
-            <div style="color:#0f172a;font-weight:700;font-size:0.85rem">4 Teknik →</div>
-          </a>
-
-          <a href="/retorik/ikna" style="background:#f8fafc;border:1.5px solid #e2e8f0;border-radius:16px;padding:28px;text-decoration:none;display:block">
-            <div style="font-size:0.7rem;font-weight:800;text-transform:uppercase;letter-spacing:1.5px;color:#64748b;margin-bottom:12px">IKNA</div>
-            <h3 style="color:#0f172a;font-size:1.2rem;margin-bottom:10px">Ikna Psikolojisi</h3>
-            <p style="color:#475569;font-size:0.9rem;line-height:1.7;margin-bottom:12px">Cialdini prensipleri, kitlik, sosyal kanit ve karar mekanizmalari.</p>
-            <div style="color:#0f172a;font-weight:700;font-size:0.85rem">6 Ileri Ders →</div>
-          </a>
-
-        </div>
-      </section>
-
-      <!-- ══ ONBOARDING: RETORİK REHBERİ ══ -->
-      <section style="background:linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);border:2px solid #cbd5e1;border-radius:24px;padding:45px;margin-bottom:40px; box-shadow: 0 10px 30px rgba(0,0,0,0.05);">
-        <div style="display:flex; align-items:center; margin-bottom:25px;">
-          <div style="font-size:3rem; margin-right:20px;">🏛️</div>
-          <div>
-            <h2 style="color:#0f172a;font-size:2rem;font-weight:900;margin:0 0 5px 0;letter-spacing:-0.5px;">Retorik Akademisi'ne Hoş Geldiniz</h2>
-            <p style="color:#64748b;font-size:1.1rem;margin:0;font-weight:600;">İkna Sanatının 2500 Yıllık Sırları</p>
+      <div class="r-content-section">
+        <div class="r-glass-section">
+          <h2 class="r-gs-title">İleri Seviye Uygulamalar</h2>
+          <p class="r-gs-sub">Retoriği hayata geçirin</p>
+          <div class="r-pillars-grid">
+            <a href="/retorik/analiz" class="r-pillar-card" style="--pc-color:#06b6d4;">
+              <div class="r-pc-num">Analiz</div>
+              <h3 class="r-pc-title">Konuşma Analizi</h3>
+              <p class="r-pc-desc">MLK, Steve Jobs ve günlük hayattaki ikna tekniklerini keşfedin.</p>
+              <div class="r-pc-link">4 Analiz →</div>
+            </a>
+            <a href="/retorik/savunma" class="r-pillar-card" style="--pc-color:#f97316;">
+              <div class="r-pc-num">Savunma</div>
+              <h3 class="r-pc-title">Güçlü Savunma Kurmak</h3>
+              <p class="r-pc-desc">Karşı argümanlara mantıklı, soğukkanlı ve ikna edici yanıt verme.</p>
+              <div class="r-pc-link">4 Teknik →</div>
+            </a>
+            <a href="/retorik/ikna" class="r-pillar-card" style="--pc-color:#ec4899;">
+              <div class="r-pc-num">İkna</div>
+              <h3 class="r-pc-title">İkna Psikolojisi</h3>
+              <p class="r-pc-desc">Cialdini prensipleri, kıtlık, sosyal kanıt ve karar mekanizmaları.</p>
+              <div class="r-pc-link">6 İleri Ders →</div>
+            </a>
           </div>
         </div>
-        
-        <p style="color:#334155;font-size:1.1rem;line-height:1.8;margin-bottom:20px;">Diksiyon kursumuzda kelimeleri <strong>nasıl</strong> telaffuz edeceğinizi, sesinizi nasıl eğiteceğinizi ve nefesinizi nasıl yöneteceğinizi öğrendiniz. Ancak kusursuz bir diksiyon, söyleyecek güçlü bir sözünüz yoksa sadece güzel bir gürültüden ibarettir. İşte Retorik modülü, o sözü inşa etme sanatıdır.</p>
-        
-        <p style="color:#334155;font-size:1.1rem;line-height:1.8;margin-bottom:30px;">Bu akademi, sıradan konuşmaları birer liderlik manifestosuna dönüştürmek için tasarlandı. Antik Yunan'da Aristoteles'in temellerini attığı, bugün ise Obama'dan Steve Jobs'a kadar devlerin kullandığı psikolojik, mantıksal ve duygusal silahları kuşanacaksınız.</p>
+      </div>
 
-        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:25px;margin-bottom:35px;">
-          <div style="background:#fff; padding:25px; border-radius:16px; border-left:4px solid #3b82f6;">
-            <h4 style="color:#0f172a;font-size:1.2rem;font-weight:800;margin-bottom:10px;">🧠 Zihinsel Dönüşüm</h4>
-            <p style="color:#475569;font-size:0.95rem;line-height:1.6;margin:0;">İkna psikolojisini (Sistem 1 ve Sistem 2), bilişsel önyargıları ve karar verme mekanizmalarını çözerek dinleyicinin beynine doğrudan erişmeyi öğreneceksiniz.</p>
+      <!-- ══ AKADEMİ ONBOARDING ══ -->
+      <div class="r-content-section">
+        <div class="r-academy">
+          <div class="r-academy-header">
+            <div class="r-academy-icon">🏛️</div>
+            <div>
+              <h2 class="r-academy-title">Retorik Akademisi'ne Hoş Geldiniz</h2>
+              <p class="r-academy-sub">İkna Sanatının 2500 Yıllık Sırları</p>
+            </div>
           </div>
-          <div style="background:#fff; padding:25px; border-radius:16px; border-left:4px solid #10b981;">
-            <h4 style="color:#0f172a;font-size:1.2rem;font-weight:800;margin-bottom:10px;">🛡️ Yıkılmaz Argümanlar</h4>
-            <p style="color:#475569;font-size:0.95rem;line-height:1.6;margin:0;">Safsataları (mantık hatalarını) anında tespit eden bir dedektife dönüşecek, size yöneltilen saldırıları (Kırmızı Balık tuzağı) bertaraf etmeyi pratik edeceksiniz.</p>
+          
+          <p class="r-academy-text">Diksiyon kursumuzda kelimeleri <strong>nasıl</strong> telaffuz edeceğinizi, sesinizi nasıl eğiteceğinizi ve nefesinizi nasıl yöneteceğinizi öğrendiniz. Ancak kusursuz bir diksiyon, söyleyecek güçlü bir sözünüz yoksa sadece güzel bir gürültüden ibarettir. İşte Retorik modülü, o sözü inşa etme sanatıdır.</p>
+          
+          <p class="r-academy-text">Bu akademi, sıradan konuşmaları birer liderlik manifestosuna dönüştürmek için tasarlandı. Antik Yunan'da Aristoteles'in temellerini attığı, bugün ise Obama'dan Steve Jobs'a kadar devlerin kullandığı psikolojik, mantıksal ve duygusal silahları kuşanacaksınız.</p>
+
+          <div class="r-academy-features">
+            <div class="r-academy-feature" style="--af-color:#3b82f6;">
+              <h4 class="r-af-title">🧠 Zihinsel Dönüşüm</h4>
+              <p class="r-af-text">İkna psikolojisini (Sistem 1 ve Sistem 2), bilişsel önyargıları ve karar verme mekanizmalarını çözerek dinleyicinin beynine doğrudan erişmeyi öğreneceksiniz.</p>
+            </div>
+            <div class="r-academy-feature" style="--af-color:#10b981;">
+              <h4 class="r-af-title">🛡️ Yıkılmaz Argümanlar</h4>
+              <p class="r-af-text">Safsataları (mantık hatalarını) anında tespit eden bir dedektife dönüşecek, size yöneltilen saldırıları bertaraf etmeyi pratik edeceksiniz.</p>
+            </div>
+            <div class="r-academy-feature" style="--af-color:#f59e0b;">
+              <h4 class="r-af-title">🔥 Sahne Hakimiyeti</h4>
+              <p class="r-af-text">Mükemmel açılış kancaları (Hook) atmayı, Trikolon gibi efsanevi retorik figürlerini kullanmayı ve kitleleri eyleme geçiren kapanışlar yapmayı simülatörlerimizde test edeceksiniz.</p>
+            </div>
           </div>
-          <div style="background:#fff; padding:25px; border-radius:16px; border-left:4px solid #f59e0b;">
-            <h4 style="color:#0f172a;font-size:1.2rem;font-weight:800;margin-bottom:10px;">🔥 Sahne Hakimiyeti</h4>
-            <p style="color:#475569;font-size:0.95rem;line-height:1.6;margin:0;">Mükemmel açılış kancaları (Hook) atmayı, Trikolon gibi efsanevi retorik figürlerini kullanmayı ve kitleleri eyleme geçiren (Call to Action) kapanışlar yapmayı simülatörlerimizde test edeceksiniz.</p>
+
+          <div class="r-quote-block">
+            <p class="r-quote-text">"Retorik, her konuda ikna edici olanı bulma yeteneğidir. Kelimeler sadece dünyayı tanımlamaz, dünyayı yaratır."</p>
+            <div class="r-quote-footer">
+              <cite class="r-quote-cite">— Aristoteles</cite>
+              <a href="/retorik/ethos" class="r-quote-cta">Şimdi Başla</a>
+            </div>
           </div>
         </div>
-
-        <div style="background:#0f172a;border-radius:16px;padding:25px 30px; color:#fff;">
-          <p style="font-size:1.2rem;font-style:italic;margin-bottom:15px;font-weight:500;line-height:1.6;">"Retorik, her konuda ikna edici olanı bulma yeteneğidir. Kelimeler sadece dünyayı tanımlamaz, dünyayı yaratır."</p>
-          <div style="display:flex; justify-content:space-between; align-items:center;">
-            <cite style="color:#94a3b8;font-size:0.9rem;font-weight:700;letter-spacing:1px;text-transform:uppercase;">— Aristoteles</cite>
-            <div style="font-weight:800; background:#3b82f6; padding:8px 20px; border-radius:20px; font-size:0.85rem;">ŞİMDİ BAŞLA</div>
-          </div>
-        </div>
-      </section>
+      </div>
 
     </div>
   </div>
 </main>
+</div>
+
+<script>
+  // ═══════════ GOLD SPARKLE PARTICLES ═══════════
+  (function() {
+    const field = document.getElementById('rSparkles');
+    if (!field) return;
+    const golds = ['#d4a017', '#b8860b', '#e6c347', '#f0d060', '#c9a832'];
+    for (let i = 0; i < 18; i++) {
+      const s = document.createElement('div');
+      s.className = 'r-spark';
+      s.style.left = Math.random() * 100 + '%';
+      s.style.animationDuration = (12 + Math.random() * 20) + 's';
+      s.style.animationDelay = (Math.random() * 15) + 's';
+      const size = (1.5 + Math.random() * 2.5) + 'px';
+      s.style.width = size;
+      s.style.height = size;
+      const c = golds[Math.floor(Math.random() * golds.length)];
+      s.style.background = c;
+      s.style.boxShadow = `0 0 6px ${c}`;
+      field.appendChild(s);
+    }
+  })();
+</script>
 
 <%- include('partials/main-footer') %>

@@ -25,7 +25,7 @@
   .msg { padding: 15px 20px; border-radius: 15px; max-width: 85%; line-height: 1.5; font-size: 1.05rem; }
   .msg-a { background: #334155; color: #e2e8f0; align-self: flex-start; border-bottom-left-radius: 0; }
   .msg-b { background: #ff9500; color: #0f172a; align-self: flex-end; border-bottom-right-radius: 0; box-shadow: 0 5px 15px rgba(255, 149, 0, 0.2); }
-  .msg-b span.target { background: rgba(255,255,255,0.4); padding: 2px 5px; border-radius: 4px; font-weight: 700; border-bottom: 2px dashed #0f172a; }
+  .msg-b span.target { background: rgba(244, 63, 94, 0.4); color: #fff; padding: 2px 6px; border-radius: 4px; font-weight: 800; border-bottom: 2px solid #f43f5e; box-shadow: 0 0 10px rgba(244, 63, 94, 0.3); }
   
   .speaker { font-size: 0.75rem; font-weight: 800; margin-bottom: 5px; text-transform: uppercase; letter-spacing: 1px; opacity: 0.8; }
 
@@ -108,8 +108,8 @@
       question: "İş arkadaşının kullandığı bu psikolojik savunma mekanizması hangi taktiktir?",
       options: [
         { id: "o1", text: "Gaslighting", correct: true, fb: "Doğru! Karşı tarafın hafızasından veya gerçeklik algısından şüphe etmesini sağlamak Gaslighting'in en temel adımıdır." },
-        { id: "o2", text: "Suçluluk Tripi (Guilt Tripping)", correct: false, fb: "Yanlış. Burada seni vicdanen suçlu hissettirecek bir fedakarlık vurgusu yapılmıyor." },
-        { id: "o3", text: "Sessizlik Terapisi (Silent Treatment)", correct: false, fb: "Yanlış. İletişimi tamamen koparma söz konusu değil." },
+        { id: "o2", text: "Suçluluk Tripi", correct: false, fb: "Yanlış. Burada seni vicdanen suçlu hissettirecek bir fedakarlık vurgusu yapılmıyor." },
+        { id: "o3", text: "Sessizlik Terapisi", correct: false, fb: "Yanlış. İletişimi tamamen koparma söz konusu değil." },
         { id: "o4", text: "Aşırı Genelleme", correct: false, fb: "Yanlış. Bu bir safsata türü, buradaki taktik manipülatiftir." }
       ]
     },
@@ -122,10 +122,10 @@
       ],
       question: "Arkadaşının sana kararını değiştirtmek için kullandığı bu taktik nedir?",
       options: [
-        { id: "o1", text: "Pasif Agresyon", correct: false, fb: "Kısmen pasif agresif öğeler taşısa da, geçmişteki bir iyiliği koz olarak kullanması bu taktiğin asıl adını belirler." },
+        { id: "o1", text: "Pasif Agresyon", correct: false, fb: "Kısmen pasif agresif öğeler taşısa da, asıl amaç farklı." },
         { id: "o2", text: "Gaslighting", correct: false, fb: "Yanlış. Geçmiş olay inkar edilmiyor." },
         { id: "o3", text: "Suçluluk Tripi (Guilt Tripping)", correct: true, fb: "Mükemmel Tespit! Sana geçmişteki bir fedakarlığı hatırlatarak kendini borçlu ve suçlu hissetmeni sağlamaya çalışıyor." },
-        { id: "o4", text: "Üçgenleme (Triangulation)", correct: false, fb: "Yanlış. Olayın içine üçüncü bir kişiyi dahil etmiyor." }
+        { id: "o4", text: "Üçgenleme", correct: false, fb: "Yanlış. Olayın içine üçüncü bir kişiyi dahil etmiyor." }
       ]
     },
     {
@@ -138,9 +138,9 @@
       question: "Partnerin uyguladığı bu cezalandırma yöntemi hangisidir?",
       options: [
         { id: "o1", text: "Sessizlik Terapisi (Silent Treatment)", correct: true, fb: "Harika! Çatışmayı çözmek yerine iletişimi tamamen keserek seni peşinden koşturmaya ve cezalandırmaya çalışıyor." },
-        { id: "o2", text: "Gaslighting", correct: false, fb: "Yanlış. Gerçekliğin inkarı üzerine bir konuşma geçmiyor." },
-        { id: "o3", text: "Aşk Bombardımanı (Love Bombing)", correct: false, fb: "Yanlış. Aksine ilgi tamamen geri çekilmiş durumda." },
-        { id: "o4", text: "Aşağılama", correct: false, fb: "Yanlış. Açık bir sözlü aşağılama yok, pasif bir eylem var." }
+        { id: "o2", text: "Gaslighting", correct: false, fb: "Yanlış. Gerçekliğin inkarı yok." },
+        { id: "o3", text: "Aşk Bombardımanı", correct: false, fb: "Yanlış. Aksine ilgi tamamen geri çekilmiş durumda." },
+        { id: "o4", text: "Aşağılama", correct: false, fb: "Yanlış. Açık bir sözlü aşağılama yok." }
       ]
     },
     {
@@ -152,10 +152,250 @@
       ],
       question: "Yöneticinin burada seni manipüle etmek için kullandığı taktik nedir?",
       options: [
-        { id: "o1", text: "Suçluluk Tripi", correct: false, fb: "Yanlış. Burada bir iyilik karşılığı ve suçluluk hissi odaklı değil." },
+        { id: "o1", text: "Suçluluk Tripi", correct: false, fb: "Yanlış. Suçluluk hissi odaklı değil." },
         { id: "o2", text: "Üçgenleme (Triangulation)", correct: true, fb: "Tebrikler! Konuya alakasız üçüncü bir kişiyi (Merve) dahil edip kıyaslama yaparak rekabet, özgüvensizlik ve baskı yaratıyor." },
         { id: "o3", text: "Gaslighting", correct: false, fb: "Yanlış. Senin algın çarpıtılmıyor." },
         { id: "o4", text: "Sessizlik Terapisi", correct: false, fb: "Yanlış. İletişim kopartılmıyor." }
+      ]
+    },
+    {
+      title: "Vaka #5: Hedef Saptırma",
+      context: "Konu: Ev işlerinin paylaşımı.",
+      dialogue: [
+        { speaker: "Sen", class: "msg-a", text: "Dün akşam bulaşıkları yıkayacağına söz vermiştin ama hala mutfak darmadağın." },
+        { speaker: "Partner", class: "msg-b", text: "<span class='target'>Bulaşık diyorsun da, sen de geçen ay faturaları ödemeyi unutmuştun ve elektriğimiz kesilecekti az kalsın! Asıl sorumsuz sensin.</span>" }
+      ],
+      question: "Kendi hatasını örtbas etmek için kullanılan bu taktik nedir?",
+      options: [
+        { id: "o1", text: "Whataboutism (Hedef Saptırma)", correct: true, fb: "Doğru! Kendi hatasını konuşmamak için konuyu senin geçmişte yaptığın başka bir hataya çekiyor." },
+        { id: "o2", text: "Love Bombing", correct: false, fb: "Yanlış. Ortalıkta sevgi yok." },
+        { id: "o3", text: "Gelecek Sahtekarlığı", correct: false, fb: "Yanlış. Geleceğe dair bir vaat yok." },
+        { id: "o4", text: "İzolasyon", correct: false, fb: "Yanlış. Seni yalnızlaştırmaya çalışmıyor." }
+      ]
+    },
+    {
+      title: "Vaka #6: Psikolojik Yansıtma",
+      context: "Konu: İş yerinde yaşanan bir tartışma.",
+      dialogue: [
+        { speaker: "Sen", class: "msg-a", text: "Benimle konuşurken sesini yükseltmenden rahatsız oluyorum, lütfen daha sakin konuşalım." },
+        { speaker: "İş Arkadaşı", class: "msg-b", text: "<span class='target'>Ben gayet sakinim! Asıl sen çok asabisin ve sürekli kavga çıkarmaya çalışıyorsun. Sorunlu olan sensin!</span>" }
+      ],
+      question: "Kendi kusurunu veya eylemini karşı tarafa yükleme eylemine ne ad verilir?",
+      options: [
+        { id: "o1", text: "Psikolojik Yansıtma (Projection)", correct: true, fb: "Harika! Kişi kendi öfkesini ve kavgacı yapısını reddedip bu özellikleri doğrudan sana yüklüyor." },
+        { id: "o2", text: "Suçluluk Tripi", correct: false, fb: "Yanlış. Burada vicdan azabı yaratmıyor." },
+        { id: "o3", text: "Breadcrumbing", correct: false, fb: "Yanlış. Bu bir ilişki taktiği." },
+        { id: "o4", text: "Üçgenleme", correct: false, fb: "Yanlış. Üçüncü bir kişi yok." }
+      ]
+    },
+    {
+      title: "Vaka #7: Başarıyı Küçümseme",
+      context: "Konu: Terfi alman üzerine arkadaşının tepkisi.",
+      dialogue: [
+        { speaker: "Sen", class: "msg-a", text: "Çok mutluyum! Sonunda aylardır beklediğim terfiyi aldım ve müdür oldum." },
+        { speaker: "Arkadaş", class: "msg-b", text: "<span class='target'>Ne güzel... Gerçi o departmanda müdür olmak o kadar da zor değil, herkesi sırayla müdür yapıyorlar zaten. Yine de tebrikler.</span>" }
+      ],
+      question: "Senin sevincini baltalayan bu manipülatif yaklaşım nedir?",
+      options: [
+        { id: "o1", text: "Başarıyı Küçümseme (Minimization)", correct: true, fb: "Doğru! Başarının senin çabanla değil, dış etkenlerle (herkesin müdür yapılması) ilgili olduğunu söyleyerek değerini düşürüyor." },
+        { id: "o2", text: "Sessizlik Terapisi", correct: false, fb: "Yanlış. Konuşmaya devam ediyor." },
+        { id: "o3", text: "Gaslighting", correct: false, fb: "Yanlış. Gerçekliği inkar etmiyor." },
+        { id: "o4", text: "Love Bombing", correct: false, fb: "Yanlış. Aksine sevgisizlik ve haset var." }
+      ]
+    },
+    {
+      title: "Vaka #8: Kurban Rolü Oynama",
+      context: "Konu: Ortak bir projede görevini yapmayan ekip üyesi.",
+      dialogue: [
+        { speaker: "Sen", class: "msg-a", text: "Sunumun senin kısmını hazırlamadığın için dün gece sabaha kadar çalışmak zorunda kaldım." },
+        { speaker: "Proje Ortağı", class: "msg-b", text: "<span class='target'>Benim hayatımın ne kadar zor olduğunu biliyor musun? Evde bir sürü dertle uğraşıyorum, bir de sen üstüme geliyorsun. Herkes bana karşı!</span>" }
+      ],
+      question: "Sorumluluktan kaçmak için kullanılan bu taktiğin adı nedir?",
+      options: [
+        { id: "o1", text: "Kurban Rolü (Playing the Victim)", correct: true, fb: "Mükemmel! Hatalı olduğu bir konuda hemen ağlak bir tavır takınarak asıl mağdurun kendisi olduğuna seni inandırmaya çalışıyor." },
+        { id: "o2", text: "Üçgenleme", correct: false, fb: "Yanlış. Başkasıyla kıyaslamıyor." },
+        { id: "o3", text: "Gaslighting", correct: false, fb: "Yanlış. Olayı inkar etmiyor, mazeret uyduruyor." },
+        { id: "o4", text: "Gelecek Sahtekarlığı", correct: false, fb: "Yanlış. Gelecekten bahsetmiyor." }
+      ]
+    },
+    {
+      title: "Vaka #9: Kale Direklerini Değiştirme",
+      context: "Konu: Yöneticinin vaat ettiği zammı vermemesi.",
+      dialogue: [
+        { speaker: "Sen", class: "msg-a", text: "Satış hedeflerimi %20 aşarsam zam alacağımı konuşmuştuk. Hedefleri %30 aştım." },
+        { speaker: "Yönetici", class: "msg-b", text: "<span class='target'>Evet aştın ama sadece satış hedefini aşmak yetmez ki. Müşteri memnuniyeti puanlarında da en az %95 olman lazımdı. Onu yapana kadar zam yok.</span>" }
+      ],
+      question: "Tam başarıya ulaştığında kuralı aniden değiştiren bu taktik hangisidir?",
+      options: [
+        { id: "o1", text: "Kale Direklerini Değiştirme (Moving the Goalposts)", correct: true, fb: "Doğru! Sen tam hedefe ulaşmışken, kazanmanı engellemek için kuralları son anda değiştiriyor." },
+        { id: "o2", text: "İzolasyon", correct: false, fb: "Yanlış. Yalnızlaştırma yok." },
+        { id: "o3", text: "Love Bombing", correct: false, fb: "Yanlış. Sevgi bombardımanı yok." },
+        { id: "o4", text: "Word Salad", correct: false, fb: "Yanlış. Kafanı karıştırmak için anlamsız cümleler kurmuyor, net bir kural değişimi var." }
+      ]
+    },
+    {
+      title: "Vaka #10: Duygusal Şantaj (FOG)",
+      context: "Konu: Ailenin senin şehir dışına taşınma kararına tepkisi.",
+      dialogue: [
+        { speaker: "Sen", class: "msg-a", text: "Yeni bir iş buldum ve önümüzdeki ay başka bir şehre taşınmaya karar verdim." },
+        { speaker: "Ebeveyn", class: "msg-b", text: "<span class='target'>Bizi bu yaşta burada yalnız mı bırakacaksın? Eğer gidersen kalp krizi geçiririm, hakkımı da helal etmem!</span>" }
+      ],
+      question: "Korku ve zorunluluk hissi aşılayan bu zehirli taktik nedir?",
+      options: [
+        { id: "o1", text: "Duygusal Şantaj (Emotional Blackmail)", correct: true, fb: "Çok doğru! FOG (Fear, Obligation, Guilt) tekniğiyle seni korkutarak ve vicdan azabı yaratarak kararından döndürmeye çalışıyorlar." },
+        { id: "o2", text: "Breadcrumbing", correct: false, fb: "Yanlış. Bu ilişkilerde ilgi kırıntısı bırakmaktır." },
+        { id: "o3", text: "Whataboutism", correct: false, fb: "Yanlış. Konuyu saptırmıyor, direkt saldırıyor." },
+        { id: "o4", text: "Üçgenleme", correct: false, fb: "Yanlış. Üçüncü kişi yok." }
+      ]
+    },
+    {
+      title: "Vaka #11: Ekmek Kırıntısı (Breadcrumbing)",
+      context: "Konu: Aylardır netleşmeyen bir romantik ilişki.",
+      dialogue: [
+        { speaker: "Sen", class: "msg-a", text: "Artık ne olduğumuzu konuşmamız lazım. Sürekli kaybolup geri geliyorsun." },
+        { speaker: "Karşı Taraf", class: "msg-b", text: "<span class='target'>Şu an çok yoğunum ama inan bana seni çok düşünüyorum. Haftaya mutlaka uzun uzun konuşalım olur mu, sen benim için çok özelsin. (Yine 10 gün yazmaz)</span>" }
+      ],
+      question: "Seni tamamen kaybetmemek için ufak umutlar dağıtan bu taktik nedir?",
+      options: [
+        { id: "o1", text: "Ekmek Kırıntısı Bırakmak (Breadcrumbing)", correct: true, fb: "Harika! Ciddi bir niyeti olmamasına rağmen seni yedekte tutmak için arada bir ufak ilgi kırıntıları veriyor." },
+        { id: "o2", text: "Gaslighting", correct: false, fb: "Yanlış. Gerçekliği inkar etmiyor." },
+        { id: "o3", text: "Sessizlik Terapisi", correct: false, fb: "Yanlış. Tamamen sessiz kalmıyor, umut veriyor." },
+        { id: "o4", text: "Love Bombing", correct: false, fb: "Yanlış. Yoğun bir sevgi seli yok, sadece kırıntı var." }
+      ]
+    },
+    {
+      title: "Vaka #12: İzolasyon",
+      context: "Konu: Partnerinin senin arkadaşların hakkındaki görüşleri.",
+      dialogue: [
+        { speaker: "Sen", class: "msg-a", text: "Bu akşam liseden kızlarla kahve içmeye çıkacağım." },
+        { speaker: "Partner", class: "msg-b", text: "<span class='target'>O kızların sana iyi geldiğini hiç sanmıyorum. Sürekli senin arkandan iş çeviriyorlar bence. Sadece ben senin gerçek iyiliğini istiyorum, bence onlarla görüşme.</span>" }
+      ],
+      question: "Manipülatörün seni dış dünyadan koparmak için uyguladığı bu taktik hangisidir?",
+      options: [
+        { id: "o1", text: "İzolasyon (Isolation)", correct: true, fb: "Tebrikler! Seni destek ağından (arkadaşlarından) kopararak tamamen kendine bağımlı hale getirmeye çalışıyor." },
+        { id: "o2", text: "Whataboutism", correct: false, fb: "Yanlış. Konuyu saptırmıyor." },
+        { id: "o3", text: "Kurban Rolü", correct: false, fb: "Yanlış. Kendini mağdur göstermiyor." },
+        { id: "o4", text: "Moving the Goalposts", correct: false, fb: "Yanlış. Bir kural değiştirme durumu yok." }
+      ]
+    },
+    {
+      title: "Vaka #13: Gelecek Sahtekarlığı",
+      context: "Konu: İşyerinde yıllardır verilen tutulmamış sözler.",
+      dialogue: [
+        { speaker: "Sen", class: "msg-a", text: "Maaşım 2 yıldır aynı, artık bir iyileştirme bekliyorum." },
+        { speaker: "Patron", class: "msg-b", text: "<span class='target'>Bak bu yeni proje bitsin, seni şirkete ortak yapacağım. Altına araba bile çekeceğiz. Sen hele şu projeyi bedavaya bir bitir, gerisi bende.</span>" }
+      ],
+      question: "Gerçekleşmeyecek sahte hayallerle seni motive etmeye çalışan bu taktik nedir?",
+      options: [
+        { id: "o1", text: "Gelecek Sahtekarlığı (Future Faking)", correct: true, fb: "Doğru! Gelecekte büyük ödüller vaat ederek senin bugünkü emeğini sömürüyor." },
+        { id: "o2", text: "Gaslighting", correct: false, fb: "Yanlış. Geçmişi inkar etmiyor, sahte bir gelecek çiziyor." },
+        { id: "o3", text: "Love Bombing", correct: false, fb: "Yanlış. Sevgi bombardımanı yok." },
+        { id: "o4", text: "Psikolojik Yansıtma", correct: false, fb: "Yanlış. Kendi suçunu sana atmıyor." }
+      ]
+    },
+    {
+      title: "Vaka #14: Söz Salatası",
+      context: "Konu: Basit bir soruya verilen kafa karıştırıcı cevap.",
+      dialogue: [
+        { speaker: "Sen", class: "msg-a", text: "Dün akşam neden toplantıya katılmadın?" },
+        { speaker: "İş Arkadaşı", class: "msg-b", text: "<span class='target'>Toplantılar aslında zamanın lineer akışında birer illüzyondur. Ben dünü yaşarken yarının dinamiklerini planlıyordum. Sen vizyonu geniş tutmazsan kurumsal sinerjiyi yakalayamayız. Zaten evrensel frekansımız uyuşmuyor.</span>" }
+      ],
+      question: "Konuyu dağıtmak için kurulan bu anlamsız cümle yığını taktiği nedir?",
+      options: [
+        { id: "o1", text: "Söz Salatası (Word Salad)", correct: true, fb: "Mükemmel! Kafanı karıştırmak ve asıl soruyu (neden katılmadın?) unutturmak için mantıksız ve uzun bir jargona başvuruyor." },
+        { id: "o2", text: "Üçgenleme", correct: false, fb: "Yanlış. Üçüncü kişi yok." },
+        { id: "o3", text: "Suçluluk Tripi", correct: false, fb: "Yanlış. Vicdan azabı yaratmıyor." },
+        { id: "o4", text: "Kurban Rolü", correct: false, fb: "Yanlış. Mağduru oynamıyor." }
+      ]
+    },
+    {
+      title: "Vaka #15: Şefkatli Zehir",
+      context: "Konu: Giyim tarzınla ilgili yapılan bir yorum.",
+      dialogue: [
+        { speaker: "Sen", class: "msg-a", text: "Yeni aldığım bu elbiseyi giyeceğim bu akşam." },
+        { speaker: "Arkadaş", class: "msg-b", text: "<span class='target'>Canım benim, senin iyiliğin için söylüyorum... O elbise senin basenlerini çok geniş göstermiş. Sen en iyisi her zamanki o siyah bol pantolonunu giy, daha az dikkat çekersin.</span>" }
+      ],
+      question: "İyilik maskesi altında özgüvenini zedeleyen bu taktik nedir?",
+      options: [
+        { id: "o1", text: "Sahte Şefkat (Patronizing)", correct: true, fb: "Doğru! 'Senin iyiliğin için' yalanının arkasına saklanarak acımasız bir eleştiri yapıyor ve özgüvenini kırıyor." },
+        { id: "o2", text: "Gaslighting", correct: false, fb: "Yanlış. Gerçeklik algını bozmuyor." },
+        { id: "o3", text: "Silent Treatment", correct: false, fb: "Yanlış. Gayet konuşuyor." },
+        { id: "o4", text: "Breadcrumbing", correct: false, fb: "Yanlış. İlgi kırıntısı değil." }
+      ]
+    },
+    {
+      title: "Vaka #16: Aşk Bombardımanı",
+      context: "Konu: Henüz yeni tanışılan birinin tavırları.",
+      dialogue: [
+        { speaker: "Sen", class: "msg-a", text: "Daha tanışalı 3 gün oldu, bana sürekli pahalı hediyeler alıyorsun." },
+        { speaker: "Partner", class: "msg-b", text: "<span class='target'>Çünkü sen benim ruh eşimsin! Hayatım boyunca seni beklemişim. Hemen aynı eve taşınmalıyız, diğer herkesi unut, sadece ikimiz olalım!</span>" }
+      ],
+      question: "Seni gerçek dışı bir ilgiye boğarak savunmanı düşüren bu taktik nedir?",
+      options: [
+        { id: "o1", text: "Aşk Bombardımanı (Love Bombing)", correct: true, fb: "Harika Tespit! Manipülatörler başlangıçta seni sahte bir ilgi selinde boğarak bağımlı hale getirirler." },
+        { id: "o2", text: "Future Faking", correct: false, fb: "Biraz gelecek vaadi olsa da, asıl yoğunluk 'ruh eşi' ve aşırı hediye (aşk bombardımanı) üzerinedir." },
+        { id: "o3", text: "Üçgenleme", correct: false, fb: "Yanlış. Aksine diğer herkesi devreden çıkarmaya çalışıyor." },
+        { id: "o4", text: "Projection", correct: false, fb: "Yanlış. Kendi duygusunu sana yansıtmıyor." }
+      ]
+    },
+    {
+      title: "Vaka #17: Pasif Agresyon",
+      context: "Konu: Fikri sorulan arkadaşın imalı tavrı.",
+      dialogue: [
+        { speaker: "Sen", class: "msg-a", text: "Sence bu projede bu tasarımı mı kullanalım?" },
+        { speaker: "İş Arkadaşı", class: "msg-b", text: "<span class='target'>Farketmez, nasılsa her zaman senin dediğin oluyor. Ben ne desem boş, sen bildiğini yap. Çöp olsa da yap.</span>" }
+      ],
+      question: "Doğrudan yüzleşmek yerine imalarla saldıran bu tutum nedir?",
+      options: [
+        { id: "o1", text: "Pasif Agresyon", correct: true, fb: "Doğru! Öfkesini doğrudan ifade etmek yerine imalı, kinayeli ve iğneleyici bir dil kullanıyor." },
+        { id: "o2", text: "Gaslighting", correct: false, fb: "Yanlış. Geçmişi bükmüyor." },
+        { id: "o3", text: "Love Bombing", correct: false, fb: "Yanlış. Sevgi belirtisi yok." },
+        { id: "o4", text: "Söz Salatası", correct: false, fb: "Yanlış. Cümleler anlaşılır." }
+      ]
+    },
+    {
+      title: "Vaka #18: Karalama Kampanyası",
+      context: "Konu: Ayrıldığın eski partnerin arkandan yaptıkları.",
+      dialogue: [
+        { speaker: "Sen", class: "msg-a", text: "Ortak arkadaşlarımız neden benimle konuşmuyor?" },
+        { speaker: "Eski Partner", class: "msg-b", text: "<span class='target'>Ben onlara senin aslında ne kadar dengesiz ve yalancı biri olduğunu anlattım. Herkes senin gerçek yüzünü gördü, kimse seni sevmiyor artık.</span>" }
+      ],
+      question: "İtibarını zedelemek için başkalarını sana karşı doldurma taktiği nedir?",
+      options: [
+        { id: "o1", text: "Karalama Kampanyası (Smear Campaign)", correct: true, fb: "Tebrikler! Seni toplumdan dışlamak ve kendi yalanlarına inandırmak için itibar suikasti yapıyor." },
+        { id: "o2", text: "Üçgenleme", correct: false, fb: "Birilerini dahil etse de, ana hedef senin itibarına doğrudan bir kampanya yürütmektir." },
+        { id: "o3", text: "Breadcrumbing", correct: false, fb: "Yanlış. İlişki kırıntısı yok." },
+        { id: "o4", text: "Suçluluk Tripi", correct: false, fb: "Yanlış. Sana vicdan yaptırmıyor." }
+      ]
+    },
+    {
+      title: "Vaka #19: Darbe ve Okşama",
+      context: "Konu: Aynı gün içindeki ani ruh hali değişimleri.",
+      dialogue: [
+        { speaker: "Sen", class: "msg-a", text: "Sabah bana 'işe yaramaz' diye bağırdın, şimdi ise bana sarılıp çiçek alıyorsun. Aklım karıştı." },
+        { speaker: "Partner", class: "msg-b", text: "<span class='target'>Sabah sinirliydim canım. Ama biliyorsun sen benim her şeyimsin. Sensiz yaşayamam. Hadi unutalım olanları.</span>" }
+      ],
+      question: "Seni dengesizleştirip bağımlı kılan bu şiddet döngüsü taktiği nedir?",
+      options: [
+        { id: "o1", text: "Darbe ve Okşama (Push and Pull)", correct: true, fb: "Mükemmel! Seni önce itip (darbe) sonra çekerek (okşama) travma bağı oluşturuyor ve aklını karıştırıyor." },
+        { id: "o2", text: "Sessizlik Terapisi", correct: false, fb: "Yanlış. Sessiz kalmıyor." },
+        { id: "o3", text: "Word Salad", correct: false, fb: "Yanlış. Anlamsız konuşmuyor." },
+        { id: "o4", text: "Whataboutism", correct: false, fb: "Yanlış. Konuyu saptırmıyor." }
+      ]
+    },
+    {
+      title: "Vaka #20: Kırık Plak Tuzağı",
+      context: "Konu: Israrla sınırlarını aşmaya çalışan biri.",
+      dialogue: [
+        { speaker: "Sen", class: "msg-a", text: "Sana arabamı ödünç veremeyeceğimi söyledim." },
+        { speaker: "Arkadaş", class: "msg-b", text: "<span class='target'>Ama çok dikkatli kullanacağım... Hadi lütfen, sadece bir saatliğine... Bak ben senin için ne zaman istesen kendi arabamı verirdim... Eminim bana güveniyorsundur...</span>" }
+      ],
+      question: "Senin sınırlarını yıpratmak için sürekli ısrar ettiği bu yorma taktiği nedir?",
+      options: [
+        { id: "o1", text: "Sınır İhlali (Israrla Yıpratma)", correct: true, fb: "Doğru! 'Hayır' cevabını kabul etmeyip, sen pes edene kadar farklı bahanelerle sınırlarını dövüyor." },
+        { id: "o2", text: "Gaslighting", correct: false, fb: "Yanlış. Gerçeklik algısını bozmuyor." },
+        { id: "o3", text: "Sessizlik Terapisi", correct: false, fb: "Yanlış. Sürekli konuşuyor." },
+        { id: "o4", text: "Projection", correct: false, fb: "Yanlış. Kendi duygusunu sana atmıyor." }
       ]
     }
   ];
@@ -171,7 +411,7 @@
     }
 
     const c = cases[currentLevel];
-    document.getElementById('hudLevel').textContent = \`Vaka \${currentLevel + 1} / \${cases.length}\`;
+    document.getElementById('hudLevel').textContent = "Vaka " + (currentLevel + 1) + " / " + cases.length;
     document.getElementById('cTitle').textContent = c.title;
     document.getElementById('cContext').textContent = c.context;
     
@@ -179,12 +419,7 @@
     const dCont = document.getElementById('cDialogue');
     dCont.innerHTML = '';
     c.dialogue.forEach(d => {
-      dCont.innerHTML += \`
-        <div class="msg \${d.class}">
-          <div class="speaker">\${d.speaker}</div>
-          \${d.text}
-        </div>
-      \`;
+      dCont.innerHTML += '<div class="msg ' + d.class + '"><div class="speaker">' + d.speaker + '</div>' + d.text + '</div>';
     });
 
     document.getElementById('qText').innerHTML = c.question;
@@ -218,19 +453,21 @@
     if (opt.correct) {
       btn.classList.add('correct');
       fbBox.classList.add('success');
-      fbText.innerHTML = \`<strong>🏆 Harika Tespit!</strong><br>\${opt.fb}\`;
+      fbText.innerHTML = "<strong>🏆 Harika Tespit!</strong><br>" + opt.fb;
       score += 100;
       document.getElementById('scoreVal').textContent = score;
     } else {
       btn.classList.add('wrong');
       fbBox.classList.add('error');
-      fbText.innerHTML = \`<strong>❌ Yanlış Analiz.</strong><br>\${opt.fb}\`;
+      fbText.innerHTML = "<strong>❌ Yanlış Analiz.</strong><br>" + opt.fb;
       
       // Highlight correct one
       const correctOpt = allOpts.find(o => o.correct);
       const correctBtn = Array.from(buttons).find(b => b.textContent === correctOpt.text);
-      correctBtn.style.borderColor = '#10b981';
-      correctBtn.style.color = '#10b981';
+      if (correctBtn) {
+        correctBtn.style.borderColor = '#10b981';
+        correctBtn.style.color = '#10b981';
+      }
     }
   }
 
@@ -241,7 +478,6 @@
 
   // Init
   loadLevel();
-
 </script>
 
 <%- include('partials/main-footer') %>

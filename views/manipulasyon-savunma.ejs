@@ -259,6 +259,84 @@
   }
   .restart-btn:hover { transform: scale(1.05); }
 
+  /* ENCYCLOPEDIA SECTION */
+  .encyclopedia-section {
+    margin-top: 80px;
+    padding-top: 60px;
+    border-top: 1px solid rgba(0,0,0,0.05);
+  }
+  .enc-title {
+    font-size: 2.5rem;
+    font-weight: 700;
+    text-align: center;
+    margin-bottom: 50px;
+  }
+  .enc-list-container {
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+  }
+  .enc-detailed-card {
+    background: var(--apple-card);
+    border-radius: 24px;
+    padding: 40px;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.04);
+    border: 1px solid rgba(0,0,0,0.02);
+    transition: transform 0.3s ease;
+  }
+  .enc-detailed-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 20px 50px rgba(0, 102, 204, 0.08);
+  }
+  .edc-header {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    margin-bottom: 25px;
+    border-bottom: 1px solid rgba(0,0,0,0.05);
+    padding-bottom: 20px;
+  }
+  .edc-icon {
+    font-size: 3rem;
+  }
+  .edc-title {
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: var(--apple-blue);
+    margin: 0;
+    letter-spacing: -0.02em;
+  }
+  .edc-content p {
+    font-size: 1.1rem;
+    line-height: 1.7;
+    margin-bottom: 20px;
+    color: var(--apple-text);
+  }
+  .edc-content strong {
+    color: #000;
+  }
+  .edc-content ul {
+    font-size: 1.05rem;
+    line-height: 1.6;
+    margin-bottom: 20px;
+    color: var(--apple-text);
+    padding-left: 20px;
+  }
+  .edc-content li {
+    margin-bottom: 12px;
+  }
+  .edc-quote {
+    background: rgba(0, 102, 204, 0.05);
+    border-left: 4px solid var(--apple-blue);
+    padding: 20px;
+    font-style: italic;
+    font-size: 1.1rem;
+    font-weight: 600;
+    border-radius: 0 12px 12px 0;
+    margin-top: 25px;
+    color: var(--apple-blue);
+  }
+
   @keyframes popIn {
     from { opacity: 0; transform: translateY(10px) scale(0.98); }
     to { opacity: 1; transform: translateY(0) scale(1); }
@@ -320,6 +398,110 @@
       </div>
     </div>
   </div>
+
+  <!-- SAVUNMA ANSİKLOPEDİSİ (ULTRA DETAYLI) -->
+  <div class="encyclopedia-section">
+    <h2 class="enc-title">Savunma Ansiklopedisi: Zihinsel Kalkanlar</h2>
+    
+    <div class="enc-list-container">
+      
+      <!-- ITEM 1 -->
+      <div class="enc-detailed-card">
+        <div class="edc-header">
+          <div class="edc-icon">🪨</div>
+          <h3 class="edc-title">1. Gri Kaya Yöntemi (Grey Rock Method)</h3>
+        </div>
+        <div class="edc-content">
+          <p><strong>Nedir?</strong> Gri Kaya Yöntemi, narsist, psikopat veya yüksek derecede toksik kişilerle mecburi iletişim kurmak zorunda kaldığınızda (örneğin eski eş, zorunlu iş arkadaşı) kullanılan en etkili psikolojik kalkandır. Amacı, sizi manipülatör için olabildiğince "sıkıcı, renksiz ve tepkisiz" bir gri kaya parçası gibi göstermektir.</p>
+          <p><strong>Manipülatörün Amacı:</strong> Manipülatörler "duygusal tepkilerle" beslenirler (Narcissistic Supply). Sizi sinirlendirmek, ağlatmak, üzmek veya kendinizi savunmaya zorlamak onlara güç ve kontrol hissi verir. Eğer tepki alamazlarsa, aç kalır ve başka bir kurban aramaya giderler.</p>
+          <p><strong>Nasıl Uygulanır?</strong></p>
+          <ul>
+            <li><strong>Maksimum Tepkisizlik:</strong> Kışkırtmalara karşı öfke veya üzüntü göstermeyin. Monoton ve kısa cevaplar verin: "Hımm", "Olabilir", "Anlıyorum", "Evet".</li>
+            <li><strong>Bilgi Ambargosu:</strong> Asla özel hayatınız, hedefleriniz, korkularınız veya duygularınız hakkında bilgi vermeyin. Sadece hava durumu veya çok yüzeysel, sıkıcı konulardan bahsedin.</li>
+            <li><strong>Göz Temasını Kesmek:</strong> Göz teması empati ve duygusal bağ kurar. Gözünüzü onlardan uzak tutarak duygusal ağı koparın, telefonunuza veya defterinize bakarak cevap verin.</li>
+          </ul>
+          <div class="edc-quote">"Manipülatörler karanlıkta parlayan duygularınızı hedefler. Işıklarınızı kapatın ve bir kaya kadar sıkıcı olun."</div>
+        </div>
+      </div>
+
+      <!-- ITEM 2 -->
+      <div class="enc-detailed-card">
+        <div class="edc-header">
+          <div class="edc-icon">🚫</div>
+          <h3 class="edc-title">2. J.A.D.E. Tuzağından Kaçınmak</h3>
+        </div>
+        <div class="edc-content">
+          <p><strong>Nedir?</strong> J.A.D.E. manipülatörlerin sizi çekmeye çalıştığı bir tuzaktır. Açılımı: <strong>J</strong>ustify (Haklı Çıkarma), <strong>A</strong>rgue (Tartışma), <strong>D</strong>efend (Savunma), <strong>E</strong>xplain (Açıklama).</p>
+          <p><strong>Manipülatörün Amacı:</strong> Sizi sürekli bir şeyler açıklamak zorunda bırakarak sizi savunma pozisyonuna (sanık sandalyesine) oturtmak. Kendinizi savunduğunuz an, karşı tarafın sizi yargılama otoritesini zımnen kabul etmiş olursunuz.</p>
+          <p><strong>Nasıl Uygulanır?</strong></p>
+          <ul>
+            <li><strong>"Hayır" Tam Bir Cümledir:</strong> Aldığınız bir karar için uzun uzun açıklama yapmayın. "Hayır, bugün o toplantıya gelemem" cümlesi yeterlidir. Eğer "Çünkü çok yorgunum ve işim var" derseniz, manipülatör yorgunluğunuzun geçerli bir mazeret olmadığını kanıtlamaya çalışacaktır (Örn: "Ben de yorgunum ama geliyorum!").</li>
+            <li><strong>Tartışmayı Reddedin:</strong> Gerçeği bilmeniz yeterlidir, karşınızdakini ikna etmek veya haklı çıkmak zorunda değilsiniz. "Ben böyle uygun gördüm" diyerek konuyu kapatın.</li>
+          </ul>
+          <div class="edc-quote">"Sürekli kendini açıklamak, karşı tarafa 'Senin onayın olmadan yaşayamam' demenin sessiz yoludur."</div>
+        </div>
+      </div>
+
+      <!-- ITEM 3 -->
+      <div class="enc-detailed-card">
+        <div class="edc-header">
+          <div class="edc-icon">🔁</div>
+          <h3 class="edc-title">3. Kırık Plak Tekniği (Broken Record)</h3>
+        </div>
+        <div class="edc-content">
+          <p><strong>Nedir?</strong> Karşı taraf sizi asıl konudan saptırmaya, suçlamaya veya sınırlarınızı aşmaya çalıştığında, sakin ve monoton bir ses tonuyla belirlediğiniz "tek bir cümleyi" defalarca tekrar etme tekniğidir.</p>
+          <p><strong>Manipülatörün Amacı:</strong> Sizi "Whataboutism" (Peki ya şu konudaki suçun?) taktiğiyle konudan uzaklaştırmak ve ısrar ederek pes etmenizi sağlamak.</p>
+          <p><strong>Örnek Diyalog (Nasıl Uygulanır?):</strong></p>
+          <ul>
+            <li><em>Manipülatör:</em> "Bana bu projede hafta sonu yardım etmelisin, sen çok bencilsin."</li>
+            <li><em>Siz:</em> "Şu an kendi projeme odaklanmam gerekiyor, yardımcı olamam."</li>
+            <li><em>Manipülatör:</em> "Geçen ay sen hastayken ben sana yardım etmiştim ama! Nankörsün."</li>
+            <li><em>Siz:</em> "Bunun için teşekkür ederim, ancak şu an kendi projeme odaklanmam gerekiyor, yardımcı olamam."</li>
+            <li><em>Manipülatör:</em> "Herkes senin ne kadar bencil olduğunu söylüyor zaten!"</li>
+            <li><em>Siz:</em> "Böyle düşünmen üzücü, ancak şu an kendi projeme odaklanmam gerekiyor, yardımcı olamam."</li>
+          </ul>
+          <div class="edc-quote">Kırık plak tekniği, duygusal manipülasyonu mantığın duvarına çarptırır. Yeni bir argüman üretmeyin, sadece sınırınızı tekrar edin.</div>
+        </div>
+      </div>
+
+      <!-- ITEM 4 -->
+      <div class="enc-detailed-card">
+        <div class="edc-header">
+          <div class="edc-icon">🌫️</div>
+          <h3 class="edc-title">4. F.O.G. Şantajını Dağıtmak (Fear, Obligation, Guilt)</h3>
+        </div>
+        <div class="edc-content">
+          <p><strong>Nedir?</strong> Psikolog Susan Forward'ın tanımladığı Duygusal Şantaj kavramının 3 temel silahıdır. FOG, İngilizce "Sis" anlamına gelir ve manipülatör zihninizi bu sisle bulandırır.</p>
+          <p><strong>Silahlar ve Savunmalar:</strong></p>
+          <ul>
+            <li><strong>Korku (Fear):</strong> Ayrılık, işten atılma, rezil edilme tehditleri. (Örn: "Bunu yapmazsan benden hiçbir şey bekleme.") <br><em>Savunma:</em> Korkunun üzerine gidin. Blöfü görün: "Anlıyorum, bu senin kararın. Tercihine saygı duyarım."</li>
+            <li><strong>Zorunluluk (Obligation):</strong> Size "yapmak zorundaymışsınız" gibi hissettiren sahte geleneksel/ahlaki görevler. (Örn: "Biz aileyiz, kan bağı her şeyden önemlidir.") <br><em>Savunma:</em> Kendinize sorun: "Bunu içimden geldiği için mi yapıyorum, yoksa mecbur bırakıldığım için mi?" Mecbursanız, reddedin.</li>
+            <li><strong>Suçluluk (Guilt):</strong> Kendilerini sürekli kurban gösterip faturayı size kesmek. (Örn: "Sen dün o sözü söylemeseydin ben bugün krize girmezdim.") <br><em>Savunma:</em> Başkalarının duygusal tepkilerinin sorumluluğunu almayı reddedin: "Üzüldüğünü görebiliyorum ancak benim kararım buydu. Kendi duygularını yönetmen gerekiyor."</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- ITEM 5 -->
+      <div class="enc-detailed-card">
+        <div class="edc-header">
+          <div class="edc-icon">⏱️</div>
+          <h3 class="edc-title">5. Zaman Kazanma ve Otoriteyi Alma</h3>
+        </div>
+        <div class="edc-content">
+          <p><strong>Nedir?</strong> Manipülatörler, kurbanın mantıklı (rasyonel) düşünmesini engellemek için anlık kararlar vermeye zorlarlar. Sahte bir aciliyet (Urgency) yaratırlar.</p>
+          <p><strong>Manipülatörün Amacı:</strong> "Şimdi karar ver, yoksa fırsat kaçar!", "Şu an cevap vermelisin!" diyerek amigdalanızı (korku merkezi) tetiklemek ve "Evet" demenizi sağlamak.</p>
+          <p><strong>Nasıl Uygulanır?</strong></p>
+          <ul>
+            <li><strong>Asla Anında Cevap Vermeyin:</strong> Her ne olursa olsun, zaman isteyin: "Bunu değerlendirmem lazım, sana yarın döneceğim."</li>
+            <li><strong>Baskı Kırmak:</strong> Eğer "Hemen şimdi karar vermelisin" derlerse, cevabınız otomatik olarak "HAYIR" olmalıdır. "Şu an anında bir cevap istiyorsan cevabım HAYIR. Ama 1 gün düşünmeme izin verirsen bu değişebilir."</li>
+            <li>Otoriteyi geri almak, oyunun kurallarını sizin belirlemeniz demektir. Beklemek, manipülatörün illüzyonunu bozar.</li>
+          </ul>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
 </div>
 
 <script>
