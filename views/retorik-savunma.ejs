@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title><%= meta.title %></title>
+  <meta name="description" content="<%= meta.description %>">
+  <% if (canonicalUrl) { %>
+    <link rel="canonical" href="<%= canonicalUrl %>" />
+  <% } %>
+  <link rel="stylesheet" href="/css/style.css">
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Teko:wght@500;700&family=Jost:wght@400;600;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+  <style>
+    /* GÜÇLÜ SAVUNMA - KALE / KALKAN TEMASI */
+    :root {
+      --shield-bg: #1B1D22;       /* Koyu Çelik / Taş */
+      --shield-stone: #2A2E35;    /* Açık Taş Grisi */
+      --shield-metal: #7B8A97;    /* Metalik Gri */
+      --shield-blue: #2E5A88;     /* Zırh Mavisi */
+      --shield-gold: #D6A848;     /* Vurgu Altını */
+      --shield-text: #F0F2F5;     /* Beyaz-Gri Metin */
+      
+      --font-heading: 'Teko', sans-serif;
+      --font-body: 'Jost', sans-serif;
+      --tr: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    body {
+      background-color: var(--shield-bg);
+      color: var(--shield-text);
+      font-family: var(--font-body);
+      line-height: 1.6;
+      background-image: 
+        repeating-linear-gradient(45deg, transparent, transparent 10px, rgba(123, 138, 151, 0.03) 10px, rgba(123, 138, 151, 0.03) 20px);
+    }
+
+    /* Navbar Override for Shield Theme */
+    .navbar {
+      background-color: rgba(27, 29, 34, 0.95) !important;
+      border-bottom: 2px solid var(--shield-metal) !important;
+    }
+    .navbar a { color: var(--shield-text) !important; }
+
+    /* Hero: Kalkan */
+    .shield-hero {
+      min-height: 60vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      padding: 120px 20px 60px;
+      position: relative;
+    }
+
+    .shield-icon {
+      font-size: 5rem;
+      color: var(--shield-metal);
+      margin-bottom: 20px;
+      text-shadow: 0 10px 20px rgba(0,0,0,0.5);
+    }
+
+    .shield-hero h1 {
+      font-family: var(--font-heading);
+      font-size: clamp(4rem, 8vw, 6rem);
+      font-weight: 700;
+      color: var(--shield-text);
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      margin-bottom: 20px;
+      line-height: 1;
+    }
+
+    .shield-hero p {
+      font-size: 1.3rem;
+      max-width: 650px;
+      color: var(--shield-metal);
+    }
+
+    /* Ana Konteyner */
+    .fortress-container {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 40px 20px 100px;
+    }
+
+    /* Savunma Blokları */
+    .defense-block {
+      background: var(--shield-stone);
+      border-top: 5px solid var(--shield-metal);
+      padding: 50px;
+      margin-bottom: 40px;
+      display: flex;
+      gap: 40px;
+      align-items: flex-start;
+      box-shadow: 0 15px 30px rgba(0,0,0,0.4);
+      position: relative;
+      overflow: hidden;
+    }
+    .defense-block::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; width: 100%; height: 100%;
+      background: linear-gradient(135deg, rgba(46, 90, 136, 0.1) 0%, transparent 50%);
+      pointer-events: none;
+    }
+
+    .defense-num {
+      font-family: var(--font-heading);
+      font-size: 6rem;
+      line-height: 0.8;
+      color: rgba(123, 138, 151, 0.2);
+    }
+
+    .defense-content { flex: 1; }
+    .defense-content h3 {
+      font-family: var(--font-heading);
+      font-size: 2.5rem;
+      color: var(--shield-gold);
+      margin-bottom: 15px;
+      letter-spacing: 1px;
+    }
+    .defense-content p {
+      font-size: 1.15rem;
+      color: #C0C8D0;
+    }
+
+    /* Frame (Çerçeveleme) Animasyonu Bloğu */
+    .frame-box {
+      border: 2px solid var(--shield-blue);
+      padding: 30px;
+      text-align: center;
+      margin-top: 30px;
+      position: relative;
+    }
+    .frame-box::after {
+      content: 'REFRAMING';
+      position: absolute;
+      top: -12px; left: 50%;
+      transform: translateX(-50%);
+      background: var(--shield-stone);
+      padding: 0 15px;
+      font-family: var(--font-heading);
+      color: var(--shield-blue);
+      font-size: 1.5rem;
+      letter-spacing: 2px;
+    }
+
+    /* Q&A Yönetimi Kartları */
+    .qa-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 20px;
+      margin-top: 40px;
+    }
+    .qa-card {
+      background: var(--shield-bg);
+      border: 1px solid var(--shield-metal);
+      padding: 30px;
+      text-align: center;
+      transition: var(--tr);
+    }
+    .qa-card:hover {
+      border-color: var(--shield-gold);
+      transform: translateY(-5px);
+    }
+    .qa-card i {
+      font-size: 2rem;
+      color: var(--shield-metal);
+      margin-bottom: 15px;
+    }
+    .qa-card:hover i { color: var(--shield-gold); }
+    .qa-card h4 {
+      font-family: var(--font-heading);
+      font-size: 1.8rem;
+      margin-bottom: 10px;
+    }
+    .qa-card p { font-size: 0.95rem; color: var(--shield-metal); }
+
+    @media (max-width: 768px) {
+      .defense-block { flex-direction: column; gap: 20px; padding: 30px; }
+      .defense-num { font-size: 4rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <%- include('partials/main-header') %>
+
+  <!-- Hero Section -->
+  <section class="shield-hero">
+    <div class="shield-icon"><i class="fa-solid fa-shield"></i></div>
+    <h1>Güçlü Savunma</h1>
+    <p>Saldırı altındayken paniklemeyin. Argümanlarınızı çelik bir kalkan gibi konumlandırın, çerçevenizi koruyun ve zehirli soruları ustalıkla saptırın.</p>
+  </section>
+
+  <% 
+    const gs1 = exercises.find(e => e.id === 'gs1');
+    const gs2 = exercises.find(e => e.id === 'gs2');
+    const gs3 = exercises.find(e => e.id === 'gs3');
+    const gs4 = exercises.find(e => e.id === 'gs4');
+  %>
+
+  <section class="fortress-container">
+    
+    <!-- Blok 1: Temel Savunma -->
+    <div class="defense-block">
+      <div class="defense-num">01</div>
+      <div class="defense-content">
+        <h3><%= gs1 ? gs1.title : 'Savunma ve Karşı Argüman' %></h3>
+        <p>Savunma, rakibin argümanını çürütmekle başlar. Karşı tarafın zayıf noktalarını, gizli varsayımlarını (enthymeme) ve mantık hatalarını tespit ederek kendi kalenizin duvarlarını örersiniz.</p>
+      </div>
+    </div>
+
+    <!-- Blok 2: Çerçeveleme (Reframing) -->
+    <div class="defense-block">
+      <div class="defense-num">02</div>
+      <div class="defense-content">
+        <h3><%= gs2 ? gs2.title : 'Çerçeveleme Sanatı (Reframing)' %></h3>
+        <p>En güçlü savunma, rakibin savaş alanında savaşmamaktır. Tartışmanın sınırlarını (çerçevesini) siz belirlerseniz, kuralları da siz koyarsınız.</p>
+        
+        <div class="frame-box">
+          <p><strong>Rakip:</strong> "Şirketiniz son projede büyük bir başarısızlık yaşadı."</p>
+          <p style="color: var(--shield-gold); margin-top:10px;"><strong>Sizin Çerçeveniz:</strong> "Bahsettiğiniz o proje, sektörde hiç kimsenin cesaret edemediği devasa bir Ar-Ge laboratuvarıydı ve oradan öğrendiklerimizle bugünkü kusursuz ürünümüzü inşa ettik."</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Blok 3: Red Herring Tuzağı -->
+    <div class="defense-block">
+      <div class="defense-num">03</div>
+      <div class="defense-content">
+        <h3><%= gs3 ? gs3.title : 'Kırmızı Balık (Red Herring)' %></h3>
+        <p>Rakip sizi asıl konudan uzaklaştırıp zayıf olduğunuz bir alana (kırmızı balık) çekmeye çalışacaktır. Oltaya gelmeyin. Sükunetinizi koruyun ve tartışmayı ana konuya geri döndürün.</p>
+      </div>
+    </div>
+
+    <!-- Blok 4: Q&A Yönetimi -->
+    <div class="defense-block" style="border-top-color: var(--shield-gold);">
+      <div class="defense-content" style="width:100%;">
+        <h3 style="text-align:center;"><%= gs4 ? gs4.title : 'Zorlu Soru & Cevap (Q&A) Yönetimi' %></h3>
+        <p style="text-align:center;">Topluluk önünde bir saldırı sorusu geldiğinde uygulanacak 3 adımlı protokol:</p>
+        
+        <div class="qa-grid">
+          <div class="qa-card">
+            <i class="fa-solid fa-pause"></i>
+            <h4>Duraksama</h4>
+            <p>Anında cevap vermeyin. 2 saniye sessiz kalın. Bu otoritenizi artırır ve düşünme payı bırakır.</p>
+          </div>
+          <div class="qa-card">
+            <i class="fa-solid fa-arrows-turn-to-dots"></i>
+            <h4>Saptırma</h4>
+            <p>Soruyu direkt reddetmek yerine, "Asıl sorulması gereken şudur..." diyerek çerçeveyi değiştirin.</p>
+          </div>
+          <div class="qa-card">
+            <i class="fa-solid fa-bolt"></i>
+            <h4>Karşı Saldırı</h4>
+            <p>Saptırdığınız kendi çerçeveniz içinden, güçlü verilerinizle (Logos) cevabınızı verin.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </section>
+
+  <%- include('partials/main-footer') %>
+</body>
+</html>

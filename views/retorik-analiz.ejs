@@ -1,0 +1,626 @@
+<%- include('partials/main-header') %>
+
+<style>
+  /* KONUŞMA ANALİZİ - ADIM 1 & 2: LÜKS VE KARANLIK TEMA */
+  :root {
+    --bl-bg: #0A0A0A;
+    --bl-surface: #171717;
+    --bl-primary: #8B5CF6; /* Konuşma Analizi için Mor/Eflatun vurgu rengi */
+    --bl-accent: #10B981;  /* Doğru/Yeşil vurgusu */
+    --bl-warning: #F59E0B; /* Es/Duraklama Sarı vurgusu */
+    --bl-text: #F8FAFC;
+    --bl-muted: #94A3B8;
+    --font-heading: 'Inter', sans-serif;
+    --font-body: 'Inter', sans-serif;
+  }
+
+  body {
+    background-color: var(--bl-bg);
+    color: var(--bl-text);
+    font-family: var(--font-body);
+    margin: 0;
+    padding: 0;
+  }
+
+  /* 1. Hero Section */
+  .ka-hero {
+    position: relative;
+    min-height: 80vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    overflow: hidden;
+    background: linear-gradient(135deg, #0f172a 0%, #000000 100%);
+    padding: 20px;
+  }
+
+  .ka-hero-bg {
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: radial-gradient(circle at center, rgba(139, 92, 246, 0.15) 0%, transparent 60%);
+    z-index: 1;
+  }
+
+  /* Sahte Waveform Arka Plan Animasyonu */
+  .ka-hero-waveform {
+    position: absolute;
+    bottom: 0; left: 0; width: 100%; height: 30%;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    gap: 5px;
+    opacity: 0.2;
+    z-index: 0;
+  }
+  .ka-hero-waveform .bar {
+    width: 8px;
+    background: var(--bl-primary);
+    border-radius: 4px 4px 0 0;
+    animation: waveBounce random(1s, 3s) infinite alternate;
+  }
+  @keyframes waveBounce {
+    0% { height: 10px; }
+    100% { height: 150px; }
+  }
+
+  .ka-hero-content {
+    position: relative;
+    z-index: 2;
+    max-width: 800px;
+  }
+
+  .ka-hero h1 {
+    font-family: var(--font-heading);
+    font-size: clamp(3.5rem, 6vw, 5.5rem);
+    font-weight: 900;
+    letter-spacing: -2px;
+    margin-bottom: 20px;
+    background: linear-gradient(to right, #ffffff, var(--bl-primary));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    line-height: 1.1;
+  }
+
+  .ka-hero h2 {
+    font-size: 1.5rem;
+    font-weight: 400;
+    color: var(--bl-muted);
+    margin-bottom: 40px;
+    letter-spacing: 1px;
+  }
+
+  .ka-btn {
+    display: inline-block;
+    background: var(--bl-primary);
+    color: white;
+    padding: 16px 40px;
+    border-radius: 30px;
+    font-size: 1.2rem;
+    font-weight: 700;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    box-shadow: 0 10px 30px rgba(139, 92, 246, 0.3);
+  }
+  .ka-btn:hover {
+    background: #7C3AED;
+    transform: translateY(-3px);
+    box-shadow: 0 15px 40px rgba(139, 92, 246, 0.5);
+  }
+
+  /* 2. Ses ve Vurgu Analizörü (Audio Analyzer UI) */
+  .analyzer-section {
+    padding: 100px 20px;
+    background: var(--bl-surface);
+    position: relative;
+    border-top: 1px solid rgba(255,255,255,0.05);
+  }
+
+  .analyzer-container {
+    max-width: 1000px;
+    margin: 0 auto;
+  }
+
+  .section-header {
+    text-align: center;
+    margin-bottom: 60px;
+  }
+  .section-header h3 {
+    font-size: 2.5rem;
+    color: white;
+    margin-bottom: 15px;
+  }
+  .section-header p {
+    font-size: 1.2rem;
+    color: var(--bl-muted);
+    max-width: 700px;
+    margin: 0 auto;
+  }
+
+  /* Etkileşimli Waveform Kutusu */
+  .waveform-box {
+    background: var(--bl-bg);
+    border: 1px solid rgba(139, 92, 246, 0.3);
+    border-radius: 20px;
+    padding: 40px;
+    position: relative;
+    box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+  }
+
+  .waveform-wrapper {
+    position: relative;
+    height: 150px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+    margin-bottom: 30px;
+  }
+
+  .w-bar {
+    width: 6px;
+    height: 20px;
+    background: var(--bl-muted);
+    border-radius: 3px;
+    transition: all 0.3s ease;
+  }
+
+  /* Farklı Waveform Yükseklikleri */
+  .w-bar.h1 { height: 10%; }
+  .w-bar.h2 { height: 30%; }
+  .w-bar.h3 { height: 60%; }
+  .w-bar.h4 { height: 90%; }
+  .w-bar.h5 { height: 100%; }
+  
+  /* Analiz Noktaları (Hotspots) */
+  .hotspot {
+    cursor: pointer;
+    background: var(--bl-primary);
+    box-shadow: 0 0 15px var(--bl-primary);
+    transform: scale(1.2);
+  }
+  .hotspot.es { background: var(--bl-warning); box-shadow: 0 0 15px var(--bl-warning); height: 5px !important; }
+  .hotspot.crescendo { background: var(--bl-accent); box-shadow: 0 0 15px var(--bl-accent); }
+
+  .hotspot:hover {
+    transform: scale(1.5);
+  }
+
+  /* Analiz Bilgi Ekranı */
+  .analyzer-info {
+    background: rgba(255,255,255,0.05);
+    border-radius: 12px;
+    padding: 20px;
+    min-height: 120px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    border: 1px dashed rgba(255,255,255,0.1);
+  }
+  .analyzer-info h4 {
+    color: var(--bl-primary);
+    font-size: 1.5rem;
+    margin: 0 0 10px 0;
+  }
+  .analyzer-info p {
+    color: var(--bl-text);
+    font-size: 1.1rem;
+    margin: 0;
+  }
+
+  .play-line {
+    position: absolute;
+    top: 0;
+    left: 10%;
+    width: 2px;
+    height: 100%;
+    background: rgba(255, 255, 255, 0.5);
+    box-shadow: 0 0 10px white;
+    z-index: 10;
+    pointer-events: none;
+    transition: left 0.5s ease;
+  }
+
+  /* 3. Bir Konuşmanın Anatomisi (Yapısal Analiz) */
+  .anatomy-section {
+    padding: 100px 20px;
+    background: var(--bl-bg);
+    position: relative;
+  }
+
+  .anatomy-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 30px;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .anatomy-card {
+    background: var(--bl-surface);
+    border: 1px solid rgba(255,255,255,0.05);
+    border-radius: 20px;
+    padding: 40px;
+    position: relative;
+    overflow: hidden;
+    transition: all 0.4s ease;
+    cursor: crosshair;
+  }
+  .anatomy-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 4px;
+    background: var(--bl-muted);
+    transition: all 0.4s ease;
+  }
+  .anatomy-card:nth-child(1)::before { background: var(--bl-primary); } /* Kanca */
+  .anatomy-card:nth-child(2)::before { background: var(--bl-warning); } /* Gelişme */
+  .anatomy-card:nth-child(3)::before { background: var(--bl-accent); }  /* Sonuç */
+
+  .anatomy-card:hover {
+    transform: translateY(-10px);
+    border-color: rgba(139, 92, 246, 0.3);
+    box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+  }
+  
+  .anatomy-icon {
+    font-size: 3rem;
+    color: rgba(255,255,255,0.1);
+    position: absolute;
+    right: 20px;
+    top: 20px;
+    transition: all 0.4s ease;
+  }
+  .anatomy-card:hover .anatomy-icon {
+    color: var(--bl-primary);
+    transform: scale(1.1) rotate(10deg);
+  }
+
+  .anatomy-title {
+    font-family: var(--font-heading);
+    font-size: 1.8rem;
+    color: white;
+    margin: 0 0 15px 0;
+    font-weight: 800;
+  }
+
+  .anatomy-desc {
+    color: var(--bl-muted);
+    font-size: 1.1rem;
+    margin-bottom: 20px;
+  }
+
+  .anatomy-reveal {
+    max-height: 0;
+    opacity: 0;
+    overflow: hidden;
+    transition: all 0.5s ease;
+    border-top: 1px dashed rgba(255,255,255,0.1);
+    padding-top: 0;
+    color: #cbd5e1;
+  }
+  .anatomy-card:hover .anatomy-reveal {
+    max-height: 200px;
+    opacity: 1;
+    padding-top: 20px;
+  }
+
+  /* 4. İnteraktif Metin Okuması */
+  .text-breakdown-section {
+    padding: 100px 20px;
+    background: var(--bl-surface);
+    border-top: 1px solid rgba(255,255,255,0.05);
+  }
+  .tb-container {
+    max-width: 900px;
+    margin: 0 auto;
+    background: var(--bl-bg);
+    border-radius: 20px;
+    padding: 50px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+    border: 1px solid rgba(139, 92, 246, 0.2);
+  }
+  .tb-text {
+    font-size: 1.5rem;
+    line-height: 2;
+    color: var(--bl-text);
+  }
+  .tb-hl {
+    position: relative;
+    cursor: pointer;
+    border-bottom: 2px dashed var(--bl-muted);
+    transition: all 0.3s;
+  }
+  .tb-hl.ethos { border-color: var(--bl-primary); color: var(--bl-primary); }
+  .tb-hl.pathos { border-color: var(--bl-accent); color: var(--bl-accent); }
+  .tb-hl.logos { border-color: var(--bl-warning); color: var(--bl-warning); }
+  
+  .tb-hl:hover { background: rgba(255,255,255,0.05); }
+
+  .tb-tooltip {
+    position: absolute;
+    bottom: 120%;
+    left: 50%;
+    transform: translateX(-50%) translateY(10px);
+    background: var(--bl-surface);
+    color: white;
+    padding: 15px;
+    border-radius: 10px;
+    width: 250px;
+    font-size: 1rem;
+    line-height: 1.5;
+    opacity: 0;
+    pointer-events: none;
+    transition: all 0.3s;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.5);
+    border: 1px solid rgba(255,255,255,0.1);
+    z-index: 100;
+  }
+  .tb-tooltip::after {
+    content: '';
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    border-width: 8px;
+    border-style: solid;
+    border-color: var(--bl-surface) transparent transparent transparent;
+  }
+  .tb-hl:hover .tb-tooltip {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+
+  /* 5. Retorik Kapasite Testi (Metin Analiz Simülatörü) */
+  .simulator-section {
+    padding: 100px 20px;
+    background: var(--bl-bg);
+  }
+  .sim-container {
+    max-width: 800px;
+    margin: 0 auto;
+    text-align: center;
+  }
+  .sim-options {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    margin-bottom: 30px;
+  }
+  .sim-btn {
+    background: var(--bl-surface);
+    color: white;
+    border: 1px solid rgba(255,255,255,0.1);
+    padding: 20px;
+    border-radius: 15px;
+    font-size: 1.1rem;
+    cursor: pointer;
+    transition: all 0.3s;
+    text-align: left;
+  }
+  .sim-btn:hover {
+    border-color: var(--bl-primary);
+    background: rgba(139, 92, 246, 0.1);
+    transform: translateX(10px);
+  }
+  .sim-result {
+    background: var(--bl-surface);
+    padding: 30px;
+    border-radius: 15px;
+    border: 2px solid var(--bl-primary);
+    display: none;
+    animation: fadeIn 0.5s ease;
+  }
+  .sim-result h4 { color: var(--bl-primary); font-size: 1.5rem; margin-top: 0; }
+  
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+</style>
+
+<!-- ADIM 1: HERO SECTION -->
+<section class="ka-hero">
+  <div class="ka-hero-bg"></div>
+  
+  <div class="ka-hero-waveform" id="heroWaveform">
+    <!-- JS ile doldurulacak -->
+  </div>
+
+  <div class="ka-hero-content">
+    <h1>Kelimelerin Ötesi:<br>Konuşma Analizi</h1>
+    <h2>Büyük hatipler ne söylediklerinden ziyade, nasıl söyledikleriyle tarihe geçer.</h2>
+    <a href="#analyzer-ui" class="ka-btn">Analize Başla <i class="fa-solid fa-arrow-down"></i></a>
+  </div>
+</section>
+
+<!-- ADIM 2: SES VE VURGU ANALİZÖRÜ -->
+<section class="analyzer-section" id="analyzer-ui">
+  <div class="analyzer-container">
+    <div class="section-header">
+      <h3>Ses Frekansı ve Vurgu Analizi</h3>
+      <p>Aşağıdaki ses dalgası üzerindeki renkli parlak noktalara tıklayarak, bir konuşmacının dinleyiciyi etkilemek için sesi nasıl bir enstrüman gibi kullandığını keşfedin.</p>
+    </div>
+
+    <div class="waveform-box">
+      <div class="play-line" id="playLine"></div>
+      
+      <div class="waveform-wrapper" id="mainWaveform">
+        <!-- JS ile 50 bar eklenecek -->
+      </div>
+
+      <div class="analyzer-info" id="analyzerInfo">
+        <h4><i class="fa-solid fa-headphones"></i> Analiz Noktası Seçin</h4>
+        <p>Dalga boylarındaki vurgu (Yeşil), es (Sarı) veya zirve (Mor) noktalarına tıklayın.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ADIM 3: BİR KONUŞMANIN ANATOMİSİ -->
+<section class="anatomy-section">
+  <div class="section-header">
+    <h3>Konuşmanın Anatomisi</h3>
+    <p>Dünyayı değiştiren konuşmalar asla doğaçlama değildir. Klasik retoriğin 3 temel direği üzerine inşa edilirler. Detayları görmek için kartların üzerine gelin.</p>
+  </div>
+
+  <div class="anatomy-grid">
+    <!-- 1. Kanca -->
+    <div class="anatomy-card">
+      <i class="fa-solid fa-anchor anatomy-icon"></i>
+      <h4 class="anatomy-title">1. Kanca (Hook)</h4>
+      <p class="anatomy-desc">Dinleyicinin dikkatini ilk 10 saniyede ele geçiren sarsıcı açılış.</p>
+      <div class="anatomy-reveal">
+        <strong>Psikolojik Amacı:</strong> İzleyiciyi cep telefonundan veya kendi düşüncelerinden koparmak. <br><br>
+        <strong>Kullanım:</strong> "Size anlatacaklarım bugün hayatta kalmanızı sağlayabilir..." (Merak uyandırma).
+      </div>
+    </div>
+
+    <!-- 2. Gelişme -->
+    <div class="anatomy-card">
+      <i class="fa-solid fa-scale-balanced anatomy-icon"></i>
+      <h4 class="anatomy-title">2. Argüman (Body)</h4>
+      <p class="anatomy-desc">Mantık (Logos) ve duygunun (Pathos) harmanlandığı ikna bölümü.</p>
+      <div class="anatomy-reveal">
+        <strong>Psikolojik Amacı:</strong> Tezinizi kanıtlarla desteklemek ve dinleyicinin inancını değiştirmek. <br><br>
+        <strong>Kullanım:</strong> "Veriler gösteriyor ki %80'imiz bu hatayı yapıyor. Ancak içimizdeki his..."
+      </div>
+    </div>
+
+    <!-- 3. Eylem Çağrısı -->
+    <div class="anatomy-card">
+      <i class="fa-solid fa-fire-flame-curved anatomy-icon"></i>
+      <h4 class="anatomy-title">3. Eylem (Action)</h4>
+      <p class="anatomy-desc">Dinleyiciyi koltuğundan kaldıran güçlü kapanış cümlesi.</p>
+      <div class="anatomy-reveal">
+        <strong>Psikolojik Amacı:</strong> Yaratılan enerjiyi fiziksel bir eyleme veya karara dönüştürmek. <br><br>
+        <strong>Kullanım:</strong> "Yarın değil, bugün ayağa kalkın ve hakkınız olanı alın!"
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ADIM 4: İNTERAKTİF METİN OKUMASI -->
+<section class="text-breakdown-section">
+  <div class="section-header">
+    <h3>X-Ray Metin Okuması</h3>
+    <p>Dünyanın en ikonik konuşmalarından birini satır satır inceliyoruz. İşaretli kelimelerin üzerine gelerek retorik sırları çözün.</p>
+  </div>
+  
+  <div class="tb-container">
+    <div class="tb-text">
+      "Benim bir <span class="tb-hl pathos">hayalim var!<span class="tb-tooltip"><strong>Duygusal Kanca (Pathos):</strong> Vizyon kelimesi yerine 'hayal' kullanılarak dinleyicinin bilinçaltındaki umut duygusu tetikleniyor.</span></span> 
+      Günün birinde bu ulus, ayağa kalkacak ve kendi <span class="tb-hl ethos">inancının<span class="tb-tooltip"><strong>Güvenilirlik (Ethos):</strong> Ortak bir inanca atıf yapılarak lider ile halk arasındaki güven bağı pekiştiriliyor.</span></span> gerçek anlamını yaşayacak: 
+      Biz şu <span class="tb-hl logos">gerçeğin<span class="tb-tooltip"><strong>Mantıksal Kanıt (Logos):</strong> Anayasaya atıf yapılarak, talebin sadece duygusal değil aynı zamanda rasyonel bir hak olduğu vurgulanıyor.</span></span> apaçık ortada olduğuna inanıyoruz: 
+      Bütün insanlar <span class="tb-hl pathos">eşit yaratılmıştır.<span class="tb-tooltip"><strong>Anafora (Tekrar Sanatı):</strong> Güçlü bir vurgu için cümlenin ritmi 'eşitlik' kelimesiyle zirveye ulaşıyor.</span></span>"
+    </div>
+    <div style="text-align: right; margin-top: 20px; color: var(--bl-muted); font-style: italic;">
+      — Martin Luther King Jr., "I Have a Dream" (1963)
+    </div>
+  </div>
+</section>
+
+<!-- ADIM 5: RETORİK KAPASİTE TESTİ (SİMÜLATÖR) -->
+<section class="simulator-section">
+  <div class="sim-container">
+    <div class="section-header">
+      <h3>Retorik Kapasite Testi</h3>
+      <p>Kriz anında sahneye çıktınız. Karşınızda öfkeli bir kitle var. İlk cümleniz ne olacak?</p>
+    </div>
+
+    <div class="sim-options" id="simOptions">
+      <button class="sim-btn" data-score="30" data-feedback="Çok zayıf. Kitleye otoriteyi kaptırdınız. Özür dilemek yerine durumu kontrol altına almalıydınız.">A) "Öncelikle yaşanan bu olumsuzluktan dolayı hepinizden özür dilerim..."</button>
+      <button class="sim-btn" data-score="60" data-feedback="Ortalama. Doğrudan konuya girdiniz ama kitleyle henüz duygusal bir bağ (Pathos) kuramadınız.">B) "Buraya, dün gece yaşanan teknik arızanın sebeplerini açıklamak için geldim."</button>
+      <button class="sim-btn" data-score="95" data-feedback="Mükemmel! Empati kurarak (Pathos) başladınız ve hemen ardından çözüme (Logos) geçerek liderliği aldınız.">C) "Şu an hissettiğiniz öfkeyi çok iyi anlıyorum. Haklısınız. İşte bu yüzden buradayım; bu sorunu bugün çözeceğiz."</button>
+    </div>
+
+    <div class="sim-result" id="simResult">
+      <!-- Sonuç JS ile buraya yazılacak -->
+    </div>
+  </div>
+</section>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    // 1. Hero Waveform Oluşturma
+    const heroWaveBox = document.getElementById('heroWaveform');
+    for (let i = 0; i < 60; i++) {
+      const bar = document.createElement('div');
+      bar.classList.add('bar');
+      // Random yükseklik ve animasyon süresi
+      bar.style.height = Math.floor(Math.random() * 80 + 20) + 'px';
+      bar.style.animationDuration = (Math.random() * 1.5 + 0.5) + 's';
+      heroWaveBox.appendChild(bar);
+    }
+
+    // 2. Main Analyzer Waveform Oluşturma
+    const mainWaveBox = document.getElementById('mainWaveform');
+    const playLine = document.getElementById('playLine');
+    const infoBox = document.getElementById('analyzerInfo');
+    
+    const wavePattern = [
+      'h1','h2','h1','h3','h2','h4','h3','h2','h1','h1', // 0-9
+      'h1','h2','h4','h5','h4','h2','h1','h1','h1','h1', // 10-19
+      'h1','h1','h1','h1','h1','h2','h3','h4','h3','h2', // 20-29
+      'h1','h2','h1','h1','h1','h2','h3','h2','h1','h1', // 30-39
+      'h2','h4','h5','h5','h5','h3','h2','h1','h1','h1'  // 40-49
+    ];
+
+    // Analiz Senaryoları
+    const hotspotsData = {
+      13: { type: 'crescendo', title: 'Kreşendo (Ses Yükseltme)', desc: 'Konuşmacı burada Pathos (duygu) yaratarak sesini zirveye çıkarıyor. İzleyicide kalp atışını hızlandırır.', color: 'var(--bl-accent)' },
+      22: { type: 'es', title: 'Altın Sessizlik (Es)', desc: 'Konuşmacı burada tam 3 saniye susuyor. Dramatik etki yaratır ve dinleyicinin odaklanmasını mecbur kılar.', color: 'var(--bl-warning)' },
+      43: { type: 'hotspot', title: 'Otoriter Vuruş', desc: 'Cümlenin sonundaki kilit kelimeye sert bir şekilde basarak Logosu (mantığı) perçinler.', color: 'var(--bl-primary)' }
+    };
+
+    wavePattern.forEach((hClass, index) => {
+      const bar = document.createElement('div');
+      bar.classList.add('w-bar', hClass);
+      
+      if (hotspotsData[index]) {
+        bar.classList.add(hotspotsData[index].type);
+        // Tıklama Olayı
+        bar.addEventListener('click', () => {
+          // Play line'ı kaydır
+          const leftPercent = (index / 50) * 100;
+          playLine.style.left = `calc(${leftPercent}% + 3px)`;
+          
+          // Kutuyu güncelle
+          const data = hotspotsData[index];
+          infoBox.innerHTML = `
+            <h4 style="color: ${data.color};"><i class="fa-solid fa-circle-play"></i> ${data.title}</h4>
+            <p>${data.desc}</p>
+          `;
+          infoBox.style.borderColor = data.color;
+        });
+      }
+      
+      mainWaveBox.appendChild(bar);
+    });
+
+    // 5. Simülatör Logic
+    const simBtns = document.querySelectorAll('.sim-btn');
+    const simResult = document.getElementById('simResult');
+    
+    simBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        const score = btn.getAttribute('data-score');
+        const feedback = btn.getAttribute('data-feedback');
+        
+        simBtns.forEach(b => b.style.opacity = '0.5');
+        btn.style.opacity = '1';
+        btn.style.borderColor = 'var(--bl-primary)';
+        
+        simResult.style.display = 'block';
+        simResult.innerHTML = `
+          <h4>İkna Puanı: %${score}</h4>
+          <p>${feedback}</p>
+          <button onclick="document.getElementById('simResult').style.display='none'; document.querySelectorAll('.sim-btn').forEach(b=>{b.style.opacity='1'; b.style.borderColor='rgba(255,255,255,0.1)'})" style="margin-top:15px; padding:8px 20px; background:transparent; border:1px solid var(--bl-primary); color:white; border-radius:5px; cursor:pointer;">Tekrar Dene</button>
+        `;
+      });
+    });
+
+  });
+</script>
+
+<%- include('partials/main-footer') %>

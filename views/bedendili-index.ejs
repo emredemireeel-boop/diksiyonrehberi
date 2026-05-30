@@ -1,124 +1,1500 @@
 <%- include('partials/main-header') %>
 
 <style>
-  body { background: #0f172a; color: #f8fafc; font-family: 'Inter', sans-serif; overflow-x: hidden; }
-  .hub-container { padding: 50px 20px; max-width: 1200px; margin: 0 auto; display: flex; flex-direction: column; align-items: center; }
-
-  /* Hero Section */
-  .hero-box { text-align: center; margin-bottom: 50px; position: relative; width: 100%; max-width: 800px; }
-  .hero-box h1 { font-size: 3rem; font-weight: 900; margin-bottom: 15px; color: #0ea5e9; text-transform: uppercase; letter-spacing: 2px; text-shadow: 0 0 20px rgba(14, 165, 233, 0.4); }
-  .hero-box p { font-size: 1.2rem; color: #94a3b8; line-height: 1.6; }
-
-  /* FBI/CIA App Banner */
-  .app-banner { background: linear-gradient(135deg, #1e293b, #0f172a); border: 2px solid #0ea5e9; border-radius: 20px; padding: 40px; display: flex; align-items: center; justify-content: space-between; width: 100%; box-shadow: 0 20px 40px rgba(14, 165, 233, 0.2); margin-bottom: 50px; position: relative; overflow: hidden; }
-  .app-banner::before { content: ''; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%; background: radial-gradient(circle, rgba(14,165,233,0.1) 0%, transparent 70%); animation: rotateBg 10s linear infinite; pointer-events: none; }
-  @keyframes rotateBg { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
-
-  .ab-content { position: relative; z-index: 1; max-width: 60%; }
-  .ab-title { font-size: 2.5rem; font-weight: 900; color: #fff; margin-bottom: 10px; display: flex; align-items: center; gap: 15px; }
-  .ab-badge { background: #eab308; color: #000; font-size: 0.9rem; padding: 5px 10px; border-radius: 5px; font-weight: 900; text-transform: uppercase; letter-spacing: 1px; }
-  .ab-desc { font-size: 1.1rem; color: #cbd5e1; line-height: 1.6; margin-bottom: 25px; }
-  
-  .ab-btn { background: #0ea5e9; color: #fff; text-decoration: none; padding: 15px 30px; border-radius: 30px; font-size: 1.2rem; font-weight: 800; text-transform: uppercase; letter-spacing: 1px; display: inline-flex; align-items: center; gap: 10px; transition: all 0.3s; box-shadow: 0 10px 20px rgba(14, 165, 233, 0.4); border: none; }
-  .ab-btn:hover { background: #0284c7; transform: translateY(-5px); box-shadow: 0 15px 25px rgba(14, 165, 233, 0.6); }
-
-  .ab-icon { font-size: 8rem; position: relative; z-index: 1; filter: drop-shadow(0 0 20px rgba(14, 165, 233, 0.5)); animation: float 3s ease-in-out infinite; }
-  @keyframes float { 0% { transform: translateY(0); } 50% { transform: translateY(-15px); } 100% { transform: translateY(0); } }
-
-  @media(max-width: 768px) {
-    .app-banner { flex-direction: column; text-align: center; gap: 30px; padding: 30px 20px; }
-    .ab-content { max-width: 100%; }
+  /* BEDEN DİLİ - ADIM 1: KONSEPT TANIMI VE TEORİK TEMEL */
+  :root {
+    --bl-bg: #0A0A0A;
+    --bl-surface: #171717;
+    --bl-primary: #3B82F6; /* Mavi */
+    --bl-accent: #10B981;  /* Zümrüt Yeşili */
+    --bl-text: #F8FAFC;
+    --bl-muted: #94A3B8;
+    --font-heading: 'Inter', sans-serif;
+    --font-body: 'Inter', sans-serif;
   }
 
-  /* Info Grid */
-  .grid-title { font-size: 2rem; color: #f8fafc; margin-bottom: 30px; font-weight: 800; align-self: flex-start; width: 100%; border-bottom: 2px solid #334155; padding-bottom: 10px; }
+  body {
+    background-color: var(--bl-bg);
+    color: var(--bl-text);
+    font-family: var(--font-body);
+    margin: 0;
+    padding: 0;
+  }
+
+  /* 1. Hero Section */
+  .bl-hero {
+    position: relative;
+    min-height: 80vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    overflow: hidden;
+    background: linear-gradient(135deg, #0f172a 0%, #000000 100%);
+    padding: 20px;
+  }
+
+  .bl-hero-bg {
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: radial-gradient(circle at center, rgba(59, 130, 246, 0.15) 0%, transparent 60%);
+    z-index: 1;
+  }
+
+  /* Animasyonlu / Video Alanı */
+  .bl-hero-video-container {
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 100%;
+    opacity: 0.3;
+    z-index: 0;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .bl-hero-video-container video {
+    min-width: 100%;
+    min-height: 100%;
+    object-fit: cover;
+  }
+
+  .bl-hero-content {
+    position: relative;
+    z-index: 2;
+    max-width: 800px;
+  }
+
+  .bl-hero h1 {
+    font-family: var(--font-heading);
+    font-size: clamp(3.5rem, 6vw, 5.5rem);
+    font-weight: 900;
+    letter-spacing: -2px;
+    margin-bottom: 20px;
+    background: linear-gradient(to right, #ffffff, var(--bl-primary));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    line-height: 1.1;
+  }
+
+  .bl-hero h2 {
+    font-size: 1.8rem;
+    font-weight: 400;
+    color: var(--bl-muted);
+    margin-bottom: 40px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+  }
+
+  .bl-btn {
+    display: inline-block;
+    background: var(--bl-primary);
+    color: white;
+    padding: 16px 40px;
+    border-radius: 30px;
+    font-size: 1.2rem;
+    font-weight: 700;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    box-shadow: 0 10px 30px rgba(59, 130, 246, 0.3);
+  }
+  .bl-btn:hover {
+    background: #2563EB;
+    transform: translateY(-3px);
+    box-shadow: 0 15px 40px rgba(59, 130, 246, 0.5);
+  }
+
+  /* 2. Mehrabian Kuralı Infografik */
+  .mehrabian-section {
+    padding: 100px 20px;
+    background: var(--bl-bg);
+    position: relative;
+  }
+
+  .mehrabian-container {
+    max-width: 1000px;
+    margin: 0 auto;
+    text-align: center;
+  }
+
+  .mehrabian-header {
+    margin-bottom: 60px;
+  }
+  .mehrabian-header h3 {
+    font-size: 2.5rem;
+    color: white;
+    margin-bottom: 15px;
+  }
+  .mehrabian-header p {
+    font-size: 1.2rem;
+    color: var(--bl-muted);
+    max-width: 700px;
+    margin: 0 auto;
+  }
+
+  .m-chart {
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    gap: 30px;
+    height: 400px;
+    margin-bottom: 40px;
+  }
+
+  .m-bar-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 150px;
+  }
+
+  .m-bar {
+    width: 100%;
+    border-radius: 12px 12px 0 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    transition: all 0.5s ease;
+  }
+
+  .m-bar span {
+    font-size: 2.5rem;
+    font-weight: 900;
+    color: rgba(255, 255, 255, 0.9);
+    text-shadow: 0 4px 10px rgba(0,0,0,0.5);
+  }
+
+  .m-bar-words { height: 10%; background: #475569; }     /* %7 Kelimeler */
+  .m-bar-voice { height: 38%; background: #0EA5E9; }     /* %38 Ses Tonu */
+  .m-bar-body { height: 55%; background: var(--bl-accent); box-shadow: 0 0 30px rgba(16, 185, 129, 0.4); } /* %55 Beden Dili */
+
+  .m-label {
+    margin-top: 20px;
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: var(--bl-text);
+  }
+  .m-sublabel {
+    font-size: 0.9rem;
+    color: var(--bl-muted);
+    margin-top: 5px;
+  }
+
+  /* Ethos Bağlantısı Info Box */
+  .ethos-link-box {
+    background: var(--bl-surface);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 16px;
+    padding: 40px;
+    text-align: left;
+    margin-top: 60px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 40px;
+  }
+  .ethos-link-box h4 {
+    grid-column: 1 / -1;
+    font-size: 1.8rem;
+    color: var(--bl-primary);
+    margin-bottom: 10px;
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+    padding-bottom: 20px;
+  }
+  .ethos-item {
+    display: flex;
+    gap: 15px;
+  }
+  .ethos-item i {
+    font-size: 2rem;
+    color: var(--bl-accent);
+  }
+  .ethos-item h5 {
+    font-size: 1.2rem;
+    margin-bottom: 5px;
+    color: white;
+  }
+  .ethos-item p {
+    font-size: 0.95rem;
+    color: var(--bl-muted);
+  }
+
+  @media (max-width: 768px) {
+    .m-chart { height: 300px; gap: 15px; }
+    .m-bar-wrapper { width: 90px; }
+    .m-bar span { font-size: 1.5rem; }
+    .ethos-link-box { grid-template-columns: 1fr; }
+  }
+  /* 3. Beden Dili Bileşenleri (Tab Yapısı) */
+  .components-section { padding: 100px 20px; background: #000; }
+  .comp-header { text-align: center; margin-bottom: 50px; }
+  .comp-header h3 { font-size: 2.5rem; color: #fff; margin-bottom: 15px; }
+  .comp-header p { color: var(--bl-muted); font-size: 1.1rem; max-width: 600px; margin: 0 auto; }
+
+  .comp-container { max-width: 1200px; margin: 0 auto; display: flex; gap: 40px; }
   
-  .info-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 25px; width: 100%; }
+  .comp-tabs { flex: 1; display: flex; flex-direction: column; gap: 15px; }
+  .comp-tab { 
+    background: var(--bl-surface); border: 1px solid rgba(255,255,255,0.1); 
+    padding: 20px 30px; border-radius: 12px; cursor: pointer; transition: all 0.3s;
+    font-size: 1.2rem; font-weight: 700; color: var(--bl-muted);
+    display: flex; justify-content: space-between; align-items: center;
+  }
+  .comp-tab:hover { background: rgba(59,130,246,0.1); border-color: rgba(59,130,246,0.5); color: #fff; }
+  .comp-tab.active { background: var(--bl-primary); border-color: var(--bl-primary); color: #fff; box-shadow: 0 5px 20px rgba(59,130,246,0.4); }
+
+  .comp-content-area { flex: 2; background: var(--bl-surface); border-radius: 16px; padding: 40px; border: 1px solid rgba(255,255,255,0.05); }
+  .comp-pane { display: none; animation: fadeIn 0.4s ease; }
+  .comp-pane.active { display: block; }
+
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+  .pane-title { font-size: 2rem; color: #fff; margin-bottom: 30px; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 15px; }
   
-  .card { background: #1e293b; border-radius: 15px; overflow: hidden; border: 1px solid #334155; transition: all 0.3s; display: flex; flex-direction: column; text-decoration: none; color: inherit; }
-  .card:hover { transform: translateY(-10px); border-color: #0ea5e9; box-shadow: 0 15px 30px rgba(0,0,0,0.5); }
+  .bl-item-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 25px; }
   
-  .card-icon { font-size: 3rem; background: #0f172a; padding: 30px; text-align: center; border-bottom: 1px solid #334155; transition: background 0.3s; }
-  .card:hover .card-icon { background: rgba(14, 165, 233, 0.1); }
+  .bl-item { background: #0A0A0A; border-radius: 12px; overflow: hidden; border: 1px solid rgba(255,255,255,0.05); transition: transform 0.3s; }
+  .bl-item:hover { transform: translateY(-5px); border-color: rgba(255,255,255,0.2); }
+  .bl-item-img { height: 160px; background: #222; position: relative; overflow: hidden; display: flex; align-items: center; justify-content: center; }
+  .bl-item-img i { font-size: 4rem; color: #475569; }
   
-  .card-body { padding: 25px; flex: 1; display: flex; flex-direction: column; }
-  .card-title { font-size: 1.4rem; font-weight: 800; color: #f8fafc; margin-bottom: 10px; }
-  .card-desc { color: #94a3b8; font-size: 1rem; line-height: 1.5; margin-bottom: 20px; flex: 1; }
+  .ethos-badge { position: absolute; top: 10px; right: 10px; background: rgba(0,0,0,0.8); padding: 5px 12px; border-radius: 20px; font-weight: 800; font-size: 0.85rem; border: 1px solid; }
+  .ethos-high { color: #10B981; border-color: #10B981; }
+  .ethos-mid { color: #F59E0B; border-color: #F59E0B; }
+  .ethos-low { color: #EF4444; border-color: #EF4444; }
+
+  .bl-item-body { padding: 20px; }
+  .bl-item-body h5 { font-size: 1.1rem; color: #fff; margin-bottom: 8px; }
+  .bl-item-body p { font-size: 0.9rem; color: var(--bl-muted); line-height: 1.5; }
+
+  @media (max-width: 900px) {
+    .comp-container { flex-direction: column; }
+  }
+  /* 4. Görsel Referans Kütüphanesi (Adım 3) */
+  .ref-section { padding: 100px 20px; background: var(--bl-bg); border-top: 1px solid rgba(255,255,255,0.05); }
+  .ref-header { text-align: center; margin-bottom: 50px; }
+  .ref-header h3 { font-size: 2.5rem; color: #fff; margin-bottom: 15px; }
+  .ref-header p { color: var(--bl-muted); font-size: 1.1rem; max-width: 600px; margin: 0 auto; }
+
+  .ref-grid { max-width: 1200px; margin: 0 auto; display: flex; flex-direction: column; gap: 60px; }
+  .ref-category { background: var(--bl-surface); padding: 40px; border-radius: 20px; border: 1px solid rgba(255,255,255,0.05); }
+  .ref-cat-title { font-size: 1.8rem; color: var(--bl-primary); margin-bottom: 30px; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 10px; }
   
-  .card-link { color: #0ea5e9; font-weight: 700; display: flex; align-items: center; justify-content: space-between; }
-  .card-link span { transition: transform 0.2s; }
-  .card:hover .card-link span { transform: translateX(5px); }
+  .ref-cards { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; }
+  .ref-card { background: #0A0A0A; border-radius: 12px; overflow: hidden; position: relative; border: 1px solid rgba(255,255,255,0.1); transition: transform 0.3s; }
+  .ref-card:hover { transform: translateY(-5px); box-shadow: 0 10px 20px rgba(0,0,0,0.5); }
+  
+  .ref-media { height: 180px; background: #222; position: relative; display: flex; align-items: center; justify-content: center; }
+  .ref-media i { font-size: 3rem; color: #475569; }
+  
+  /* Overlays */
+  .ref-overlay { position: absolute; top: 10px; left: 10px; right: 10px; display: flex; justify-content: space-between; align-items: center; }
+  .ref-level { font-weight: 800; font-size: 0.75rem; padding: 4px 8px; border-radius: 20px; background: rgba(0,0,0,0.8); }
+  .ref-score { font-weight: 800; font-size: 0.8rem; padding: 4px 8px; border-radius: 20px; background: rgba(0,0,0,0.8); border: 1px solid; }
+
+  /* Colors per level */
+  .level-1 { border-color: #EF4444; color: #EF4444; } /* YANLIŞ */
+  .level-2 { border-color: #F97316; color: #F97316; } /* ZAYIF */
+  .level-3 { border-color: #3B82F6; color: #3B82F6; } /* İYİ */
+  .level-4 { border-color: #10B981; color: #10B981; } /* MÜKEMMEL */
+
+  .ref-body { padding: 20px; }
+  .ref-body h5 { font-size: 1.1rem; color: #fff; margin-bottom: 10px; }
+  .ref-body p { font-size: 0.85rem; color: var(--bl-muted); line-height: 1.5; }
+
+  @media (max-width: 1024px) { .ref-cards { grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 600px) { .ref-cards { grid-template-columns: 1fr; } }
+
+  /* 5. İnteraktif Karşılaştırma Aracı (Adım 4) */
+  .slider-section { padding: 100px 20px; background: #000; border-top: 1px solid rgba(255,255,255,0.05); }
+  .slider-header { text-align: center; margin-bottom: 50px; }
+  .slider-header h3 { font-size: 2.5rem; color: #fff; margin-bottom: 15px; }
+  .slider-header p { color: var(--bl-muted); font-size: 1.1rem; max-width: 600px; margin: 0 auto; }
+
+  .slider-gallery { max-width: 1000px; margin: 0 auto; display: flex; flex-direction: column; gap: 60px; }
+
+  .slider-item { background: var(--bl-surface); border-radius: 20px; border: 1px solid rgba(255,255,255,0.05); padding: 30px; }
+  .slider-item-title { font-size: 1.5rem; color: var(--bl-primary); margin-bottom: 20px; text-align: center; }
+
+  .comp-slider-container {
+    position: relative; width: 100%; height: 350px; overflow: hidden; border-radius: 12px;
+    background: #111; user-select: none;
+  }
+  .comp-img-before, .comp-img-after {
+    position: absolute; top: 0; left: 0; height: 100%;
+    display: flex; align-items: center; justify-content: center; text-align: center;
+  }
+  .comp-img-before { width: 100%; background: linear-gradient(135deg, #450a0a, #1a0505); z-index: 1; }
+  .comp-img-after { width: 50%; background: linear-gradient(135deg, #064e3b, #022c22); z-index: 2; overflow: hidden; border-right: 2px solid #fff; }
+  
+  .comp-content-inner {
+    position: absolute; top: 0; left: 0; height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center;
+  }
+
+  .comp-slider-content {
+    display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 15px; width: 100%;
+  }
+  .comp-slider-content i { font-size: 5rem; color: rgba(255,255,255,0.8); }
+  .comp-slider-content.bad i { color: #f87171; }
+  .comp-slider-content.good i { color: #34d399; }
+  
+  .comp-ethos-tag { padding: 6px 14px; border-radius: 30px; font-weight: 800; font-size: 1rem; background: rgba(0,0,0,0.5); }
+  .comp-slider-content.bad .comp-ethos-tag { border: 2px solid #ef4444; color: #ef4444; }
+  .comp-slider-content.good .comp-ethos-tag { border: 2px solid #10b981; color: #10b981; }
+
+  .comp-slider-content h4 { font-size: 1.5rem; color: #fff; margin: 0; }
+  .comp-slider-content p { font-size: 1rem; color: #cbd5e1; max-width: 300px; }
+
+  .comp-slider-handle {
+    position: absolute; top: 0; bottom: 0; left: 50%; width: 40px; margin-left: -20px;
+    background: transparent; z-index: 3; cursor: ew-resize;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .comp-slider-handle::before {
+    content: '< >'; display: flex; align-items: center; justify-content: center;
+    width: 40px; height: 40px; background: #fff; color: #000; border-radius: 50%;
+    font-weight: 900; box-shadow: 0 0 15px rgba(0,0,0,0.5); font-family: monospace;
+    transition: transform 0.22s ease;
+  }
+  .comp-slider-handle:hover::before { transform: scale(1.1); }
+
+  /* 6. Senaryo Simülatörü (Adım 5) */
+  .sim-section { padding: 100px 20px; background: var(--bl-bg); border-top: 1px solid rgba(255,255,255,0.05); }
+  .sim-header { text-align: center; margin-bottom: 50px; }
+  .sim-header h3 { font-size: 2.5rem; color: #fff; margin-bottom: 15px; }
+  .sim-header p { color: var(--bl-muted); font-size: 1.1rem; max-width: 600px; margin: 0 auto; }
+
+  .sim-container { max-width: 800px; margin: 0 auto; }
+  .sim-card { background: var(--bl-surface); border-radius: 20px; border: 1px solid rgba(255,255,255,0.1); padding: 40px; position: relative; }
+  
+  .sim-ethos-tracker { position: absolute; top: -20px; right: 40px; background: var(--bl-primary); color: #fff; padding: 10px 25px; border-radius: 30px; font-weight: 800; font-size: 1.2rem; box-shadow: 0 5px 15px rgba(59,130,246,0.5); transition: transform 0.3s; }
+  .sim-ethos-tracker span { font-size: 1.5rem; transition: all 0.3s; }
+
+  .sim-scenario { font-size: 1.4rem; color: #fff; margin-bottom: 30px; margin-top: 10px; line-height: 1.6; }
+  
+  .sim-options { display: flex; flex-direction: column; gap: 15px; }
+  .sim-option { background: #000; border: 1px solid rgba(255,255,255,0.1); padding: 20px; border-radius: 12px; color: var(--bl-muted); font-size: 1.1rem; cursor: pointer; transition: all 0.3s; display: flex; align-items: center; gap: 15px; }
+  .sim-option:hover { background: rgba(59,130,246,0.1); border-color: rgba(59,130,246,0.5); color: #fff; }
+  .sim-option i { font-size: 1.5rem; width: 30px; text-align: center; }
+  
+  .sim-option.correct { background: rgba(16,185,129,0.1); border-color: #10b981; color: #10b981; pointer-events: none; }
+  .sim-option.wrong { background: rgba(239,68,68,0.1); border-color: #ef4444; color: #ef4444; pointer-events: none; }
+
+  .sim-feedback { margin-top: 25px; padding: 20px; border-radius: 12px; font-size: 1.1rem; line-height: 1.5; animation: fadeIn 0.3s ease; }
+  .sim-feedback.success { background: rgba(16,185,129,0.1); color: #10b981; border: 1px solid rgba(16,185,129,0.3); }
+  .sim-feedback.error { background: rgba(239,68,68,0.1); color: #ef4444; border: 1px solid rgba(239,68,68,0.3); }
+
+  .sim-next-btn { margin-top: 25px; width: 100%; padding: 15px; background: var(--bl-primary); color: #fff; border: none; border-radius: 12px; font-size: 1.2rem; font-weight: 700; cursor: pointer; transition: background 0.3s; }
+  .sim-next-btn:hover { background: #2563eb; }
+
+  /* 7. Case Studies (Adım 6) */
+  .case-section { padding: 100px 20px; background: #000; border-top: 1px solid rgba(255,255,255,0.05); }
+  .case-header { text-align: center; margin-bottom: 50px; }
+  .case-header h3 { font-size: 2.5rem; color: #fff; margin-bottom: 15px; }
+  .case-header p { color: var(--bl-muted); font-size: 1.1rem; max-width: 600px; margin: 0 auto; }
+
+  .case-container { max-width: 1200px; margin: 0 auto; display: flex; gap: 40px; }
+  
+  .case-sidebar { flex: 1; display: flex; flex-direction: column; gap: 15px; }
+  .case-tab { display: flex; align-items: center; gap: 15px; background: var(--bl-surface); padding: 15px; border-radius: 12px; cursor: pointer; border: 1px solid rgba(255,255,255,0.05); transition: all 0.3s; }
+  .case-tab:hover { background: rgba(59,130,246,0.1); border-color: rgba(59,130,246,0.5); }
+  .case-tab.active { background: var(--bl-primary); border-color: var(--bl-primary); }
+  .case-tab img { width: 60px; height: 60px; border-radius: 50%; object-fit: cover; background: #222; }
+  .case-tab h4 { color: #fff; font-size: 1.1rem; margin: 0 0 5px 0; }
+  .case-tab p { color: var(--bl-muted); font-size: 0.9rem; margin: 0; }
+  .case-tab.active p { color: rgba(255,255,255,0.8); }
+
+  .case-content-area { flex: 2.5; background: var(--bl-surface); border-radius: 16px; padding: 30px; border: 1px solid rgba(255,255,255,0.05); }
+  .case-pane { display: none; animation: fadeIn 0.4s ease; }
+  .case-pane.active { display: block; }
+
+  .case-media { width: 100%; height: 400px; background: #111; border-radius: 12px; display: flex; align-items: center; justify-content: center; position: relative; margin-bottom: 30px; border: 1px solid rgba(255,255,255,0.05); }
+  .case-media i { font-size: 5rem; color: #333; }
+  
+  .case-timeline { position: absolute; bottom: 20px; left: 30px; right: 30px; height: 6px; background: rgba(255,255,255,0.2); border-radius: 10px; display: flex; justify-content: space-between; align-items: center; padding: 0 10px; }
+  .case-point { width: 16px; height: 16px; background: #fff; border-radius: 50%; cursor: pointer; position: relative; z-index: 2; transition: all 0.3s; }
+  .case-point:hover { transform: scale(1.5); }
+  .case-point.active { background: var(--bl-primary); box-shadow: 0 0 10px var(--bl-primary); transform: scale(1.3); }
+
+  .case-analysis { background: #0A0A0A; padding: 25px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.05); border-left: 4px solid var(--bl-primary); }
+  .case-analysis h4 { font-size: 1.2rem; color: #fff; margin-bottom: 10px; display: flex; align-items: center; justify-content: space-between; }
+  .case-time-badge { background: var(--bl-primary); color: #fff; padding: 3px 10px; border-radius: 20px; font-size: 0.9rem; font-weight: 800; }
+  .case-analysis p { font-size: 1.05rem; color: var(--bl-muted); line-height: 1.6; margin: 0; transition: opacity 0.2s; }
+
+  @media (max-width: 900px) { .case-container { flex-direction: column; } .case-media { height: 250px; } }
+
+  /* 8. Checklist (Adım 7) */
+  .chk-section { padding: 100px 20px; background: var(--bl-bg); border-top: 1px solid rgba(255,255,255,0.05); }
+  .chk-header { text-align: center; margin-bottom: 50px; }
+  .chk-header h3 { font-size: 2.5rem; color: #fff; margin-bottom: 15px; }
+  .chk-header p { color: var(--bl-muted); font-size: 1.1rem; max-width: 600px; margin: 0 auto; }
+
+  .chk-container { max-width: 700px; margin: 0 auto; background: var(--bl-surface); padding: 40px; border-radius: 20px; border: 1px solid rgba(255,255,255,0.05); }
+  
+  .chk-progress-bar { width: 100%; height: 25px; background: #000; border-radius: 20px; margin-bottom: 40px; position: relative; overflow: hidden; border: 1px solid rgba(255,255,255,0.1); }
+  .chk-progress-fill { height: 100%; background: linear-gradient(90deg, var(--bl-primary), #10b981); width: 0%; transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1); }
+  .chk-progress-text { position: absolute; top: 0; left: 0; right: 0; bottom: 0; display: flex; align-items: center; justify-content: center; font-size: 0.9rem; font-weight: 800; color: #fff; text-shadow: 1px 1px 2px rgba(0,0,0,0.8); }
+
+  .chk-list { display: flex; flex-direction: column; gap: 20px; }
+  .chk-item { display: flex; align-items: flex-start; gap: 20px; cursor: pointer; padding: 15px; border-radius: 12px; transition: background 0.2s; }
+  .chk-item:hover { background: rgba(255,255,255,0.03); }
+  
+  .chk-input { display: none; }
+  .chk-custom { width: 30px; height: 30px; border: 2px solid var(--bl-primary); border-radius: 8px; display: inline-flex; align-items: center; justify-content: center; flex-shrink: 0; transition: all 0.2s; position: relative; margin-top: 5px; }
+  .chk-input:checked + .chk-custom { background: var(--bl-primary); }
+  .chk-input:checked + .chk-custom::after { content: '✔'; color: #fff; font-size: 1.2rem; font-weight: 900; }
+  
+  .chk-text h4 { font-size: 1.2rem; color: #fff; margin-bottom: 5px; transition: color 0.3s; }
+  .chk-text p { font-size: 0.95rem; color: var(--bl-muted); margin: 0; line-height: 1.5; }
+  .chk-input:checked ~ .chk-text h4 { color: var(--bl-primary); text-decoration: line-through; opacity: 0.7; }
+
+  .chk-success { text-align: center; margin-top: 40px; padding: 30px; background: rgba(16,185,129,0.1); border: 1px solid #10b981; border-radius: 12px; animation: fadeIn 0.5s ease; }
+  .chk-success i { font-size: 4rem; color: #10b981; margin-bottom: 15px; }
+  .chk-success h4 { font-size: 1.5rem; color: #10b981; margin-bottom: 10px; }
+  .chk-success p { color: #fff; font-size: 1.1rem; margin: 0; }
+
+  /* 9. Eğitim Modülü (Adım 8) */
+  .train-section { padding: 100px 20px; background: #000; border-top: 1px solid rgba(255,255,255,0.05); }
+  .train-header { text-align: center; margin-bottom: 50px; }
+  .train-header h3 { font-size: 2.5rem; color: #fff; margin-bottom: 15px; }
+  .train-header p { color: var(--bl-muted); font-size: 1.1rem; max-width: 600px; margin: 0 auto; }
+
+  .train-container { max-width: 1200px; margin: 0 auto; display: flex; gap: 40px; background: var(--bl-surface); border-radius: 20px; border: 1px solid rgba(255,255,255,0.05); padding: 40px; }
+  
+  .train-video-wrapper { flex: 2; display: flex; flex-direction: column; gap: 15px; }
+  .train-video-placeholder { width: 100%; aspect-ratio: 16/9; background: #111; border-radius: 12px; display: flex; align-items: center; justify-content: center; position: relative; border: 1px solid rgba(255,255,255,0.1); cursor: pointer; transition: all 0.3s; }
+  .train-video-placeholder:hover { border-color: var(--bl-primary); }
+  .train-video-placeholder i { font-size: 5rem; color: rgba(255,255,255,0.2); transition: all 0.3s; }
+  .train-video-placeholder:hover i { color: var(--bl-primary); transform: scale(1.1); }
+  
+  .train-controls { display: flex; justify-content: space-between; align-items: center; background: #0a0a0a; padding: 15px 20px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.05); }
+  .train-btn { background: var(--bl-primary); color: #fff; border: none; padding: 10px 25px; border-radius: 8px; font-weight: 700; cursor: pointer; transition: background 0.3s; }
+  .train-btn:hover { background: #2563eb; }
+  
+  .train-speed-controls { display: flex; align-items: center; gap: 10px; }
+  .speed-label { color: var(--bl-muted); font-size: 0.9rem; }
+  .speed-btn { background: #222; border: 1px solid rgba(255,255,255,0.1); color: #fff; padding: 6px 12px; border-radius: 6px; cursor: pointer; font-size: 0.9rem; transition: all 0.2s; }
+  .speed-btn:hover { background: #333; }
+  .speed-btn.active { background: var(--bl-primary); border-color: var(--bl-primary); }
+
+  .train-sidebar { flex: 1.5; display: flex; flex-direction: column; gap: 25px; }
+  .train-course-title { font-size: 1.5rem; color: #fff; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 15px; margin-bottom: 10px; }
+  
+  .train-steps { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 15px; }
+  .train-steps li { color: var(--bl-muted); font-size: 1.05rem; padding: 15px; background: #0a0a0a; border-radius: 8px; border-left: 4px solid transparent; transition: all 0.3s; line-height: 1.5; }
+  .train-steps li strong { color: #fff; display: block; margin-bottom: 5px; }
+  .train-steps li.active { border-left-color: var(--bl-primary); background: rgba(59,130,246,0.1); color: #fff; }
+
+  .train-info-box { background: rgba(245,158,11,0.1); border: 1px solid #f59e0b; border-radius: 12px; padding: 20px; display: flex; gap: 15px; color: #f59e0b; font-size: 0.95rem; line-height: 1.5; margin-top: auto; }
+  .train-info-box i { font-size: 1.5rem; }
+  .train-info-box p { margin: 0; }
+  .train-info-box strong { display: block; margin-bottom: 5px; }
+
+  @media (max-width: 900px) { .train-container { flex-direction: column; } }
+
+  /* 10. Beden Dili Kütüphanesi (Adım 9) */
+  .lib-section { padding: 100px 20px; background: #0A0A0A; border-top: 1px solid rgba(255,255,255,0.05); }
+  .lib-header { text-align: center; margin-bottom: 40px; }
+  .lib-header h3 { font-size: 2.5rem; color: #fff; margin-bottom: 15px; }
+  .lib-header p { color: var(--bl-muted); font-size: 1.1rem; max-width: 600px; margin: 0 auto; }
+
+  .lib-container { max-width: 1200px; margin: 0 auto; }
+  
+  .lib-search-bar { background: var(--bl-surface); border: 1px solid rgba(255,255,255,0.1); border-radius: 30px; padding: 15px 25px; display: flex; align-items: center; gap: 15px; margin-bottom: 40px; transition: all 0.3s; }
+  .lib-search-bar:focus-within { border-color: var(--bl-primary); box-shadow: 0 0 15px rgba(59,130,246,0.3); }
+  .lib-search-bar i { font-size: 1.2rem; color: var(--bl-muted); }
+  .lib-search-bar input { flex: 1; background: transparent; border: none; color: #fff; font-size: 1.1rem; outline: none; }
+  .lib-search-bar input::placeholder { color: rgba(255,255,255,0.3); }
+
+  .lib-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 25px; }
+  
+  .lib-card { background: #111; border: 1px solid rgba(255,255,255,0.05); border-radius: 12px; padding: 25px; transition: all 0.3s; display: flex; flex-direction: column; gap: 10px; }
+  .lib-card:hover { transform: translateY(-5px); border-color: rgba(255,255,255,0.2); background: #1a1a1a; }
+  
+  .lib-card-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 5px; }
+  .lib-card-header h4 { font-size: 1.2rem; color: #fff; margin: 0; }
+  .lib-card-header i { font-size: 1.5rem; color: var(--bl-primary); }
+  
+  .lib-card p { font-size: 0.95rem; color: var(--bl-muted); line-height: 1.5; margin: 0; flex: 1; }
+  
+  .lib-tag { display: inline-block; padding: 5px 12px; background: rgba(59,130,246,0.1); color: var(--bl-primary); border-radius: 20px; font-size: 0.8rem; font-weight: 700; align-self: flex-start; margin-top: 10px; }
+  
+  .lib-no-result { grid-column: 1 / -1; text-align: center; color: var(--bl-muted); font-size: 1.2rem; padding: 50px; background: var(--bl-surface); border-radius: 12px; }
 
 </style>
 
-<div class="hub-container">
+<!-- ADIM 1: HERO SECTION -->
+<section class="bl-hero">
+  <div class="bl-hero-bg"></div>
   
-  <div class="hero-box">
-    <h1>Beden Dili ve İletişim</h1>
-    <p>Kelimeler yalan söyleyebilir, ancak saniyenin onda biri hızında gerçekleşen "Mikro İfadeler" asla yalan söylemez. İnsanları okumayı öğrenin ve gerçek niyetleri deşifre edin.</p>
+  <div class="bl-hero-video-container">
+    <!-- Yer tutucu açılış videosu/animasyonu -->
+    <video autoplay loop muted playsinline>
+      <source src="https://cdn.pixabay.com/video/2020/05/25/40141-425251648_large.mp4" type="video/mp4">
+    </video>
   </div>
 
-  <!-- The Awesome App Banner -->
-  <div class="app-banner">
-    <div class="ab-content" style="max-width: 100%;">
-      <div class="ab-title">SİMÜLASYON LABORATUVARI</div>
-      <div class="ab-desc">Beden dili sadece okuyarak değil, pratik yaparak öğrenilir. Aşağıdaki interaktif laboratuvarlarda insanları deşifre etme, gizli duyguları okuma ve kriz anlarını yönetme becerilerinizi test edin.</div>
+  <div class="bl-hero-content">
+    <h1>Beden Dili:<br>Sessiz Konuşmanın Gücü</h1>
+    <h2>Sözsüz İletişim %55</h2>
+    <a href="#mehrabian" class="bl-btn">Bilimi Keşfet</a>
+  </div>
+</section>
+
+<!-- ADIM 1: TEORİK TEMEL VE INFOGRAFİK -->
+<section id="mehrabian" class="mehrabian-section">
+  <div class="mehrabian-container">
+    
+    <div class="mehrabian-header">
+      <h3>Albert Mehrabian'ın 55-38-7 Kuralı</h3>
+      <p>İletişimde kelimelerin gücü sandığınızdan çok daha azdır. İnsan beyni, güvenilirliği ve niyeti ölçerken kelimelerden ziyade görsel ve işitsel sinyallere odaklanır.</p>
+    </div>
+
+    <div class="m-chart">
+      <!-- Kelimeler -->
+      <div class="m-bar-wrapper">
+        <div class="m-bar m-bar-words"><span>%7</span></div>
+        <div class="m-label">Kelimeler</div>
+        <div class="m-sublabel">Ne söylediğiniz</div>
+      </div>
       
-      <div style="display: flex; gap: 15px; flex-wrap: wrap;">
-        <a href="/bedendili/dedektif" class="ab-btn" style="background: #10b981; box-shadow: 0 10px 20px rgba(16, 185, 129, 0.4);">
-          <span>🕵️ Yalan Dedektifi</span>
-        </a>
-        <a href="/bedendili/radar" class="ab-btn" style="background: #f43f5e; box-shadow: 0 10px 20px rgba(244, 63, 94, 0.4);">
-          <span>💘 Çekim Radarı</span>
-        </a>
-        <a href="/bedendili/kriz" class="ab-btn" style="background: #eab308; box-shadow: 0 10px 20px rgba(234, 179, 8, 0.4); color: #000;">
-          <span>⚠️ Kriz Yönetimi</span>
-        </a>
+      <!-- Ses Tonu -->
+      <div class="m-bar-wrapper">
+        <div class="m-bar m-bar-voice"><span>%38</span></div>
+        <div class="m-label">Ses Tonu</div>
+        <div class="m-sublabel">Nasıl söylediğiniz</div>
+      </div>
+      
+      <!-- Beden Dili -->
+      <div class="m-bar-wrapper">
+        <div class="m-bar m-bar-body"><span>%55</span></div>
+        <div class="m-label">Beden Dili</div>
+        <div class="m-sublabel">Sessiz sinyaller</div>
       </div>
     </div>
-  </div>
 
-  <!-- Knowledge Base Categories -->
-  <div class="grid-title">Eğitim Arşivi</div>
+    <!-- Ethos Bağlantısı -->
+    <div class="ethos-link-box">
+      <h4>Beden Dili ve Ethos (Güvenilirlik) İlişkisi</h4>
+      
+      <div class="ethos-item">
+        <i class="fa-solid fa-brain"></i>
+        <div>
+          <h5>Phronesis (Uzmanlık)</h5>
+          <p>Güvenli ve dik duruş, kontrollü ve net el hareketleri sizin konuya hakim olduğunuzu fısıldar.</p>
+        </div>
+      </div>
+      
+      <div class="ethos-item">
+        <i class="fa-solid fa-scale-balanced"></i>
+        <div>
+          <h5>Arete (Karakter & Dürüstlük)</h5>
+          <p>Samimi yüz ifadeleri, tutarlı jestler ve açık avuç kullanımı doğrudan ahlaki dürüstlüğünüzü kanıtlar.</p>
+        </div>
+      </div>
+
+      <div class="ethos-item">
+        <i class="fa-solid fa-handshake-angle"></i>
+        <div>
+          <h5>Eunoia (İyi Niyet)</h5>
+          <p>Açık beden pozisyonu ve doğrudan göz teması, dinleyiciye değer verdiğinizi ve ondan saklayacak bir şeyiniz olmadığını gösterir.</p>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ADIM 2: BİLEŞENLERİN KATEGORİZE EDİLMESİ -->
+<section class="components-section">
+  <div class="comp-header">
+    <h3>5 Temel Beden Dili Bileşeni</h3>
+    <p>Etkili bir retorik için beden dilini oluşturan beş ana unsuru ve her birinin güvenilirlik (Ethos) üzerindeki etkilerini inceleyin.</p>
+  </div>
   
-  <div class="info-grid">
-    <a href="/bedendili/yuz" class="card">
-      <div class="card-icon">👁️</div>
-      <div class="card-body">
-        <div class="card-title">Yüz ve Mikro Mimikler</div>
-        <div class="card-desc">Göz teması oranları, gerçek/sahte gülümsemeler (Duchenne) ve dudak seğirmelerinin gizli anlamları.</div>
-        <div class="card-link">Eğitime Başla <span>➔</span></div>
+  <div class="comp-container">
+    <div class="comp-tabs">
+      <div class="comp-tab active" data-target="tab-durus">1. DURUŞ (Posture) <i class="fa-solid fa-chevron-right"></i></div>
+      <div class="comp-tab" data-target="tab-el">2. EL HAREKETLERİ <i class="fa-solid fa-chevron-right"></i></div>
+      <div class="comp-tab" data-target="tab-yuz">3. YÜZ İFADESİ <i class="fa-solid fa-chevron-right"></i></div>
+      <div class="comp-tab" data-target="tab-mesafe">4. MESAFE (Proxemics) <i class="fa-solid fa-chevron-right"></i></div>
+      <div class="comp-tab" data-target="tab-hareket">5. HAREKET (Movement) <i class="fa-solid fa-chevron-right"></i></div>
+    </div>
+    
+    <div class="comp-content-area">
+      <!-- DURUŞ PANE -->
+      <div id="tab-durus" class="comp-pane active">
+        <h4 class="pane-title">Duruş (Posture)</h4>
+        <div class="bl-item-grid">
+          <div class="bl-item">
+            <div class="bl-item-img"><i class="fa-solid fa-person"></i><span class="ethos-badge ethos-high">Ethos: 90/100</span></div>
+            <div class="bl-item-body">
+              <h5>Dik Duruş</h5>
+              <p>Güven, otorite ve uzmanlık (Phronesis) gösterir. Omurga dik, omuzlar rahat.</p>
+            </div>
+          </div>
+          <div class="bl-item">
+            <div class="bl-item-img"><i class="fa-solid fa-person-rays"></i><span class="ethos-badge ethos-high">Ethos: 95/100</span></div>
+            <div class="bl-item-body">
+              <h5>Açık Duruş</h5>
+              <p>İyi niyet (Eunoia) ve samimiyet belirtisidir. Göğüs bölgesi dinleyiciye açıktır.</p>
+            </div>
+          </div>
+          <div class="bl-item">
+            <div class="bl-item-img"><i class="fa-solid fa-person-falling"></i><span class="ethos-badge ethos-low">Ethos: 20/100</span></div>
+            <div class="bl-item-body">
+              <h5>Kapalı/Eğilmiş Duruş</h5>
+              <p>Savunma, korku veya ilgisizlik hissi verir. Karakter gücünü (Arete) zayıflatır.</p>
+            </div>
+          </div>
+        </div>
       </div>
-    </a>
-
-    <a href="/bedendili/eller" class="card">
-      <div class="card-icon">👐</div>
-      <div class="card-body">
-        <div class="card-title">El ve Kol Jestleri</div>
-        <div class="card-desc">Açık avuç kuralı, işaret parmağının tehlikesi ve elleri cebe sokmanın verdiği güvensizlik mesajları.</div>
-        <div class="card-link">Eğitime Başla <span>➔</span></div>
+      
+      <!-- EL HAREKETLERİ PANE -->
+      <div id="tab-el" class="comp-pane">
+        <h4 class="pane-title">El Hareketleri (Gestures)</h4>
+        <div class="bl-item-grid">
+          <div class="bl-item">
+            <div class="bl-item-img"><i class="fa-solid fa-hand"></i><span class="ethos-badge ethos-high">Ethos: 95/100</span></div>
+            <div class="bl-item-body">
+              <h5>Açık Avuç</h5>
+              <p>Dürüstlük ve gizleyecek bir şeyin olmadığını (Arete) sembolize eder.</p>
+            </div>
+          </div>
+          <div class="bl-item">
+            <div class="bl-item-img"><i class="fa-solid fa-hands"></i><span class="ethos-badge ethos-high">Ethos: 85/100</span></div>
+            <div class="bl-item-body">
+              <h5>Kontrollü Hareketler</h5>
+              <p>Kelime vurgularıyla eşleşen ölçülü el hareketleri, profesyonelliğin kanıtıdır.</p>
+            </div>
+          </div>
+          <div class="bl-item">
+            <div class="bl-item-img"><i class="fa-solid fa-hand-fist"></i><span class="ethos-badge ethos-low">Ethos: 30/100</span></div>
+            <div class="bl-item-body">
+              <h5>Aşırı Hareketler / Yumruk</h5>
+              <p>Sinir, agresivite veya kontrol kaybı algısı yaratır. Mesajı gölgeler.</p>
+            </div>
+          </div>
+        </div>
       </div>
-    </a>
-
-    <a href="/bedendili/durus" class="card">
-      <div class="card-icon">🧍‍♂️</div>
-      <div class="card-body">
-        <div class="card-title">Postür (Duruş) ve Güç</div>
-        <div class="card-desc">Power Posing (Güç Pozu) ile testosteron artırma ve omuzların pozisyonuyla otorite kurma sanatı.</div>
-        <div class="card-link">Eğitime Başla <span>➔</span></div>
+      
+      <!-- YÜZ İFADESİ PANE -->
+      <div id="tab-yuz" class="comp-pane">
+        <h4 class="pane-title">Yüz İfadesi (Facial Expression)</h4>
+        <div class="bl-item-grid">
+          <div class="bl-item">
+            <div class="bl-item-img"><i class="fa-solid fa-face-smile"></i><span class="ethos-badge ethos-high">Ethos: 90/100</span></div>
+            <div class="bl-item-body">
+              <h5>Gülümseme</h5>
+              <p>İletişim köprülerini kuran en güçlü eylemdir. Samimi bir iyi niyet (Eunoia) sunar.</p>
+            </div>
+          </div>
+          <div class="bl-item">
+            <div class="bl-item-img"><i class="fa-solid fa-eye"></i><span class="ethos-badge ethos-high">Ethos: 100/100</span></div>
+            <div class="bl-item-body">
+              <h5>Göz Teması</h5>
+              <p>Kendine güvenin (Phronesis) ve dürüstlüğün yadsınamaz kanıtıdır. Bağ kurar.</p>
+            </div>
+          </div>
+          <div class="bl-item">
+            <div class="bl-item-img"><i class="fa-solid fa-eye-low-vision"></i><span class="ethos-badge ethos-low">Ethos: 15/100</span></div>
+            <div class="bl-item-body">
+              <h5>Kaçan Bakış</h5>
+              <p>Şüphe uyandırır ve yetersizlik veya dürüstlük eksikliği (Arete) olarak algılanır.</p>
+            </div>
+          </div>
+        </div>
       </div>
-    </a>
-
-    <a href="/bedendili/mesafe" class="card">
-      <div class="card-icon">📏</div>
-      <div class="card-body">
-        <div class="card-title">Proksemik (Mesafe)</div>
-        <div class="card-desc">Mahrem alan, kişisel alan sınırları ve asansör psikolojisi. Biriyle konuşurken aradaki görünmez balonu yönetmek.</div>
-        <div class="card-link">Eğitime Başla <span>➔</span></div>
+      
+      <!-- MESAFE PANE -->
+      <div id="tab-mesafe" class="comp-pane">
+        <h4 class="pane-title">Mesafe ve Alan (Proxemics)</h4>
+        <div class="bl-item-grid">
+          <div class="bl-item">
+            <div class="bl-item-img"><i class="fa-solid fa-people-arrows"></i><span class="ethos-badge ethos-low">Ethos: 40/100</span></div>
+            <div class="bl-item-body">
+              <h5>İntim Alan (0-45cm)</h5>
+              <p>Yalnızca aile ve çok yakın dostlar içindir. Profesyonel hayatta istilacı ve rahatsız edicidir.</p>
+            </div>
+          </div>
+          <div class="bl-item">
+            <div class="bl-item-img"><i class="fa-solid fa-people-group"></i><span class="ethos-badge ethos-high">Ethos: 90/100</span></div>
+            <div class="bl-item-body">
+              <h5>Kişisel Alan (45-120cm)</h5>
+              <p>İş görüşmeleri, birebir toplantılar ve sosyal ofis içi diyaloglar için ideal mesafedir.</p>
+            </div>
+          </div>
+          <div class="bl-item">
+            <div class="bl-item-img"><i class="fa-solid fa-users-rays"></i><span class="ethos-badge ethos-high">Ethos: 85/100</span></div>
+            <div class="bl-item-body">
+              <h5>Sosyal Alan (120-360cm)</h5>
+              <p>Konferanslar, büyük toplantılar ve sunumlar için profesyonel otorite mesafesidir.</p>
+            </div>
+          </div>
+        </div>
       </div>
-    </a>
+      
+      <!-- HAREKET PANE -->
+      <div id="tab-hareket" class="comp-pane">
+        <h4 class="pane-title">Hareket ve Dinamizm (Movement)</h4>
+        <div class="bl-item-grid">
+          <div class="bl-item">
+            <div class="bl-item-img"><i class="fa-solid fa-street-view"></i><span class="ethos-badge ethos-mid">Ethos: 50/100</span></div>
+            <div class="bl-item-body">
+              <h5>Sabit Duruş</h5>
+              <p>Kürsüye yapışıp kalmak güvenli görünse de zamanla monotonluk ve sıkıntı yaratır.</p>
+            </div>
+          </div>
+          <div class="bl-item">
+            <div class="bl-item-img"><i class="fa-solid fa-walking"></i><span class="ethos-badge ethos-high">Ethos: 95/100</span></div>
+            <div class="bl-item-body">
+              <h5>Kontrollü Hareket</h5>
+              <p>Sahneyi amaca uygun ve yavaş adımlarla kullanmak, mekana hakimiyeti gösterir.</p>
+            </div>
+          </div>
+          <div class="bl-item">
+            <div class="bl-item-img"><i class="fa-solid fa-person-running"></i><span class="ethos-badge ethos-low">Ethos: 25/100</span></div>
+            <div class="bl-item-body">
+              <h5>Hızlı/Düzensiz Hareket</h5>
+              <p>Sürekli volta atmak veya hızlı adımlar dinleyicide endişe ve yorgunluk yaratır.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+    </div>
   </div>
+</section>
 
-</div>
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const tabs = document.querySelectorAll('.comp-tab');
+    const panes = document.querySelectorAll('.comp-pane');
+    
+    tabs.forEach(tab => {
+      tab.addEventListener('click', () => {
+        // remove active
+        tabs.forEach(t => t.classList.remove('active'));
+        panes.forEach(p => p.classList.remove('active'));
+        
+        // add active
+        tab.classList.add('active');
+        const target = document.getElementById(tab.dataset.target);
+        if(target) target.classList.add('active');
+      });
+    });
+  });
+</script>
+
+<%
+  const refData = [
+    {
+      cat: "1. DURUŞ KATEGORİSİ",
+      items: [
+        { level: "Seviye 1: YANLIŞ", score: "0/100", title: "Eğilmiş, Kapalı", desc: "Güvensizlik ve ilgisizlik gösterir.", icon: "fa-person-falling", colorClass: "level-1" },
+        { level: "Seviye 2: ZAYIF", score: "30/100", title: "Nötr Duruş", desc: "Kabul edilebilir ama etkisiz.", icon: "fa-person", colorClass: "level-2" },
+        { level: "Seviye 3: İYİ", score: "70/100", title: "Dik ve Doğrudan", desc: "Profesyonel ve güvenilir görünüyor.", icon: "fa-person-half-dress", colorClass: "level-3" },
+        { level: "Seviye 4: MÜKEMMEL", score: "100/100", title: "Açık, Dinamik", desc: "Maksimum Ethos ve karizma (Arete + Eunoia).", icon: "fa-person-rays", colorClass: "level-4" }
+      ]
+    },
+    {
+      cat: "2. EL HAREKETLERİ KATEGORİSİ",
+      items: [
+        { level: "Seviye 1: YANLIŞ", score: "0/100", title: "Cepte, Gizli Eller", desc: "Dürüstlük eksikliği veya korku hissi.", icon: "fa-hand-holding-hand", colorClass: "level-1" },
+        { level: "Seviye 2: ZAYIF", score: "30/100", title: "Aşırı Hareket", desc: "Dikkat dağıtıcı, kontrol kaybı hissi.", icon: "fa-hand-fist", colorClass: "level-2" },
+        { level: "Seviye 3: İYİ", score: "70/100", title: "Ölçülü Vurgular", desc: "Söylenenleri destekleyen hareketler.", icon: "fa-hands", colorClass: "level-3" },
+        { level: "Seviye 4: MÜKEMMEL", score: "100/100", title: "Açık Avuç", desc: "Tam şeffaflık ve dürüstlük göstergesi.", icon: "fa-hand", colorClass: "level-4" }
+      ]
+    },
+    {
+      cat: "3. YÜZ İFADESİ KATEGORİSİ",
+      items: [
+        { level: "Seviye 1: YANLIŞ", score: "0/100", title: "Kaçan Bakış", desc: "Kaçamak ve güvensiz hissettirir.", icon: "fa-eye-low-vision", colorClass: "level-1" },
+        { level: "Seviye 2: ZAYIF", score: "30/100", title: "Buz Gibi İfade", desc: "Duygudan yoksun, robotik.", icon: "fa-face-meh", colorClass: "level-2" },
+        { level: "Seviye 3: İYİ", score: "70/100", title: "Doğal Göz Teması", desc: "Güven veren sağlıklı bağlantı.", icon: "fa-eye", colorClass: "level-3" },
+        { level: "Seviye 4: MÜKEMMEL", score: "100/100", title: "Samimi Gülümseme", desc: "Güçlü bağ, tam Eunoia (İyi Niyet).", icon: "fa-face-smile-beam", colorClass: "level-4" }
+      ]
+    },
+    {
+      cat: "4. MESAFE (PROXEMICS) KATEGORİSİ",
+      items: [
+        { level: "Seviye 1: YANLIŞ", score: "0/100", title: "Çok Yakın (İntim)", desc: "İstilacı, agresif ve rahatsız edici.", icon: "fa-people-arrows", colorClass: "level-1" },
+        { level: "Seviye 2: ZAYIF", score: "30/100", title: "Çok Uzak", desc: "Kopuk ve umursamaz gösterir.", icon: "fa-user-group", colorClass: "level-2" },
+        { level: "Seviye 3: İYİ", score: "70/100", title: "Uygun Kişisel Alan", desc: "Profesyonel iletişim mesafesi.", icon: "fa-people-group", colorClass: "level-3" },
+        { level: "Seviye 4: MÜKEMMEL", score: "100/100", title: "Sosyal Hakimiyet", desc: "Mekanı rahatça ve doğru mesafede kullanmak.", icon: "fa-users-rays", colorClass: "level-4" }
+      ]
+    },
+    {
+      cat: "5. HAREKET (MOVEMENT) KATEGORİSİ",
+      items: [
+        { level: "Seviye 1: YANLIŞ", score: "0/100", title: "Volta Atmak", desc: "Aşırı hızlı hareket, anksiyete belirtisi.", icon: "fa-person-running", colorClass: "level-1" },
+        { level: "Seviye 2: ZAYIF", score: "30/100", title: "Kürsüye Yapışmak", desc: "Sabit ve sıkıcı görünüm.", icon: "fa-street-view", colorClass: "level-2" },
+        { level: "Seviye 3: İYİ", score: "70/100", title: "Amaçlı Yürüyüş", desc: "Sahneye hakim, yavaş ve emin adımlar.", icon: "fa-walking", colorClass: "level-3" },
+        { level: "Seviye 4: MÜKEMMEL", score: "100/100", title: "Akıcı Dinamizm", desc: "Düşüncelere eşlik eden doğal dans.", icon: "fa-person-hiking", colorClass: "level-4" }
+      ]
+    }
+  ];
+%>
+
+<!-- ADIM 3: GÖRSEL REFERANS KÜTÜPHANESİ -->
+<section class="ref-section">
+  <div class="ref-header">
+    <h3>Görsel Referans Kütüphanesi</h3>
+    <p>5 temel bileşenin 4 farklı seviyedeki görünümleri ve yarattıkları Ethos etkileri.</p>
+  </div>
+  
+  <div class="ref-grid">
+    <% refData.forEach(function(category) { %>
+      <div class="ref-category">
+        <h4 class="ref-cat-title"><%= category.cat %></h4>
+        <div class="ref-cards">
+          <% category.items.forEach(function(item) { %>
+            <div class="ref-card">
+              <div class="ref-media">
+                <i class="fa-solid <%= item.icon %>"></i>
+                <div class="ref-overlay">
+                  <span class="ref-level <%= item.colorClass %>"><%= item.level %></span>
+                  <span class="ref-score <%= item.colorClass %>">Ethos: <%= item.score %></span>
+                </div>
+              </div>
+              <div class="ref-body">
+                <h5><%= item.title %></h5>
+                <p><%= item.desc %></p>
+              </div>
+            </div>
+          <% }); %>
+        </div>
+      </div>
+    <% }); %>
+  </div>
+</section>
+
+<!-- ADIM 4: İNTERAKTİF KARŞILAŞTIRMA ARACI -->
+<%
+  const sliderData = [
+    {
+      cat: "Duruş Karşılaştırması",
+      bad: { icon: "fa-person-falling", score: "20/100", title: "Yanlış: Kapalı/Eğik Duruş", desc: "Zayıflık ve anksiyete hissi verir. Phronesis (Uzmanlık) puanınızı anında siler." },
+      good: { icon: "fa-person-rays", score: "90/100", title: "Doğru: Dik ve Açık Duruş", desc: "Otorite, güven ve samimiyet (Arete + Eunoia) gösterir. Sahneyi doldurur." }
+    },
+    {
+      cat: "El Hareketleri Karşılaştırması",
+      bad: { icon: "fa-hand-fist", score: "30/100", title: "Yanlış: Sıkılı Yumruk", desc: "Gizli bir agresyon, kapalılık ve tehdit hissi yaratır. Dinleyiciyi savunmaya geçirir." },
+      good: { icon: "fa-hand", score: "95/100", title: "Doğru: Açık Avuç", desc: "Silahsızlığı, dürüstlüğü ve şeffaflığı fısıldar. Tüm liderlerin gizli silahıdır." }
+    },
+    {
+      cat: "Göz Teması Karşılaştırması",
+      bad: { icon: "fa-eye-low-vision", score: "15/100", title: "Yanlış: Kaçan Bakış", desc: "Şüphe uyandırır, yalancı veya yetersiz algılanmanıza sebep olur." },
+      good: { icon: "fa-eye", score: "100/100", title: "Doğru: Güçlü Göz Teması", desc: "Yüzleşmeye hazır, dürüst ve özgüvenli olduğunuzun sarsılmaz kanıtıdır." }
+    }
+  ];
+%>
+
+<section class="slider-section">
+  <div class="slider-header">
+    <h3>Yanlış vs. Doğru (Comparison Slider)</h3>
+    <p>Beden dili detaylarının yarattığı devasa Ethos farkını görmek için ortadaki çubuğu sağa ve sola kaydırın.</p>
+  </div>
+  
+  <div class="slider-gallery">
+    <% sliderData.forEach(function(slider, index) { %>
+      <div class="slider-item">
+        <h4 class="slider-item-title"><%= index+1 %>. <%= slider.cat %></h4>
+        <div class="comp-slider-container">
+          
+          <!-- YANLIŞ / BEFORE -->
+          <div class="comp-img-before">
+            <div class="comp-content-inner">
+              <div class="comp-slider-content bad">
+                <i class="fa-solid <%= slider.bad.icon %>"></i>
+                <div class="comp-ethos-tag">Ethos: <%= slider.bad.score %></div>
+                <h4><%= slider.bad.title %></h4>
+                <p><%= slider.bad.desc %></p>
+              </div>
+            </div>
+          </div>
+          
+          <!-- DOĞRU / AFTER -->
+          <div class="comp-img-after">
+            <div class="comp-content-inner">
+              <div class="comp-slider-content good">
+                <i class="fa-solid <%= slider.good.icon %>"></i>
+                <div class="comp-ethos-tag">Ethos: <%= slider.good.score %></div>
+                <h4><%= slider.good.title %></h4>
+                <p><%= slider.good.desc %></p>
+              </div>
+            </div>
+          </div>
+          
+          <!-- SLIDER HANDLE -->
+          <div class="comp-slider-handle"></div>
+          
+        </div>
+      </div>
+    <% }); %>
+  </div>
+</section>
+
+<!-- ADIM 5: SENARYO TABANLI SİMÜLATÖR -->
+<section class="sim-section">
+  <div class="sim-header">
+    <h3>Beden Dili Simülatörü</h3>
+    <p>Kritik anlarda verdiğiniz sözsüz tepkiler, kaderinizi belirler. Doğru beden dilini seçin, Ethos puanınızı koruyun.</p>
+  </div>
+  
+  <div class="sim-container" id="simulator-app">
+    <div class="sim-card">
+       <div class="sim-ethos-tracker">
+          Ethos: <span id="sim-score" style="display:inline-block;">100</span>/100
+       </div>
+       <div class="sim-scenario" id="sim-question">
+         Senaryo yükleniyor...
+       </div>
+       <div class="sim-options" id="sim-options">
+          <!-- Options injected via JS -->
+       </div>
+       <div class="sim-feedback" id="sim-feedback" style="display:none;"></div>
+       <button class="sim-next-btn" id="sim-next-btn" style="display:none;">Sonraki Senaryo <i class="fa-solid fa-arrow-right"></i></button>
+    </div>
+  </div>
+</section>
+
+<!-- ADIM 6: Ustalardan Kesitler (Case Studies) -->
+<section class="case-section">
+  <div class="case-header">
+    <h3>Ustalardan Kesitler (Case Studies)</h3>
+    <p>Tarihin en büyük hatiplerinin beden dili sırlarını "kare kare" inceleyin.</p>
+  </div>
+  
+  <div class="case-container">
+     <div class="case-sidebar">
+        <div class="case-tab active" data-target="case-jobs">
+           <i class="fa-solid fa-user-tie" style="font-size:2rem; width:40px; text-align:center;"></i>
+           <div class="case-tab-info">
+             <h4>Steve Jobs</h4>
+             <p>Lansman Otoritesi</p>
+           </div>
+        </div>
+        <div class="case-tab" data-target="case-oprah">
+           <i class="fa-solid fa-microphone-lines" style="font-size:2rem; width:40px; text-align:center;"></i>
+           <div class="case-tab-info">
+             <h4>Oprah Winfrey</h4>
+             <p>Aktif Dinleme ve Empati</p>
+           </div>
+        </div>
+        <div class="case-tab" data-target="case-obama">
+           <i class="fa-solid fa-landmark-dome" style="font-size:2rem; width:40px; text-align:center;"></i>
+           <div class="case-tab-info">
+             <h4>Barack Obama</h4>
+             <p>Geniş El Hareketleri (Logos)</p>
+           </div>
+        </div>
+     </div>
+
+     <div class="case-content-area">
+        <!-- STEVE JOBS -->
+        <div class="case-pane active" id="case-jobs">
+           <div class="case-media">
+             <i class="fa-solid fa-video"></i>
+             <div class="case-timeline">
+                <div class="case-point active" data-time="0:12" data-info="Ellerin 'Steeple' (Çatı) pozisyonunda birleşmesi, sarsılmaz bir Phronesis (Uzmanlık) göstergesidir. Steve Jobs bu hareketiyle, 'Ne anlattığımı tam olarak biliyorum' mesajı verir."></div>
+                <div class="case-point" data-time="1:45" data-info="Sahneyi yavaş ve ölçülü adımlarla kullanması, alanı tamamen sahiplendiğini hissettirir. Dinleyici üzerinde bir ağırlık merkezi oluşturur."></div>
+                <div class="case-point" data-time="3:20" data-info="Göz teması kurup dramatik bir es (pause) vermesi, otorite ve gerilim yaratır. Bedenin hareketsizliği o an söylenenin önemini katlar."></div>
+             </div>
+           </div>
+           <div class="case-analysis">
+              <h4>Kare Kare Analiz <span class="case-time-badge">0:12</span></h4>
+              <p class="case-analysis-text">Ellerin 'Steeple' (Çatı) pozisyonunda birleşmesi, sarsılmaz bir Phronesis (Uzmanlık) göstergesidir. Steve Jobs bu hareketiyle, "Ne anlattığımı tam olarak biliyorum" mesajı verir.</p>
+           </div>
+        </div>
+        
+        <!-- OPRAH -->
+        <div class="case-pane" id="case-oprah">
+           <div class="case-media">
+             <i class="fa-solid fa-video"></i>
+             <div class="case-timeline">
+                <div class="case-point active" data-time="0:05" data-info="Misafirine doğru hafifçe eğilmesi, yoğun bir Eunoia (İyi Niyet) ve empati sinyalidir. Dinleyiciye 'Tüm dikkatim sende' mesajı verir."></div>
+                <div class="case-point" data-time="0:40" data-info="Açık avuçlar ve başın hafif yana eğik olması aktif dinlemenin bedensel yansımasıdır. Kendini kaplayan bir dinleme yerine açık bir algı gösterir."></div>
+             </div>
+           </div>
+           <div class="case-analysis">
+              <h4>Kare Kare Analiz <span class="case-time-badge">0:05</span></h4>
+              <p class="case-analysis-text">Misafirine doğru hafifçe eğilmesi, yoğun bir Eunoia (İyi Niyet) ve empati sinyalidir. Dinleyiciye "Tüm dikkatim sende" mesajı verir.</p>
+           </div>
+        </div>
+        
+        <!-- OBAMA -->
+        <div class="case-pane" id="case-obama">
+           <div class="case-media">
+             <i class="fa-solid fa-video"></i>
+             <div class="case-timeline">
+                <div class="case-point active" data-time="0:30" data-info="El hareketlerini, konuşmanın tam ritmine (Logos) göre vurgulaması, kelimelerinin ağırlığını artırır. Hassas vuruşlar (baton gestures) entelektüel güveni pekiştirir."></div>
+                <div class="case-point" data-time="2:10" data-info="Gülümseyerek yaptığı geniş açılı hareketler kitleleri kucaklama (Eunoia) hissiyatı yaratır, dev kitleleri aynı duyguda birleştirir."></div>
+             </div>
+           </div>
+           <div class="case-analysis">
+              <h4>Kare Kare Analiz <span class="case-time-badge">0:30</span></h4>
+              <p class="case-analysis-text">El hareketlerini, konuşmanın tam ritmine (Logos) göre vurgulaması, kelimelerinin ağırlığını artırır. Hassas vuruşlar (baton gestures) entelektüel güveni pekiştirir.</p>
+           </div>
+        </div>
+     </div>
+  </div>
+</section>
+
+<!-- ADIM 7: SAHNE ÖNCESİ CHECKLIST -->
+<section class="chk-section">
+  <div class="chk-header">
+    <h3>Sahne Öncesi Beden Dili Kontrol Listesi</h3>
+    <p>Büyük sunumunuza veya görüşmenize girmeden önce son fiziksel hazırlıklarınızı yapın.</p>
+  </div>
+  
+  <div class="chk-container">
+    <div class="chk-progress-bar">
+       <div class="chk-progress-fill" id="chk-fill"></div>
+       <div class="chk-progress-text"><span id="chk-pct">0</span>% Hazır</div>
+    </div>
+
+    <div class="chk-list">
+       <label class="chk-item">
+          <input type="checkbox" class="chk-input">
+          <span class="chk-custom"></span>
+          <div class="chk-text">
+             <h4>Omuzlar Geride, Omurga Dik</h4>
+             <p>Derin bir nefes alıp omurganızı hizalayın. Fiziksel diklik psikolojik özgüveni (Phronesis) getirir.</p>
+          </div>
+       </label>
+       <label class="chk-item">
+          <input type="checkbox" class="chk-input">
+          <span class="chk-custom"></span>
+          <div class="chk-text">
+             <h4>Eller Görünür ve Açık</h4>
+             <p>Ellerinizi ceplerinizden veya masanın altından çıkarın. Açık eller dürüstlüğün (Arete) sembolüdür.</p>
+          </div>
+       </label>
+       <label class="chk-item">
+          <input type="checkbox" class="chk-input">
+          <span class="chk-custom"></span>
+          <div class="chk-text">
+             <h4>Yüz Kasları Gevşek, Hafif Tebessüm</h4>
+             <p>Mikro gerginlikleri atın, aynada kendinize hafifçe gülümseyin. (Eunoia)</p>
+          </div>
+       </label>
+       <label class="chk-item">
+          <input type="checkbox" class="chk-input">
+          <span class="chk-custom"></span>
+          <div class="chk-text">
+             <h4>Ayaklar Omuz Genişliğinde</h4>
+             <p>Ağırlığınızı iki ayağınıza eşit dağıtarak yere sağlam basın. Bu sizi sarsılmaz gösterir.</p>
+          </div>
+       </label>
+       <label class="chk-item">
+          <input type="checkbox" class="chk-input">
+          <span class="chk-custom"></span>
+          <div class="chk-text">
+             <h4>Göz Teması Hazırlığı</h4>
+             <p>Odaya girdiğinizde ilk 3 saniye herkesle sessiz göz teması kurmaya odaklanın. Konuşmaya sonra başlayın.</p>
+          </div>
+       </label>
+    </div>
+    
+    <div class="chk-success" id="chk-success" style="display:none;">
+       <i class="fa-solid fa-circle-check"></i>
+       <h4>Harika! Sahneye Çıkmaya Hazırsınız.</h4>
+       <p>Bedeniniz zihninizin mesajını destekliyor. Derin bir nefes alın ve başlayın.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ADIM 8: VİDEO EĞİTİM MODÜLÜ -->
+<section class="train-section">
+  <div class="train-header">
+    <h3>Uygulamalı Beden Dili Eğitimleri</h3>
+    <p>Ayna karşısında veya kameraya karşı kendi başınıza yapabileceğiniz günlük egzersizler.</p>
+  </div>
+  
+  <div class="train-container">
+    <div class="train-video-wrapper">
+       <div class="train-video-placeholder">
+          <i class="fa-solid fa-play"></i>
+       </div>
+       <div class="train-controls">
+          <button class="train-btn" id="train-play"><i class="fa-solid fa-play"></i> Oynat</button>
+          <div class="train-speed-controls">
+             <span class="speed-label">Hız:</span>
+             <button class="speed-btn" data-speed="0.5">0.5x</button>
+             <button class="speed-btn active" data-speed="1.0">1.0x</button>
+             <button class="speed-btn" data-speed="1.5">1.5x</button>
+          </div>
+       </div>
+    </div>
+    <div class="train-sidebar">
+       <div class="train-course-title">Egzersiz: "Süpermen Duruşu" (Güç Pozu)</div>
+       <ul class="train-steps">
+          <li class="active"><strong>Adım 1:</strong> Ayaklarınızı omuz hizasında açın. Yere çok sağlam basın.</li>
+          <li><strong>Adım 2:</strong> Ellerinizi belinize koyun, dirsekleriniz dışarıya baksın.</li>
+          <li><strong>Adım 3:</strong> Çenenizi hafifçe kaldırın, omuzları geriye çekin. Göğüs kafesini açın.</li>
+          <li><strong>Adım 4:</strong> Bu pozisyonda gözlerinizi kapatıp 2 dakika boyunca derin diyafram nefesi alın.</li>
+       </ul>
+       <div class="train-info-box">
+          <i class="fa-solid fa-lightbulb"></i>
+          <div>
+            <strong>Bilimsel Gerçek:</strong>
+            <p>Harvard Profesörü Amy Cuddy'nin araştırmalarına göre 2 dakika "Güç Pozu" vermek, özgüven hormonu testosteronu %20 artırırken, stres hormonu kortizolü %25 oranında düşürür.</p>
+          </div>
+       </div>
+    </div>
+  </div>
+</section>
+
+<!-- ADIM 9: BEDEN DİLİ KÜTÜPHANESİ (SÖZLÜK) -->
+<section class="lib-section">
+  <div class="lib-header">
+    <h3>Beden Dili Sözlüğü</h3>
+    <p>A'dan Z'ye tüm mikro ifadeler ve beden dili jestleri.</p>
+  </div>
+  
+  <div class="lib-container">
+     <div class="lib-search-bar">
+        <i class="fa-solid fa-magnifying-glass"></i>
+        <input type="text" id="lib-search-input" placeholder="Bir hareket, jest veya duygu arayın... (örn: Açık Avuç)">
+     </div>
+
+     <div class="lib-grid" id="lib-grid">
+        <!-- JS ile doldurulacak -->
+     </div>
+  </div>
+</section>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    // Tab Script (Adım 2)
+    const tabs = document.querySelectorAll('.comp-tab');
+    const panes = document.querySelectorAll('.comp-pane');
+    
+    tabs.forEach(tab => {
+      tab.addEventListener('click', () => {
+        tabs.forEach(t => t.classList.remove('active'));
+        panes.forEach(p => p.classList.remove('active'));
+        
+        tab.classList.add('active');
+        const target = document.getElementById(tab.dataset.target);
+        if(target) target.classList.add('active');
+      });
+    });
+
+    // Slider Script (Adım 4)
+    const sliders = document.querySelectorAll('.comp-slider-container');
+    sliders.forEach(slider => {
+      const after = slider.querySelector('.comp-img-after');
+      const handle = slider.querySelector('.comp-slider-handle');
+      const afterInner = slider.querySelector('.comp-img-after .comp-content-inner');
+      const beforeInner = slider.querySelector('.comp-img-before .comp-content-inner');
+      
+      const updateWidth = () => {
+        const w = slider.offsetWidth + 'px';
+        afterInner.style.width = w;
+        beforeInner.style.width = w;
+      };
+      updateWidth();
+      window.addEventListener('resize', updateWidth);
+
+      let isDragging = false;
+      
+      const move = (clientX) => {
+        const rect = slider.getBoundingClientRect();
+        let x = clientX - rect.left;
+        if(x < 0) x = 0;
+        if(x > rect.width) x = rect.width;
+        
+        const percent = (x / rect.width) * 100;
+        after.style.width = percent + '%';
+        handle.style.left = percent + '%';
+      };
+
+      handle.addEventListener('mousedown', () => isDragging = true);
+      window.addEventListener('mouseup', () => isDragging = false);
+      slider.addEventListener('mousemove', (e) => {
+        if(!isDragging) return;
+        move(e.clientX);
+      });
+
+      // Touch support
+      handle.addEventListener('touchstart', () => isDragging = true, {passive: true});
+      window.addEventListener('touchend', () => isDragging = false);
+      slider.addEventListener('touchmove', (e) => {
+        if(!isDragging) return;
+        move(e.touches[0].clientX);
+      }, {passive: true});
+    });
+
+    // Simülatör Script (Adım 5)
+    const simQuestions = [
+      {
+        text: "Senaryo 1: Kritik bir yatırımcı toplantısındasınız. Size bütçe ile ilgili çok zor ve beklenmedik bir soru soruldu. İlk beden dili tepkiniz ne olmalı?",
+        options: [
+          { text: "Hemen kollarımı kavuşturup geriye yaslanırım.", icon: "fa-person-falling", impact: -30, feedback: "Kolları kavuşturmak ve geriye yaslanmak savunmaya geçtiğinizi ve köşeye sıkıştığınızı bağırır. Liderlik puanınız düştü." },
+          { text: "Ellerimi masaya açık bir şekilde koyar, göz teması kurarak hafifçe öne eğilirim.", icon: "fa-hands", impact: +10, feedback: "Mükemmel! Açık eller dürüstlüğü, öne eğilmek ise konudan kaçmadığınızı gösterir.", correct: true },
+          { text: "Gözlerimi tavana diker, elimle çenemi kaşıyarak düşünürüm.", icon: "fa-face-rolling-eyes", impact: -20, feedback: "Göz temasını kesmek ve yüze dokunmak yalan söyleme veya aşırı gerginlik belirtisi olarak algılanır." }
+        ]
+      },
+      {
+        text: "Senaryo 2: Şirket içi bir kriz var ve 50 çalışanın karşısına geçip onlara durumu açıklayacaksınız. Sahneye çıktığınızda nerede durursunuz?",
+        options: [
+          { text: "Kürsünün arkasına geçer, iki elimle kürsüyü sıkıca tutarım.", icon: "fa-street-view", impact: -20, feedback: "Kürsü sizinle dinleyici arasında bir bariyerdir. Onlara korktuğunuzu ve aranıza duvar ördüğünüzü hissettirir." },
+          { text: "Sahnede sürekli ve hızlı bir şekilde volta atarak konuşurum.", icon: "fa-person-running", impact: -15, feedback: "Sürekli hareket etmek panik havası yaratır, dinleyicinin odaklanmasını zorlaştırır." },
+          { text: "Kürsüyü kullanmam, sahnenin ortasında dik bir duruşla, ellerim açık bir şekilde merkeze yerleşirim.", icon: "fa-person-rays", impact: +15, feedback: "Harika! Bariyersiz iletişim, tam şeffaflık (Arete) ve sahne hakimiyeti (Phronesis) sağlar.", correct: true }
+        ]
+      },
+      {
+        text: "Senaryo 3: Birisi size haksız bir eleştiri yöneltti. Yanıt vermeden önce yüz ifadeniz nasıl olmalı?",
+        options: [
+          { text: "Hafif ve samimi bir tebessüm ile göz teması kurarım.", icon: "fa-face-smile-beam", impact: +15, feedback: "Harika! Kontrolün sizde olduğunu, tahriklere kapılmadığınızı ve kendinize güvendiğinizi (Phronesis) gösterir.", correct: true },
+          { text: "Gözlerimi kısar ve kaşlarımı çatarım.", icon: "fa-face-angry", impact: -20, feedback: "Agresif ve tehditkar bir tavır. Retorik ustası asla öfkesine yenik düşmez." },
+          { text: "Donuk bir ifade takınır ve gözlerimi kaçırırım.", icon: "fa-face-meh", impact: -15, feedback: "Zayıf ve sindirilmiş görünürsünüz. Karşı tarafın eleştirisi psikolojik olarak üstünlük sağlar." }
+        ]
+      }
+    ];
+
+    let currentQ = 0;
+    let ethosScore = 100;
+    
+    const qEl = document.getElementById('sim-question');
+    const optEl = document.getElementById('sim-options');
+    const fbEl = document.getElementById('sim-feedback');
+    const nextBtn = document.getElementById('sim-next-btn');
+    const scoreEl = document.getElementById('sim-score');
+
+    function renderQuestion() {
+      if(currentQ >= simQuestions.length) {
+        qEl.innerHTML = `Simülasyon Tamamlandı! <br><br> Nihai Ethos Puanınız: <strong style="color:var(--bl-primary); font-size:2.5rem">${ethosScore}</strong>/100`;
+        optEl.innerHTML = "";
+        fbEl.style.display = "block";
+        fbEl.className = "sim-feedback success";
+        if(ethosScore > 80) {
+          fbEl.innerHTML = "<strong>Mükemmel!</strong> Gerçek bir lider gibi beden dilinize hakimsiniz. Söylediklerinizi bedeniniz de onaylıyor.";
+        } else if(ethosScore > 50) {
+          fbEl.innerHTML = "<strong>Orta Seviye.</strong> Gelişime açık yönleriniz var. Stres anlarında beden dilinizi daha iyi kontrol etmelisiniz.";
+        } else {
+          fbEl.innerHTML = "<strong>Zayıf.</strong> Beden diliniz sizi ele veriyor. Retorik modülünün pratiklerini daha fazla uygulamalısınız.";
+        }
+        nextBtn.style.display = "none";
+        return;
+      }
+
+      const q = simQuestions[currentQ];
+      qEl.textContent = q.text;
+      optEl.innerHTML = "";
+      fbEl.style.display = "none";
+      nextBtn.style.display = "none";
+
+      q.options.forEach((opt, idx) => {
+        const btn = document.createElement('div');
+        btn.className = 'sim-option';
+        btn.innerHTML = `<i class="fa-solid ${opt.icon}"></i> <span>${opt.text}</span>`;
+        btn.onclick = () => selectOption(opt, btn, idx);
+        optEl.appendChild(btn);
+      });
+    }
+
+    function selectOption(opt, btnEl, optIdx) {
+      // Disable all options
+      const allOpts = optEl.querySelectorAll('.sim-option');
+      allOpts.forEach(b => b.style.pointerEvents = 'none');
+
+      ethosScore += opt.impact;
+      if(ethosScore > 100) ethosScore = 100;
+      if(ethosScore < 0) ethosScore = 0;
+      
+      // Animate score
+      scoreEl.style.transform = 'scale(1.5)';
+      setTimeout(() => scoreEl.style.transform = 'scale(1)', 300);
+      scoreEl.textContent = ethosScore;
+
+      fbEl.style.display = "block";
+      const impactText = opt.impact > 0 ? `+${opt.impact} Ethos` : `${opt.impact} Ethos`;
+      fbEl.innerHTML = `<strong>${impactText}</strong><br>${opt.feedback}`;
+      
+      if(opt.correct) {
+        btnEl.classList.add('correct');
+        fbEl.className = "sim-feedback success";
+      } else {
+        btnEl.classList.add('wrong');
+        fbEl.className = "sim-feedback error";
+        // Highlight correct one
+        simQuestions[currentQ].options.forEach((o, i) => {
+          if(o.correct) allOpts[i].classList.add('correct');
+        });
+      }
+
+      nextBtn.style.display = "block";
+    }
+
+    nextBtn.onclick = () => {
+      currentQ++;
+      renderQuestion();
+    };
+
+    renderQuestion();
+
+    // Case Studies Script (Adım 6)
+    const caseTabs = document.querySelectorAll('.case-tab');
+    const casePanes = document.querySelectorAll('.case-pane');
+
+    caseTabs.forEach(tab => {
+      tab.addEventListener('click', () => {
+        caseTabs.forEach(t => t.classList.remove('active'));
+        casePanes.forEach(p => p.classList.remove('active'));
+        tab.classList.add('active');
+        const target = document.getElementById(tab.dataset.target);
+        if(target) target.classList.add('active');
+      });
+    });
+
+    const casePoints = document.querySelectorAll('.case-point');
+    casePoints.forEach(point => {
+      point.addEventListener('click', (e) => {
+        const pane = point.closest('.case-pane');
+        const points = pane.querySelectorAll('.case-point');
+        points.forEach(p => p.classList.remove('active'));
+        point.classList.add('active');
+
+        const analysisText = pane.querySelector('.case-analysis-text');
+        const timeBadge = pane.querySelector('.case-time-badge');
+        
+        analysisText.style.opacity = 0;
+        setTimeout(() => {
+          analysisText.textContent = point.dataset.info;
+          timeBadge.textContent = point.dataset.time;
+          analysisText.style.opacity = 1;
+        }, 200);
+      });
+    });
+
+    // Checklist Script (Adım 7)
+    const chkInputs = document.querySelectorAll('.chk-input');
+    const chkFill = document.getElementById('chk-fill');
+    const chkPct = document.getElementById('chk-pct');
+    const chkSuccess = document.getElementById('chk-success');
+
+    const updateChecklist = () => {
+      let checkedCount = 0;
+      chkInputs.forEach(input => {
+        if(input.checked) checkedCount++;
+      });
+      
+      const pct = Math.round((checkedCount / chkInputs.length) * 100);
+      chkFill.style.width = pct + '%';
+      chkPct.textContent = pct;
+
+      if(pct === 100) {
+        chkSuccess.style.display = 'block';
+      } else {
+        chkSuccess.style.display = 'none';
+      }
+    };
+
+    chkInputs.forEach(input => {
+      input.addEventListener('change', updateChecklist);
+    });
+
+    // Eğitim Modülü Script (Adım 8)
+    const speedBtns = document.querySelectorAll('.speed-btn');
+    speedBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        speedBtns.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        // Normalde burada video.playbackRate ayarlanır.
+      });
+    });
+
+    const trainPlayBtn = document.getElementById('train-play');
+    const trainStepsDom = document.querySelectorAll('.train-steps li');
+    let trainInterval;
+    
+    trainPlayBtn.addEventListener('click', () => {
+      if(trainPlayBtn.innerHTML.includes('Oynat') || trainPlayBtn.innerHTML.includes('Tekrar')) {
+        trainPlayBtn.innerHTML = '<i class="fa-solid fa-pause"></i> Duraklat';
+        
+        // Eğer en sondaysa başa sar
+        let currentStepIdx = Array.from(trainStepsDom).findIndex(s => s.classList.contains('active'));
+        if(currentStepIdx === trainStepsDom.length - 1 && !trainPlayBtn.innerHTML.includes('Duraklat')) {
+           currentStepIdx = 0;
+        }
+
+        trainStepsDom.forEach(s => s.classList.remove('active'));
+        trainStepsDom[currentStepIdx].classList.add('active');
+        
+        trainInterval = setInterval(() => {
+          currentStepIdx++;
+          if(currentStepIdx >= trainStepsDom.length) {
+            clearInterval(trainInterval);
+            trainPlayBtn.innerHTML = '<i class="fa-solid fa-rotate-right"></i> Tekrar';
+            return;
+          }
+          trainStepsDom.forEach(s => s.classList.remove('active'));
+          trainStepsDom[currentStepIdx].classList.add('active');
+        }, 3000);
+        
+      } else {
+        trainPlayBtn.innerHTML = '<i class="fa-solid fa-play"></i> Oynat';
+        clearInterval(trainInterval);
+      }
+    });
+
+    // Beden Dili Kütüphanesi Script (Adım 9)
+    const gestureLibrary = [
+      { title: "Steeple (Çatı) Duruşu", desc: "Parmak uçlarının birbirine değdiği, avuç içlerinin açık kaldığı pozisyon. Yüksek entelektüel güven (Phronesis) belirtisidir.", tag: "El Hareketi", icon: "fa-hands" },
+      { title: "Açık Avuçlar", desc: "Avuç içlerinin dinleyiciye dönük olması. Tehdit oluşturmadığınızı ve dürüst olduğunuzu (Arete) sembolize eder.", tag: "El Hareketi", icon: "fa-hand" },
+      { title: "Kolları Kavuşturmak", desc: "Savunmacı veya kapalı bir tutumu gösterir. Dinleyiciye 'aranızda bir duvar olduğu' hissini verir.", tag: "Duruş", icon: "fa-person-falling" },
+      { title: "Gözleri Kısma", desc: "Şüphe veya yoğun odaklanma anlamına gelir. Negatif bağlamda kızgınlık (tehdit) sinyali de verebilir.", tag: "Yüz İfadesi", icon: "fa-face-angry" },
+      { title: "Asimetrik Gülümseme", desc: "Dudağın tek tarafının yukarı kalkması. Çoğunlukla alaycılık, küçümseme veya güvensizlik yansıtır.", tag: "Yüz İfadesi", icon: "fa-face-meh" },
+      { title: "Mikro İfadeler", desc: "Saniyenin beşte biri kadar süren, gizlenemeyen anlık yüz ifadeleri. Gerçek duyguyu açık eder.", tag: "Yüz İfadesi", icon: "fa-eye" },
+      { title: "Boyna Dokunma", desc: "Bilinçdışı bir sakinleşme (pacifying) hareketidir. Strese girildiğinde rahatlama ihtiyacıyla yapılır.", tag: "Hareket", icon: "fa-hand-dots" },
+      { title: "Baton Gestures", desc: "Kelimelerin ritmine (Logos) göre elleri bir orkestra şefi gibi kullanmak. Anlamı pekiştirir.", tag: "El Hareketi", icon: "fa-hands-clapping" },
+      { title: "Omuz Silkme", desc: "Bilgisizlik, umursamazlık veya güvensizlik belirtisidir. Liderlik otoritesini zedeleyebilir.", tag: "Hareket", icon: "fa-person-circle-question" },
+      { title: "Ayna Etkisi (Mirroring)", desc: "Karşınızdakinin beden dilini bilinçsizce (veya bilinçli) taklit etmek. Uyum ve Empati (Eunoia) kurar.", tag: "Mesafe", icon: "fa-people-arrows" }
+    ];
+
+    const libGrid = document.getElementById('lib-grid');
+    const libSearch = document.getElementById('lib-search-input');
+
+    const renderLibrary = (filter = "") => {
+      libGrid.innerHTML = "";
+      const term = filter.toLowerCase();
+      
+      const filtered = gestureLibrary.filter(g => 
+        g.title.toLowerCase().includes(term) || 
+        g.desc.toLowerCase().includes(term) || 
+        g.tag.toLowerCase().includes(term)
+      );
+
+      if(filtered.length === 0) {
+        libGrid.innerHTML = `<div class="lib-no-result">Aramanızla eşleşen bir sonuç bulunamadı.</div>`;
+        return;
+      }
+
+      filtered.forEach(g => {
+        const html = `
+          <div class="lib-card">
+             <div class="lib-card-header">
+               <h4>${g.title}</h4>
+               <i class="fa-solid ${g.icon}"></i>
+             </div>
+             <p>${g.desc}</p>
+             <span class="lib-tag">${g.tag}</span>
+          </div>
+        `;
+        libGrid.innerHTML += html;
+      });
+    };
+
+    if(libGrid) {
+      renderLibrary();
+      libSearch.addEventListener('input', (e) => {
+        renderLibrary(e.target.value);
+      });
+    }
+
+  });
+</script>
 
 <%- include('partials/main-footer') %>

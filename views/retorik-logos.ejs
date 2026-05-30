@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title><%= meta.title %></title>
+  <meta name="description" content="<%= meta.description %>">
+  <% if (canonicalUrl) { %>
+    <link rel="canonical" href="<%= canonicalUrl %>" />
+  <% } %>
+  <link rel="stylesheet" href="/css/style.css">
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;800&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+  <style>
+    /* LOGOS - SOĞUK MANTIK & VERİ ODASI TEMASI */
+    :root {
+      --logos-bg: #040814;       /* Derin Uzay Siyahı */
+      --logos-surface: #0F172A;  /* Yüzey / Panel */
+      --logos-border: #1E293B;   /* Kenarlık */
+      --logos-text: #F8FAFC;     /* Parlak Beyaz */
+      --logos-muted: #94A3B8;    /* Soğuk Gri */
+      --logos-blue: #3B82F6;     /* Safir Mavisi / Neon Mavi */
+      --logos-cyan: #06B6D4;     /* Veri Cyani */
+      
+      --sans: 'Plus Jakarta Sans', sans-serif;
+      --mono: 'Space Mono', monospace;
+      --tr: all 0.3s ease;
+    }
+
+    body {
+      background-color: var(--logos-bg);
+      color: var(--logos-text);
+      font-family: var(--sans);
+      line-height: 1.6;
+      background-image: 
+        linear-gradient(rgba(30, 41, 59, 0.3) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(30, 41, 59, 0.3) 1px, transparent 1px);
+      background-size: 50px 50px;
+    }
+
+    /* Navbar Override for Tech Theme */
+    .navbar {
+      background-color: rgba(4, 8, 20, 0.9) !important;
+      border-bottom: 1px solid var(--logos-blue) !important;
+      box-shadow: 0 4px 30px rgba(59, 130, 246, 0.1);
+    }
+    .navbar a { color: var(--logos-text) !important; font-family: var(--sans); }
+
+    /* Hero: Tech/Data Hub */
+    .logos-hero {
+      min-height: 70vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      padding: 120px 20px 60px;
+      position: relative;
+    }
+    
+    .data-badge {
+      font-family: var(--mono);
+      color: var(--logos-cyan);
+      background: rgba(6, 182, 212, 0.1);
+      border: 1px solid var(--logos-cyan);
+      padding: 6px 16px;
+      border-radius: 4px;
+      font-size: 0.9rem;
+      letter-spacing: 2px;
+      margin-bottom: 30px;
+      text-transform: uppercase;
+      box-shadow: 0 0 15px rgba(6, 182, 212, 0.2);
+    }
+
+    .logos-hero h1 {
+      font-family: var(--sans);
+      font-weight: 800;
+      font-size: clamp(3rem, 6vw, 5rem);
+      letter-spacing: -1px;
+      margin-bottom: 20px;
+      background: linear-gradient(to right, #ffffff, var(--logos-blue));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .logos-hero p {
+      font-size: 1.25rem;
+      max-width: 650px;
+      color: var(--logos-muted);
+      font-weight: 300;
+    }
+
+    /* Ana Konteyner */
+    .logos-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 40px 20px 100px;
+    }
+
+    /* L1: Mantık Bloğu */
+    .logic-board {
+      background: var(--logos-surface);
+      border: 1px solid var(--logos-border);
+      border-left: 4px solid var(--logos-blue);
+      padding: 40px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 40px;
+      margin-bottom: 60px;
+      position: relative;
+    }
+    .logic-board::after {
+      content: '';
+      position: absolute;
+      top: 0; right: 0;
+      width: 40px; height: 40px;
+      background: linear-gradient(135deg, transparent 50%, var(--logos-border) 50%);
+    }
+    .logic-col h2 {
+      font-size: 2rem;
+      color: white;
+      margin-bottom: 20px;
+    }
+    .logic-col p { color: var(--logos-muted); font-size: 1.1rem; }
+    
+    .data-stat {
+      background: rgba(0,0,0,0.3);
+      padding: 20px;
+      border: 1px dashed var(--logos-blue);
+      text-align: center;
+    }
+    .data-stat .number {
+      font-family: var(--mono);
+      font-size: 3rem;
+      color: var(--logos-cyan);
+      display: block;
+    }
+    .data-stat .label {
+      font-size: 0.9rem;
+      color: var(--logos-muted);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    /* L2: Toulmin Modeli (Node Grafiği Gibi) */
+    .toulmin-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+      margin-bottom: 80px;
+    }
+    .toulmin-node {
+      background: var(--logos-surface);
+      border: 1px solid var(--logos-border);
+      padding: 30px;
+      position: relative;
+      transition: var(--tr);
+    }
+    .toulmin-node:hover {
+      border-color: var(--logos-cyan);
+      transform: translateY(-5px);
+      box-shadow: 0 10px 30px rgba(6, 182, 212, 0.1);
+    }
+    .node-title {
+      font-family: var(--mono);
+      color: var(--logos-cyan);
+      font-weight: bold;
+      margin-bottom: 15px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid var(--logos-border);
+      padding-bottom: 10px;
+    }
+    .toulmin-node p { color: var(--logos-muted); font-size: 0.95rem; }
+
+    /* L3 & L4: Tool/Simülatör Kartları */
+    .tech-cards {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 30px;
+    }
+    .tech-card {
+      background: linear-gradient(145deg, var(--logos-surface), #0b101d);
+      border: 1px solid var(--logos-border);
+      padding: 40px;
+      border-radius: 8px;
+    }
+    .tech-icon {
+      font-size: 2.5rem;
+      color: var(--logos-blue);
+      margin-bottom: 20px;
+    }
+    .tech-card h3 {
+      font-size: 1.5rem;
+      margin-bottom: 15px;
+    }
+    .tech-card p {
+      color: var(--logos-muted);
+      margin-bottom: 25px;
+    }
+    .tech-btn {
+      display: inline-block;
+      padding: 10px 24px;
+      background: rgba(59, 130, 246, 0.1);
+      color: var(--logos-blue);
+      font-family: var(--mono);
+      text-decoration: none;
+      border: 1px solid var(--logos-blue);
+      border-radius: 4px;
+      transition: var(--tr);
+    }
+    .tech-btn:hover {
+      background: var(--logos-blue);
+      color: white;
+      box-shadow: 0 0 20px rgba(59, 130, 246, 0.4);
+    }
+
+    @media (max-width: 900px) {
+      .logic-board { grid-template-columns: 1fr; }
+      .toulmin-grid { grid-template-columns: 1fr; }
+      .tech-cards { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <%- include('partials/main-header') %>
+
+  <!-- Hero Section -->
+  <section class="logos-hero">
+    <div class="data-badge">SYS.LOGOS_ACTIVATE</div>
+    <h1>Mantıksal Mimari</h1>
+    <p>Argümanlarınızı çelikten bir mantık örgüsüyle inşa edin. Verileri görselleştirin, safsataları tespit edin ve karşı tarafın tezlerini matematiksel bir kesinlikle çürütün.</p>
+  </section>
+
+  <% 
+    const l1 = exercises.find(e => e.id === 'l1');
+    const l2 = exercises.find(e => e.id === 'l2');
+    const l3 = exercises.find(e => e.id === 'l3');
+    const l4 = exercises.find(e => e.id === 'l4');
+  %>
+
+  <section class="logos-container">
+    
+    <!-- L1: Mantık Board -->
+    <div class="logic-board">
+      <div class="logic-col">
+        <h2><%= l1 ? l1.title : 'Kanıtın ve Aklın Gücü' %></h2>
+        <p>Logos, bir argümanın içsel tutarlılığıdır. Sadece rakamları sıralamak değil, bu rakamların ne anlama geldiğini net bir neden-sonuç ilişkisi (Sillojizm) içerisinde kitleye sunmaktır. Mantıksal boşlukları olan hiçbir argüman uzun süre ayakta kalamaz.</p>
+      </div>
+      <div class="logic-col" style="display: flex; align-items: center;">
+        <div class="data-stat" style="width: 100%;">
+          <span class="number">60%</span>
+          <span class="label">Mantıksal Tutarlılığın İkna Oranına Etkisi</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- L2: Toulmin Modeli (3 Node) -->
+    <h2 style="text-align: center; font-size: 2rem; margin-bottom: 40px; color: var(--logos-text);">Toulmin Argüman Modeli</h2>
+    <div class="toulmin-grid">
+      <div class="toulmin-node">
+        <div class="node-title">
+          <span>01 // İDDİA (Claim)</span>
+          <i class="fa-solid fa-bullseye"></i>
+        </div>
+        <p>Dinleyicinin kabul etmesini istediğiniz ana tez veya argümandır. "Bu yazılım şirketimizin verimliliğini %30 artıracak."</p>
+      </div>
+      <div class="toulmin-node">
+        <div class="node-title">
+          <span>02 // VERİ (Data/Grounds)</span>
+          <i class="fa-solid fa-database"></i>
+        </div>
+        <p>İddianızı destekleyen somut kanıtlar, istatistikler veya gerçeklerdir. "Çünkü A departmanında yapılan testlerde %32 artış gözlemlendi."</p>
+      </div>
+      <div class="toulmin-node">
+        <div class="node-title">
+          <span>03 // GEREKÇE (Warrant)</span>
+          <i class="fa-solid fa-link"></i>
+        </div>
+        <p>Veriyi iddiaya bağlayan köprüdür. Sıklıkla varsayılır ama açıkça belirtilmesi mantığı sarsılmaz yapar. "A departmanının işleyişi tüm şirketle aynıdır."</p>
+      </div>
+    </div>
+
+    <!-- Tech Cards -->
+    <div class="tech-cards">
+      <div class="tech-card">
+        <div class="tech-icon"><i class="fa-solid fa-shield-halved"></i></div>
+        <h3><%= l3 ? l3.title : 'Karşı Argüman Çürütme' %></h3>
+        <p>Dinleyicinin kafasındaki şüpheleri onlar dile getirmeden önce siz masaya yatırın (Prolepsis). Böylece savunma hatlarını önceden çökertirsiniz.</p>
+        <a href="#" class="tech-btn" onclick="alert('Logos: Simülasyon arayüzü yakında eklenecek.')">Taktik Simülasyonu</a>
+      </div>
+      <div class="tech-card">
+        <div class="tech-icon"><i class="fa-solid fa-chart-pie"></i></div>
+        <h3><%= l4 ? l4.title : 'Veri Görselleştirme' %></h3>
+        <p>Beyin 1.4 milyar rakamını kavrayamaz. Rakamları insanileştirin: "Bu miktar ile Dünya'dan Ay'a 3 kez yol yapabiliriz."</p>
+        <a href="#" class="tech-btn" onclick="alert('Logos: Analiz modülü yakında eklenecek.')">Veri Çevirici</a>
+      </div>
+    </div>
+
+  </section>
+
+  <%- include('partials/main-footer') %>
+</body>
+</html>

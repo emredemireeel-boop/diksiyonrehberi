@@ -1,0 +1,526 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title><%= meta.title %></title>
+  <meta name="description" content="<%= meta.description %>">
+  <% if (canonicalUrl) { %>
+    <link rel="canonical" href="<%= canonicalUrl %>" />
+  <% } %>
+  <link rel="stylesheet" href="/css/style.css">
+  
+  <!-- Edebiyat ve Yazarlık Temalı Fontlar -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;1,400&family=Playfair+Display:ital,wght@0,600;0,800;1,600&family=Space+Mono:ital@0;1&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+  <style>
+    /* KONUŞMA YAZIMI ÖZEL TASARIM (Yazar Masası / Daktilo Teması) */
+    :root {
+      --ink-blue: #0F172A; /* Mürekkep Mavisi / Koyu Lacivert */
+      --paper-white: #F9F7F1; /* Sıcak Kağıt Beyazı */
+      --paper-dim: #EBE7DC; /* Gölge ve Border için Kağıt Tonu */
+      --crimson-red: #9B1C1C; /* Kırmızı Vurgu (Redaction/Düzeltme Kalemi) */
+      --typewriter: 'Space Mono', monospace;
+      --serif: 'Lora', serif;
+      --display: 'Playfair Display', serif;
+      --tr: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    body {
+      background-color: var(--paper-white);
+      color: var(--ink-blue);
+      font-family: var(--serif);
+      line-height: 1.8;
+      overflow-x: hidden;
+    }
+
+    /* Navbar Override */
+    .navbar {
+      background-color: rgba(249, 247, 241, 0.95) !important;
+      border-bottom: 1px solid var(--paper-dim) !important;
+      backdrop-filter: blur(10px);
+    }
+    .navbar a { color: var(--ink-blue) !important; }
+    .navbar .logo { font-family: var(--display) !important; font-weight: 800; color: var(--ink-blue) !important; }
+
+    /* Hero Section: Typewriter Effect */
+    .writer-hero {
+      min-height: 80vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      background: linear-gradient(to bottom, var(--paper-white), var(--paper-dim));
+      padding: 120px 20px 60px;
+      position: relative;
+    }
+    
+    .writer-hero::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; width: 100%; height: 100%;
+      background-image: radial-gradient(var(--ink-blue) 1px, transparent 1px);
+      background-size: 40px 40px;
+      opacity: 0.05;
+      pointer-events: none;
+    }
+
+    .typewriter-badge {
+      font-family: var(--typewriter);
+      font-size: 0.9rem;
+      color: var(--crimson-red);
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      margin-bottom: 20px;
+      border: 1px solid var(--crimson-red);
+      padding: 5px 15px;
+      border-radius: 20px;
+      display: inline-block;
+    }
+
+    .writer-hero h1 {
+      font-family: var(--display);
+      font-size: clamp(3rem, 6vw, 5rem);
+      font-weight: 800;
+      color: var(--ink-blue);
+      margin-bottom: 20px;
+      max-width: 900px;
+      line-height: 1.1;
+    }
+
+    .writer-hero p {
+      font-family: var(--serif);
+      font-size: 1.25rem;
+      max-width: 700px;
+      color: #475569;
+      font-style: italic;
+    }
+
+    /* Typewriter Cursor */
+    .cursor {
+      display: inline-block;
+      width: 4px;
+      height: 1em;
+      background-color: var(--crimson-red);
+      animation: blink 1s step-end infinite;
+      vertical-align: text-bottom;
+      margin-left: 5px;
+    }
+    @keyframes blink { 50% { opacity: 0; } }
+
+    /* Section Container */
+    .manuscript-section {
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 80px 20px;
+      border-bottom: 1px solid var(--paper-dim);
+    }
+    .manuscript-section:last-child { border-bottom: none; }
+
+    .section-header {
+      text-align: center;
+      margin-bottom: 60px;
+    }
+    .section-header h2 {
+      font-family: var(--display);
+      font-size: 2.5rem;
+      color: var(--ink-blue);
+      position: relative;
+      display: inline-block;
+    }
+    .section-header h2::after {
+      content: '';
+      display: block;
+      width: 60px;
+      height: 3px;
+      background: var(--crimson-red);
+      margin: 15px auto 0;
+    }
+
+    /* K1: Temeller - Quote Style */
+    .quote-block {
+      background: white;
+      padding: 50px;
+      border-left: 8px solid var(--ink-blue);
+      box-shadow: 10px 10px 0px var(--paper-dim);
+      font-size: 1.4rem;
+      font-style: italic;
+      color: var(--ink-blue);
+      position: relative;
+    }
+    .quote-block::before {
+      content: '"';
+      position: absolute;
+      top: -20px;
+      left: 20px;
+      font-family: var(--display);
+      font-size: 8rem;
+      color: var(--paper-dim);
+      line-height: 1;
+      opacity: 0.5;
+    }
+    .quote-block ul {
+      list-style-type: disc;
+      padding-left: 20px;
+      font-size: 1.1rem;
+      font-style: normal;
+      margin-top: 20px;
+    }
+
+    /* K2: Mimari - Timeline */
+    .timeline {
+      position: relative;
+      padding-left: 40px;
+    }
+    .timeline::before {
+      content: '';
+      position: absolute;
+      left: 15px;
+      top: 0;
+      bottom: 0;
+      width: 2px;
+      background: var(--paper-dim);
+    }
+    .timeline-item {
+      position: relative;
+      margin-bottom: 40px;
+      background: white;
+      padding: 30px;
+      border: 1px solid var(--paper-dim);
+      transition: var(--tr);
+    }
+    .timeline-item:hover {
+      transform: translateX(10px);
+      box-shadow: -5px 10px 20px rgba(0,0,0,0.05);
+      border-color: var(--ink-blue);
+    }
+    .timeline-item::before {
+      content: '';
+      position: absolute;
+      left: -32px;
+      top: 35px;
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      background: var(--crimson-red);
+      border: 4px solid var(--paper-white);
+    }
+    .timeline-item h3 {
+      font-family: var(--display);
+      font-size: 1.5rem;
+      margin-bottom: 10px;
+    }
+    .timeline-item p { margin: 0; color: #475569; }
+
+    /* K3: Hook (Kanca) Tekniği - Masonry/Grid */
+    .hook-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 20px;
+    }
+    .hook-card {
+      background: white;
+      border: 1px dashed var(--ink-blue);
+      padding: 30px;
+      position: relative;
+      overflow: hidden;
+      cursor: pointer;
+      transition: var(--tr);
+    }
+    .hook-card:hover {
+      background: var(--ink-blue);
+      color: var(--paper-white);
+      border-style: solid;
+      transform: translateY(-5px);
+    }
+    .hook-card .hook-num {
+      font-family: var(--typewriter);
+      font-size: 2rem;
+      font-weight: bold;
+      color: var(--paper-dim);
+      position: absolute;
+      top: 10px;
+      right: 15px;
+      transition: var(--tr);
+    }
+    .hook-card:hover .hook-num { color: rgba(255,255,255,0.1); }
+    .hook-card h4 {
+      font-family: var(--display);
+      font-size: 1.2rem;
+      margin-bottom: 15px;
+      position: relative;
+      z-index: 2;
+    }
+    .hook-card p {
+      font-size: 1rem;
+      line-height: 1.6;
+      position: relative;
+      z-index: 2;
+    }
+
+    /* K5: Müzikalite (Gary Provost Kuralı Visual) */
+    .musicality-block {
+      background: var(--ink-blue);
+      color: var(--paper-white);
+      padding: 60px;
+      border-radius: 4px;
+      position: relative;
+      box-shadow: 0 20px 40px rgba(15, 23, 42, 0.2);
+    }
+    .provost-text span {
+      display: inline;
+      transition: var(--tr);
+    }
+    .provost-text .short { color: #94A3B8; font-size: 1rem; }
+    .provost-text .med { color: #E2E8F0; font-size: 1.2rem; }
+    .provost-text .long { color: #F8FAFC; font-size: 1.4rem; font-style: italic; }
+    .provost-text .hit { 
+      color: var(--crimson-red); 
+      font-family: var(--display); 
+      font-size: 2rem; 
+      font-weight: bold; 
+      display: block; 
+      margin-top: 20px;
+    }
+    
+    .musicality-block:hover .short { opacity: 0.5; }
+    .musicality-block:hover .hit { transform: scale(1.05); text-shadow: 0 0 10px rgba(155, 28, 28, 0.5); }
+
+    /* K4: Kapanış ve CTA */
+    .climax-section {
+      background: var(--crimson-red);
+      color: white;
+      padding: 100px 20px;
+      text-align: center;
+      margin-top: 80px;
+    }
+    .climax-inner {
+      max-width: 800px;
+      margin: 0 auto;
+    }
+    .climax-inner h2 {
+      font-family: var(--display);
+      font-size: 3rem;
+      margin-bottom: 30px;
+    }
+    .climax-inner p {
+      font-size: 1.3rem;
+      opacity: 0.9;
+      margin-bottom: 40px;
+    }
+    .cta-button {
+      display: inline-block;
+      padding: 15px 40px;
+      background: white;
+      color: var(--crimson-red);
+      font-family: var(--typewriter);
+      font-weight: bold;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      text-decoration: none;
+      border-radius: 30px;
+      transition: var(--tr);
+    }
+    .cta-button:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+    }
+
+    @media (max-width: 768px) {
+      .writer-hero h1 { font-size: 2.5rem; }
+      .quote-block { padding: 30px; font-size: 1.2rem; }
+      .timeline { padding-left: 20px; }
+      .musicality-block { padding: 30px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Include Navbar -->
+  <%- include('partials/header') %>
+
+  <!-- Yazar Masası Hero Section -->
+  <section class="writer-hero">
+    <div class="typewriter-badge">Bölüm 03: Yazar Masası</div>
+    <h1><span id="typewriter-text"></span><span class="cursor"></span></h1>
+    <p>Söz uçar, yazı kalır. Ancak kitleleri harekete geçiren yazı, zihinlere kazınır. Milimetrik bir mühendislikle, caz müziği ritminde konuşmalar yazmanın sırları.</p>
+  </section>
+
+  <% 
+    // JSON'dan verileri çek (Eğer mevcutsa)
+    const k1 = exercises.find(e => e.id === 'ky1');
+    const k2 = exercises.find(e => e.id === 'ky2');
+    const k3 = exercises.find(e => e.id === 'ky3');
+    const k5 = exercises.find(e => e.id === 'ky5');
+    const k4 = exercises.find(e => e.id === 'ky4');
+  %>
+
+  <!-- K1: Temeller -->
+  <section class="manuscript-section">
+    <div class="quote-block">
+      <p><strong><%= k1 ? k1.title : 'Etkili Konuşma Yazımının Temelleri' %></strong></p>
+      <p><%= k1 ? k1.desc : 'Bir konuşma okumak için değil, duyulmak için yazılır.' %></p>
+      <ul>
+        <li>Yazılı dil göz içindir; konuşulan dil ise kulak için. Kısa tutun.</li>
+        <li>Aktif fiiller kullanın. "Yapılması gerekiyor" yerine "Yapmalıyız" deyin.</li>
+        <li>Jargondan kaçının. Konuşma anlaşılmak içindir, şifrelemek için değil.</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- K2: Mimari (Timeline) -->
+  <section class="manuscript-section">
+    <div class="section-header">
+      <h2>Konuşma Mimarisi</h2>
+      <p style="text-align: center; color: #475569; max-width: 600px; margin: 0 auto;">Büyük hatipler sahneye doğaçlama çıkmazlar; konuşmaları milimetrik bir mimari şablona dayanır.</p>
+    </div>
+    
+    <div class="timeline">
+      <div class="timeline-item">
+        <h3>1. Kanca (Dikkat)</h3>
+        <p>Seyirciyi telefonundan koparacak, beyne "Buna dikkat etmeliyim!" dedirten şok edici bir giriş.</p>
+      </div>
+      <div class="timeline-item">
+        <h3>2. Bağlam & İhtiyaç (Sorun)</h3>
+        <p>Dinleyicinin kendisiyle bağdaştıracağı, kanayan bir yaranın, bir problemin veya acil bir ihtiyacın dramatik tasviri.</p>
+      </div>
+      <div class="timeline-item">
+        <h3>3. Tatmin (Çözüm)</h3>
+        <p>O kanayan yarayı durduracak sihirli merhemi (sizin fikriniz, ürününüz, çözümünüz) sahneye sürme anı.</p>
+      </div>
+      <div class="timeline-item">
+        <h3>4. Görselleştirme</h3>
+        <p>Çözüm uygulandığında hayatın ne kadar harika olacağının veya uygulanmadığında ne kadar felaket olacağının zihinsel resmi.</p>
+      </div>
+      <div class="timeline-item">
+        <h3>5. Eylem Çağrısı (CTA)</h3>
+        <p>Dinleyiciye o salondan çıkar çıkmaz yapması gereken tek ve spesifik adımı dikte etmek.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- K3: Hook (Kanca) Tekniği -->
+  <section class="manuscript-section">
+    <div class="section-header">
+      <h2>Açılış Sanatı: 6 Kritik Kanca</h2>
+      <p style="text-align: center; color: #475569; max-width: 600px; margin: 0 auto;">Dinleyicininizi ilk 7 saniyede yakalamazsanız, onları sonsuza dek kaybedersiniz.</p>
+    </div>
+    
+    <div class="hook-grid">
+      <div class="hook-card">
+        <span class="hook-num">01</span>
+        <h4>Şaşırtıcı İstatistik</h4>
+        <p>"Siz şu an beni dinlerken, dünya çapında tam 15.000 kişi..." (Anında Logos şoku).</p>
+      </div>
+      <div class="hook-card">
+        <span class="hook-num">02</span>
+        <h4>Kırılgan Hikaye</h4>
+        <p>"Hayatımın en kötü gününe, 14 Haziran sabahına gidelim..." (Derin empati ve Pathos).</p>
+      </div>
+      <div class="hook-card">
+        <span class="hook-num">03</span>
+        <h4>Güçlü Soru</h4>
+        <p>"Aranızda en son ne zaman gerçekten korktuğunu hatırlayan var mı?" (Zihni aktif katılım yapmaya zorlar).</p>
+      </div>
+      <div class="hook-card">
+        <span class="hook-num">04</span>
+        <h4>Provokasyon</h4>
+        <p>"Bugün size okulda öğrettikleri her şeyin neden yalan olduğunu ispatlayacağım." (Merak ve öfke tetikler).</p>
+      </div>
+      <div class="hook-card">
+        <span class="hook-num">05</span>
+        <h4>Sessizlik (Duraklama)</h4>
+        <p>Sahneye çıkıp 10 saniye boyunca hiçbir şey söylemeden bakmak. En yüksek otorite gösterisidir.</p>
+      </div>
+      <div class="hook-card">
+        <span class="hook-num">06</span>
+        <h4>Paradoks</h4>
+        <p>"Bazen kazanmanın tek yolu, tamamen pes etmektir." (Bilişsel çelişki ile merak uyandırmak).</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- K5: Müzikalite -->
+  <section class="manuscript-section">
+    <div class="section-header">
+      <h2>Tempo ve Müzikalite</h2>
+      <p style="text-align: center; color: #475569; max-width: 600px; margin: 0 auto;">Cümle uzunluklarıyla oynayarak, dinleyicinin beyninde bir caz müziği ritmi yaratabilirsiniz.</p>
+    </div>
+
+    <div class="musicality-block">
+      <div class="provost-text">
+        <span class="short">Beş kelimelik cümleler.</span> 
+        <span class="short">Bunları peş peşe kurmayın.</span> 
+        <span class="short">Çünkü kulak çok çabuk sıkılır.</span> 
+        <span class="short">Bu adeta daktilo sesi gibidir.</span> 
+        <span class="short">Dinleyiciyi yavaş yavaş uyutmaya başlar.</span> 
+        <br><br>
+        <span class="med">Ancak uzunlukları değiştirmeye başladığınızda bir melodi yaratırsınız. Sesin ritmi alçalır ve yükselir.</span> 
+        <span class="long">Cümleleri uzattığınızda ve farklı yapılarla bağladığınızda, bir nehir gibi aktığını, dinleyicinin zihnini adeta bir dalga gibi sürüklediğini hissedersiniz.</span>
+        <br>
+        <span class="hit">Sonra aniden durursunuz. Kısa. Kesik. Vurun!</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- K4: Kapanış & CTA -->
+  <section class="climax-section">
+    <div class="climax-inner">
+      <h2>Kapanış Sanatı (Climax)</h2>
+      <p>Açılış dikkat çeker, gelişme ikna eder, ancak kapanış eyleme geçirir. "Beni dinlediğiniz için teşekkürler" diyerek sahneden inmeyin. Son saniyelerinizi, vizyon çizerek veya zıtlıkların gücüyle (Antitez) kullanarak zihinlere kazıyın.</p>
+      <a href="/retorik" class="cta-button">Eylem Çağrısı (CTA) : Retorik Modülüne Dön</a>
+    </div>
+  </section>
+
+  <!-- Include Footer -->
+  <%- include('partials/footer') %>
+
+  <!-- Typewriter Effect Script -->
+  <script>
+    document.addEventListener("DOMContentLoaded", function() {
+      const textArray = [
+        "Kitleleri Harekete Geçiren Metinler",
+        "Sıradan Cümlelerden, Unutulmaz Söylevlere",
+        "Kelimelerin Mimarisi",
+        "Kitleleri Harekete Geçiren Metinler"
+      ];
+      const typingDelay = 100;
+      const erasingDelay = 50;
+      const newTextDelay = 2000;
+      let textArrayIndex = 0;
+      let charIndex = 0;
+      
+      const typedTextSpan = document.getElementById("typewriter-text");
+      
+      function type() {
+        if (charIndex < textArray[textArrayIndex].length) {
+          typedTextSpan.textContent += textArray[textArrayIndex].charAt(charIndex);
+          charIndex++;
+          setTimeout(type, typingDelay);
+        } else {
+          if (textArrayIndex < textArray.length - 1) {
+            setTimeout(erase, newTextDelay);
+          }
+        }
+      }
+      
+      function erase() {
+        if (charIndex > 0) {
+          typedTextSpan.textContent = textArray[textArrayIndex].substring(0, charIndex-1);
+          charIndex--;
+          setTimeout(erase, erasingDelay);
+        } else {
+          textArrayIndex++;
+          setTimeout(type, typingDelay + 1100);
+        }
+      }
+      
+      if(textArray.length) setTimeout(type, newTextDelay + 250);
+    });
+  </script>
+</body>
+</html>

@@ -1,69 +1,91 @@
 <%- include('partials/main-header') %>
 
 <style>
-  body { background: #0f172a; color: #f8fafc; font-family: 'Inter', sans-serif; overflow-x: hidden; }
-  .hub-container { padding: 40px 20px; max-width: 1300px; margin: 0 auto; min-height: 85vh; display: flex; flex-direction: column; lg:flex-row; gap: 30px; }
+  @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&family=Playfair+Display:ital,wght@0,600;1,600;1,800&display=swap');
   
-  h1 { font-size: 2.5rem; font-weight: 900; margin-bottom: 5px; color: #a855f7; text-transform: uppercase; letter-spacing: 1px; }
-  p.desc { color: #94a3b8; font-size: 1rem; line-height: 1.6; margin-bottom: 30px; }
+  body { background: #f8fafc !important; color: #0f172a; font-family: 'Inter', sans-serif; overflow-x: hidden; margin: 0; padding: 0; }
+  .hub-container { padding: 40px 20px; max-width: 1400px; margin: 0 auto; min-height: 85vh; display: flex; flex-direction: column; lg:flex-row; gap: 40px; }
+  
+  h1 { font-family: 'Playfair Display', serif; font-size: 3.5rem; font-weight: 800; margin-bottom: 5px; color: #1e1b4b; line-height: 1.1; }
+  p.desc { font-family: 'Outfit', sans-serif; color: #64748b; font-size: 1.1rem; line-height: 1.6; margin-bottom: 30px; max-width: 500px; }
 
   /* Left Panel: Fallacy List */
-  .list-panel { flex: 1; display: flex; flex-direction: column; gap: 10px; max-height: 700px; overflow-y: auto; padding-right: 10px; }
+  .list-panel { flex: 1; display: flex; flex-direction: column; gap: 12px; max-height: 800px; overflow-y: auto; padding-right: 15px; }
   
   /* Scrollbar styles for list */
-  .list-panel::-webkit-scrollbar { width: 8px; }
-  .list-panel::-webkit-scrollbar-track { background: #1e293b; border-radius: 4px; }
-  .list-panel::-webkit-scrollbar-thumb { background: #475569; border-radius: 4px; }
+  .list-panel::-webkit-scrollbar { width: 6px; }
+  .list-panel::-webkit-scrollbar-track { background: transparent; }
+  .list-panel::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
   .list-panel::-webkit-scrollbar-thumb:hover { background: #a855f7; }
 
-  .fallacy-btn { background: #1e293b; border: 1px solid #334155; border-radius: 12px; padding: 15px 20px; cursor: pointer; transition: all 0.2s; display: flex; align-items: center; justify-content: space-between; position: relative; overflow: hidden; }
-  .fallacy-btn::before { content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 4px; background: transparent; transition: all 0.2s; }
+  .fallacy-btn { background: #ffffff; border: 1px solid #e2e8f0; border-radius: 16px; padding: 18px 24px; cursor: pointer; transition: all 0.3s ease; display: flex; align-items: center; justify-content: space-between; position: relative; overflow: hidden; box-shadow: 0 4px 6px rgba(0,0,0,0.02); }
+  .fallacy-btn::before { content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 4px; background: transparent; transition: all 0.3s; }
   
-  .fallacy-btn:hover { background: #334155; transform: translateX(5px); }
-  .fallacy-btn.active { background: #2e1065; border-color: #a855f7; }
+  .fallacy-btn:hover { background: #faf5ff; transform: translateX(5px); border-color: #d8b4fe; box-shadow: 0 10px 20px rgba(168, 85, 247, 0.05); }
+  .fallacy-btn.active { background: #f3e8ff; border-color: #a855f7; box-shadow: 0 10px 20px rgba(168, 85, 247, 0.1); }
   .fallacy-btn.active::before { background: #a855f7; }
 
   .fb-content { display: flex; flex-direction: column; }
-  .fb-title { font-weight: 800; color: #e2e8f0; font-size: 1.1rem; margin-bottom: 3px; }
-  .fb-eng { font-size: 0.75rem; color: #a855f7; text-transform: uppercase; letter-spacing: 1px; font-weight: 700; }
-  .fb-icon { font-size: 1.5rem; opacity: 0.5; transition: opacity 0.2s; }
-  .fallacy-btn.active .fb-icon { opacity: 1; }
+  .fb-title { font-family: 'Outfit', sans-serif; font-weight: 800; color: #1e1b4b; font-size: 1.15rem; margin-bottom: 4px; }
+  .fb-eng { font-family: 'Outfit', sans-serif; font-size: 0.75rem; color: #9333ea; text-transform: uppercase; letter-spacing: 1.5px; font-weight: 700; }
+  .fb-icon { font-size: 1.8rem; filter: grayscale(100%); opacity: 0.4; transition: all 0.3s; }
+  .fallacy-btn.active .fb-icon { filter: grayscale(0%); opacity: 1; transform: scale(1.1); }
 
-  /* Right Panel: Matrix Display */
-  .matrix-panel { flex: 2; background: #0f172a; border: 2px solid #334155; border-radius: 20px; position: relative; overflow: hidden; display: flex; flex-direction: column; box-shadow: 0 20px 50px rgba(0,0,0,0.5); }
+  /* Right Panel: Matrix Display -> Now Light Mode Encyclopedia */
+  .matrix-panel { flex: 2; background: #ffffff; border: 1px solid #e2e8f0; border-radius: 24px; position: relative; overflow: hidden; display: flex; flex-direction: column; box-shadow: 0 30px 60px rgba(0,0,0,0.05); }
   
-  .matrix-bg { position: absolute; inset: 0; opacity: 0.03; font-family: monospace; font-size: 10px; color: #a855f7; user-select: none; pointer-events: none; overflow: hidden; white-space: pre-wrap; line-height: 1; z-index: 0; }
+  .matrix-bg { position: absolute; inset: 0; opacity: 0.03; font-family: monospace; font-size: 12px; color: #a855f7; user-select: none; pointer-events: none; overflow: hidden; white-space: pre-wrap; line-height: 1; z-index: 0; }
   
-  .mp-content { padding: 40px; position: relative; z-index: 10; flex-grow: 1; overflow-y: auto; }
+  .mp-content { padding: 50px; position: relative; z-index: 10; flex-grow: 1; overflow-y: auto; }
   
-  .mp-header { border-bottom: 1px solid #334155; padding-bottom: 20px; margin-bottom: 30px; }
-  .mp-title { font-size: 2.5rem; font-weight: 900; color: #f8fafc; margin: 0 0 5px 0; }
-  .mp-latin { font-size: 1rem; color: #a855f7; font-style: italic; }
+  .mp-header { border-bottom: 2px dashed #f1f5f9; padding-bottom: 25px; margin-bottom: 30px; }
+  .mp-title { font-family: 'Playfair Display', serif; font-size: 3rem; font-weight: 900; color: #1e1b4b; margin: 0 0 10px 0; }
+  .mp-latin { font-family: 'Outfit', sans-serif; font-size: 1.1rem; color: #9333ea; font-style: italic; font-weight: 600; }
 
-  .mp-def { font-size: 1.1rem; color: #cbd5e1; line-height: 1.7; margin-bottom: 30px; border-left: 4px solid #a855f7; padding-left: 20px; }
+  .mp-def { font-family: 'Outfit', sans-serif; font-size: 1.2rem; color: #475569; line-height: 1.8; margin-bottom: 40px; border-left: 5px solid #a855f7; padding-left: 25px; background: linear-gradient(90deg, #faf5ff, transparent); padding-top: 15px; padding-bottom: 15px; border-radius: 0 12px 12px 0; }
 
   /* Formula Box */
-  .formula-box { background: rgba(168, 85, 247, 0.05); border: 1px dashed rgba(168, 85, 247, 0.3); padding: 20px; border-radius: 12px; margin-bottom: 30px; }
-  .form-title { font-size: 0.8rem; font-weight: 800; color: #a855f7; text-transform: uppercase; margin-bottom: 10px; letter-spacing: 1px; }
-  .form-code { font-family: 'Courier New', Courier, monospace; font-size: 1.1rem; color: #e2e8f0; font-weight: 700; }
+  .formula-box { background: #ffffff; border: 2px solid #e9d5ff; padding: 30px; border-radius: 20px; margin-bottom: 40px; box-shadow: 0 10px 30px rgba(168, 85, 247, 0.05); }
+  .form-title { font-family: 'Outfit', sans-serif; font-size: 0.85rem; font-weight: 800; color: #7e22ce; text-transform: uppercase; margin-bottom: 15px; letter-spacing: 2px; display: flex; align-items: center; gap: 10px; }
+  .form-title::before { content: '⚡'; }
+  .form-code { font-family: 'Inter', sans-serif; font-size: 1.1rem; color: #1e293b; font-weight: 600; line-height: 1.8; }
 
   /* Examples */
-  .ex-grid { display: grid; grid-template-columns: 1fr; gap: 20px; }
-  .ex-card { background: #1e293b; border-radius: 12px; padding: 20px; border: 1px solid #334155; position: relative; }
-  .ex-card::before { content: '💬'; position: absolute; top: -15px; left: 20px; font-size: 1.5rem; }
-  .ex-text { font-size: 1rem; color: #f8fafc; font-style: italic; margin-bottom: 15px; margin-top: 5px; line-height: 1.5; }
-  .ex-analysis { background: #0f172a; padding: 15px; border-radius: 8px; font-size: 0.85rem; color: #94a3b8; border-left: 2px solid #ef4444; }
+  .ex-grid { display: grid; grid-template-columns: 1fr; gap: 25px; }
+  .ex-card { background: #f8fafc; border-radius: 16px; padding: 25px; border: 1px solid #e2e8f0; position: relative; transition: 0.3s; }
+  .ex-card:hover { border-color: #cbd5e1; box-shadow: 0 10px 20px rgba(0,0,0,0.03); }
+  .ex-card::before { content: '💬'; position: absolute; top: -15px; left: 25px; font-size: 1.5rem; background: #fff; border-radius: 50%; padding: 5px; box-shadow: 0 5px 10px rgba(0,0,0,0.05); }
+  .ex-text { font-family: 'Playfair Display', serif; font-size: 1.25rem; color: #0f172a; font-style: italic; margin-bottom: 20px; margin-top: 10px; line-height: 1.6; }
+  .ex-analysis { background: #ffffff; padding: 20px; border-radius: 12px; font-family: 'Outfit', sans-serif; font-size: 0.95rem; color: #64748b; border-left: 3px solid #ef4444; line-height: 1.6; box-shadow: 0 4px 6px rgba(0,0,0,0.02); }
 
   /* Navigation to Games */
-  .games-nav { display: flex; gap: 15px; margin-top: 30px; }
-  .g-btn { flex: 1; padding: 15px; border-radius: 12px; font-weight: 800; text-align: center; text-decoration: none; text-transform: uppercase; letter-spacing: 1px; transition: all 0.2s; }
-  .g-btn-det { background: #1e293b; border: 1px solid #38bdf8; color: #38bdf8; }
-  .g-btn-det:hover { background: #38bdf8; color: #0f172a; }
-  .g-btn-kal { background: #1e293b; border: 1px solid #10b981; color: #10b981; }
-  .g-btn-kal:hover { background: #10b981; color: #0f172a; }
+  .games-nav { display: flex; gap: 15px; margin-top: 40px; border-top: 1px solid #e2e8f0; padding-top: 30px; }
+  .g-btn { flex: 1; padding: 15px 20px; border-radius: 16px; font-family: 'Outfit', sans-serif; font-weight: 800; font-size: 0.9rem; text-align: center; text-decoration: none; text-transform: uppercase; letter-spacing: 1px; transition: all 0.3s; display: flex; align-items: center; justify-content: center; gap: 8px; }
+  
+  .g-btn-pol { background: #fff1f2; border: 1px solid #fda4af; color: #e11d48; }
+  .g-btn-pol:hover { background: #e11d48; color: #fff; transform: translateY(-3px); box-shadow: 0 10px 20px rgba(225, 29, 72, 0.2); }
+  
+  .g-btn-det { background: #f0f9ff; border: 1px solid #bae6fd; color: #0284c7; }
+  .g-btn-det:hover { background: #0284c7; color: #fff; transform: translateY(-3px); box-shadow: 0 10px 20px rgba(2, 132, 199, 0.2); }
+  
+  .g-btn-kal { background: #ecfdf5; border: 1px solid #a7f3d0; color: #059669; }
+  .g-btn-kal:hover { background: #059669; color: #fff; transform: translateY(-3px); box-shadow: 0 10px 20px rgba(5, 150, 105, 0.2); }
+  
+  .g-btn-kar { background: #fdf2f8; border: 1px solid #fbcfe8; color: #db2777; }
+  .g-btn-kar:hover { background: #db2777; color: #fff; transform: translateY(-3px); box-shadow: 0 10px 20px rgba(219, 39, 119, 0.2); }
+  
+  .g-btn-trol { background: #fefce8; border: 1px solid #fde047; color: #ca8a04; }
+  .g-btn-trol:hover { background: #ca8a04; color: #fff; transform: translateY(-3px); box-shadow: 0 10px 20px rgba(202, 138, 4, 0.2); }
+  
+  .g-btn-mah { background: #faf5ff; border: 1px solid #e9d5ff; color: #9333ea; }
+  .g-btn-mah:hover { background: #9333ea; color: #fff; transform: translateY(-3px); box-shadow: 0 10px 20px rgba(147, 51, 234, 0.2); }
 
   @media (min-width: 1024px) {
     .hub-container { flex-direction: row; }
+  }
+  @media (max-width: 768px) {
+    h1 { font-size: 2.5rem; }
+    .mp-title { font-size: 2rem; }
   }
 </style>
 
@@ -71,21 +93,21 @@
   
   <!-- Left: Dictionary List -->
   <div class="list-panel">
-    <div>
+    <div style="margin-bottom: 20px;">
       <h1>Safsata Ansiklopedisi</h1>
-      <p class="desc">Mantık hatalarını tanıyın. Karşınızdakinin zihinsel illüzyonlarını anında deşifre edin.</p>
+      <p class="desc">Mantık hatalarını tanıyın. Karşınızdakinin zihinsel illüzyonlarını ve manipülasyonlarını anında deşifre edin.</p>
     </div>
     <div id="fallacyList">
       <!-- Generated by JS -->
     </div>
     
     <div class="games-nav" style="flex-wrap: wrap;">
-      <a href="/safsata/spin-doctor" class="g-btn" style="background: #1e293b; border: 1px solid #ef4444; color: #ef4444; min-width: 30%;">📺 Politikacı Simülatörü</a>
-      <a href="/safsata/dedektif" class="g-btn g-btn-det">🕵️ Safsata Dedektifi</a>
-      <a href="/safsata/kalkan" class="g-btn g-btn-kal">🛡️ Çürütme Arenası</a>
-      <a href="/safsata/karanlik" class="g-btn g-btn-kar" style="background: #1e293b; border: 1px solid #f43f5e; color: #f43f5e; min-width: 30%;">😈 Karanlık Sanatlar</a>
-      <a href="/safsata/trol-avcisi" class="g-btn" style="background: #1e293b; border: 1px solid #eab308; color: #eab308; min-width: 30%;">📱 Trol Avcısı</a>
-      <a href="/safsata/mahkeme" class="g-btn" style="background: #1e293b; border: 1px solid #a855f7; color: #a855f7; min-width: 30%;">⚖️ İtiraz Ediyorum!</a>
+      <a href="/safsata/spin-doctor" class="g-btn g-btn-pol" style="min-width: 30%;">📺 Politikacı</a>
+      <a href="/safsata/dedektif" class="g-btn g-btn-det" style="min-width: 30%;">🕵️ Dedektif</a>
+      <a href="/safsata/kalkan" class="g-btn g-btn-kal" style="min-width: 30%;">🛡️ Çürütme</a>
+      <a href="/safsata/karanlik" class="g-btn g-btn-kar" style="min-width: 30%;">😈 Karanlık</a>
+      <a href="/safsata/trol-avcisi" class="g-btn g-btn-trol" style="min-width: 30%;">📱 Trol Avcısı</a>
+      <a href="/safsata/mahkeme" class="g-btn g-btn-mah" style="min-width: 30%;">⚖️ İtiraz!</a>
     </div>
   </div>
 
@@ -142,6 +164,71 @@
         {
           quote: '"Onun ekonomi politikalarını ciddiye alamayız, daha geçen yıl vergi kaçırmakla suçlanmıştı."',
           analysis: 'Kişinin geçmiş suçları, öne sürdüğü ekonomi teorisinin matematiksel olarak yanlış olduğunu kanıtlamaz.'
+        },
+        {
+          quote: '"Senin yaşın kaç ki bana hayat dersi veriyorsun?"',
+          analysis: 'Argümanın doğruluğu kişinin yaşıyla değil, içeriğin mantığıyla ölçülür.'
+        },
+        {
+          quote: '"Bunu söylemen şaşırtıcı değil, sonuçta sen de bir erkeksin/kadınsın."',
+          analysis: 'Fikirler cinsiyete göre kategorize edilerek çürütülmeye çalışılmış, mantıksal argümana cevap verilmemiştir.'
+        }
+      ]
+    },
+    {
+      id: 'niteliksel', title: 'Niteliksel Kişi Karalama', latin: 'Circumstantial Ad Hominem', icon: '👤',
+      def: 'Argümanın kendisi yerine argümanı ileri süren kişinin etnik kökeni, politik tutumu, mesleği veya dini görüşü gibi niteliklerini kullanarak argümanı çürütmeye çalışma.',
+      form: 'A kişisi X iddiasında bulunur.\nA kişisi Y grubuna veya özelliğine aittir.\nÖyleyse X iddiası yanlıştır.',
+      examples: [
+        {
+          quote: '"Onun önerisini kabul edemeyiz, çünkü o karşı partiden."',
+          analysis: 'Önerinin mantıklı olup olmadığına bakılmaksızın, sırf kişinin politik tutumuna (niteliğine) dayanılarak reddedilmesi.'
+        },
+        {
+          quote: '"Tabii ki maaşlara zam yapılmasını savunacaksın, sonuçta sen de bir sendikacısın!"',
+          analysis: 'Kişinin mesleği ve çıkarları, zam gereksinimine dair sunduğu rasyonel argümanları geçersiz kılmaz.'
+        },
+        {
+          quote: '"O yabancı uyruklu olduğu için ülkemizin sorunlarını anlaması mümkün değil."',
+          analysis: 'Bir kişinin yabancı olması, nesnel gerçekleri veya sorunları analiz edemeyeceği anlamına gelmez.'
+        }
+      ]
+    },
+    {
+      id: 'tuquoque', title: 'Sen de Safsatası', latin: 'Tu Quoque', icon: '🪞',
+      def: 'Bir kişinin iddiası veya söyledikleri kendi eylemleriyle çelişiyor diye iddianın yanlış olduğunu savunma hatası. Bir nevi "Sen kendi yaptıklarına bak" savunmasıdır.',
+      form: 'A kişisi X\'in kötü/yanlış olduğunu söyler.\nA kişisi kendisi X\'i yapmaktadır.\nDemek ki X kötü/yanlış değildir.',
+      examples: [
+        {
+          quote: '"İçki içmemem gerektiğini söylüyorsun, ama seni de hiç ayık görmedim."',
+          analysis: 'Karşısındakinin içki içmesi (çelişkili davranış), içkinin sağlığa zararlı olduğu argümanını çürütmez.'
+        },
+        {
+          quote: '"Benim sınavda kopya çektiğimi söylüyorsun ama sen de lisedeyken çok kavgaya karışırdın."',
+          analysis: 'Karşı tarafın geçmişteki hataları, şu anki suçlamayı veya gerçeği ortadan kaldırmaz.'
+        },
+        {
+          quote: '"Bize tasarruf yapmamızı öğütleyen patron, dün kendine yeni bir lüks spor araba aldı!"',
+          analysis: 'Patronun israf etmesi ahlaki bir çelişki olsa da, şirketin tasarruf yapması gerektiği yönündeki matematiksel gerçeği değiştirmez.'
+        }
+      ]
+    },
+    {
+      id: 'poisoning', title: 'Önyargı Oluşturma', latin: 'Poisoning The Well', icon: '☠️',
+      def: 'Bir insan hakkında o daha konuşmadan önce olumsuz bilgiler verilerek (doğru ya da yanlış), onun söyleyeceklerini baştan gözden düşürme ve dinleyicide önyargı oluşturma.',
+      form: 'B kişisi A hakkında olumsuz bir bilgi verir.\nA kişisi argümanını sunar.\nDinleyiciler A\'nın argümanını baştan reddeder.',
+      examples: [
+        {
+          quote: '"Şimdi konuşacak olan kişi eski bir dolandırıcıdır, sözlerine dikkat edin."',
+          analysis: 'Kişi kürsüye çıkmadan önce "dolandırıcı" etiketi yapıştırılarak, sunacağı geçerli kanıtların bile dinlenmesi engellenmiştir.'
+        },
+        {
+          quote: '"Hasan ünlü bir avukat olmuş, öyle mi? Ayol, o lisedeyken iki lâfı bir araya getiremezdi."',
+          analysis: 'Hasan\'ın şimdiki avukatlık yetenekleri, geçmişteki veya iddia edilen beceriksizliğiyle baştan zehirleniyor.'
+        },
+        {
+          quote: '"Benim rakibim, sadece zenginleri koruyan yasaları desteklemesiyle bilinir. Şimdi size halk için bir şeyler yapacağını söyleyecek."',
+          analysis: 'Rakibin yapacağı savunma henüz duyulmadan kitle manipüle edilmiş ve önleyici bir psikolojik bariyer kurulmuştur.'
         }
       ]
     },
@@ -153,17 +240,90 @@
         {
           quote: 'A: "Savunma bütçesinden biraz kısıp eğitime yatırmalıyız."\nB: "Yani ülkemizi düşmanlara karşı tamamen savunmasız bırakalım, askerleri terhis edelim diyorsun!"',
           analysis: 'A kişisi "bütçeyi kısalım" dedi, B kişisi bunu "ülkeyi savunmasız bırakalım" şeklinde aşırı uç bir noktaya (saman adam) çarpıtarak saldırdı.'
+        },
+        {
+          quote: 'A: "Çocukların çok fazla şeker tüketmesi zararlı olabilir."\nB: "Yani çocukların hiçbir zaman çikolata yememesini, çocukluklarını yaşayamamasını istiyorsun, ne kadar gaddarsın!"',
+          analysis: 'Kontrollü tüketim önerisi, "hiç şeker yedirmeme" gibi uç bir kısıtlamaya çevrilip eleştirildi.'
+        },
+        {
+          quote: 'A: "Şirket toplantılarını 1 saate indirmeliyiz, çok zaman kaybediyoruz."\nB: "Toplantıları tamamen iptal edip herkesin kafasına göre çalışmasını savunuyorsan bu şirket hemen batar!"',
+          analysis: 'Zaman kısıtlaması talebi, "toplantıları tamamen iptal etme" fikrine çarpıtılarak kolayca hezimete uğratılıyor.'
         }
       ]
     },
     {
-      id: 'redherring', title: 'Kırmızı Ringa Balığı', latin: 'Red Herring (Ignoratio Elenchi)', icon: '🐟',
+      id: 'redherring', title: 'Kırmızı Ringa Balığı', latin: 'Red Herring / Ignoratio Elenchi', icon: '🐟',
       def: 'Tartışmada zor duruma düşüldüğünde, karşı tarafın dikkatini dağıtmak ve asıl meseleden kaçmak için konuyu tamamen alakasız ama duygusal olarak kışkırtıcı başka bir yöne çekme taktiğidir.',
       form: 'Konu A tartışılmaktadır.\nB kişisi, A ile ilgisiz olan Konu B\'yi (Kırmızı Ringa) ortaya atar.\nKonu A terk edilir ve Konu B tartışılmaya başlanır.',
       examples: [
         {
           quote: 'Gazeteci: "Şirketinizin nehri zehirlediğine dair raporlar var, ne diyorsunuz?"\nCEO: "Biz bu ülkenin en büyük vergi rekortmeniyiz, binlerce aileye ekmek kapısı açıyoruz. Bu vatanseverliği kimse sorgulayamaz!"',
           analysis: 'Nehrin zehirlenmesi (Asıl konu), vergi vermek ve vatanseverlik (Kırmızı Ringa) konusuyla örtbas ediliyor.'
+        },
+        {
+          quote: 'Eş: "Neden kredi kartı borcumuz bu kadar fazla?"\nKoca: "Sen de geçen ay anneni ziyarete gittiğinde bir sürü masraf yapmıştın, onu ne yapacağız?"',
+          analysis: 'Asıl sorun olan kredi kartı borcu, eşin geçmişteki eylemi gündeme getirilerek (konu değiştirilerek) hasıraltı edilmeye çalışılıyor.'
+        },
+        {
+          quote: 'Öğretmen: "Ödevini neden yapmadın?"\nÖğrenci: "Hocam dünyada bu kadar aç insan varken bizim ödev düşünmemiz sizce de tuhaf değil mi?"',
+          analysis: 'Öğrenci, ödev yapmama sorununu duygusal ve küresel bir meseleye çekerek sorumluluktan kaçıyor.'
+        }
+      ]
+    },
+    {
+      id: 'equivocation', title: 'Cinaslı Safsata', latin: 'Fallacy of Equivocation', icon: '🎭',
+      def: 'Aynı kelimenin ifadenin iki farklı kısmında farklı anlamlarda kullanılarak mantıksız bir çıkarım yaratılması.',
+      form: 'X kelimesi 1. anlamda kullanılır.\nX kelimesi 2. anlamda kullanılır ve 1. anlama bağlanarak hatalı sonuca varılır.',
+      examples: [
+        {
+          quote: '"Kanuna karşı gelenler hapse atılır. Sen yerçekimi kanununa karşı geldin. O halde hapse atılman lazım!"',
+          analysis: 'Hukuksal kanun ile fiziksel kanun kelimelerinin eşsesliliği (cinas) üzerinden yanlış bir mantık zinciri kurulmuştur.'
+        },
+        {
+          quote: '"Gerçek bir centilmen sözünü tutar. O da bize sessiz kalacağına dair söz verdi, tam bir centilmen!"',
+          analysis: 'Bir erdem olan centilmenlik ile, suç ortaklığı olan suskunluk aynı "söz tutma" kelimesi üzerinden birleştirilmiştir.'
+        },
+        {
+          quote: '"Sağduyu çok değerlidir. O halde herkes sağ elini kullanmalıdır."',
+          analysis: '"Sağ" kelimesinin zihinsel sağduyu ile fiziksel sağ yön anlamları kasıtlı olarak birbirine karıştırılmış.'
+        }
+      ]
+    },
+    {
+      id: 'amphiboly', title: 'Çok Anlamlılık', latin: 'Fallacy of Amphiboly', icon: '🧩',
+      def: 'Birden fazla yoruma açık olan, gramer yapısı veya kelime dizilimi belirsiz cümleler üzerinden hatalı çıkarım yapmak.',
+      form: 'Belirsiz cümle söylenir.\nİki farklı yoruma açık olduğu için kasıtlı olarak yanlış yorumlanır.',
+      examples: [
+        {
+          quote: '"Michael Jackson, aşırı derecede alkol alan biri kendisine zarar verebilir diye kaldığı otelde içki servisini yasaklattı."',
+          analysis: 'Kimin kime zarar vereceği belirsizdir. Biri Michael Jackson\'a mı zarar verecek, yoksa kişi kendi kendine mi zarar verecek belli değildir.'
+        },
+        {
+          quote: '"Doktor hastaya ağrı kesici verdi ve hemen uyudu."',
+          analysis: 'Uyuyan doktor mu yoksa hasta mı belli değil. Gramer belirsizliği yüzünden yanlış çıkarım yapılabilir.'
+        },
+        {
+          quote: '"Başkan, rakibine ateş püskürdü."',
+          analysis: 'Mecaz anlam (kızmak) ile gerçek anlam (ejderha gibi ateş atmak) birbirine girebilir.'
+        }
+      ]
+    },
+    {
+      id: 'accent', title: 'Vurgulama Safsatası', latin: 'Fallacy of Accent', icon: '🔊',
+      def: 'Bir kelime veya ifadeye kasıtlı vurgu yaparak anlamı tamamen değiştirme veya kaydırma eylemi.',
+      form: 'Cümle normalde X anlamı taşır.\nBelirli bir kelimeye vurgu (tonlama/noktalama) yapılarak Y anlamına çekilir.',
+      examples: [
+        {
+          quote: '"Çalış baban gibi eşek olma." (Çalış, baban gibi eşek olma / Çalış baban gibi, eşek olma)',
+          analysis: 'Virgül veya sesli vurgunun yerine göre babanın övüldüğü ya da aşağılandığı tamamen değişir.'
+        },
+        {
+          quote: '"Ben arkadaşımın cüzdanını *çalmadım*!"',
+          analysis: '"Çalmadım" vurgusu eylemi inkar ederken, "*Ben* arkadaşımın cüzdanını çalmadım" vurgusu başkasının çaldığını ima eder.'
+        },
+        {
+          quote: 'Gazete Manşeti: "BEDAVA tatil KAZANMA ŞANSI (Çok küçük yazılarla: sadece 1000 TL alışveriş yapana)"',
+          analysis: 'Görsel vurgu (büyük harfler) sadece bedava kelimesine odaklanarak algı manipülasyonu yapar.'
         }
       ]
     },
@@ -173,19 +333,35 @@
       form: 'Eğer A olursa, ardından B olur.\nB olursa, kesinlikle C olur.\nC çok kötüdür. Bu yüzden A asla yapılmamalıdır.',
       examples: [
         {
-          quote: '"Eğer öğrencilerin derste telefonla 5 dakika bakmasına izin verirsek, yarın derste oyun oynarlar, haftaya okula gelmezler, en sonunda hepsi suç çetelerine katılır."',
-          analysis: 'Telefon kontrolü ile suç çetesi arasında kanıtlanmış hiçbir mantıksal zincir yoktur, olaylar felaket senaryosuna bağlanarak abartılmıştır.'
+          quote: '"Pompalı tüfeklerin yasaklanmasını kabul edersek, sonra diğer silahların yasaklanmasını kabul ederiz, sonunda komünist bir ülke oluruz."',
+          analysis: 'Tüfek yasaklanması ile komünizm arasında mantıksal zincir yoktur, olaylar felaket senaryosuna bağlanarak abartılmıştır.'
+        },
+        {
+          quote: '"Öğrencilere okulda serbest kıyafet hakkı verirsek, yakında okula mayoyla gelirler, okul tamamen plaja döner!"',
+          analysis: 'Serbest kıyafet uygulaması felaket senaryosuyla (mayoyla gelme) uç bir noktaya taşınıp eleştirilmektedir.'
+        },
+        {
+          quote: '"Bugün sana yalan söyleyen adam, yarın paranı çalar, öbür gün de cinayet işler. Ondan hemen ayrılmalısın!"',
+          analysis: 'Ufak bir hatanın doğrudan cinayetle sonuçlanacağı gibi hiçbir kanıta dayanmayan bir felaket domino taşı etkisi kurulmuştur.'
         }
       ]
     },
     {
-      id: 'false', title: 'Sahte İkilem', latin: 'False Dilemma / Siyah-Beyaz Safsatası', icon: '🌗',
+      id: 'false', title: 'Sahte İkilem', latin: 'False Dilemma / Siyah-Beyaz', icon: '🌗',
       def: 'Ortada aslında pek çok farklı seçenek, gri alan veya ara yol varken; durumu sadece iki zıt seçenekten ibaretmiş gibi sunarak insanları bu iki seçenekten birine zorlama taktiğidir.',
       form: 'Sadece A veya B seçenekleri vardır.\nB seçeneği kötüdür/yanlıştır.\nÖyleyse mecburen A seçeneğini kabul etmelisin.',
       examples: [
         {
-          quote: '"Ya bizimlesin, ya da düşmanlarımızın tarafındasın!"',
-          analysis: 'Kişi tarafsız olabilir, her iki tarafı da eleştiriyor olabilir veya konuyu umursamıyor olabilir. Sadece 2 seçenek dayatmak manipülasyondur.'
+          quote: '"Beni sevmiyorsan, benden nefret ediyorsun demektir."',
+          analysis: 'Nötr olma, umursamama, arkadaşça sevme gibi gri alanlar yok sayılarak kişi iki uca sıkıştırılıyor.'
+        },
+        {
+          quote: '"Ya ülkeni sev ya da terk et."',
+          analysis: 'Ülkesini seven ama yönetimini eleştirenlerin durumu tamamen yok sayılır.'
+        },
+        {
+          quote: '"Eğer benim projeme destek vermezsen, şirketin batmasını istiyorsun demektir."',
+          analysis: 'Projeye destek vermemenin sebebi bütçe kısıtlaması, daha iyi bir alternatif proje veya teknik yetersizlik olabilir; kişi iki şıka mahkum edilemez.'
         }
       ]
     },
@@ -195,30 +371,491 @@
       form: 'Çoğu insan X\'in doğru olduğuna inanır.\nÖyleyse X doğrudur.',
       examples: [
         {
+          quote: '"Hitler\'in ABD\'ye saldırmayacağını söylemen çok saçma. Herkes bilir ki onun hedefi dünyayı ele geçirmekti."',
+          analysis: 'Çok sayıda insanın bir şeye inanması o şeyin tarihsel veya bilimsel olarak doğru olduğunu kanıtlamaz.'
+        },
+        {
           quote: '"Dünya çapında milyonlarca insan bu diyeti yapıyor, demek ki en sağlıklı zayıflama yöntemi bu olmalı."',
-          analysis: 'Çok sayıda insanın bir şeyi yapması o şeyin biyolojik veya bilimsel olarak doğru/sağlıklı olduğunu kanıtlamaz. Eskiden çoğunluk dünyanın düz olduğuna da inanıyordu.'
+          analysis: 'Milyonların yanılıyor olabileceği veya diyetin popüler bir pazarlama harikası olabileceği gerçeği göz ardı edilir.'
+        },
+        {
+          quote: '"Herkes sınavda kopya çekiyor, ben çeksem ne olur ki? Suç değil artık."',
+          analysis: 'Bir kural ihlalinin çok kişi tarafından yapılması onu yasal veya ahlaki olarak doğru hale getirmez.'
         }
       ]
     },
     {
       id: 'authority', title: 'Otoriteye Başvurma', latin: 'Ad Verecundiam', icon: '👑',
       def: 'Bir argümanın doğruluğunu, o konunun gerçek uzmanı olmayan, sadece ünlü, saygın veya güçlü bir isme dayandırarak kanıtlamaya çalışmaktır.',
-      form: 'Otorite X (ilgili konuda uzman olmayan), Y iddiasında bulunuyor.\nÖyleyse Y iddiası doğrudur.',
+      form: 'Otorite X, Y iddiasında bulunuyor.\nÖyleyse Y iddiası doğrudur.',
       examples: [
         {
-          quote: '"Ünlü aktör X, bu yeni kripto paranın geleceğin yatırımı olduğunu söyledi, hemen almalıyım."',
-          analysis: 'Aktörün sinemada başarılı olması (Otorite), onu finans veya blokzincir teknolojisinde (Farklı Alan) güvenilir bir uzman yapmaz.'
+          quote: '"Tarih hocam aya inişin bir hile olduğunu söyledi. Ona inanıyorum, çünkü benden fazla tahsil yapmış biri."',
+          analysis: 'Tarih hocasının genel saygınlığı veya eğitimi, onu uzay mühendisliği ve astronomi (farklı alan) konusunda güvenilir otorite yapmaz.'
+        },
+        {
+          quote: '"Ünlü bir aktör, X marka arabanın dünyanın en güvenli arabası olduğunu söyledi, hemen almalıyım."',
+          analysis: 'Aktör otomotiv mühendisi değildir, güvenilirlik ve uzmanlık farklı konulardır.'
+        },
+        {
+          quote: '"Televizyonda gördüğüm ekonomist, aşıların işe yaramadığını söyledi. Adam koca profesör, yalan mı söyleyecek?"',
+          analysis: 'Ekonomi profesörlüğü ile viroloji uzmanlığı birbirine karıştırılmış ve sahte bir otorite yaratılmıştır.'
+        }
+      ]
+    },
+    {
+      id: 'unqualified', title: 'İrrasyonel Otorite', latin: 'Unqualified Source', icon: '🗣️',
+      def: 'Bir savı, o konuda hiçbir uzmanlığı ve bilgi sahibi olmayan birini veya sıradan bir kişiyi şahit göstererek desteklemek.',
+      form: 'A kişisi (sıradan vatandaş) X iddiasında bulunur.\nÖyleyse X doğrudur.',
+      examples: [
+        {
+          quote: '"Komşu, kekik suyunun mide ağrısına iyi geldiğini söyledi, ben de kaynattım."',
+          analysis: 'Komşu tıbbi bir otorite değildir, tıbbi bir kararı uzman olmayan birine dayandırmak irrasyonel otorite safsatasıdır.'
+        },
+        {
+          quote: '"Taksiciye sordum, yakında büyük bir ekonomik kriz kopacakmış, bütün paramı altına yatırdım."',
+          analysis: 'Taksicinin sokak gözlemi, makroekonomik kararlar için rasyonel bir dayanak noktası olamaz.'
+        },
+        {
+          quote: '"Arkadaşım bu yatırım fonunun uçacağını söyledi, o da kuzeninden duymuş."',
+          analysis: 'Kaynağı belirsiz ve uzman olmayan kişilerin görüşleri kesin kanıt olarak kullanılıyor.'
+        }
+      ]
+    },
+    {
+      id: 'tradition', title: 'Geleneğe Başvurma', latin: 'Ad Antiquitatem / Ad Traditio', icon: '🏛️',
+      def: 'Bir şeyin sırf eski, denenmiş veya geleneksel olduğu için doğru ya da iyi olduğunu savunma hatası.',
+      form: 'X yüzyıllardır böyle yapılıyor / inanılıyor.\nDemek ki X doğru ve iyidir.',
+      examples: [
+        {
+          quote: '"İnsanlar binlerce yıldır tanrının varlığına inanıyor, yoksa niye bu inanç bu kadar yıl sürsün ki."',
+          analysis: 'Bir inancın eskiliği, onun bilimsel veya mantıksal gerçekliğini kanıtlamaz.'
+        },
+        {
+          quote: '"Bizim ailede işler hep böyle yürür, babam da böyle yaptı, dedem de. Kuralları değiştirmeyelim."',
+          analysis: 'Geçmişte işe yarayan veya gelenekselleşen bir yöntemin, bugünün şartlarında da doğru ve iyi olması zorunlu değildir.'
+        },
+        {
+          quote: '"Yüzlerce yıldır hastalıklar için kan akıtma (hacamat) yapılıyor, demek ki en iyi tedavi yöntemi bu."',
+          analysis: 'Tıbbi bir uygulamanın tarihsel olması, onun modern tıptan daha geçerli veya tamamen doğru olduğu anlamına gelmez.'
+        }
+      ]
+    },
+    {
+      id: 'novelty', title: 'Yeniye Başvurma', latin: 'Ad Novitatem', icon: '✨',
+      def: 'Bir şeyin sadece "yeni" olduğu için eski olan her şeyden daha iyi ve doğru olduğunu iddia etmektir. Geleneğe başvurmanın tam zıttıdır.',
+      form: 'X yenidir.\nO halde X eski olan her şeyden daha iyidir.',
+      examples: [
+        {
+          quote: '"Bu diyet programı 2024\'te yeni çıktı! Kesinlikle eskilerden daha iyi işe yarıyor."',
+          analysis: 'Yeni çıkmış olması, bilimsel olarak test edildiği ve işe yaradığı anlamına gelmez.'
+        },
+        {
+          quote: '"Yazılımın yeni sürümünü kurdum, kesinlikle eskisinden daha az hata verecek."',
+          analysis: 'Yenilik (güncelleme) her zaman kalite veya stabilite garantisi vermez.'
+        },
+        {
+          quote: '"Artık eski usul satış taktiklerini bırakın, yeni nesil pazarlama stratejisi bu, herkes bunu kullanmalı!"',
+          analysis: 'Yeni bir stratejinin verimliliği kanıtlanmadan sadece "yeni" etiketiyle dayatılması.'
+        }
+      ]
+    },
+    {
+      id: 'convenientiam', title: 'Faydacı Safsata', latin: 'Ad Convenientiam', icon: '🤑',
+      def: 'Bir şeyin, bazı insanlar üzerindeki yararlı veya faydalı etkilerinden dolayı onun doğru veya haklı olduğu savı.',
+      form: 'X yapılırsa faydalı bir sonuç doğar.\nO halde X mantıklı ve doğrudur.',
+      examples: [
+        {
+          quote: '"Trolle avlanmayı yasaklamak, balıkçıları aç bırakmak demektir."',
+          analysis: 'Bir eylemin (trolle avlanma) çevresel yıkıcılığı, sağladığı geçici ekonomik fayda ile savunulamaz.'
+        },
+        {
+          quote: '"O petrol şirketine ceza kesmemeliyiz, yoksa binlerce insan işsiz kalır."',
+          analysis: 'İşsizlik (fayda-zarar analizi), çevre felaketinin veya suçun yok sayılması için mantıklı bir zemin olamaz.'
+        },
+        {
+          quote: '"Vergi kaçırmak iyidir, sonuçta parayı şirketin büyümesine harcadım ve yeni elemanlar aldım."',
+          analysis: 'Nihai sonucun (istihdam) faydalı olması, eylemin (suç) doğru olduğunu kanıtlamaz.'
+        }
+      ]
+    },
+    {
+      id: 'isought', title: 'Dayatma Safsatası', latin: 'Is to Ought', icon: '⚖️',
+      def: 'Mevcut olan bir durumdan (olan) yola çıkarak, bunun ahlaken olması gereken ve kesin doğru bir yasa olduğunu iddia etme.',
+      form: 'X şu anda böyledir.\nÖyleyse X böyle olmalıdır (ve doğrudur).',
+      examples: [
+        {
+          quote: '"Komünist ülkelerde gelir farkı daha azdır. O zaman bu sistem herkes için zorunlu olmalıdır."',
+          analysis: 'Sadece mevcut bir duruma (olgusal gerçeğe) bakarak ondan ahlaki veya evrensel zorunluluk çıkarmak mantıksızdır.'
+        },
+        {
+          quote: '"Doğada güçlü olan zayıfı ezer, o halde güçlü devletlerin zayıfları işgal etmesi doğaldır ve doğrudur."',
+          analysis: 'Doğal olan bir olgu (is), insan ahlakına ve uluslararası hukuka (ought) referans olarak sunulamaz.'
+        },
+        {
+          quote: '"İnsanlar doğası gereği bencildir, bu yüzden tamamen bencilce davranmakta özgür olmalıyız."',
+          analysis: 'Bencilliğin var olması, onun teşvik edilmesi gereken doğru bir kural olduğu anlamına gelmez.'
+        }
+      ]
+    },
+    {
+      id: 'styleover', title: 'Mazruf Değil Zarf', latin: 'Style Over Substance', icon: '👔',
+      def: 'Öneriyi yapan kişinin dış görünüşü, tavırları, diksiyonu veya sunum yeteneğinin, önerinin mantıksal değerinin ve içeriğinin önüne geçmesi.',
+      form: 'A kişisi çok şık, kibar ve güzel konuşuyor.\nO halde A\'nın söylediği şeyler doğrudur.',
+      examples: [
+        {
+          quote: '"O efendi kılıklı adam hırsız olamaz."',
+          analysis: 'Dış görünüş veya kibarlık (zarf), eylemin veya düşüncenin içeriğiyle (mazruf) doğrudan ilgili değildir.'
+        },
+        {
+          quote: '"Adayın diksiyonu harika ve takım elbisesi çok pahalı duruyordu, oylarım kesinlikle ona."',
+          analysis: 'Kişinin hitabeti veya giyimi, politikalarının doğruluğunu veya uygulanabilirliğini kanıtlamaz.'
+        },
+        {
+          quote: '"Sunum slaytları o kadar profesyoneldi ki, projenin başarılı olacağından hiç şüphem yok."',
+          analysis: 'Tasarımın kalitesi (zarf), teknik veya finansal planlamanın (mazruf) geçerliliğini göstermez.'
+        }
+      ]
+    },
+    {
+      id: 'genetic', title: 'Genetik Safsatası', latin: 'Genetic Fallacy', icon: '🧬',
+      def: 'Bir iddia ya da eylemi, doğrudan içeriğiyle değil; kökeni, kaynağı veya başlangıcı açısından değerlendirip reddetmek veya kabul etmek.',
+      form: 'X iddiası Y kaynağından gelmektedir.\nY kaynağı kötüdür/değersizdir.\nÖyleyse X iddiası yanlıştır.',
+      examples: [
+        {
+          quote: '"O resimden ne anlarmış, alt tarafı bir kapıcının oğlu."',
+          analysis: 'Kişinin sosyal kökeni (genetiği/kaynağı), onun estetik anlayışı üzerinde bağlayıcı bir mantıksal kanıt olamaz.'
+        },
+        {
+          quote: '"Bu bilimsel teori eski Yunanlılardan çıkmış, o devrin insanı ne bilecek atomu?"',
+          analysis: 'Teorinin eski bir döneme dayanması, matematiksel ve deneysel olarak günümüzde de geçerli olmasını engellemez.'
+        },
+        {
+          quote: '"Volkswagen marka arabalar Nazi Almanyası\'nda üretilmeye başlandı, o yüzden asla güvenmem."',
+          analysis: 'Bir markanın geçmiş kökeni, bugünkü mühendislik kalitesini doğrudan etkilemez.'
+        }
+      ]
+    },
+    {
+      id: 'adbaculum', title: 'Korkuya Başvurma', latin: 'Argumentum Ad Baculum', icon: '🔪',
+      def: 'İnsanları korkutarak, tehdit ederek veya güç kullanarak bir iddianın doğruluğunu kabul ettirmeye çalışmak.',
+      form: 'X iddiasını kabul etmezsen sana zarar veririm / felaket olur.\nBu yüzden X iddiası doğrudur.',
+      examples: [
+        {
+          quote: '"İşini kaybetmek istemiyorsan, şirketin yeni politikasının harika olduğunu onaylamalısın."',
+          analysis: 'Güç kullanımı ve tehdit, politikanın mantıksal olarak doğru olduğunu değil, sadece güçlünün dediğinin yapıldığını gösterir.'
+        },
+        {
+          quote: '"Tanrı\'nın varlığına inanırsan bir şey kaybetmezsin, inanmazsan cehennemde yanarsın!"',
+          analysis: 'İnancın teolojik doğruluğu yerine, inanmamak sonucundaki ceza (korku) öne sürülerek inanç dayatılmaktadır.'
+        },
+        {
+          quote: '"Bana saygı duyacaksın, yoksa notunu kırarım!"',
+          analysis: 'Saygı mantıksal olarak kazanılmaz, sadece otorite tehdidiyle zorla alınmaya çalışılır.'
+        }
+      ]
+    },
+    {
+      id: 'misericordiam', title: 'Duygu Sömürüsü', latin: 'Argumentum Ad Misericordiam', icon: '🥺',
+      def: 'İddiasını doğrulatmak veya bir eylemi kabul ettirmek için karşısındakinde acındırma duygusu yaratmaya çalışmak.',
+      form: 'A çok acınası durumdadır.\nO halde A\'nın isteği yapılmalıdır / argümanı doğrudur.',
+      examples: [
+        {
+          quote: '"Hocam, bu dersten A almak zorundayım. Eğer alamazsam bursum kesilecek."',
+          analysis: 'Öğrencinin acınası durumu (bursunun kesilecek olması), onun sınav kağıdının "A" değerinde (mantıksal olgu) olduğunu kanıtlamaz.'
+        },
+        {
+          quote: '"Umarım projemin onaylandığını söylersiniz, sonuçta üç aydır uykusuz çalışıyorum."',
+          analysis: 'Uykusuz kalınması ve emeğe acınması talebi, projenin kalitesini kanıtlamak için kullanılamaz.'
+        },
+        {
+          quote: '"Müvekkilim suçlu olamaz, zaten küçükken de çok zor bir çocukluk geçirmiş, yetim büyümüş."',
+          analysis: 'Çocukluk travmaları üzücü olsa da, kişinin o spesifik suçu işleyip işlemediğini kanıtlayan hukuki bir delil değildir.'
+        }
+      ]
+    },
+    {
+      id: 'ignoranti', title: 'İspatlama Mecburiyeti', latin: 'Argumentum ad Ignorantiam', icon: '❓',
+      def: 'Bir şeyin yanlış olduğu ispatlanamamışsa kesin doğru, doğru olduğu ispatlanamamışsa kesin yanlış olduğunu savunan argüman.',
+      form: 'X\'in yanlış olduğu kanıtlanamadı.\nÖyleyse X kesinlikle doğrudur.',
+      examples: [
+        {
+          quote: '"Hayaletlerin olmadığı kanıtlanamadığına göre, hayaletler vardır."',
+          analysis: 'Bir şeyin yokluğunun kanıtlanamaması, onun varlığına dair pozitif bir kanıt (delil) oluşturmaz.'
+        },
+        {
+          quote: '"Dünya dışı varlıkların bizi ziyaret etmediğini ispatlayamazsın, demek ki aramızdalar!"',
+          analysis: 'İspat yükümlülüğünü (onus probandi) karşı tarafa atarak, mantık dışı iddialar geçerli kılınmaya çalışılır.'
+        },
+        {
+          quote: '"İlaç şirketinin yeni hapının zararsız olduğu ispatlanamadı, demek ki zehirli."',
+          analysis: 'Zararsızlığının henüz kanıtlanmamış olması, doğrudan zehirli olduğu anlamına gelmez.'
+        }
+      ]
+    },
+    {
+      id: 'complexq', title: 'İmalı Soru Safsatası', latin: 'Complex Question', icon: '🪤',
+      def: 'Cevap vereni "evet" veya "hayır" demesi durumunda her iki ihtimalde de suçlu veya haksız duruma düşürecek sorular sormak.',
+      form: 'A kişisine içinde gizli bir suçlama olan soru sorulur.\nA cevap verdiğinde otomatik olarak suçlamayı kabul etmiş olur.',
+      examples: [
+        {
+          quote: '"Karını dövmekten hala vazgeçmedin mi?"',
+          analysis: 'Evet dese önceden dövdüğünü ve hâlâ devam ettiğini, Hayır dese eskiden dövdüğünü ama bıraktığını kabul etmiş olur. Gizli varsayım tuzağıdır.'
+        },
+        {
+          quote: '"Şirketten para çalmayı ne zaman bırakacaksın?"',
+          analysis: 'Kişi cevap verdiğinde para çaldığını zımnen kabul etmiş olacaktır.'
+        },
+        {
+          quote: '"Benim bu dahi fikrimi çalmaktan utanmıyor musun?"',
+          analysis: 'Soru iki varsayım içerir: Fikrin dahi olduğu ve diğer kişinin bunu çaldığı. "Hayır utanmıyorum" denildiğinde hırsızlık kabul edilmiş olur.'
+        }
+      ]
+    },
+    {
+      id: 'composition', title: 'Bütünleme Safsatası', latin: 'Fallacy of Composition', icon: '🧱',
+      def: 'Bir bütünün kendisini oluşturan parçalardan herhangi biri ile birebir aynı özelliklere sahip olduğunu varsayan argüman.',
+      form: 'Parça P, X özelliğine sahiptir.\nP, Bütün B\'nin parçasıdır.\nÖyleyse B de X özelliğine sahiptir.',
+      examples: [
+        {
+          quote: '"Bizim takımda çok yıldız futbolcu var, demek ki çok iyi bir takımız."',
+          analysis: 'Bireysel oyuncuların (parçalar) iyi olması, takım uyumunun (bütün) iyi olduğu anlamına gelmez.'
+        },
+        {
+          quote: '"Bu arabanın her bir parçası çok hafif, o halde arabanın tamamı da çok hafif olmalı."',
+          analysis: 'Binlerce hafif parçanın birleşimi son derece ağır bir bütün (araba) oluşturabilir.'
+        },
+        {
+          quote: '"Sodyum ve Klor gazları ayrı ayrı çok zehirlidir, o halde birleşimleri olan tuz (NaCl) da çok zehirli olmalıdır."',
+          analysis: 'Parçaların kimyasal özelliği bütünün kimyasal özelliğiyle aynı olmak zorunda değildir.'
+        }
+      ]
+    },
+    {
+      id: 'division', title: 'İndirgeme Safsatası', latin: 'Fallacy of Division', icon: '🍰',
+      def: 'Bir bütünün genel özelliğinin, onun her bir parçasında veya bireyinde de aynen geçerli olduğunu varsayan argüman (Bütünlemenin tersi).',
+      form: 'Bütün B, X özelliğine sahiptir.\nP, Bütün B\'nin parçasıdır.\nÖyleyse P de X özelliğine sahiptir.',
+      examples: [
+        {
+          quote: '"Kayserililer işini bilir ticaret insanlarıdır, Turgut da Kayserili, parasız kalmış olması mümkün değil."',
+          analysis: 'Bir grubun genel (stereotipik) özelliği, o gruptaki her bireyin de aynı özelliği taşıyacağını garanti etmez.'
+        },
+        {
+          quote: '"Bu orman çok yaşlıdır, demek ki içindeki bu küçük fidan da çok yaşlıdır."',
+          analysis: 'Bütünün (orman) özelliği, tekil bir parçaya (fidan) doğrudan atfedilemez.'
+        },
+        {
+          quote: '"Su (H2O) sıvı bir maddedir, demek ki Hidrojen ve Oksijen de oda sıcaklığında sıvıdır."',
+          analysis: 'Bütünün fiziksel hali, kendisini oluşturan atomların haline indirgenemez.'
+        }
+      ]
+    },
+    {
+      id: 'hastygen', title: 'Acele Genelleme', latin: 'Hasty Generalization', icon: '🏃‍♂️',
+      def: 'Çok az, yetersiz veya rastlantısal bir örneğe dayanarak bütün grup veya olay hakkında kesin bir kural veya yargı üretme hatası.',
+      form: 'A örneği böyledir.\nB örneği de böyledir.\nÖyleyse bütün örnekler kesinlikle böyledir.',
+      examples: [
+        {
+          quote: '"İki kez soyuldum. İkisinde de beni soyan kişi uzun boyluydu. Artık uzun boylulardan uzak duracağım, genellikle soyguncu oluyorlar."',
+          analysis: 'Sadece 2 örneklem üzerinden (yetersiz veri) tüm grubu kapsayan yanlış bir tümevarım.'
+        },
+        {
+          quote: '"Paris\'e gittim ve bana kaba davrandılar. Bütün Fransızlar çok kaba insanlar."',
+          analysis: 'Birkaç turistik deneyim, 60 milyonluk bir ulusu karakterize etmek için yeterli örneklem oluşturmaz.'
+        },
+        {
+          quote: '"Köyün girişinde iki tane cüce gördüm. Demek ki bu köyün insanlarında kalıtımsal bir anormallik var."',
+          analysis: 'Yetersiz gözlem ile tüm köye dair bilimsel bir yargıya varılmıştır.'
+        }
+      ]
+    },
+    {
+      id: 'falseanalogy', title: 'Yanlış Benzetme', latin: 'False Analogy', icon: '🍏',
+      def: 'Aralarında sadece yüzeysel bir benzerlik bulunan iki nesne veya durumun, tüm özelliklerinin de aynı olduğu sonucuna varmak.',
+      form: 'A ve B nesneleri X özelliğinde benzer.\nA nesnesinde Y özelliği de vardır.\nÖyleyse B nesnesinde de Y özelliği vardır.',
+      examples: [
+        {
+          quote: '"İşçi çivi gibidir. Çiviyi çakmak için başına vurmak gerekir. İşçilere de aynısı yapılmalı."',
+          analysis: 'Çivi cansız bir objedir, işçi insandır. Sırf ikisi de "işlenen unsur" diye, fiziksel şiddet kuralı benzetilemez.'
+        },
+        {
+          quote: '"Devlet yönetmek bir şirket yönetmek gibidir. Şirkette kâr etmeyen departman kapatılır, demek ki devlette de kâr etmeyen okulları kapatmalıyız."',
+          analysis: 'Şirketin amacı para kazanmaktır, devletin amacı ise topluma hizmet etmektir. Temel hedefler farklı olduğu için yapılan analoji hatalıdır.'
+        },
+        {
+          quote: '"Güneş sistemi de atom gibidir; ortada çekirdek, etrafında dönen elektronlar vardır. Madem elektronlar atlayabiliyor, gezegenler de yörünge değiştirmelidir."',
+          analysis: 'Makro evren fiziği ile kuantum mekaniği kuralları birebir aynı çalışmaz, benzetme mantık dışıdır.'
         }
       ]
     },
     {
       id: 'posthoc', title: 'Yanlış Neden', latin: 'Post Hoc Ergo Propter Hoc', icon: '🎲',
-      def: 'Bir olay diğerinden sonra gerçekleştiği için, ilk olayın ikinci olayın "nedeni" olduğunu (Aralarında sadece zamansal korelasyon varken) iddia etmektir.',
+      def: 'Bir olay diğerinden sonra veya aynı anda gerçekleştiği için, ilk olayın ikinci olayın "nedeni" olduğunu iddia etmektir.',
       form: 'A olayı gerçekleşti.\nSonra B olayı gerçekleşti.\nÖyleyse A, B\'nin sebebidir.',
       examples: [
         {
-          quote: '"Güneş tutulması oldu ve ertesi gün kral hastalandı. Demek ki kralı güneş tutulması hasta etti."',
-          analysis: 'Sadece zaman olarak arka arkaya gelmeleri (Korelasyon), aralarında bir sebep-sonuç (Nedensellik) ilişkisi olduğunu kanıtlamaz.'
+          quote: '"Televizyonun evlere girmesinden sonra toplumdaki şiddet oranı arttı, demek ki televizyon seyretmek şiddete neden oluyor."',
+          analysis: 'Sadece zaman olarak korelasyon içinde olmaları, aralarında mutlak bir sebep-sonuç ilişkisi (nedensellik) olduğunu kanıtlamaz.'
+        },
+        {
+          quote: '"Arkadaşımın kedisi elimi tırmaladı, bir hafta sonra ateşlendim. Demek ki sebebi kedinin tırmalaması."',
+          analysis: 'Ateşlenme başka yüzlerce sebepten kaynaklanmış olabilir.'
+        },
+        {
+          quote: '"Siyah kedi önümden geçti, 10 dakika sonra arabam bozuldu. Uğursuz hayvan!"',
+          analysis: 'Batıl inançlar temelini Yanlış Neden safsatasından (Post Hoc) alır.'
+        }
+      ]
+    },
+    {
+      id: 'gambler', title: 'Kumarbaz Safsatası', latin: 'Gambler\'s Fallacy', icon: '🎰',
+      def: 'Bağımsız olasılıklı bir olayın, geçmişte nadir gerçekleşmiş olduğu için gelecekte gerçekleşme ihtimalinin daha yüksek olduğunu düşünme hatası.',
+      form: 'X olayı uzun süredir olmadı.\nBu yüzden X olayının yakında olma olasılığı çok arttı.',
+      examples: [
+        {
+          quote: '"Her hafta loto oynuyorum, şimdiye kadar kazanamadım, o halde kazanma ihtimalim arttı, yakında kazanacağım."',
+          analysis: 'Lotoda her çekiliş bağımsız bir olaydır. Önceki haftaların kayıpları, sonraki haftanın olasılığını matematiksel olarak artırmaz.'
+        },
+        {
+          quote: '"Yazı tura attık, 5 kere üst üste tura geldi. Artık altıncıda kesin yazı gelecek!"',
+          analysis: 'Yazı veya tura gelme ihtimali her atışta sabittir ve daima %50\'dir. Bozuk paranın bir hafızası yoktur.'
+        },
+        {
+          quote: '"Üç tane kızım oldu, bu sefer doğacak çocuk kesinlikle erkek olacak."',
+          analysis: 'Biyolojik olasılıklar önceki doğumlardan bağımsızdır.'
+        }
+      ]
+    },
+    {
+      id: 'petitio', title: 'Kısır Döngü (Döngüsel)', latin: 'Petitio Principii', icon: '🔄',
+      def: 'Kendi kendini kanıtlayan önerme. Birinci önermenin ikinci bir önermeye atıfla desteklenmesine rağmen, ikinci önermenin de zaten birinci önermeyle destekleniyor olması.',
+      form: 'A doğrudur çünkü B öyledir.\nB\'nin doğru olduğunu nereden biliyoruz?\nÇünkü A öyledir.',
+      examples: [
+        {
+          quote: '"Bütün cinayetler yanlıştır. Kürtaj bir cinayettir. O halde kürtaj doğru değildir."',
+          analysis: 'İkinci önermede kürtajın zaten "cinayet" (peşinen yanlış) olduğu kabul ediliyor. Tartışılan konunun kendisi (Kürtaj cinayet midir?) kanıt olarak kullanılıyor.'
+        },
+        {
+          quote: '"Sudan hafif maddeler yüzer, çünkü bu tür cisimler suda batmazlar."',
+          analysis: 'Yüzmek ile batmamak aynı şeydir. İddia kendini tekrar ederek kelime oyunuyla kanıtlıyor.'
+        },
+        {
+          quote: '"Patron haklıdır çünkü o patrondur, patron olduğu için de söyledikleri doğrudur."',
+          analysis: 'Otorite statüsü, kendi mantıksal argümanını doğrulamak için daire şeklinde etrafında dönüyor.'
+        }
+      ]
+    },
+    {
+      id: 'irrelevant', title: 'Alakasız Sonuç', latin: 'İgnoratio Elenchi', icon: '🎯',
+      def: 'İddia edilen, tartışılan şeyle hiçbir mantıksal alakası olmayan bir sonuca varılmasından doğan hatadır.',
+      form: 'A öncülleri sıralanır.\nBu öncüllerden bağımsız, alakasız bir B sonucuna varılır.',
+      examples: [
+        {
+          quote: '"Öğrenciler çok not istediğine göre, hocanın notu kıt olmalı."',
+          analysis: 'Öğrencilerin çok not istemesi (her öğrencinin genel isteğidir), hocanın notunun kıt olduğu anlamına gelmez.'
+        },
+        {
+          quote: '"Spor yapmak sağlığa faydalıdır, o yüzden herkesin en pahalı spor ayakkabısını alması gerekir."',
+          analysis: 'Spor yapmanın faydası ile lüks tüketim arasında kurulmaya çalışılan asılsız ve alakasız bağ.'
+        },
+        {
+          quote: '"Cinayet oranları artıyor, o halde daha çok polis almalıyız."',
+          analysis: 'Sorunun temeli (eğitim, ekonomi vb.) polis eksikliğinden kaynaklanmıyor olabilir. Sonuç mantıken ana öncülden çıkmaz.'
+        }
+      ]
+    },
+    {
+      id: 'beard', title: 'Devede Kulak Safsatası', latin: 'Fallacy of the Beard', icon: '🐫',
+      def: 'Bir iddianın kabulünü sağlamak için ufak ayrıntıların veya istisnaların hiçbir etkide bulunmayacağını, bu yüzden kuralın esnetilmesi gerektiğini savunma hatası.',
+      form: 'X kuralı vardır.\nKüçük bir Y istisnası X\'i bozmaz.\nO halde sürekli Y yapılabilir.',
+      examples: [
+        {
+          quote: '"Sigara içilmesi, Ankara\'nın devasa hava kirliliğine etki edecek değil ya! O yüzden arabada sigara içebilirim."',
+          analysis: 'Küçük etkinin toplu sonuçları göz ardı edilmekte, eylemin meşruiyeti boyutuyla haklı çıkarılmaya çalışılmaktadır.'
+        },
+        {
+          quote: '"Şirketten bir tane kalem alsam şirket batmaz ya!"',
+          analysis: 'Maddi etkinin küçük olması, hırsızlık veya kural ihlalinin ilkesel olarak yanlış olduğu gerçeğini değiştirmez.'
+        },
+        {
+          quote: '"Anayasayı bir kere delmekle bir şey olmaz."',
+          analysis: 'Kuralların ilkesel gücü bir kez ihlal edildiğinde ortadan kalkar, istisna emsal teşkil eder.'
+        }
+      ]
+    },
+    {
+      id: 'flattery', title: 'Yağcılığa Başvurma', latin: 'Appeal to Flattery', icon: '😏',
+      def: 'Argümanını desteklemek veya kabul ettirmek için karşı tarafı överek, egosunu okşayarak mantıksal değerlendirmeyi atlatma.',
+      form: 'A kişisi B\'ye övgüler yağdırır.\nA kişisi X argümanını sunar.\nB kişisi övgünün etkisiyle X\'i mantıksız da olsa kabul eder.',
+      examples: [
+        {
+          quote: '"Siz çok zeki ve vizyoner bir yatırımcısınız, eminim ki bu projenin ne kadar kârlı olacağını hemen anlamışsınızdır."',
+          analysis: 'Yatırımcının zekası övülerek projenin kârlılığına dair kanıt sunulmadan destek koparılmaya çalışılıyor.'
+        },
+        {
+          quote: '"Hocam, şimdiye kadar aldığım en iyi felsefe dersi bu. O yüzden bana A vereceğinize eminim."',
+          analysis: 'Övgü ile yüksek not arasındaki anlamsız bağ (akademik liyakat eksikliği).'
+        },
+        {
+          quote: '"Senin gibi zevk sahibi bir kadın bu elbiseyi kaçırmamalı."',
+          analysis: 'Elbisenin kalitesi veya fiyatı yerine kişinin zevki övülerek satış manipülasyonu.'
+        }
+      ]
+    },
+    {
+      id: 'notrue', title: 'Gerçek İskoçyalı', latin: 'No True Scotsman', icon: '🏴󠁧󠁢󠁳󠁣󠁴󠁿',
+      def: 'Bir genelleme yapıldığında ve bu genellemeye ters düşen bir örnek (istisna) gösterildiğinde, genellemeyi iptal etmek yerine örneğin "gerçek/has" olmadığını iddia ederek kuralları sonradan değiştirme hatası.',
+      form: 'A: Bütün X\'ler Y\'dir.\nB: Ama şu X kişisi Y yapmadı.\nA: Demek ki o gerçek bir X değil!',
+      examples: [
+        {
+          quote: 'A: "Gerçek bir İskoçyalı asla yemeğine şeker koymaz!"\nB: "Ama amcam Angus koyuyor."\nA: "Demek ki amcan gerçek bir İskoçyalı değil!"',
+          analysis: 'Mantıksal iddiayı çürüten istisna çıktığında, "gerçek" kelimesiyle tanım gizlice daraltılarak haklı çıkılmaya çalışılıyor.'
+        },
+        {
+          quote: 'A: "Hiçbir programcı o dili kullanmaz."\nB: "Ama Google mühendisleri kullanıyor."\nA: "Onlar gerçek programcı sayılmaz."',
+          analysis: 'Kendi dar kalıplarını haklı çıkarmak için uzmanlar sahte argümanla diskalifiye ediliyor.'
+        },
+        {
+          quote: 'A: "Bizim partililer asla yolsuzluk yapmaz."\nB: "Başkanınız yolsuzluktan tutuklandı."\nA: "O zaten içimize sızmış biriydi, gerçek partili değildi."',
+          analysis: 'Sorumluluk almamak için aidiyet bağı olaydan sonra kesiliyor.'
+        }
+      ]
+    },
+    {
+      id: 'texassharp', title: 'Teksas Keskin Nişancısı', latin: 'Texas Sharpshooter', icon: '🎯',
+      def: 'Elde edilen rastgele veriler veya tesadüfler üzerinden, sadece kendi işine gelen ve kendi fikrini destekleyen kısımları seçip, geri kalanları yok sayarak sanki ortada anlamlı bir düzen varmış gibi sunmak.',
+      form: 'Veri yığını içinde rastgele desenler bulunur.\nDesenlerin etrafına sonradan hedefler çizilir.\nAtıcının çok yetenekli olduğu iddia edilir.',
+      examples: [
+        {
+          quote: '"Bir adam ahırın duvarına rastgele ateş eder, sonra kurşunların en yoğun düştüğü yere gidip etrafına bir hedef tahtası çizer ve harika bir nişancı olduğunu iddia eder."',
+          analysis: 'Sonuçlar ortaya çıktıktan sonra kılıfına uydurma eylemidir.'
+        },
+        {
+          quote: '"Nostradamus\'un kehanetleri hep tutuyor! 11 Eylül\'ü ve Dünya Savaşını bildi!"',
+          analysis: 'Binlerce belirsiz dörtlük arasından sadece olaylara uyan 3-5 tanesi seçilmiş (Cherry-picking), uymayan binlercesi yok sayılmıştır.'
+        },
+        {
+          quote: '"Falcı bana harfler söyledi ve isminde M geçen biriyle tanışacağımı bildi, falcı mucizevi biri!"',
+          analysis: 'Harflerin rastgeleliği içinde uyanlar alınmış, uymayan sayısız harf unutulmuştur.'
+        }
+      ]
+    },
+    {
+      id: 'burden', title: 'İspat Yükü', latin: 'Burden of Proof / Onus Probandi', icon: '🏋️‍♂️',
+      def: 'Bir iddia ortaya atıldığında, bu iddiayı kanıtlama yükümlülüğünün iddiayı ortaya atan kişide olduğunu reddederek, ispat etme görevini karşı tarafa atma uyanıklığı.',
+      form: 'A kişisi sıradışı bir X iddiasında bulunur.\nB kişisi kanıt ister.\nA kişisi: "Sen X\'in olmadığını kanıtla!" der.',
+      examples: [
+        {
+          quote: '"Uzayda çaydanlık yörüngesinde dönen bir gezegen var. Yoksa, olmadığını ispatla!"',
+          analysis: 'Olmayan bir şey ispatlanamaz (Bertrand Russell\'ın çaydanlığı argümanı). İddia eden kişi varlığını ispatla mükelleftir.'
+        },
+        {
+          quote: '"Şirkette gizli bir tarikat yapılanması var." / "Kanıtın var mı?" / "Yok, ama sen olmadığını nasıl kanıtlayacaksın?"',
+          analysis: 'İspat yükü, saçma bir komplo teorisini çürütmesi için karşı tarafa yıkılıyor.'
+        },
+        {
+          quote: '"Bu hap bütün hastalıklara iyi geliyor, aksini söyleyen laboratuvarda test edip kanıtlasın."',
+          analysis: 'Bir ürünün faydası onu iddia edip satan tarafından ispatlanmalıdır, tüketiciler veya şüpheciler tarafından değil.'
         }
       ]
     }

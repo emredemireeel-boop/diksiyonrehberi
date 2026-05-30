@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title><%= meta.title %></title>
+  <meta name="description" content="<%= meta.description %>">
+  <% if (canonicalUrl) { %>
+    <link rel="canonical" href="<%= canonicalUrl %>" />
+  <% } %>
+  <link rel="stylesheet" href="/css/style.css">
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Plus+Jakarta+Sans:wght@300;400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+  <style>
+    /* PATHOS - TİYATRO / DRAMA TEMASI */
+    :root {
+      --pathos-bg: #0A0404;      /* Çok Koyu Kahve/Siyah */
+      --pathos-text: #F2E8E4;    /* Sıcak, krem beyaz */
+      --pathos-red: #8B1E1E;     /* Derin Bordo / Tiyatro Perdesi */
+      --pathos-gold: #C2A052;    /* Loş sahne ışığı / Altın */
+      --pathos-panel: #1A0D0D;   /* Kart arka planı */
+      
+      --serif: 'Playfair Display', serif;
+      --sans: 'Plus Jakarta Sans', sans-serif;
+      --tr: all 0.5s cubic-bezier(0.25, 1, 0.5, 1);
+    }
+
+    body {
+      background-color: var(--pathos-bg);
+      color: var(--pathos-text);
+      font-family: var(--sans);
+      line-height: 1.7;
+    }
+
+    /* Navbar Override for Dark Theme */
+    .navbar {
+      background-color: rgba(10, 4, 4, 0.9) !important;
+      border-bottom: 1px solid rgba(139, 30, 30, 0.3) !important;
+    }
+    .navbar a { color: var(--pathos-text) !important; }
+
+    /* Hero: Tiyatro Sahnesi */
+    .drama-hero {
+      min-height: 80vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      padding: 120px 20px 80px;
+      position: relative;
+      background: radial-gradient(circle at center, rgba(139, 30, 30, 0.15) 0%, var(--pathos-bg) 70%);
+      overflow: hidden;
+    }
+
+    /* Spotlight Animasyonu */
+    .spotlight {
+      position: absolute;
+      top: -20%;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 60vw;
+      height: 100%;
+      background: radial-gradient(ellipse at top, rgba(194, 160, 82, 0.15), transparent 70%);
+      pointer-events: none;
+      animation: pulseSpotlight 4s ease-in-out infinite alternate;
+    }
+    @keyframes pulseSpotlight {
+      0% { opacity: 0.6; transform: translateX(-50%) scale(1); }
+      100% { opacity: 1; transform: translateX(-50%) scale(1.05); }
+    }
+
+    .drama-hero h1 {
+      font-family: var(--serif);
+      font-size: clamp(3rem, 7vw, 6rem);
+      color: var(--pathos-text);
+      margin-bottom: 20px;
+      font-style: italic;
+      text-shadow: 2px 4px 20px rgba(0,0,0,0.8);
+      position: relative;
+      z-index: 2;
+    }
+
+    .drama-hero p {
+      font-size: 1.3rem;
+      max-width: 600px;
+      color: #D1BDB7;
+      position: relative;
+      z-index: 2;
+    }
+
+    /* Section Wrapper */
+    .pathos-section {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 80px 20px;
+    }
+
+    /* P1: Temel Makale Kartı */
+    .emotion-card {
+      background: var(--pathos-panel);
+      border: 1px solid rgba(139, 30, 30, 0.3);
+      padding: 60px;
+      border-radius: 8px;
+      text-align: center;
+      position: relative;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.5);
+      margin-bottom: 60px;
+    }
+    .emotion-card::before {
+      content: '“';
+      position: absolute;
+      top: -30px;
+      left: 50%;
+      transform: translateX(-50%);
+      font-family: var(--serif);
+      font-size: 6rem;
+      color: var(--pathos-red);
+      line-height: 1;
+      opacity: 0.5;
+    }
+    .emotion-card h2 {
+      font-family: var(--serif);
+      font-size: 2.5rem;
+      color: var(--pathos-gold);
+      margin-bottom: 20px;
+    }
+    .emotion-card p {
+      font-size: 1.2rem;
+    }
+
+    /* P4: Hero's Journey (Grid) */
+    .journey-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 30px;
+      margin-top: 40px;
+    }
+    .journey-step {
+      background: var(--pathos-panel);
+      padding: 40px;
+      border-top: 3px solid var(--pathos-red);
+      transition: var(--tr);
+      cursor: default;
+    }
+    .journey-step:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 15px 30px rgba(139, 30, 30, 0.2);
+    }
+    .journey-step h3 {
+      font-family: var(--serif);
+      color: var(--pathos-gold);
+      font-size: 1.5rem;
+      margin-bottom: 15px;
+    }
+
+    /* P2 & P3: Simülatör / İnteraktif Alan */
+    .interactive-stage {
+      display: flex;
+      flex-direction: column;
+      gap: 40px;
+      margin-top: 80px;
+    }
+    .stage-card {
+      display: flex;
+      background: rgba(139, 30, 30, 0.05);
+      border: 1px solid var(--pathos-red);
+      border-radius: 12px;
+      overflow: hidden;
+    }
+    .stage-icon {
+      background: var(--pathos-red);
+      width: 120px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 3rem;
+      color: var(--pathos-text);
+    }
+    .stage-content {
+      padding: 40px;
+      flex: 1;
+    }
+    .stage-content h3 {
+      font-family: var(--serif);
+      font-size: 2rem;
+      margin-bottom: 10px;
+    }
+    .btn-drama {
+      display: inline-block;
+      margin-top: 20px;
+      padding: 12px 30px;
+      background: transparent;
+      color: var(--pathos-gold);
+      border: 1px solid var(--pathos-gold);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      text-decoration: none;
+      transition: var(--tr);
+    }
+    .btn-drama:hover {
+      background: var(--pathos-gold);
+      color: var(--pathos-bg);
+    }
+
+    @media (max-width: 768px) {
+      .stage-card { flex-direction: column; }
+      .stage-icon { width: 100%; height: 100px; }
+      .emotion-card { padding: 40px 20px; }
+    }
+  </style>
+</head>
+<body>
+
+  <%- include('partials/main-header') %>
+
+  <!-- Hero Section -->
+  <section class="drama-hero">
+    <div class="spotlight"></div>
+    <h1>Pathos</h1>
+    <p>Mantık ikna eder, ancak duygu harekete geçirir. Dinleyicilerinizin zihnine değil, doğrudan kalbine giden yolu inşa edin.</p>
+  </section>
+
+  <% 
+    const p1 = exercises.find(e => e.id === 'p1');
+    const p4 = exercises.find(e => e.id === 'p4');
+    const p2 = exercises.find(e => e.id === 'p2');
+    const p3 = exercises.find(e => e.id === 'p3');
+  %>
+
+  <!-- Ana Makale -->
+  <section class="pathos-section">
+    <div class="emotion-card">
+      <h2><%= p1 ? p1.title : 'Mantığın Ötesindeki Karar Mekanizması' %></h2>
+      <p>İnsanlar kararlarını duygularıyla alır ve mantıklarıyla haklı çıkarırlar. Pathos, bu duygusal tetikleyicileri (korku, umut, öfke, sevgi) estetik ve etik bir biçimde kullanarak kitleleri bir hedefe doğru yönlendirme sanatıdır. Eğer kalbe dokunamazsanız, istatistikleriniz sadece birer rakamdan ibaret kalır.</p>
+    </div>
+
+    <!-- Hikaye Yapısı -->
+    <div style="text-align:center; margin-bottom: 40px;">
+      <h2 style="font-family: var(--serif); font-size: 2.5rem; color: var(--pathos-gold);">Kahramanın Yolculuğu (Hero's Journey)</h2>
+      <p style="color: #D1BDB7;">Tarih boyunca en çok yankı uyandıran duygusal hikayelerin şablonu.</p>
+    </div>
+    
+    <div class="journey-grid">
+      <div class="journey-step">
+        <h3>1. Statüko (Sıradan Dünya)</h3>
+        <p>Her şeyin normal göründüğü, ancak içten içe bir problemin (acı veya ihtiyaç) filizlendiği an. Dinleyicinin kendisiyle empati kurduğu ilk safha.</p>
+      </div>
+      <div class="journey-step">
+        <h3>2. Dibe Vuruş (Kriz)</h3>
+        <p>Kahramanın (veya şirketinizin) en zor anı, umutların tükendiği nokta. Bu aşamada Pathos zirve yapar ve "korku/kaygı" duygusu tetiklenir.</p>
+      </div>
+      <div class="journey-step">
+        <h3>3. Uyanış ve Çözüm</h3>
+        <p>Küçük bir aydınlanma, yeni bir icat veya kararlılıkla krizden çıkış yolu bulunur. Umut duygusunun sahneye girdiği andır.</p>
+      </div>
+      <div class="journey-step">
+        <h3>4. Yeni Başlangıç (Dönüşüm)</h3>
+        <p>Kahraman artık eski kişi değildir. Öğrendiği dersi dinleyiciye sunar ve onları da bu dönüşüme davet eder.</p>
+      </div>
+    </div>
+
+    <!-- Simülatörler -->
+    <div class="interactive-stage">
+      <div class="stage-card">
+        <div class="stage-icon"><i class="fa-solid fa-heart-pulse"></i></div>
+        <div class="stage-content">
+          <h3><%= p2 ? p2.title : 'Bağış Kampanyası Simülatörü' %></h3>
+          <p>Sadece rakamlar vererek bağış toplayamazsınız. Bir hikaye inşa ederek dinleyiciyi yardım etmeye zorlayan o güçlü metni nasıl kurarsınız?</p>
+          <a href="#" class="btn-drama" onclick="alert('Pathos Modülü: İnteraktif görev yakında yüklenecek.')">Senaryoyu Başlat</a>
+        </div>
+      </div>
+
+      <div class="stage-card">
+        <div class="stage-icon"><i class="fa-solid fa-masks-theater"></i></div>
+        <div class="stage-content">
+          <h3><%= p3 ? p3.title : 'Duyusal Dil Transformatörü' %></h3>
+          <p>"Kahve güzeldi" demek logos'tur. "Kavrulmuş çekirdeklerin acımtırak kokusu mutfağı sardığında..." demek pathos'tur. Cümlelerinizi duyusal dile çevirin.</p>
+          <a href="#" class="btn-drama" onclick="alert('Pathos Modülü: İnteraktif görev yakında yüklenecek.')">Kelime Atölyesine Gir</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <%- include('partials/main-footer') %>
+</body>
+</html>

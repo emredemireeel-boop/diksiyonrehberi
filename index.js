@@ -1981,8 +1981,10 @@ app.get('/retorik/:subpage', (req, res, next) => {
   
   const exercises = RETORIK_DATA.filter(ex => ex.cat === cat);
 
-  if (subpage === 'ethos') {
-    return res.render('retorik-ethos', { 
+  const customPages = ['ethos', 'konusma-yazimi', 'pathos', 'logos', 'figurler', 'analiz', 'savunma', 'ikna'];
+  
+  if (customPages.includes(subpage)) {
+    return res.render(`retorik-${subpage}`, { 
       meta, 
       canonicalUrl, 
       jsonLdScripts: '',
@@ -2125,6 +2127,9 @@ app.get('/hikaye/kanca', (req, res, next) => {
 app.get('/hikaye/kahraman', (req, res, next) => {
   res.render('hikaye-kahraman', { meta: {title: 'Kahramanın Yolculuğu', h1: 'Epik Hikaye Simülatörü', desc: 'Sıradan olayları epik bir 3-perdelik hikayeye çevirin.'}, canonicalUrl: SITE_URL+'/hikaye/kahraman', jsonLdScripts: '' });
 });
+app.get('/hikaye/mimari', (req, res, next) => {
+  res.render('hikaye-mimari', { meta: {title: 'Hikaye Mimarı', h1: '3 Perde Tasarımcısı', desc: 'Sıkıcı sunumlarınızı gişe rekortmeni bir hikayeye dönüştürün.'}, canonicalUrl: SITE_URL+'/hikaye/mimari', jsonLdScripts: '' });
+});
 app.get('/hikaye/:subpage', (req, res, next) => {
   res.render('hikaye-detay', { meta: {title: 'Hikaye Anlatıcılığı Detay', h1: 'Hikaye Anlatıcılığı Detay'}, canonicalUrl: SITE_URL+'/hikaye/'+req.params.subpage, jsonLdScripts: '', activeCat: req.params.subpage, exercises: DATA_HIKAYE });
 });
@@ -2206,7 +2211,10 @@ app.get('/giyim/:subpage', (req, res, next) => {
   const exercises = DATA_GIYIM.filter(ex => ex.cat === subpage);
   const meta = {title: 'İmaj Yönetimi Detay', h1: 'İmaj Yönetimi Detay'};
   if (subpage === 'aksesuar') meta.h1 = 'Aksesuar Sanatı Eğitimi';
-  else if (subpage === 'vucut-tipi') meta.h1 = 'Vücut Tipine Göre Giyim';
+  else if (subpage === 'vucut-tipi') {
+    meta.h1 = 'Vücut Tipine Göre Giyim';
+    return res.render('giyim-vucut', { meta, canonicalUrl: SITE_URL+'/giyim/vucut-tipi', jsonLdScripts: '' });
+  }
   else if (subpage === 'renk') meta.h1 = 'Renk Psikolojisi';
   res.render('giyim-detay', { meta, canonicalUrl: SITE_URL+'/giyim/'+subpage, jsonLdScripts: '', activeCat: subpage, exercises });
 });
@@ -2265,6 +2273,20 @@ app.get('/sahne/:subpage', (req, res, next) => {
   else if (subpage === 'etkilesim') meta.h1 = 'Seyirci Etkileşimi';
   else if (subpage === 'kriz') meta.h1 = 'Kriz Yönetimi';
   res.render('sahne-detay', { meta, canonicalUrl: SITE_URL+'/sahne/'+subpage, jsonLdScripts: '', activeCat: subpage, exercises });
+});
+
+app.get('/gorgu/:subpage', (req, res, next) => {
+  const subpage = req.params.subpage;
+  const meta = {title: 'Zarafet ve Görgü Sanatı', h1: 'Zarafet ve Görgü Sanatı'};
+  
+  if (subpage === 'yemek-masasi') {
+    meta.title = 'Sofra Adabı ve Fine Dining - Diksiyon Rehberi';
+    meta.h1 = 'Sofra Mimarı: Çatal Bıçak Dili';
+    return res.render('gorgu-sofra', { meta, canonicalUrl: SITE_URL+'/gorgu/yemek-masasi', jsonLdScripts: '' });
+  }
+  
+  // TODO: Add other subpages later if needed (is-hayati, dijital-etiket, toplum-ici)
+  res.render('gorgu-detay', { meta, canonicalUrl: SITE_URL+'/gorgu/'+subpage, jsonLdScripts: '' });
 });
 
 app.get('/:module', (req, res, next) => {

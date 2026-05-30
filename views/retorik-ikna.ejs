@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title><%= meta.title %></title>
+  <meta name="description" content="<%= meta.description %>">
+  <% if (canonicalUrl) { %>
+    <link rel="canonical" href="<%= canonicalUrl %>" />
+  <% } %>
+  <link rel="stylesheet" href="/css/style.css">
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;700;900&family=Playfair+Display:ital,wght@1,600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+  <style>
+    /* İKNA PSİKOLOJİSİ - SATRANÇ / ZİHİN OYUNLARI TEMASI */
+    :root {
+      --ikna-bg: #090614;        /* Derin Uzay Moru / Siyah */
+      --ikna-light: #F4F0FC;     /* Çok Açık Mor / Beyaz */
+      --ikna-accent: #9D4EDD;    /* Canlı Psikoloji Moru */
+      --ikna-dark-purple: #240046;
+      --ikna-board-1: #10002B;
+      --ikna-board-2: #240046;
+      
+      --font-body: 'Outfit', sans-serif;
+      --font-chess: 'Playfair Display', serif;
+      --tr: all 0.5s cubic-bezier(0.25, 1, 0.5, 1);
+    }
+
+    body {
+      background-color: var(--ikna-bg);
+      color: var(--ikna-light);
+      font-family: var(--font-body);
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    /* Navbar Override for Chess Theme */
+    .navbar {
+      background-color: rgba(9, 6, 20, 0.95) !important;
+      border-bottom: 1px solid var(--ikna-dark-purple) !important;
+    }
+    .navbar a { color: var(--ikna-light) !important; }
+
+    /* Satranç Tahtası Arkaplanı */
+    .chess-bg {
+      position: fixed;
+      top: 0; left: 0; width: 100vw; height: 100vh;
+      background-image: 
+        linear-gradient(45deg, var(--ikna-board-1) 25%, transparent 25%, transparent 75%, var(--ikna-board-1) 75%, var(--ikna-board-1)),
+        linear-gradient(45deg, var(--ikna-board-1) 25%, transparent 25%, transparent 75%, var(--ikna-board-1) 75%, var(--ikna-board-1));
+      background-size: 100px 100px;
+      background-position: 0 0, 50px 50px;
+      opacity: 0.05;
+      z-index: -1;
+      pointer-events: none;
+    }
+
+    /* Hero: Zihin Oyunları */
+    .mind-hero {
+      min-height: 70vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      padding: 120px 20px 60px;
+      position: relative;
+    }
+
+    .mind-hero .knight-icon {
+      font-size: 5rem;
+      color: var(--ikna-accent);
+      margin-bottom: 20px;
+      filter: drop-shadow(0 0 20px rgba(157, 78, 221, 0.5));
+      animation: float 4s ease-in-out infinite;
+    }
+    @keyframes float {
+      0% { transform: translateY(0); }
+      50% { transform: translateY(-15px); }
+      100% { transform: translateY(0); }
+    }
+
+    .mind-hero h1 {
+      font-weight: 900;
+      font-size: clamp(3.5rem, 8vw, 6rem);
+      margin-bottom: 20px;
+      line-height: 1.1;
+      background: linear-gradient(135deg, #FFF, var(--ikna-accent));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .mind-hero p {
+      font-size: 1.3rem;
+      max-width: 600px;
+      color: #C7B2E0;
+    }
+
+    /* Ana Konteyner */
+    .chess-container {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 40px 20px 100px;
+    }
+
+    /* Cialdini Prensipleri (Satranç Hamleleri) */
+    .move-timeline {
+      position: relative;
+      margin-top: 60px;
+    }
+
+    .move-item {
+      display: flex;
+      gap: 30px;
+      margin-bottom: 60px;
+      align-items: center;
+      opacity: 0.9;
+      transition: var(--tr);
+    }
+    .move-item:nth-child(even) { flex-direction: row-reverse; text-align: right; }
+    .move-item:hover { opacity: 1; transform: scale(1.02); }
+
+    .move-figure {
+      font-family: var(--font-chess);
+      font-size: 6rem;
+      color: var(--ikna-dark-purple);
+      text-shadow: 0 0 30px rgba(157, 78, 221, 0.3);
+      width: 120px;
+      text-align: center;
+      transition: var(--tr);
+    }
+    .move-item:hover .move-figure { color: var(--ikna-accent); }
+
+    .move-content {
+      background: rgba(36, 0, 70, 0.4);
+      border: 1px solid var(--ikna-dark-purple);
+      padding: 40px;
+      border-radius: 16px;
+      flex: 1;
+      backdrop-filter: blur(10px);
+    }
+    .move-content h3 {
+      font-size: 2rem;
+      color: white;
+      margin-bottom: 15px;
+    }
+    .move-content p {
+      font-size: 1.1rem;
+      color: #D1C4E9;
+    }
+
+    /* Nörobilim / Taktik Kartları */
+    .brain-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 30px;
+      margin-top: 80px;
+    }
+    .brain-card {
+      background: linear-gradient(180deg, var(--ikna-dark-purple), var(--ikna-bg));
+      border: 1px solid rgba(157, 78, 221, 0.2);
+      padding: 40px;
+      border-radius: 20px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+      transition: var(--tr);
+    }
+    .brain-card:hover {
+      border-color: var(--ikna-accent);
+      box-shadow: 0 20px 40px rgba(157, 78, 221, 0.2);
+    }
+    .brain-card i {
+      font-size: 3rem;
+      color: var(--ikna-accent);
+      margin-bottom: 20px;
+    }
+    .brain-card h4 {
+      font-size: 1.5rem;
+      color: white;
+      margin-bottom: 15px;
+    }
+    .brain-card p {
+      color: #B39DDB;
+      font-size: 1rem;
+      margin-bottom: 25px;
+    }
+
+    .btn-mind {
+      display: inline-block;
+      padding: 10px 25px;
+      background: var(--ikna-accent);
+      color: white;
+      text-decoration: none;
+      border-radius: 30px;
+      font-weight: 700;
+      transition: var(--tr);
+    }
+    .btn-mind:hover {
+      background: white;
+      color: var(--ikna-accent);
+      box-shadow: 0 0 20px rgba(157, 78, 221, 0.6);
+    }
+
+    @media (max-width: 768px) {
+      .move-item, .move-item:nth-child(even) { flex-direction: column; text-align: center; }
+      .move-figure { font-size: 4rem; height: auto; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="chess-bg"></div>
+
+  <%- include('partials/main-header') %>
+
+  <section class="mind-hero">
+    <div class="knight-icon"><i class="fa-solid fa-chess-knight"></i></div>
+    <h1>İkna Psikolojisi</h1>
+    <p>İletişim bir satranç tahtasıdır. Karşı tarafın karar mekanizmalarını önceden okuyarak, onlara "evet" dedirtecek psikolojik hamleleri kurgulayın.</p>
+  </section>
+
+  <% 
+    const i3 = exercises.find(e => e.id === 'ikna3');
+    const i4 = exercises.find(e => e.id === 'ikna4');
+    const i5 = exercises.find(e => e.id === 'ikna5');
+  %>
+
+  <section class="chess-container">
+
+    <div style="text-align: center; margin-bottom: 40px;">
+      <h2 style="font-size: 2.5rem; font-weight: 800; color: white;">Cialdini'nin Etki Silahları</h2>
+      <p style="color: #B39DDB; font-size: 1.2rem;">Bir insana sadece mantıkla "evet" dedirtemezsiniz. Evrimsel olarak zihnimize kodlanmış 6 temel psikolojik tetikleyiciyi (kısayolu) kullanmalısınız.</p>
+    </div>
+
+    <div class="move-timeline">
+      <!-- Kural 1: Karşılıklılık -->
+      <div class="move-item">
+        <div class="move-figure">♚</div>
+        <div class="move-content">
+          <h3>1. Karşılıklılık (Reciprocity)</h3>
+          <p>İnsanlar aldıkları bir iyiliğin altında kalmamaya evrimsel olarak programlanmıştır. Önce siz verin. Bir bilgi, bir iltifat, bir taviz. Beklenmedik ve kişiselleştirilmiş bir hediye, ikna kapılarını sonuna kadar açar.</p>
+        </div>
+      </div>
+
+      <!-- Kural 2: Tutarlılık -->
+      <div class="move-item">
+        <div class="move-figure">♜</div>
+        <div class="move-content">
+          <h3>2. Tutarlılık (Consistency)</h3>
+          <p>İnsanlar önceki sözleri ve inançlarıyla çelişmekten nefret ederler. Karşı taraftan önce "küçük bir evet" alın. Ufak bir taahhüt kopardığınızda, asıl büyük isteğinize "evet" deme olasılıkları katlanarak artar.</p>
+        </div>
+      </div>
+
+      <!-- Kural 3: Toplumsal Kanıt -->
+      <div class="move-item">
+        <div class="move-figure">♞</div>
+        <div class="move-content">
+          <h3>3. Toplumsal Kanıt (Social Proof)</h3>
+          <p>Belirsizlik anında insanlar etraflarına bakar. "Bizim gibi olan diğerleri ne yapıyor?" Kalabalığın veya o kişiye benzeyenlerin aldığı kararları göstermek, mantıklı argümanlardan çok daha etkilidir.</p>
+        </div>
+      </div>
+
+      <!-- Kural 4: Otorite -->
+      <div class="move-item">
+        <div class="move-figure">♛</div>
+        <div class="move-content">
+          <h3>4. Otorite (Authority)</h3>
+          <p>Uzmanlara itaat etmek, düşünme zahmetinden kurtarır. Argümanınızı sunmadan önce uzmanlığınızı ve kredibilitenizi (Ethos) masaya koyun. Diploma, deneyim yılı veya üniforma beynin direnç kalkanını indirir.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Extra Tools -->
+    <div class="brain-grid">
+      <div class="brain-card">
+        <i class="fa-solid fa-brain"></i>
+        <h4><%= i3 ? i3.title : 'Nörobilim ve İkna' %></h4>
+        <p>Beynin Amigdala ve Prefrontal Korteks bölgelerinin iletişimini nasıl manipüle edebileceğinizi keşfedin.</p>
+        <a href="#" class="btn-mind" onclick="alert('İkna Psikolojisi: Nörobilim laboratuvarı yakında aktif olacak.')">Laboratuvara Gir</a>
+      </div>
+      <div class="brain-card">
+        <i class="fa-solid fa-hourglass-half"></i>
+        <h4><%= i5 ? i5.title : 'Zamanlama (Kairos)' %></h4>
+        <p>Mükemmel bir argüman, yanlış zamanda söylenirse çöptür. Kairos (Doğru An) penceresini nasıl tespit edersiniz?</p>
+        <a href="#" class="btn-mind" onclick="alert('İkna Psikolojisi: Kairos zamanlayıcısı yakında eklenecektir.')">Analiz Et</a>
+      </div>
+    </div>
+
+  </section>
+
+  <%- include('partials/main-footer') %>
+</body>
+</html>

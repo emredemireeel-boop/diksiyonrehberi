@@ -1,0 +1,87 @@
+<USER_REQUEST>
+giyim değil 🎭 BEDEN DİLİ (BODY LANGUAGE) - 15 ADIM DETAYLI PLANI
+ADIM 1: Konsept Tanımı ve Teorik Temel
+Hedef
+Beden dilinin retorik ve Ethos ile ilişkisini kurmak
+
+Detaylı Açıklama
+Tanım: Beden dili, sözel olmayan iletişim biçimidir. Duruş, el hareketleri, yüz ifadesi, göz teması ve mesafe
+Retorik Bağlantısı: Aristoteles'in Ethos (güvenilirlik) konseptinin %55'i beden dilinden gelir
+Bilimsel Temel: Albert Mehrabian'ın 55-38-7 Kuralı (55% beden dili, 38% ses tonu, 7% kelimeler)
+Ethos Bileşenleri ile İlişki:
+Phronesis (Uzmanlık) → Güvenli duruş, kontrollü hareketler
+Arete (Karakter) → Samimi yüz ifadesi, tutarlı hareketler
+Eunoia (İyi Niyet) → Açık beden pozisyonu, göz teması
+İçerik Yapısı
+┌─────────────────────────────────────┐
+│ HERO SECTION                        │
+│ "Beden Dili: Sessiz Konuşmanın Gücü"│
+│ Subtitle: Sözsüz İletişim %55      │
+└─────────────────────────────────────┘
+Geliştirme Görevleri
+ Hero section tasarımı (gradient background, typography)
+ Açılış videosu veya animasyon (3-5 saniye)
+ Mehrabian Kuralı infografik
+ADIM 2: Beden Dili Bileşenlerinin Kategorize Edilmesi
+Hedef
+Beden dilini 5 ana kategoriye ayırmak ve her birini detaylı açıklamak
+
+Detaylı Açıklama
+Beden dili 5 ana bileşenden oluşur:
+
+1. DURUŞ (Posture)
+
+Dik duruş = Güven, otorite, Phronesis
+Eğilmiş duruş = Zayıflık, ilgisizlik
+Açık duruş = Eunoia (iyi niyet)
+Kapalı duruş = Savunma, korku
+2. EL HAREKETLERİ (Gestures)
+
+Açık avuç = Dürüstlük (Arete)
+Kapalı yumruk = Agresivite
+Kontrollü hareketler = Profesyonellik
+Aşırı hareketler = Sinir, kontrol kaybı
+3. YÜZ İFADESİ (Facial Expression)
+
+Gülümseme = Samimi, Eunoia
+Kaş çatma = Konsantrasyon, endişe
+Göz teması = Güven, Phronesis
+Kaçan bakış = Şüphe, Arete eksikliği
+4. MESAFE VE ALAN (Proxemic
+<truncated 18204 bytes>
+0/100                         │
+│    Anlamı: Onay, başarı                  │
+│    Kullanım: Pozitif sonuçları vurgularken
+│    Senaryo: "Harika sonuçlar elde ettik" │
+│    [Resim/Video]                         │
+│                                          │
+│ 4. AÇIK KOLLAR (Open Arms)               │
+│    Ethos: 100/100                        │
+│    Anlamı: Açıklık, samimi, hoşlanma     │
+│    Kullanım: Dinleyicileri karşılarken   │
+│    Senaryo: Konferans açılışı            │
+│    [Resim/Video]                         │
+│                                          │
+│ 5. ÇAPRAZ KOLLAR (Crossed Arms)          │
+│    Ethos: 20/100                         │
+│    Anlamı: Savunma, kapalılık            │
+│    Kullanım: Kaçınılmalı                 │
+│    Senaryo: Profesyonel ortamda uygunsuz│
+│    [Resim/Video]                         │
+│                                          │
+│ [Daha Fazla Hareket] [Kütüphaneyi Ara]   │
+└───────────────────────────────────────── beden dilini yapcıaz ilk adımı yap ikincvi adıma geç sor
+</USER_REQUEST>
+<ADDITIONAL_METADATA>
+The current local time is: 2026-05-30T18:22:15+03:00.
+
+The user's current state is as follows:
+Other open documents:
+- c:\Users\GAMER\Desktop\Projelerim\diksiyonrehberi-web\views\retorik-radar.ejs (LANGUAGE_UNSPECIFIED)
+- c:\Users\GAMER\Desktop\Projelerim\diksiyonrehberi-web\views\sahne-duygu.ejs (LANGUAGE_UNSPECIFIED)
+- c:\Users\GAMER\Desktop\Projelerim\diksiyonrehberi-web\views\bedendili-dedektif.ejs (LANGUAGE_UNSPECIFIED)
+- c:\Users\GAMER\Desktop\Projelerim\diksiyonrehberi-web\views\giyim-outfit.ejs (LANGUAGE_UNSPECIFIED)
+- c:\Users\GAMER\Desktop\Projelerim\diksiyonrehberi-web\views\retorik-ucgen.ejs (LANGUAGE_UNSPECIFIED)
+Running terminal commands:
+- npm run dev (in c:\Users\GAMER\Desktop\Projelerim\diksiyonrehberi-web, running for 1h49m37s)
+</ADDITIONAL_METADATA>

@@ -1,1300 +1,805 @@
 <%- include('partials/main-header') %>
-<link rel="stylesheet" href="/retorik.css?v=8" />
-<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
 <style>
   :root {
-    --ethos-bg: #0b1120; /* Deep navy */
-    --ethos-card: rgba(30, 41, 59, 0.7);
-    --ethos-border: rgba(255, 255, 255, 0.1);
-    --ethos-accent: #38bdf8;
-    --ethos-gold: #fbbf24;
-    --ethos-text: #f8fafc;
-    --ethos-subtext: #94a3b8;
+    --ethos-navy: #0F1F3D;
+    --ethos-gold: #C9A84C;
+    --ethos-gold-light: #DFB957;
+    --ethos-white: #FDFCF9;
+    --ethos-gray: #A8B2C0;
+    --ethos-surface: #ffffff;
+    --ethos-border: rgba(15, 31, 61, 0.1);
+    
+    --phro-color: #2563eb;
+    --are-color: #059669;
+    --eun-color: #d97706;
+    
+    --tr: .22s cubic-bezier(.4,0,.2,1);
   }
 
-  body.ethos-active {
-    background-color: var(--ethos-bg);
-    color: var(--ethos-text);
-    font-family: 'Inter', sans-serif;
+  body.ethos-light {
+    background-color: var(--ethos-white);
+    color: var(--ethos-navy);
+    font-family: 'Plus Jakarta Sans', sans-serif;
   }
 
-  /* Override general page bg just for this container */
-  .ethos-wrapper {
-    background-color: var(--ethos-bg);
-    color: var(--ethos-text);
-    min-height: 100vh;
-    padding-bottom: 80px;
-    position: relative;
-    overflow: hidden;
-  }
-
-  /* Decorative Background Orbs */
-  .ethos-orb-1 {
-    position: absolute;
-    top: -10%;
-    left: -10%;
-    width: 600px;
-    height: 600px;
-    background: radial-gradient(circle, rgba(56,189,248,0.15) 0%, rgba(11,17,32,0) 70%);
-    border-radius: 50%;
-    z-index: 0;
-    pointer-events: none;
-  }
-  
-  .ethos-orb-2 {
-    position: absolute;
-    bottom: 20%;
-    right: -5%;
-    width: 800px;
-    height: 800px;
-    background: radial-gradient(circle, rgba(251,191,36,0.1) 0%, rgba(11,17,32,0) 70%);
-    border-radius: 50%;
-    z-index: 0;
-    pointer-events: none;
-  }
-
-  .ethos-container {
+  .el-wrapper {
     max-width: 1200px;
     margin: 0 auto;
     padding: 0 20px;
-    position: relative;
-    z-index: 10;
   }
 
-  /* Pill Navigation override for dark mode */
-  .ret-cat-pills {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 10px;
-    justify-content: center;
-    margin: 40px 0;
-  }
-  .ret-cat-pill {
-    padding: 10px 20px;
-    border-radius: 30px;
-    background: rgba(255,255,255,0.05);
-    color: var(--ethos-subtext);
-    text-decoration: none;
-    font-size: 0.9rem;
-    font-weight: 500;
-    border: 1px solid rgba(255,255,255,0.1);
-    transition: all 0.3s ease;
-  }
-  .ret-cat-pill:hover {
-    background: rgba(255,255,255,0.1);
-    color: #fff;
-  }
-  .ret-cat-pill.active {
-    background: var(--ethos-accent);
-    color: #0b1120;
-    border-color: var(--ethos-accent);
-    font-weight: 600;
-    box-shadow: 0 0 15px rgba(56,189,248,0.4);
+  /* Typography */
+  h1, h2, h3, .font-serif {
+    font-family: 'Playfair Display', serif;
   }
 
   /* Hero Section */
-  .ethos-hero {
+  .el-hero {
+    background: linear-gradient(135deg, var(--ethos-navy) 0%, #1a365d 100%);
+    color: var(--ethos-white);
+    padding: 80px 20px;
     text-align: center;
-    padding: 60px 0;
+    border-radius: 0 0 40px 40px;
+    margin-bottom: 60px;
+    position: relative;
+    overflow: hidden;
   }
-  .ethos-hero h1 {
-    font-family: 'Outfit', sans-serif;
-    font-size: 3.5rem;
-    font-weight: 800;
+  .el-hero::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: url('data:image/svg+xml;utf8,<svg width="20" height="20" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><circle cx="2" cy="2" r="1" fill="rgba(255,255,255,0.05)"/></svg>');
+    opacity: 0.5;
+  }
+  .el-hero-content {
+    position: relative;
+    z-index: 2;
+    max-width: 800px;
+    margin: 0 auto;
+  }
+  .el-hero-subtitle {
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: var(--ethos-gold);
+    font-weight: 600;
+    font-size: 0.9rem;
     margin-bottom: 20px;
-    background: linear-gradient(135deg, #fff 0%, #cbd5e1 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    letter-spacing: -1px;
+    display: block;
   }
-  .ethos-hero p {
-    font-size: 1.2rem;
-    color: var(--ethos-subtext);
+  .el-hero h1 {
+    font-size: 3.5rem;
+    font-weight: 700;
+    margin-bottom: 24px;
+    line-height: 1.2;
+  }
+  .el-hero p {
+    font-size: 1.1rem;
+    color: var(--ethos-gray);
+    line-height: 1.6;
+    margin-bottom: 40px;
+  }
+  .el-btn-primary {
+    background: var(--ethos-gold);
+    color: var(--ethos-navy);
+    padding: 16px 32px;
+    border-radius: 8px;
+    font-weight: 600;
+    text-decoration: none;
+    display: inline-block;
+    transition: all var(--tr);
+    border: none;
+    cursor: pointer;
+    font-family: inherit;
+    font-size: 1rem;
+  }
+  .el-btn-primary:hover {
+    background: var(--ethos-gold-light);
+    transform: translateY(-2px);
+    box-shadow: 0 10px 20px rgba(201, 168, 76, 0.2);
+  }
+
+  /* Section Headers */
+  .el-section-header {
+    text-align: center;
+    margin-bottom: 48px;
+  }
+  .el-section-header h2 {
+    font-size: 2.5rem;
+    color: var(--ethos-navy);
+    margin-bottom: 16px;
+  }
+  .el-section-header p {
+    color: #4b5563;
+    font-size: 1.1rem;
     max-width: 600px;
     margin: 0 auto;
-    line-height: 1.6;
   }
 
-  /* Ethos Simulator Application */
-  .sim-app {
-    background: rgba(15, 23, 42, 0.6);
-    backdrop-filter: blur(16px);
-    -webkit-backdrop-filter: blur(16px);
-    border: 1px solid var(--ethos-border);
-    border-radius: 24px;
-    padding: 40px;
-    margin-bottom: 60px;
-    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+  /* Components Grid */
+  .el-components {
     display: grid;
-    grid-template-columns: 1fr 300px;
-    gap: 40px;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 30px;
+    margin-bottom: 80px;
   }
-  
-  @media(max-width: 800px) {
-    .sim-app {
-      grid-template-columns: 1fr;
-    }
+  @media (max-width: 1024px) {
+    .el-components { grid-template-columns: repeat(2, 1fr); }
   }
-
-  .sim-main-panel h2 {
-    font-family: 'Outfit', sans-serif;
-    font-size: 2rem;
-    margin-bottom: 10px;
-    color: #fff;
+  @media (max-width: 768px) {
+    .el-components { grid-template-columns: 1fr; }
   }
-  .sim-main-panel p.sim-desc {
-    color: var(--ethos-subtext);
-    margin-bottom: 30px;
-    line-height: 1.5;
+  .el-comp-card {
+    background: var(--ethos-surface);
+    border: 1px solid var(--ethos-border);
+    border-radius: 16px;
+    padding: 32px;
+    transition: all var(--tr);
+    box-shadow: 0 4px 6px rgba(0,0,0,0.02);
   }
-
-  .scenario-box {
-    background: rgba(56, 189, 248, 0.05);
-    border-left: 4px solid var(--ethos-accent);
-    padding: 15px 20px;
-    border-radius: 0 8px 8px 0;
-    margin-bottom: 30px;
+  .el-comp-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 20px 25px -5px rgba(0,0,0,0.05), 0 10px 10px -5px rgba(0,0,0,0.02);
+    border-color: var(--ethos-gold);
   }
-  .scenario-box span {
-    display: block;
-    font-size: 0.8rem;
+  .el-comp-icon {
+    font-size: 2.5rem;
+    margin-bottom: 20px;
+  }
+  .el-comp-card h3 {
+    font-size: 1.5rem;
+    margin-bottom: 8px;
+  }
+  .el-comp-subtitle {
+    font-size: 0.9rem;
     text-transform: uppercase;
     letter-spacing: 1px;
-    color: var(--ethos-accent);
-    margin-bottom: 5px;
-    font-weight: 700;
+    color: var(--ethos-gray);
+    margin-bottom: 16px;
+    display: block;
+    font-weight: 600;
+  }
+  .el-comp-desc {
+    font-size: 0.95rem;
+    line-height: 1.6;
+    color: #4b5563;
+    margin-bottom: 20px;
+    min-height: 80px;
+  }
+  .el-comp-example {
+    background: #f3f4f6;
+    padding: 16px;
+    border-radius: 8px;
+    font-size: 0.9rem;
+    color: #374151;
+    font-style: italic;
+    border-left: 3px solid var(--ethos-gold);
   }
 
-  .sim-steps {
-    position: relative;
+  /* Process Guide (Accordion) */
+  .el-process {
+    max-width: 800px;
+    margin: 0 auto 80px auto;
   }
+  .el-accordion-item {
+    border: 1px solid var(--ethos-border);
+    margin-bottom: 16px;
+    border-radius: 12px;
+    overflow: hidden;
+    background: var(--ethos-surface);
+  }
+  .el-accordion-header {
+    padding: 20px 24px;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    transition: background var(--tr);
+  }
+  .el-accordion-header:hover {
+    background: #f8fafc;
+  }
+  .el-step-num {
+    width: 32px;
+    height: 32px;
+    background: var(--ethos-navy);
+    color: var(--ethos-white);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    margin-right: 16px;
+    flex-shrink: 0;
+  }
+  .el-accordion-title {
+    font-weight: 600;
+    font-size: 1.1rem;
+    flex-grow: 1;
+  }
+  .el-accordion-icon {
+    transition: transform var(--tr);
+  }
+  .el-accordion-item.active .el-accordion-icon {
+    transform: rotate(180deg);
+  }
+  .el-accordion-body {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease-out;
+  }
+  .el-accordion-content {
+    padding: 0 24px 24px 72px;
+  }
+  .el-accordion-content p {
+    color: #4b5563;
+    line-height: 1.6;
+    margin-bottom: 16px;
+  }
+  .el-process-example {
+    background: #fef3c7;
+    padding: 16px;
+    border-radius: 8px;
+    color: #92400e;
+    font-size: 0.95rem;
+    border-left: 3px solid #f59e0b;
+  }
+
+  /* Analysis Section */
+  .el-analysis {
+    background: var(--ethos-navy);
+    color: var(--ethos-white);
+    padding: 80px 20px;
+    border-radius: 24px;
+    margin-bottom: 80px;
+  }
+  .el-analysis-container {
+    max-width: 900px;
+    margin: 0 auto;
+  }
+  .el-quote-box {
+    font-size: 1.5rem;
+    line-height: 1.6;
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    margin-bottom: 24px;
+  }
+  .el-quote-author {
+    color: var(--ethos-gold);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-size: 0.9rem;
+    margin-bottom: 40px;
+    text-align: right;
+  }
+  .hl-arete { background: rgba(5, 150, 105, 0.3); border-bottom: 2px solid var(--are-color); padding: 0 4px; }
+  .hl-phro { background: rgba(37, 99, 235, 0.3); border-bottom: 2px solid var(--phro-color); padding: 0 4px; }
+  .hl-eun { background: rgba(217, 119, 6, 0.3); border-bottom: 2px solid var(--eun-color); padding: 0 4px; }
   
-  .sim-step {
-    display: none;
-    animation: fadeIn 0.4s ease forwards;
+  .el-points {
+    display: grid;
+    gap: 16px;
+    margin-bottom: 40px;
   }
-  .sim-step.active {
+  .el-point {
+    display: flex;
+    gap: 16px;
+    align-items: flex-start;
+    background: rgba(255,255,255,0.05);
+    padding: 16px;
+    border-radius: 8px;
+  }
+  .el-point-dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    margin-top: 6px;
+    flex-shrink: 0;
+  }
+  .el-point-dot.arete { background: var(--are-color); }
+  .el-point-dot.phro { background: var(--phro-color); }
+  .el-point-dot.eun { background: var(--eun-color); }
+  
+  .el-analysis-takeaways {
+    background: rgba(201, 168, 76, 0.1);
+    border: 1px solid rgba(201, 168, 76, 0.3);
+    padding: 24px;
+    border-radius: 12px;
+  }
+  .el-analysis-takeaways h4 {
+    color: var(--ethos-gold);
+    margin-bottom: 16px;
+    font-size: 1.1rem;
+  }
+  .el-analysis-takeaways ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  .el-analysis-takeaways li {
+    position: relative;
+    padding-left: 24px;
+    margin-bottom: 10px;
+    color: #e2e8f0;
+  }
+  .el-analysis-takeaways li::before {
+    content: '→';
+    position: absolute;
+    left: 0;
+    color: var(--ethos-gold);
+  }
+
+  /* Simulator */
+  .el-sim {
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 24px;
+    padding: 60px 40px;
+    margin-bottom: 80px;
+    max-width: 800px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  @media(max-width: 600px) {
+    .el-sim { padding: 30px 20px; }
+  }
+  .el-sim-scenario {
+    background: var(--ethos-surface);
+    padding: 24px;
+    border-radius: 12px;
+    border-left: 4px solid var(--ethos-navy);
+    margin-bottom: 40px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.02);
+  }
+  .el-sim-scenario-label {
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    font-weight: 700;
+    color: var(--ethos-gray);
+    margin-bottom: 8px;
     display: block;
   }
+  .el-sim-step {
+    display: none;
+    animation: fadeIn 0.4s ease;
+  }
+  .el-sim-step.active {
+    display: block;
+  }
+  .el-sim-q {
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin-bottom: 24px;
+    color: var(--ethos-navy);
+  }
+  .el-sim-opt {
+    background: var(--ethos-surface);
+    border: 1px solid var(--ethos-border);
+    padding: 16px 20px;
+    border-radius: 12px;
+    margin-bottom: 12px;
+    cursor: pointer;
+    transition: all var(--tr);
+    font-size: 1rem;
+    color: #374151;
+  }
+  .el-sim-opt:hover {
+    border-color: var(--ethos-navy);
+    background: #f1f5f9;
+  }
+  .el-sim-opt.selected {
+    background: var(--ethos-navy);
+    color: var(--ethos-white);
+    border-color: var(--ethos-navy);
+  }
+  .el-sim-feedback {
+    margin-top: 24px;
+    padding: 20px;
+    border-radius: 12px;
+    display: none;
+    animation: fadeIn 0.4s ease;
+  }
+  .el-sim-feedback.success { background: #dcfce7; color: #166534; border: 1px solid #bbf7d0; }
+  .el-sim-feedback.warning { background: #fef9c3; color: #854d0e; border: 1px solid #fef08a; }
+  .el-sim-feedback.error { background: #fee2e2; color: #991b1b; border: 1px solid #fecaca; }
   
+  .el-sim-next {
+    margin-top: 24px;
+    display: none;
+  }
+  .el-sim-result {
+    text-align: center;
+    display: none;
+  }
+  .el-score-circle {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    border: 8px solid var(--ethos-gold);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 3rem;
+    font-weight: 700;
+    color: var(--ethos-navy);
+    margin: 0 auto 24px auto;
+  }
+
+  /* Takeaways & Resources */
+  .el-bottom-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 40px;
+    margin-bottom: 80px;
+  }
+  @media(max-width: 768px) {
+    .el-bottom-grid { grid-template-columns: 1fr; }
+  }
+  .el-takeaways ul {
+    list-style: none;
+    padding: 0;
+  }
+  .el-takeaways li {
+    display: flex;
+    gap: 16px;
+    background: var(--ethos-surface);
+    border: 1px solid var(--ethos-border);
+    padding: 16px;
+    border-radius: 12px;
+    margin-bottom: 12px;
+    align-items: center;
+  }
+  .el-ta-icon {
+    font-size: 1.5rem;
+  }
+  .el-resources .el-res-item {
+    display: flex;
+    flex-direction: column;
+    background: var(--ethos-surface);
+    border: 1px solid var(--ethos-border);
+    padding: 20px;
+    border-radius: 12px;
+    margin-bottom: 16px;
+    text-decoration: none;
+    color: inherit;
+    transition: all var(--tr);
+  }
+  .el-res-item:hover {
+    border-color: var(--ethos-gold);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+  }
+  .el-res-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+  }
+  .el-res-title {
+    font-weight: 700;
+    color: var(--ethos-navy);
+    font-size: 1.1rem;
+  }
+  .el-res-author {
+    font-size: 0.85rem;
+    color: var(--ethos-gray);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 8px;
+  }
+
   @keyframes fadeIn {
     from { opacity: 0; transform: translateY(10px); }
     to { opacity: 1; transform: translateY(0); }
   }
-
-  .sim-question {
-    font-size: 1.2rem;
-    font-weight: 600;
-    margin-bottom: 20px;
-    color: #fff;
-  }
-
-  .sim-option {
-    background: rgba(255,255,255,0.03);
-    border: 1px solid var(--ethos-border);
-    padding: 18px 20px;
-    border-radius: 12px;
-    margin-bottom: 12px;
-    cursor: pointer;
-    transition: all 0.2s ease;
-    font-size: 1rem;
-    line-height: 1.5;
-    color: #cbd5e1;
-  }
-  .sim-option:hover {
-    background: rgba(255,255,255,0.08);
-    border-color: rgba(255,255,255,0.3);
-  }
-  .sim-option.selected {
-    background: rgba(56, 189, 248, 0.1);
-    border-color: var(--ethos-accent);
-    box-shadow: 0 0 15px rgba(56, 189, 248, 0.2);
-  }
-
-  .sim-feedback {
-    display: none;
-    margin-top: 20px;
-    padding: 15px;
-    border-radius: 8px;
-    font-size: 0.95rem;
-    line-height: 1.5;
-    background: rgba(255,255,255,0.05);
-    border-left: 4px solid var(--ethos-subtext);
-    animation: fadeIn 0.3s ease;
-  }
-
-  .sim-next-btn {
-    display: none;
-    margin-top: 20px;
-    background: #fff;
-    color: #0f172a;
-    border: none;
-    padding: 12px 24px;
-    border-radius: 8px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: all 0.2s;
-  }
-  .sim-next-btn:hover {
-    background: #e2e8f0;
-    transform: translateY(-2px);
-  }
-
-  /* Stats Sidebar */
-  .sim-stats-panel {
-    background: rgba(0,0,0,0.2);
-    border-radius: 16px;
-    padding: 25px;
-  }
-  .sim-stats-panel h3 {
-    font-family: 'Outfit', sans-serif;
-    font-size: 1.2rem;
-    margin-bottom: 25px;
-    color: #fff;
-    border-bottom: 1px solid var(--ethos-border);
-    padding-bottom: 15px;
-  }
-
-  .stat-bar-wrap {
-    margin-bottom: 25px;
-  }
-  .stat-label {
-    display: flex;
-    justify-content: space-between;
-    font-size: 0.85rem;
-    font-weight: 600;
-    color: var(--ethos-subtext);
-    margin-bottom: 8px;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-  }
-  .stat-label span.stat-val {
-    color: #fff;
-  }
-  .stat-track {
-    width: 100%;
-    height: 8px;
-    background: rgba(255,255,255,0.1);
-    border-radius: 4px;
-    overflow: hidden;
-  }
-  .stat-fill {
-    height: 100%;
-    width: 0%;
-    background: var(--ethos-accent);
-    border-radius: 4px;
-    transition: width 0.6s cubic-bezier(0.4, 0, 0.2, 1);
-  }
-  .stat-fill.phronesis { background: #38bdf8; } /* Blue for Expertise */
-  .stat-fill.arete { background: #fbbf24; }    /* Gold for Character */
-  .stat-fill.eunoia { background: #34d399; }   /* Green for Goodwill */
-
-  .sim-result {
-    display: none;
-    text-align: center;
-    padding: 40px 20px;
-  }
-  .sim-result h2 {
-    font-family: 'Outfit', sans-serif;
-    font-size: 2.5rem;
-    margin-bottom: 10px;
-    color: var(--ethos-gold);
-  }
-  .sim-result p {
-    font-size: 1.1rem;
-    color: var(--ethos-subtext);
-    line-height: 1.6;
-    margin-bottom: 30px;
-  }
-  .sim-result-speech {
-    background: rgba(0,0,0,0.3);
-    padding: 20px;
-    border-radius: 12px;
-    font-style: italic;
-    color: #cbd5e1;
-    border-left: 3px solid var(--ethos-gold);
-    text-align: left;
-  }
-
-  /* Masterclass Section */
-  .masterclass-section {
-    margin-top: 80px;
-  }
-  .mc-header {
-    text-align: center;
-    margin-bottom: 40px;
-  }
-  .mc-header h2 {
-    font-family: 'Outfit', sans-serif;
-    font-size: 2.5rem;
-    color: #fff;
-    margin-bottom: 10px;
-  }
-  .mc-header p {
-    color: var(--ethos-subtext);
-    font-size: 1.1rem;
-  }
-
-  .mc-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-    gap: 30px;
-  }
-
-  .mc-card {
-    background: rgba(30, 41, 59, 0.5);
-    border: 1px solid var(--ethos-border);
-    border-radius: 16px;
-    padding: 30px;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-    cursor: default;
-  }
-  .mc-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 15px 30px rgba(0,0,0,0.4);
-    border-color: rgba(255,255,255,0.2);
-  }
-  
-  .mc-author {
-    display: flex;
-    align-items: center;
-    gap: 15px;
-    margin-bottom: 20px;
-    padding-bottom: 20px;
-    border-bottom: 1px solid var(--ethos-border);
-  }
-  .mc-avatar {
-    width: 50px;
-    height: 50px;
-    border-radius: 50%;
-    background: #334155;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 1.5rem;
-  }
-  .mc-author-info h4 {
-    margin: 0;
-    color: #fff;
-    font-size: 1.1rem;
-  }
-  .mc-author-info span {
-    font-size: 0.8rem;
-    color: var(--ethos-subtext);
-  }
-
-  .mc-quote {
-    font-size: 1.05rem;
-    line-height: 1.6;
-    color: #cbd5e1;
-    margin-bottom: 20px;
-    position: relative;
-  }
-  
-  .mc-quote::before {
-    content: '"';
-    font-family: 'Outfit', sans-serif;
-    font-size: 4rem;
-    color: rgba(255,255,255,0.05);
-    position: absolute;
-    top: -20px;
-    left: -10px;
-    line-height: 1;
-    z-index: -1;
-  }
-
-  .mc-tags {
-    display: flex;
-    gap: 8px;
-    flex-wrap: wrap;
-  }
-  .mc-tag {
-    font-size: 0.75rem;
-    padding: 4px 10px;
-    border-radius: 20px;
-    font-weight: 600;
-    letter-spacing: 0.5px;
-  }
-  .mc-tag.phro { background: rgba(56,189,248,0.1); color: #38bdf8; border: 1px solid rgba(56,189,248,0.2); }
-  .mc-tag.are { background: rgba(251,191,36,0.1); color: #fbbf24; border: 1px solid rgba(251,191,36,0.2); }
-  .mc-tag.eun { background: rgba(52,211,153,0.1); color: #34d399; border: 1px solid rgba(52,211,153,0.2); }
-
-  .mc-explanation {
-    margin-top: 15px;
-    font-size: 0.9rem;
-    color: #94a3b8;
-    background: rgba(0,0,0,0.2);
-    padding: 12px;
-    border-radius: 8px;
-    border-left: 3px solid var(--ethos-subtext);
-    display: none;
-  }
-  .mc-card:hover .mc-explanation {
-    display: block;
-    animation: fadeIn 0.3s ease;
-  }
-
-  /* Ethos Shield Section */
-  .ethos-shield-section {
-    margin-top: 80px;
-    background: linear-gradient(180deg, rgba(30,41,59,0.3) 0%, rgba(11,17,32,0) 100%);
-    border-top: 1px solid var(--ethos-border);
-    padding: 60px 0;
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 40px;
-    align-items: center;
-  }
-  @media(max-width: 800px) {
-    .ethos-shield-section { grid-template-columns: 1fr; }
-  }
-  
-  .shield-content h2 {
-    font-family: 'Outfit', sans-serif;
-    font-size: 2.2rem;
-    color: #fff;
-    margin-bottom: 15px;
-  }
-  .shield-content p {
-    color: var(--ethos-subtext);
-    line-height: 1.6;
-    margin-bottom: 30px;
-    font-size: 1.1rem;
-  }
-  
-  .shield-checklist {
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
-  }
-  .shield-item {
-    display: flex;
-    align-items: flex-start;
-    gap: 15px;
-    background: rgba(255,255,255,0.03);
-    padding: 15px 20px;
-    border-radius: 12px;
-    border: 1px solid transparent;
-    transition: all 0.3s;
-    cursor: pointer;
-  }
-  .shield-item:hover {
-    background: rgba(255,255,255,0.08);
-  }
-  .shield-item.checked {
-    background: rgba(56, 189, 248, 0.1);
-    border-color: rgba(56, 189, 248, 0.3);
-  }
-  .shield-checkbox {
-    width: 24px;
-    height: 24px;
-    border-radius: 6px;
-    border: 2px solid var(--ethos-subtext);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: all 0.3s;
-    flex-shrink: 0;
-  }
-  .shield-item.checked .shield-checkbox {
-    background: var(--ethos-accent);
-    border-color: var(--ethos-accent);
-  }
-  .shield-checkbox::after {
-    content: '✓';
-    color: #0b1120;
-    font-weight: bold;
-    font-size: 14px;
-    opacity: 0;
-    transform: scale(0.5);
-    transition: all 0.3s;
-  }
-  .shield-item.checked .shield-checkbox::after {
-    opacity: 1;
-    transform: scale(1);
-  }
-  
-  .shield-text h4 {
-    margin: 0 0 5px 0;
-    color: #fff;
-    font-size: 1.05rem;
-  }
-  .shield-text p {
-    margin: 0;
-    font-size: 0.9rem;
-    color: var(--ethos-subtext);
-  }
-
-  .shield-visual-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    position: relative;
-  }
-  .shield-icon {
-    font-size: 120px;
-    filter: drop-shadow(0 0 10px rgba(0,0,0,0.5));
-    transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-    opacity: 0.3;
-    transform: scale(0.9);
-  }
-  .shield-icon.level-1 { opacity: 0.5; filter: drop-shadow(0 0 20px rgba(56,189,248,0.2)); transform: scale(0.95); }
-  .shield-icon.level-2 { opacity: 0.75; filter: drop-shadow(0 0 40px rgba(56,189,248,0.4)); transform: scale(1); }
-  .shield-icon.level-3 { opacity: 1; filter: drop-shadow(0 0 60px rgba(56,189,248,0.7)); transform: scale(1.1); color: #38bdf8; }
-  
-  .shield-glow {
-    position: absolute;
-    width: 200px;
-    height: 200px;
-    background: radial-gradient(circle, rgba(56,189,248,0.4) 0%, rgba(0,0,0,0) 70%);
-    border-radius: 50%;
-    z-index: -1;
-    opacity: 0;
-    transition: all 0.5s;
-    transform: scale(0.5);
-  }
-  .shield-icon.level-3 + .shield-glow {
-    opacity: 1;
-    transform: scale(1.5);
-  }
-
-  /* Power of Pause Section */
-  .pause-section {
-    margin-top: 80px;
-    padding: 60px 0;
-    background: linear-gradient(135deg, rgba(15, 23, 42, 0.8) 0%, rgba(30, 41, 59, 0.5) 100%);
-    border-radius: 24px;
-    border: 1px solid var(--ethos-border);
-    text-align: center;
-  }
-  .pause-header h2 {
-    font-family: 'Outfit', sans-serif;
-    font-size: 2.5rem;
-    color: #fff;
-    margin-bottom: 15px;
-  }
-  .pause-header p {
-    color: var(--ethos-subtext);
-    font-size: 1.1rem;
-    max-width: 600px;
-    margin: 0 auto 40px auto;
-  }
-  .pause-game-area {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 30px;
-  }
-  .interviewer-question {
-    background: rgba(255,255,255,0.05);
-    padding: 20px 30px;
-    border-radius: 12px;
-    font-size: 1.2rem;
-    color: #fff;
-    border-left: 4px solid var(--ethos-accent);
-    max-width: 600px;
-  }
-  .timer-display {
-    font-size: 4rem;
-    font-family: 'Outfit', sans-serif;
-    font-weight: 800;
-    color: var(--ethos-accent);
-    font-variant-numeric: tabular-nums;
-  }
-  .action-buttons {
-    display: flex;
-    gap: 15px;
-  }
-  .btn-start-question, .btn-answer {
-    padding: 15px 40px;
-    font-size: 1.1rem;
-    font-weight: 600;
-    border-radius: 30px;
-    cursor: pointer;
-    border: none;
-    transition: all 0.2s;
-  }
-  .btn-start-question {
-    background: #fff;
-    color: #0f172a;
-  }
-  .btn-start-question:hover {
-    transform: scale(1.05);
-  }
-  .btn-answer {
-    background: var(--ethos-accent);
-    color: #0f172a;
-    display: none;
-  }
-  .btn-answer:hover {
-    background: #0284c7;
-    color: #fff;
-  }
-  .pause-feedback {
-    margin-top: 20px;
-    font-size: 1.1rem;
-    padding: 20px;
-    border-radius: 12px;
-    max-width: 500px;
-    display: none;
-    animation: fadeIn 0.4s;
-  }
-  .pause-feedback.panik { background: rgba(239, 68, 68, 0.1); border: 1px solid #ef4444; color: #fca5a5; }
-  .pause-feedback.otorite { background: rgba(52, 211, 153, 0.1); border: 1px solid #34d399; color: #a7f3d0; }
-  .pause-feedback.gec { background: rgba(251, 191, 36, 0.1); border: 1px solid #fbbf24; color: #fde68a; }
-
-  /* Scroll Animations */
-  .reveal-on-scroll {
-    opacity: 0;
-    transform: translateY(30px);
-    transition: opacity 0.8s ease-out, transform 0.8s ease-out;
-  }
-  .reveal-on-scroll.is-revealed {
-    opacity: 1;
-    transform: translateY(0);
-  }
-
-  /* Ethos Destroyers Section */
-  .destroyers-section {
-    margin-top: 80px;
-    padding: 60px 0;
-  }
-  .destroyers-header {
-    text-align: center;
-    margin-bottom: 40px;
-  }
-  .destroyers-header h2 {
-    font-family: 'Outfit', sans-serif;
-    font-size: 2.5rem;
-    color: #ef4444; /* red accent */
-    margin-bottom: 10px;
-  }
-  .destroyers-header p {
-    color: var(--ethos-subtext);
-    font-size: 1.1rem;
-  }
-  .destroyer-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 30px;
-  }
-  .destroyer-card {
-    background: rgba(239, 68, 68, 0.05);
-    border: 1px solid rgba(239, 68, 68, 0.2);
-    border-radius: 16px;
-    padding: 30px;
-    text-align: center;
-    transition: transform 0.3s, box-shadow 0.3s;
-  }
-  .destroyer-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 10px 25px rgba(239, 68, 68, 0.15);
-    border-color: rgba(239, 68, 68, 0.4);
-  }
-  .destroyer-icon {
-    font-size: 3rem;
-    margin-bottom: 15px;
-  }
-  .destroyer-card h3 {
-    color: #fff;
-    margin-bottom: 15px;
-    font-family: 'Outfit', sans-serif;
-  }
-  .destroyer-card p {
-    color: #cbd5e1;
-    font-size: 0.95rem;
-    line-height: 1.6;
-  }
-
-  /* Vocabulary of Authority Section */
-  .vocab-section {
-    margin-top: 80px;
-    padding: 60px 0;
-    background: rgba(0,0,0,0.2);
-    border-radius: 24px;
-    border: 1px solid var(--ethos-border);
-  }
-  .vocab-header {
-    text-align: center;
-    margin-bottom: 40px;
-  }
-  .vocab-header h2 {
-    font-family: 'Outfit', sans-serif;
-    font-size: 2.5rem;
-    color: #fff;
-    margin-bottom: 10px;
-  }
-  .vocab-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-    gap: 20px;
-    padding: 0 30px;
-  }
-  .vocab-card {
-    background: rgba(255,255,255,0.03);
-    border-radius: 12px;
-    padding: 20px;
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
-    border: 1px solid rgba(255,255,255,0.05);
-  }
-  .vocab-phrase {
-    padding: 15px;
-    border-radius: 8px;
-    font-size: 1rem;
-    line-height: 1.5;
-    position: relative;
-  }
-  .vocab-weak {
-    background: rgba(239, 68, 68, 0.1);
-    border-left: 3px solid #ef4444;
-    color: #cbd5e1;
-  }
-  .vocab-strong {
-    background: rgba(52, 211, 153, 0.1);
-    border-left: 3px solid #34d399;
-    color: #fff;
-    display: none;
-    animation: fadeIn 0.4s ease;
-  }
-  .vocab-toggle-btn {
-    align-self: center;
-    background: transparent;
-    border: 1px solid var(--ethos-accent);
-    color: var(--ethos-accent);
-    padding: 8px 16px;
-    border-radius: 20px;
-    cursor: pointer;
-    font-weight: 600;
-    font-size: 0.85rem;
-    transition: all 0.3s;
-  }
-  .vocab-toggle-btn:hover {
-    background: var(--ethos-accent);
-    color: #0f172a;
-  }
 </style>
 
-<div class="ethos-wrapper">
-  <div class="ethos-orb-1"></div>
-  <div class="ethos-orb-2"></div>
-  
-  <div class="ethos-container">
+<% 
+  // Extracting data
+  const data = exercises.find(e => e.id === 'ethos_light_v2'); 
+%>
+
+<script>
+  // Add body class for styling encapsulation
+  document.body.classList.add('ethos-light');
+</script>
+
+<div class="el-wrapper">
+
+  <!-- HERO SECTION -->
+  <section class="el-hero" aria-label="Ethos Hero Section">
+    <div class="el-hero-content">
+      <span class="el-hero-subtitle">Retorik Modülü</span>
+      <h1>Ethos: Güvenilirlik Sanatı</h1>
+      <p>Aristoteles'e göre bir konuşmacının en güçlü silahı mantığı veya duyguları değil, karakteridir. Dinleyici size güvenmezse, dünyanın en mantıklı argümanı bile işe yaramaz. Ethos, o güveni inşa etme mimarisidir.</p>
+      <a href="#components" class="el-btn-primary">Ethos'u Keşfet</a>
+    </div>
+  </section>
+
+  <!-- 3 COMPONENTS GRID -->
+  <section id="components" aria-label="Ethos Bileşenleri">
+    <div class="el-section-header">
+      <h2>Ethos'un 3 Temeli</h2>
+      <p>Güçlü bir karakter izlenimi bırakmak için bu üç sütunun bir arada bulunması gerekir.</p>
+    </div>
     
-    <!-- CATEGORIES -->
-    <div class="ret-cat-pills">
-      <a href="/retorik" class="ret-cat-pill">Tümü</a>
-      <a href="/retorik/ethos" class="ret-cat-pill active">Ethos</a>
-      <a href="/retorik/pathos" class="ret-cat-pill">Pathos</a>
-      <a href="/retorik/logos" class="ret-cat-pill">Logos</a>
-      <a href="/retorik/konusma-yazimi" class="ret-cat-pill">Konuşma Yazımı</a>
-      <a href="/retorik/figurler" class="ret-cat-pill">Retorik Figürleri</a>
-      <a href="/retorik/analiz" class="ret-cat-pill">Konuşma Analizi</a>
-      <a href="/retorik/savunma" class="ret-cat-pill">Güçlü Savunma</a>
-      <a href="/retorik/ikna" class="ret-cat-pill">İkna Psikolojisi</a>
+    <div class="el-components">
+      <% data.components.forEach(comp => { %>
+        <article class="el-comp-card">
+          <div class="el-comp-icon"><%= comp.icon %></div>
+          <h3><%= comp.title %></h3>
+          <span class="el-comp-subtitle"><%= comp.subtitle %></span>
+          <p class="el-comp-desc"><%= comp.desc %></p>
+          <div class="el-comp-example"><%= comp.example %></div>
+        </article>
+      <% }) %>
     </div>
+  </section>
 
-    <!-- HERO -->
-    <section class="ethos-hero">
-      <h1>Ethos: Güvenilirlik & İkna</h1>
-      <p>Dinleyicinin size inanması için sadece doğruları söylemeniz yetmez; onların, sizin doğruları söyleyecek kapasitede ve karakterde bir insan olduğunuza inanmaları gerekir.</p>
-    </section>
-
-    <!-- ETHOS SIMULATOR APP -->
-    <div class="sim-app" id="ethosSimulator">
-      <div class="sim-main-panel">
-        <h2>Ethos İnşa Simülatörü</h2>
-        <p class="sim-desc">Zorlu bir kriz anındasınız. Şirketinizin bir ürününde kritik bir hata çıktı ve basının karşısına çıkıyorsunuz. Açılış cümlelerinizi seçerek Ethos'unuzu inşa edin.</p>
-        
-        <div class="scenario-box">
-          <span>Senaryo</span>
-          Ürün hatası nedeniyle hisseler %15 düştü. Gazeteciler kan istiyor. İlk 3 cümleniz kaderinizi belirleyecek.
+  <!-- PROCESS GUIDE (ACCORDION) -->
+  <section class="el-process-section" aria-label="Ethos İnşa Süreci">
+    <div class="el-section-header">
+      <h2>Adım Adım Ethos İnşası</h2>
+      <p>Konuşmanıza başlarken güvenilirliği kurmak için izlemeniz gereken 5 altın kural.</p>
+    </div>
+    
+    <div class="el-process">
+      <% data.processSteps.forEach((step, index) => { %>
+        <div class="el-accordion-item <%= index === 0 ? 'active' : '' %>">
+          <div class="el-accordion-header" role="button" aria-expanded="<%= index === 0 ? 'true' : 'false' %>">
+            <div class="el-step-num"><%= step.step %></div>
+            <div class="el-accordion-title"><%= step.title %></div>
+            <svg class="el-accordion-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+          </div>
+          <div class="el-accordion-body" style="<%= index === 0 ? 'max-height: 500px;' : '' %>">
+            <div class="el-accordion-content">
+              <p><%= step.desc %></p>
+              <div class="el-process-example"><%= step.example %></div>
+            </div>
+          </div>
         </div>
+      <% }) %>
+    </div>
+  </section>
 
-        <div class="sim-steps">
-          
-          <!-- Step 1 -->
-          <div class="sim-step active" id="step0">
-            <div class="sim-question">Soru 1: Konuşmaya nasıl başlayacaksınız?</div>
-            
-            <div class="sim-option" onclick="selectOption(0, 0, 'arete', 40, 'Hatanın sorumluluğunu üstlenmek Arete (Dürüstlük) puanınızı uçurur. Kalkanları indirir.', this)">
-              "Buraya bahaneler üretmek için değil, ürünümüzdeki tasarım hatasının tüm sorumluluğunu üstlenmek için çıktım."
-            </div>
-            
-            <div class="sim-option" onclick="selectOption(0, 1, 'phronesis', -20, 'Savunmaya geçmek, yetkinliğinizi sorgulatır. Suçu başkasına atmak karakter (Arete) puanınızı düşürür.', this)">
-              "Yaşanan bu sorun tedarikçimizin bize hatalı parça göndermesinden kaynaklanmıştır, hukuk departmanımız süreci başlattı."
-            </div>
-            
-            <div class="sim-option" onclick="selectOption(0, 2, 'eunoia', 10, 'Empati kurmak iyi bir başlangıçtır ama kriz anında yeterli değildir.', this)">
-              "Mağdur olan tüm müşterilerimizden çok özür diliyoruz, sizi anlıyoruz."
-            </div>
-            
-            <div class="sim-feedback" id="fb0"></div>
-            <button class="sim-next-btn" id="next0" onclick="goToStep(1)">Sonraki Adım ➔</button>
-          </div>
-
-          <!-- Step 2 -->
-          <div class="sim-step" id="step1">
-            <div class="sim-question">Soru 2: Durumu nasıl çözeceğinizi açıklayacaksınız. Hangi yaklaşımı seçersiniz?</div>
-            
-            <div class="sim-option" onclick="selectOption(1, 0, 'phronesis', 40, 'Açık ve teknik bir çözüm sunmak Phronesis (Uzmanlık/Bilgelik) puanınızı artırır. Konuya hakim olduğunuzu gösterir.', this)">
-              "Son 48 saatte 120 mühendisimizle sorunun kaynağı olan yazılım döngüsünü tespit ettik. Yamayı bu gece yarısı yayınlıyoruz."
-            </div>
-            
-            <div class="sim-option" onclick="selectOption(1, 1, 'arete', -10, 'Aşırı özgüven ve belirsizlik kriz anında uzmanlığınızı zedeler.', this)">
-              "Merak etmeyin, dünyanın en iyi mühendisleri bizde. En kısa sürede çözeceğiz."
-            </div>
-            
-            <div class="sim-option" onclick="selectOption(1, 2, 'eunoia', 30, 'Müşteriyi merkeze almak Eunoia (İyi niyet) puanı kazandırır ancak uzmanlık kısmını eksik bırakır.', this)">
-              "Önceliğimiz sizsiniz. Zararınızı kuruşu kuruşuna tazmin edeceğiz."
-            </div>
-            
-            <div class="sim-feedback" id="fb1"></div>
-            <button class="sim-next-btn" id="next1" onclick="goToStep(2)">Sonraki Adım ➔</button>
-          </div>
-
-          <!-- Step 3 -->
-          <div class="sim-step" id="step2">
-            <div class="sim-question">Soru 3: Kapanış cümlenizle basının ve müşterinin güvenini nasıl mühürlersiniz?</div>
-            
-            <div class="sim-option" onclick="selectOption(2, 0, 'eunoia', 40, 'Kendi aleyhinize olsa bile dinleyicinin çıkarını korumak Eunoia (İyi niyet) ve Arete (Karakter) patlaması yaratır.', this)">
-              "Sizlerin güvenini yeniden kazanana kadar, şirket yönetim kurulu olarak hiçbirimiz maaş ve prim almayacağız."
-            </div>
-            
-            <div class="sim-option" onclick="selectOption(2, 1, 'phronesis', 20, 'Mantıklı ve profesyonel bir kapanış ama duygusal bağı (Eunoia) kurmakta biraz zayıf.', this)">
-              "Şeffaflık ilkemiz gereği, onarım sürecinin tüm raporlarını web sitemizden anlık takip edebilirsiniz."
-            </div>
-            
-            <div class="sim-option" onclick="selectOption(2, 2, 'arete', -30, 'Kibirli ve saldırgan bir tutum tüm Ethos\'unuzu sıfırlar.', this)">
-              "Medyanın bu konuyu abarttığını düşünüyoruz. Şirketimiz dimdik ayaktadır."
-            </div>
-            
-            <div class="sim-feedback" id="fb2"></div>
-            <button class="sim-next-btn" id="next2" onclick="showResults()">Sonucu Gör ➔</button>
-          </div>
-
-          <!-- Result -->
-          <div class="sim-result" id="simResult">
-            <h2 id="resRank">Liderlik Sınavı</h2>
-            <p id="resDesc">Verdiğiniz kararlar sonucunda oluşturduğunuz Ethos profili.</p>
-            <div class="sim-result-speech" id="resSpeech">
-              <!-- Built speech goes here -->
-            </div>
-            <button class="sim-next-btn" style="display:inline-block; margin-top:30px;" onclick="location.reload()">Tekrar Dene</button>
-          </div>
-
-        </div>
+  <!-- WARREN BUFFETT ANALYSIS -->
+  <section class="el-analysis" aria-label="Vaka İncelemesi">
+    <div class="el-analysis-container">
+      <div class="el-section-header" style="color: white;">
+        <h2 style="color: white;">Vaka İncelemesi</h2>
+        <p style="color: #cbd5e1;">Dünyanın en iyi yatırımcısının güveni nasıl onardığına yakından bakalım.</p>
       </div>
       
-      <div class="sim-stats-panel">
-        <h3>Ethos Profili</h3>
-        
-        <div class="stat-bar-wrap">
-          <div class="stat-label">
-            <span>Phronesis (Uzmanlık)</span>
-            <span class="stat-val" id="valPhro">0%</span>
-          </div>
-          <div class="stat-track"><div class="stat-fill phronesis" id="barPhro"></div></div>
-          <div style="font-size:0.75rem; color:#64748b; margin-top:5px;">Konuya hakim misiniz?</div>
-        </div>
-
-        <div class="stat-bar-wrap">
-          <div class="stat-label">
-            <span>Arete (Karakter/Dürüstlük)</span>
-            <span class="stat-val" id="valArete">0%</span>
-          </div>
-          <div class="stat-track"><div class="stat-fill arete" id="barArete"></div></div>
-          <div style="font-size:0.75rem; color:#64748b; margin-top:5px;">Sorumluluk alıyor musunuz?</div>
-        </div>
-
-        <div class="stat-bar-wrap">
-          <div class="stat-label">
-            <span>Eunoia (İyi Niyet)</span>
-            <span class="stat-val" id="valEunoia">0%</span>
-          </div>
-          <div class="stat-track"><div class="stat-fill eunoia" id="barEunoia"></div></div>
-          <div style="font-size:0.75rem; color:#64748b; margin-top:5px;">Dinleyiciyi önemsiyor musunuz?</div>
-        </div>
-        
-        <div style="margin-top:40px; padding-top:20px; border-top:1px solid rgba(255,255,255,0.1)">
-          <div style="font-size:0.8rem; color:#94a3b8; text-transform:uppercase; letter-spacing:1px; margin-bottom:5px;">Güven Skoru</div>
-          <div style="font-size:2.5rem; font-family:'Outfit',sans-serif; color:#fff; font-weight:800;" id="totalScore">0/100</div>
-        </div>
-
+      <div class="el-quote-box">
+        "<span class="hl-arete">Bu yıl çok fazla hata yaptık.</span> Yaptığımız stratejik hataların bedelini hissedarlara ödetmemek için <span class="hl-phro">yönetim kurulu olarak kendi primlerimizden %50 kesinti yaptık.</span> Amacımız her zaman <span class="hl-eun">sizin yatırımlarınızı en güvenli limanda tutmaktır.</span>"
       </div>
-    </div>
-
-    <!-- ETHOS SHIELD CHECKUP -->
-    <section class="ethos-shield-section reveal-on-scroll">
-      <div class="shield-content">
-        <h2>Ethos Kalkanı Testi</h2>
-        <p>Sahneye veya önemli bir toplantıya çıkmadan önce Ethos (Güvenilirlik) kalkanınızın tam olarak şarj edildiğinden emin olun. Tüm maddeleri işaretleyerek kalkanı aktifleştirin.</p>
-        
-        <div class="shield-checklist">
-          <div class="shield-item" onclick="toggleShieldItem(this)">
-            <div class="shield-checkbox"></div>
-            <div class="shield-text">
-              <h4>Kıyafet & Görünüm (İlk İzlenim)</h4>
-              <p>Ortamın ciddiyetine uygun giyindim. Ne aşırı abartılı ne de fazla salaşım.</p>
-            </div>
+      <div class="el-quote-author">— <%= data.analysis.author %></div>
+      
+      <div class="el-points">
+        <% data.analysis.points.forEach(point => { %>
+          <div class="el-point">
+            <div class="el-point-dot <%= point.type %>"></div>
+            <div><%= point.text %></div>
           </div>
-          <div class="shield-item" onclick="toggleShieldItem(this)">
-            <div class="shield-checkbox"></div>
-            <div class="shield-text">
-              <h4>Teknik Uzmanlık (Phronesis)</h4>
-              <p>Konuşacağım konudaki verilere hakimim. Gelebilecek en zor 3 sorunun cevabına çalıştım.</p>
-            </div>
-          </div>
-          <div class="shield-item" onclick="toggleShieldItem(this)">
-            <div class="shield-checkbox"></div>
-            <div class="shield-text">
-              <h4>Zihinsel Hazırlık (Arete & Eunoia)</h4>
-              <p>Ego yapmak yerine dinleyiciye değer katmaya odaklandım. Hata yaparsam dürüstçe kabul edeceğim.</p>
-            </div>
-          </div>
-        </div>
+        <% }) %>
       </div>
       
-      <div class="shield-visual-container">
-        <div class="shield-icon" id="mainShieldIcon">🛡️</div>
-        <div class="shield-glow"></div>
+      <div class="el-analysis-takeaways">
+        <h4>Çıkarımlar</h4>
+        <ul>
+          <% data.analysis.takeaways.forEach(ta => { %>
+            <li><%= ta %></li>
+          <% }) %>
+        </ul>
       </div>
-    </section>
+    </div>
+  </section>
 
-    <!-- POWER OF PAUSE -->
-    <section class="pause-section reveal-on-scroll">
-      <div class="pause-header">
-        <h2>Sessizliğin Gücü (3 Saniye Kuralı)</h2>
-        <p>Zor bir soruya anında cevap vermek paniği, çok geç cevap vermek bilgisizliği gösterir. Gerçek otorite, cevaba girmeden önceki o kontrollü sessizliktedir. Deneyin.</p>
+  <!-- INTERACTIVE SIMULATOR -->
+  <section class="el-sim-section" aria-label="Ethos Simülatörü">
+    <div class="el-section-header">
+      <h2>Ethos Simülatörü</h2>
+      <p>Öğrendiklerinizi baskı altında test edin. Kriz anında doğru kararı verebilecek misiniz?</p>
+    </div>
+    
+    <div class="el-sim" id="ethosSimulator">
+      <div class="el-sim-scenario">
+        <span class="el-sim-scenario-label">Senaryo</span>
+        <%= data.simulator.scenario %>
       </div>
-      <div class="pause-game-area">
-        <div class="interviewer-question" id="pauseQuestion" style="opacity:0.3;">
-          "Şirketinizin ürünlerinde kasıtlı eskitme yaptığına dair iddialar var. Bu doğru mu?"
-        </div>
-        <div class="timer-display" id="pauseTimer">0.0s</div>
-        <div class="action-buttons">
-          <button class="btn-start-question" id="btnStartQ" onclick="startPauseGame()">Soruyu Sor (Başla)</button>
-          <button class="btn-answer" id="btnAnswerQ" onclick="answerPauseGame()">Cevap Ver!</button>
-        </div>
-        <div class="pause-feedback" id="pauseFeedback"></div>
-      </div>
-    </section>
-
-    <!-- ETHOS DESTROYERS -->
-    <section class="destroyers-section reveal-on-scroll">
-      <div class="destroyers-header">
-        <h2>Ethos Yıkıcıları (Kırmızı Çizgiler)</h2>
-        <p>Ne kadar uzman olursanız olun, bu 3 hata anında güvenilirliğinizi yok eder.</p>
-      </div>
-      <div class="destroyer-grid">
-        <div class="destroyer-card reveal-on-scroll">
-          <div class="destroyer-icon">🦚</div>
-          <h3>Kibir (Hubris)</h3>
-          <p>Dinleyicinin üstüne çıkarak "Ben bilirim, siz anlamazsınız" tavrı takınmak. Eunoia'yı (iyi niyet algısını) anında öldürür. Dinleyici kalkanlarını kaldırır.</p>
-        </div>
-        <div class="destroyer-card reveal-on-scroll">
-          <div class="destroyer-icon">🎭</div>
-          <h3>Tutarsızlık</h3>
-          <p>Söylediğiniz değerlerle eylemlerinizin uyuşmaması. Arete'yi (karakter algısını) yerle bir eder. Süslü sözleriniz sahte bir maskeye dönüşür.</p>
-        </div>
-        <div class="destroyer-card reveal-on-scroll">
-          <div class="destroyer-icon">🛡️</div>
-          <h3>Saldırgan Savunma</h3>
-          <p>Bir hata veya eleştiri karşısında suçu başkasına atmak. Sorumluluktan kaçmak zayıflık göstergesidir ve Phronesis'i (uzmanlık/otorite) zedeler.</p>
-        </div>
-      </div>
-    </section>
-
-    <!-- VOCABULARY OF AUTHORITY -->
-    <section class="vocab-section reveal-on-scroll">
-      <div class="vocab-header">
-        <h2>Otorite Sözlüğü (Kelime Dönüştürücü)</h2>
-        <p>Zayıf kelimeler Ethos'unuzu törpüler. Güçlü ifadelere dönüştürmek için butonlara tıklayın.</p>
-      </div>
-      <div class="vocab-grid">
-        <div class="vocab-card reveal-on-scroll">
-          <div class="vocab-phrase vocab-weak">"Sanırım bu projeyi haftaya bitirebiliriz, yani umarım."</div>
-          <div class="vocab-phrase vocab-strong">"Bu projeyi önümüzdeki Cuma günü teslim ediyoruz."</div>
-          <button class="vocab-toggle-btn" onclick="toggleVocab(this)">Ethos Ekle ⚡</button>
-        </div>
-        <div class="vocab-card reveal-on-scroll">
-          <div class="vocab-phrase vocab-weak">"Biraz hata yapmış olabiliriz galiba..."</div>
-          <div class="vocab-phrase vocab-strong">"Burada tüm sorumluluk bize aittir."</div>
-          <button class="vocab-toggle-btn" onclick="toggleVocab(this)">Ethos Ekle ⚡</button>
-        </div>
-        <div class="vocab-card reveal-on-scroll">
-          <div class="vocab-phrase vocab-weak">"Sizi anlıyorum ama prosedür böyle."</div>
-          <div class="vocab-phrase vocab-strong">"Yaşadığınız zorluğun farkındayım, süreci sizin için hızlandırmanın bir yolunu bulacağım."</div>
-          <button class="vocab-toggle-btn" onclick="toggleVocab(this)">Ethos Ekle ⚡</button>
-        </div>
-      </div>
-    </section>
-
-    <!-- MASTERCLASS EXAMPLES -->
-    <section class="masterclass-section">
-      <div class="mc-header">
-        <h2>Ethos Masterclass</h2>
-        <p>Tarihteki en iyi hatiplerin ve liderlerin güvenilirlik inşa etme taktikleri</p>
-      </div>
-
-      <div class="mc-grid">
-        <!-- Card 1 -->
-        <div class="mc-card">
-          <div class="mc-author">
-            <div class="mc-avatar">💼</div>
-            <div class="mc-author-info">
-              <h4>Warren Buffett</h4>
-              <span>Berkshire Hathaway Hissedar Mektubu</span>
+      
+      <div id="simStepsContainer">
+        <% data.simulator.steps.forEach((step, index) => { %>
+          <div class="el-sim-step <%= index === 0 ? 'active' : '' %>" data-step="<%= index %>">
+            <div class="el-sim-q">Soru <%= index + 1 %>: <%= step.question %></div>
+            <div class="el-sim-opts">
+              <% step.options.forEach((opt, optIndex) => { %>
+                <div class="el-sim-opt" data-score="<%= opt.score %>" data-feedback="<%= opt.feedback.replace(/"/g, '&quot;') %>">
+                  <%= opt.text %>
+                </div>
+              <% }) %>
             </div>
+            <div class="el-sim-feedback"></div>
+            <button class="el-btn-primary el-sim-next">Sonraki Aşama</button>
           </div>
-          <div class="mc-quote">
-            "Geçen yıl oldukça büyük, adeta başparmak acıtan bazı hatalar yaptım. Öğrendiğim en önemli ders şudur: İyi bir yönetici kötü bir şirketi yönetirse, itibarı yara alan şirket değil yöneticinin kendisi olur."
-          </div>
-          <div class="mc-tags">
-            <span class="mc-tag are">Arete (Dürüstlük)</span>
-            <span class="mc-tag phro">Phronesis (Bilgelik)</span>
-          </div>
-          <div class="mc-explanation">
-            <strong>Analiz:</strong> Milyarder bir CEO'nun mektubuna başarılarıyla değil hatalarıyla başlaması radikal bir dürüstlüktür. Savunma kalkanlarını indirir ve ardından paylaştığı ders ile evrensel bir bilgelik (uzmanlık) sergiler.
-          </div>
-        </div>
+        <% }) %>
+      </div>
+      
+      <div class="el-sim-result" id="simResult">
+        <h2>Simülasyon Tamamlandı</h2>
+        <p>Ethos Puanınız:</p>
+        <div class="el-score-circle" id="simScoreDisplay">0</div>
+        <p id="simResultText"></p>
+        <button class="el-btn-primary" onclick="resetSimulator()">Tekrar Dene</button>
+      </div>
+    </div>
+  </section>
 
-        <!-- Card 2 -->
-        <div class="mc-card">
-          <div class="mc-author">
-            <div class="mc-avatar">👑</div>
-            <div class="mc-author-info">
-              <h4>Kraliçe I. Elizabeth</h4>
-              <span>Tilbury Konuşması (1588)</span>
+  <!-- TAKEAWAYS & RESOURCES -->
+  <div class="el-bottom-grid">
+    <section class="el-takeaways" aria-label="Önemli Çıkarımlar">
+      <h3 style="font-size: 1.8rem; margin-bottom: 24px;">Özet Çıkarımlar</h3>
+      <ul>
+        <% data.takeaways.forEach(ta => { %>
+          <li>
+            <span class="el-ta-icon"><%= ta.icon %></span>
+            <span><%= ta.text %></span>
+          </li>
+        <% }) %>
+      </ul>
+    </section>
+    
+    <section class="el-resources" aria-label="İleri Okuma ve Kaynaklar">
+      <h3 style="font-size: 1.8rem; margin-bottom: 24px;">İleri Okuma</h3>
+      <div class="el-res-list">
+        <% data.resources.forEach(res => { %>
+          <a href="<%= res.link %>" target="_blank" rel="noopener noreferrer" class="el-res-item">
+            <div class="el-res-header">
+              <span class="el-res-title"><%= res.title %></span>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--ethos-gray)" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
             </div>
-          </div>
-          <div class="mc-quote">
-            "Biliyorum zayıf ve aciz bir kadın bedenine sahibim; ancak bir kralın, hem de İngiltere kralının kalbine ve midesine sahibim. Ve Avrupa'nın hiçbir prensinin krallığımın sınırlarına girmeye cüret etmesini kabul etmiyorum."
-          </div>
-          <div class="mc-tags">
-            <span class="mc-tag are">Arete (Cesaret)</span>
-            <span class="mc-tag eun">Eunoia (Adanmışlık)</span>
-          </div>
-          <div class="mc-explanation">
-            <strong>Analiz:</strong> Ordunun karşısında kendi fiziksel dezavantajını açıkça kabul ederek (Arete) dürüst davranır. Hemen ardından metaforik olarak erkek bir kralın ruhuna sahip olduğunu söyleyerek askerlerle kader birliği yapar (Eunoia).
-          </div>
-        </div>
-
-        <!-- Card 3 -->
-        <div class="mc-card">
-          <div class="mc-author">
-            <div class="mc-avatar">🍎</div>
-            <div class="mc-author-info">
-              <h4>Steve Jobs</h4>
-              <span>Antennagate Basın Toplantısı (2010)</span>
-            </div>
-          </div>
-          <div class="mc-quote">
-            "Biz kusursuz değiliz. Telefonlar da kusursuz değil. Bunu hepimiz biliyoruz. Ama müşterilerimizi mutlu etmek için her şeyi yaparız."
-          </div>
-          <div class="mc-tags">
-            <span class="mc-tag are">Arete (Kabul)</span>
-            <span class="mc-tag eun">Eunoia (Müşteri Odaklılık)</span>
-          </div>
-          <div class="mc-explanation">
-            <strong>Analiz:</strong> Apple'ın kibrini kırıp "Biz kusursuz değiliz" diyerek insanlaşır (Arete). Hemen ardından odak noktasını "müşteriyi mutlu etmeye" çevirerek iyi niyetini (Eunoia) ispatlar.
-          </div>
-        </div>
+            <div class="el-res-author"><%= res.author %></div>
+            <p style="font-size: 0.9rem; color: #4b5563; margin:0;"><%= res.desc %></p>
+          </a>
+        <% }) %>
       </div>
     </section>
-
   </div>
+
 </div>
 
 <script>
-  // Script for Ethos Simulator
-  let stats = { phronesis: 0, arete: 0, eunoia: 0 };
-  let selectedSentences = [];
-  let isAnswered = [false, false, false];
-
-  function selectOption(stepIndex, optIndex, trait, score, feedback, element) {
-    if (isAnswered[stepIndex]) return;
-    isAnswered[stepIndex] = true;
-
-    // UI Updates
-    const parent = element.parentElement;
-    const options = parent.querySelectorAll('.sim-option');
-    options.forEach(opt => opt.style.opacity = '0.5');
-    element.style.opacity = '1';
-    element.classList.add('selected');
-
-    // Show feedback
-    const fbDiv = document.getElementById('fb' + stepIndex);
-    fbDiv.innerHTML = `<strong>Analiz:</strong> ${feedback}`;
-    fbDiv.style.display = 'block';
-    
-    if(score > 0) fbDiv.style.borderLeftColor = '#34d399';
-    else fbDiv.style.borderLeftColor = '#ef4444';
-
-    // Show next button
-    document.getElementById('next' + stepIndex).style.display = 'block';
-
-    // Update Stats
-    stats[trait] += score;
-    if(stats[trait] > 100) stats[trait] = 100;
-    if(stats[trait] < 0) stats[trait] = 0;
-
-    // Save sentence for final result
-    selectedSentences[stepIndex] = element.innerText;
-
-    updateBars();
-  }
-
-  function updateBars() {
-    document.getElementById('valPhro').innerText = stats.phronesis + '%';
-    document.getElementById('barPhro').style.width = stats.phronesis + '%';
-
-    document.getElementById('valArete').innerText = stats.arete + '%';
-    document.getElementById('barArete').style.width = stats.arete + '%';
-
-    document.getElementById('valEunoia').innerText = stats.eunoia + '%';
-    document.getElementById('barEunoia').style.width = stats.eunoia + '%';
-
-    let total = Math.round((stats.phronesis + stats.arete + stats.eunoia) / 3);
-    document.getElementById('totalScore').innerText = total + '/100';
-  }
-
-  function goToStep(nextStep) {
-    document.querySelectorAll('.sim-step').forEach(step => step.classList.remove('active'));
-    document.getElementById('step' + nextStep).classList.add('active');
-  }
-
-  function showResults() {
-    document.querySelectorAll('.sim-step').forEach(step => step.classList.remove('active'));
-    
-    const resultDiv = document.getElementById('simResult');
-    resultDiv.classList.add('active');
-    resultDiv.style.display = 'block';
-
-    const finalSpeech = selectedSentences.join(' ');
-    document.getElementById('resSpeech').innerText = finalSpeech;
-
-    let total = Math.round((stats.phronesis + stats.arete + stats.eunoia) / 3);
-    let rankTitle, desc;
-
-    if (total >= 30) {
-      rankTitle = '🏆 İkna Ustası';
-      desc = 'Mükemmel bir liderlik sergilediniz. Sorumluluk aldınız, uzmanlığınızı gösterdiniz ve müşteriyi korudunuz. Basın size güvenecektir.';
-    } else if (total > 10) {
-      rankTitle = '👍 Ortalama Lider';
-      desc = 'Krizi idare ettiniz ancak bazı noktalarda güven (Ethos) inşa etmekte eksik kaldınız. Biraz daha dürüstlük ve uzmanlık katmalısınız.';
-    } else {
-      rankTitle = '⚠️ Felaket Senaryosu';
-      desc = 'Bu konuşma şirketin hisselerini daha da dibe çekecektir. Sorumluluktan kaçtınız ve güveni yok ettiniz.';
-      document.getElementById('resRank').style.color = '#ef4444';
-    }
-
-    document.getElementById('resRank').innerText = rankTitle;
-    document.getElementById('resDesc').innerText = desc;
-  }
-
-  // Shield Checkup Logic
-  function toggleShieldItem(el) {
-    el.classList.toggle('checked');
-    updateShieldVisual();
-  }
-  
-  function updateShieldVisual() {
-    const checkedCount = document.querySelectorAll('.shield-item.checked').length;
-    const shieldIcon = document.getElementById('mainShieldIcon');
-    
-    shieldIcon.className = 'shield-icon'; // reset
-    if (checkedCount === 1) shieldIcon.classList.add('level-1');
-    else if (checkedCount === 2) shieldIcon.classList.add('level-2');
-    else if (checkedCount === 3) shieldIcon.classList.add('level-3');
-  }
-
-  // Scroll Animations (Intersection Observer)
-  document.addEventListener("DOMContentLoaded", function() {
-    const observerOptions = {
-      root: null,
-      rootMargin: '0px',
-      threshold: 0.15
-    };
-
-    const observer = new IntersectionObserver((entries, observer) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('is-revealed');
-          observer.unobserve(entry.target);
-        }
+  // 1. Accordion Logic
+  document.querySelectorAll('.el-accordion-header').forEach(header => {
+    header.addEventListener('click', () => {
+      const item = header.parentElement;
+      const body = item.querySelector('.el-accordion-body');
+      const isActive = item.classList.contains('active');
+      
+      // Close all
+      document.querySelectorAll('.el-accordion-item').forEach(acc => {
+        acc.classList.remove('active');
+        acc.querySelector('.el-accordion-body').style.maxHeight = null;
+        acc.querySelector('.el-accordion-header').setAttribute('aria-expanded', 'false');
       });
-    }, observerOptions);
-
-    // Elements to animate
-    const elementsToReveal = document.querySelectorAll('.sim-app, .masterclass-section, .mc-card, .destroyers-section, .destroyer-card, .vocab-section, .vocab-card, .ethos-shield-section, .pause-section');
-    elementsToReveal.forEach(el => {
-      el.classList.add('reveal-on-scroll');
-      observer.observe(el);
+      
+      // Open clicked if it wasn't active
+      if (!isActive) {
+        item.classList.add('active');
+        body.style.maxHeight = body.scrollHeight + "px";
+        header.setAttribute('aria-expanded', 'true');
+      }
     });
   });
 
-  // Vocabulary Toggle
-  function toggleVocab(btn) {
-    const card = btn.parentElement;
-    const weak = card.querySelector('.vocab-weak');
-    const strong = card.querySelector('.vocab-strong');
+  // 2. Simulator Logic
+  let totalScore = 0;
+  const simSteps = document.querySelectorAll('.el-sim-step');
+  const simNextBtns = document.querySelectorAll('.el-sim-next');
+  
+  document.querySelectorAll('.el-sim-opt').forEach(opt => {
+    opt.addEventListener('click', function() {
+      const stepContainer = this.closest('.el-sim-step');
+      
+      // If already answered this step, do nothing
+      if(stepContainer.classList.contains('answered')) return;
+      
+      const score = parseInt(this.getAttribute('data-score'));
+      const feedbackText = this.getAttribute('data-feedback');
+      
+      this.classList.add('selected');
+      stepContainer.classList.add('answered');
+      
+      totalScore += score;
+      
+      const feedbackEl = stepContainer.querySelector('.el-sim-feedback');
+      feedbackEl.textContent = feedbackText;
+      feedbackEl.style.display = 'block';
+      
+      if(score === 100) {
+        feedbackEl.classList.add('success');
+      } else if(score > 0) {
+        feedbackEl.classList.add('warning');
+      } else {
+        feedbackEl.classList.add('error');
+      }
+      
+      const nextBtn = stepContainer.querySelector('.el-sim-next');
+      if(nextBtn) {
+        nextBtn.style.display = 'inline-block';
+        if(stepContainer.getAttribute('data-step') == simSteps.length - 1) {
+          nextBtn.textContent = 'Sonuçları Gör';
+        }
+      }
+    });
+  });
+  
+  simNextBtns.forEach(btn => {
+    btn.addEventListener('click', function() {
+      const currentStep = this.closest('.el-sim-step');
+      const stepIndex = parseInt(currentStep.getAttribute('data-step'));
+      
+      currentStep.classList.remove('active');
+      
+      if(stepIndex + 1 < simSteps.length) {
+        simSteps[stepIndex + 1].classList.add('active');
+      } else {
+        showSimulatorResult();
+      }
+    });
+  });
+  
+  function showSimulatorResult() {
+    document.getElementById('simStepsContainer').style.display = 'none';
+    const resultEl = document.getElementById('simResult');
+    resultEl.style.display = 'block';
     
-    if (strong.style.display === 'block') {
-      strong.style.display = 'none';
-      weak.style.display = 'block';
-      btn.innerText = 'Ethos Ekle ⚡';
-      btn.style.background = 'transparent';
-      btn.style.color = 'var(--ethos-accent)';
+    // Average score
+    const finalScore = Math.round(totalScore / simSteps.length);
+    document.getElementById('simScoreDisplay').textContent = finalScore;
+    
+    const textEl = document.getElementById('simResultText');
+    if(finalScore >= 80) {
+      textEl.textContent = "Mükemmel! Ethos dinamiklerine harika bir şekilde hakimsiniz. Dinleyicinin güvenini anında kazanıyorsunuz.";
+      document.getElementById('simScoreDisplay').style.borderColor = "#059669";
+      document.getElementById('simScoreDisplay').style.color = "#059669";
+    } else if(finalScore >= 50) {
+      textEl.textContent = "Fena değil. Bazen mantığa (Logos) çok kayıyorsunuz. Empati (Eunoia) ve karakter (Arete) üzerine biraz daha çalışmalısınız.";
+      document.getElementById('simScoreDisplay').style.borderColor = "#d97706";
+      document.getElementById('simScoreDisplay').style.color = "#d97706";
     } else {
-      weak.style.display = 'none';
-      strong.style.display = 'block';
-      btn.innerText = 'Geri Al ↺';
-      btn.style.background = 'var(--ethos-accent)';
-      btn.style.color = '#0f172a';
+      textEl.textContent = "Kritik bir güven eksikliğiniz var. Argümanlarınız iyi olsa bile dinleyici size henüz inanmıyor. Ethos prensiplerini tekrar inceleyin.";
+      document.getElementById('simScoreDisplay').style.borderColor = "#dc2626";
+      document.getElementById('simScoreDisplay').style.color = "#dc2626";
     }
+    
+    // Save to localStorage
+    try {
+      localStorage.setItem('ethos_light_score', finalScore);
+    } catch(e) {}
   }
-
-  // Power of Pause Game
-  let pauseStartTime = 0;
-  let pauseInterval;
-
-  function startPauseGame() {
-    document.getElementById('pauseQuestion').style.opacity = '1';
-    document.getElementById('btnStartQ').style.display = 'none';
-    document.getElementById('btnAnswerQ').style.display = 'block';
-    document.getElementById('pauseFeedback').style.display = 'none';
-    document.getElementById('pauseFeedback').className = 'pause-feedback';
+  
+  function resetSimulator() {
+    totalScore = 0;
+    document.getElementById('simResult').style.display = 'none';
+    document.getElementById('simStepsContainer').style.display = 'block';
     
-    pauseStartTime = Date.now();
-    pauseInterval = setInterval(() => {
-      let elapsed = (Date.now() - pauseStartTime) / 1000;
-      document.getElementById('pauseTimer').innerText = elapsed.toFixed(1) + 's';
-    }, 100);
-  }
-
-  function answerPauseGame() {
-    clearInterval(pauseInterval);
-    document.getElementById('btnAnswerQ').style.display = 'none';
-    document.getElementById('btnStartQ').style.display = 'block';
-    document.getElementById('btnStartQ').innerText = 'Tekrar Dene';
+    simSteps.forEach((step, index) => {
+      step.classList.remove('active', 'answered');
+      if(index === 0) step.classList.add('active');
+      
+      step.querySelectorAll('.el-sim-opt').forEach(opt => opt.classList.remove('selected'));
+      
+      const feedback = step.querySelector('.el-sim-feedback');
+      feedback.style.display = 'none';
+      feedback.className = 'el-sim-feedback'; // reset classes
+      
+      step.querySelector('.el-sim-next').style.display = 'none';
+    });
     
-    let elapsed = (Date.now() - pauseStartTime) / 1000;
-    const fbDiv = document.getElementById('pauseFeedback');
-    fbDiv.style.display = 'block';
-    
-    if (elapsed < 1.5) {
-      fbDiv.classList.add('panik');
-      fbDiv.innerHTML = `<strong>Tepki Süresi: ${elapsed.toFixed(1)}s</strong><br>Savunmacı ve panik! Sorunun üstüne atladınız. Bu acelecilik suçluluk veya güvensizlik (düşük Ethos) hissi yaratır.`;
-    } else if (elapsed >= 1.5 && elapsed <= 3.5) {
-      fbDiv.classList.add('otorite');
-      fbDiv.innerHTML = `<strong>Tepki Süresi: ${elapsed.toFixed(1)}s</strong><br>Kusursuz otorite! Soruyu dinlediniz, içselleştirdiniz ve kontrolün sizde olduğunu hissettirerek cevap verdiniz. Ethos'unuz zirvede.`;
-    } else {
-      fbDiv.classList.add('gec');
-      fbDiv.innerHTML = `<strong>Tepki Süresi: ${elapsed.toFixed(1)}s</strong><br>Çok geç! Sessizlik uzadıkça dinleyici cevabı bilmediğinizi veya yalan uydurduğunuzu düşünür.`;
-    }
+    document.getElementById('simScoreDisplay').style.borderColor = "var(--ethos-gold)";
+    document.getElementById('simScoreDisplay').style.color = "var(--ethos-navy)";
   }
 </script>
 

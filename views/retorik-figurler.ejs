@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title><%= meta.title %></title>
+  <meta name="description" content="<%= meta.description %>">
+  <% if (canonicalUrl) { %>
+    <link rel="canonical" href="<%= canonicalUrl %>" />
+  <% } %>
+  <link rel="stylesheet" href="/css/style.css">
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;800&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+  <style>
+    /* FİGÜRLER - SANAT GALERİSİ TEMASI */
+    :root {
+      --gallery-bg: #141614;       /* Derin Orman Yeşili / Koyu Müze Duvarı */
+      --gallery-wall: #1E211E;     /* Panel yüzeyi */
+      --gallery-gold: #C5A059;     /* Eskitme Altın / Pirinç Çerçeve */
+      --gallery-text: #F4F1E1;     /* Krem Beyaz */
+      --gallery-muted: #A3A8A4;    /* Soluk Gri/Yeşil */
+      
+      --serif-display: 'Cinzel', serif; /* Müze/Heykel yazısı */
+      --serif-body: 'Cormorant Garamond', serif; /* Edebi metin */
+      --tr: all 0.6s cubic-bezier(0.25, 0.8, 0.25, 1);
+    }
+
+    body {
+      background-color: var(--gallery-bg);
+      color: var(--gallery-text);
+      font-family: var(--serif-body);
+      font-size: 1.2rem;
+      line-height: 1.7;
+      background-image: radial-gradient(circle at center, rgba(197, 160, 89, 0.05) 0%, transparent 70%);
+      background-attachment: fixed;
+    }
+
+    /* Navbar Override for Museum Theme */
+    .navbar {
+      background-color: rgba(20, 22, 20, 0.95) !important;
+      border-bottom: 1px solid rgba(197, 160, 89, 0.2) !important;
+    }
+    .navbar a { color: var(--gallery-gold) !important; }
+
+    /* Hero: Galeri Girişi */
+    .gallery-hero {
+      min-height: 60vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      padding: 120px 20px 60px;
+      position: relative;
+    }
+
+    .gallery-hero h1 {
+      font-family: var(--serif-display);
+      font-size: clamp(3rem, 6vw, 5rem);
+      font-weight: 600;
+      color: var(--gallery-gold);
+      margin-bottom: 20px;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      text-shadow: 0 4px 20px rgba(0,0,0,0.5);
+    }
+
+    .gallery-hero p {
+      font-size: 1.5rem;
+      max-width: 700px;
+      color: var(--gallery-muted);
+      font-style: italic;
+    }
+
+    /* Galeri Duvarı (Konteyner) */
+    .gallery-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 40px 20px 100px;
+    }
+
+    /* Tablo / Çerçeve Tasarımı */
+    .frame-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 60px;
+      margin-bottom: 80px;
+    }
+
+    .art-frame {
+      background: var(--gallery-wall);
+      border: 8px solid var(--gallery-gold);
+      padding: 40px;
+      position: relative;
+      transition: var(--tr);
+      text-align: center;
+      box-shadow: 0 20px 50px rgba(0,0,0,0.5), inset 0 0 20px rgba(0,0,0,0.8);
+    }
+    
+    .art-frame::before {
+      content: '';
+      position: absolute;
+      top: -20px; left: 50%;
+      transform: translateX(-50%);
+      width: 150px; height: 150px;
+      background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 60%);
+      opacity: 0;
+      transition: var(--tr);
+      pointer-events: none;
+    }
+    
+    .art-frame:hover {
+      transform: scale(1.02) translateY(-10px);
+      box-shadow: 0 30px 60px rgba(0,0,0,0.8), 0 0 40px rgba(197, 160, 89, 0.2);
+    }
+    .art-frame:hover::before { opacity: 1; }
+
+    .plaque {
+      display: inline-block;
+      background: #000;
+      color: var(--gallery-gold);
+      font-family: var(--serif-display);
+      font-size: 0.8rem;
+      padding: 5px 15px;
+      letter-spacing: 2px;
+      margin-bottom: 20px;
+      border: 1px solid rgba(197, 160, 89, 0.3);
+    }
+
+    .art-frame h3 {
+      font-family: var(--serif-display);
+      font-size: 2rem;
+      color: var(--gallery-text);
+      margin-bottom: 20px;
+    }
+
+    .art-frame p {
+      font-size: 1.2rem;
+      color: var(--gallery-muted);
+      line-height: 1.6;
+    }
+
+    /* Özel Sergi: Tricolon & Metafor */
+    .masterpiece {
+      display: flex;
+      background: var(--gallery-wall);
+      border-top: 1px solid var(--gallery-gold);
+      border-bottom: 1px solid var(--gallery-gold);
+      margin-top: 60px;
+    }
+    .masterpiece-image {
+      flex: 1;
+      background: linear-gradient(45deg, #0f110f, #1e211e);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--serif-display);
+      font-size: 8rem;
+      color: rgba(197, 160, 89, 0.1);
+    }
+    .masterpiece-content {
+      flex: 1;
+      padding: 60px;
+    }
+    .masterpiece-content h2 {
+      font-family: var(--serif-display);
+      font-size: 2.5rem;
+      color: var(--gallery-gold);
+      margin-bottom: 20px;
+    }
+    .btn-gallery {
+      display: inline-block;
+      margin-top: 30px;
+      padding: 12px 35px;
+      background: transparent;
+      color: var(--gallery-gold);
+      border: 1px solid var(--gallery-gold);
+      font-family: var(--serif-display);
+      text-decoration: none;
+      letter-spacing: 2px;
+      transition: var(--tr);
+    }
+    .btn-gallery:hover {
+      background: var(--gallery-gold);
+      color: #000;
+    }
+
+    @media (max-width: 768px) {
+      .masterpiece { flex-direction: column; }
+      .masterpiece-image { height: 200px; font-size: 5rem; }
+      .masterpiece-content { padding: 40px 20px; }
+      .art-frame { padding: 30px 20px; }
+    }
+  </style>
+</head>
+<body>
+
+  <%- include('partials/main-header') %>
+
+  <!-- Hero Section -->
+  <section class="gallery-hero">
+    <h1>Kelimelerin Sanatı</h1>
+    <p>Retorik figürleri, düz ve sıkıcı bir metni alıp onu nesilden nesile aktarılacak bir şahesere dönüştüren sanatsal fırça darbeleridir.</p>
+  </section>
+
+  <% 
+    const rf1 = exercises.find(e => e.id === 'rf1');
+    const rf2 = exercises.find(e => e.id === 'rf2');
+    const rf3 = exercises.find(e => e.id === 'rf3');
+    const rf4 = exercises.find(e => e.id === 'rf4');
+  %>
+
+  <section class="gallery-container">
+
+    <!-- RF1 & RF2 : Temel Figürler Galerisi -->
+    <div class="frame-grid">
+      <div class="art-frame">
+        <div class="plaque">SERGİ 01</div>
+        <h3><%= rf1 ? rf1.title : 'Sözcüklerin Mimarisi' %></h3>
+        <p>Bazı cümleler beyni teğet geçerken, bazıları zihne çakılı kalır. Antitez, Epizeuksis, Şiyazm... Bu figürler süs değil, iknanın nörolojik kancalarıdır.</p>
+      </div>
+
+      <div class="art-frame">
+        <div class="plaque">SERGİ 02</div>
+        <h3>Anafor & Epifor</h3>
+        <p>"Bir hayalim var... Bir hayalim var..." Peş peşe gelen aynı kelimeler, metne bir davul ritmi katar. Kalabalıkları hipnotize eden temel ritim figürü.</p>
+      </div>
+
+      <div class="art-frame">
+        <div class="plaque">SERGİ 03</div>
+        <h3>Antitez (Karşıtlık)</h3>
+        <p>"Benim için küçük, insanlık için dev bir adım." Zıtlıkların aynı cümlede çarpışması, beynin kontrast arayan yapısına doğrudan hitap eder.</p>
+      </div>
+    </div>
+
+    <!-- RF3: Masterpiece: Tricolon -->
+    <div class="masterpiece">
+      <div class="masterpiece-image">III</div>
+      <div class="masterpiece-content">
+        <div class="plaque">BAŞYAPIT ESER</div>
+        <h2><%= rf3 ? rf3.title : 'Tricolon (Üçlüler Kuralı)' %></h2>
+        <p>İnsan beyni örüntüleri sever ve en küçük örüntü 3'tür. Geldim, gördüm, yendim (Veni, vidi, vici). Kan, ter ve gözyaşı. Bir fikri üç parça halinde sunduğunuzda, büyüleyici bir tatmin duygusu yaratırsınız.</p>
+        <a href="#" class="btn-gallery" onclick="alert('Figürler: Tricolon Simülatörü yakında yüklenecek.')">Simülasyonu Gör</a>
+      </div>
+    </div>
+
+    <!-- RF4: Masterpiece: Metafor -->
+    <div class="masterpiece" style="flex-direction: row-reverse;">
+      <div class="masterpiece-image"><i class="fa-solid fa-feather-pointed"></i></div>
+      <div class="masterpiece-content">
+        <div class="plaque">BAŞYAPIT ESER</div>
+        <h2><%= rf4 ? rf4.title : 'Metafor Mühendisliği' %></h2>
+        <p>Karmaşık bir kavramı anlatmanın en güçlü yolu, onu dinleyicinin zaten bildiği bir şeye benzetmektir. "Şirketimiz zor bir dönemden geçiyor" yerine "Şu an fırtınanın tam ortasındayız ve yelkenleri sağlam tutmalıyız" demek vizyon çizer.</p>
+        <a href="#" class="btn-gallery" onclick="alert('Figürler: Metafor Simülatörü yakında yüklenecek.')">Metafor Üret</a>
+      </div>
+    </div>
+
+  </section>
+
+  <%- include('partials/main-footer') %>
+</body>
+</html>
