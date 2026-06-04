@@ -1,0 +1,237 @@
+<%- include('partials/main-header') %>
+
+<style>
+  body { background: #0a0a14; color: #f1f5f9; font-family: 'Inter', sans-serif; overflow-x: hidden; }
+
+  /* ── Hero ────────────────────── */
+  .dks-hero {
+    min-height: 50vh; display: flex; flex-direction: column; align-items: center; justify-content: center;
+    text-align: center; padding: 100px 24px 60px; position: relative; overflow: hidden;
+  }
+  .dks-hero::before {
+    content: ''; position: absolute; inset: 0;
+    background: radial-gradient(ellipse 70% 50% at 50% 30%, <%= catColor %>22, transparent 70%);
+  }
+  .dks-hero::after {
+    content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 120px;
+    background: linear-gradient(to top, #0a0a14, transparent);
+  }
+  .hero-emoji { font-size: 5rem; margin-bottom: 16px; filter: drop-shadow(0 0 30px <%= catColor %>66); animation: float 3s ease-in-out infinite; }
+  @keyframes float { 0%,100%{ transform: translateY(0); } 50%{ transform: translateY(-12px); } }
+
+  .hero-badge { display: inline-flex; align-items: center; gap: 8px; padding: 6px 18px; border-radius: 30px; font-size: .8rem; font-weight: 700; text-transform: uppercase; letter-spacing: 2px; color: <%= catColor %>; background: <%= catColor %>18; border: 1px solid <%= catColor %>44; margin-bottom: 16px; }
+  .hero-title { font-size: clamp(2rem, 5vw, 3.2rem); font-weight: 900; color: #fff; margin-bottom: 12px; line-height: 1.15; text-shadow: 0 0 40px <%= catColor %>33; }
+  .hero-meta { display: flex; gap: 20px; flex-wrap: wrap; justify-content: center; margin-top: 20px; }
+  .hero-meta-item { display: flex; align-items: center; gap: 6px; color: #94a3b8; font-size: .9rem; background: rgba(255,255,255,0.05); padding: 8px 16px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.06); }
+  .hero-meta-item span:first-child { font-size: 1.1rem; }
+
+  /* ── Particle BG ────────────── */
+  .particles { position: absolute; inset: 0; overflow: hidden; pointer-events: none; z-index: 0; }
+  .particle { position: absolute; width: 3px; height: 3px; border-radius: 50%; background: <%= catColor %>; opacity: 0; animation: sparkle 4s ease-in-out infinite; }
+  @keyframes sparkle { 0%{ opacity: 0; transform: translateY(0) scale(0); } 30%{ opacity: .7; transform: translateY(-30px) scale(1); } 100%{ opacity: 0; transform: translateY(-80px) scale(0); } }
+
+  /* ── Container ──────────────── */
+  .dks-wrap { max-width: 900px; margin: 0 auto; padding: 0 20px 80px; position: relative; z-index: 1; }
+
+  /* ── Glass Card ─────────────── */
+  .glass { background: rgba(255,255,255,0.03); backdrop-filter: blur(16px); border: 1px solid rgba(255,255,255,0.06); border-radius: 20px; padding: 32px; margin-bottom: 32px; transition: transform .35s, box-shadow .35s; }
+  .glass:hover { transform: translateY(-4px); box-shadow: 0 20px 60px rgba(0,0,0,0.3), 0 0 30px <%= catColor %>11; }
+
+  .section-label { font-size: .75rem; font-weight: 800; text-transform: uppercase; letter-spacing: 3px; color: <%= catColor %>; margin-bottom: 12px; display: flex; align-items: center; gap: 8px; }
+  .section-label::before { content: ''; width: 16px; height: 2px; background: <%= catColor %>; border-radius: 2px; }
+
+  .desc-text { font-size: 1.05rem; line-height: 1.8; color: #cbd5e1; }
+
+  /* ── Steps Timeline ─────────── */
+  .steps-timeline { position: relative; padding-left: 36px; }
+  .steps-timeline::before { content: ''; position: absolute; left: 14px; top: 0; bottom: 0; width: 2px; background: linear-gradient(to bottom, <%= catColor %>, <%= catColor %>33); border-radius: 2px; }
+  .step-item { position: relative; margin-bottom: 24px; opacity: 0; transform: translateX(-20px); animation: slideIn .5s ease forwards; }
+  .step-item:nth-child(1) { animation-delay: .1s; }
+  .step-item:nth-child(2) { animation-delay: .2s; }
+  .step-item:nth-child(3) { animation-delay: .3s; }
+  .step-item:nth-child(4) { animation-delay: .4s; }
+  .step-item:nth-child(5) { animation-delay: .5s; }
+  .step-item:nth-child(6) { animation-delay: .6s; }
+  .step-item:nth-child(7) { animation-delay: .7s; }
+  .step-item:nth-child(8) { animation-delay: .8s; }
+  @keyframes slideIn { to { opacity: 1; transform: translateX(0); } }
+
+  .step-num { position: absolute; left: -36px; top: 4px; width: 28px; height: 28px; border-radius: 50%; background: <%= catColor %>; color: #0a0a14; font-size: .8rem; font-weight: 900; display: flex; align-items: center; justify-content: center; box-shadow: 0 0 16px <%= catColor %>55; }
+  .step-text { background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.06); border-radius: 14px; padding: 16px 20px; font-size: .95rem; line-height: 1.7; color: #e2e8f0; transition: background .3s, border-color .3s; }
+  .step-text:hover { background: rgba(255,255,255,0.07); border-color: <%= catColor %>44; }
+
+  /* ── Benefits / Mistakes ────── */
+  .bm-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-bottom: 32px; }
+  @media(max-width:700px) { .bm-grid { grid-template-columns: 1fr; } }
+  .bm-card { border-radius: 18px; padding: 28px; }
+  .bm-benefits { background: linear-gradient(135deg, rgba(16,185,129,0.08), rgba(16,185,129,0.02)); border: 1px solid rgba(16,185,129,0.2); }
+  .bm-mistakes { background: linear-gradient(135deg, rgba(239,68,68,0.08), rgba(239,68,68,0.02)); border: 1px solid rgba(239,68,68,0.2); }
+  .bm-title { font-size: .85rem; font-weight: 800; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 16px; }
+  .bm-benefits .bm-title { color: #34d399; }
+  .bm-mistakes .bm-title { color: #f87171; }
+  .bm-list { list-style: none; padding: 0; margin: 0; }
+  .bm-list li { padding: 8px 0; font-size: .92rem; color: #cbd5e1; display: flex; align-items: flex-start; gap: 10px; line-height: 1.6; }
+  .bm-list li::before { flex-shrink: 0; font-size: 1rem; margin-top: 2px; }
+  .bm-benefits .bm-list li::before { content: '✅'; }
+  .bm-mistakes .bm-list li::before { content: '❌'; }
+
+  /* ── Phrase Block ───────────── */
+  .phrase-block { background: linear-gradient(135deg, <%= catColor %>12, <%= catColor %>05); border: 2px solid <%= catColor %>33; border-radius: 20px; padding: 36px; text-align: center; margin-bottom: 32px; position: relative; overflow: hidden; }
+  .phrase-block::before { content: '"'; position: absolute; top: -10px; left: 20px; font-size: 8rem; color: <%= catColor %>15; font-family: serif; line-height: 1; }
+  .phrase-text { font-size: 1.25rem; font-weight: 600; color: #f1f5f9; line-height: 1.8; font-style: italic; position: relative; z-index: 1; }
+
+  /* ── Variations ─────────────── */
+  .var-item { display: flex; align-items: flex-start; gap: 12px; padding: 14px 18px; border-radius: 12px; background: rgba(255,255,255,0.03); margin-bottom: 10px; font-size: .93rem; color: #cbd5e1; line-height: 1.6; transition: background .3s; }
+  .var-item:hover { background: rgba(255,255,255,0.06); }
+
+  /* ── Tip Box ────────────────── */
+  .tip-box { background: linear-gradient(135deg, rgba(251,191,36,0.08), rgba(251,191,36,0.02)); border: 1px solid rgba(251,191,36,0.25); border-radius: 18px; padding: 24px 28px; font-size: .95rem; color: #fbbf24; line-height: 1.7; display: flex; align-items: flex-start; gap: 14px; margin-bottom: 32px; }
+  .tip-icon { font-size: 1.5rem; flex-shrink: 0; margin-top: 2px; }
+
+  /* ── Related Cards ──────────── */
+  .related-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 16px; }
+  .related-card { display: flex; align-items: center; gap: 14px; padding: 18px 20px; border-radius: 16px; background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.06); cursor: pointer; text-decoration: none; transition: all .3s; }
+  .related-card:hover { background: rgba(255,255,255,0.08); border-color: <%= catColor %>44; transform: translateY(-2px); box-shadow: 0 8px 24px rgba(0,0,0,0.2); }
+  .related-emoji { font-size: 2rem; }
+  .related-info { display: flex; flex-direction: column; }
+  .related-info strong { color: #fff; font-size: .95rem; margin-bottom: 3px; }
+  .related-info span { color: #64748b; font-size: .8rem; }
+
+  /* ── Back Button ────────────── */
+  .back-btn { display: inline-flex; align-items: center; gap: 8px; padding: 12px 24px; border-radius: 14px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); color: #94a3b8; font-size: .9rem; font-weight: 600; text-decoration: none; transition: all .3s; margin-bottom: 40px; }
+  .back-btn:hover { background: rgba(255,255,255,0.1); color: #fff; transform: translateX(-4px); }
+
+  /* ── Scroll Reveal ──────────── */
+  .reveal { opacity: 0; transform: translateY(30px); transition: all .6s cubic-bezier(.16,1,.3,1); }
+  .reveal.visible { opacity: 1; transform: translateY(0); }
+</style>
+
+<% const CAT_INFO = {
+  nefes:     { label: 'Nefes Teknikleri', color: '#06b6d4' },
+  tekerleme: { label: 'Tekerleme', color: '#f59e0b' },
+  ses:       { label: 'Ses Teknikleri', color: '#8b5cf6' },
+  telaffuz:  { label: 'Telaffuz', color: '#10b981' },
+  perde:     { label: 'Perde ve Ton', color: '#ec4899' },
+  artikulasyon: { label: 'Artikülasyon', color: '#f97316' },
+  ifade:     { label: 'İfade ve Duygu', color: '#ef4444' },
+  vurgu:     { label: 'Vurgu ve Tonlama', color: '#3b82f6' },
+  ritim:     { label: 'Ritim ve Tempo', color: '#14b8a6' },
+  duraklama: { label: 'Duraklama', color: '#6366f1' },
+  rezonans:  { label: 'Rezonans', color: '#a855f7' }
+};
+const ci = CAT_INFO[exercise.cat] || { label: exercise.cat, color: '#7c5cfc' };
+%>
+
+<!-- HERO -->
+<section class="dks-hero">
+  <div class="particles">
+    <% for(let i=0; i<20; i++) { %>
+      <div class="particle" style="left:<%= Math.random()*100 %>%;top:<%= Math.random()*100 %>%;animation-delay:<%= Math.random()*4 %>s;width:<%= 2+Math.random()*3 %>px;height:<%= 2+Math.random()*3 %>px;"></div>
+    <% } %>
+  </div>
+  <div class="hero-emoji"><%= exercise.emoji %></div>
+  <div class="hero-badge"><%= ci.label %></div>
+  <h1 class="hero-title"><%= exercise.title %></h1>
+  <div class="hero-meta">
+    <div class="hero-meta-item"><span>⏱️</span> <%= exercise.dur %></div>
+    <div class="hero-meta-item"><span>📊</span> <%= exercise.level %></div>
+    <div class="hero-meta-item"><span>🔄</span> <%= exercise.freq %></div>
+  </div>
+</section>
+
+<div class="dks-wrap">
+
+  <a href="/" class="back-btn">← Tüm Egzersizlere Dön</a>
+
+  <!-- Description -->
+  <div class="glass reveal">
+    <div class="section-label">Açıklama</div>
+    <p class="desc-text"><%= exercise.desc %></p>
+  </div>
+
+  <!-- Phrase (if exists) -->
+  <% if (exercise.phrase) { %>
+  <div class="phrase-block reveal">
+    <div class="section-label" style="justify-content: center;">Pratik Cümlesi</div>
+    <p class="phrase-text"><%= exercise.phrase %></p>
+  </div>
+  <% } %>
+
+  <!-- Benefits / Mistakes -->
+  <div class="bm-grid reveal">
+    <div class="bm-card bm-benefits">
+      <div class="bm-title">✨ Faydaları</div>
+      <ul class="bm-list">
+        <% exercise.benefits.forEach(b => { %>
+          <li><%= b %></li>
+        <% }); %>
+      </ul>
+    </div>
+    <div class="bm-card bm-mistakes">
+      <div class="bm-title">⚠️ Sık Yapılan Hatalar</div>
+      <ul class="bm-list">
+        <% exercise.mistakes.forEach(m => { %>
+          <li><%= m %></li>
+        <% }); %>
+      </ul>
+    </div>
+  </div>
+
+  <!-- Steps Timeline -->
+  <div class="glass reveal">
+    <div class="section-label">Adım Adım Rehber</div>
+    <div class="steps-timeline">
+      <% exercise.steps.forEach((s, i) => { %>
+        <div class="step-item">
+          <div class="step-num"><%= i + 1 %></div>
+          <div class="step-text"><%= s %></div>
+        </div>
+      <% }); %>
+    </div>
+  </div>
+
+  <!-- Variations -->
+  <% if (exercise.variations && exercise.variations.length > 0) { %>
+  <div class="glass reveal">
+    <div class="section-label">Varyasyonlar</div>
+    <% exercise.variations.forEach(v => { %>
+      <div class="var-item"><%= v %></div>
+    <% }); %>
+  </div>
+  <% } %>
+
+  <!-- Tip -->
+  <% if (exercise.tip) { %>
+  <div class="tip-box reveal">
+    <span class="tip-icon">💡</span>
+    <span><%= exercise.tip.replace('💡 ', '') %></span>
+  </div>
+  <% } %>
+
+  <!-- Related Exercises -->
+  <% if (relatedExercises && relatedExercises.length > 0) { %>
+  <div class="glass reveal">
+    <div class="section-label">İlişkili Egzersizler</div>
+    <div class="related-grid">
+      <% relatedExercises.forEach(r => { %>
+        <a href="/egzersiz/<%= r.slug %>" class="related-card">
+          <span class="related-emoji"><%= r.emoji %></span>
+          <div class="related-info">
+            <strong><%= r.title %></strong>
+            <span><%= r.dur %> · <%= r.level %></span>
+          </div>
+        </a>
+      <% }); %>
+    </div>
+  </div>
+  <% } %>
+
+</div>
+
+<script>
+// Scroll Reveal
+const obs = new IntersectionObserver((entries) => {
+  entries.forEach(e => { if(e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); } });
+}, { threshold: 0.15 });
+document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+</script>

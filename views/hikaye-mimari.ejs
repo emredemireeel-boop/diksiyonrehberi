@@ -9,10 +9,10 @@
   @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&family=Playfair+Display:ital,wght@0,600;1,600;1,800&display=swap');
   
   :root {
-    --ar-primary: #059669; /* Emerald Green */
+    --ar-primary: #059669;
     --ar-light: #d1fae5;
     --ar-dark: #064e3b;
-    --ar-accent: #d97706; /* Amber */
+    --ar-accent: #d97706;
     --text-main: #1c1917;
     --text-muted: #57534e;
   }
@@ -32,7 +32,10 @@
 
   .architect-header {
     text-align: center; max-width: 800px; margin: 0 auto 50px auto; position: relative; z-index: 2;
+    animation: headerIn 0.8s ease-out;
   }
+  @keyframes headerIn { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+
   .ar-badge {
     display: inline-block; padding: 8px 24px; border-radius: 30px;
     background: rgba(5, 150, 105, 0.1); border: 1px solid rgba(5, 150, 105, 0.3);
@@ -56,24 +59,41 @@
   /* PROGRESS BAR */
   .wizard-progress {
     display: flex; background: rgba(255, 255, 255, 0.9); border-bottom: 1px solid rgba(0,0,0,0.05);
+    position: relative;
+  }
+  .wizard-progress::after {
+    content: ''; position: absolute; bottom: 0; left: 0; height: 3px; width: var(--progress, 0%);
+    background: linear-gradient(90deg, var(--ar-primary), var(--ar-accent));
+    transition: width 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+    border-radius: 0 3px 3px 0;
   }
   .wp-step {
     flex: 1; text-align: center; padding: 20px 10px; font-family: 'Outfit', sans-serif;
     font-weight: 700; font-size: 0.95rem; color: #a8a29e; position: relative; transition: 0.3s;
+    cursor: default;
   }
   .wp-step.active { color: var(--ar-primary); }
   .wp-step.completed { color: var(--ar-dark); }
-  .wp-step::after {
-    content: ''; position: absolute; bottom: 0; left: 0; width: 100%; height: 3px;
-    background: var(--ar-primary); transform: scaleX(0); transition: 0.3s;
+  .wp-step::before {
+    content: ''; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+    width: 0; height: 0; border-radius: 50%; background: rgba(5, 150, 105, 0.05);
+    transition: all 0.4s;
   }
-  .wp-step.active::after, .wp-step.completed::after { transform: scaleX(1); }
+  .wp-step.active::before { width: 80px; height: 80px; }
 
   /* WIZARD PANELS */
-  .wizard-body { padding: 50px; }
-  .w-panel { display: none; animation: slideIn 0.5s ease; }
-  .w-panel.active { display: block; }
-  @keyframes slideIn { from { opacity: 0; transform: translateX(20px); } to { opacity: 1; transform: translateX(0); } }
+  .wizard-body { padding: 50px; position: relative; overflow: hidden; }
+  .w-panel { display: none; }
+  .w-panel.active { display: block; animation: panelSlide 0.5s ease; }
+  .w-panel.slide-out { animation: panelSlideOut 0.3s ease forwards; }
+  @keyframes panelSlide { 
+    from { opacity: 0; transform: translateX(40px); } 
+    to { opacity: 1; transform: translateX(0); } 
+  }
+  @keyframes panelSlideOut { 
+    from { opacity: 1; transform: translateX(0); } 
+    to { opacity: 0; transform: translateX(-40px); } 
+  }
 
   .panel-title { font-family: 'Playfair Display', serif; font-size: 2.2rem; color: var(--text-main); margin: 0 0 10px 0; }
   .panel-desc { font-family: 'Outfit', sans-serif; font-size: 1.05rem; color: var(--text-muted); margin: 0 0 30px 0; line-height: 1.6; }
@@ -86,11 +106,20 @@
     resize: vertical; min-height: 150px; transition: 0.3s; box-shadow: inset 0 2px 4px rgba(0,0,0,0.02);
   }
   .ar-textarea:focus { outline: none; border-color: var(--ar-primary); box-shadow: 0 0 0 4px var(--ar-light); }
+  
+  /* Character counter */
+  .char-counter {
+    font-family: 'Outfit', sans-serif; font-size: 0.85rem; color: #a8a29e;
+    text-align: right; margin-top: 8px; transition: color 0.3s;
+  }
+  .char-counter.good { color: var(--ar-primary); }
 
   .tip-box {
     background: #fffbeb; border-left: 4px solid var(--ar-accent); border-radius: 0 12px 12px 0;
     padding: 15px 20px; margin-top: 20px; font-family: 'Outfit', sans-serif; font-size: 0.95rem; color: var(--text-muted); line-height: 1.5;
+    animation: tipFade 0.6s 0.3s ease backwards;
   }
+  @keyframes tipFade { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
   .tip-box strong { color: var(--ar-accent); }
 
   /* BUTTONS */
@@ -103,7 +132,7 @@
   .btn-back:hover { background: #f5f5f4; color: var(--text-main); }
   
   .btn-next { background: var(--ar-primary); border: 2px solid var(--ar-primary); color: #fff; box-shadow: 0 10px 20px rgba(5, 150, 105, 0.2); }
-  .btn-next:hover { background: var(--ar-dark); border-color: var(--ar-dark); transform: translateY(-2px); }
+  .btn-next:hover { background: var(--ar-dark); border-color: var(--ar-dark); transform: translateY(-2px); box-shadow: 0 15px 30px rgba(5, 150, 105, 0.3); }
 
   /* RESULT SCREEN */
   .result-script {
@@ -115,8 +144,17 @@
     display: inline-block; background: var(--ar-light); color: var(--ar-dark);
     font-size: 0.75rem; font-weight: 800; padding: 2px 8px; border-radius: 4px;
     text-transform: uppercase; margin: 0 5px; vertical-align: middle; letter-spacing: 1px;
+    animation: dirNotePop 0.3s ease backwards;
   }
   .sc-badge { position: absolute; top: -15px; left: 40px; background: var(--ar-accent); color: #fff; font-size: 0.8rem; font-weight: 800; padding: 5px 15px; border-radius: 20px; text-transform: uppercase; letter-spacing: 1px; box-shadow: 0 5px 10px rgba(217, 119, 6, 0.3); }
+
+  /* Typewriter cursor */
+  .typewriter-cursor {
+    display: inline-block; width: 2px; height: 1.2em; background: var(--ar-primary);
+    margin-left: 2px; vertical-align: text-bottom;
+    animation: blink 0.8s step-end infinite;
+  }
+  @keyframes blink { 50% { opacity: 0; } }
 
   @media(max-width: 768px) {
     .architect-header h1 { font-size: 2.5rem; }
@@ -133,7 +171,7 @@
   </div>
 
   <div class="wizard-container">
-    <div class="wizard-progress">
+    <div class="wizard-progress" id="wizardProgress" style="--progress: 0%;">
       <div class="wp-step active" id="step1-tab">1. Sıradan Dünya</div>
       <div class="wp-step" id="step2-tab">2. Çatışma (Kriz)</div>
       <div class="wp-step" id="step3-tab">3. Çözüm (Sentez)</div>
@@ -148,7 +186,8 @@
         <p class="panel-desc">Hikayenin başında her şeyin ne kadar "normal" veya "sıkıcı" olduğunu anlatın. Bu, dinleyicinin empati kuracağı zemindir.</p>
         
         <label class="ar-label">Kriz patlak vermeden önce durum nasıldı?</label>
-        <textarea id="val1" class="ar-textarea" placeholder="Örn: 2023 yılında her zamanki gibi sabah 09:00'da ofise gelmiş, standart kahvemi almış ve masama oturmuştum. Şirketin satışları stabil gidiyordu ve hiçbir sorun yok gibi görünüyordu..."></textarea>
+        <textarea id="val1" class="ar-textarea" placeholder="Örn: 2023 yılında her zamanki gibi sabah 09:00'da ofise gelmiş, standart kahvemi almış ve masama oturmuştum. Şirketin satışları stabil gidiyordu ve hiçbir sorun yok gibi görünüyordu..." oninput="updateCounter(this, 'counter1')"></textarea>
+        <div class="char-counter" id="counter1">0 karakter</div>
         
         <div class="tip-box"><strong>İpucu:</strong> Kahramanın (sizin veya şirketinizin) ne kadar sıradan ve insani olduğunu gösterin. Başarılarla övünmeyin.</div>
         
@@ -164,7 +203,8 @@
         <p class="panel-desc">Hikayenin kırılma anı. Her şeyin tepetaklak olduğu, engelin veya problemin ortaya çıktığı o kara geceyi anlatın.</p>
         
         <label class="ar-label">O "Sıradan Dünya"yı yerle bir eden sorun neydi?</label>
-        <textarea id="val2" class="ar-textarea" placeholder="Örn: Ancak saat 10:15'te ekranımda o kırmızı hata kodunu gördüm. Tüm müşteri veri tabanımız çökmüştü. Sadece 2 saatimiz vardı ve panik halinde ne yapacağımızı bilmiyorduk..."></textarea>
+        <textarea id="val2" class="ar-textarea" placeholder="Örn: Ancak saat 10:15'te ekranımda o kırmızı hata kodunu gördüm. Tüm müşteri veri tabanımız çökmüştü. Sadece 2 saatimiz vardı ve panik halinde ne yapacağımızı bilmiyorduk..." oninput="updateCounter(this, 'counter2')"></textarea>
+        <div class="char-counter" id="counter2">0 karakter</div>
         
         <div class="tip-box"><strong>İpucu:</strong> Kriz anındaki duygularınızı (korku, çaresizlik, panik) saklamayın. Zayıflık göstermek dinleyiciyle aranızdaki güveni (Pathos) artırır.</div>
         
@@ -180,7 +220,8 @@
         <p class="panel-desc">Kriz nasıl aşıldı? Hangi ders çıkarıldı veya hangi "ürün/fikir" hayat kurtardı?</p>
         
         <label class="ar-label">Karanlıktan nasıl çıkıldı ve ulaştığınız yeni dünya nasıl?</label>
-        <textarea id="val3" class="ar-textarea" placeholder="Örn: İşte tam o an, yeni geliştirdiğimiz yedekleme protokolünü devreye soktuk. Sistem 45 dakika içinde tamamen geri geldi. O gün öğrendik ki, krizler aslında sistemimizin ne kadar güçlü olduğunu kanıtlamak için birer fırsattır."></textarea>
+        <textarea id="val3" class="ar-textarea" placeholder="Örn: İşte tam o an, yeni geliştirdiğimiz yedekleme protokolünü devreye soktuk. Sistem 45 dakika içinde tamamen geri geldi. O gün öğrendik ki, krizler aslında sistemimizin ne kadar güçlü olduğunu kanıtlamak için birer fırsattır." oninput="updateCounter(this, 'counter3')"></textarea>
+        <div class="char-counter" id="counter3">0 karakter</div>
         
         <div class="tip-box"><strong>İpucu:</strong> Çözümü anlatırken kibrten uzak durun. Kahramanı kurtaran şeyin bulduğunuz "yeni fikir, ürün veya sistem" olduğuna vurgu yapın.</div>
         
@@ -210,26 +251,50 @@
 </div>
 
 <script>
+  function updateCounter(textarea, counterId) {
+    const counter = document.getElementById(counterId);
+    const len = textarea.value.length;
+    counter.textContent = len + ' karakter';
+    counter.classList.toggle('good', len >= 30);
+  }
+
+  function updateProgress(step) {
+    const pct = ((step - 1) / 3) * 100;
+    document.getElementById('wizardProgress').style.setProperty('--progress', pct + '%');
+  }
+
   function nextStep(current, next) {
     // Input validation for going forward
     if(next > current) {
       const val = document.getElementById('val' + current).value.trim();
       if(val.length < 10) {
-        alert("Lütfen hikayenizin bu bölümünü biraz daha detaylandırın. (En az 10 karakter)");
+        // Shake the textarea instead of alert
+        const ta = document.getElementById('val' + current);
+        ta.style.borderColor = '#ef4444';
+        ta.style.animation = 'none';
+        ta.offsetHeight; // trigger reflow
+        ta.style.animation = 'shakeInput 0.4s ease';
+        setTimeout(() => { ta.style.borderColor = ''; ta.style.animation = ''; }, 1000);
         return;
       }
     }
     
-    // UI Update
-    document.getElementById('panel' + current).classList.remove('active');
-    document.getElementById('panel' + next).classList.add('active');
+    // Slide out current panel
+    const currPanel = document.getElementById('panel' + current);
+    currPanel.classList.add('slide-out');
     
-    // Progress Bar Update
-    document.querySelectorAll('.wp-step').forEach((el, index) => {
-      el.classList.remove('active', 'completed');
-      if(index + 1 < next) el.classList.add('completed');
-      if(index + 1 === next) el.classList.add('active');
-    });
+    setTimeout(() => {
+      currPanel.classList.remove('active', 'slide-out');
+      document.getElementById('panel' + next).classList.add('active');
+      
+      // Progress Bar Update
+      updateProgress(next);
+      document.querySelectorAll('.wp-step').forEach((el, index) => {
+        el.classList.remove('active', 'completed');
+        if(index + 1 < next) el.classList.add('completed');
+        if(index + 1 === next) el.classList.add('active');
+      });
+    }, 300);
   }
 
   function generateStory() {
@@ -238,31 +303,92 @@
     const s3 = document.getElementById('val3').value.trim();
     
     if(s3.length < 10) {
-      alert("Lütfen çözüm kısmını detaylandırın.");
+      const ta = document.getElementById('val3');
+      ta.style.borderColor = '#ef4444';
+      ta.style.animation = 'shakeInput 0.4s ease';
+      setTimeout(() => { ta.style.borderColor = ''; ta.style.animation = ''; }, 1000);
       return;
     }
 
     // Direktifli metin birleştirme
-    let finalStory = `
+    const finalStory = `
       <div class="sc-badge">Sunum Senaryosu</div>
       <p><span class="dir-note">Gülümse ve 2 saniye sessiz kal</span> Herkese merhaba. Söze şöyle başlamak istiyorum... <br><br>
-      ${s1} 
+      ${escapeHtml(s1)} 
       </p>
       <p><span class="dir-note">Yüz hatlarını ciddileştir</span> <span class="dir-note">Sesini Alçalt</span> 
       Ancak işler her zaman planlandığı gibi gitmiyor... <br><br>
-      ${s2}
+      ${escapeHtml(s2)}
       </p>
       <p><span class="dir-note">Göz temasını artır</span> <span class="dir-note">Sesine enerji kat</span> 
       Fakat tam bu karanlık noktada bir karar verdik... <br><br>
-      ${s3}
+      ${escapeHtml(s3)}
       </p>
       <p><span class="dir-note">Yavaşla ve vurgula</span>
       İşte bu yüzden, bu anlattığım sadece bir anı değil, bizim dayanıklılığımızın kanıtıdır. Teşekkür ederim.</p>
     `;
 
-    document.getElementById('storyResult').innerHTML = finalStory;
+    // Typewriter effect
+    const resultDiv = document.getElementById('storyResult');
+    resultDiv.innerHTML = '';
+    
     nextStep(3, 4);
+    
+    // Start typewriter after panel transition
+    setTimeout(() => {
+      typewriterHTML(resultDiv, finalStory, 5);
+    }, 500);
+  }
+
+  function escapeHtml(text) {
+    const div = document.createElement('div');
+    div.textContent = text;
+    return div.innerHTML;
+  }
+
+  // Typewriter that preserves HTML
+  function typewriterHTML(element, html, speed) {
+    element.innerHTML = html;
+    const fullHTML = element.innerHTML;
+    element.innerHTML = '';
+    
+    let idx = 0;
+    let inTag = false;
+    let buffer = '';
+    
+    function tick() {
+      if (idx >= fullHTML.length) return;
+      
+      const char = fullHTML[idx];
+      
+      if (char === '<') inTag = true;
+      if (inTag) {
+        buffer += char;
+        if (char === '>') {
+          inTag = false;
+          element.innerHTML += buffer;
+          buffer = '';
+        }
+        idx++;
+        tick(); // Process tags instantly
+        return;
+      }
+      
+      element.innerHTML += char;
+      idx++;
+      setTimeout(tick, speed);
+    }
+    
+    tick();
   }
 </script>
+
+<style>
+  @keyframes shakeInput {
+    0%, 100% { transform: translateX(0); }
+    20%, 60% { transform: translateX(-6px); }
+    40%, 80% { transform: translateX(6px); }
+  }
+</style>
 
 <%- include('partials/main-footer') %>

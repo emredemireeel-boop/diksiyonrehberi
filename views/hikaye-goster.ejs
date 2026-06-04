@@ -4,8 +4,13 @@
   body { background: #0f172a; color: #f8fafc; font-family: 'Inter', sans-serif; overflow-x: hidden; }
   .sdt-container { padding: 40px 20px; max-width: 900px; margin: 0 auto; min-height: 85vh; display: flex; flex-direction: column; align-items: center; }
   
-  h1 { font-size: 2.5rem; font-weight: 900; margin-bottom: 5px; color: #d97706; text-transform: uppercase; letter-spacing: 2px; text-align: center; text-shadow: 0 0 15px rgba(217, 119, 6, 0.4); }
+  h1 { font-size: 2.5rem; font-weight: 900; margin-bottom: 5px; color: #d97706; text-transform: uppercase; letter-spacing: 2px; text-align: center; text-shadow: 0 0 15px rgba(217, 119, 6, 0.4); animation: titleGlow 2s ease-in-out infinite alternate; }
   p.desc { color: #94a3b8; font-size: 1rem; line-height: 1.6; margin-bottom: 30px; text-align: center; max-width: 700px; }
+
+  @keyframes titleGlow {
+    from { text-shadow: 0 0 15px rgba(217, 119, 6, 0.4); }
+    to { text-shadow: 0 0 30px rgba(217, 119, 6, 0.7), 0 0 60px rgba(217, 119, 6, 0.2); }
+  }
 
   /* Arena */
   .arena { width: 100%; background: #1e293b; border: 3px solid #92400e; border-radius: 20px; overflow: hidden; box-shadow: 0 20px 50px rgba(0,0,0,0.6); position: relative; display: flex; flex-direction: column; }
@@ -14,11 +19,27 @@
   .status-hud { display: flex; justify-content: space-between; align-items: center; background: #0f172a; padding: 20px 30px; border-bottom: 2px solid #334155; }
   .sh-lbl { font-size: 1rem; font-weight: 900; color: #fef3c7; text-transform: uppercase; letter-spacing: 1px; }
   .score-lbl { font-size: 1.2rem; font-weight: 900; color: #fbbf24; }
+  .score-val { display: inline-block; transition: transform 0.3s; }
+  .score-val.bump { animation: scoreBump 0.4s ease; }
+  @keyframes scoreBump {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.6); color: #10b981; }
+    100% { transform: scale(1); }
+  }
 
   /* Topic Zone (The Tell) */
-  .topic-zone { padding: 50px 30px; background: radial-gradient(circle at center, #78350f 0%, #451a03 100%); display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; }
-  .tz-badge { background: #b45309; color: #fff; padding: 5px 15px; border-radius: 20px; font-size: 0.8rem; font-weight: 800; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 20px; }
-  .tz-tell { font-size: 2rem; font-weight: 800; color: #fff; font-style: italic; }
+  .topic-zone { padding: 50px 30px; background: radial-gradient(circle at center, #78350f 0%, #451a03 100%); display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; position: relative; overflow: hidden; }
+  .topic-zone::before {
+    content: ''; position: absolute; inset: 0;
+    background: radial-gradient(circle at 50% 50%, rgba(217, 119, 6, 0.15) 0%, transparent 70%);
+    animation: zonePulse 3s ease-in-out infinite;
+  }
+  @keyframes zonePulse {
+    0%, 100% { opacity: 0.5; transform: scale(1); }
+    50% { opacity: 1; transform: scale(1.05); }
+  }
+  .tz-badge { background: #b45309; color: #fff; padding: 5px 15px; border-radius: 20px; font-size: 0.8rem; font-weight: 800; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 20px; position: relative; z-index: 1; }
+  .tz-tell { font-size: 2rem; font-weight: 800; color: #fff; font-style: italic; position: relative; z-index: 1; }
   .tz-tell::before { content: '"'; color: rgba(255,255,255,0.3); }
   .tz-tell::after { content: '"'; color: rgba(255,255,255,0.3); }
 
@@ -27,17 +48,63 @@
   .oz-title { font-size: 1rem; font-weight: 800; color: #94a3b8; text-transform: uppercase; margin-bottom: 20px; text-align: center; }
   .opt-grid { display: flex; flex-direction: column; gap: 15px; }
   
-  .btn-opt { background: #1e293b; border: 2px solid #475569; color: #e2e8f0; padding: 20px; border-radius: 15px; font-size: 1.05rem; font-weight: 600; cursor: pointer; transition: all 0.2s; text-align: left; position: relative; overflow: hidden; line-height: 1.5; }
-  .btn-opt:hover { background: #334155; border-color: #d97706; transform: translateY(-2px); box-shadow: 0 10px 20px rgba(217, 119, 6, 0.15); }
+  .btn-opt { 
+    background: #1e293b; border: 2px solid #475569; color: #e2e8f0; padding: 20px; border-radius: 15px; 
+    font-size: 1.05rem; font-weight: 600; cursor: pointer; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); 
+    text-align: left; position: relative; overflow: hidden; line-height: 1.5;
+    opacity: 0; transform: translateY(20px);
+  }
+  .btn-opt.stagger-in { opacity: 1; transform: translateY(0); }
+  .btn-opt:hover { background: #334155; border-color: #d97706; transform: translateY(-3px); box-shadow: 0 10px 25px rgba(217, 119, 6, 0.2); }
+
+  /* Ripple Effect */
+  .btn-opt .ripple {
+    position: absolute; border-radius: 50%; background: rgba(217, 119, 6, 0.3);
+    transform: scale(0); animation: rippleAnim 0.6s ease-out forwards;
+    pointer-events: none;
+  }
+  @keyframes rippleAnim {
+    to { transform: scale(4); opacity: 0; }
+  }
 
   /* Result Overlay */
   .result-overlay { position: absolute; inset: 0; background: rgba(15, 23, 42, 0.95); z-index: 100; display: none; flex-direction: column; align-items: center; justify-content: center; padding: 30px; text-align: center; }
+  .result-overlay.show-overlay { display: flex; animation: overlayIn 0.4s ease; }
+  @keyframes overlayIn { from { opacity: 0; transform: scale(0.95); } to { opacity: 1; transform: scale(1); } }
+
   .ro-icon { font-size: 5rem; margin-bottom: 20px; }
   .ro-title { font-size: 2.5rem; font-weight: 900; margin-bottom: 15px; text-transform: uppercase; }
   .ro-desc { font-size: 1.1rem; color: #cbd5e1; line-height: 1.6; margin-bottom: 30px; max-width: 550px; }
-  .btn-next { background: #d97706; color: #fff; font-weight: 900; padding: 15px 40px; border-radius: 30px; border: none; cursor: pointer; text-transform: uppercase; letter-spacing: 1px; }
+  .btn-next { background: #d97706; color: #fff; font-weight: 900; padding: 15px 40px; border-radius: 30px; border: none; cursor: pointer; text-transform: uppercase; letter-spacing: 1px; transition: all 0.3s; }
+  .btn-next:hover { transform: scale(1.05); box-shadow: 0 10px 30px rgba(217, 119, 6, 0.4); }
 
-  .game-over { display: none; text-align: center; padding: 50px; background: #451a03; border: 2px solid #d97706; border-radius: 20px; margin-top:30px; width:100%; }
+  /* Confetti */
+  .confetti-container { position: fixed; inset: 0; pointer-events: none; z-index: 200; }
+  .confetti-piece {
+    position: absolute; width: 10px; height: 10px; top: -10px;
+    animation: confettiFall 2s ease-in forwards;
+  }
+  @keyframes confettiFall {
+    0% { transform: translateY(0) rotate(0deg); opacity: 1; }
+    100% { transform: translateY(100vh) rotate(720deg); opacity: 0; }
+  }
+
+  /* Shake Animation (Wrong Answer) */
+  .shake { animation: shakeAnim 0.5s ease; }
+  @keyframes shakeAnim {
+    0%, 100% { transform: translateX(0); }
+    10%, 30%, 50%, 70%, 90% { transform: translateX(-8px); }
+    20%, 40%, 60%, 80% { transform: translateX(8px); }
+  }
+
+  .game-over { display: none; text-align: center; padding: 50px; background: #451a03; border: 2px solid #d97706; border-radius: 20px; margin-top:30px; width:100%; animation: gameOverIn 0.8s ease; }
+  @keyframes gameOverIn { from { opacity: 0; transform: scale(0.8); } to { opacity: 1; transform: scale(1); } }
+  .game-over .trophy { display: inline-block; animation: trophyBounce 1s ease infinite; }
+  @keyframes trophyBounce {
+    0%, 100% { transform: translateY(0) rotate(0deg); }
+    25% { transform: translateY(-15px) rotate(-5deg); }
+    75% { transform: translateY(-10px) rotate(5deg); }
+  }
 </style>
 
 <div class="sdt-container">
@@ -48,7 +115,7 @@
     
     <div class="status-hud">
       <div class="sh-lbl" id="hudLvl">Bölüm 1 / 5</div>
-      <div class="score-lbl">Skor: <span id="sScore">0</span></div>
+      <div class="score-lbl">Skor: <span class="score-val" id="sScore">0</span></div>
     </div>
 
     <div class="topic-zone">
@@ -73,13 +140,16 @@
   </div>
 
   <div class="game-over" id="gameOver">
-    <div style="font-size: 5rem; margin-bottom:20px;">🏆</div>
+    <div class="trophy" style="font-size: 5rem; margin-bottom:20px;">🏆</div>
     <h2 style="font-size:2.5rem; color:#fef3c7; margin:0 0 15px 0;">Kamera Ustası!</h2>
     <p style="color:#fde68a; font-size:1.1rem; margin-bottom:30px;">Mükemmel! Cümlelerinizin içine duyguları etiket olarak yapıştırmak yerine (Tell), fizyolojik detaylarla dinleyicinin zihninde o anı yaşatmayı başardınız (Show). Artık hikayeleriniz birer sinema filmi gibi hissettirecek.</p>
     <a href="/hikaye" style="background:#d97706; color:#fff; padding:15px 30px; border-radius:30px; text-decoration:none; font-weight:900;">Akademiye Dön</a>
   </div>
 
 </div>
+
+<!-- Confetti Container -->
+<div class="confetti-container" id="confettiBox"></div>
 
 <script>
   let currIdx = 0;
@@ -155,12 +225,27 @@
     
     // Rastgele sırala
     const shuffled = [...s.options].sort(() => Math.random() - 0.5);
-    shuffled.forEach(opt => {
+    shuffled.forEach((opt, i) => {
       const btn = document.createElement('button');
       btn.className = 'btn-opt';
       btn.textContent = opt.text;
-      btn.onclick = () => selectOpt(opt);
+      btn.onclick = (e) => {
+        // Ripple effect
+        const ripple = document.createElement('span');
+        ripple.className = 'ripple';
+        const rect = btn.getBoundingClientRect();
+        ripple.style.left = (e.clientX - rect.left) + 'px';
+        ripple.style.top = (e.clientY - rect.top) + 'px';
+        ripple.style.width = ripple.style.height = Math.max(rect.width, rect.height) + 'px';
+        btn.appendChild(ripple);
+        setTimeout(() => ripple.remove(), 600);
+        
+        selectOpt(opt);
+      };
       grid.appendChild(btn);
+      
+      // Stagger entrance animation
+      setTimeout(() => btn.classList.add('stagger-in'), 100 + i * 120);
     });
   }
 
@@ -171,7 +256,7 @@
     const rTitle = document.getElementById('rTitle');
     const rDesc = document.getElementById('rDesc');
 
-    overlay.style.display = 'flex';
+    overlay.classList.add('show-overlay');
 
     if(opt.isCorrect) {
       rIcon.textContent = '🎥';
@@ -180,17 +265,54 @@
       rDesc.textContent = s.successMsg;
       score += 100;
       currIdx++;
+      
+      // Score bump animation
+      const scoreEl = document.getElementById('sScore');
+      scoreEl.textContent = score;
+      scoreEl.classList.add('bump');
+      setTimeout(() => scoreEl.classList.remove('bump'), 400);
+      
+      // Confetti burst!
+      launchConfetti();
     } else {
       rIcon.textContent = '😴';
       rTitle.textContent = 'ÇOK YAVAN...';
       rTitle.style.color = '#f43f5e';
       rDesc.textContent = s.failMsg;
+      
+      // Shake the arena
+      document.getElementById('arena').classList.add('shake');
+      setTimeout(() => document.getElementById('arena').classList.remove('shake'), 500);
     }
   }
 
   function nextRound() {
+    document.getElementById('resOverlay').classList.remove('show-overlay');
     document.getElementById('resOverlay').style.display = 'none';
+    // Reset display for the class-based approach
+    setTimeout(() => {
+      document.getElementById('resOverlay').style.display = '';
+    }, 50);
     loadRound(); 
+  }
+
+  // Confetti function
+  function launchConfetti() {
+    const box = document.getElementById('confettiBox');
+    const colors = ['#d97706', '#fbbf24', '#10b981', '#3b82f6', '#f43f5e', '#8b5cf6', '#fef3c7'];
+    for (let i = 0; i < 50; i++) {
+      const piece = document.createElement('div');
+      piece.className = 'confetti-piece';
+      piece.style.left = Math.random() * 100 + '%';
+      piece.style.background = colors[Math.floor(Math.random() * colors.length)];
+      piece.style.animationDelay = Math.random() * 0.5 + 's';
+      piece.style.animationDuration = (Math.random() * 1.5 + 1.5) + 's';
+      piece.style.borderRadius = Math.random() > 0.5 ? '50%' : '2px';
+      piece.style.width = (Math.random() * 8 + 6) + 'px';
+      piece.style.height = (Math.random() * 8 + 6) + 'px';
+      box.appendChild(piece);
+    }
+    setTimeout(() => box.innerHTML = '', 3000);
   }
 
   // Init

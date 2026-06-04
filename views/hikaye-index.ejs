@@ -1,7 +1,7 @@
 <%- include('partials/main-header') %>
 
 <style>
-  /* STORYTELLING - LÜKS LIGHT MODE & FULL SCREEN OVERRIDES */
+  /* STORYTELLING - PREMIUM LIGHT MODE & FULL SCREEN */
   body { background: #fafaf9 !important; color: #1c1917; margin: 0; padding: 0; font-family: 'Inter', sans-serif; }
   main.main-content, div.content-wrapper, div.hikaye-page { 
     max-width: 100% !important; 
@@ -14,16 +14,22 @@
   @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&family=Playfair+Display:ital,wght@0,600;1,600;1,800&display=swap');
   
   :root {
-    --hk-primary: #d97706; /* Sıcak Kehribar (Storytelling ruhu) */
+    --hk-primary: #d97706;
     --hk-dark: #78350f;
-    --hk-accent: #0f766e; /* Zıtlık için zümrüt/deniz yeşili */
+    --hk-accent: #0f766e;
     --text-main: #1c1917;
     --text-muted: #57534e;
     --bg-light: #fafaf9;
     --bg-card: #ffffff;
   }
 
-  /* 1. HERO SECTION */
+  /* ═══════════════════════════ FLOATING PARTICLES ═══════════════════════════ */
+  .hk-particles-canvas {
+    position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+    pointer-events: none; z-index: 1;
+  }
+
+  /* ═══════════════════════════ 1. HERO ═══════════════════════════ */
   .hk-hero {
     position: relative;
     height: 90vh;
@@ -48,8 +54,9 @@
     z-index: 2;
     max-width: 900px;
     padding: 0 20px;
-    animation: fadeUp 1s ease-out;
   }
+
+  /* Typing cursor for hero title */
   .hk-badge {
     display: inline-block;
     padding: 8px 24px;
@@ -62,6 +69,8 @@
     letter-spacing: 2px;
     text-transform: uppercase;
     margin-bottom: 30px;
+    opacity: 0;
+    animation: fadeSlideUp 0.8s 0.2s ease-out forwards;
   }
   .hk-title {
     font-family: 'Playfair Display', serif;
@@ -69,10 +78,25 @@
     line-height: 1.1;
     margin: 0 0 20px 0;
     color: var(--text-main);
+    opacity: 0;
+    animation: fadeSlideUp 0.8s 0.4s ease-out forwards;
   }
   .hk-title i {
     color: var(--hk-primary);
     font-style: italic;
+    position: relative;
+  }
+  .hk-title i::after {
+    content: '';
+    position: absolute;
+    bottom: 5px; left: 0;
+    width: 100%; height: 12px;
+    background: rgba(217, 119, 6, 0.15);
+    border-radius: 4px;
+    z-index: -1;
+    animation: highlightExpand 1s 1.2s ease-out forwards;
+    transform: scaleX(0);
+    transform-origin: left;
   }
   .hk-subtitle {
     font-family: 'Outfit', sans-serif;
@@ -82,17 +106,25 @@
     max-width: 700px;
     margin: 0 auto 50px auto;
     line-height: 1.8;
+    opacity: 0;
+    animation: fadeSlideUp 0.8s 0.6s ease-out forwards;
   }
   .hk-stats {
     display: flex; justify-content: center; gap: 50px; flex-wrap: wrap;
+    opacity: 0;
+    animation: fadeSlideUp 0.8s 0.8s ease-out forwards;
   }
   .hk-stat {
     display: flex; flex-direction: column; align-items: center;
   }
-  .hk-stat-n { font-family: 'Playfair Display', serif; font-size: 2.5rem; color: var(--hk-dark); font-weight: 800; }
+  .hk-stat-n { 
+    font-family: 'Playfair Display', serif; font-size: 2.5rem; color: var(--hk-dark); font-weight: 800;
+    transition: transform 0.3s;
+  }
+  .hk-stat:hover .hk-stat-n { transform: scale(1.15); }
   .hk-stat-l { font-family: 'Outfit', sans-serif; font-size: 0.85rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px; font-weight: 600; margin-top: 5px; }
 
-  /* 2. SİMÜLASYON BANNER (LAB) */
+  /* ═══════════════════════════ 2. LAB BANNER ═══════════════════════════ */
   .hk-lab-banner {
     max-width: 1200px;
     margin: -60px auto 80px auto;
@@ -116,32 +148,58 @@
   .lab-desc { font-family: 'Outfit', sans-serif; color: var(--text-muted); font-size: 1.1rem; max-width: 800px; margin: 0 auto 35px auto; line-height: 1.6; }
   .lab-btns { display: flex; justify-content: center; gap: 20px; flex-wrap: wrap; }
   
+  /* 3D Tilt Buttons */
   .btn-lab {
     background: #ffffff; border: 2px solid #e5e7eb; color: var(--text-main);
     padding: 16px 36px; border-radius: 30px; font-family: 'Outfit', sans-serif; font-weight: 700; font-size: 1.05rem;
-    text-decoration: none; transition: all 0.3s; display: inline-flex; align-items: center; gap: 10px;
+    text-decoration: none; transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1); display: inline-flex; align-items: center; gap: 10px;
+    position: relative; overflow: hidden;
+    transform-style: preserve-3d;
+    perspective: 600px;
   }
+  .btn-lab::before {
+    content: ''; position: absolute; inset: 0;
+    background: radial-gradient(circle at var(--x, 50%) var(--y, 50%), rgba(217, 119, 6, 0.12) 0%, transparent 70%);
+    opacity: 0; transition: opacity 0.4s;
+    pointer-events: none;
+  }
+  .btn-lab:hover::before { opacity: 1; }
+
   .btn-lab.kanca { border-color: var(--hk-accent); color: var(--hk-accent); }
-  .btn-lab.kanca:hover { background: var(--hk-accent); color: #fff; box-shadow: 0 10px 20px rgba(15, 118, 110, 0.2); transform: translateY(-3px); }
+  .btn-lab.kanca:hover { background: var(--hk-accent); color: #fff; box-shadow: 0 10px 30px rgba(15, 118, 110, 0.25); transform: translateY(-4px) scale(1.03); }
   
   .btn-lab.kahraman { border-color: var(--hk-primary); color: var(--hk-dark); }
-  .btn-lab.kahraman:hover { background: var(--hk-primary); color: #fff; box-shadow: 0 10px 20px rgba(217, 119, 6, 0.2); transform: translateY(-3px); }
+  .btn-lab.kahraman:hover { background: var(--hk-primary); color: #fff; box-shadow: 0 10px 30px rgba(217, 119, 6, 0.25); transform: translateY(-4px) scale(1.03); }
 
-  /* 3. KATEGORİLER */
+  .btn-lab:not(.kanca):not(.kahraman):hover { 
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1); transform: translateY(-4px) scale(1.03); 
+  }
+
+  /* ═══════════════════════════ 3. NAVİGASYON ═══════════════════════════ */
   .hk-nav {
     display: flex; justify-content: center; gap: 15px; margin-bottom: 60px; flex-wrap: wrap;
   }
   .hk-nav-item {
     padding: 12px 28px; border-radius: 30px; text-decoration: none; font-family: 'Outfit', sans-serif;
     font-weight: 600; font-size: 0.95rem; color: var(--text-muted); border: 1px solid transparent; transition: all 0.3s;
+    position: relative; overflow: hidden;
   }
   .hk-nav-item.active { background: rgba(217, 119, 6, 0.1); color: var(--hk-dark); border-color: var(--hk-primary); }
   .hk-nav-item:hover:not(.active) { background: rgba(0,0,0,0.03); color: var(--text-main); }
+  .hk-nav-item::after {
+    content: ''; position: absolute; bottom: -1px; left: 50%; width: 0; height: 2px;
+    background: var(--hk-primary); transition: all 0.3s; transform: translateX(-50%);
+  }
+  .hk-nav-item:hover::after { width: 60%; }
 
-  /* 4. PERDELER (KARTLAR) */
+  /* ═══════════════════════════ 4. KARTLAR ═══════════════════════════ */
   .hk-section { max-width: 1400px; margin: 0 auto; padding: 60px 5%; }
   .sec-header { display: flex; align-items: center; gap: 20px; margin-bottom: 50px; }
-  .sec-icon { background: #fef3c7; border: 1px solid #fde68a; width: 60px; height: 60px; border-radius: 16px; display: flex; align-items: center; justify-content: center; font-size: 1.8rem; }
+  .sec-icon { 
+    background: #fef3c7; border: 1px solid #fde68a; width: 60px; height: 60px; border-radius: 16px; 
+    display: flex; align-items: center; justify-content: center; font-size: 1.8rem;
+    animation: floatBounce 3s ease-in-out infinite;
+  }
   .sec-title h2 { font-family: 'Playfair Display', serif; font-size: 2rem; color: var(--text-main); margin: 0 0 5px 0; }
   .sec-title p { font-family: 'Outfit', sans-serif; font-size: 1rem; color: var(--text-muted); margin: 0; }
 
@@ -149,34 +207,123 @@
   
   .card-perde {
     background: var(--bg-card); border: 1px solid #e5e7eb; border-radius: 24px; padding: 40px;
-    text-decoration: none; position: relative; overflow: hidden; transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    text-decoration: none; position: relative; overflow: hidden; transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
     box-shadow: 0 10px 30px rgba(0,0,0,0.02); display: flex; flex-direction: column;
+    opacity: 0; transform: translateY(40px);
+  }
+  .card-perde.visible {
+    opacity: 1; transform: translateY(0);
   }
   .card-perde::after {
     content: ''; position: absolute; bottom: 0; left: 0; width: 100%; height: 4px;
-    background: var(--hk-primary); transform: scaleX(0); transform-origin: left; transition: transform 0.4s ease;
+    background: linear-gradient(90deg, var(--hk-primary), var(--hk-accent));
+    transform: scaleX(0); transform-origin: left; transition: transform 0.5s ease;
   }
-  .card-perde:hover { transform: translateY(-10px); border-color: #fde68a; box-shadow: 0 20px 40px rgba(217, 119, 6, 0.08); }
+  .card-perde::before {
+    content: ''; position: absolute; top: -50%; right: -50%; width: 200%; height: 200%;
+    background: radial-gradient(circle, rgba(217, 119, 6, 0.03) 0%, transparent 70%);
+    opacity: 0; transition: opacity 0.5s;
+    pointer-events: none;
+  }
+  .card-perde:hover { transform: translateY(-12px); border-color: #fde68a; box-shadow: 0 25px 50px rgba(217, 119, 6, 0.12); }
   .card-perde:hover::after { transform: scaleX(1); }
+  .card-perde:hover::before { opacity: 1; }
 
-  .cp-tag { font-family: 'Outfit'; font-size: 0.75rem; font-weight: 800; color: var(--hk-primary); letter-spacing: 2px; text-transform: uppercase; margin-bottom: 15px; }
-  .cp-icon { font-size: 3rem; margin-bottom: 25px; filter: drop-shadow(0 5px 10px rgba(217,119,6,0.2)); }
+  .cp-tag { 
+    font-family: 'Outfit'; font-size: 0.75rem; font-weight: 800; color: var(--hk-primary); 
+    letter-spacing: 2px; text-transform: uppercase; margin-bottom: 15px;
+    position: relative; display: inline-block;
+  }
+  /* Neon glow pulse for badges */
+  .cp-tag::after {
+    content: ''; position: absolute; inset: -4px -10px; border-radius: 20px;
+    background: rgba(217, 119, 6, 0.08);
+    animation: badgePulse 2s ease-in-out infinite;
+  }
+  .cp-icon { font-size: 3rem; margin-bottom: 25px; filter: drop-shadow(0 5px 10px rgba(217,119,6,0.2)); transition: transform 0.4s; }
+  .card-perde:hover .cp-icon { transform: scale(1.15) rotate(-5deg); }
   .cp-title { font-family: 'Playfair Display', serif; font-size: 1.8rem; color: var(--text-main); margin: 0 0 15px 0; }
   .cp-desc { font-family: 'Outfit', sans-serif; font-size: 1rem; color: var(--text-muted); line-height: 1.7; margin: 0 0 30px 0; flex-grow: 1; }
-  .cp-btn { font-family: 'Outfit', sans-serif; font-size: 0.95rem; font-weight: 700; color: var(--text-main); display: inline-flex; align-items: center; gap: 10px; transition: 0.3s; }
-  .card-perde:hover .cp-btn { color: var(--hk-primary); gap: 15px; }
+  .cp-btn { 
+    font-family: 'Outfit', sans-serif; font-size: 0.95rem; font-weight: 700; color: var(--text-main); 
+    display: inline-flex; align-items: center; gap: 10px; transition: 0.4s; 
+  }
+  .cp-btn span { transition: transform 0.3s; display: inline-block; }
+  .card-perde:hover .cp-btn { color: var(--hk-primary); }
+  .card-perde:hover .cp-btn span { transform: translateX(8px); }
 
-  /* 5. EDITORIAL MAKALE */
-  .hk-article { background: linear-gradient(45deg, #ffffff, #fefce8); border-top: 1px solid #fef3c7; border-bottom: 1px solid #fef3c7; padding: 100px 5%; margin-top: 80px; }
+  /* ═══════════════════════════ 5. QUOTE CAROUSEL ═══════════════════════════ */
+  .hk-article { 
+    background: linear-gradient(45deg, #ffffff, #fefce8); 
+    border-top: 1px solid #fef3c7; border-bottom: 1px solid #fef3c7; 
+    padding: 100px 5%; margin-top: 80px; 
+    position: relative; overflow: hidden;
+  }
+  .hk-article::before {
+    content: ''; position: absolute; top: -100px; right: -100px;
+    width: 400px; height: 400px; border-radius: 50%;
+    background: radial-gradient(circle, rgba(217, 119, 6, 0.05) 0%, transparent 70%);
+    pointer-events: none;
+  }
   .article-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; max-width: 1200px; margin: 0 auto; align-items: center; }
   .article-text h2 { font-family: 'Playfair Display', serif; font-size: 2.5rem; color: var(--text-main); margin-bottom: 25px; line-height: 1.2; }
   .article-text p { font-family: 'Outfit', sans-serif; font-size: 1.1rem; color: var(--text-muted); line-height: 1.8; margin-bottom: 20px; }
   
-  .article-quote { background: #fffbeb; border-left: 4px solid var(--hk-primary); padding: 40px; border-radius: 0 24px 24px 0; }
-  .quote-text { font-family: 'Playfair Display', serif; font-size: 1.5rem; color: var(--hk-dark); font-style: italic; line-height: 1.6; margin-bottom: 20px; }
+  /* Carousel Container */
+  .quote-carousel {
+    position: relative; overflow: hidden;
+    background: #fffbeb; border-left: 4px solid var(--hk-primary); padding: 40px; border-radius: 0 24px 24px 0;
+    min-height: 260px;
+  }
+  .quote-slide {
+    position: absolute; inset: 0; padding: 40px; display: flex; flex-direction: column; justify-content: center;
+    opacity: 0; transform: translateX(30px);
+    transition: all 0.7s cubic-bezier(0.4, 0, 0.2, 1);
+    pointer-events: none;
+  }
+  .quote-slide.active {
+    opacity: 1; transform: translateX(0);
+    pointer-events: auto;
+    position: relative;
+  }
+  .quote-text { font-family: 'Playfair Display', serif; font-size: 1.4rem; color: var(--hk-dark); font-style: italic; line-height: 1.6; margin-bottom: 20px; }
   .quote-author { font-family: 'Outfit', sans-serif; font-size: 1rem; font-weight: 800; color: var(--hk-primary); text-transform: uppercase; letter-spacing: 1px; }
+  
+  .quote-dots {
+    display: flex; gap: 8px; margin-top: 20px; justify-content: center;
+  }
+  .q-dot {
+    width: 10px; height: 10px; border-radius: 50%; background: #fde68a; cursor: pointer;
+    transition: all 0.3s; border: none;
+  }
+  .q-dot.active { background: var(--hk-primary); width: 28px; border-radius: 10px; }
 
-  @keyframes fadeUp { from { opacity: 0; transform: translateY(40px); } to { opacity: 1; transform: translateY(0); } }
+  /* ═══════════════════════════ ANIMATIONS ═══════════════════════════ */
+  @keyframes fadeSlideUp { 
+    from { opacity: 0; transform: translateY(40px); } 
+    to { opacity: 1; transform: translateY(0); } 
+  }
+  @keyframes highlightExpand {
+    from { transform: scaleX(0); }
+    to { transform: scaleX(1); }
+  }
+  @keyframes floatBounce {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-6px); }
+  }
+  @keyframes badgePulse {
+    0%, 100% { opacity: 0.5; transform: scale(1); }
+    50% { opacity: 1; transform: scale(1.05); }
+  }
+
+  /* Scroll reveal base */
+  .scroll-reveal {
+    opacity: 0; transform: translateY(30px);
+    transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  .scroll-reveal.revealed {
+    opacity: 1; transform: translateY(0);
+  }
 
   @media(max-width: 900px) {
     .hk-title { font-size: 3.5rem; }
@@ -190,22 +337,23 @@
 
   <!-- 1. HERO -->
   <section class="hk-hero">
+    <canvas class="hk-particles-canvas" id="particlesCanvas"></canvas>
     <div class="hk-hero-content">
-      <div class="hk-badge">Anlatıcılık Sanatı</div>
+      <div class="hk-badge">Hikaye Anlatıcılığı Sanatı</div>
       <h1 class="hk-title">Sıradan Kelimeleri <i>Unutulmaz</i> Hikayelere Dönüştür</h1>
       <p class="hk-subtitle">İnsanlar verileri ve raporları değil, hissettiklerini ve hikayeleri hatırlar. Joseph Campbell'ın evrensel kahraman yolculuğundan modern sunum tekniklerine kadar iz bırakan bir anlatıcı olmanın şifresini çözün.</p>
       
       <div class="hk-stats">
-        <div class="hk-stat"><span class="hk-stat-n">3</span><span class="hk-stat-l">Perde Yapısı</span></div>
-        <div class="hk-stat"><span class="hk-stat-n">10+</span><span class="hk-stat-l">Anlatım Tekniği</span></div>
-        <div class="hk-stat"><span class="hk-stat-n">∞</span><span class="hk-stat-l">Etki Alanı</span></div>
+        <div class="hk-stat"><span class="hk-stat-n" data-target="3">0</span><span class="hk-stat-l">Perde Yapısı</span></div>
+        <div class="hk-stat"><span class="hk-stat-n" data-target="10">0</span><span class="hk-stat-l">Anlatım Tekniği</span></div>
+        <div class="hk-stat"><span class="hk-stat-n special-infinity">∞</span><span class="hk-stat-l">Etki Alanı</span></div>
       </div>
     </div>
   </section>
 
   <!-- 2. LAB BANNER -->
-  <div class="hk-lab-banner">
-    <div class="lab-subtitle">Anlatıcılık Laboratuvarı</div>
+  <div class="hk-lab-banner scroll-reveal">
+    <div class="lab-subtitle">Hikaye Anlatıcılığı Laboratuvarı</div>
     <h2 class="lab-title">4 Efsanevi Simülasyon</h2>
     <p class="lab-desc">Sıradan bir anıyı veya şirket sunumunu nasıl gişe rekorları kıran bir filme çevirirsiniz? Hikaye Mimarı ile sıfırdan bir 3 perde inşa edin, ilk 10 saniyede kusursuz bir kanca atın ve "Göster, Söyleme" kuralının sırrını çözün.</p>
     <div class="lab-btns">
@@ -217,7 +365,7 @@
   </div>
 
   <!-- 3. KATEGORİLER -->
-  <nav class="hk-nav">
+  <nav class="hk-nav scroll-reveal">
     <a href="/hikaye" class="hk-nav-item active">Tümü</a>
     <a href="/hikaye/sıradan" class="hk-nav-item">Sıradan Dünya</a>
     <a href="/hikaye/kriz" class="hk-nav-item">Çatışma (Kriz)</a>
@@ -226,7 +374,7 @@
 
   <!-- 4. PERDELER -->
   <section class="hk-section">
-    <div class="sec-header">
+    <div class="sec-header scroll-reveal">
       <div class="sec-icon">📖</div>
       <div class="sec-title">
         <h2>Hikaye Yapısı: 3 Perde</h2>
@@ -236,7 +384,7 @@
 
     <div class="hk-grid">
       <!-- Perde 1 -->
-      <a href="/hikaye/sıradan" class="card-perde">
+      <a href="/hikaye/sıradan" class="card-perde" style="transition-delay: 0.1s;">
         <div class="cp-tag">Perde 01 — Başlangıç</div>
         <div class="cp-icon">🌅</div>
         <h3 class="cp-title">Sıradan Dünya</h3>
@@ -245,7 +393,7 @@
       </a>
 
       <!-- Perde 2 -->
-      <a href="/hikaye/kriz" class="card-perde">
+      <a href="/hikaye/kriz" class="card-perde" style="transition-delay: 0.25s;">
         <div class="cp-tag">Perde 02 — Çatışma</div>
         <div class="cp-icon">⚡</div>
         <h3 class="cp-title">Kriz ve Dönüm Noktası</h3>
@@ -254,7 +402,7 @@
       </a>
 
       <!-- Perde 3 -->
-      <a href="/hikaye/sentez" class="card-perde">
+      <a href="/hikaye/sentez" class="card-perde" style="transition-delay: 0.4s;">
         <div class="cp-tag">Perde 03 — Sonuç</div>
         <div class="cp-icon">🌟</div>
         <h3 class="cp-title">Çözüm ve Sentez</h3>
@@ -264,22 +412,203 @@
     </div>
   </section>
 
-  <!-- 5. EDITORIAL MAKALE -->
+  <!-- 5. EDITORIAL MAKALE + QUOTE CAROUSEL -->
   <section class="hk-article">
     <div class="article-grid">
-      <div class="article-text">
+      <div class="article-text scroll-reveal">
         <h2>Neden Hikaye Anlatıcılığı?</h2>
         <p>Princeton Üniversitesi'nde yapılan fMRI araştırmaları, iyi bir hikaye dinlendiğinde, konuşmacının ve dinleyicinin beyin dalgalarının kelimenin tam anlamıyla <strong>senkronize</strong> olduğunu kanıtlamıştır.</p>
         <p>Maddeler halindeki kuru veriler beynin sadece dil merkezini çalıştırırken, duyusal detaylarla bezenmiş bir hikaye; beynin görsel, motor ve duyusal kortekslerini aynı anda ateşleyerek yaşanan olayı kişinin kendi anısıymış gibi hissetmesini sağlar.</p>
         <p>İş dünyasındaki çetin sunumlarda, yatırımcı görüşmelerinde veya sadece arkadaş ortamındaki basit bir anı aktarımında dahi, iknanın en kısa yolu karşı tarafın duygularına (Pathos) hitap eden güçlü bir anlatıdır.</p>
       </div>
-      <div class="article-quote">
-        <div class="quote-text">"Eğer birini etkilemek istiyorsan, ona sarsılmaz bir veri ver. Fakat onu yerinden kaldırıp harekete geçirmek istiyorsan, ona bir hikaye anlat."</div>
-        <div class="quote-author">— Brené Brown</div>
+      <div class="scroll-reveal" style="transition-delay: 0.2s;">
+        <div class="quote-carousel" id="quoteCarousel">
+          <div class="quote-slide active">
+            <div class="quote-text">"Eğer birini etkilemek istiyorsan, ona sarsılmaz bir veri ver. Fakat onu yerinden kaldırıp harekete geçirmek istiyorsan, ona bir hikaye anlat."</div>
+            <div class="quote-author">— Brené Brown</div>
+          </div>
+          <div class="quote-slide">
+            <div class="quote-text">"İnsanlar hikayeleri yaşamak için doğar. Bir hikayenin gücü, binlerce istatistikten daha büyüktür."</div>
+            <div class="quote-author">— Maya Angelou</div>
+          </div>
+          <div class="quote-slide">
+            <div class="quote-text">"En güçlü kişi, en yüksek sesle bağıran değil, en iyi hikaye anlatandır."</div>
+            <div class="quote-author">— Steve Jobs</div>
+          </div>
+          <div class="quote-slide">
+            <div class="quote-text">"Beyinler istatistikler için değil, hikayeler için tasarlanmıştır. Bir hikaye duyduğumuzda beynimiz onu bizzat yaşar."</div>
+            <div class="quote-author">— Uri Hasson (Princeton)</div>
+          </div>
+        </div>
+        <div class="quote-dots" id="quoteDots">
+          <button class="q-dot active" data-idx="0"></button>
+          <button class="q-dot" data-idx="1"></button>
+          <button class="q-dot" data-idx="2"></button>
+          <button class="q-dot" data-idx="3"></button>
+        </div>
       </div>
     </div>
   </section>
 
 </div>
+
+<script>
+  // ═══════════════════════════ FLOATING PARTICLES ═══════════════════════════
+  (function() {
+    const canvas = document.getElementById('particlesCanvas');
+    if (!canvas) return;
+    const ctx = canvas.getContext('2d');
+    let particles = [];
+    let animId;
+
+    function resize() {
+      const hero = canvas.parentElement;
+      canvas.width = hero.offsetWidth;
+      canvas.height = hero.offsetHeight;
+    }
+    
+    function createParticles() {
+      particles = [];
+      const count = Math.min(60, Math.floor(canvas.width / 20));
+      for (let i = 0; i < count; i++) {
+        particles.push({
+          x: Math.random() * canvas.width,
+          y: Math.random() * canvas.height,
+          r: Math.random() * 3 + 1,
+          dx: (Math.random() - 0.5) * 0.4,
+          dy: (Math.random() - 0.5) * 0.3,
+          opacity: Math.random() * 0.4 + 0.1,
+          hue: Math.random() > 0.5 ? 38 : 30 // amber tones
+        });
+      }
+    }
+
+    function draw() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      particles.forEach(p => {
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+        ctx.fillStyle = `hsla(${p.hue}, 80%, 50%, ${p.opacity})`;
+        ctx.fill();
+
+        p.x += p.dx;
+        p.y += p.dy;
+
+        if (p.x < 0) p.x = canvas.width;
+        if (p.x > canvas.width) p.x = 0;
+        if (p.y < 0) p.y = canvas.height;
+        if (p.y > canvas.height) p.y = 0;
+      });
+
+      // Connect nearby particles
+      for (let i = 0; i < particles.length; i++) {
+        for (let j = i + 1; j < particles.length; j++) {
+          const dist = Math.hypot(particles[i].x - particles[j].x, particles[i].y - particles[j].y);
+          if (dist < 120) {
+            ctx.beginPath();
+            ctx.moveTo(particles[i].x, particles[i].y);
+            ctx.lineTo(particles[j].x, particles[j].y);
+            ctx.strokeStyle = `rgba(217, 119, 6, ${0.05 * (1 - dist / 120)})`;
+            ctx.lineWidth = 0.5;
+            ctx.stroke();
+          }
+        }
+      }
+      animId = requestAnimationFrame(draw);
+    }
+
+    resize();
+    createParticles();
+    draw();
+    window.addEventListener('resize', () => { resize(); createParticles(); });
+  })();
+
+  // ═══════════════════════════ STAT COUNTER ANIMATION ═══════════════════════════
+  (function() {
+    const counters = document.querySelectorAll('.hk-stat-n[data-target]');
+    counters.forEach(el => {
+      const target = parseInt(el.dataset.target);
+      const duration = 1500;
+      const start = performance.now();
+      function tick(now) {
+        const elapsed = now - start;
+        const progress = Math.min(elapsed / duration, 1);
+        const ease = 1 - Math.pow(1 - progress, 3); // ease-out
+        el.textContent = Math.round(target * ease) + (target === 10 ? '+' : '');
+        if (progress < 1) requestAnimationFrame(tick);
+      }
+      // Delay start to sync with fade-in
+      setTimeout(() => requestAnimationFrame(tick), 1000);
+    });
+  })();
+
+  // ═══════════════════════════ SCROLL REVEAL (IntersectionObserver) ═══════════════════════════
+  (function() {
+    const obs = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          e.target.classList.add('revealed');
+          // For cards stagger
+          if (e.target.classList.contains('card-perde')) {
+            e.target.classList.add('visible');
+          }
+          obs.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.15, rootMargin: '0px 0px -50px 0px' });
+
+    document.querySelectorAll('.scroll-reveal, .card-perde').forEach(el => obs.observe(el));
+  })();
+
+  // ═══════════════════════════ QUOTE CAROUSEL ═══════════════════════════
+  (function() {
+    const slides = document.querySelectorAll('.quote-slide');
+    const dots = document.querySelectorAll('.q-dot');
+    let current = 0;
+    let timer;
+
+    function goTo(idx) {
+      slides.forEach((s, i) => {
+        s.classList.remove('active');
+        s.style.transform = i < idx ? 'translateX(-30px)' : 'translateX(30px)';
+      });
+      dots.forEach(d => d.classList.remove('active'));
+      slides[idx].classList.add('active');
+      dots[idx].classList.add('active');
+      current = idx;
+    }
+
+    function next() {
+      goTo((current + 1) % slides.length);
+    }
+
+    function startTimer() {
+      timer = setInterval(next, 5000);
+    }
+
+    dots.forEach(d => {
+      d.addEventListener('click', () => {
+        clearInterval(timer);
+        goTo(parseInt(d.dataset.idx));
+        startTimer();
+      });
+    });
+
+    startTimer();
+  })();
+
+  // ═══════════════════════════ 3D TILT EFFECT FOR LAB BUTTONS ═══════════════════════════
+  (function() {
+    document.querySelectorAll('.btn-lab').forEach(btn => {
+      btn.addEventListener('mousemove', e => {
+        const rect = btn.getBoundingClientRect();
+        const x = ((e.clientX - rect.left) / rect.width) * 100;
+        const y = ((e.clientY - rect.top) / rect.height) * 100;
+        btn.style.setProperty('--x', x + '%');
+        btn.style.setProperty('--y', y + '%');
+      });
+    });
+  })();
+</script>
 
 <%- include('partials/main-footer') %>

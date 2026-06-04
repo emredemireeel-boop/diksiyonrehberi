@@ -1494,7 +1494,14 @@ const SITEMAP_PAGES = [
   { loc: '/ozguven', changefreq: 'weekly', priority: '1.0' },
   { loc: '/hikaye', changefreq: 'weekly', priority: '1.0' },
   { loc: '/retorik', changefreq: 'weekly', priority: '1.0' },
-  { loc: '/gorgu', changefreq: 'weekly', priority: '1.0' }
+  { loc: '/gorgu', changefreq: 'weekly', priority: '1.0' },
+  // Diksiyon SEO Sayfaları
+  { loc: '/diksiyon/nasil-duzeltilir', changefreq: 'monthly', priority: '0.9' },
+  { loc: '/diksiyon/nefes-ve-ses-egzersizleri', changefreq: 'monthly', priority: '0.9' },
+  { loc: '/diksiyon/etkili-konusma-teknikleri', changefreq: 'monthly', priority: '0.9' },
+  // Egzersiz Laboratuvarları
+  { loc: '/egzersiz/r-harfi', changefreq: 'weekly', priority: '0.9' },
+  { loc: '/egzersiz/s-harfi', changefreq: 'weekly', priority: '0.9' }
 ];
 
 // ═══════════════════════════════════════════════════════════════════════════
@@ -1584,6 +1591,13 @@ function buildInternalLinksBlock() {
   ${toolLinks}
   <h2>Popüler Tekerleme Kategorileri</h2>
   ${kategoriLinks}
+  <h2>Diksiyon Rehberleri</h2>
+  <a href="/diksiyon/nasil-duzeltilir">Diksiyon Nasıl Düzeltilir? Evde Diksiyon Egzersizleri</a>
+  <a href="/diksiyon/nefes-ve-ses-egzersizleri">Diyafram Nefesi ve Ses Açma Egzersizleri</a>
+  <a href="/diksiyon/etkili-konusma-teknikleri">Etkili Konuşma Teknikleri: Vurgu ve Tonlama</a>
+  <h2>Harf Egzersiz Laboratuvarları</h2>
+  <a href="/egzersiz/r-harfi">R Harfi Söyleyememe (Rotasizm) Çözüm Merkezi</a>
+  <a href="/egzersiz/s-harfi">S ve Ş Harfi Pelteklik (Sigmatizm) Çözüm Merkezi</a>
   <h2>Tüm Tekerlemeler (A-Z)</h2>
   ${tekerlemeLinks}
 </nav>`;
@@ -1594,7 +1608,46 @@ function buildInternalLinksBlock() {
 // ═══════════════════════════════════════════════════════════════════════════
 app.get('/sitemap.xml', (req, res) => {
   const today = new Date().toISOString().split('T')[0];
-  const urls = SITEMAP_PAGES.map(({ loc, changefreq, priority }) => `
+  const pages = [...SITEMAP_PAGES];
+
+  // Dinamik Olarak Modül Sayfalarını Ekle (SUBPAGE_META)
+  Object.keys(SUBPAGE_META).forEach(slug => {
+    if (!pages.find(p => p.loc === `/${slug}`)) {
+      pages.push({ loc: `/${slug}`, changefreq: 'monthly', priority: '0.9' });
+    }
+  });
+
+  // Dinamik Olarak Safsata Sayfalarını Ekle
+  if (typeof SAFSATA_DB !== 'undefined') {
+    SAFSATA_DB.forEach(safsata => {
+      pages.push({ loc: `/safsata/${safsata.slug}`, changefreq: 'monthly', priority: '0.8' });
+    });
+  }
+
+  // Özel Simülatör ve Araç Rotaları
+  const extraRoutes = [
+    '/manipulasyon/araclar/saldiri', '/manipulasyon/araclar/savunma', '/manipulasyon/araclar/dedektif',
+    '/retorik/araclar/muzakere', '/retorik/araclar/makine', '/retorik/araclar/radar', '/retorik/araclar/kursu', 
+    '/retorik/araclar/ucgen', '/retorik/araclar/kitle', '/retorik/araclar/munazara', '/retorik/araclar/karanlik', 
+    '/retorik/araclar/prompter', '/retorik/araclar/asistan',
+    '/safsata/dedektif', '/safsata/kalkan', '/safsata/karanlik', '/safsata/trol-avcisi', '/safsata/mahkeme', '/safsata/spin-doctor',
+    '/bedendili/dedektif', '/bedendili/radar', '/bedendili/kriz',
+    '/ozguven/golge-boksu', '/ozguven/reddedilme', '/ozguven/statu', '/ozguven/aura',
+    '/hikaye/kanca', '/hikaye/kahraman', '/hikaye/mimari', '/hikaye/goster',
+    '/gorgu-similator', '/gorgu-radar', '/gorgu-dedektif', '/gorgu-sofra', '/gorgu-diplomasi',
+    '/giyim/outfit', '/giyim/renk', '/giyim/vucut-tipi', '/giyim/aksesuar', '/giyim/stil', '/giyim/dresscode',
+    '/sahne/araclar/prompter', '/sahne/araclar/dogaclama', '/sahne/araclar/nefes', '/sahne/araclar/sayac', 
+    '/sahne/araclar/goz-temasi', '/sahne/araclar/vurgu', '/sahne/araclar/rulet', '/sahne/araclar/duygu', 
+    '/sahne/araclar/metronom', '/sahne/araclar/capraz-ates'
+  ];
+
+  extraRoutes.forEach(loc => {
+    if (!pages.find(p => p.loc === loc)) {
+      pages.push({ loc, changefreq: 'weekly', priority: '0.9' });
+    }
+  });
+
+  const urls = pages.map(({ loc, changefreq, priority }) => `
   <url>
     <loc>${SITE_URL}${loc}</loc>
     <lastmod>${today}</lastmod>
@@ -1643,6 +1696,184 @@ Sitemap: ${SITE_URL}/sitemap.xml
 // ═══════════════════════════════════════════════════════════════════════════
 app.get('/diksiyon', (req, res) => {
   res.redirect('/');
+});
+
+// ================= DIKSIYON SEO ROUTES =================
+app.get('/diksiyon/nasil-duzeltilir', (req, res, next) => {
+  res.render('diksiyon-nasil-duzeltilir', {
+    meta: { 
+      title: 'Diksiyon Nasıl Düzeltilir? Evde Diksiyon Egzersizleri | Diksiyon Rehberi', 
+      desc: 'Evde kendi kendinize uygulayabileceğiniz kalem egzersizleri, dudak ve dil tembelliği çözümleri ile diksiyon nasıl düzeltilir adım adım öğrenin.' 
+    },
+    canonicalUrl: SITE_URL + '/diksiyon/nasil-duzeltilir',
+    jsonLdScripts: `
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {"@type": "ListItem", "position": 1, "name": "Ana Sayfa", "item": "${SITE_URL}/"},
+        {"@type": "ListItem", "position": 2, "name": "Diksiyon Egzersizleri", "item": "${SITE_URL}/"},
+        {"@type": "ListItem", "position": 3, "name": "Diksiyon Nasıl Düzeltilir?", "item": "${SITE_URL}/diksiyon/nasil-duzeltilir"}
+      ]
+    }
+    </script>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "HowTo",
+      "name": "Evde Diksiyon Nasıl Düzeltilir?",
+      "description": "Evde kendi kendinize uygulayabileceğiniz kalem egzersizleri ile diksiyonunuzu düzeltin.",
+      "step": [
+        {"@type": "HowToStep", "position": 1, "name": "Kalem Egzersizi", "text": "Yatay olarak bir kurşun kalemi dudaklarınızın arasına yerleştirin ve günde 5 dakika sesli okuma yapın."},
+        {"@type": "HowToStep", "position": 2, "name": "Sesli Okuma", "text": "Her gün tiyatro sahnesindeymiş gibi abartılı sesli okuma yaparak kelimeleri yutma alışkanlığını kırın."},
+        {"@type": "HowToStep", "position": 3, "name": "Tekerleme Pratiği", "text": "Tekerleme kronometresiyle dil kaslarınızı hızlandırın ve akıcılığınızı artırın."}
+      ]
+    }
+    </script>
+    `
+  });
+});
+
+app.get('/diksiyon/nefes-ve-ses-egzersizleri', (req, res, next) => {
+  res.render('diksiyon-nefes', {
+    meta: { 
+      title: 'Diyafram Nefesi ve Ses Açma Egzersizleri | Diksiyon Rehberi', 
+      desc: 'Diyafram nefesi nasıl alınır? Etkili bir konuşma için ses açma egzersizleri ve nefes kontrol teknikleri ile sesinizi profesyonelce yönetin.' 
+    },
+    canonicalUrl: SITE_URL + '/diksiyon/nefes-ve-ses-egzersizleri',
+    jsonLdScripts: `
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {"@type": "ListItem", "position": 1, "name": "Ana Sayfa", "item": "${SITE_URL}/"},
+        {"@type": "ListItem", "position": 2, "name": "Diksiyon Egzersizleri", "item": "${SITE_URL}/"},
+        {"@type": "ListItem", "position": 3, "name": "Nefes ve Ses Egzersizleri", "item": "${SITE_URL}/diksiyon/nefes-ve-ses-egzersizleri"}
+      ]
+    }
+    </script>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "Diyafram nefesi nasıl alınır?",
+          "acceptedAnswer": {"@type": "Answer", "text": "Elinizi karnınıza koyun, burnunuzdan derin bir nefes alarak göğsünüzü değil karnınızı şişirin, ardından nefesi yavaşça ağzınızdan verin."}
+        },
+        {
+          "@type": "Question",
+          "name": "Ses açma egzersizi nasıl yapılır?",
+          "acceptedAnswer": {"@type": "Answer", "text": "Derin bir diyafram nefesi alın, dudaklarınız kapalı şekilde 'Mmmmmmm' sesi çıkarın. Dudaklarınızın ve burnunuzun titreştiğini hissedin."}
+        },
+        {
+          "@type": "Question",
+          "name": "Konuşurken neden nefesim yetmiyor?",
+          "acceptedAnswer": {"@type": "Answer", "text": "Göğüs nefesi yerine diyafram nefesi kullanmadığınız için ciğerlerinizin alt lobları havayla dolmuyor. Diyafram nefesi pratiği ile bu sorunu çözebilirsiniz."}
+        }
+      ]
+    }
+    </script>
+    `
+  });
+});
+
+app.get('/diksiyon/etkili-konusma-teknikleri', (req, res, next) => {
+  res.render('diksiyon-etkili-konusma', {
+    meta: { 
+      title: 'Etkili Konuşma Teknikleri: Vurgu ve Tonlama Nasıl Yapılır? | Diksiyon Rehberi', 
+      desc: 'Topluluk önünde konuşma, hitabet sanatı, monotonluktan kurtulma ve doğru vurgu/tonlama teknikleri ile etkili konuşmanın sırlarını keşfedin.' 
+    },
+    canonicalUrl: SITE_URL + '/diksiyon/etkili-konusma-teknikleri',
+    jsonLdScripts: `
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {"@type": "ListItem", "position": 1, "name": "Ana Sayfa", "item": "${SITE_URL}/"},
+        {"@type": "ListItem", "position": 2, "name": "Diksiyon Egzersizleri", "item": "${SITE_URL}/"},
+        {"@type": "ListItem", "position": 3, "name": "Etkili Konuşma Teknikleri", "item": "${SITE_URL}/diksiyon/etkili-konusma-teknikleri"}
+      ]
+    }
+    </script>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "Monoton konuşmaktan nasıl kurtulurum?",
+          "acceptedAnswer": {"@type": "Answer", "text": "Heyecanlı detaylarda sesinizin hızını ve yüksekliğini artırın, ciddi bölümlerde alçaltın. Kelimelerin duygusunu sesinize yansıtarak ses dalgalanması yaratın."}
+        },
+        {
+          "@type": "Question",
+          "name": "Vurgu ve tonlama nasıl yapılır?",
+          "acceptedAnswer": {"@type": "Answer", "text": "Cümledeki en önemli kelimenin üzerine hafifçe basarak vurgulayın. Aynı cümleyi farklı kelimelere vurgu yaparak okuyun ve anlam farkını gözlemleyin."}
+        },
+        {
+          "@type": "Question",
+          "name": "Konuşmada duraklama neden önemlidir?",
+          "acceptedAnswer": {"@type": "Answer", "text": "Önemli bir şey söylemeden önce 1-2 saniye susmak dinleyicilerin dikkatini kilitler. Virgüllerde yarım saniye, noktalarda tam bir saniye duraklamayı alışkanlık edinin."}
+        }
+      ]
+    }
+    </script>
+    `
+  });
+});
+
+
+
+// ═══════ Egzersiz Laboratuvarları ═══════
+app.get('/egzersiz/r-harfi', (req, res, next) => {
+  res.render('diksiyon-r-harfi', {
+    meta: {
+      title: 'R Harfi Söyleyememe (Rotasizm) Çözüm Merkezi | Diksiyon Rehberi',
+      desc: 'R harfini Y veya Ğ gibi söyleme sorununu çözmek için özel tekerleme ve dil kası egzersiz laboratuvarı.'
+    },
+    canonicalUrl: SITE_URL + '/egzersiz/r-harfi',
+    jsonLdScripts: `
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {"@type": "ListItem", "position": 1, "name": "Ana Sayfa", "item": "${SITE_URL}/"},
+        {"@type": "ListItem", "position": 2, "name": "Harf Egzersizleri", "item": "${SITE_URL}/"},
+        {"@type": "ListItem", "position": 3, "name": "R Harfi Çözüm Merkezi", "item": "${SITE_URL}/egzersiz/r-harfi"}
+      ]
+    }
+    </script>
+    `
+  });
+});
+
+app.get('/egzersiz/s-harfi', (req, res, next) => {
+  res.render('diksiyon-s-harfi', {
+    meta: {
+      title: 'S ve Ş Harfi Pelteklik (Sigmatizm) Çözüm Merkezi | Diksiyon Rehberi',
+      desc: 'S, Ş ve Z harflerindeki peltekliği (Sigmatizm) gidermek için özel artikülasyon ve hava akışı egzersizleri.'
+    },
+    canonicalUrl: SITE_URL + '/egzersiz/s-harfi',
+    jsonLdScripts: `
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {"@type": "ListItem", "position": 1, "name": "Ana Sayfa", "item": "${SITE_URL}/"},
+        {"@type": "ListItem", "position": 2, "name": "Harf Egzersizleri", "item": "${SITE_URL}/"},
+        {"@type": "ListItem", "position": 3, "name": "S/Ş Harfi Çözüm Merkezi", "item": "${SITE_URL}/egzersiz/s-harfi"}
+      ]
+    }
+    </script>
+    `
+  });
 });
 
 app.get('/', (req, res, next) => {

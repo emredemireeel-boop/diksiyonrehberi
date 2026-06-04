@@ -1,0 +1,107 @@
+<%- include('partials/main-header') %>
+
+<style>
+  body { background: #0a0a14; color: #f1f5f9; font-family: 'Inter', sans-serif; overflow-x: hidden; }
+
+  /* ── Hero ────────────────────── */
+  .dks-hero {
+    min-height: 45vh; display: flex; flex-direction: column; align-items: center; justify-content: center;
+    text-align: center; padding: 100px 24px 60px; position: relative; overflow: hidden;
+  }
+  .dks-hero::before {
+    content: ''; position: absolute; inset: 0;
+    background: radial-gradient(ellipse 70% 50% at 50% 30%, #3b82f622, transparent 70%);
+  }
+  .dks-hero::after {
+    content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 120px;
+    background: linear-gradient(to top, #0a0a14, transparent);
+  }
+  .hero-emoji { font-size: 5rem; margin-bottom: 16px; filter: drop-shadow(0 0 30px #3b82f666); animation: float 3s ease-in-out infinite; }
+  @keyframes float { 0%,100%{ transform: translateY(0); } 50%{ transform: translateY(-12px); } }
+
+  .hero-badge {
+    background: rgba(59,130,246, 0.15); border: 1px solid rgba(59,130,246, 0.3);
+    color: #93c5fd; font-size: 0.8rem; font-weight: 600; padding: 6px 14px; border-radius: 20px;
+    letter-spacing: 1px; margin-bottom: 20px; text-transform: uppercase;
+  }
+  .dks-hero h1 { font-size: 3rem; font-weight: 800; line-height: 1.1; margin-bottom: 16px; position: relative; z-index: 1; }
+  .dks-hero p { font-size: 1.2rem; color: #94a3b8; max-width: 600px; line-height: 1.6; position: relative; z-index: 1; }
+
+  /* ── Content Area ──────────────── */
+  .dks-wrap { max-width: 800px; margin: 0 auto; padding: 0 24px 80px; position: relative; z-index: 10; }
+  
+  .glass {
+    background: rgba(30,30,40, 0.4); border: 1px solid rgba(255,255,255, 0.05);
+    border-radius: 24px; padding: 32px; backdrop-filter: blur(12px);
+    margin-bottom: 32px;
+  }
+  
+  .glass h2 { font-size: 1.8rem; font-weight: 700; color: #fff; margin-bottom: 16px; display: flex; align-items: center; gap: 12px; }
+  .glass p { color: #cbd5e1; line-height: 1.8; font-size: 1.05rem; margin-bottom: 20px; }
+  .glass ul { color: #cbd5e1; line-height: 1.8; font-size: 1.05rem; padding-left: 20px; margin-bottom: 20px; }
+  .glass li { margin-bottom: 12px; }
+
+  /* ── CTA ─────────────────────── */
+  .cta-box {
+    background: linear-gradient(135deg, rgba(59,130,246, 0.1), rgba(59,130,246, 0.02));
+    border: 1px solid rgba(59,130,246, 0.3); border-radius: 20px; padding: 32px;
+    text-align: center; margin-top: 48px;
+  }
+  .cta-btn {
+    display: inline-block; background: #3b82f6; color: #fff; font-weight: 600; font-size: 1.1rem;
+    padding: 14px 32px; border-radius: 30px; text-decoration: none; margin-top: 20px;
+    transition: all 0.3s ease; box-shadow: 0 10px 30px -10px #3b82f6;
+  }
+  .cta-btn:hover { transform: translateY(-3px); box-shadow: 0 15px 40px -10px #3b82f6; background: #2563eb; }
+
+</style>
+
+<div class="breadcrumb" style="max-width:800px; margin: 0 auto; padding: 24px;">
+  <a href="/">Ana Sayfa</a>
+  <span class="sep">/</span>
+  <a href="/">Diksiyon</a>
+  <span class="sep">/</span>
+  <span class="current">Nasıl Düzeltilir</span>
+</div>
+
+<section class="dks-hero">
+  <div class="hero-emoji">🗣️</div>
+  <div class="hero-badge">Diksiyon Geliştirme Rehberi</div>
+  <h1>Evde Diksiyon <br>Nasıl Düzeltilir?</h1>
+  <p>Dudak tembelliğini aşarak, kelimeleri yutmadan, akıcı ve etkileyici bir Türkçe konuşmak için evde kendi başınıza yapabileceğiniz en etkili egzersizler.</p>
+</section>
+
+<div class="dks-wrap">
+  
+  <div class="glass">
+    <h2>1. Kalem Egzersizi ile Dudak Tembelliğine Son Verin</h2>
+    <p>Diksiyonun bozuk olmasının en temel nedeni dudak ve çene kaslarının yeterince çalışmamasıdır. "Dudak tembelliği" adı verilen bu durumu kalem egzersizi ile çok hızlı çözebilirsiniz.</p>
+    <ul>
+      <li>Yatay olarak temiz bir kurşun kalemi dudaklarınızın arasına (dişlerinizle hafifçe tutarak) yerleştirin.</li>
+      <li>Herhangi bir kitabı alın ve kalem ağzınızdayken kelimeleri mümkün olduğunca anlaşılır şekilde okumaya çalışın.</li>
+      <li>Zorlanacaksınız, ancak günde sadece 5 dakika bunu yapmak, dudak kaslarınızı inanılmaz derecede güçlendirecektir.</li>
+    </ul>
+  </div>
+
+  <div class="glass">
+    <h2>2. Kelimeleri Yutmamak İçin Sesli Okuma Yapın</h2>
+    <p>Konuşurken bazı harfleri yutuyor veya cümle sonlarını anlaşılmaz bir şekilde bitiriyorsanız, bunun çözümü abartılı sesli okumadır.</p>
+    <p>Kitap okurken kelimelerin içindeki tüm sesli ve sessiz harflerin hakkını vererek, sanki tiyatro sahnesindeymiş gibi abartılı bir şekilde okuma pratiği yapın. Bu, beyninizin harflerin tam tınısını ezberlemesini sağlar.</p>
+  </div>
+
+  <div class="glass">
+    <h2>3. Tekerlemelerle Dil Kaslarınızı Hızlandırın</h2>
+    <p>Tekerlemeler, dilinizin dönmediği, takıldığı harfleri çözmenin en iyi yoludur. Tıpkı spora gitmeden önce yapılan ısınma hareketleri gibi, konuşmadan önce tekerleme okumak dilinizin akıcılığını artırır.</p>
+    <p>Sitemizdeki tekerleme kronometresini kullanarak, kendi hızınızı ve hata sayınızı her gün ölçebilir ve gelişiminizi takip edebilirsiniz.</p>
+  </div>
+
+  <div class="cta-box">
+    <h2 style="color:#fff; font-size:1.8rem; margin-bottom:12px;">Hemen Pratiğe Başlayın</h2>
+    <p style="color:#94a3b8; font-size:1.1rem; line-height:1.6;">Diksiyonunuzu düzeltmek için teoriyi bırakıp pratiğe geçme zamanı. R harfi, S harfi veya tüm tekerleme arşivimize göz atarak hemen çalışmaya başlayın.</p>
+    <a href="/egzersiz/r-harfi" class="cta-btn">R Harfi Laboratuvarı</a>
+    <a href="/egzersiz/s-harfi" class="cta-btn" style="background:rgba(255,255,255,0.1); color:#fff; box-shadow:none; margin-left:12px;">S/Ş Pelteklik Egzersizleri</a>
+  </div>
+
+</div>
+
+<%- include('partials/main-footer') %>

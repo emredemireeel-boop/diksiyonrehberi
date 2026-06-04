@@ -5,7 +5,7 @@ module.exports = [
   // ═══════════════════════════════════════════════════════════
 
   {
-    id: 1, cat: 'nefes', emoji: '💨', title: 'Diyafram Nefesi',
+    id: 1, slug: 'diyafram-nefesi', cat: 'nefes', emoji: '💨', title: 'Diyafram Nefesi',
     dur: '5 dk', level: 'Başlangıç', freq: 'Her gün',
     desc: 'Diyafram kasını aktive ederek uzun ve kontrollü nefes alıp vermeyi öğreten temel egzersiz. Ses çalışmalarının mutlak temelidir — bu olmadan diğer tüm teknikler sınırlı kalır. Profesyonel ses sanatçılarının ilk öğrendiği ve ömür boyu uyguladığı egzersizdir.',
     benefits: ['Ses gücünü önemli ölçüde artırır', 'Uzun cümleleri tek nefeste söyleme kapasitesi kazandırır', 'Konuşma yorgunluğunu azaltır', 'Stres ve kaygıyı düşürür', 'Konsantrasyon ve odağı artırır'],
@@ -31,7 +31,7 @@ module.exports = [
   },
 
   {
-    id: 2, cat: 'nefes', emoji: '🌬️', title: 'Nefes Kontrol ve Uzatma',
+    id: 2, slug: 'nefes-kontrol-ve-uzatma', cat: 'nefes', emoji: '🌬️', title: 'Nefes Kontrol ve Uzatma',
     dur: '5 dk', level: 'Orta', freq: 'Gün aşırı',
     desc: 'Bir nefes alışında ne kadar süre ses üretebileceğinizi ölçen ve artıran temel egzersiz. Konuşmacıların, haber spikerlerinin ve ses sanatçılarının vazgeçemeyeceği bir tekniktir. Uzun cümleleri nefes almadan tamamlamak için kritik bir zemin oluşturur.',
     benefits: ['Nefes kapasitesini ölçülür şekilde artırır', 'Ses tutarlılığını geliştirir', 'Titreyen veya kesilip duran sesi düzeltir', 'Mikrofon sesini daha akıcı kılar', 'Paragrafları nefessiz okuma yeteneği kazandırır'],
@@ -57,7 +57,7 @@ module.exports = [
   },
 
   {
-    id: 3, cat: 'nefes', emoji: '🧘', title: 'Ritmik Nefes ile Konuşma',
+    id: 3, slug: 'ritmik-nefes-ile-konusma', cat: 'nefes', emoji: '🧘', title: 'Ritmik Nefes ile Konuşma',
     dur: '4 dk', level: 'Başlangıç', freq: 'Her gün',
     desc: 'Konuşma ritmini nefes alışla eşleştirerek doğal ve akıcı bir konuşma kalıbı oluşturan egzersiz. Pek çok insan nefes almayı cümle ortasında yapar — bu hem tuhaf görünür hem dinleyiciyi yorar. Bu egzersiz, doğru nefes noktalarını içselleştirmenizi sağlar.',
     benefits: ['Konuşma akışını düzenler', 'Cümle ortasında nefes alma alışkanlığını giderir', 'Uzun monologlar için temel kapasiteyi artırır', 'Dinleyiciyi daha az yorar', 'Sunum ve toplantı konuşmasını profesyonelleştirir'],
@@ -83,7 +83,7 @@ module.exports = [
   },
 
   {
-    id: 4, cat: 'nefes', emoji: '🫁', title: 'Akciğer Kapasitesi Artırma',
+    id: 4, slug: 'akciger-kapasitesi-artirma', cat: 'nefes', emoji: '🫁', title: 'Akciğer Kapasitesi Artırma',
     dur: '6 dk', level: 'İleri', freq: 'Haftada 3–4 kez',
     desc: 'Akciğer kapasitesini zorlayan ve ses yayılımını (projeksiyonunu) iyileştiren ileri düzey egzersiz. Opera şarkıcıları ve sesleriyle geniş alanlara hitap eden eğitimciler bu teknikle yıllar içinde ciddi kapasite artışı elde eder. Düzenli uygulamayla 4–6 hafta içinde belirgin gelişim gözlemlenir.',
     benefits: ['Akciğer kapasitesini ölçülebilir artırır', 'Ses güçlü ve yorulmadan geniş alanlara ulaşır', 'Diyafram kasını güçlendirir', 'Uzun paragrafları rahatlıkla tamamlar', 'Boğaz ve ses teli yorgunluğunu azaltır'],
@@ -109,7 +109,7 @@ module.exports = [
   },
 
   {
-    id: 5, cat: 'nefes', emoji: '🎯', title: 'Ses Projeksiyonu',
+    id: 5, slug: 'ses-projeksiyonu', cat: 'nefes', emoji: '🎯', title: 'Ses Projeksiyonu',
     dur: '5 dk', level: 'Orta', freq: 'Haftada 3 kez',
     desc: 'Sesinizi belirli bir noktaya veya mesafeye "atmayı" öğreten teknik. Mikrofonsuz konuşan öğretmenler, aktörler ve politikacıların temel becerisidir. Ses güçlü görünse de boğaza baskı yapılmadan, tamamen diyafram desteğiyle gerçekleşir.',
     benefits: ['Mikrofonsuz büyük alanlarda duyulabilirlik', 'Boğaz yorgunluğunu dramatik şekilde azaltır', 'Sesin netliği ve tınısı artar', 'Güçlü ve otoriter bir izlenim yaratır', 'Boğaz gerginliği kaybolur'],
@@ -135,7 +135,7 @@ module.exports = [
   },
 
   {
-    id: 6, cat: 'nefes', emoji: '🌊', title: 'Dalga Nefes Meditasyonu',
+    id: 6, slug: 'dalga-nefes-meditasyonu', cat: 'nefes', emoji: '🌊', title: 'Dalga Nefes Meditasyonu',
     dur: '7 dk', level: 'Orta', freq: 'Her gün sabah',
     desc: 'Nefes ve deniz dalgasını zihinsel olarak birleştiren meditasyon temelli egzersiz. Sahne korkusu, mikrofon anksiyetesi veya önemli sunumlar öncesinde hem zihni hem de sesi hazırlamak için son derece etkilidir. Sanatçıların ve spikerlerinin gün başlangıcında kullandığı teknik.',
     benefits: ['Konuşma öncesi kaygıyı azaltır', 'Nefes ritmini düzenler', 'Zihni "gürültüden" temizler', 'Ses tellerini nazikçe ısıtır', 'Dinleme becerisini geliştiren derin farkındalık yaratır'],
@@ -165,7 +165,7 @@ module.exports = [
   // ═══════════════════════════════════════════════════════════
 
   {
-    id: 7, cat: 'tekerleme', emoji: '🅱️', title: 'Berber Tekerlemesi',
+    id: 7, slug: 'berber-tekerlemesi', cat: 'tekerleme', emoji: '🅱️', title: 'Berber Tekerlemesi',
     dur: '5 dk', level: 'Başlangıç', freq: 'Her gün',
     desc: 'Türkçe diksiyon çalışmalarının simgesi haline gelmiş klasik bir tekerleme. B ve R seslerini birleştiren bu cümle, hızlı konuşmada en sık karıştırılan ses çiftlerini doğrudan hedef alır. Aktörler, spikerler ve sunucular sabah ısınmalarında bu tekerlemeden vazgeçmez.',
     benefits: ['B ve R seslerinin netliğini artırır', 'Hızlı konuşmada ses ayrışımını güçlendirir', 'Dudak ve dil koordinasyonunu geliştirir', 'Konuşma hızını artırır', 'Diksiyon genelini iyileştirir'],
@@ -191,7 +191,7 @@ module.exports = [
   },
 
   {
-    id: 8, cat: 'tekerleme', emoji: '🔠', title: 'S ve Ş Tekerlemesi',
+    id: 8, slug: 's-ve-s-tekerlemesi', cat: 'tekerleme', emoji: '🔠', title: 'S ve Ş Tekerlemesi',
     dur: '4 dk', level: 'Orta', freq: 'Haftada 4 kez',
     desc: '"S" (ince, sürtünmeli) ve "Ş" (ön damak, yumuşak) seslerinin net ayrışımını sağlayan egzersiz. Bu iki ses Türkçe\'de çok sık kullanılır ve pek çok kişi hızlı konuşurken birleştirme hatası yapar. Haber spikerleri bu egzersizi özellikle stüdyo girişinden önce yapar.',
     benefits: ['S ve Ş arasındaki farkı otomatikleştirir', 'Ön diş ve dil koordinasyonunu güçlendirir', 'Hızlı konuşmada ses netliğini artırır', 'Aksanlı konuşmayı düzeltmeye yardımcı olur', 'Dinleyicide "net, anlaşılır" izlenimi yaratır'],
@@ -217,7 +217,7 @@ module.exports = [
   },
 
   {
-    id: 9, cat: 'tekerleme', emoji: '🌸', title: 'L ve R Tekerlemesi',
+    id: 9, slug: 'l-ve-r-tekerlemesi', cat: 'tekerleme', emoji: '🌸', title: 'L ve R Tekerlemesi',
     dur: '4 dk', level: 'Başlangıç', freq: 'Her gün',
     desc: 'L ve R seslerinin net ve birbirinden ayrışık telaffuzunu kazandıran egzersiz. Türkçe\'de bu iki ses farklı dil pozisyonu gerektirir; hızlı konuşulduğunda sıkça karışır. Yabancı dil aksanlı konuşanlar için de çok faydalı bir egzersizdir.',
     benefits: ['L ve R ayrışımını pekiştirir', 'Dil kaslarını güçlendirir', 'Konuşma akışını hızlandırır', 'Çocuk dil terapisinde de kullanılan temel egzersiz', 'Yabancı dil aksanını azaltır'],
@@ -243,7 +243,7 @@ module.exports = [
   },
 
   {
-    id: 10, cat: 'tekerleme', emoji: '⚡', title: 'K ve G Tekerlemesi',
+    id: 10, slug: 'k-ve-g-tekerlemesi', cat: 'tekerleme', emoji: '⚡', title: 'K ve G Tekerlemesi',
     dur: '4 dk', level: 'Orta', freq: 'Haftada 3 kez',
     desc: '"K" ve "G" seslerinin net ve ayrışık telaffuzunu sağlayan egzersiz. Bu iki ses aynı pozisyondan gelir: dil arkasının yumuşak damağa değmesiyle oluşur — fark yalnızca titreşimdir. Hızlı konuşurken bu ayrımı kaybetmek çok yaygındır.',
     benefits: ['K-G ayrışımını otomatikleştirir', 'Dil arkası kaslarını güçlendirir', 'Arka ünlü telaffuzunu iyileştirir', 'Özellikle "güzel", "gece", "koca" gibi yaygın kelimelerde netlik sağlar'],
@@ -268,7 +268,7 @@ module.exports = [
   },
 
   {
-    id: 11, cat: 'tekerleme', emoji: '💥', title: 'P ve B Tekerlemesi',
+    id: 11, slug: 'p-ve-b-tekerlemesi', cat: 'tekerleme', emoji: '💥', title: 'P ve B Tekerlemesi',
     dur: '4 dk', level: 'Orta', freq: 'Haftada 3 kez',
     desc: 'Dudak ünsüzleri P ve B\'nin netliğini artıran tekerleme egzersizi. Bu iki ses için dudaklar tam kapanır ve açılır — fark yalnızca titreşimdir (B titreşimli, P değil). Hızlı konuşmada bu patlayıcı sesler sıkça yumuşar ve kaybolur.',
     benefits: ['P ve B\'nin patlayıcı netliğini artırır', 'Dudak kaslarını güçlendirir', 'Konuşmada "enerji" hissi yaratır', 'Özellikle "patlak" ve "mat" konuşma sorunlarını giderir'],
@@ -293,7 +293,7 @@ module.exports = [
   },
 
   {
-    id: 12, cat: 'tekerleme', emoji: '🌀', title: 'Karma Tekerleme Maratonu',
+    id: 12, slug: 'karma-tekerleme-maratonu', cat: 'tekerleme', emoji: '🌀', title: 'Karma Tekerleme Maratonu',
     dur: '8 dk', level: 'İleri', freq: 'Haftada 2 kez',
     desc: 'Birden fazla ünsüz grubunu aynı anda çalıştıran zorlu bir tekerleme maratonu. Tüm öğrenilen tekniklerin birleştiği yerdir. İleri düzey diksiyon çalışanlar için bu egzersiz "final sınavı" niteliğindedir. Düzenli yapılması tüm kategori becerilerini üst seviyeye taşır.',
     benefits: ['Tüm ünsüzleri bir arada çalıştırır', 'Hız ve netliği eş zamanlı pekiştirir', 'Konuşma dayanıklılığını artırır', 'Farklı ses geçişlerini otomatikleştirir', 'Diksiyon çalışmalarının "zirvesini" oluşturur'],
@@ -323,7 +323,7 @@ module.exports = [
   // ═══════════════════════════════════════════════════════════
 
   {
-    id: 13, cat: 'ses', emoji: '🔊', title: 'Ses Teli Isıtma Rutini',
+    id: 13, slug: 'ses-teli-isitma-rutini', cat: 'ses', emoji: '🔊', title: 'Ses Teli Isıtma Rutini',
     dur: '5 dk', level: 'Başlangıç', freq: 'Her gün sabah',
     desc: 'Konuşmadan veya herhangi bir ses çalışmasından önce ses tellerini nazikçe ısıtan vazgeçilmez bir rutin. Soğuk ses telleri, zorlanmaya karşı daha hassastır ve uzun vadede zarar görebilir. Bu rutin, bir atlet için ısınma koşusu ne ise, konuşmacı için o kadar kritiktir.',
     benefits: ['Ses kısıklığı riskini önemli ölçüde azaltır', 'İlk konuşulan cümlelerin net çıkmasını sağlar', 'Ses tellerinin esnekliğini artırır', 'Sabah "boğazda düğüm" hissini giderir', 'Uzun vadeli ses sağlığını korur'],
@@ -348,7 +348,7 @@ module.exports = [
   },
 
   {
-    id: 14, cat: 'ses', emoji: '🎵', title: 'Perde Aralığı Genişletme',
+    id: 14, slug: 'perde-araligi-genisletme', cat: 'ses', emoji: '🎵', title: 'Perde Aralığı Genişletme',
     dur: '7 dk', level: 'Orta', freq: 'Haftada 4 kez',
     desc: 'Sesin doğal perde aralığını (vocal range) genişletmek ve melodikliği artırmak için yapılan sistematik çalışma. Monoton konuşanların en büyük şikayeti "ilgi çekici olmadıklarıdır" — bu egzersiz o problemi doğrudan çözer. Farklı perdeler kullanmak, anlatıma hayat katar.',
     benefits: ['Doğal perde aralığını genişletir', 'Monoton konuşmayı ortadan kaldırır', 'Konuşmaya melodik çeşitlilik katar', 'Vurgulama için perde değişimi kazandırır', 'Sesin "canlı" ve "enerjik" hissettirmesini sağlar'],
@@ -374,7 +374,7 @@ module.exports = [
   },
 
   {
-    id: 15, cat: 'ses', emoji: '📢', title: 'Ses Güç Skalası',
+    id: 15, slug: 'ses-guc-skalasi', cat: 'ses', emoji: '📢', title: 'Ses Güç Skalası',
     dur: '4 dk', level: 'Orta', freq: 'Haftada 3 kez',
     desc: 'Alçaktan yükseğe ve tekrar alçağa geçişleri kontrollü yapma egzersizi. Güçlü konuşmacılar, ses seviyelerini konuşmanın duygusal içeriğine göre ayarlar — bu yetenek doğal değil, çalışmayla kazanılır. Robot gibi sabit sesle konuşmak dinleyiciyi uyutur.',
     benefits: ['Ses gücü kontrolü kazandırır', 'Sunum ve sahne performansını güçlendirir', 'Duygusal vurgu için ses değişimi sağlar', 'Monoton "ses robotluğunu" kırır', 'Küçük ve büyük ortamlara uyum kapasitesi'],
@@ -400,7 +400,7 @@ module.exports = [
   },
 
   {
-    id: 16, cat: 'ses', emoji: '🎙️', title: 'Rezonans Bölgeleri Turu',
+    id: 16, slug: 'rezonans-bolgeleri-turu', cat: 'ses', emoji: '🎙️', title: 'Rezonans Bölgeleri Turu',
     dur: '5 dk', level: 'Orta', freq: 'Haftada 4 kez',
     desc: 'Sesin göğüs, yüz ve kafa boşluklarında nasıl titreştiğini fark etmek, bu rezonans bölgelerini kontrol etmeyi öğrenmek. Farklı rezonans bölgelerini aktive etmek, sesin tınısını (rengini) değiştirmenizi sağlar — tıpkı bir müzik aleti gibi.',
     benefits: ['Sesin renk çeşitliliğini artırır', 'Yorulmadan uzun süre konuşma kapasitesi', 'Her ortama uygun ses profili seçebilirlik', 'Güvenilir ve karizmatik ses tınısı', 'Ses sağlığını koruma (doğal rezonans boğazı rahatlatır)'],
@@ -429,7 +429,7 @@ module.exports = [
   // ═══════════════════════════════════════════════════════════
 
   {
-    id: 17, cat: 'telaffuz', emoji: '🗣️', title: 'Türkçe 8 Ünlü Sistemi',
+    id: 17, slug: 'turkce-8-unlu-sistemi', cat: 'telaffuz', emoji: '🗣️', title: 'Türkçe 8 Ünlü Sistemi',
     dur: '4 dk', level: 'Başlangıç', freq: 'Haftada 3 kez',
     desc: 'Türkçe\'nin 8 ünlüsünün tam ve berrak telaffuzunu kazandırmak için kapsamlı egzersiz. Türkçe ünlü uyumu (ses uyumu) dünyanın en sistematik dillerinden birini oluşturur. Bu 8 ünlünün netliği, konuşmanın genel anlaşılırlığını doğrudan belirler.',
     benefits: ['Ünlü netliğini artırır', 'Yabancı dil aksanını azaltır', 'Ünlü uyumu kurallarını içselleştirir', 'Hızlı konuşmada ünlü kaybını önler', 'Çocuk dil eğitiminde de kullanılır'],
@@ -455,7 +455,7 @@ module.exports = [
   },
 
   {
-    id: 18, cat: 'telaffuz', emoji: '🔡', title: 'Ünsüz Jimnastiği',
+    id: 18, slug: 'unsuz-jimnastigi', cat: 'telaffuz', emoji: '🔡', title: 'Ünsüz Jimnastiği',
     dur: '5 dk', level: 'Orta', freq: 'Haftada 4 kez',
     desc: 'Aktörler ve spikerlerin standart ısınma egzersizi. "Pa-ta-ka" ve türevleri, dil, dudak, çene ve damak koordinasyonunu tüm ünsüzler için aynı anda çalıştırır. Bu egzersiz hem ısınma hem de uzun vadeli diksiyon geliştirme aracı olarak kullanılır.',
     benefits: ['Tüm artikülasyon organları güçlenir', 'Hızlı konuşmada ünsüz netliği korunur', 'Dil-dudak koordinasyonu otomatikleşir', 'Konuşma enerji verimliliği artar'],
@@ -481,7 +481,7 @@ module.exports = [
   },
 
   {
-    id: 19, cat: 'telaffuz', emoji: '📖', title: 'Üç Turlu Okuma Tekniği',
+    id: 19, slug: 'uc-turlu-okuma-teknigi', cat: 'telaffuz', emoji: '📖', title: 'Üç Turlu Okuma Tekniği',
     dur: '6 dk', level: 'Orta', freq: 'Her gün',
     desc: 'Bir metni üç farklı odak noktasıyla okuyan ve her seferinde farklı bir beceri geliştiren sistematik okuma egzersizi. Kendi sesini duyma ve düzeltme en hızlı diksiyon geliştirme yöntemidir. Spikerlerin haber öncesi uyguladıkları "çalışma okuma" tekniğidir.',
     benefits: ['Tonlama ve vurguyu bilinçli kullanmayı öğretir', 'Metin-ses bağlantısını güçlendirir', 'Kayıtla öz değerlendirme kültürü geliştirir', 'Farklı metin türlerine adaptasyon sağlar'],
@@ -507,7 +507,7 @@ module.exports = [
   },
 
   {
-    id: 20, cat: 'telaffuz', emoji: '🎭', title: 'Duygu Skalası',
+    id: 20, slug: 'duygu-skalasi', cat: 'telaffuz', emoji: '🎭', title: 'Duygu Skalası',
     dur: '5 dk', level: 'Orta', freq: 'Haftada 3 kez',
     desc: 'Aynı cümleyi farklı duygularla söyleyen ve her seferinde sesin nasıl değiştiğini fark ettiren egzersiz. İfade yeteneği diksiyon eğitiminin en yaratıcı boyutudur. Duygu seçimi; ses tonu, hız, vurgu ve perde üzerinde anlık değişimler oluşturur.',
     benefits: ['İfade zenginliği kazandırır', 'Duygu-ses bağlantısını bilinçli kılar', 'Duruma göre ton ayarlama becerisi', 'Etkili iletişim için kritik esneklik', 'Monoton konuşmayı tamamen kırar'],
@@ -533,7 +533,7 @@ module.exports = [
   },
 
   {
-    id: 21, cat: 'telaffuz', emoji: '🔍', title: 'Hece ve Anlam Vurgusu',
+    id: 21, slug: 'hece-ve-anlam-vurgusu', cat: 'telaffuz', emoji: '🔍', title: 'Hece ve Anlam Vurgusu',
     dur: '5 dk', level: 'İleri', freq: 'Haftada 3 kez',
     desc: 'Türkçe\'de hece vurgusunun anlam ve duygu üzerindeki etkisini derinlemesine kavramak için ileri düzey egzersiz. Türkçe, fonetik açıdan zengin ama kural bazlı bir dildir; vurgu kurallarını bilmek ve ötelemesini bilmek sizi profesyonel yapan şeydir.',
     benefits: ['Anlam ayrıştırma için vurgu ustalığı', 'Sorgulamada ve vurgulamada bilinçli ton kontrolü', 'Yabancı dil aksanını azaltır', 'İkna edici konuşmayı güçlendirir'],
@@ -564,7 +564,7 @@ module.exports = [
   // ═══════════════════════════════════════════════════════════
 
   {
-    id: 22, cat: 'ritim', emoji: '🥁', title: 'Bedenle Ritim',
+    id: 22, slug: 'bedenle-ritim', cat: 'ritim', emoji: '🥁', title: 'Bedenle Ritim',
     dur: '5 dk', level: 'Başlangıç', freq: 'Haftada 4 kez',
     desc: 'Konuşma ritmini el ve beden hareketleriyle dışa vurarak içselleştiren egzersiz. Ritim hissi, konuşmacının en güçlü silahlarından biridir. Beyin, bedenden gelen ritim girdisini sese aktardığında konuşma kendiliğinden ritimli hale gelir.',
     benefits: ['Ritim hissini bedenle içselleştirir', 'Monoton konuşmayı kırar', 'Konuşma akışını düzenler', 'Hece bilincini güçlendirir', 'Şiir ve edebi metin okumada estetik kazandırır'],
@@ -590,7 +590,7 @@ module.exports = [
   },
 
   {
-    id: 23, cat: 'ritim', emoji: '🎙️', title: 'Tempo Farkındalığı',
+    id: 23, slug: 'tempo-farkindaligi', cat: 'ritim', emoji: '🎙️', title: 'Tempo Farkındalığı',
     dur: '5 dk', level: 'Orta', freq: 'Haftada 3 kez',
     desc: 'Farklı konuşma tempolarını bilinçli olarak kontrol etmeyi ve duruma göre ayarlamayı öğreten egzersiz. Profesyonel konuşmacılar, aynı içeriği farklı tempolarda sunabilir ve her tempoyu kasıtlı olarak seçer. "Çok hızlı" veya "çok yavaş" konuşmak, mesajın kaybolmasına neden olur.',
     benefits: ['Bilinçli tempo kontrolü kazandırır', 'Farklı ortamlara uygun konuşma hızı sağlar', 'Anlaşılırlık artar', 'Dinleyici kaybı azalır', 'Özel noktalarda drama yaratmak için tempo oynama'],
@@ -616,7 +616,7 @@ module.exports = [
   },
 
   {
-    id: 24, cat: 'ritim', emoji: '🌊', title: 'Konuşmada Dalga Ritmi',
+    id: 24, slug: 'konusmada-dalga-ritmi', cat: 'ritim', emoji: '🌊', title: 'Konuşmada Dalga Ritmi',
     dur: '5 dk', level: 'İleri', freq: 'Haftada 2 kez',
     desc: 'Konuşmadaki enerji ve tempoyu kasıtlı olarak dalgalandırarak dinleyicinin dikkatini canlı tutan ileri düzey teknik. En etkili TED Talk konuşmacıları bu tekniği bilinçli kullanır. Düz tempo yorar; dalgalanma heyecanlandırır, merak uyandırır.',
     benefits: ['Dinleyicinin dikkat kaybını önler', 'Duygusal etki yaratır', 'Sürükleyici anlatım becerisi kazandırır', 'Sunum ve hikaye anlatımını güçlendirir'],
@@ -645,7 +645,7 @@ module.exports = [
   // ═══════════════════════════════════════════════════════════
 
   {
-    id: 25, cat: 'vurgu', emoji: '⚡', title: 'Anlam Vurgusu Laboratuarı',
+    id: 25, slug: 'anlam-vurgusu-laboratuari', cat: 'vurgu', emoji: '⚡', title: 'Anlam Vurgusu Laboratuarı',
     dur: '5 dk', level: 'Orta', freq: 'Haftada 3 kez',
     desc: 'Aynı cümleyi, farklı kelimeleri vurgulayarak tamamen farklı anlamlar ve duygular yaratmayı öğreten egzersiz. Konuşmada vurgu, müzik notasındaki dinamik işareti gibidir — forte veya piano seçimi mesajı kökten değiştirir.',
     benefits: ['İkna edici konuşmayı güçlendirir', 'Dinleyicinin dikkatini istenen noktaya yönlendirir', 'Anlam belirsizliklerini ortadan kaldırır', 'Ses değişkenliği kazandırır', 'Liderlik ve güven izlenimi yaratır'],
@@ -672,7 +672,7 @@ module.exports = [
   },
 
   {
-    id: 26, cat: 'vurgu', emoji: '🎯', title: 'Noktalama Sesi Egzersizi',
+    id: 26, slug: 'noktalama-sesi-egzersizi', cat: 'vurgu', emoji: '🎯', title: 'Noktalama Sesi Egzersizi',
     dur: '4 dk', level: 'Başlangıç', freq: 'Her gün',
     desc: 'Yazıdaki noktalama işaretlerini konuşmaya birebir aktarma egzersizi. Virgül, nokta, soru işareti, ünlem ve üç nokta — bunların hepsi, aslında sese yansıyan "talimat işaretleridir." Çoğu insan noktalamayı göz ardı eder ve konuşma sıkıcı bir akışa döner.',
     benefits: ['Doğal konuşma akışı kazandırır', 'Dinleyicinin metni anlaması kolaylaşır', 'Duraklamaları bilinçli kullanımı öğretir', 'Ses değişkenliği sağlar', 'Monoton okumayı ortadan kaldırır'],
@@ -702,7 +702,7 @@ module.exports = [
   // ═══════════════════════════════════════════════════════════
 
   {
-    id: 27, cat: 'duraklama', emoji: '⏸️', title: 'Stratejik Sessizlik',
+    id: 27, slug: 'stratejik-sessizlik', cat: 'duraklama', emoji: '⏸️', title: 'Stratejik Sessizlik',
     dur: '5 dk', level: 'Orta', freq: 'Haftada 3 kez',
     desc: 'Konuşmada bilinçli ve etkili sessizliklerin nasıl kullanılacağını öğreten egzersiz. "Sessizlik güçtür" cümlesi, tarih boyunca büyük konuşmacıların ortak bulgusudur. Bir duraklama, yüz kelimenin taşıyamayacağı gerilimleri ve dramatik etkileri yaratabilir.',
     benefits: ['Dinleyiciyi hazırlar ve merak yaratır', 'Önemli mesajların "içeriye girmesine" zaman verir', 'Güven ve kontrol izlenimi yaratır', 'Konuşmacının da düşünmesine izin verir', 'Dramatik etki katlar'],
@@ -728,7 +728,7 @@ module.exports = [
   },
 
   {
-    id: 28, cat: 'duraklama', emoji: '🎭', title: 'Dramatik Duraklama',
+    id: 28, slug: 'dramatik-duraklama', cat: 'duraklama', emoji: '🎭', title: 'Dramatik Duraklama',
     dur: '4 dk', level: 'İleri', freq: 'Haftada 2 kez',
     desc: 'Dramatik anlarda kullanılan uzun ve bilinçli duraklama tekniği. Tiyatro geleneğinden konuşmacılık dünyasına geçen bu teknik, anlatının en güçlü anlarını maksimum etkiyle teslim etmek için kullanılır. Duraksama gerginliği, mesajın akılda kalıcılığını artırır.',
     benefits: ['Dramatik etki zirveye çıkar', 'Dinleyicinin içselleştirme süresi oluşur', 'Güçlü ve kontrolü elinde tutan lider izlenimi', 'Sonraki cümleyi kat kat güçlendirir'],
@@ -757,7 +757,7 @@ module.exports = [
   // ═══════════════════════════════════════════════════════════
 
   {
-    id: 29, cat: 'rezonans', emoji: '🌊', title: 'Göğüs Rezonansı Aktivasyonu',
+    id: 29, slug: 'gogus-rezonansi-aktivasyonu', cat: 'rezonans', emoji: '🌊', title: 'Göğüs Rezonansı Aktivasyonu',
     dur: '5 dk', level: 'Orta', freq: 'Haftada 3 kez',
     desc: 'Sesin göğüs boşluğunda yankılanmasını sağlayarak derin, otoriter ve güvenilir bir ses profili elde etme egzersizi. TV haber sunucularının, iş liderlerinin ve karizmatik kamusal figürlerin sesi çoğunlukla göğüs rezonansı ağırlıklıdır. Bu egzersiz o derinliği sistematik olarak kazandırır.',
     benefits: ['Derin ve otoriter ses tınısı kazandırır', 'Güvenilir ve sakin izlenim yaratır', 'Boğaz yorgunluğunu azaltır', 'Sesin uzağa ulaşmasını kolaylaştırır', 'Karizmatik lider ses profili oluşturur'],
@@ -783,7 +783,7 @@ module.exports = [
   },
 
   {
-    id: 30, cat: 'rezonans', emoji: '🎶', title: 'Nasal Rezonans Dengesi',
+    id: 30, slug: 'nasal-rezonans-dengesi', cat: 'rezonans', emoji: '🎶', title: 'Nasal Rezonans Dengesi',
     dur: '5 dk', level: 'İleri', freq: 'Haftada 2 kez',
     desc: 'Burun boşluğundaki rezonansı fark etmek, aşırı nasal sesi düzeltmek ve dengeli bir rezonans profili oluşturan egzersiz. "Genizdense konuşma" izlenimi veren kişiler için özellikle kritik bir çalışmadır. Dengeli nasal rezonans ise sesin canlılığına katkı sağlar.',
     benefits: ['Aşırı nasal sesi giderir', 'Sesi yuvarlak ve tatlı kılar', 'N-M seslerini doğal tutarken geri kalan sesleri temizler', 'İzlenim yönetimini güçlendirir', 'Aksanlı Türkçeyi düzelter'],
@@ -809,7 +809,7 @@ module.exports = [
   },
 
   {
-    id: 31, cat: 'rezonans', emoji: '🏔️', title: 'Kafa Rezonansı',
+    id: 31, slug: 'kafa-rezonansi', cat: 'rezonans', emoji: '🏔️', title: 'Kafa Rezonansı',
     dur: '4 dk', level: 'Orta', freq: 'Haftada 3 kez',
     desc: 'Sesin kafa boşluğunda yankılanmasını sağlayan teknik. Yüksek perdelerde ve "parlak" tınılarda etkindir. Kafa rezonansı sesin canlılığını, açıklığını ve "enerji hissini" artırır. Öğretmenler, sunucular ve motivasyon konuşmacılarının sıklıkla kullandığı rezonans.',
     benefits: ['Sesin "pırıltısını" ve enerjisini artırır', 'Yüksek perdelerde yorgunluğu azaltır', 'Konuşmaya canlılık ve dinamizm katar', 'Öğretmen sesi için idealdir', 'Sesin uzağa açıklıkla ulaşmasını sağlar'],
@@ -835,7 +835,7 @@ module.exports = [
   },
 
   {
-    id: 32, cat: 'rezonans', emoji: '🌀', title: 'Kişisel Ses Profili Oluşturma',
+    id: 32, slug: 'kisisel-ses-profili-olusturma', cat: 'rezonans', emoji: '🌀', title: 'Kişisel Ses Profili Oluşturma',
     dur: '8 dk', level: 'İleri', freq: 'Haftada 1 kez',
     desc: 'Göğüs, yüz ve kafa rezonanslarını bilinçli olarak harmanlayarak kişisel ve tutarlı bir ses profili oluşturan ileri düzey egzersiz. Tüm rezonans çalışmalarının zirvesi olan bu egzersiz, "ses imzanızı" tasarlamanıza yardımcı olur. Sizi tanıyan herkes, kaydınızı dinlemeden sesinizi tanıyabilmeli.',
     benefits: ['Tutarlı ve tanınabilir ses kimliği oluşturur', 'Tüm rezonans bölgelerini entegre eder', 'Profesyonel ses profili kazandırır', 'Sesin farklı ortamlara uyum kapasitesi', 'Uzun vadeli ses özgüveni geliştirir'],
@@ -864,7 +864,7 @@ module.exports = [
   //  🌟 YENİ İLERİ DÜZEY EGZERSİZLER (33 - 36)
   // ═══════════════════════════════════════════════════════════
   {
-    id: 33, cat: 'duraklama', emoji: '🛑', title: 'Stratejik 3 Saniye Duraklaması',
+    id: 33, slug: 'stratejik-3-saniye-duraklamasi', cat: 'duraklama', emoji: '🛑', title: 'Stratejik 3 Saniye Duraklaması',
     dur: '5 dk', level: 'İleri', freq: 'Haftada 3 kez',
     desc: 'Konuşma sırasında izleyicide en büyük merakı ve odaklanmayı yaratmak için tasarlanmış güç odaklı duraklama egzersizi. Susmak, konuşmaktan daha güçlü bir silahtır.',
     benefits: ['Otorite algısını dramatik şekilde artırır', 'İzleyicinin dikkatini geri toplar', 'Sözlerin zihinde yankılanmasını sağlar', 'Hızlanmayı kontrol altına alır'],
@@ -884,7 +884,7 @@ module.exports = [
     related: [22, 24]
   },
   {
-    id: 34, cat: 'ritim', emoji: '⏱️', title: 'Stakkato ve Legato Geçişleri',
+    id: 34, slug: 'stakkato-ve-legato-gecisleri', cat: 'ritim', emoji: '⏱️', title: 'Stakkato ve Legato Geçişleri',
     dur: '6 dk', level: 'İleri', freq: 'Haftada 2 kez',
     desc: 'Kelimeleri birbiri ardına kesik kesik (Stakkato) veya birbirine pürüzsüzce bağlayarak (Legato) konuşma arasında ustaca geçiş yapma egzersizi.',
     benefits: ['Duygusal geçişleri ses ritmine yansıtır', 'Aşırı akıcı konuşup netliği kaybedenleri düzeltir', 'Vurgulamayı güçlendirir'],
@@ -902,7 +902,7 @@ module.exports = [
     related: [23, 24]
   },
   {
-    id: 35, cat: 'vurgu', emoji: '🏹', title: 'Mikro ve Makro Vurgu Kontrolü',
+    id: 35, slug: 'mikro-ve-makro-vurgu-kontrolu', cat: 'vurgu', emoji: '🏹', title: 'Mikro ve Makro Vurgu Kontrolü',
     dur: '4 dk', level: 'Orta', freq: 'Her gün',
     desc: 'Cümle içindeki büyük ve küçük mantık duraklamalarını ayarlama. Anahtar iletiyi taşıyan kelimeye makro, destekleyici kelimelere mikro vurgu yapmak üzerine çalışılır.',
     benefits: ['Yazılı metinleri haber spikeri profesyonelliğiyle okuma', 'Zihinsel karışıklığı önler', 'Konuşma dinamizmini maksimuma çıkarır'],
@@ -920,7 +920,7 @@ module.exports = [
     related: [21, 15]
   },
   {
-    id: 36, cat: 'nefes', emoji: '🌊', title: 'Box Breathing (Kutu Nefesi) Tekniği',
+    id: 36, slug: 'box-breathing-kutu-nefesi-teknigi', cat: 'nefes', emoji: '🌊', title: 'Box Breathing (Kutu Nefesi) Tekniği',
     dur: '5 dk', level: 'Başlangıç', freq: 'Her gün',
     desc: 'Sahne korkusunu anında yok eden SEAL komandoları taktiği! Nefes Al (4s), Tut (4s), Nefes Ver (4s), Tut (4s). Sesin sakin ve merkeze yerleşik kalmasını sağlar.',
     benefits: ['Sunum öncesi anksiyeteyi sadece 3 dakikada sıfırlar', 'Mikrofonda titreyen sesi engeller', 'Kalp atış ritmini dakikalar içinde düşürür', 'Odağı artırır'],
@@ -944,7 +944,7 @@ module.exports = [
 ,
 
   {
-    id: 37, cat: 'tekerleme', emoji: '🅰️', title: 'A Harfi Tekerlemesi',
+    id: 37, slug: 'a-harfi-tekerlemesi', cat: 'tekerleme', emoji: '🅰️', title: 'A Harfi Tekerlemesi',
     dur: '5 dk', level: 'İleri', freq: 'Haftada 2 kez',
     desc: 'A sesinin yoğun olarak kullanıldığı, artikülasyonu ve dil çevikliğini geliştiren klasikleşmiş, geleneksel tekerleme.',
     benefits: ['Seslerin net ayrışımını sağlar', 'Dudak ve dil tembelliğini giderir', 'Hızlı ve hatasız konuşma becerisini artırır'],
@@ -965,7 +965,7 @@ module.exports = [
   },
 
   {
-    id: 38, cat: 'tekerleme', emoji: '🅱️', title: 'B Harfi Tekerlemesi',
+    id: 38, slug: 'b-harfi-tekerlemesi', cat: 'tekerleme', emoji: '🅱️', title: 'B Harfi Tekerlemesi',
     dur: '5 dk', level: 'İleri', freq: 'Haftada 2 kez',
     desc: 'B sesinin yoğun olarak kullanıldığı, artikülasyonu ve dil çevikliğini geliştiren klasikleşmiş, geleneksel tekerleme.',
     benefits: ['Seslerin net ayrışımını sağlar', 'Dudak ve dil tembelliğini giderir', 'Hızlı ve hatasız konuşma becerisini artırır'],
@@ -986,7 +986,7 @@ module.exports = [
   },
 
   {
-    id: 39, cat: 'tekerleme', emoji: '☪️', title: 'C Harfi Tekerlemesi',
+    id: 39, slug: 'c-harfi-tekerlemesi', cat: 'tekerleme', emoji: '☪️', title: 'C Harfi Tekerlemesi',
     dur: '5 dk', level: 'İleri', freq: 'Haftada 2 kez',
     desc: 'C sesinin yoğun olarak kullanıldığı, artikülasyonu ve dil çevikliğini geliştiren klasikleşmiş, geleneksel tekerleme.',
     benefits: ['Seslerin net ayrışımını sağlar', 'Dudak ve dil tembelliğini giderir', 'Hızlı ve hatasız konuşma becerisini artırır'],
@@ -1007,7 +1007,7 @@ module.exports = [
   },
 
   {
-    id: 40, cat: 'tekerleme', emoji: '☕', title: 'Ç Harfi Tekerlemesi',
+    id: 40, slug: 'c-harfi-tekerlemesi', cat: 'tekerleme', emoji: '☕', title: 'Ç Harfi Tekerlemesi',
     dur: '5 dk', level: 'İleri', freq: 'Haftada 2 kez',
     desc: 'Ç sesinin yoğun olarak kullanıldığı, artikülasyonu ve dil çevikliğini geliştiren klasikleşmiş, geleneksel tekerleme.',
     benefits: ['Seslerin net ayrışımını sağlar', 'Dudak ve dil tembelliğini giderir', 'Hızlı ve hatasız konuşma becerisini artırır'],
@@ -1028,7 +1028,7 @@ module.exports = [
   },
 
   {
-    id: 41, cat: 'tekerleme', emoji: '🇩', title: 'D Harfi Tekerlemesi',
+    id: 41, slug: 'd-harfi-tekerlemesi', cat: 'tekerleme', emoji: '🇩', title: 'D Harfi Tekerlemesi',
     dur: '5 dk', level: 'İleri', freq: 'Haftada 2 kez',
     desc: 'D sesinin yoğun olarak kullanıldığı, artikülasyonu ve dil çevikliğini geliştiren klasikleşmiş, geleneksel tekerleme.',
     benefits: ['Seslerin net ayrışımını sağlar', 'Dudak ve dil tembelliğini giderir', 'Hızlı ve hatasız konuşma becerisini artırır'],
@@ -1049,7 +1049,7 @@ module.exports = [
   },
 
   {
-    id: 42, cat: 'tekerleme', emoji: '🇪', title: 'E Harfi Tekerlemesi',
+    id: 42, slug: 'e-harfi-tekerlemesi', cat: 'tekerleme', emoji: '🇪', title: 'E Harfi Tekerlemesi',
     dur: '5 dk', level: 'İleri', freq: 'Haftada 2 kez',
     desc: 'E sesinin yoğun olarak kullanıldığı, artikülasyonu ve dil çevikliğini geliştiren klasikleşmiş, geleneksel tekerleme.',
     benefits: ['Seslerin net ayrışımını sağlar', 'Dudak ve dil tembelliğini giderir', 'Hızlı ve hatasız konuşma becerisini artırır'],
@@ -1070,7 +1070,7 @@ module.exports = [
   },
 
   {
-    id: 43, cat: 'tekerleme', emoji: '🇫', title: 'F Harfi Tekerlemesi',
+    id: 43, slug: 'f-harfi-tekerlemesi', cat: 'tekerleme', emoji: '🇫', title: 'F Harfi Tekerlemesi',
     dur: '5 dk', level: 'İleri', freq: 'Haftada 2 kez',
     desc: 'F sesinin yoğun olarak kullanıldığı, artikülasyonu ve dil çevikliğini geliştiren klasikleşmiş, geleneksel tekerleme.',
     benefits: ['Seslerin net ayrışımını sağlar', 'Dudak ve dil tembelliğini giderir', 'Hızlı ve hatasız konuşma becerisini artırır'],
@@ -1091,7 +1091,7 @@ module.exports = [
   },
 
   {
-    id: 44, cat: 'tekerleme', emoji: '🇬', title: 'G Harfi Tekerlemesi',
+    id: 44, slug: 'g-harfi-tekerlemesi', cat: 'tekerleme', emoji: '🇬', title: 'G Harfi Tekerlemesi',
     dur: '5 dk', level: 'İleri', freq: 'Haftada 2 kez',
     desc: 'G sesinin yoğun olarak kullanıldığı, artikülasyonu ve dil çevikliğini geliştiren klasikleşmiş, geleneksel tekerleme.',
     benefits: ['Seslerin net ayrışımını sağlar', 'Dudak ve dil tembelliğini giderir', 'Hızlı ve hatasız konuşma becerisini artırır'],
@@ -1112,7 +1112,7 @@ module.exports = [
   },
 
   {
-    id: 45, cat: 'tekerleme', emoji: '🌧️', title: 'Ğ Harfi Tekerlemesi',
+    id: 45, slug: 'g-harfi-tekerlemesi', cat: 'tekerleme', emoji: '🌧️', title: 'Ğ Harfi Tekerlemesi',
     dur: '5 dk', level: 'İleri', freq: 'Haftada 2 kez',
     desc: 'Ğ sesinin yoğun olarak kullanıldığı, artikülasyonu ve dil çevikliğini geliştiren klasikleşmiş, geleneksel tekerleme.',
     benefits: ['Seslerin net ayrışımını sağlar', 'Dudak ve dil tembelliğini giderir', 'Hızlı ve hatasız konuşma becerisini artırır'],
@@ -1133,7 +1133,7 @@ module.exports = [
   },
 
   {
-    id: 46, cat: 'tekerleme', emoji: '🇭', title: 'H Harfi Tekerlemesi',
+    id: 46, slug: 'h-harfi-tekerlemesi', cat: 'tekerleme', emoji: '🇭', title: 'H Harfi Tekerlemesi',
     dur: '5 dk', level: 'İleri', freq: 'Haftada 2 kez',
     desc: 'H sesinin yoğun olarak kullanıldığı, artikülasyonu ve dil çevikliğini geliştiren klasikleşmiş, geleneksel tekerleme.',
     benefits: ['Seslerin net ayrışımını sağlar', 'Dudak ve dil tembelliğini giderir', 'Hızlı ve hatasız konuşma becerisini artırır'],
@@ -1154,7 +1154,7 @@ module.exports = [
   },
 
   {
-    id: 47, cat: 'tekerleme', emoji: '🌊', title: 'I Harfi Tekerlemesi',
+    id: 47, slug: 'i-harfi-tekerlemesi', cat: 'tekerleme', emoji: '🌊', title: 'I Harfi Tekerlemesi',
     dur: '5 dk', level: 'İleri', freq: 'Haftada 2 kez',
     desc: 'I sesinin yoğun olarak kullanıldığı, artikülasyonu ve dil çevikliğini geliştiren klasikleşmiş, geleneksel tekerleme.',
     benefits: ['Seslerin net ayrışımını sağlar', 'Dudak ve dil tembelliğini giderir', 'Hızlı ve hatasız konuşma becerisini artırır'],
@@ -1175,7 +1175,7 @@ module.exports = [
   },
 
   {
-    id: 48, cat: 'tekerleme', emoji: '🇮', title: 'İ Harfi Tekerlemesi',
+    id: 48, slug: 'i-harfi-tekerlemesi', cat: 'tekerleme', emoji: '🇮', title: 'İ Harfi Tekerlemesi',
     dur: '5 dk', level: 'İleri', freq: 'Haftada 2 kez',
     desc: 'İ sesinin yoğun olarak kullanıldığı, artikülasyonu ve dil çevikliğini geliştiren klasikleşmiş, geleneksel tekerleme.',
     benefits: ['Seslerin net ayrışımını sağlar', 'Dudak ve dil tembelliğini giderir', 'Hızlı ve hatasız konuşma becerisini artırır'],
@@ -1196,7 +1196,7 @@ module.exports = [
   },
 
   {
-    id: 49, cat: 'tekerleme', emoji: '🇯', title: 'J Harfi Tekerlemesi',
+    id: 49, slug: 'j-harfi-tekerlemesi', cat: 'tekerleme', emoji: '🇯', title: 'J Harfi Tekerlemesi',
     dur: '5 dk', level: 'İleri', freq: 'Haftada 2 kez',
     desc: 'J sesinin yoğun olarak kullanıldığı, artikülasyonu ve dil çevikliğini geliştiren klasikleşmiş, geleneksel tekerleme.',
     benefits: ['Seslerin net ayrışımını sağlar', 'Dudak ve dil tembelliğini giderir', 'Hızlı ve hatasız konuşma becerisini artırır'],
@@ -1217,7 +1217,7 @@ module.exports = [
   },
 
   {
-    id: 50, cat: 'tekerleme', emoji: '🇰', title: 'K Harfi Tekerlemesi',
+    id: 50, slug: 'k-harfi-tekerlemesi', cat: 'tekerleme', emoji: '🇰', title: 'K Harfi Tekerlemesi',
     dur: '5 dk', level: 'İleri', freq: 'Haftada 2 kez',
     desc: 'K sesinin yoğun olarak kullanıldığı, artikülasyonu ve dil çevikliğini geliştiren klasikleşmiş, geleneksel tekerleme.',
     benefits: ['Seslerin net ayrışımını sağlar', 'Dudak ve dil tembelliğini giderir', 'Hızlı ve hatasız konuşma becerisini artırır'],
@@ -1238,7 +1238,7 @@ module.exports = [
   },
 
   {
-    id: 51, cat: 'tekerleme', emoji: '🇱', title: 'L Harfi Tekerlemesi',
+    id: 51, slug: 'l-harfi-tekerlemesi', cat: 'tekerleme', emoji: '🇱', title: 'L Harfi Tekerlemesi',
     dur: '5 dk', level: 'İleri', freq: 'Haftada 2 kez',
     desc: 'L sesinin yoğun olarak kullanıldığı, artikülasyonu ve dil çevikliğini geliştiren klasikleşmiş, geleneksel tekerleme.',
     benefits: ['Seslerin net ayrışımını sağlar', 'Dudak ve dil tembelliğini giderir', 'Hızlı ve hatasız konuşma becerisini artırır'],
@@ -1259,7 +1259,7 @@ module.exports = [
   },
 
   {
-    id: 52, cat: 'tekerleme', emoji: '🇲', title: 'M Harfi Tekerlemesi',
+    id: 52, slug: 'm-harfi-tekerlemesi', cat: 'tekerleme', emoji: '🇲', title: 'M Harfi Tekerlemesi',
     dur: '5 dk', level: 'İleri', freq: 'Haftada 2 kez',
     desc: 'M sesinin yoğun olarak kullanıldığı, artikülasyonu ve dil çevikliğini geliştiren klasikleşmiş, geleneksel tekerleme.',
     benefits: ['Seslerin net ayrışımını sağlar', 'Dudak ve dil tembelliğini giderir', 'Hızlı ve hatasız konuşma becerisini artırır'],
@@ -1280,7 +1280,7 @@ module.exports = [
   },
 
   {
-    id: 53, cat: 'tekerleme', emoji: '🇳', title: 'N Harfi Tekerlemesi',
+    id: 53, slug: 'n-harfi-tekerlemesi', cat: 'tekerleme', emoji: '🇳', title: 'N Harfi Tekerlemesi',
     dur: '5 dk', level: 'İleri', freq: 'Haftada 2 kez',
     desc: 'N sesinin yoğun olarak kullanıldığı, artikülasyonu ve dil çevikliğini geliştiren klasikleşmiş, geleneksel tekerleme.',
     benefits: ['Seslerin net ayrışımını sağlar', 'Dudak ve dil tembelliğini giderir', 'Hızlı ve hatasız konuşma becerisini artırır'],
@@ -1301,7 +1301,7 @@ module.exports = [
   },
 
   {
-    id: 54, cat: 'tekerleme', emoji: '🇴', title: 'O Harfi Tekerlemesi',
+    id: 54, slug: 'o-harfi-tekerlemesi', cat: 'tekerleme', emoji: '🇴', title: 'O Harfi Tekerlemesi',
     dur: '5 dk', level: 'İleri', freq: 'Haftada 2 kez',
     desc: 'O sesinin yoğun olarak kullanıldığı, artikülasyonu ve dil çevikliğini geliştiren klasikleşmiş, geleneksel tekerleme.',
     benefits: ['Seslerin net ayrışımını sağlar', 'Dudak ve dil tembelliğini giderir', 'Hızlı ve hatasız konuşma becerisini artırır'],
@@ -1322,7 +1322,7 @@ module.exports = [
   },
 
   {
-    id: 55, cat: 'tekerleme', emoji: '🏅', title: 'Ö Harfi Tekerlemesi',
+    id: 55, slug: 'o-harfi-tekerlemesi', cat: 'tekerleme', emoji: '🏅', title: 'Ö Harfi Tekerlemesi',
     dur: '5 dk', level: 'İleri', freq: 'Haftada 2 kez',
     desc: 'Ö sesinin yoğun olarak kullanıldığı, artikülasyonu ve dil çevikliğini geliştiren klasikleşmiş, geleneksel tekerleme.',
     benefits: ['Seslerin net ayrışımını sağlar', 'Dudak ve dil tembelliğini giderir', 'Hızlı ve hatasız konuşma becerisini artırır'],
@@ -1343,7 +1343,7 @@ module.exports = [
   },
 
   {
-    id: 56, cat: 'tekerleme', emoji: '🇵', title: 'P Harfi Tekerlemesi',
+    id: 56, slug: 'p-harfi-tekerlemesi', cat: 'tekerleme', emoji: '🇵', title: 'P Harfi Tekerlemesi',
     dur: '5 dk', level: 'İleri', freq: 'Haftada 2 kez',
     desc: 'P sesinin yoğun olarak kullanıldığı, artikülasyonu ve dil çevikliğini geliştiren klasikleşmiş, geleneksel tekerleme.',
     benefits: ['Seslerin net ayrışımını sağlar', 'Dudak ve dil tembelliğini giderir', 'Hızlı ve hatasız konuşma becerisini artırır'],
@@ -1364,7 +1364,7 @@ module.exports = [
   },
 
   {
-    id: 57, cat: 'tekerleme', emoji: '🇷', title: 'R Harfi Tekerlemesi',
+    id: 57, slug: 'r-harfi-tekerlemesi', cat: 'tekerleme', emoji: '🇷', title: 'R Harfi Tekerlemesi',
     dur: '5 dk', level: 'İleri', freq: 'Haftada 2 kez',
     desc: 'R sesinin yoğun olarak kullanıldığı, artikülasyonu ve dil çevikliğini geliştiren klasikleşmiş, geleneksel tekerleme.',
     benefits: ['Seslerin net ayrışımını sağlar', 'Dudak ve dil tembelliğini giderir', 'Hızlı ve hatasız konuşma becerisini artırır'],
@@ -1385,7 +1385,7 @@ module.exports = [
   },
 
   {
-    id: 58, cat: 'tekerleme', emoji: '🇸', title: 'S Harfi Tekerlemesi',
+    id: 58, slug: 's-harfi-tekerlemesi', cat: 'tekerleme', emoji: '🇸', title: 'S Harfi Tekerlemesi',
     dur: '5 dk', level: 'İleri', freq: 'Haftada 2 kez',
     desc: 'S sesinin yoğun olarak kullanıldığı, artikülasyonu ve dil çevikliğini geliştiren klasikleşmiş, geleneksel tekerleme.',
     benefits: ['Seslerin net ayrışımını sağlar', 'Dudak ve dil tembelliğini giderir', 'Hızlı ve hatasız konuşma becerisini artırır'],
@@ -1406,7 +1406,7 @@ module.exports = [
   },
 
   {
-    id: 59, cat: 'tekerleme', emoji: '🤫', title: 'Ş Harfi Tekerlemesi',
+    id: 59, slug: 's-harfi-tekerlemesi', cat: 'tekerleme', emoji: '🤫', title: 'Ş Harfi Tekerlemesi',
     dur: '5 dk', level: 'İleri', freq: 'Haftada 2 kez',
     desc: 'Ş sesinin yoğun olarak kullanıldığı, artikülasyonu ve dil çevikliğini geliştiren klasikleşmiş, geleneksel tekerleme.',
     benefits: ['Seslerin net ayrışımını sağlar', 'Dudak ve dil tembelliğini giderir', 'Hızlı ve hatasız konuşma becerisini artırır'],
@@ -1427,7 +1427,7 @@ module.exports = [
   },
 
   {
-    id: 60, cat: 'tekerleme', emoji: '🇹', title: 'T Harfi Tekerlemesi',
+    id: 60, slug: 't-harfi-tekerlemesi', cat: 'tekerleme', emoji: '🇹', title: 'T Harfi Tekerlemesi',
     dur: '5 dk', level: 'İleri', freq: 'Haftada 2 kez',
     desc: 'T sesinin yoğun olarak kullanıldığı, artikülasyonu ve dil çevikliğini geliştiren klasikleşmiş, geleneksel tekerleme.',
     benefits: ['Seslerin net ayrışımını sağlar', 'Dudak ve dil tembelliğini giderir', 'Hızlı ve hatasız konuşma becerisini artırır'],
@@ -1448,7 +1448,7 @@ module.exports = [
   },
 
   {
-    id: 61, cat: 'tekerleme', emoji: '🇺', title: 'U Harfi Tekerlemesi',
+    id: 61, slug: 'u-harfi-tekerlemesi', cat: 'tekerleme', emoji: '🇺', title: 'U Harfi Tekerlemesi',
     dur: '5 dk', level: 'İleri', freq: 'Haftada 2 kez',
     desc: 'U sesinin yoğun olarak kullanıldığı, artikülasyonu ve dil çevikliğini geliştiren klasikleşmiş, geleneksel tekerleme.',
     benefits: ['Seslerin net ayrışımını sağlar', 'Dudak ve dil tembelliğini giderir', 'Hızlı ve hatasız konuşma becerisini artırır'],
@@ -1469,7 +1469,7 @@ module.exports = [
   },
 
   {
-    id: 62, cat: 'tekerleme', emoji: '🍇', title: 'Ü Harfi Tekerlemesi',
+    id: 62, slug: 'u-harfi-tekerlemesi', cat: 'tekerleme', emoji: '🍇', title: 'Ü Harfi Tekerlemesi',
     dur: '5 dk', level: 'İleri', freq: 'Haftada 2 kez',
     desc: 'Ü sesinin yoğun olarak kullanıldığı, artikülasyonu ve dil çevikliğini geliştiren klasikleşmiş, geleneksel tekerleme.',
     benefits: ['Seslerin net ayrışımını sağlar', 'Dudak ve dil tembelliğini giderir', 'Hızlı ve hatasız konuşma becerisini artırır'],
@@ -1490,7 +1490,7 @@ module.exports = [
   },
 
   {
-    id: 63, cat: 'tekerleme', emoji: '🇻', title: 'V Harfi Tekerlemesi',
+    id: 63, slug: 'v-harfi-tekerlemesi', cat: 'tekerleme', emoji: '🇻', title: 'V Harfi Tekerlemesi',
     dur: '5 dk', level: 'İleri', freq: 'Haftada 2 kez',
     desc: 'V sesinin yoğun olarak kullanıldığı, artikülasyonu ve dil çevikliğini geliştiren klasikleşmiş, geleneksel tekerleme.',
     benefits: ['Seslerin net ayrışımını sağlar', 'Dudak ve dil tembelliğini giderir', 'Hızlı ve hatasız konuşma becerisini artırır'],
@@ -1511,7 +1511,7 @@ module.exports = [
   },
 
   {
-    id: 64, cat: 'tekerleme', emoji: '🇾', title: 'Y Harfi Tekerlemesi',
+    id: 64, slug: 'y-harfi-tekerlemesi', cat: 'tekerleme', emoji: '🇾', title: 'Y Harfi Tekerlemesi',
     dur: '5 dk', level: 'İleri', freq: 'Haftada 2 kez',
     desc: 'Y sesinin yoğun olarak kullanıldığı, artikülasyonu ve dil çevikliğini geliştiren klasikleşmiş, geleneksel tekerleme.',
     benefits: ['Seslerin net ayrışımını sağlar', 'Dudak ve dil tembelliğini giderir', 'Hızlı ve hatasız konuşma becerisini artırır'],
@@ -1532,7 +1532,7 @@ module.exports = [
   },
 
   {
-    id: 65, cat: 'tekerleme', emoji: '🇿', title: 'Z Harfi Tekerlemesi',
+    id: 65, slug: 'z-harfi-tekerlemesi', cat: 'tekerleme', emoji: '🇿', title: 'Z Harfi Tekerlemesi',
     dur: '5 dk', level: 'İleri', freq: 'Haftada 2 kez',
     desc: 'Z sesinin yoğun olarak kullanıldığı, artikülasyonu ve dil çevikliğini geliştiren klasikleşmiş, geleneksel tekerleme.',
     benefits: ['Seslerin net ayrışımını sağlar', 'Dudak ve dil tembelliğini giderir', 'Hızlı ve hatasız konuşma becerisini artırır'],
