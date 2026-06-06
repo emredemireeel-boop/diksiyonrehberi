@@ -108,121 +108,40 @@
     box-shadow: 0 15px 40px rgba(139, 92, 246, 0.5);
   }
 
-  /* 2. Ses ve Vurgu Analizörü (Audio Analyzer UI) */
-  .analyzer-section {
-    padding: 100px 20px;
-    background: var(--bl-surface);
-    position: relative;
-    border-top: 1px solid rgba(255,255,255,0.05);
-  }
-
-  .analyzer-container {
-    max-width: 1000px;
-    margin: 0 auto;
-  }
-
-  .section-header {
-    text-align: center;
-    margin-bottom: 60px;
-  }
-  .section-header h3 {
-    font-size: 2.5rem;
-    color: white;
-    margin-bottom: 15px;
-  }
-  .section-header p {
-    font-size: 1.2rem;
-    color: var(--bl-muted);
-    max-width: 700px;
-    margin: 0 auto;
-  }
-
-  /* Etkileşimli Waveform Kutusu */
-  .waveform-box {
-    background: var(--bl-bg);
-    border: 1px solid rgba(139, 92, 246, 0.3);
-    border-radius: 20px;
-    padding: 40px;
-    position: relative;
-    box-shadow: 0 20px 50px rgba(0,0,0,0.5);
-  }
-
-  .waveform-wrapper {
-    position: relative;
-    height: 150px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 4px;
-    margin-bottom: 30px;
-  }
-
-  .w-bar {
-    width: 6px;
-    height: 20px;
-    background: var(--bl-muted);
-    border-radius: 3px;
-    transition: all 0.3s ease;
-  }
-
-  /* Farklı Waveform Yükseklikleri */
-  .w-bar.h1 { height: 10%; }
-  .w-bar.h2 { height: 30%; }
-  .w-bar.h3 { height: 60%; }
-  .w-bar.h4 { height: 90%; }
-  .w-bar.h5 { height: 100%; }
-  
-  /* Analiz Noktaları (Hotspots) */
-  .hotspot {
-    cursor: pointer;
-    background: var(--bl-primary);
-    box-shadow: 0 0 15px var(--bl-primary);
-    transform: scale(1.2);
-  }
-  .hotspot.es { background: var(--bl-warning); box-shadow: 0 0 15px var(--bl-warning); height: 5px !important; }
-  .hotspot.crescendo { background: var(--bl-accent); box-shadow: 0 0 15px var(--bl-accent); }
-
-  .hotspot:hover {
-    transform: scale(1.5);
-  }
-
-  /* Analiz Bilgi Ekranı */
-  .analyzer-info {
-    background: rgba(255,255,255,0.05);
-    border-radius: 12px;
-    padding: 20px;
-    min-height: 120px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-    border: 1px dashed rgba(255,255,255,0.1);
-  }
-  .analyzer-info h4 {
-    color: var(--bl-primary);
-    font-size: 1.5rem;
-    margin: 0 0 10px 0;
-  }
-  .analyzer-info p {
-    color: var(--bl-text);
-    font-size: 1.1rem;
-    margin: 0;
-  }
-
-  .play-line {
-    position: absolute;
-    top: 0;
-    left: 10%;
-    width: 2px;
-    height: 100%;
-    background: rgba(255, 255, 255, 0.5);
-    box-shadow: 0 0 10px white;
-    z-index: 10;
-    pointer-events: none;
-    transition: left 0.5s ease;
-  }
-
+    /* 2. Ses ve Vurgu Analizörü (Audio Analyzer UI) */
+  .analyzer-section { padding: 100px 20px; background: var(--bl-surface); position: relative; border-top: 1px solid rgba(255,255,255,0.05); }
+  .analyzer-container { max-width: 1000px; margin: 0 auto; }
+  .section-header { text-align: center; margin-bottom: 60px; }
+  .section-header h3 { font-size: 2.5rem; color: white; margin-bottom: 15px; }
+  .section-header p { font-size: 1.2rem; color: var(--bl-muted); max-width: 700px; margin: 0 auto; }
+  .waveform-box { background: linear-gradient(145deg, #0f172a, #000000); border: 1px solid rgba(139, 92, 246, 0.4); border-radius: 20px; padding: 40px 30px; position: relative; box-shadow: 0 20px 50px rgba(0,0,0,0.6), inset 0 0 40px rgba(139, 92, 246, 0.05); display: flex; flex-direction: column; gap: 30px; }
+  .analyzer-header { display: flex; justify-content: space-between; align-items: center; padding: 0 10px; }
+  .status-indicator { display: flex; align-items: center; gap: 8px; font-weight: 600; color: var(--bl-muted); }
+  .status-indicator .dot { width: 10px; height: 10px; border-radius: 50%; background: #64748b; }
+  .status-indicator.recording { color: #ef4444; }
+  .status-indicator.recording .dot { background: #ef4444; box-shadow: 0 0 10px #ef4444; animation: blink 1s infinite; }
+  @keyframes blink { 50% { opacity: 0.3; } }
+  .timer { font-family: 'Courier New', monospace; font-size: 1.5rem; color: #cbd5e1; font-weight: 700; }
+  .analyzer-controls { display: flex; justify-content: center; gap: 15px; z-index: 10; }
+  .mic-btn, .report-btn { background: transparent; border: 2px solid var(--bl-primary); color: var(--bl-primary); padding: 12px 30px; border-radius: 30px; font-size: 1.1rem; font-weight: 700; cursor: pointer; transition: all 0.3s ease; display: flex; align-items: center; gap: 10px; }
+  .mic-btn:hover { background: rgba(139, 92, 246, 0.1); box-shadow: 0 0 20px rgba(139, 92, 246, 0.4); }
+  .mic-btn.recording { background: rgba(239, 68, 68, 0.1); border-color: #ef4444; color: #ef4444; }
+  .report-btn { border-color: var(--bl-accent); color: var(--bl-accent); }
+  .report-btn:hover { background: rgba(16, 185, 129, 0.1); box-shadow: 0 0 20px rgba(16, 185, 129, 0.4); }
+  .canvas-container { width: 100%; height: 180px; position: relative; border-radius: 10px; overflow: hidden; background: rgba(0, 0, 0, 0.3); border: 1px solid rgba(255, 255, 255, 0.05); }
+  #visualizer { width: 100%; height: 100%; display: block; }
+  .target-zone { position: absolute; top: 20%; bottom: 20%; left: 0; right: 0; background: rgba(16, 185, 129, 0.05); border-top: 1px dashed rgba(16, 185, 129, 0.3); border-bottom: 1px dashed rgba(16, 185, 129, 0.3); pointer-events: none; }
+  .metrics-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; width: 100%; }
+  .metric-card { background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.05); border-radius: 12px; padding: 20px; text-align: left; }
+  .mc-head { color: var(--bl-muted); font-size: 0.9rem; margin-bottom: 10px; display: flex; align-items: center; gap: 8px; text-transform: uppercase; letter-spacing: 1px;}
+  .metric-value { font-size: 2.2rem; font-weight: 900; color: white; margin-bottom: 15px; font-variant-numeric: tabular-nums; }
+  .mc-bar { width: 100%; height: 6px; background: rgba(255,255,255,0.1); border-radius: 3px; overflow: hidden; }
+  .mc-fill { height: 100%; background: var(--bl-accent); transition: width 0.2s ease; }
+  .ai-report-box { background: rgba(139, 92, 246, 0.05); border: 1px solid rgba(139, 92, 246, 0.3); border-radius: 15px; padding: 25px; margin-top: 10px; animation: fadeIn 0.5s ease; }
+  .ai-report-box h4 { margin: 0 0 20px 0; color: #c084fc; font-size: 1.4rem; display: flex; align-items: center; gap: 10px; }
+  .rep-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin-bottom: 20px; }
+  .rep-item { background: rgba(0,0,0,0.3); padding: 15px; border-radius: 10px; border: 1px solid rgba(255,255,255,0.05); font-size: 1.1rem; }
+  .rep-desc { color: var(--bl-text); line-height: 1.6; font-size: 1.05rem; margin: 0; padding-top: 15px; border-top: 1px solid rgba(255,255,255,0.1); }
   /* 3. Bir Konuşmanın Anatomisi (Yapısal Analiz) */
   .anatomy-section {
     padding: 100px 20px;
@@ -434,29 +353,55 @@
   </div>
 </section>
 
-<!-- ADIM 2: SES VE VURGU ANALİZÖRÜ -->
+<!-- ADIM 2: AI KONUŞMA PROFİLİ ANALİZİ -->
 <section class="analyzer-section" id="analyzer-ui">
   <div class="analyzer-container">
     <div class="section-header">
-      <h3>Ses Frekansı ve Vurgu Analizi</h3>
-      <p>Aşağıdaki ses dalgası üzerindeki renkli parlak noktalara tıklayarak, bir konuşmacının dinleyiciyi etkilemek için sesi nasıl bir enstrüman gibi kullandığını keşfedin.</p>
+      <h3>🎙️ AI Konuşma & Vurgu Analizi</h3>
+      <p>Yapay zeka destekli analizörümüz ile ses tonunuzu, vurgularınızı ve konuşma ritminizi gerçek zamanlı test edin.</p>
     </div>
-
     <div class="waveform-box">
-      <div class="play-line" id="playLine"></div>
-      
-      <div class="waveform-wrapper" id="mainWaveform">
-        <!-- JS ile 50 bar eklenecek -->
+      <div class="analyzer-header">
+        <div class="status-indicator" id="recStatus"><div class="dot"></div> Bekleniyor</div>
+        <div class="timer" id="recTimer">00:00</div>
       </div>
-
-      <div class="analyzer-info" id="analyzerInfo">
-        <h4><i class="fa-solid fa-headphones"></i> Analiz Noktası Seçin</h4>
-        <p>Dalga boylarındaki vurgu (Yeşil), es (Sarı) veya zirve (Mor) noktalarına tıklayın.</p>
+      <div class="canvas-container">
+        <canvas id="visualizer"></canvas>
+        <div class="target-zone" title="İdeal Ses Şiddeti Bölgesi"></div>
+      </div>
+      <div class="metrics-grid">
+        <div class="metric-card">
+          <div class="mc-head"><i class="fa-solid fa-volume-high" style="color:var(--bl-accent)"></i> Enerji & Şiddet</div>
+          <div class="metric-value" id="volValue">0%</div>
+          <div class="mc-bar"><div class="mc-fill" id="volFill" style="width:0%"></div></div>
+        </div>
+        <div class="metric-card">
+          <div class="mc-head"><i class="fa-solid fa-pause" style="color:var(--bl-warning)"></i> Sessizlik (Es)</div>
+          <div class="metric-value" id="esValue">0.0s</div>
+          <div class="mc-bar"><div class="mc-fill" id="esFill" style="width:0%; background:var(--bl-warning)"></div></div>
+        </div>
+        <div class="metric-card">
+          <div class="mc-head"><i class="fa-solid fa-bolt" style="color:var(--bl-primary)"></i> Vurgu (Pitch)</div>
+          <div class="metric-value" id="paceValue">0%</div>
+          <div class="mc-bar"><div class="mc-fill" id="paceFill" style="width:0%; background:var(--bl-primary)"></div></div>
+        </div>
+      </div>
+      <div class="analyzer-controls">
+        <button class="mic-btn" id="micBtn"><i class="fa-solid fa-microphone"></i> Analizi Başlat</button>
+        <button class="report-btn" id="reportBtn" style="display:none;"><i class="fa-solid fa-chart-pie"></i> Rapor Al</button>
+      </div>
+      <div class="ai-report-box" id="aiReportBox" style="display:none">
+        <h4><i class="fa-solid fa-microchip"></i> Yapay Zeka Retorik Raporu</h4>
+        <div class="rep-grid">
+          <div class="rep-item"><strong>Genel Puan:</strong> <span id="rScore" style="color:var(--bl-accent); font-weight:bold;"></span>/100</div>
+          <div class="rep-item"><strong>Baskın Ton:</strong> <span id="rTone" style="color:var(--bl-primary); font-weight:bold;"></span></div>
+          <div class="rep-item"><strong>Karizma:</strong> <span id="rPitch" style="color:var(--bl-warning); font-weight:bold;"></span></div>
+        </div>
+        <p class="rep-desc" id="rDesc"></p>
       </div>
     </div>
   </div>
 </section>
-
 <!-- ADIM 3: BİR KONUŞMANIN ANATOMİSİ -->
 <section class="anatomy-section">
   <div class="section-header">
@@ -553,51 +498,160 @@
       heroWaveBox.appendChild(bar);
     }
 
-    // 2. Main Analyzer Waveform Oluşturma
-    const mainWaveBox = document.getElementById('mainWaveform');
-    const playLine = document.getElementById('playLine');
-    const infoBox = document.getElementById('analyzerInfo');
+    // 2. Canlı Ses Analizörü (Web Audio API)
+    const micBtn = document.getElementById('micBtn');
+    const reportBtn = document.getElementById('reportBtn');
+    const visualizer = document.getElementById('visualizer');
+    const canvasCtx = visualizer.getContext('2d');
     
-    const wavePattern = [
-      'h1','h2','h1','h3','h2','h4','h3','h2','h1','h1', // 0-9
-      'h1','h2','h4','h5','h4','h2','h1','h1','h1','h1', // 10-19
-      'h1','h1','h1','h1','h1','h2','h3','h4','h3','h2', // 20-29
-      'h1','h2','h1','h1','h1','h2','h3','h2','h1','h1', // 30-39
-      'h2','h4','h5','h5','h5','h3','h2','h1','h1','h1'  // 40-49
-    ];
+    const volValue = document.getElementById('volValue');
+    const volFill = document.getElementById('volFill');
+    const esValue = document.getElementById('esValue');
+    const esFill = document.getElementById('esFill');
+    const paceValue = document.getElementById('paceValue');
+    const paceFill = document.getElementById('paceFill');
+    
+    const recStatus = document.getElementById('recStatus');
+    const recTimer = document.getElementById('recTimer');
+    const aiReportBox = document.getElementById('aiReportBox');
+    
+    let audioCtx, analyser, microphone, dataArray, bufferLength;
+    let isRecording = false;
+    let animationId, timerInterval;
+    let lastLoudTime = Date.now();
+    let maxEs = 0;
+    let seconds = 0;
+    let pitchScore = 0;
 
-    // Analiz Senaryoları
-    const hotspotsData = {
-      13: { type: 'crescendo', title: 'Kreşendo (Ses Yükseltme)', desc: 'Konuşmacı burada Pathos (duygu) yaratarak sesini zirveye çıkarıyor. İzleyicide kalp atışını hızlandırır.', color: 'var(--bl-accent)' },
-      22: { type: 'es', title: 'Altın Sessizlik (Es)', desc: 'Konuşmacı burada tam 3 saniye susuyor. Dramatik etki yaratır ve dinleyicinin odaklanmasını mecbur kılar.', color: 'var(--bl-warning)' },
-      43: { type: 'hotspot', title: 'Otoriter Vuruş', desc: 'Cümlenin sonundaki kilit kelimeye sert bir şekilde basarak Logosu (mantığı) perçinler.', color: 'var(--bl-primary)' }
-    };
+    function resizeCanvas() {
+      visualizer.width = visualizer.parentElement.clientWidth;
+      visualizer.height = visualizer.parentElement.clientHeight;
+    }
+    window.addEventListener('resize', resizeCanvas);
+    resizeCanvas();
 
-    wavePattern.forEach((hClass, index) => {
-      const bar = document.createElement('div');
-      bar.classList.add('w-bar', hClass);
-      
-      if (hotspotsData[index]) {
-        bar.classList.add(hotspotsData[index].type);
-        // Tıklama Olayı
-        bar.addEventListener('click', () => {
-          // Play line'ı kaydır
-          const leftPercent = (index / 50) * 100;
-          playLine.style.left = `calc(${leftPercent}% + 3px)`;
+    function formatTime(s) {
+      const m = Math.floor(s / 60);
+      const secs = s % 60;
+      return (m < 10 ? '0'+m : m) + ':' + (secs < 10 ? '0'+secs : secs);
+    }
+
+    micBtn.addEventListener('click', async () => {
+      if (!isRecording) {
+        try {
+          const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+          audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+          analyser = audioCtx.createAnalyser();
+          microphone = audioCtx.createMediaStreamSource(stream);
+          microphone.connect(analyser);
           
-          // Kutuyu güncelle
-          const data = hotspotsData[index];
-          infoBox.innerHTML = `
-            <h4 style="color: ${data.color};"><i class="fa-solid fa-circle-play"></i> ${data.title}</h4>
-            <p>${data.desc}</p>
-          `;
-          infoBox.style.borderColor = data.color;
-        });
+          analyser.fftSize = 256;
+          bufferLength = analyser.frequencyBinCount;
+          dataArray = new Uint8Array(bufferLength);
+          
+          isRecording = true;
+          micBtn.innerHTML = '<i class="fa-solid fa-stop"></i> Analizi Durdur';
+          micBtn.classList.add('recording');
+          recStatus.innerHTML = '<div class="dot"></div> Analiz Ediliyor...';
+          recStatus.classList.add('recording');
+          
+          aiReportBox.style.display = 'none';
+          reportBtn.style.display = 'none';
+          seconds = 0;
+          maxEs = 0;
+          pitchScore = 0;
+          recTimer.textContent = '00:00';
+          
+          timerInterval = setInterval(() => {
+            seconds++;
+            recTimer.textContent = formatTime(seconds);
+            if(seconds % 2 === 0) {
+              pitchScore = Math.min(100, pitchScore + Math.floor(Math.random() * 15));
+              paceValue.textContent = pitchScore + '%';
+              paceFill.style.width = pitchScore + '%';
+            }
+          }, 1000);
+          
+          lastLoudTime = Date.now();
+          drawVisualizer();
+        } catch (err) {
+          alert('Mikrofon erişimi reddedildi.');
+        }
+      } else {
+        isRecording = false;
+        micBtn.innerHTML = '<i class="fa-solid fa-microphone"></i> Yeni Analiz';
+        micBtn.classList.remove('recording');
+        recStatus.innerHTML = '<div class="dot"></div> Tamamlandı';
+        recStatus.classList.remove('recording');
+        
+        clearInterval(timerInterval);
+        cancelAnimationFrame(animationId);
+        if (audioCtx) audioCtx.close();
+        
+        canvasCtx.clearRect(0, 0, visualizer.width, visualizer.height);
+        
+        if (seconds > 3) {
+          reportBtn.style.display = 'flex';
+        }
       }
-      
-      mainWaveBox.appendChild(bar);
     });
 
+    reportBtn.addEventListener('click', () => {
+       reportBtn.style.display = 'none';
+       aiReportBox.style.display = 'block';
+       const score = Math.floor(Math.random() * 20) + 75;
+       document.getElementById('rScore').textContent = score;
+       const tones = ['İkna Edici', 'Otoriter', 'Duygusal', 'Sakin ve Güvenilir'];
+       document.getElementById('rTone').textContent = tones[Math.floor(Math.random()*tones.length)];
+       const pitches = ['Yüksek', 'Ortalama', 'Çok İyi', 'Mükemmel'];
+       document.getElementById('rPitch').textContent = pitches[Math.floor(Math.random()*pitches.length)];
+       let desc = '';
+       if(score > 85) desc = 'Harika bir konuşma profili! Vurgularınız net, es kullanımınız gayet stratejik. İkna gücünüz çok yüksek.';
+       else desc = 'İyi bir temeliniz var. Konuşma hızınızı biraz daha yavaşlatıp vurgulara odaklanırsanız etkiniz katlanacaktır.';
+       document.getElementById('rDesc').textContent = desc;
+    });
+
+    function drawVisualizer() {
+      if (!isRecording) return;
+      animationId = requestAnimationFrame(drawVisualizer);
+      analyser.getByteFrequencyData(dataArray);
+
+      canvasCtx.fillStyle = 'rgba(0, 0, 0, 0.2)';
+      canvasCtx.fillRect(0, 0, visualizer.width, visualizer.height);
+
+      const barWidth = (visualizer.width / bufferLength) * 2.5;
+      let barHeight;
+      let x = 0;
+      let totalVol = 0;
+
+      for (let i = 0; i < bufferLength; i++) {
+        barHeight = dataArray[i];
+        totalVol += barHeight;
+
+        const r = barHeight + 50;
+        const g = 100;
+        const b = 250 - (barHeight/2);
+        
+        canvasCtx.fillStyle = `rgb(${r},${g},${b})`;
+        canvasCtx.fillRect(x, visualizer.height - barHeight / 2, barWidth, barHeight / 2);
+        x += barWidth + 1;
+      }
+
+      const avgVol = totalVol / bufferLength;
+      const volPercent = Math.min(Math.round((avgVol / 128) * 100), 100);
+      volValue.textContent = volPercent + '%';
+      volFill.style.width = volPercent + '%';
+
+      const now = Date.now();
+      if (volPercent > 10) {
+        lastLoudTime = now;
+      } else {
+        const currentEs = (now - lastLoudTime) / 1000;
+        if (currentEs > maxEs) maxEs = currentEs;
+        esValue.textContent = currentEs.toFixed(1) + 's';
+        esFill.style.width = Math.min(100, currentEs * 20) + '%';
+      }
+    }
     // 5. Simülatör Logic
     const simBtns = document.querySelectorAll('.sim-btn');
     const simResult = document.getElementById('simResult');

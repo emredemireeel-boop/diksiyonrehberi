@@ -1,14 +1,20 @@
 <%- include('partials/main-header') %>
 
 <style>
-  /* APPLE-INSPIRED ULTRA PREMIUM LIGHT MODE - MANIPULASYON */
+  @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Playfair+Display:ital,wght@0,600;0,700;0,800;0,900;1,600&family=JetBrains+Mono:wght@400;700&display=swap');
+
+  /* ═══════════════════════════════════════════════════════════
+     MANİPÜLASYON — Ultra Luxury Light Mode (Retorik altın standardı)
+     Accent: Koyu Mor — Karanlık Sanat
+     ═══════════════════════════════════════════════════════════ */
   body { 
-    background: #fbfbfd !important; /* Apple's signature off-white */
-    color: #1d1d1f; 
+    background: #faf9f7 !important;
+    color: #1a1a2e; 
     margin: 0; 
     padding: 0; 
-    font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    font-family: 'Outfit', sans-serif;
     -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
   }
   
   main.main-content, div.content-wrapper, div.man-page { 
@@ -20,29 +26,54 @@
   }
   
   :root {
-    --apple-text: #1d1d1f;
-    --apple-muted: #86868b;
-    --apple-bg: #fbfbfd;
+    --apple-text: #1a1a2e;
+    --apple-muted: #6b7280;
+    --apple-bg: #faf9f7;
     --apple-card: #ffffff;
-    --apple-blue: #0066cc;
-    --apple-blue-hover: #0077ed;
-    --apple-red: #ff3b30;
-    --apple-purple: #af52de;
-    --apple-orange: #ff9500;
+    --apple-blue: #6d28d9;       /* Koyu mor - ana accent */
+    --apple-blue-hover: #5b21b6;
+    --apple-red: #dc2626;
+    --apple-purple: #7c3aed;
+    --apple-orange: #d97706;
+    --m-navy: #0f172a;
+    --m-gold: #b8860b;
+    --m-border: rgba(0,0,0,0.06);
+    --m-border-h: rgba(109,40,217,0.22);
+    --m-shadow: 0 8px 30px rgba(0,0,0,0.05);
+    --m-shadow-h: 0 20px 60px rgba(0,0,0,0.10);
   }
+
+  /* ── Ambient light blobs ── */
+  .man-ambient { position: fixed; inset: 0; z-index: 0; pointer-events: none; overflow: hidden; }
+  .man-blob { position: absolute; border-radius: 50%; filter: blur(80px); opacity: 0.24; animation: manBlobFloat 20s ease-in-out infinite alternate; }
+  .man-blob:nth-child(1) { width: 500px; height: 500px; top: -100px; right: -100px; background: linear-gradient(135deg, #ddd6fe, #a78bfa); animation-duration: 18s; }
+  .man-blob:nth-child(2) { width: 400px; height: 400px; bottom: -80px; left: -80px; background: linear-gradient(135deg, #fecaca, #f87171); animation-duration: 22s; animation-delay: -5s; }
+  .man-blob:nth-child(3) { width: 300px; height: 300px; top: 40%; left: 60%; background: linear-gradient(135deg, #fde68a, #fbbf24); opacity: 0.12; animation-duration: 25s; animation-delay: -10s; }
+  @keyframes manBlobFloat {
+    0% { transform: translate(0,0) scale(1); }
+    33% { transform: translate(30px,-40px) scale(1.1); }
+    66% { transform: translate(-20px,30px) scale(0.95); }
+    100% { transform: translate(10px,-10px) scale(1.05); }
+  }
+  .man-grid-overlay {
+    position: fixed; inset: 0; z-index: 0; pointer-events: none;
+    background-image: linear-gradient(rgba(0,0,0,0.015) 1px, transparent 1px), linear-gradient(90deg, rgba(0,0,0,0.015) 1px, transparent 1px);
+    background-size: 60px 60px;
+  }
+  .man-page { position: relative; z-index: 10; }
 
   /* HERO SECTION */
   .man-hero {
     position: relative;
     padding: 120px 20px 80px 20px;
     text-align: center;
-    background: #fbfbfd;
+    background: transparent;
     overflow: hidden;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    min-height: 80vh;
+    min-height: 78vh;
   }
 
   .man-hero::before {
@@ -53,7 +84,7 @@
     transform: translateX(-50%);
     width: 1000px;
     height: 1000px;
-    background: radial-gradient(circle, rgba(0, 102, 204, 0.03) 0%, rgba(255, 59, 48, 0.02) 50%, transparent 80%);
+    background: radial-gradient(circle, rgba(109, 40, 217, 0.04) 0%, rgba(220, 38, 38, 0.02) 50%, transparent 80%);
     pointer-events: none;
     z-index: 0;
   }
@@ -68,39 +99,50 @@
   }
 
   .man-badge {
-    display: inline-block;
-    padding: 6px 18px;
-    border-radius: 20px;
-    background: rgba(0, 0, 0, 0.04);
-    color: var(--apple-text);
-    font-size: 0.75rem;
-    font-weight: 600;
-    letter-spacing: 0.05em;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 7px 22px;
+    border-radius: 50px;
+    background: var(--apple-card);
+    border: 1px solid var(--m-border-h);
+    color: var(--apple-blue);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.62rem;
+    font-weight: 700;
+    letter-spacing: 3px;
     text-transform: uppercase;
-    margin-bottom: 24px;
-    backdrop-filter: blur(20px);
+    margin-bottom: 26px;
+    box-shadow: var(--m-shadow);
   }
+  .man-badge::before {
+    content: ''; width: 6px; height: 6px; border-radius: 50%;
+    background: var(--apple-purple); box-shadow: 0 0 8px var(--apple-purple);
+    animation: manPulse 2s ease-in-out infinite;
+  }
+  @keyframes manPulse { 0%,100% { opacity: 1; transform: scale(1); } 50% { opacity: 0.4; transform: scale(0.6); } }
 
   .man-title {
-    font-size: 5.5rem;
-    font-weight: 700;
-    letter-spacing: -0.04em;
+    font-family: 'Playfair Display', serif;
+    font-size: 5rem;
+    font-weight: 900;
+    letter-spacing: -0.03em;
     line-height: 1.05;
     margin: 0 0 24px 0;
-    color: var(--apple-text);
-    /* Subtle gradient text */
-    background: linear-gradient(135deg, #1d1d1f 0%, #434353 100%);
+    color: var(--m-navy);
+    background: linear-gradient(135deg, #0f172a 0%, #6d28d9 100%);
     -webkit-background-clip: text;
+    background-clip: text;
     -webkit-text-fill-color: transparent;
   }
 
   .man-subtitle {
-    font-size: 1.5rem;
+    font-size: 1.35rem;
     font-weight: 400;
-    letter-spacing: -0.015em;
-    line-height: 1.4;
+    letter-spacing: -0.01em;
+    line-height: 1.5;
     color: var(--apple-muted);
-    max-width: 600px;
+    max-width: 620px;
     margin: 0 auto 40px auto;
   }
 
@@ -209,11 +251,13 @@
   }
 
   .card-title {
-    font-size: 1.8rem;
-    font-weight: 600;
-    letter-spacing: -0.02em;
+    font-family: 'Playfair Display', serif;
+    font-size: 1.7rem;
+    font-weight: 800;
+    letter-spacing: -0.01em;
     margin: 0 0 12px 0;
     line-height: 1.2;
+    color: var(--m-navy);
   }
 
   .card-desc {
@@ -258,10 +302,12 @@
   }
 
   .app-section-title {
-    font-size: 3rem;
-    font-weight: 700;
-    letter-spacing: -0.03em;
+    font-family: 'Playfair Display', serif;
+    font-size: 2.8rem;
+    font-weight: 800;
+    letter-spacing: -0.02em;
     margin: 0 0 16px 0;
+    color: var(--m-navy);
   }
 
   .app-section-desc {
@@ -308,10 +354,12 @@
   }
 
   .app-card-title {
+    font-family: 'Playfair Display', serif;
     font-size: 1.3rem;
-    font-weight: 600;
+    font-weight: 800;
     letter-spacing: -0.01em;
     margin: 0 0 12px 0;
+    color: var(--m-navy);
   }
 
   .app-card-desc {
@@ -342,7 +390,42 @@
     .man-hero-buttons { flex-direction: column; }
     .apple-btn { width: 100%; text-align: center; }
   }
+
+  /* ── SEO İçerik ── */
+  .man-seo { max-width: 900px; margin: 0 auto; padding: 20px 20px 70px; position: relative; z-index: 10; }
+  .man-seo h2 { font-family: 'Playfair Display', serif; font-size: 2rem; color: var(--m-navy); margin: 40px 0 16px; font-weight: 800; }
+  .man-seo h3 { font-size: 1.3rem; color: var(--m-navy); margin: 28px 0 12px; font-weight: 700; }
+  .man-seo p { color: var(--apple-text); line-height: 1.85; margin-bottom: 16px; font-size: 1.05rem; }
+  .man-seo ul { color: var(--apple-text); line-height: 1.8; margin: 0 0 16px; padding-left: 22px; }
+  .man-seo li { margin-bottom: 8px; }
+
+  /* ── FAQ ── */
+  .man-faq { max-width: 900px; margin: 0 auto 40px; }
+  .man-faq-item { background: var(--apple-card); border: 1px solid var(--m-border); border-radius: 14px; margin-bottom: 12px; overflow: hidden; box-shadow: var(--m-shadow); }
+  .man-faq-q { padding: 20px 24px; font-weight: 700; color: var(--m-navy); cursor: pointer; display: flex; justify-content: space-between; align-items: center; gap: 12px; font-size: 1.05rem; }
+  .man-faq-q::after { content: '+'; font-size: 1.5rem; color: var(--apple-blue); transition: 0.3s; }
+  .man-faq-item.open .man-faq-q::after { transform: rotate(45deg); }
+  .man-faq-a { max-height: 0; overflow: hidden; transition: max-height 0.35s ease, padding 0.35s ease; padding: 0 24px; color: var(--apple-muted); line-height: 1.75; }
+  .man-faq-item.open .man-faq-a { max-height: 420px; padding: 0 24px 20px; }
+
+  /* ── İlgili Modüller ── */
+  .man-related { max-width: 1200px; margin: 0 auto; padding: 20px 20px 100px; position: relative; z-index: 10; }
+  .man-related-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 20px; }
+  .man-related-card { display: block; text-decoration: none; background: var(--apple-card); border: 1px solid var(--m-border); border-radius: 16px; padding: 26px; transition: all 0.35s cubic-bezier(0.34,1.56,0.64,1); box-shadow: var(--m-shadow); }
+  .man-related-card:hover { transform: translateY(-6px); box-shadow: var(--m-shadow-h); border-color: var(--m-border-h); }
+  .man-related-card .ic { font-size: 2rem; display: block; margin-bottom: 12px; }
+  .man-related-card h4 { font-family: 'Playfair Display', serif; color: var(--m-navy); font-size: 1.1rem; margin: 0 0 6px; font-weight: 800; }
+  .man-related-card p { color: var(--apple-muted); font-size: 0.88rem; margin: 0; line-height: 1.6; }
+
+  @media (prefers-reduced-motion: reduce) {
+    .man-blob, .man-badge::before, .man-hero-content { animation: none !important; opacity: 1 !important; transform: none !important; }
+    .bento-card, .app-card, .man-related-card { transition: none !important; }
+  }
 </style>
+
+<!-- AMBIENT -->
+<div class="man-ambient"><div class="man-blob"></div><div class="man-blob"></div><div class="man-blob"></div></div>
+<div class="man-grid-overlay"></div>
 
 <div class="man-page">
 
@@ -451,9 +534,100 @@
 
   </div>
 
+  <!-- ══ SEO İÇERİK ══ -->
+  <section class="man-seo">
+    <h2>Manipülasyon Nedir ve Nasıl Tanınır?</h2>
+    <p>Manipülasyon, bir kişinin başka birini kendi çıkarı doğrultusunda, çoğu zaman gizli ve etik dışı yöntemlerle yönlendirmesidir. Sağlıklı iknadan farkı, karşı tarafın özgür iradesini ve gerçeklik algısını hedef almasıdır. Manipülatörler suçluluk, korku, utanç ve yükümlülük duygularını birer kaldıraç gibi kullanır. Bu taktikleri tanımak, onlara karşı geliştirilebilecek en güçlü savunmadır.</p>
+    <p>En yaygın manipülasyon biçimleri arasında gaslighting (gerçeklik algısını bozma), duygusal şantaj, pasif agresiflik ve sürekli eleştiriyle özgüven aşındırma yer alır. Bu davranışlar tek seferlik değil, tekrar eden bir örüntü oluşturduğunda toksik hale gelir.</p>
+
+    <h3>Gaslighting Nedir?</h3>
+    <p>Gaslighting, kurbanın kendi hafızasından, algısından ve hatta akıl sağlığından şüphe etmesini sağlayan sinsi bir manipülasyon türüdür. "Ben öyle bir şey demedim", "Sen her şeyi abartıyorsun", "Çok hassassın" gibi cümleler tipik gaslighting kalıplarıdır. Savunma için olayları yazılı not almak (gerçeklik çapası) ve kendi algınıza güvenmek kritik öneme sahiptir.</p>
+
+    <h3>Manipülasyona Karşı Savunma Yöntemleri</h3>
+    <ul>
+      <li><strong>Gri Kaya (Grey Rock):</strong> Manipülatöre duygusal tepki vermeyin. Sıkıcı, nötr ve tepkisiz kalarak onların "yakıtını" kesin.</li>
+      <li><strong>Sınır koyun:</strong> Net, kısa ve açıklama yapmadan "Hayır" deyin. Sınırlarınızı savunmak zorunda değilsiniz.</li>
+      <li><strong>Gerçeklik çapası:</strong> Önemli konuşmaları ve olayları kayıt altına alın; gaslighting'e karşı en güçlü kalkandır.</li>
+      <li><strong>FOG'u tanıyın:</strong> Korku (Fear), Yükümlülük (Obligation) ve Suçluluk (Guilt) üçlüsü manipülasyonun temel yakıtıdır.</li>
+      <li><strong>Mesafe koyun:</strong> Mümkünse toksik kişiyle temasınızı sınırlandırın; her ilişki kurtarılmak zorunda değildir.</li>
+    </ul>
+  </section>
+
+  <!-- ══ SSS ══ -->
+  <section class="man-seo" style="padding-top:0;">
+    <h2 style="text-align:center; margin-bottom:30px;">Sıkça Sorulan Sorular</h2>
+    <div class="man-faq">
+      <div class="man-faq-item">
+        <div class="man-faq-q">Manipülasyon ile ikna arasındaki fark nedir?</div>
+        <div class="man-faq-a">İkna, karşı tarafın özgür iradesine saygı gösterir ve açık argümanlar kullanır. Manipülasyon ise gizli taktiklerle, duyguları sömürerek ve gerçeği çarpıtarak kişiyi kendi çıkarına yönlendirir. Temel fark şeffaflık ve niyettir.</div>
+      </div>
+      <div class="man-faq-item">
+        <div class="man-faq-q">Gaslighting'e maruz kaldığımı nasıl anlarım?</div>
+        <div class="man-faq-a">Sürekli kendinizden şüphe ediyor, özür diliyor, "çok hassas olduğunuzu" düşünüyor ve olayları doğru hatırlayıp hatırlamadığınızı sorguluyorsanız gaslighting'e maruz kalıyor olabilirsiniz. Olayları yazılı kaydetmek netlik sağlar.</div>
+      </div>
+      <div class="man-faq-item">
+        <div class="man-faq-q">Gri kaya yöntemi nedir?</div>
+        <div class="man-faq-a">Gri kaya (Grey Rock), manipülatöre karşı duygusal olarak tepkisiz, sıkıcı ve ilgi çekmeyen bir tutum sergilemektir. Manipülatörler tepkiyle beslenir; tepki alamayınca ilgilerini kaybederler.</div>
+      </div>
+      <div class="man-faq-item">
+        <div class="man-faq-q">Suçluluk hissetmeden nasıl "hayır" derim?</div>
+        <div class="man-faq-a">"Hayır" tam bir cümledir; uzun açıklamalar yapmanıza gerek yok. Kısa, net ve kararlı olun. Sınır koymak bencillik değil, öz saygının bir göstergesidir.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══ İLGİLİ MODÜLLER ══ -->
+  <section class="man-related">
+    <div class="app-section-header" style="margin-bottom:30px;">
+      <h2 class="app-section-title" style="font-size:2.2rem;">İlgili Eğitimler</h2>
+      <p class="app-section-desc">Savunma cephanenizi güçlendirecek diğer modüller.</p>
+    </div>
+    <div class="man-related-grid">
+      <a href="/safsata" class="man-related-card">
+        <span class="ic">⚖️</span>
+        <h4>Safsata</h4>
+        <p>Mantık hatalarını ve tartışmadaki hileli akıl yürütmeleri deşifre edin.</p>
+      </a>
+      <a href="/ozguven" class="man-related-card">
+        <span class="ic">💪</span>
+        <h4>Özgüven İnşası</h4>
+        <p>Sınır koyabilen, sarsılmaz bir öz değer duygusu geliştirin.</p>
+      </a>
+      <a href="/bedendili" class="man-related-card">
+        <span class="ic">🧍</span>
+        <h4>Beden Dili</h4>
+        <p>Sözsüz sinyalleri okuyarak gizli niyetleri fark edin.</p>
+      </a>
+      <a href="/retorik" class="man-related-card">
+        <span class="ic">🏛️</span>
+        <h4>Retorik</h4>
+        <p>Etik ikna sanatının temel taşları: Ethos, Pathos, Logos.</p>
+      </a>
+    </div>
+  </section>
+
 </div>
 
+<!-- FAQ Structured Data -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {"@type":"Question","name":"Manipülasyon ile ikna arasındaki fark nedir?","acceptedAnswer":{"@type":"Answer","text":"İkna karşı tarafın özgür iradesine saygı gösterir ve açık argümanlar kullanır. Manipülasyon ise gizli taktiklerle duyguları sömürerek kişiyi kendi çıkarına yönlendirir. Temel fark şeffaflık ve niyettir."}},
+    {"@type":"Question","name":"Gaslighting'e maruz kaldığımı nasıl anlarım?","acceptedAnswer":{"@type":"Answer","text":"Sürekli kendinizden şüphe ediyor, özür diliyor ve olayları doğru hatırlayıp hatırlamadığınızı sorguluyorsanız gaslighting'e maruz kalıyor olabilirsiniz. Olayları yazılı kaydetmek netlik sağlar."}},
+    {"@type":"Question","name":"Gri kaya yöntemi nedir?","acceptedAnswer":{"@type":"Answer","text":"Gri kaya (Grey Rock), manipülatöre karşı duygusal olarak tepkisiz ve ilgi çekmeyen bir tutum sergilemektir. Manipülatörler tepkiyle beslenir; tepki alamayınca ilgilerini kaybederler."}},
+    {"@type":"Question","name":"Suçluluk hissetmeden nasıl hayır derim?","acceptedAnswer":{"@type":"Answer","text":"Hayır tam bir cümledir; uzun açıklamalar yapmanıza gerek yok. Kısa, net ve kararlı olun. Sınır koymak öz saygının bir göstergesidir."}}
+  ]
+}
+</script>
+
 <script>
+  // SSS aç/kapa
+  document.querySelectorAll('.man-faq-q').forEach(q => {
+    q.addEventListener('click', () => q.closest('.man-faq-item').classList.toggle('open'));
+  });
+
   // Smooth scroll for anchor links
   document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     anchor.addEventListener('click', function (e) {

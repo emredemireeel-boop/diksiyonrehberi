@@ -752,6 +752,107 @@
         </div>
       </div>
 
+      <!-- ══ PREMIUM RETORİK REHBERİ ══ -->
+      <style>
+        .r-premium-guide {
+          background: linear-gradient(145deg, #ffffff, #fcfaf8);
+          border: 1px solid var(--r-border-h);
+          border-radius: 30px;
+          padding: 60px 50px;
+          box-shadow: 0 25px 60px rgba(184, 134, 11, 0.05), inset 0 0 0 1px rgba(255,255,255,0.8);
+          position: relative;
+          overflow: hidden;
+          margin-bottom: 50px;
+          max-width: 1300px;
+          margin-left: auto;
+          margin-right: auto;
+        }
+        .r-premium-guide::before {
+          content: ''; position: absolute; top: 0; left: 0; right: 0; height: 4px;
+          background: linear-gradient(90deg, transparent, var(--r-gold2), transparent);
+          opacity: 0.7;
+        }
+        .r-pg-header { text-align: center; margin-bottom: 50px; }
+        .r-pg-title { font-family: 'Playfair Display', serif; font-size: 2.8rem; font-weight: 900; color: var(--r-navy); margin: 0; letter-spacing: -1px; }
+        .r-pg-line { width: 60px; height: 3px; background: var(--r-gold); margin: 15px auto; border-radius: 3px; }
+        .r-pg-sub { font-size: 1.15rem; color: var(--r-text3); font-weight: 500; text-transform: uppercase; letter-spacing: 3px; margin: 0; }
+        
+        .r-pg-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 40px; }
+        
+        .r-pg-card {
+          display: flex; flex-direction: column; align-items: flex-start;
+          padding: 35px; border-radius: 24px;
+          background: rgba(255,255,255,0.6); border: 1px solid rgba(0,0,0,0.03);
+          box-shadow: 0 10px 30px rgba(0,0,0,0.02);
+          transition: all 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
+          position: relative; overflow: hidden;
+        }
+        .r-pg-card::after {
+          content: ''; position: absolute; inset: 0; border-radius: 24px;
+          box-shadow: inset 0 0 0 1px rgba(184, 134, 11, 0.1); opacity: 0; transition: opacity 0.4s;
+        }
+        .r-pg-card:hover { transform: translateY(-8px); background: #fff; box-shadow: 0 20px 40px rgba(184, 134, 11, 0.08); }
+        .r-pg-card:hover::after { opacity: 1; }
+        
+        .r-pg-icon-wrap { position: relative; width: 70px; height: 70px; display: flex; align-items: center; justify-content: center; margin-bottom: 25px; border-radius: 20px; background: var(--r-surface); box-shadow: 0 8px 20px rgba(0,0,0,0.04); z-index: 1; border: 1px solid rgba(0,0,0,0.02); }
+        .r-pg-icon { font-size: 2.2rem; z-index: 2; position: relative; }
+        .r-pg-glow { position: absolute; inset: -10px; border-radius: 50%; background: rgba(184, 134, 11, 0.3); filter: blur(15px); opacity: 0.5; z-index: 0; transition: all 0.4s; }
+        .r-pg-card:hover .r-pg-glow { opacity: 0.8; transform: scale(1.2); }
+        
+        .r-pg-card-title { font-family: 'Playfair Display', serif; font-size: 1.6rem; font-weight: 800; color: var(--r-navy); margin: 0 0 15px; }
+        .r-pg-card-text { font-size: 1.05rem; line-height: 1.8; color: var(--r-text2); margin: 0; }
+        
+        @media (max-width: 768px) {
+          .r-premium-guide { padding: 40px 20px; margin-bottom: 30px; }
+          .r-pg-title { font-size: 2.2rem; }
+          .r-pg-card { padding: 25px; }
+        }
+      </style>
+      <div class="r-content-section" style="padding: 0 30px;">
+        <div class="r-premium-guide">
+          <div class="r-pg-header">
+            <h2 class="r-pg-title">Retorik Rehberi</h2>
+            <div class="r-pg-line"></div>
+            <p class="r-pg-sub">İkna Sanatının Temelleri</p>
+          </div>
+          
+          <div class="r-pg-grid">
+            <div class="r-pg-card">
+              <div class="r-pg-icon-wrap">
+                <div class="r-pg-icon">🏛️</div>
+                <div class="r-pg-glow" style="background: rgba(184, 134, 11, 0.4);"></div>
+              </div>
+              <div class="r-pg-content">
+                <h3 class="r-pg-card-title">Retorik Nedir?</h3>
+                <p class="r-pg-card-text">Retorik, en temel anlamıyla <strong>etkili ve ikna edici konuşma veya yazma sanatıdır</strong>. Antik Yunan'da doğmuş olan bu disiplin, kelimeleri stratejik bir şekilde kullanarak kitlelerin düşüncelerini, duygularını ve eylemlerini yönlendirmeyi amaçlar. Sadece "ne" söylediğinizle değil, onu "nasıl" söylediğinizle ilgilenir.</p>
+              </div>
+            </div>
+            
+            <div class="r-pg-card">
+              <div class="r-pg-icon-wrap">
+                <div class="r-pg-icon">🎯</div>
+                <div class="r-pg-glow" style="background: rgba(59, 130, 246, 0.4);"></div>
+              </div>
+              <div class="r-pg-content">
+                <h3 class="r-pg-card-title">Ne İşe Yarar?</h3>
+                <p class="r-pg-card-text">Retorik; liderlik, iş dünyası, hukuk ve günlük hayatta devasa bir avantaj sağlar. Fikirlerinizi kabul ettirmenizi, bir topluluğa ilham vermenizi, müzakerelerde üstünlük kurmanızı ve manipülasyonlara karşı kendinizi korumanızı sağlar. Haklı olduğunuz bir tartışmayı kazanmanızı kolaylaştırır.</p>
+              </div>
+            </div>
+
+            <div class="r-pg-card">
+              <div class="r-pg-icon-wrap">
+                <div class="r-pg-icon">⚡</div>
+                <div class="r-pg-glow" style="background: rgba(16, 185, 129, 0.4);"></div>
+              </div>
+              <div class="r-pg-content">
+                <h3 class="r-pg-card-title">Nasıl Geliştirilir?</h3>
+                <p class="r-pg-card-text">Retoriği geliştirmek için Aristoteles'in üç sütunu olan <strong>Ethos (Güven), Pathos (Duygu) ve Logos (Mantık)</strong> üzerinde çalışmalısınız. Mantık hatalarını (safsataları) tanımak, hitabet figürlerini kullanmak ve ünlü konuşmaları analiz etmek en iyi pratiklerdir.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
       <!-- ══ İNTERAKTİF ARAÇLAR ══ -->
       <div class="r-tools-section">
         <div class="r-section-header">
@@ -852,11 +953,14 @@
           <a href="/retorik/logos" class="r-pill">Logos</a>
           <a href="/retorik/konusma-yazimi" class="r-pill">Konuşma Yazımı</a>
           <a href="/retorik/figurler" class="r-pill">Retorik Figürleri</a>
+          <a href="/retorik/argumanlar" class="r-pill">Argüman Türleri</a>
           <a href="/retorik/analiz" class="r-pill">Konuşma Analizi</a>
           <a href="/retorik/savunma" class="r-pill">Güçlü Savunma</a>
           <a href="/retorik/ikna" class="r-pill">İkna Psikolojisi</a>
         </div>
       </div>
+
+
 
       <!-- ══ ARİSTOTELES'İN TEMEL TAŞLARI ══ -->
       <div class="r-content-section">
@@ -903,6 +1007,12 @@
               <h3 class="r-pc-title">Retorik Figürleri</h3>
               <p class="r-pc-desc">Anafor, antitez, metafor ve konuşmanıza derinlik katan sözlü silahlar.</p>
               <div class="r-pc-link">4 Ders →</div>
+            </a>
+            <a href="/retorik/argumanlar" class="r-pillar-card" style="--pc-color:#6366f1;">
+              <div class="r-pc-num">Mantık</div>
+              <h3 class="r-pc-title">Argüman Türleri</h3>
+              <p class="r-pc-desc">Tümdengelim, Tümevarım, Analoji ve Saçmaya İndirgeme gibi mantıksal yapı taşlarını keşfedin.</p>
+              <div class="r-pc-link">Eğitim Ekranı →</div>
             </a>
           </div>
         </div>
@@ -976,10 +1086,114 @@
         </div>
       </div>
 
+      <!-- ══ SEO İÇERİK ══ -->
+      <style>
+        .r-seo { max-width: 900px; margin: 0 auto; padding: 20px 30px 40px; }
+        .r-seo h2 { font-family: 'Playfair Display', serif; font-size: 2rem; color: var(--r-navy); margin: 36px 0 14px; font-weight: 800; }
+        .r-seo h3 { font-family: 'Outfit', sans-serif; font-size: 1.25rem; color: var(--r-navy); margin: 26px 0 10px; font-weight: 800; }
+        .r-seo p { color: var(--r-text2); line-height: 1.85; margin-bottom: 14px; font-size: 1.05rem; }
+        .r-seo ul { color: var(--r-text2); line-height: 1.8; margin: 0 0 14px; padding-left: 22px; }
+        .r-seo li { margin-bottom: 8px; }
+        .r-faq { max-width: 900px; margin: 0 auto 30px; padding: 0 30px; }
+        .r-faq-item { background: var(--r-surface); border: 1px solid var(--r-border); border-radius: 14px; margin-bottom: 12px; overflow: hidden; box-shadow: var(--r-shadow); }
+        .r-faq-q { padding: 20px 24px; font-weight: 700; color: var(--r-navy); cursor: pointer; display: flex; justify-content: space-between; align-items: center; gap: 12px; font-size: 1.05rem; font-family: 'Outfit', sans-serif; }
+        .r-faq-q::after { content: '+'; font-size: 1.5rem; color: var(--r-gold); transition: 0.3s; }
+        .r-faq-item.open .r-faq-q::after { transform: rotate(45deg); }
+        .r-faq-a { max-height: 0; overflow: hidden; transition: max-height 0.35s ease, padding 0.35s ease; padding: 0 24px; color: var(--r-text2); line-height: 1.75; }
+        .r-faq-item.open .r-faq-a { max-height: 420px; padding: 0 24px 20px; }
+        .r-related { max-width: 1300px; margin: 0 auto; padding: 20px 30px 30px; }
+        .r-related-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 20px; }
+        .r-related-card { display: block; text-decoration: none; background: var(--r-surface); border: 1px solid var(--r-border); border-radius: 16px; padding: 26px; transition: all 0.35s cubic-bezier(0.34,1.56,0.64,1); box-shadow: var(--r-shadow); }
+        .r-related-card:hover { transform: translateY(-6px); box-shadow: var(--r-shadow-h); border-color: var(--r-border-h); }
+        .r-related-card .ic { font-size: 2rem; display: block; margin-bottom: 12px; }
+        .r-related-card h4 { font-family: 'Playfair Display', serif; color: var(--r-navy); font-size: 1.1rem; margin: 0 0 6px; font-weight: 800; }
+        .r-related-card p { color: var(--r-text3); font-size: 0.88rem; margin: 0; line-height: 1.6; }
+      </style>
+      <div class="r-content-section" style="padding:0;">
+        <section class="r-seo">
+          <h2>Retorik Nedir? İkna Sanatının Temelleri</h2>
+          <p>Retorik, dinleyiciyi etkilemek, ikna etmek ve harekete geçirmek amacıyla dili etkili ve bilinçli kullanma sanatıdır. Antik Yunan'da Aristoteles tarafından sistemleştirilen bu disiplin, 2500 yıldır liderlerin, avukatların, satışçıların ve girişimcilerin en güçlü silahı olmuştur. Retorik yalnızca "güzel konuşmak" değil; doğru argümanı, doğru duyguyla, doğru zamanda sunma becerisidir.</p>
+          <p>Aristoteles'e göre ikna üç temel sütun üzerinde yükselir: <strong>Ethos</strong> (konuşmacının güvenilirliği ve karakteri), <strong>Pathos</strong> (dinleyicinin duygularına hitap) ve <strong>Logos</strong> (mantıksal kanıt ve akıl yürütme). Usta bir hatip bu üçünü dengeli biçimde harmanlar; biri eksik kaldığında ikna gücü zayıflar.</p>
+
+          <h3>Ethos, Pathos, Logos Nasıl Kullanılır?</h3>
+          <ul>
+            <li><strong>Ethos:</strong> Uzmanlığınızı kanıtlayın, dürüstlük gösterin ve dinleyicinin çıkarını gözettiğinizi hissettirin.</li>
+            <li><strong>Pathos:</strong> Hikaye anlatımı ve duyusal dil ile dinleyicinin umut, korku veya gurur gibi duygularına dokunun.</li>
+            <li><strong>Logos:</strong> Verileri insanileştirin, neden-sonuç zincirini net kurun ve karşı argümanları önceden çürütün.</li>
+          </ul>
+
+          <h3>Retorik Becerileri Nasıl Geliştirilir?</h3>
+          <p>Retorik öğrenilen bir beceridir. Büyük konuşmaları analiz etmek, retorik figürlerini (anafor, trikolon, antitez) pratik etmek, mantık hatalarını (safsata) tanımak ve simülatörlerde gerçek senaryolarla denemek en etkili yöntemlerdir. Bu modüldeki interaktif araçlarla teoriyi pratiğe dökebilirsiniz.</p>
+        </section>
+
+        <section class="r-faq" style="padding-top:0;">
+          <h2 style="text-align:center; font-family:'Playfair Display',serif; font-size:2rem; color:var(--r-navy); margin-bottom:24px;">Sıkça Sorulan Sorular</h2>
+          <div class="r-faq-item">
+            <div class="r-faq-q">Retorik ile diyalektik arasındaki fark nedir?</div>
+            <div class="r-faq-a">Retorik, bir kitleyi ikna etmeye yönelik tek yönlü hitabet sanatıdır. Diyalektik ise iki taraf arasında, soru-cevap yoluyla gerçeğe ulaşmayı amaçlayan karşılıklı akıl yürütme yöntemidir. Retorik ikna eder, diyalektik gerçeği arar.</div>
+          </div>
+          <div class="r-faq-item">
+            <div class="r-faq-q">Ethos, Pathos ve Logos nedir?</div>
+            <div class="r-faq-a">Aristoteles'in üç ikna sütunudur: Ethos konuşmacının güvenilirliği ve karakteri, Pathos dinleyicinin duygularına hitap, Logos ise mantıksal kanıt ve akıl yürütmedir. Etkili ikna üçünün dengeli kullanımıyla olur.</div>
+          </div>
+          <div class="r-faq-item">
+            <div class="r-faq-q">Retorik manipülasyon mudur?</div>
+            <div class="r-faq-a">Hayır. Retorik, gerçeği etkili biçimde sunma sanatıdır ve dinleyicinin özgür iradesine saygı gösterir. Manipülasyon ise gerçeği çarpıtarak ve duyguları sömürerek kişiyi kandırır. Aynı araçlar etik veya etik dışı kullanılabilir; niyet farkı belirleyicidir.</div>
+          </div>
+          <div class="r-faq-item">
+            <div class="r-faq-q">Topluluk önünde etkili konuşmak için nereden başlamalıyım?</div>
+            <div class="r-faq-a">Önce güçlü bir açılış kancası (hook) kurun, mesajınızı Ethos-Pathos-Logos dengesiyle yapılandırın ve net bir eyleme çağrıyla bitirin. Bu modüldeki konuşma yazımı rehberi ve simülatörlerle adım adım pratik yapabilirsiniz.</div>
+          </div>
+        </section>
+
+        <section class="r-related">
+          <div class="r-section-header" style="margin-bottom:24px;">
+            <h2 class="r-section-title">İlgili Eğitimler</h2>
+            <p class="r-section-sub">İkna gücünüzü tamamlayacak diğer modüller.</p>
+          </div>
+          <div class="r-related-grid">
+            <a href="/diyalektik" class="r-related-card">
+              <span class="ic">⚖️</span>
+              <h4>Diyalektik</h4>
+              <p>Tez, antitez ve sentez ile gerçeğe ulaşan akıl yürütme yöntemi.</p>
+            </a>
+            <a href="/safsata" class="r-related-card">
+              <span class="ic">🕵️</span>
+              <h4>Safsata</h4>
+              <p>Mantık hatalarını tanıyın ve argümanlardaki tuzakları çürütün.</p>
+            </a>
+            <a href="/sahne" class="r-related-card">
+              <span class="ic">🎤</span>
+              <h4>Sahne Ustalığı</h4>
+              <p>Hitabetinizi sahnede performansa dönüştürün.</p>
+            </a>
+            <a href="/ozguven" class="r-related-card">
+              <span class="ic">💪</span>
+              <h4>Özgüven İnşası</h4>
+              <p>İkna gücünün kaynağı olan sarsılmaz özgüveni geliştirin.</p>
+            </a>
+          </div>
+        </section>
+      </div>
+
     </div>
   </div>
 </main>
 </div>
+
+<!-- FAQ Structured Data -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {"@type":"Question","name":"Retorik ile diyalektik arasındaki fark nedir?","acceptedAnswer":{"@type":"Answer","text":"Retorik bir kitleyi ikna etmeye yönelik tek yönlü hitabet sanatıdır. Diyalektik ise iki taraf arasında soru-cevap yoluyla gerçeğe ulaşmayı amaçlayan karşılıklı akıl yürütme yöntemidir."}},
+    {"@type":"Question","name":"Ethos, Pathos ve Logos nedir?","acceptedAnswer":{"@type":"Answer","text":"Aristoteles'in üç ikna sütunudur: Ethos konuşmacının güvenilirliği, Pathos dinleyicinin duygularına hitap, Logos ise mantıksal kanıt ve akıl yürütmedir."}},
+    {"@type":"Question","name":"Retorik manipülasyon mudur?","acceptedAnswer":{"@type":"Answer","text":"Hayır. Retorik gerçeği etkili biçimde sunma sanatıdır ve dinleyicinin özgür iradesine saygı gösterir. Manipülasyon ise gerçeği çarpıtarak kişiyi kandırır. Niyet farkı belirleyicidir."}},
+    {"@type":"Question","name":"Topluluk önünde etkili konuşmak için nereden başlamalıyım?","acceptedAnswer":{"@type":"Answer","text":"Güçlü bir açılış kancası kurun, mesajınızı Ethos-Pathos-Logos dengesiyle yapılandırın ve net bir eyleme çağrıyla bitirin. Konuşma yazımı rehberi ve simülatörlerle pratik yapabilirsiniz."}}
+  ]
+}
+</script>
 
 <script>
   // ═══════════ GOLD SPARKLE PARTICLES ═══════════
@@ -1002,6 +1216,11 @@
       field.appendChild(s);
     }
   })();
+
+  // SSS aç/kapa
+  document.querySelectorAll('.r-faq-q').forEach(q => {
+    q.addEventListener('click', () => q.closest('.r-faq-item').classList.toggle('open'));
+  });
 </script>
 
 <%- include('partials/main-footer') %>

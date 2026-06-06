@@ -3726,85 +3726,70 @@ const PROGRAMS = {
       {
         day: 1, title: 'Temel Nefes Günü',
         tasks: [
-          { icon: '💨', task: 'Diyafram nefesi egzersizi', detail: '30 dk — Sabah uyanınca, karnınıza el koyarak 4-2-6 döngüsünde 10 kez nefes alın', dur: '30 dk' },
-          { icon: '📖', task: 'Sesli kitap dinleme', detail: '30 dk — Herhangi bir Türkçe sesli kitap. Spikerın nefes noktalarına dikkat edin', dur: '30 dk' },
-          { icon: '✏️', task: 'Kalem egzersizi', detail: '15 dk — Bir kalemi yatay olarak ağzınıza alıp diksiyonunuzu zorlayın. "Merhaba, nasılsınız?" cümlesini 20 kez söyleyin', dur: '15 dk' },
-          { icon: '🔊', task: 'Ses teli ısınma', detail: '10 dk — "Mmm, Brrr, Hmm" dizisiyle ses tellerini ısıtın. Her ses 30 saniye', dur: '10 dk' },
-          { icon: '🪞', task: 'Ayna egzersizi', detail: '10 dk — Ayna karşısında "A-E-I-İ-O-Ö-U-Ü" ünlülerini ağız pozisyonlarını görerek söyleyin', dur: '10 dk' },
-          { icon: '🎵', task: 'Yüksek sesle okuma', detail: '15 dk — Bir gazete paragrafını yüksek sesle okuyun. Noktalamaya uyun', dur: '15 dk' },
-          { icon: '🎙️', task: 'Ses kaydı analizi', detail: '10 dk — "Merhaba, ben diksiyon çalışıyorum." cümlesini kaydedin ve dinleyin. Hangi sesler net değil?', dur: '10 dk' },
+          { icon: '💨', task: 'Diyafram nefesi egzersizi', detail: '3 dk — Karnınıza el koyarak 4-2-6 döngüsünde 10 kez nefes alın', dur: '3 dk' },
+          { icon: '🔊', task: 'Ses teli ısınma', detail: '2 dk — "Mmm, Brrr, Hmm" dizisiyle ses tellerini hafifçe titreştirerek ısıtın', dur: '2 dk' },
+          { icon: '🪞', task: 'Ayna egzersizi', detail: '2 dk — Ayna karşısında "A-E-I-İ-O-Ö-U-Ü" ünlülerini ağız pozisyonlarını görerek söyleyin', dur: '2 dk' },
+          { icon: '🎵', task: 'Yüksek sesle okuma', detail: '5 dk — Bir gazete paragrafını yüksek sesle okuyun. Acele etmeyin.', dur: '5 dk' },
+          { icon: '🎙️', task: 'Ses kaydı analizi', detail: '3 dk — Kendinizi kaydedip dinleyin. Hangi sesler net değil?', dur: '3 dk' },
         ]
       },
       {
         day: 2, title: 'Tekerleme Günü',
         tasks: [
-          { icon: '💨', task: 'Sabah nefes rutini', detail: '30 dk — Box breathing (4-4-4-4 döngüsü). Gözler kapalı, sakin ortamda 15 döngü', dur: '30 dk' },
-          { icon: '📖', task: 'Sesli kitap', detail: '30 dk — Kitap okumaya devam edin. Bugün vurgu ve tonlamaya dikkat', dur: '30 dk' },
-          { icon: '✏️', task: 'Kalem tekerleme', detail: '15 dk — Kalem ağızda "Bir berber bir berbere" tekerlemesini 10 kez tekrarlayın', dur: '15 dk' },
-          { icon: '🔤', task: 'Berber tekerlemesi', detail: '10 dk — Yavaştan hıza artırarak 5 tempo uygulayın. Son turda kayıt alın', dur: '10 dk' },
-          { icon: '🔤', task: 'S-Ş ayrışım egzersizi', detail: '10 dk — "Şişe şişe, bu şişe mi?" — ayna kullanarak S ve Ş farkını görün', dur: '10 dk' },
-          { icon: '🎭', task: 'Duygu skalası', detail: '15 dk — "Bu kadar önemli miydi?" cümlesini 7 farklı duyguyla söyleyin: merak, öfke, hüzün, şaşkınlık, sevinç, küçümseme, korku', dur: '15 dk' },
-          { icon: '🎙️', task: 'İlerleme kaydı', detail: '10 dk — Dünkü ve bugünkü kayıtları karşılaştırın. Hangi ses gelişti?', dur: '10 dk' },
+          { icon: '💨', task: 'Sabah nefes rutini', detail: '3 dk — Box breathing (4-4-4-4 döngüsü). Gözler kapalı, sakin ortamda 5 döngü', dur: '3 dk' },
+          { icon: '🔤', task: 'Berber tekerlemesi', detail: '3 dk — Yavaştan hıza artırarak 5 tempo uygulayın. "Bir berber bir berbere..."', dur: '3 dk' },
+          { icon: '🔤', task: 'S-Ş ayrışım egzersizi', detail: '3 dk — "Şişe şişe, bu şişe mi?" — ayna kullanarak S ve Ş farkını görün', dur: '3 dk' },
+          { icon: '🎭', task: 'Duygu skalası', detail: '3 dk — "Bu kadar önemli miydi?" cümlesini 3 farklı duyguyla söyleyin: şaşkınlık, sevinç, korku', dur: '3 dk' },
+          { icon: '🎙️', task: 'İlerleme kaydı', detail: '3 dk — Dünkü ve bugünkü kayıtları karşılaştırın.', dur: '3 dk' },
         ]
       },
       {
         day: 3, title: 'Ses Açma Günü',
         tasks: [
-          { icon: '💨', task: 'Nefes kapasitesi testi', detail: '30 dk — "Ssss" sesini ne kadar tutabiliyorsun? 3 kez dene, kayıt tut. 4-7-8 egzersizini de uygula', dur: '30 dk' },
-          { icon: '📖', task: 'Sesli kitap & not alma', detail: '30 dk — Spikerin nefes noktalarını dinlerken not alın. 3 nefes noktası tespit edin', dur: '30 dk' },
-          { icon: '✏️', task: 'Kalem okuma', detail: '15 dk — Gazeteden bir haber bülteni parçasını kalemle okuyun', dur: '15 dk' },
-          { icon: '🔊', task: 'Ses güç skalası', detail: '10 dk — Fısıltıdan maksimuma 5 kademede "Merhaba" söyleyin. Her kademe net olmalı', dur: '10 dk' },
-          { icon: '📢', task: 'Ses projeksiyonu', detail: '15 dk — Evde karşı duvara sesini "gönder". 2-3-4-6 metre denemesi', dur: '15 dk' },
-          { icon: '🎵', task: 'Perde aralığı genişletme', detail: '10 dk — "Do-Re-Mi" skalasını yukarı ve aşağı söyleyin. Sesin doğal sınırını keşfet', dur: '10 dk' },
-          { icon: '🎙️', task: 'Perde karşılaştırma kaydı', detail: '10 dk — Alçak, orta ve yüksek perde ile "Merhaba" kaydet. Farkları dinle', dur: '10 dk' },
+          { icon: '💨', task: 'Nefes kapasitesi testi', detail: '3 dk — "Ssss" sesini ne kadar tutabiliyorsun? 3 kez dene, süreni kaydet.', dur: '3 dk' },
+          { icon: '✏️', task: 'Kalem okuma', detail: '5 dk — Gazeteden bir haberi kalemle okuyun (kalemi yatay olarak dişlerinizle tutarak)', dur: '5 dk' },
+          { icon: '🔊', task: 'Ses güç skalası', detail: '3 dk — Fısıltıdan maksimuma 5 kademede "Merhaba" söyleyin.', dur: '3 dk' },
+          { icon: '📢', task: 'Ses projeksiyonu', detail: '2 dk — Evde karşı duvara sesini "gönder". Boğazı yormadan.', dur: '2 dk' },
+          { icon: '🎵', task: 'Perde aralığı genişletme', detail: '2 dk — "Do-Re-Mi" skalasını yukarı ve aşağı mırıldanın.', dur: '2 dk' },
         ]
       },
       {
         day: 4, title: 'Telaffuz & Ünlü Günü',
         tasks: [
-          { icon: '💨', task: 'Diyafram nefesi', detail: '30 dk — Ritmik nefes çalışması. Her nefeste bir cümle planla. Nefes bir anlam birimini tamamlamalı', dur: '30 dk' },
-          { icon: '📖', task: 'Sesli kitap', detail: '30 dk — Kitabı bu kez telaffuza odaklanarak dinleyin. Yanlış telaffuz duyduğunuzda not alın', dur: '30 dk' },
-          { icon: '✏️', task: 'Kalem ünlü egzersizi', detail: '15 dk — Kalem ağızda 8 Türkçe ünlüyü sırayla söyleyin. Her birini 5 kez tekrarlayın', dur: '15 dk' },
-          { icon: '🗣️', task: '8 ünlü sistemi', detail: '10 dk — Ayna önünde A-E-I-İ-O-Ö-U-Ü ünlülerini tam pozisyonla çıkarın', dur: '10 dk' },
-          { icon: '🔡', task: 'Pa-Ta-Ka jimnastiği', detail: '15 dk — "Pa-ta-ka-ba-da-ga" dizisini 3 hızda (yavaş/orta/hızlı) yapın', dur: '15 dk' },
-          { icon: '📖', task: 'Üç turlu okuma', detail: '10 dk — Bir paragrafı: (1) heceler halinde, (2) vurguyla, (3) canlı okuyun', dur: '10 dk' },
-          { icon: '🎙️', task: 'Telaffuz kaydı', detail: '10 dk — Zor bulduğunuz bir kelimeyi 10 kez kaydedin. En iyi versiyonu saklayın', dur: '10 dk' },
+          { icon: '💨', task: 'Diyafram nefesi', detail: '3 dk — Ritmik nefes çalışması. Her cümlede doğru yerde nefes alın.', dur: '3 dk' },
+          { icon: '🗣️', task: '8 ünlü sistemi', detail: '3 dk — Ayna önünde A-E-I-İ-O-Ö-U-Ü ünlülerini tam pozisyonla çıkarın', dur: '3 dk' },
+          { icon: '🔡', task: 'Pa-Ta-Ka jimnastiği', detail: '3 dk — "Pa-ta-ka-ba-da-ga" dizisini yavaş, orta ve hızlı yapın', dur: '3 dk' },
+          { icon: '📖', task: 'İki turlu okuma', detail: '4 dk — Bir paragrafı: (1) heceleyerek net, (2) vurguyla canlı okuyun', dur: '4 dk' },
+          { icon: '🎙️', task: 'Telaffuz kaydı', detail: '2 dk — Zor bulduğunuz kelimeleri kaydedin.', dur: '2 dk' },
         ]
       },
       {
         day: 5, title: 'Ritim & Vurgu Günü',
         tasks: [
-          { icon: '💨', task: 'Dalga nefes meditasyonu', detail: '30 dk — Göz kapalı, dalga metaforu ile nefes. 5-2-7 döngüsü. 15-20 döngü yapın', dur: '30 dk' },
-          { icon: '📖', task: 'Sesli kitap ritim', detail: '30 dk — Bu kez ritmi dinleyin. Spikerin hız dalgaları var mı? Not alın', dur: '30 dk' },
-          { icon: '✏️', task: 'Kalem ritim', detail: '15 dk — Bir şiiri kalemle okuyun. Ritmi hissedin', dur: '15 dk' },
-          { icon: '🥁', task: 'Bedenle ritim', detail: '10 dk — Diz vurarak "Günaydın, nasılsınız?" ezberleyin. Her hece için bir vuru', dur: '10 dk' },
-          { icon: '⚡', task: 'Anlam vurgusu laboratuvarı', detail: '15 dk — "Ben bugün buraya SİZ için geldim" — 5 farklı kelimeyi vurgulayın', dur: '15 dk' },
-          { icon: '⏸️', task: 'Stratejik sessizlik', detail: '10 dk — 3 saniye duraklama egzersizi. "Bu şirkette...(3sn)...değişim başlıyor"', dur: '10 dk' },
-          { icon: '🎙️', task: 'Ritim kaydı', detail: '10 dk — Bir paragrafı kaydedin. Ritim var mı? Monoton mu?', dur: '10 dk' },
+          { icon: '💨', task: 'Dalga nefes meditasyonu', detail: '3 dk — Göz kapalı, dalga metaforu ile nefes. 5-2-7 döngüsü.', dur: '3 dk' },
+          { icon: '✏️', task: 'Kalem ritim', detail: '4 dk — Bir şiiri kalemle okuyun. Ritmi hissedin', dur: '4 dk' },
+          { icon: '⚡', task: 'Anlam vurgusu', detail: '3 dk — "Ben bugün buraya SİZ için geldim" — farklı kelimeleri vurgulayarak söyleyin', dur: '3 dk' },
+          { icon: '⏸️', task: 'Stratejik sessizlik', detail: '3 dk — 3 saniye duraklama egzersizi. Etki bırakmak için.', dur: '3 dk' },
+          { icon: '🎙️', task: 'Ritim kaydı', detail: '2 dk — Bir paragrafı kaydedin. Monotonluk var mı dinleyin.', dur: '2 dk' },
         ]
       },
       {
         day: 6, title: 'Tekerleme Arena Günü',
         tasks: [
-          { icon: '💨', task: 'Akciğer kapasitesi', detail: '30 dk — "Ha-ha-ha" ile nefes bırakma egzersizi. Her sette tutma süresini artır', dur: '30 dk' },
-          { icon: '📖', task: 'Sesli kitap', detail: '30 dk — Bugün yüksek sesle kitap OKU (dinleme değil)', dur: '30 dk' },
-          { icon: '✏️', task: 'Kalem tekerleme maratonu', detail: '15 dk — Kalem ağızda tüm haftalık tekerlemeleri sırayla söyleyin', dur: '15 dk' },
-          { icon: '🏆', task: 'Arena hız testi', detail: '10 dk — Web sitesindeki Arena bölümünde 3 farklı harften en az 5 tekerleme deneyin', dur: '10 dk' },
-          { icon: '🎭', task: 'Karma tekerleme maratonu', detail: '15 dk — Tüm hafta boyunca öğrenilen tekerlemeleri tek solukta söyleyin', dur: '15 dk' },
-          { icon: '🌊', task: 'Rezonans turu', detail: '10 dk — Göğüs, yüz ve kafa rezonanslarını sırayla aktive edin', dur: '10 dk' },
-          { icon: '🎙️', task: 'Hafta sonu kaydı', detail: '10 dk — 2 dakikalık konuşma kaydı alın. Hafta başındakiyle karşılaştırın', dur: '10 dk' },
+          { icon: '💨', task: 'Akciğer kapasitesi', detail: '3 dk — "Ha-ha-ha" ile nefes bırakma egzersizi. Tutma süresini kontrol edin', dur: '3 dk' },
+          { icon: '📖', task: 'Yüksek sesle okuma', detail: '5 dk — 1 sayfalık bir metni sanki bir kalabalığa hitap ediyormuş gibi okuyun', dur: '5 dk' },
+          { icon: '🏆', task: 'Arena hız testi', detail: '3 dk — Zor harflerden 3 tekerlemeyi en net halinizle söyleyin', dur: '3 dk' },
+          { icon: '🌊', task: 'Rezonans turu', detail: '2 dk — Göğüs, yüz ve kafa rezonanslarını fark etmeye çalışın', dur: '2 dk' },
+          { icon: '🎙️', task: 'Hafta sonu kaydı', detail: '2 dk — 1 dakikalık serbest konuşma kaydı alın.', dur: '2 dk' },
         ]
       },
       {
         day: 7, title: 'Değerlendirme & Pekiştirme Günü',
         tasks: [
-          { icon: '💨', task: 'Tüm nefes teknikleri', detail: '30 dk — Haftanın tüm nefes tekniklerini (diyafram, box, 4-7-8) sırayla 5\'er dakika uygulayın', dur: '30 dk' },
-          { icon: '📖', task: 'Sesli kitap yarım saati', detail: '30 dk — Haftanın son sesli kitap seansı. Neleri fark ediyorsunuz?', dur: '30 dk' },
-          { icon: '✏️', task: 'Final kalem egzersizi', detail: '15 dk — Haftanın en zor tekerlemesini kalemle 20 kez tekrarlayın', dur: '15 dk' },
-          { icon: '📊', task: 'İlerleme değerlendirmesi', detail: '10 dk — Haftanın başı ve sonu kayıtlarını dinleyin. 3 fark tespit edin', dur: '10 dk' },
-          { icon: '🎯', task: 'Zayıf nokta odak', detail: '15 dk — Bu haftanın en zor sesine odaklanın. Onu izole edin ve 15 dakika çalışın', dur: '15 dk' },
-          { icon: '🌟', task: 'Başarı konuşması', detail: '10 dk — 1 dakikalık bir konuşma yapın. Öğrendiklerini uygula', dur: '10 dk' },
-          { icon: '📅', task: 'Gelecek hafta planı', detail: '10 dk — 30 günlük programa geçiş için hangi alanlarda daha fazla çalışmalısınız? Not alın', dur: '10 dk' },
+          { icon: '💨', task: 'Tüm nefes teknikleri', detail: '5 dk — Diyafram ve dalga nefesi pratiklerini harmanlayın.', dur: '5 dk' },
+          { icon: '✏️', task: 'Final kalem egzersizi', detail: '4 dk — Haftanın en zorlandığınız metnini kalemle çalışın', dur: '4 dk' },
+          { icon: '📊', task: 'İlerleme değerlendirmesi', detail: '3 dk — 1. gün ile 7. gün kayıtlarını karşılaştırın.', dur: '3 dk' },
+          { icon: '🌟', task: 'Başarı konuşması', detail: '3 dk — Ayna karşısında 1 dakikalık hazırlıksız konuşma yapın.', dur: '3 dk' },
         ]
       }
     ]
@@ -3812,59 +3797,55 @@ const PROGRAMS = {
   otuzgun: {
     emoji: '🗓️',
     title: '30 Günlük Diksiyon Programı',
-    subtitle: 'Temellerden ileri seviyeye — sistematik gelişim',
+    subtitle: 'Temellerden ileri seviyeye — günlük 15-20 dk',
     duration: '30 gün · 4 hafta',
     color: '#7A5800',
     weeks: [
       { num: 1, title: 'Temel Kurma Haftası', focus: 'Nefes + Ses Isınma + Temel Tekerleme', color: '#1E3A6E' },
       { num: 2, title: 'Ses Geliştirme Haftası', focus: 'Telaffuz + Perde + Rezonans', color: '#7A2A1A' },
       { num: 3, title: 'Ritim & Vurgu Haftası', focus: 'Ritim + Vurgu + Noktalama', color: '#1A5C35' },
-      { num: 4, title: 'Entegrasyon & Test Haftası', focus: 'Arena + Karma + Değerlendirme', color: '#4A1A7A' },
+      { num: 4, title: 'Entegrasyon & Test Haftası', focus: 'Karma + Değerlendirme', color: '#4A1A7A' },
     ],
     dailyBase: [
-      { icon: '💨', task: 'Sabah nefes rutini', detail: '30 dk — Güne diyafram nefesi ile başlayın. İlk haftada 4-2-6, sonra 4-4-8 döngüsü', dur: '30 dk' },
-      { icon: '📖', task: 'Sesli kitap', detail: '30 dk — Her gün farklı bir tür: roman, haber metni, şiir, makale sırasıyla deneyin', dur: '30 dk' },
-      { icon: '✏️', task: 'Kalem telefon egzersizi', detail: '15 dk — İki kalem arasında zorlu tekerlemeler ve düz okumalar yapın', dur: '15 dk' },
-      { icon: '🔤', task: 'Günün tekerleme çalışması', detail: '10 dk — Her gün bir yeni tekerleme: yavaş → orta → hızlı → kayıt', dur: '10 dk' },
-      { icon: '🎯', task: 'Hedef ses çalışması', detail: '15 dk — Haftanın odak sesi: S/Ş, B/P, K/G, L/R vb. o sesi izole çalışın', dur: '15 dk' },
-      { icon: '🎙️', task: 'Günlük ses kaydı', detail: '10 dk — Bir paragraf okuyun, kaydedin, 3 şeye dikkat edin: netlik, hız, vurgu', dur: '10 dk' },
-      { icon: '🌙', task: 'Gece özet', detail: '10 dk — Bugün ne öğrendim? Hangi ses zayıf? Yarın neyi farklı yapacağım?', dur: '10 dk' },
+      { icon: '💨', task: 'Sabah nefes rutini', detail: '3 dk — Güne diyafram nefesi ile başlayın. 4-4-8 döngüsü', dur: '3 dk' },
+      { icon: '📖', task: 'Yüksek sesle okuma', detail: '5 dk — Her gün farklı bir tür: haber metni, şiir veya makale okuyun', dur: '5 dk' },
+      { icon: '✏️', task: 'Kalem egzersizi', detail: '4 dk — Zorlu tekerlemeler ve okumaları kalem ağızda yapın', dur: '4 dk' },
+      { icon: '🔤', task: 'Günün tekerleme çalışması', detail: '3 dk — Odaklanılan bir harfe ait tekerlemeyi 3 hızda tekrarlayın', dur: '3 dk' },
+      { icon: '🎙️', task: 'Günlük ses kaydı', detail: '2 dk — 1 dk okuma kaydı yapıp hataları analiz edin', dur: '2 dk' },
     ]
   },
   doksan: {
     emoji: '🏆',
     title: '90 Günlük Profesyonel Program',
-    subtitle: 'Amatörden profesyonele — 3 aylık dönüşüm yolculuğu',
+    subtitle: 'Amatörden profesyonele — kalıcı alışkanlıklar (Günlük 20 dk)',
     duration: '90 gün · 3 ay',
     color: '#7A1A3C',
     phases: [
       {
         num: 1, title: 'Temel Faz (1-30. gün)', desc: 'Nefes, ses ısınma, temel tekerleme ve telaffuz alışkanlıkları', color: '#1E3A6E',
-        milestones: ['Diyafram nefesini içselleştir', 'Tüm 8 ünlüyü netlleştir', 'Berber tekerlemesinde 3× hız artışı', '15s+ nefes dayanımı']
+        milestones: ['Diyafram nefesini içselleştir', 'Tüm 8 ünlüyü netleştir', 'Berber tekerlemesinde hız artışı', '15s+ nefes dayanımı']
       },
       {
         num: 2, title: 'Geliştirme Faz (31-60. gün)', desc: 'Perde, rezonans, ritim, vurgu ve duraklama teknikleri', color: '#7A5800',
-        milestones: ['Göğüs-yüz-kafa rezonansı farkı', 'S/Ş-K/G-L/R-B/P ayrışımı', 'Dalga ritmi konuşma', '5s stratejik duraklama']
+        milestones: ['Göğüs-yüz-kafa rezonansı farkı', 'S/Ş-K/G-L/R-B/P ayrışımı', 'Dalga ritmi konuşma', 'Stratejik duraklama']
       },
       {
-        num: 3, title: 'Uzmanlaşma Faz (61-90. gün)', desc: 'Arena performansı, sunum becerileri ve öz değerlendirme', color: '#7A1A3C',
-        milestones: ['Arena hız testinde 90%+ doğruluk', 'Arena tüm harflerde deneyim', '5 dakikalık monolog kaydı', 'Başlangıç-bitiş kaydı karşılaştırması']
+        num: 3, title: 'Uzmanlaşma Faz (61-90. gün)', desc: 'Etkili konuşma, sunum becerileri ve öz değerlendirme', color: '#7A1A3C',
+        milestones: ['Spontane konuşmalarda netlik', 'Kalıcı aksan ve telaffuz kontrolü', 'Başlangıç-bitiş karşılaştırması']
       },
     ],
     dailyBase: [
-      { icon: '💨', task: 'Sabah nefes seansı', detail: '30 dk — Faza göre değişen nefes programı. Faz 1: diyafram, Faz 2: box+4-7-8, Faz 3: tüm teknikler dönüşümlü', dur: '30 dk' },
-      { icon: '📖', task: 'Sesli kitap', detail: '30 dk — Türkçe sesli kitap veya podcast. Haber, roman, şiir arası denge kur', dur: '30 dk' },
-      { icon: '✏️', task: 'Kalem-çubuk egzersizi', detail: '15 dk — Her gün farklı egzersiz metnini kalemle çalıştır. En zor tekerlemelerden başla', dur: '15 dk' },
-      { icon: '🏆', task: 'Arena zorluk testi', detail: '10 dk — En az 2 harften hız testi. Puanını kaydet ve geçen günle karşılaştır', dur: '10 dk' },
-      { icon: '🎯', task: 'Odak noktası egzersizi', detail: '15 dk — O günün hedef tekniği için derinlemesine çalışma: rezonans, vurgu, ritim vb.', dur: '15 dk' },
-      { icon: '🎙️', task: 'Günlük ses kaydı', detail: '10 dk — 1 dakikalık spontane konuşma kaydı. Başlıksız, düşünmeden. Sonra dinle', dur: '10 dk' },
-      { icon: '📊', task: 'Haftalık ve aylık değerlendirme', detail: '10 dk — Faz geçişlerinde 5 dk ekstra: o fazda ne öğrendim? Ses nasıl değişti?', dur: '10 dk' },
+      { icon: '💨', task: 'Sabah nefes seansı', detail: '4 dk — Faza göre değişen nefes programı. Kademeli zorlaşan döngüler.', dur: '4 dk' },
+      { icon: '✏️', task: 'Kalem egzersizi', detail: '5 dk — En zor tekerlemeleri kalem ağızda söylemeye çalışın', dur: '5 dk' },
+      { icon: '🎯', task: 'Odak noktası egzersizi', detail: '6 dk — O günün hedef tekniği: rezonans, vurgu, ritim veya perde.', dur: '6 dk' },
+      { icon: '🎙️', task: 'Günlük ses kaydı', detail: '3 dk — 1 dakikalık spontane konuşma. Başlıksız, düşünmeden. Sonra dinle.', dur: '3 dk' },
+      { icon: '📊', task: 'Haftalık değerlendirme', detail: '2 dk — Geçen haftaya göre sesiniz nasıl değişti?', dur: '2 dk' },
     ]
   },
   ucay: {
     emoji: '🌟',
     title: '3 Aylık Liderlik Sesi Programı',
-    subtitle: 'Diksiyon artık bir yaşam biçimi — kalıcı değişim',
+    subtitle: 'Diksiyon artık bir yaşam biçimi — günlük 15 dk',
     duration: '3 ay · 12 hafta',
     color: '#0A4A42',
     months: [
@@ -3873,13 +3854,10 @@ const PROGRAMS = {
       { num: 3, title: '3. Ay: Performans & Kalıcılık', icon: '🏆', tasks: 'Gerçek konuşmalarda uygula. Otomatikleşene kadar pratik.', color: '#0A4A42' },
     ],
     dailyBase: [
-      { icon: '💨', task: 'Uzman nefes programı', detail: '30 dk — 7 farklı nefes tekniği arasında günlük rotasyon. Sabah 5 döngü, gece 5 döngü', dur: '30 dk' },
-      { icon: '📖', task: 'Sesli kitap & aktif dinleme', detail: '30 dk — Dinlerken not al: spiker hangi teknikleri kullanıyor? 5 teknik tespit et', dur: '30 dk' },
-      { icon: '✏️', task: 'Kalem uzmanlık turu', detail: '15 dk — En zor 10 tekerlemeyi kalem ağızda sırayla söyle. Net olmayan her şeyi işaretle', dur: '15 dk' },
-      { icon: '🎤', task: 'Canlı uygulama pratiği', detail: '10 dk — Gerçek hayatta bugün 1 konuşmada diksiyon teknikleri uygula. Akşam not al', dur: '10 dk' },
-      { icon: '🧪', task: 'Ses deneyi', detail: '15 dk — Farklı rezonans, perde ve vurgu kombinasyonları dene. Hangisi en iyi sesi veriyor?', dur: '15 dk' },
-      { icon: '🎙️', task: 'İlerleme kaydı', detail: '10 dk — Her ay 1. günün kaydını dinle. Fark ne kadar büyük?', dur: '10 dk' },
-      { icon: '🌟', task: 'Mentorluk analizi', detail: '10 dk — Beğendiğin bir konuşmacının videosunu izle. 3 teknik öğren ve not al', dur: '10 dk' },
+      { icon: '💨', task: 'Uzman nefes programı', detail: '4 dk — 7 farklı nefes tekniği arasında günlük rotasyon.', dur: '4 dk' },
+      { icon: '✏️', task: 'Kalem uzmanlık turu', detail: '4 dk — En zor 5 tekerlemeyi kalem ağızda sırayla söyle. Hataları not al.', dur: '4 dk' },
+      { icon: '🎤', task: 'Canlı uygulama pratiği', detail: '4 dk — Gerçek hayatta veya toplantıda diksiyon tekniklerini uygula.', dur: '4 dk' },
+      { icon: '🎙️', task: 'İlerleme kaydı', detail: '3 dk — Ses kaydı al, dinle, önceki ayla kıyasla.', dur: '3 dk' },
     ]
   }
 };
@@ -3933,7 +3911,7 @@ function renderProgContent() {
           <span class="pic-dur">${prog.duration}</span>
         </div>
       </div>
-      <div class="pic-note">Her gün toplam ~130 dakika (2 saat 10 dk) · Sabah rutini + Egzersizler + Kayıt</div>
+      <div class="pic-note">Her gün toplam ~15-20 dakika · Temel pratikler ve odaklı egzersizler</div>
     </div>
     <div class="prog-days">
       ${prog.days.map(day => `

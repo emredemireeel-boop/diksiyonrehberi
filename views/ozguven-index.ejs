@@ -1,17 +1,31 @@
 <%- include('partials/main-header') %>
 
 <style>
-  /* ÖZGÜVEN MODÜLÜ - BİLİMSEL & LÜKS TEMA (ETHOS) */
+  @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Playfair+Display:ital,wght@0,600;0,700;0,800;0,900;1,600&family=JetBrains+Mono:wght@400;700&display=swap');
+
+  /* ═══════════════════════════════════════════════════════════
+     ÖZGÜVEN — Ultra Luxury Light Mode (Retorik altın standardı)
+     Accent: Amber/Turuncu — Enerji & Güç
+     ═══════════════════════════════════════════════════════════ */
   :root {
-    --bl-bg: #0A0A0A;
-    --bl-surface: #171717;
-    --bl-primary: #3B82F6; /* Sakinlik, Bilgi ve Dopamin (Mavi) */
-    --bl-accent: #10B981;  /* Büyüme ve Başarı (Zümrüt) */
-    --bl-warning: #F59E0B; /* Dikkat ve Cortisol (Sarı/Turuncu) */
-    --bl-text: #F8FAFC;
-    --bl-muted: #94A3B8;
-    --font-heading: 'Inter', sans-serif;
-    --font-body: 'Inter', sans-serif;
+    --bl-bg: #faf9f7;          /* Krem zemin */
+    --bl-bg2: #f5f3ef;
+    --bl-surface: #ffffff;     /* Beyaz kart */
+    --bl-surface2: #f5f3ef;
+    --bl-navy: #0f172a;        /* Koyu lacivert başlık */
+    --bl-primary: #2563eb;     /* Bilgi / Mavi (okunur) */
+    --bl-accent: #059669;      /* Başarı / Zümrüt */
+    --bl-warning: #d97706;     /* Dikkat / Amber */
+    --bl-gold: #b8860b;        /* Lüks vurgu */
+    --bl-gold2: #d4a017;
+    --bl-text: #1a1a2e;        /* Ana metin */
+    --bl-muted: #6b7280;       /* İkincil metin */
+    --bl-border: rgba(0,0,0,0.06);
+    --bl-border-h: rgba(184,134,11,0.22);
+    --bl-shadow: 0 8px 30px rgba(0,0,0,0.05);
+    --bl-shadow-h: 0 20px 60px rgba(0,0,0,0.10);
+    --font-heading: 'Playfair Display', serif;
+    --font-body: 'Outfit', sans-serif;
   }
 
   body {
@@ -20,128 +34,143 @@
     font-family: var(--font-body);
     margin: 0;
     padding: 0;
+    overflow-x: hidden;
+  }
+
+  /* ── Ambient light blobs (Retorik standardı) ── */
+  .oz-ambient { position: fixed; inset: 0; z-index: 0; pointer-events: none; overflow: hidden; }
+  .oz-blob { position: absolute; border-radius: 50%; filter: blur(80px); opacity: 0.30; animation: blobFloat 20s ease-in-out infinite alternate; }
+  .oz-blob:nth-child(1) { width: 500px; height: 500px; top: -100px; right: -100px; background: linear-gradient(135deg, #fde68a, #fbbf24); animation-duration: 18s; }
+  .oz-blob:nth-child(2) { width: 400px; height: 400px; bottom: -80px; left: -80px; background: linear-gradient(135deg, #bfdbfe, #60a5fa); animation-duration: 22s; animation-delay: -5s; }
+  .oz-blob:nth-child(3) { width: 300px; height: 300px; top: 40%; left: 60%; background: linear-gradient(135deg, #a7f3d0, #34d399); opacity: 0.14; animation-duration: 25s; animation-delay: -10s; }
+  @keyframes blobFloat {
+    0% { transform: translate(0,0) scale(1); }
+    33% { transform: translate(30px,-40px) scale(1.1); }
+    66% { transform: translate(-20px,30px) scale(0.95); }
+    100% { transform: translate(10px,-10px) scale(1.05); }
+  }
+  .oz-grid-overlay {
+    position: fixed; inset: 0; z-index: 0; pointer-events: none;
+    background-image: linear-gradient(rgba(0,0,0,0.015) 1px, transparent 1px), linear-gradient(90deg, rgba(0,0,0,0.015) 1px, transparent 1px);
+    background-size: 60px 60px;
   }
 
   /* 1. Hero Section */
   .oz-hero {
     position: relative;
-    min-height: 80vh;
+    z-index: 10;
+    min-height: 78vh;
     display: flex;
     align-items: center;
     justify-content: center;
     text-align: center;
     overflow: hidden;
-    background: linear-gradient(135deg, #0f172a 0%, #000000 100%);
-    padding: 20px;
+    padding: 90px 20px 60px;
   }
 
-  .oz-hero-bg {
-    position: absolute;
-    top: 0; left: 0; width: 100%; height: 100%;
-    background: radial-gradient(circle at center, rgba(59, 130, 246, 0.15) 0%, transparent 60%);
-    z-index: 1;
-  }
-
-  .oz-hero-particles {
-    position: absolute;
-    width: 100%; height: 100%;
-    background-image: radial-gradient(rgba(255, 255, 255, 0.1) 1px, transparent 1px);
-    background-size: 50px 50px;
-    opacity: 0.3;
-    animation: drift 20s linear infinite;
-  }
-  @keyframes drift {
-    0% { background-position: 0 0; }
-    100% { background-position: 100px 100px; }
-  }
-
-  .oz-hero-content {
-    position: relative;
-    z-index: 2;
-    max-width: 900px;
-  }
+  .oz-hero-content { position: relative; z-index: 2; max-width: 920px; }
 
   .oz-badge {
-    display: inline-block;
-    padding: 8px 24px;
-    border-radius: 30px;
-    background: rgba(59, 130, 246, 0.1);
-    border: 1px solid var(--bl-primary);
-    color: var(--bl-primary);
-    font-size: 0.9rem;
+    display: inline-flex; align-items: center; gap: 8px;
+    padding: 7px 22px;
+    border-radius: 50px;
+    background: var(--bl-surface);
+    border: 1px solid var(--bl-border-h);
+    color: var(--bl-gold);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.62rem;
     font-weight: 700;
-    letter-spacing: 2px;
+    letter-spacing: 3px;
     text-transform: uppercase;
-    margin-bottom: 30px;
+    margin-bottom: 28px;
+    box-shadow: var(--bl-shadow);
   }
+  .oz-badge::before {
+    content: ''; width: 6px; height: 6px; border-radius: 50%;
+    background: var(--bl-gold2); box-shadow: 0 0 8px var(--bl-gold2);
+    animation: goldPulse 2s ease-in-out infinite;
+  }
+  @keyframes goldPulse { 0%,100% { opacity: 1; transform: scale(1); } 50% { opacity: 0.4; transform: scale(0.6); } }
 
   .oz-hero h1 {
     font-family: var(--font-heading);
-    font-size: clamp(3.5rem, 6vw, 5.5rem);
+    font-size: clamp(3rem, 6vw, 5rem);
     font-weight: 900;
-    letter-spacing: -2px;
-    margin-bottom: 20px;
-    background: linear-gradient(to right, #ffffff, var(--bl-primary));
-    -webkit-background-clip: text;
+    letter-spacing: -1.5px;
+    margin-bottom: 18px;
+    color: var(--bl-navy);
+    line-height: 1.08;
+  }
+  .oz-hero h1 .oz-hl {
+    background: linear-gradient(120deg, var(--bl-gold), var(--bl-gold2));
+    -webkit-background-clip: text; background-clip: text;
     -webkit-text-fill-color: transparent;
-    line-height: 1.1;
   }
 
   .oz-hero h2 {
-    font-size: 1.5rem;
-    font-weight: 400;
+    font-size: 1.25rem;
+    font-weight: 500;
     color: var(--bl-muted);
-    margin-bottom: 40px;
-    letter-spacing: 1px;
+    margin: 0 auto 40px;
+    max-width: 640px;
+    line-height: 1.7;
   }
 
   .oz-science-stats {
     display: flex;
     justify-content: center;
-    gap: 30px;
+    gap: 24px;
     margin-top: 40px;
     flex-wrap: wrap;
   }
   .science-box {
-    background: rgba(255,255,255,0.05);
-    border: 1px solid rgba(255,255,255,0.1);
-    padding: 20px 30px;
-    border-radius: 15px;
+    background: var(--bl-surface);
+    border: 1px solid var(--bl-border);
+    padding: 22px 30px;
+    border-radius: 18px;
     text-align: left;
-    min-width: 200px;
-    transition: all 0.3s;
+    min-width: 210px;
+    transition: all 0.4s cubic-bezier(0.34,1.56,0.64,1);
+    box-shadow: var(--bl-shadow);
   }
   .science-box:hover {
     transform: translateY(-5px);
-    background: rgba(255,255,255,0.1);
+    box-shadow: var(--bl-shadow-h);
+    border-color: var(--bl-border-h);
   }
-  .s-title { font-size: 0.9rem; color: var(--bl-muted); text-transform: uppercase; letter-spacing: 1px; }
-  .s-value { font-size: 2rem; font-weight: 800; margin: 10px 0; }
-  .s-value.down { color: var(--bl-accent); } /* Cortisol down is good */
-  .s-value.up { color: var(--bl-primary); } /* Dopamin up is good */
-  .s-desc { font-size: 0.9rem; color: #cbd5e1; }
+  .s-title { font-size: 0.72rem; color: var(--bl-muted); text-transform: uppercase; letter-spacing: 1.5px; font-weight: 700; }
+  .s-value { font-size: 2rem; font-weight: 800; margin: 8px 0; font-family: var(--font-heading); }
+  .s-value.down { color: var(--bl-accent); }
+  .s-value.up { color: var(--bl-primary); }
+  .s-desc { font-size: 0.85rem; color: var(--bl-muted); }
 
   /* 2. Özgüvenin 4 Sütunu */
   .pillars-section {
-    padding: 100px 20px;
+    position: relative;
+    z-index: 10;
+    padding: 80px 20px;
     background: var(--bl-surface);
-    border-top: 1px solid rgba(255,255,255,0.05);
+    border-top: 1px solid var(--bl-border);
+    border-bottom: 1px solid var(--bl-border);
   }
   
   .section-header {
     text-align: center;
-    margin-bottom: 60px;
+    margin-bottom: 55px;
   }
   .section-header h3 {
-    font-size: 2.5rem;
-    color: white;
-    margin-bottom: 15px;
+    font-family: var(--font-heading);
+    font-size: clamp(2rem, 4vw, 2.6rem);
+    font-weight: 800;
+    color: var(--bl-navy);
+    margin-bottom: 14px;
   }
   .section-header p {
-    font-size: 1.2rem;
+    font-size: 1.1rem;
     color: var(--bl-muted);
     max-width: 700px;
     margin: 0 auto;
+    line-height: 1.7;
   }
 
   .pillars-container {
@@ -149,17 +178,17 @@
     margin: 0 auto;
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 30px;
+    gap: 26px;
   }
 
   .pillar-card {
-    background: var(--bl-bg);
-    border: 1px solid rgba(255,255,255,0.05);
+    background: var(--bl-surface2);
+    border: 1px solid var(--bl-border);
     border-radius: 20px;
-    padding: 40px 30px;
+    padding: 38px 28px;
     position: relative;
     overflow: hidden;
-    transition: all 0.4s ease;
+    transition: all 0.4s cubic-bezier(0.34,1.56,0.64,1);
   }
   .pillar-card::before {
     content: '';
@@ -169,268 +198,320 @@
     transition: all 0.4s ease;
   }
   
-  /* Pillar Colors */
-  .pillar-card.p-bilgi::before { background: #3B82F6; }
-  .pillar-card.p-sosyal::before { background: #8B5CF6; }
-  .pillar-card.p-deger::before { background: #10B981; }
-  .pillar-card.p-performans::before { background: #F59E0B; }
+  .pillar-card.p-bilgi::before { background: #2563eb; }
+  .pillar-card.p-sosyal::before { background: #7c3aed; }
+  .pillar-card.p-deger::before { background: #059669; }
+  .pillar-card.p-performans::before { background: #d97706; }
 
   .pillar-card:hover {
-    transform: translateY(-10px);
-    border-color: rgba(255,255,255,0.2);
-    box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+    transform: translateY(-8px);
+    border-color: var(--bl-border-h);
+    box-shadow: var(--bl-shadow-h);
+    background: var(--bl-surface);
   }
 
   .p-score {
     position: absolute;
-    top: 20px; right: 20px;
-    font-size: 1.5rem;
+    top: 22px; right: 22px;
+    font-size: 1.4rem;
     font-weight: 800;
-    opacity: 0.5;
+    font-family: var(--font-heading);
+    color: var(--bl-navy);
+    opacity: 0.35;
   }
 
-  .p-icon {
-    font-size: 2.5rem;
-    margin-bottom: 20px;
-    color: var(--bl-text);
-  }
+  .p-icon { font-size: 2.6rem; margin-bottom: 18px; display: block; line-height: 1; }
 
   .p-title {
-    font-size: 1.5rem;
+    font-size: 1.35rem;
     font-weight: 800;
-    margin-bottom: 15px;
+    margin-bottom: 16px;
+    color: var(--bl-navy);
   }
 
-  .p-list {
-    list-style: none;
-    padding: 0;
-    margin: 0 0 20px 0;
-  }
+  .p-list { list-style: none; padding: 0; margin: 0 0 20px 0; }
   .p-list li {
-    padding: 8px 0;
-    border-bottom: 1px solid rgba(255,255,255,0.05);
-    color: var(--bl-muted);
+    padding: 9px 0;
+    border-bottom: 1px solid var(--bl-border);
+    color: var(--bl-text);
     display: flex;
     align-items: center;
     gap: 10px;
+    font-size: 0.92rem;
   }
-  .p-list li i { color: var(--bl-primary); font-size: 0.8rem; }
+  .p-list li .chk { color: var(--bl-accent); font-weight: 800; }
 
   .p-ethos {
     display: inline-block;
-    padding: 5px 12px;
-    background: rgba(255,255,255,0.05);
-    border-radius: 5px;
-    font-size: 0.85rem;
-    color: #e2e8f0;
-    font-weight: 600;
+    padding: 6px 14px;
+    background: var(--bl-gold-light, rgba(184,134,11,0.08));
+    border: 1px solid var(--bl-border-h);
+    border-radius: 8px;
+    font-size: 0.8rem;
+    color: var(--bl-gold);
+    font-weight: 700;
   }
 
   /* 3. Özgüven Testi */
   .test-section {
-    padding: 100px 20px;
-    background: var(--bl-bg);
+    position: relative;
+    z-index: 10;
+    padding: 80px 20px;
+    background: transparent;
   }
   .test-container {
     max-width: 800px;
     margin: 0 auto;
     background: var(--bl-surface);
-    border: 1px solid rgba(255,255,255,0.05);
-    border-radius: 20px;
-    padding: 50px;
-    box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+    border: 1px solid var(--bl-border);
+    border-radius: 24px;
+    padding: 48px;
+    box-shadow: var(--bl-shadow);
   }
-  .question-box {
-    display: none;
-    animation: fadeIn 0.5s ease;
-  }
-  .question-box.active {
-    display: block;
-  }
+  .question-box { display: none; animation: fadeIn 0.5s ease; }
+  .question-box.active { display: block; }
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
   .q-title {
-    font-size: 1.5rem;
-    color: white;
-    margin-bottom: 30px;
+    font-size: 1.35rem;
+    color: var(--bl-navy);
+    margin-bottom: 28px;
     line-height: 1.5;
+    font-weight: 700;
   }
   .q-badge {
     display: inline-block;
-    background: rgba(59, 130, 246, 0.2);
-    color: var(--bl-primary);
-    padding: 5px 10px;
-    border-radius: 5px;
-    font-size: 0.8rem;
-    margin-bottom: 15px;
+    background: var(--bl-surface2);
+    border: 1px solid var(--bl-border);
+    color: var(--bl-gold);
+    padding: 5px 12px;
+    border-radius: 6px;
+    font-size: 0.72rem;
+    margin-bottom: 16px;
     text-transform: uppercase;
-    font-weight: bold;
+    font-weight: 800;
+    letter-spacing: 1px;
   }
   .option-btn {
     display: block;
     width: 100%;
     text-align: left;
-    background: var(--bl-bg);
-    border: 1px solid rgba(255,255,255,0.1);
+    background: var(--bl-surface2);
+    border: 1px solid var(--bl-border);
     color: var(--bl-text);
-    padding: 15px 20px;
-    border-radius: 10px;
-    margin-bottom: 15px;
+    padding: 16px 20px;
+    border-radius: 12px;
+    margin-bottom: 14px;
     cursor: pointer;
-    font-size: 1.1rem;
-    transition: all 0.2s;
+    font-size: 1.05rem;
+    font-family: var(--font-body);
+    transition: all 0.25s;
   }
   .option-btn:hover {
-    background: rgba(59, 130, 246, 0.1);
-    border-color: var(--bl-primary);
+    background: #fff;
+    border-color: var(--bl-gold);
+    transform: translateX(4px);
+    box-shadow: 0 6px 18px rgba(184,134,11,0.08);
   }
   .progress-bar {
     width: 100%;
     height: 10px;
-    background: rgba(255,255,255,0.1);
+    background: var(--bl-surface2);
     border-radius: 5px;
-    margin-bottom: 40px;
+    margin-bottom: 38px;
     overflow: hidden;
   }
   .progress-fill {
     height: 100%;
-    background: var(--bl-primary);
+    background: linear-gradient(90deg, var(--bl-gold), var(--bl-gold2));
     width: 0%;
     transition: width 0.3s ease;
   }
-  .test-result {
-    display: none;
-    text-align: center;
-  }
+  .test-result { display: none; text-align: center; }
   .total-score-circle {
     width: 150px;
     height: 150px;
     border-radius: 50%;
-    border: 5px solid var(--bl-primary);
+    border: 5px solid var(--bl-gold);
     display: flex;
     align-items: center;
     justify-content: center;
     font-size: 3rem;
     font-weight: 900;
+    font-family: var(--font-heading);
     margin: 0 auto 30px;
-    color: white;
+    color: var(--bl-navy);
+    background: var(--bl-surface2);
   }
   .sub-scores {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 20px;
+    gap: 18px;
     margin-bottom: 30px;
   }
   .sub-score-box {
-    background: var(--bl-bg);
+    background: var(--bl-surface2);
     padding: 20px;
-    border-radius: 10px;
-    border: 1px solid rgba(255,255,255,0.05);
+    border-radius: 12px;
+    border: 1px solid var(--bl-border);
+    color: var(--bl-muted);
+    font-size: 0.9rem;
+    font-weight: 600;
   }
-  .sub-score-box span { font-size: 2rem; font-weight: bold; display: block; margin-top: 10px; }
+  .sub-score-box span { font-size: 2rem; font-weight: bold; display: block; margin-top: 10px; font-family: var(--font-heading); }
 
-  /* 4-7. Geliştirme Modülleri Genel Stiller */
+  /* 4-7. Geliştirme Modülleri */
   .module-section {
-    padding: 80px 20px;
+    position: relative;
+    z-index: 10;
+    padding: 70px 20px;
     background: var(--bl-surface);
-    border-top: 1px solid rgba(255,255,255,0.05);
+    border-top: 1px solid var(--bl-border);
   }
-  .module-section:nth-child(even) {
-    background: var(--bl-bg);
-  }
+  .module-section:nth-child(even) { background: transparent; }
   .m-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 30px;
+    gap: 26px;
     max-width: 1200px;
     margin: 0 auto;
   }
   .m-card {
-    background: var(--bl-bg);
-    border: 1px solid rgba(255,255,255,0.05);
-    border-radius: 15px;
-    padding: 30px;
+    background: var(--bl-surface);
+    border: 1px solid var(--bl-border);
+    border-radius: 18px;
+    padding: 32px;
+    box-shadow: var(--bl-shadow);
+    transition: all 0.3s;
   }
+  .m-card:hover { box-shadow: var(--bl-shadow-h); border-color: var(--bl-border-h); }
   .m-card h4 {
-    font-size: 1.3rem;
+    font-size: 1.25rem;
     margin-bottom: 20px;
     display: flex;
     align-items: center;
     gap: 10px;
+    color: var(--bl-navy);
+    font-weight: 800;
   }
   
-  /* Checklist Stilleri */
+  /* Checklist */
   .chk-item {
     display: flex;
     align-items: center;
-    gap: 10px;
-    margin-bottom: 15px;
+    gap: 12px;
+    margin-bottom: 14px;
     cursor: pointer;
     color: var(--bl-muted);
     transition: 0.3s;
+    user-select: none;
   }
-  .chk-item:hover { color: white; }
+  .chk-item:hover { color: var(--bl-navy); }
   .chk-box {
     width: 24px; height: 24px;
-    border: 2px solid var(--bl-primary);
-    border-radius: 5px;
+    border: 2px solid var(--bl-gold);
+    border-radius: 6px;
     display: flex;
     align-items: center;
     justify-content: center;
+    flex-shrink: 0;
+    transition: 0.2s;
   }
-  .chk-item.checked .chk-box { background: var(--bl-primary); }
+  .chk-item.checked .chk-box { background: var(--bl-gold); }
   .chk-item.checked .chk-box::after { content: '✔'; color: white; font-size: 0.8rem; }
-  .chk-item.checked { color: white; text-decoration: line-through; opacity: 0.7; }
+  .chk-item.checked { color: var(--bl-navy); text-decoration: line-through; opacity: 0.6; }
 
-  /* Senaryo Butonları */
+  /* Senaryo */
   .scenario-box { margin-bottom: 20px; }
-  .scenario-title { font-weight: bold; color: var(--bl-primary); margin-bottom: 10px; }
+  .scenario-title { font-weight: 700; color: var(--bl-navy); margin-bottom: 14px; line-height: 1.5; }
   .sc-btn {
     display: block; width: 100%; text-align: left;
-    background: transparent; border: 1px solid rgba(255,255,255,0.1);
-    color: var(--bl-text); padding: 12px; border-radius: 8px; margin-bottom: 10px; cursor: pointer;
+    background: var(--bl-surface2); border: 1px solid var(--bl-border);
+    color: var(--bl-text); padding: 14px; border-radius: 10px; margin-bottom: 12px; cursor: pointer;
+    font-family: var(--font-body); font-size: 0.98rem; transition: 0.25s;
   }
-  .sc-btn:hover { background: rgba(255,255,255,0.05); }
-  .sc-btn.correct { border-color: var(--bl-accent); background: rgba(16, 185, 129, 0.1); }
-  .sc-btn.wrong { border-color: var(--bl-warning); background: rgba(245, 158, 11, 0.1); }
-  .sc-feedback { display: none; font-size: 0.9rem; padding: 10px; border-radius: 5px; margin-bottom: 15px; }
+  .sc-btn:hover { background: #fff; border-color: var(--bl-gold); }
+  .sc-btn.correct { border-color: var(--bl-accent); background: rgba(5, 150, 105, 0.08); }
+  .sc-btn.wrong { border-color: var(--bl-warning); background: rgba(217, 119, 6, 0.08); }
+  .sc-feedback { display: none; font-size: 0.92rem; padding: 14px; border-radius: 8px; margin-bottom: 15px; line-height: 1.6; }
 
   /* Nefes Egzersizi */
   .breath-circle {
     width: 200px; height: 200px;
     border-radius: 50%;
-    background: radial-gradient(circle, var(--bl-primary) 0%, transparent 70%);
+    background: radial-gradient(circle, var(--bl-gold2) 0%, rgba(212,160,23,0.1) 70%);
     margin: 0 auto 30px;
     display: flex; align-items: center; justify-content: center;
-    font-size: 1.5rem; font-weight: bold;
-    animation: breathPulse 19s infinite; /* 4 in + 7 hold + 8 out = 19s */
+    font-size: 1.4rem; font-weight: 800; color: var(--bl-navy);
+    animation: breathPulse 19s infinite;
   }
   @keyframes breathPulse {
-    0% { transform: scale(1); opacity: 0.5; }
-    21% { transform: scale(1.5); opacity: 1; } /* 4s in */
-    58% { transform: scale(1.5); opacity: 1; } /* 7s hold */
-    100% { transform: scale(1); opacity: 0.5; } /* 8s out */
+    0% { transform: scale(1); opacity: 0.55; }
+    21% { transform: scale(1.5); opacity: 1; }
+    58% { transform: scale(1.5); opacity: 1; }
+    100% { transform: scale(1); opacity: 0.55; }
   }
 
-</style>
+  /* ── SEO İçerik Bölümü ── */
+  .oz-seo {
+    position: relative; z-index: 10;
+    max-width: 900px; margin: 0 auto; padding: 70px 20px;
+  }
+  .oz-seo h2 { font-family: var(--font-heading); font-size: 2rem; color: var(--bl-navy); margin: 40px 0 16px; font-weight: 800; }
+  .oz-seo h3 { font-size: 1.3rem; color: var(--bl-navy); margin: 28px 0 12px; font-weight: 700; }
+  .oz-seo p { color: var(--bl-text); line-height: 1.85; margin-bottom: 16px; font-size: 1.05rem; }
+  .oz-seo ul { color: var(--bl-text); line-height: 1.8; margin: 0 0 16px; padding-left: 22px; }
+  .oz-seo li { margin-bottom: 8px; }
+
+  /* ── FAQ ── */
+  .oz-faq { max-width: 900px; margin: 0 auto 40px; }
+  .oz-faq-item { background: var(--bl-surface); border: 1px solid var(--bl-border); border-radius: 14px; margin-bottom: 12px; overflow: hidden; box-shadow: var(--bl-shadow); }
+  .oz-faq-q { padding: 20px 24px; font-weight: 700; color: var(--bl-navy); cursor: pointer; display: flex; justify-content: space-between; align-items: center; gap: 12px; font-size: 1.05rem; }
+  .oz-faq-q::after { content: '+'; font-size: 1.5rem; color: var(--bl-gold); transition: 0.3s; }
+  .oz-faq-item.open .oz-faq-q::after { transform: rotate(45deg); }
+  .oz-faq-a { max-height: 0; overflow: hidden; transition: max-height 0.35s ease, padding 0.35s ease; padding: 0 24px; color: var(--bl-muted); line-height: 1.75; }
+  .oz-faq-item.open .oz-faq-a { max-height: 400px; padding: 0 24px 20px; }
+
+  /* ── İlgili Modüller ── */
+  .oz-related { max-width: 1200px; margin: 0 auto; padding: 40px 20px 90px; position: relative; z-index: 10; }
+  .oz-related-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 20px; }
+  .oz-related-card { display: block; text-decoration: none; background: var(--bl-surface); border: 1px solid var(--bl-border); border-radius: 16px; padding: 26px; transition: all 0.35s cubic-bezier(0.34,1.56,0.64,1); box-shadow: var(--bl-shadow); }
+  .oz-related-card:hover { transform: translateY(-6px); box-shadow: var(--bl-shadow-h); border-color: var(--bl-border-h); }
+  .oz-related-card .ic { font-size: 2rem; display: block; margin-bottom: 12px; }
+  .oz-related-card h4 { color: var(--bl-navy); font-size: 1.1rem; margin: 0 0 6px; font-weight: 800; }
+  .oz-related-card p { color: var(--bl-muted); font-size: 0.88rem; margin: 0; line-height: 1.6; }
+
+  @media (max-width: 768px) {
+    .oz-hero { min-height: auto; padding: 70px 16px 40px; }
+    .test-container { padding: 30px 22px; }
+    .sub-scores { grid-template-columns: 1fr; }
+    .section-header { margin-bottom: 36px; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .oz-blob, .breath-circle, .oz-badge::before { animation: none !important; }
+    .pillar-card, .science-box, .oz-related-card, .option-btn { transition: none !important; }
+  }
+
+<!-- AMBIENT -->
+<div class="oz-ambient"><div class="oz-blob"></div><div class="oz-blob"></div><div class="oz-blob"></div></div>
+<div class="oz-grid-overlay"></div>
 
 <!-- ADIM 1: HERO SECTION -->
 <section class="oz-hero">
-  <div class="oz-hero-bg"></div>
-  <div class="oz-hero-particles"></div>
-  
   <div class="oz-hero-content">
     <div class="oz-badge">Bilim + Pratik = Başarı</div>
-    <h1>Özgüven:<br>Ethos'un Görünür Halidir</h1>
-    <h2>Özgüven doğuştan gelmez; nörolojik olarak öğrenilir ve psikolojik olarak geliştirilir.</h2>
+    <h1>Özgüven:<br><span class="oz-hl">Sarsılmaz Bir Duruşun Bilimi</span></h1>
+    <h2>Özgüven doğuştan gelmez; nörolojik olarak öğrenilir ve psikolojik olarak geliştirilir. İşte kanıta dayalı yol haritanız.</h2>
     
     <div class="oz-science-stats">
       <div class="science-box">
         <div class="s-title">Kortizol (Stres)</div>
-        <div class="s-value down"><i class="fa-solid fa-arrow-trend-down"></i> %25</div>
+        <div class="s-value down">↓ %25</div>
         <div class="s-desc">Amigdala deaktivasyonu</div>
       </div>
       <div class="science-box">
         <div class="s-title">Dopamin (Motivasyon)</div>
-        <div class="s-value up"><i class="fa-solid fa-arrow-trend-up"></i> %30</div>
+        <div class="s-value up">↑ %30</div>
         <div class="s-desc">Hedef odaklı cesaret</div>
       </div>
     </div>
@@ -449,12 +530,12 @@
     <!-- 1. Bilgi -->
     <div class="pillar-card p-bilgi">
       <div class="p-score">%30</div>
-      <i class="fa-solid fa-book-open-reader p-icon" style="color: #3B82F6;"></i>
+      <span class="p-icon">📚</span>
       <h4 class="p-title">1. Bilgi Özgüveni</h4>
       <ul class="p-list">
-        <li><i class="fa-solid fa-check"></i> Konuya tam hakimiyet</li>
-        <li><i class="fa-solid fa-check"></i> Derin araştırma yapma</li>
-        <li><i class="fa-solid fa-check"></i> Soru-Cevap hazırlığı</li>
+        <li><span class="chk">✓</span> Konuya tam hakimiyet</li>
+        <li><span class="chk">✓</span> Derin araştırma yapma</li>
+        <li><span class="chk">✓</span> Soru-Cevap hazırlığı</li>
       </ul>
       <div class="p-ethos">Bağlantı: Phronesis (Uzmanlık)</div>
     </div>
@@ -462,12 +543,12 @@
     <!-- 2. Sosyal -->
     <div class="pillar-card p-sosyal">
       <div class="p-score">%25</div>
-      <i class="fa-solid fa-users p-icon" style="color: #8B5CF6;"></i>
+      <span class="p-icon">🤝</span>
       <h4 class="p-title">2. Sosyal Özgüven</h4>
       <ul class="p-list">
-        <li><i class="fa-solid fa-check"></i> Rahat iletişim kurma</li>
-        <li><i class="fa-solid fa-check"></i> Güçlü göz teması</li>
-        <li><i class="fa-solid fa-check"></i> Konuşma başlatabilme</li>
+        <li><span class="chk">✓</span> Rahat iletişim kurma</li>
+        <li><span class="chk">✓</span> Güçlü göz teması</li>
+        <li><span class="chk">✓</span> Konuşma başlatabilme</li>
       </ul>
       <div class="p-ethos">Bağlantı: Eunoia (İyi Niyet)</div>
     </div>
@@ -475,12 +556,12 @@
     <!-- 3. Değer -->
     <div class="pillar-card p-deger">
       <div class="p-score">%25</div>
-      <i class="fa-solid fa-gem p-icon" style="color: #10B981;"></i>
+      <span class="p-icon">💎</span>
       <h4 class="p-title">3. Değer Özgüveni</h4>
       <ul class="p-list">
-        <li><i class="fa-solid fa-check"></i> Kendi değerini bilme</li>
-        <li><i class="fa-solid fa-check"></i> Sınırları net koyma</li>
-        <li><i class="fa-solid fa-check"></i> Hak talebinde bulunma</li>
+        <li><span class="chk">✓</span> Kendi değerini bilme</li>
+        <li><span class="chk">✓</span> Sınırları net koyma</li>
+        <li><span class="chk">✓</span> Hak talebinde bulunma</li>
       </ul>
       <div class="p-ethos">Bağlantı: Arete (Karakter)</div>
     </div>
@@ -488,12 +569,12 @@
     <!-- 4. Performans -->
     <div class="pillar-card p-performans">
       <div class="p-score">%20</div>
-      <i class="fa-solid fa-bolt p-icon" style="color: #F59E0B;"></i>
+      <span class="p-icon">⚡</span>
       <h4 class="p-title">4. Performans</h4>
       <ul class="p-list">
-        <li><i class="fa-solid fa-check"></i> Stres altında sakin kalma</li>
-        <li><i class="fa-solid fa-check"></i> Hata korkusunu yenme</li>
-        <li><i class="fa-solid fa-check"></i> Sahne heyecanını yönetme</li>
+        <li><span class="chk">✓</span> Stres altında sakin kalma</li>
+        <li><span class="chk">✓</span> Hata korkusunu yenme</li>
+        <li><span class="chk">✓</span> Sahne heyecanını yönetme</li>
       </ul>
       <div class="p-ethos">Bağlantı: Tüm Bileşenler</div>
     </div>
@@ -544,7 +625,7 @@
   </div>
   <div class="m-grid">
     <div class="m-card">
-      <h4 style="color:#3B82F6"><i class="fa-solid fa-list-check"></i> Derinlemesine Öğrenme</h4>
+      <h4>📋 Derinlemesine Öğrenme</h4>
       <div class="chk-item" onclick="this.classList.toggle('checked')"><div class="chk-box"></div> Tüm özellikleri biliyorum</div>
       <div class="chk-item" onclick="this.classList.toggle('checked')"><div class="chk-box"></div> Avantaj ve dezavantajlara hakimim</div>
       <div class="chk-item" onclick="this.classList.toggle('checked')"><div class="chk-box"></div> Rakip analizi yaptım</div>
@@ -552,12 +633,12 @@
       <div class="chk-item" onclick="this.classList.toggle('checked')"><div class="chk-box"></div> İstatistik ve verilerle destekledim</div>
     </div>
     <div class="m-card">
-      <h4 style="color:#3B82F6"><i class="fa-solid fa-magnifying-glass"></i> Araştırma Kaynakları</h4>
+      <h4>🔍 Araştırma Kaynakları</h4>
       <ul class="p-list">
-        <li><i class="fa-solid fa-book"></i> Resmi Belgeler & Manual'ler</li>
-        <li><i class="fa-solid fa-star"></i> Müşteri/Kullanıcı Yorumları</li>
-        <li><i class="fa-solid fa-chart-line"></i> Endüstri Trend Raporları</li>
-        <li><i class="fa-solid fa-graduation-cap"></i> Akademik Makaleler</li>
+        <li><span class="chk">📖</span> Resmi Belgeler & Manual'ler</li>
+        <li><span class="chk">⭐</span> Müşteri/Kullanıcı Yorumları</li>
+        <li><span class="chk">📈</span> Endüstri Trend Raporları</li>
+        <li><span class="chk">🎓</span> Akademik Makaleler</li>
       </ul>
       <p style="color:var(--bl-muted); font-size:0.9rem; margin-top:15px;">Araştırma Derinliği: Derin (6-10 saat) = %85 Özgüven Garantisi</p>
     </div>
@@ -572,7 +653,7 @@
   </div>
   <div class="m-grid">
     <div class="m-card">
-      <h4 style="color:#8B5CF6"><i class="fa-solid fa-eye"></i> Göz Teması Egzersizi</h4>
+      <h4>👁️ Göz Teması Egzersizi</h4>
       <p style="color:var(--bl-muted); margin-bottom:20px;">Adım adım göz teması sürenizi artırın:</p>
       <div class="chk-item" onclick="this.classList.toggle('checked')"><div class="chk-box"></div> Seviye 1: Aynada kendine bak (30s)</div>
       <div class="chk-item" onclick="this.classList.toggle('checked')"><div class="chk-box"></div> Seviye 2: Arkadaşla kesintisiz (1dk)</div>
@@ -580,14 +661,14 @@
       <div class="chk-item" onclick="this.classList.toggle('checked')"><div class="chk-box"></div> Seviye 4: Kalabalık önünde (10dk)</div>
     </div>
     <div class="m-card">
-      <h4 style="color:#8B5CF6"><i class="fa-solid fa-ear-listen"></i> Aktif Dinleme Formülü</h4>
-      <div style="background:rgba(255,255,255,0.05); padding:15px; border-radius:10px; margin-bottom:10px;">
+      <h4>👂 Aktif Dinleme Formülü</h4>
+      <div style="background:var(--bl-surface2); border:1px solid var(--bl-border); padding:15px; border-radius:10px; margin-bottom:10px;">
         <strong>1. Tam Dikkat:</strong> Telefonu ters çevir
       </div>
-      <div style="background:rgba(255,255,255,0.05); padding:15px; border-radius:10px; margin-bottom:10px;">
+      <div style="background:var(--bl-surface2); border:1px solid var(--bl-border); padding:15px; border-radius:10px; margin-bottom:10px;">
         <strong>2. Geri Bildirim:</strong> "Evet, anlıyorum" onayı ver
       </div>
-      <div style="background:rgba(255,255,255,0.05); padding:15px; border-radius:10px;">
+      <div style="background:var(--bl-surface2); border:1px solid var(--bl-border); padding:15px; border-radius:10px;">
         <strong>3. Özetleme:</strong> "Anladığım kadarıyla şunu demek istedin..."
       </div>
     </div>
@@ -602,7 +683,7 @@
   </div>
   <div class="m-grid" style="max-width: 800px;">
     <div class="m-card">
-      <h4 style="color:#10B981"><i class="fa-solid fa-hand"></i> Sınır Koyma Simülatörü</h4>
+      <h4>✋ Sınır Koyma Simülatörü</h4>
       <div class="scenario-box">
         <div class="scenario-title">Senaryo: Patron size 3 günde 5 zor proje verdi. Ne dersiniz?</div>
         
@@ -616,7 +697,7 @@
       </div>
     </div>
     <div class="m-card">
-      <h4 style="color:#10B981"><i class="fa-solid fa-arrow-up-right-dots"></i> Hak Talebi Simülatörü</h4>
+      <h4>📊 Hak Talebi Simülatörü</h4>
       <div class="scenario-box">
         <div class="scenario-title">Senaryo: Çok başarılı bir yılın ardından zam isteyeceksiniz.</div>
         
@@ -640,39 +721,125 @@
   </div>
   <div class="m-grid">
     <div class="m-card" style="text-align: center;">
-      <h4 style="color:#F59E0B; justify-content:center;"><i class="fa-solid fa-wind"></i> 4-7-8 Nefes Egzersizi</h4>
+      <h4 style="justify-content:center;">🌬️ 4-7-8 Nefes Egzersizi</h4>
       <p style="color:var(--bl-muted); margin-bottom:30px;">Kortizolü (stres hormonunu) anında %30 düşürür.</p>
       
       <div class="breath-circle" id="breathCircle">Nefes Al (4s)</div>
       
-      <p style="font-size:0.9rem; color:#cbd5e1;">Sahneye çıkmadan önce bu döngüyü 4 kez tekrarlayın.</p>
+      <p style="font-size:0.9rem; color:var(--bl-muted);">Sahneye çıkmadan önce bu döngüyü 4 kez tekrarlayın.</p>
     </div>
     
     <div class="m-card">
-      <h4 style="color:#F59E0B"><i class="fa-solid fa-brain"></i> Hata Korkusu Seviyeleri</h4>
+      <h4>🧠 Hata Korkusu Seviyeleri</h4>
       <ul class="p-list">
         <li>
           <div>
-            <strong style="color:white;">Seviye 1: Kelime Unutma</strong><br>
-            <span style="font-size:0.9rem;">Dinleyici fark etmez bile. Gülümse ve devam et. (Özgüven: %70)</span>
+            <strong style="color:var(--bl-navy);">Seviye 1: Kelime Unutma</strong><br>
+            <span style="font-size:0.9rem; color:var(--bl-muted);">Dinleyici fark etmez bile. Gülümse ve devam et. (Özgüven: %70)</span>
           </div>
         </li>
         <li>
           <div>
-            <strong style="color:white;">Seviye 2: Yanlış Bilgi Verme</strong><br>
-            <span style="font-size:0.9rem;">Fark ettiğin an zarifçe düzelt. Dürüstlük güveni artırır. (Özgüven: %85)</span>
+            <strong style="color:var(--bl-navy);">Seviye 2: Yanlış Bilgi Verme</strong><br>
+            <span style="font-size:0.9rem; color:var(--bl-muted);">Fark ettiğin an zarifçe düzelt. Dürüstlük güveni artırır. (Özgüven: %85)</span>
           </div>
         </li>
         <li>
           <div>
-            <strong style="color:white;">Seviye 3: Sahnede Tamamen Kilitlenme</strong><br>
-            <span style="font-size:0.9rem;">Seyirciye itiraf et: "Şu an heyecanlandım, 1 saniye müsaade." İnsanlık bağı kurar. (Özgüven: %95)</span>
+            <strong style="color:var(--bl-navy);">Seviye 3: Sahnede Tamamen Kilitlenme</strong><br>
+            <span style="font-size:0.9rem; color:var(--bl-muted);">Seyirciye itiraf et: "Şu an heyecanlandım, 1 saniye müsaade." İnsanlık bağı kurar. (Özgüven: %95)</span>
           </div>
         </li>
       </ul>
     </div>
   </div>
 </section>
+
+<!-- ════════ SEO İÇERİK ════════ -->
+<section class="oz-seo">
+  <h2>Özgüven Nedir ve Nasıl Kazanılır?</h2>
+  <p>Özgüven, kişinin kendi yeteneklerine, kararlarına ve değerine duyduğu sağlam inançtır. Yaygın inanışın aksine özgüven doğuştan gelen sabit bir özellik değil; tıpkı bir kas gibi düzenli pratikle geliştirilebilen bir beceridir. Nörobilim araştırmaları, tekrar eden başarı deneyimlerinin beyinde dopamin salınımını artırdığını ve stres hormonu kortizolü baskılayan amigdala aktivitesini düzenlediğini gösteriyor. Yani her küçük adım, beyninizi daha cesur olmaya yeniden programlar.</p>
+  <p>Gerçek özgüven dört temel sütun üzerinde yükselir: <strong>bilgi</strong> (konuya hakimiyet), <strong>sosyal</strong> (insanlarla rahat iletişim), <strong>değer</strong> (kendi sınırlarını koruma) ve <strong>performans</strong> (stres altında soğukkanlılık). Bu sütunlardan biri zayıfsa, özgüveniniz baskı altında sarsılır. İyi haber şu: her sütun ayrı ayrı çalışılarak güçlendirilebilir.</p>
+
+  <h3>Özgüven Nasıl Geliştirilir? (Kanıta Dayalı 5 Yöntem)</h3>
+  <ul>
+    <li><strong>Hazırlık yapın:</strong> Korkunun panzehiri hazırlıktır. Bir konuya ne kadar hakimseniz, o kadar az tedirgin olursunuz.</li>
+    <li><strong>Güç duruşu (power posing):</strong> Sahneye çıkmadan önce 2 dakika dik ve açık bir duruş, testosteron algısını artırıp stresi düşürür.</li>
+    <li><strong>Küçük zaferler biriktirin:</strong> Ulaşılabilir hedefler koyup tamamlayın. Her tamamlanan görev beyninizin "başarabilirim" devresini güçlendirir.</li>
+    <li><strong>4-7-8 nefes tekniği:</strong> Stres anında 4 saniye al, 7 saniye tut, 8 saniye ver. Parasempatik sinir sistemini devreye sokar.</li>
+    <li><strong>İç sesinizi yönetin:</strong> "Başaramayacağım" yerine "Bu benim için bir öğrenme fırsatı" deyin. Dil, algıyı şekillendirir.</li>
+  </ul>
+
+  <h3>Sosyal Kaygı ve Özgüven İlişkisi</h3>
+  <p>Sosyal kaygı, başkaları tarafından yargılanma korkusudur ve düşük sosyal özgüvenin en yaygın belirtisidir. Bunu yenmenin yolu kaçınmak değil, kademeli olarak maruz kalmaktır. Aynada göz teması kurmaktan başlayıp grup önünde konuşmaya kadar uzanan adımlar, beyninizi sosyal ortamların tehlikeli olmadığına ikna eder. Reddedilmeyi normalleştirmek de bu sürecin kritik bir parçasıdır.</p>
+</section>
+
+<!-- ════════ SSS ════════ -->
+<section class="oz-seo" style="padding-top:0;">
+  <h2 style="text-align:center; margin-bottom:30px;">Sıkça Sorulan Sorular</h2>
+  <div class="oz-faq">
+    <div class="oz-faq-item">
+      <div class="oz-faq-q">Özgüven doğuştan mı gelir, sonradan mı kazanılır?</div>
+      <div class="oz-faq-a">Özgüven büyük ölçüde sonradan kazanılan bir beceridir. Genetik bir eğilim olsa da, beynin nöroplastisitesi sayesinde düzenli pratik, hazırlık ve başarı deneyimleriyle her yaşta geliştirilebilir.</div>
+    </div>
+    <div class="oz-faq-item">
+      <div class="oz-faq-q">Özgüven kazanmak ne kadar sürer?</div>
+      <div class="oz-faq-a">Bu kişiye ve pratiğe göre değişir. Küçük günlük egzersizlerle (göz teması, güç duruşu, nefes teknikleri) 3-4 hafta içinde gözle görülür değişim hissedilir. Kalıcı dönüşüm için 2-3 aylık tutarlı pratik önerilir.</div>
+    </div>
+    <div class="oz-faq-item">
+      <div class="oz-faq-q">Sahne korkusunu nasıl yenebilirim?</div>
+      <div class="oz-faq-a">Sahne korkusu (glossophobia) doğaldır. 4-7-8 nefes tekniği ile fizyolojik stresi düşürün, sahneye çıkmadan önce güç duruşu yapın ve içeriğe değil mesajınızın değerine odaklanın. Hata yaptığınızda panik yerine zarafetle devam edin.</div>
+    </div>
+    <div class="oz-faq-item">
+      <div class="oz-faq-q">Düşük özgüven iş hayatımı nasıl etkiler?</div>
+      <div class="oz-faq-a">Düşük özgüven; zam/terfi talep edememe, toplantılarda fikir beyan edememe ve sınır koyamama gibi sonuçlar doğurur. Bu da kariyer ilerlemesini doğrudan yavaşlatır. Değer özgüveni egzersizleri bu alanda hızlı sonuç verir.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════ İLGİLİ MODÜLLER (İç Linkleme) ════════ -->
+<section class="oz-related">
+  <div class="section-header" style="margin-bottom:30px;">
+    <h3>İlgili Eğitimler</h3>
+    <p>Özgüveninizi tamamlayacak diğer becerileri keşfedin.</p>
+  </div>
+  <div class="oz-related-grid">
+    <a href="/bedendili" class="oz-related-card">
+      <span class="ic">🧍</span>
+      <h4>Beden Dili</h4>
+      <p>Sözsüz iletişimle güçlü ve güvenilir bir duruş sergileyin.</p>
+    </a>
+    <a href="/sahne" class="oz-related-card">
+      <span class="ic">🎤</span>
+      <h4>Sahne Ustalığı</h4>
+      <p>Topluluk önünde konuşma korkusunu performansa çevirin.</p>
+    </a>
+    <a href="/retorik" class="oz-related-card">
+      <span class="ic">🏛️</span>
+      <h4>Retorik</h4>
+      <p>İkna sanatının temel taşları: Ethos, Pathos, Logos.</p>
+    </a>
+    <a href="/ozguven/golge-boksu" class="oz-related-card">
+      <span class="ic">🥊</span>
+      <h4>Gölge Boksu</h4>
+      <p>Zihninizdeki negatif iç sesi susturma simülatörü.</p>
+    </a>
+  </div>
+</section>
+
+<!-- FAQ Structured Data (Google Rich Results) -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {"@type":"Question","name":"Özgüven doğuştan mı gelir, sonradan mı kazanılır?","acceptedAnswer":{"@type":"Answer","text":"Özgüven büyük ölçüde sonradan kazanılan bir beceridir. Beynin nöroplastisitesi sayesinde düzenli pratik, hazırlık ve başarı deneyimleriyle her yaşta geliştirilebilir."}},
+    {"@type":"Question","name":"Özgüven kazanmak ne kadar sürer?","acceptedAnswer":{"@type":"Answer","text":"Küçük günlük egzersizlerle 3-4 hafta içinde gözle görülür değişim hissedilir. Kalıcı dönüşüm için 2-3 aylık tutarlı pratik önerilir."}},
+    {"@type":"Question","name":"Sahne korkusunu nasıl yenebilirim?","acceptedAnswer":{"@type":"Answer","text":"4-7-8 nefes tekniği ile fizyolojik stresi düşürün, güç duruşu yapın ve mesajınızın değerine odaklanın. Hata yaptığınızda zarafetle devam edin."}},
+    {"@type":"Question","name":"Düşük özgüven iş hayatımı nasıl etkiler?","acceptedAnswer":{"@type":"Answer","text":"Düşük özgüven zam/terfi talep edememe, fikir beyan edememe ve sınır koyamama gibi sonuçlar doğurur ve kariyer ilerlemesini yavaşlatır."}}
+  ]
+}
+</script>
 
 <script>
   // Adım 3: Test Logic
@@ -755,8 +922,13 @@
     feedback.style.display = 'block';
     feedback.innerText = msg;
     feedback.style.color = type === 'correct' ? 'var(--bl-accent)' : 'var(--bl-warning)';
-    feedback.style.backgroundColor = type === 'correct' ? 'rgba(16, 185, 129, 0.1)' : 'rgba(245, 158, 11, 0.1)';
+    feedback.style.backgroundColor = type === 'correct' ? 'rgba(5, 150, 105, 0.08)' : 'rgba(217, 119, 6, 0.08)';
   }
+
+  // SSS aç/kapa
+  document.querySelectorAll('.oz-faq-q').forEach(q => {
+    q.addEventListener('click', () => q.closest('.oz-faq-item').classList.toggle('open'));
+  });
 
   // Adım 7: Nefes Döngüsü Text Güncelleme
   document.addEventListener('DOMContentLoaded', () => {

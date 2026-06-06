@@ -1,0 +1,629 @@
+<%- include('partials/main-header') %>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+  :root {
+    --arg-bg: #0d0b14;
+    --arg-surface: #161324;
+    --arg-border: rgba(108, 92, 231, 0.2);
+    --arg-accent: #8c7ae6;
+    --arg-accent-glow: rgba(140, 122, 230, 0.4);
+    --arg-text: #e2e8f0;
+    --arg-text-muted: #94a3b8;
+    
+    --arg-good: #10b981;
+    --arg-bad: #ef4444;
+    
+    --tr: .3s cubic-bezier(.4,0,.2,1);
+  }
+
+  body.arg-dark {
+    background-color: var(--arg-bg);
+    color: var(--arg-text);
+    font-family: 'Plus Jakarta Sans', sans-serif;
+  }
+
+  .arg-wrapper {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px 80px 20px;
+  }
+
+  /* Typography */
+  .font-serif { font-family: 'Playfair Display', serif; }
+
+  /* Hero Section */
+  .arg-hero {
+    text-align: center;
+    padding: 80px 20px 60px 20px;
+    position: relative;
+  }
+  .arg-hero::after {
+    content: '';
+    position: absolute;
+    top: -50%; left: 50%;
+    width: 600px; height: 600px;
+    background: radial-gradient(circle, var(--arg-accent-glow) 0%, transparent 70%);
+    transform: translateX(-50%);
+    z-index: -1;
+    opacity: 0.5;
+    pointer-events: none;
+  }
+  .arg-hero-subtitle {
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    color: var(--arg-accent);
+    font-size: 0.85rem;
+    font-weight: 700;
+    margin-bottom: 16px;
+    display: block;
+  }
+  .arg-hero h1 {
+    font-size: 3.5rem;
+    font-family: 'Playfair Display', serif;
+    margin-bottom: 24px;
+    color: #fff;
+    line-height: 1.1;
+  }
+  .arg-hero p {
+    font-size: 1.15rem;
+    color: var(--arg-text-muted);
+    max-width: 700px;
+    margin: 0 auto;
+    line-height: 1.6;
+  }
+
+  /* Grid Layout */
+  .arg-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 30px;
+    margin-bottom: 80px;
+  }
+
+  .arg-card {
+    background: var(--arg-surface);
+    border: 1px solid var(--arg-border);
+    border-radius: 16px;
+    padding: 32px;
+    transition: all var(--tr);
+    position: relative;
+    overflow: hidden;
+  }
+  .arg-card:hover {
+    border-color: var(--arg-accent);
+    transform: translateY(-5px);
+    box-shadow: 0 10px 30px rgba(108, 92, 231, 0.15);
+  }
+  .arg-icon {
+    font-size: 2.5rem;
+    margin-bottom: 20px;
+    display: inline-block;
+  }
+  .arg-title {
+    font-size: 1.5rem;
+    color: #fff;
+    margin-bottom: 8px;
+    font-family: 'Playfair Display', serif;
+  }
+  .arg-eng {
+    font-size: 0.85rem;
+    color: var(--arg-accent);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 16px;
+    display: block;
+  }
+  .arg-desc {
+    color: var(--arg-text-muted);
+    line-height: 1.6;
+    margin-bottom: 24px;
+    font-size: 0.95rem;
+  }
+  
+  .arg-formula {
+    background: rgba(0,0,0,0.3);
+    padding: 12px;
+    border-radius: 8px;
+    font-family: monospace;
+    color: #cbd5e1;
+    font-size: 0.9rem;
+    margin-bottom: 20px;
+    border-left: 3px solid var(--arg-accent);
+  }
+
+  /* Examples Toggle */
+  .arg-examples-btn {
+    width: 100%;
+    background: transparent;
+    border: 1px solid var(--arg-border);
+    color: var(--arg-text);
+    padding: 12px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: all var(--tr);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .arg-examples-btn:hover {
+    background: rgba(108, 92, 231, 0.1);
+  }
+  .arg-examples-panel {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.4s ease;
+    margin-top: 10px;
+  }
+  .arg-card.open .arg-examples-panel {
+    max-height: 500px;
+  }
+  .arg-card.open .arg-examples-btn svg {
+    transform: rotate(180deg);
+  }
+  .arg-ex {
+    padding: 16px;
+    border-radius: 8px;
+    margin-bottom: 10px;
+    font-size: 0.9rem;
+    line-height: 1.5;
+  }
+  .arg-ex-good {
+    background: rgba(16, 185, 129, 0.1);
+    border-left: 3px solid var(--arg-good);
+  }
+  .arg-ex-bad {
+    background: rgba(239, 68, 68, 0.1);
+    border-left: 3px solid var(--arg-bad);
+  }
+  .arg-ex strong {
+    display: block;
+    margin-bottom: 4px;
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+
+  /* Detective Quiz Section */
+  .arg-quiz-section {
+    background: linear-gradient(145deg, var(--arg-surface), #0a0810);
+    border: 1px solid var(--arg-border);
+    border-radius: 24px;
+    padding: 60px 40px;
+    margin-top: 60px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .arg-quiz-section::before {
+    content: '🕵️';
+    position: absolute;
+    font-size: 200px;
+    opacity: 0.03;
+    right: -20px;
+    bottom: -40px;
+    transform: rotate(-15deg);
+    pointer-events: none;
+  }
+  .arg-quiz-header h2 {
+    font-size: 2.5rem;
+    color: #fff;
+    margin-bottom: 16px;
+    font-family: 'Playfair Display', serif;
+  }
+  .arg-quiz-header p {
+    color: var(--arg-text-muted);
+    font-size: 1.1rem;
+    margin-bottom: 40px;
+  }
+  
+  .quiz-container {
+    max-width: 700px;
+    margin: 0 auto;
+    text-align: left;
+    position: relative;
+    z-index: 2;
+  }
+  .quiz-step {
+    display: none;
+    animation: fadeIn 0.4s ease;
+  }
+  .quiz-step.active { display: block; }
+  
+  .quiz-quote {
+    font-size: 1.3rem;
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    background: rgba(255,255,255,0.03);
+    padding: 24px;
+    border-radius: 12px;
+    border-left: 4px solid var(--arg-accent);
+    margin-bottom: 30px;
+    line-height: 1.5;
+  }
+  
+  .quiz-options {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+  }
+  @media(max-width: 600px) {
+    .quiz-options { grid-template-columns: 1fr; }
+  }
+  
+  .quiz-btn {
+    background: var(--arg-surface);
+    border: 1px solid var(--arg-border);
+    color: var(--arg-text);
+    padding: 16px;
+    border-radius: 12px;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: all var(--tr);
+    text-align: center;
+    font-weight: 600;
+  }
+  .quiz-btn:hover {
+    background: rgba(140, 122, 230, 0.1);
+    border-color: var(--arg-accent);
+  }
+  .quiz-btn.correct {
+    background: rgba(16, 185, 129, 0.2);
+    border-color: var(--arg-good);
+    color: #fff;
+  }
+  .quiz-btn.wrong {
+    background: rgba(239, 68, 68, 0.2);
+    border-color: var(--arg-bad);
+    color: #fff;
+  }
+  
+  .quiz-feedback {
+    margin-top: 24px;
+    padding: 20px;
+    border-radius: 12px;
+    display: none;
+    background: rgba(0,0,0,0.3);
+    border: 1px solid rgba(255,255,255,0.1);
+    animation: fadeIn 0.3s;
+  }
+  .quiz-next {
+    margin-top: 20px;
+    background: var(--arg-accent);
+    color: #fff;
+    border: none;
+    padding: 12px 24px;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    float: right;
+  }
+  .quiz-next:hover { background: #7158e2; }
+  
+  .quiz-result {
+    text-align: center;
+    display: none;
+  }
+  .quiz-score-circle {
+    width: 120px; height: 120px;
+    border: 6px solid var(--arg-accent);
+    border-radius: 50%;
+    margin: 0 auto 24px auto;
+    display: flex;
+    align-items: center; justify-content: center;
+    font-size: 2.5rem; font-weight: 700; color: #fff;
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+</style>
+
+<script>document.body.classList.add('arg-dark');</script>
+
+<div class="arg-wrapper">
+
+  <section class="arg-hero">
+    <span class="arg-hero-subtitle">Retorik Cephaneliği</span>
+    <h1>Argüman Türleri</h1>
+    <p>İkna etmenin yolu kelimelerin gücünden çok, mantıksal mimarinin sağlamlığından geçer. Hangi durumda hangi argümanı kullanacağınızı öğrenin ve kendi mantıksal cephaneliğinizi kurun.</p>
+  </section>
+
+  <div class="arg-grid">
+    <!-- Syllogism -->
+    <div class="arg-card">
+      <div class="arg-icon">📐</div>
+      <h2 class="arg-title">Tümdengelim</h2>
+      <span class="arg-eng">Syllogism (Deduction)</span>
+      <p class="arg-desc">Genel ve kesin bir kuraldan yola çıkarak, özel bir durum için sonuç çıkarma yöntemidir. Öncüller doğruysa sonuç kesinlikle doğrudur.</p>
+      <div class="arg-formula">Genel Kural + Özel Durum = Kesin Sonuç</div>
+      
+      <button class="arg-examples-btn" onclick="toggleCard(this)">
+        Örnekleri Gör 
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
+      </button>
+      <div class="arg-examples-panel">
+        <div class="arg-ex arg-ex-good">
+          <strong style="color:var(--arg-good)">Güçlü Örnek</strong>
+          "Tüm memeliler akciğer solunumu yapar. Balina bir memelidir. O halde balina akciğer solunumu yapar."
+        </div>
+        <div class="arg-ex arg-ex-bad">
+          <strong style="color:var(--arg-bad)">Hatalı Örnek (Safsata)</strong>
+          "Bütün başarılı insanlar erken kalkar. Ben de erken kalkıyorum. Demek ki ben de başarılı olacağım." (Geçersiz mantık zinciri)
+        </div>
+      </div>
+    </div>
+
+    <!-- Induction -->
+    <div class="arg-card">
+      <div class="arg-icon">📈</div>
+      <h2 class="arg-title">Tümevarım</h2>
+      <span class="arg-eng">Induction</span>
+      <p class="arg-desc">Parçalardan bütüne, gözlemlerden genel bir kurala gitme yöntemidir. Sonuçlar 'kesin' değil, 'yüksek ihtimalli'dir. Bilimsel metot sıklıkla bunu kullanır.</p>
+      <div class="arg-formula">Gözlem 1 + Gözlem 2 + Gözlem 3 = Genel Kural</div>
+      
+      <button class="arg-examples-btn" onclick="toggleCard(this)">
+        Örnekleri Gör 
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
+      </button>
+      <div class="arg-examples-panel">
+        <div class="arg-ex arg-ex-good">
+          <strong style="color:var(--arg-good)">Güçlü Örnek</strong>
+          "Gözlemlediğimiz 1000 karganın hepsi siyahtı. Bu yüzden muhtemelen dünyadaki tüm kargalar siyahtır."
+        </div>
+        <div class="arg-ex arg-ex-bad">
+          <strong style="color:var(--arg-bad)">Zayıf Örnek (Aceleci Genelleme)</strong>
+          "Bugün karşılaştığım iki Fransız da çok kaba davrandı. Demek ki bütün Fransızlar kaba insanlardır."
+        </div>
+      </div>
+    </div>
+
+    <!-- Analogy -->
+    <div class="arg-card">
+      <div class="arg-icon">🎭</div>
+      <h2 class="arg-title">Analoji</h2>
+      <span class="arg-eng">Argument from Analogy</span>
+      <p class="arg-desc">İki farklı şey arasındaki benzerliklerden yola çıkarak, bilinmeyen bir durumu bilinen bir durum üzerinden açıklama ve ikna etme sanatıdır.</p>
+      <div class="arg-formula">A, B'ye benzer. A'da olan X, B'de de olmalıdır.</div>
+      
+      <button class="arg-examples-btn" onclick="toggleCard(this)">
+        Örnekleri Gör 
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
+      </button>
+      <div class="arg-examples-panel">
+        <div class="arg-ex arg-ex-good">
+          <strong style="color:var(--arg-good)">Güçlü Örnek</strong>
+          "Devlet bir gemiye benzer. Fırtına çıktığında kaptanın emrine itaat edilmezse, gemi batar."
+        </div>
+        <div class="arg-ex arg-ex-bad">
+          <strong style="color:var(--arg-bad)">Zayıf Örnek (Hatalı Analoji)</strong>
+          "Öğrencilerin sınavlarda defter açmasına izin verilmeli; ne de olsa avukatlar da duruşmada kanun kitaplarına bakabiliyor."
+        </div>
+      </div>
+    </div>
+
+    <!-- Enthymeme -->
+    <div class="arg-card">
+      <div class="arg-icon">🧠</div>
+      <h2 class="arg-title">Entimem</h2>
+      <span class="arg-eng">Enthymeme</span>
+      <p class="arg-desc">Öncüllerden birinin kasıtlı olarak atlandığı ve dinleyicinin zihninde tamamlanmasına izin verildiği retorik bir kıyas türüdür. Çok etkilidir.</p>
+      <div class="arg-formula">Öncül 1 + (Gizli Öncül) = Vurucu Sonuç</div>
+      
+      <button class="arg-examples-btn" onclick="toggleCard(this)">
+        Örnekleri Gör 
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
+      </button>
+      <div class="arg-examples-panel">
+        <div class="arg-ex arg-ex-good">
+          <strong style="color:var(--arg-good)">Güçlü Örnek</strong>
+          "Ona güvenemeyiz, çünkü o bir politikacı." <br><span style="font-size:0.8rem; opacity:0.7">(Gizli öncül: Politikacılara güvenilmez. Dinleyici bunu kendi zihninde tamamlar.)</span>
+        </div>
+        <div class="arg-ex arg-ex-bad">
+          <strong style="color:var(--arg-bad)">Gizli Öncülü Çürük Örnek</strong>
+          "Ali çok başarılı olacak, çünkü çok zeki." <br><span style="font-size:0.8rem; opacity:0.7">(Gizli öncül: Sadece zeki olmak başarı için yeterlidir. Halbuki disiplin de gerekir.)</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Argument from Authority -->
+    <div class="arg-card">
+      <div class="arg-icon">🏛️</div>
+      <h2 class="arg-title">Otoriteye Başvuru</h2>
+      <span class="arg-eng">Ethos / Argument from Authority</span>
+      <p class="arg-desc">İddianın doğruluğunu, o alanda kabul görmüş uzman bir kişinin, kurumun veya kanıtın sözüyle desteklemektir.</p>
+      <div class="arg-formula">Uzman X, Y'nin doğru olduğunu söylüyor = Y doğrudur.</div>
+      
+      <button class="arg-examples-btn" onclick="toggleCard(this)">
+        Örnekleri Gör 
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
+      </button>
+      <div class="arg-examples-panel">
+        <div class="arg-ex arg-ex-good">
+          <strong style="color:var(--arg-good)">Güçlü Örnek</strong>
+          "Dünya Sağlık Örgütü raporlarına göre, bu virüs hava yoluyla bulaşmaktadır." (İlgili uzmanlık alanı)
+        </div>
+        <div class="arg-ex arg-ex-bad">
+          <strong style="color:var(--arg-bad)">Zayıf Örnek (Hatalı Otorite)</strong>
+          "Bu şampuan dünyanın en iyisi olmalı, baksana ünlü futbolcu reklamında oynuyor." (Alakasız uzmanlık)
+        </div>
+      </div>
+    </div>
+
+    <!-- Reductio ad absurdum -->
+    <div class="arg-card">
+      <div class="arg-icon">💥</div>
+      <h2 class="arg-title">Saçmaya İndirgeme</h2>
+      <span class="arg-eng">Reductio ad absurdum</span>
+      <p class="arg-desc">Karşı tarafın argümanını geçici olarak doğru kabul edip, bu mantığın felaket veya saçma bir sonuca yol açtığını göstererek çürütme yöntemidir.</p>
+      <div class="arg-formula">Senin mantığına göre hareket edersek = Felaket/Saçmalık</div>
+      
+      <button class="arg-examples-btn" onclick="toggleCard(this)">
+        Örnekleri Gör 
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
+      </button>
+      <div class="arg-examples-panel">
+        <div class="arg-ex arg-ex-good">
+          <strong style="color:var(--arg-good)">Güçlü Örnek</strong>
+          "Eğer 'herkesin istediği yere izinsiz girme hakkı var' diyorsan, o zaman bu akşam salonunda tanımadığın 10 kişiyi ağırlamaya hazır olmalısın."
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ARGÜMAN DEDEKTİFİ MINI-OYUN -->
+  <section class="arg-quiz-section">
+    <div class="arg-quiz-header">
+      <h2>Argüman Dedektifi</h2>
+      <p>Öğrendiğiniz argüman türlerini teşhis edin. Aşağıdaki cümlenin hangi argüman türüyle kurulduğunu bulun.</p>
+    </div>
+
+    <div class="quiz-container" id="quizContainer">
+      <!-- Sorular JavaScript ile buraya eklenecek -->
+    </div>
+    
+    <div class="quiz-result" id="quizResult">
+      <h2>Test Tamamlandı!</h2>
+      <div class="quiz-score-circle" id="quizScoreDisplay">0/5</div>
+      <p style="color:var(--arg-text-muted); font-size:1.1rem;" id="quizResultText"></p>
+      <button class="quiz-btn" style="margin-top:20px; border-color:var(--arg-accent);" onclick="initQuiz()">Tekrar Oyna</button>
+    </div>
+  </section>
+
+</div>
+
+<script>
+  function toggleCard(btn) {
+    const card = btn.closest('.arg-card');
+    card.classList.toggle('open');
+  }
+
+  // Quiz Logic
+  const questions = [
+    {
+      q: "Eğer hız sınırını 10 km/s aşmaya göz yumarsak, yarın 50 km/s aşana, öbür gün kırmızı ışıkta geçene de göz yummak zorunda kalırız. Trafik felç olur!",
+      opts: ["Saçmaya İndirgeme", "Tümevarım", "Otoriteye Başvuru", "Tümdengelim"],
+      ans: 0,
+      feed: "Doğru! Karşı tarafın küçük ihlal mantığını uç noktaya taşıyıp 'Saçmaya İndirgeme' (Kayan Zemin) yaptı."
+    },
+    {
+      q: "Kanada'daki son üç seçimde de anketler yanıldı. Demek ki anket şirketleri artık halkın nabzını tutamıyor.",
+      opts: ["Analoji", "Entimem", "Tümevarım", "Tümdengelim"],
+      ans: 2,
+      feed: "Doğru! Belirli gözlemlerden (son 3 seçim) yola çıkarak genel bir kural (anket şirketleri tutamıyor) çıkardı. Bu Tümevarım'dır."
+    },
+    {
+      q: "Prof. Dr. Celal Şengör'ün de belirttiği gibi, İstanbul depremi kaçınılmaz bir gerçektir.",
+      opts: ["Analoji", "Entimem", "Otoriteye Başvuru", "Saçmaya İndirgeme"],
+      ans: 2,
+      feed: "Doğru! Alanında uzman bir kişinin ismini ve sözünü kullanarak Otoriteye (Ethos) başvurdu."
+    },
+    {
+      q: "İnsan beyni bir bilgisayar işlemcisi gibidir; ona aynı anda çok fazla görev yüklerseniz aşırı ısınır ve kilitlenir.",
+      opts: ["Tümevarım", "Analoji", "Tümdengelim", "Saçmaya İndirgeme"],
+      ans: 1,
+      feed: "Doğru! İnsan beyninin yorulmasını, bilinen bir sistem (bilgisayar işlemcisi) ile karşılaştırarak 'Analoji' yaptı."
+    },
+    {
+      q: "Bütün gezegenler Güneş'in etrafında döner. Mars bir gezegendir. O halde Mars, Güneş'in etrafında döner.",
+      opts: ["Tümevarım", "Otoriteye Başvuru", "Tümdengelim", "Entimem"],
+      ans: 2,
+      feed: "Mükemmel! Genel bir kuraldan özel duruma giden kusursuz bir 'Tümdengelim' (Syllogism) örneği."
+    }
+  ];
+
+  let currentStep = 0;
+  let score = 0;
+
+  function initQuiz() {
+    currentStep = 0;
+    score = 0;
+    document.getElementById('quizResult').style.display = 'none';
+    const container = document.getElementById('quizContainer');
+    container.style.display = 'block';
+    
+    let html = '';
+    questions.forEach((item, index) => {
+      let optsHtml = item.opts.map((o, i) => `<button class="quiz-btn" onclick="checkAnswer(this, ${i}, ${index})">${o}</button>`).join('');
+      
+      html += `
+        <div class="quiz-step ${index === 0 ? 'active' : ''}" id="qStep-${index}">
+          <div style="color:var(--arg-accent); font-weight:700; margin-bottom:10px;">Vaka ${index + 1} / ${questions.length}</div>
+          <div class="quiz-quote">"${item.q}"</div>
+          <div class="quiz-options">${optsHtml}</div>
+          <div class="quiz-feedback" id="qFeed-${index}"></div>
+          <div style="clear:both"></div>
+        </div>
+      `;
+    });
+    container.innerHTML = html;
+  }
+
+  window.checkAnswer = function(btn, selectedIndex, qIndex) {
+    const step = document.getElementById(`qStep-${qIndex}`);
+    // Prevent clicking multiple times
+    if (step.classList.contains('answered')) return;
+    step.classList.add('answered');
+
+    const item = questions[qIndex];
+    const isCorrect = (selectedIndex === item.ans);
+    
+    const btns = step.querySelectorAll('.quiz-btn');
+    btns.forEach((b, i) => {
+      b.style.pointerEvents = 'none';
+      if (i === item.ans) {
+        b.classList.add('correct'); // Highlight correct always
+      } else if (i === selectedIndex && !isCorrect) {
+        b.classList.add('wrong'); // Highlight user's wrong choice
+      } else {
+        b.style.opacity = '0.5';
+      }
+    });
+
+    if (isCorrect) score++;
+
+    const feedBox = document.getElementById(`qFeed-${qIndex}`);
+    feedBox.innerHTML = `
+      <div style="font-weight:600; margin-bottom:8px; color:${isCorrect ? 'var(--arg-good)' : 'var(--arg-bad)'}">
+        ${isCorrect ? '✅ Doğru!' : '❌ Yanlış.'}
+      </div>
+      <div>${item.feed}</div>
+      <button class="quiz-next" onclick="nextQuestion(${qIndex})">İlerle</button>
+    `;
+    feedBox.style.display = 'block';
+  }
+
+  window.nextQuestion = function(qIndex) {
+    const step = document.getElementById(`qStep-${qIndex}`);
+    step.classList.remove('active');
+    
+    if (qIndex + 1 < questions.length) {
+      document.getElementById(`qStep-${qIndex + 1}`).classList.add('active');
+    } else {
+      showResult();
+    }
+  }
+
+  function showResult() {
+    document.getElementById('quizContainer').style.display = 'none';
+    const res = document.getElementById('quizResult');
+    res.style.display = 'block';
+    
+    document.getElementById('quizScoreDisplay').textContent = `${score}/${questions.length}`;
+    
+    let t = "";
+    if (score === 5) t = "Harika! Bir retorik ustası gibi tüm argümanları başarıyla analiz ettiniz.";
+    else if (score >= 3) t = "İyi iş! Argüman türlerini kavramışsınız. Kalanları için örnekleri tekrar inceleyebilirsiniz.";
+    else t = "Mantıksal tuzaklara dikkat! Kartlardaki örnekleri tekrar okumanızda fayda var.";
+    
+    document.getElementById('quizResultText').textContent = t;
+  }
+
+  // Initialize
+  initQuiz();
+</script>
+
+<%- include('partials/main-footer') %>

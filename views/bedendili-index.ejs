@@ -1,16 +1,33 @@
 <%- include('partials/main-header') %>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
 <style>
-  /* BEDEN DİLİ - ADIM 1: KONSEPT TANIMI VE TEORİK TEMEL */
+  @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Playfair+Display:ital,wght@0,600;0,700;0,800;0,900;1,600&family=JetBrains+Mono:wght@400;700&display=swap');
+
+  /* ═══════════════════════════════════════════════════════════
+     BEDEN DİLİ — Ultra Luxury Light Mode (Retorik altın standardı)
+     Accent: Zümrüt Yeşili — Sözsüz dil
+     ═══════════════════════════════════════════════════════════ */
   :root {
-    --bl-bg: #0A0A0A;
-    --bl-surface: #171717;
-    --bl-primary: #3B82F6; /* Mavi */
-    --bl-accent: #10B981;  /* Zümrüt Yeşili */
-    --bl-text: #F8FAFC;
-    --bl-muted: #94A3B8;
-    --font-heading: 'Inter', sans-serif;
-    --font-body: 'Inter', sans-serif;
+    --bl-bg: #faf9f7;
+    --bl-bg2: #f5f3ef;
+    --bl-surface: #ffffff;
+    --bl-surface2: #f5f3ef;
+    --bl-navy: #0f172a;
+    --bl-primary: #059669;   /* Zümrüt - ana accent */
+    --bl-primary2: #10b981;
+    --bl-accent: #059669;
+    --bl-warning: #d97706;
+    --bl-gold: #b8860b;
+    --bl-gold2: #d4a017;
+    --bl-text: #1a1a2e;
+    --bl-muted: #6b7280;
+    --bl-border: rgba(0,0,0,0.06);
+    --bl-border-h: rgba(5,150,105,0.22);
+    --bl-shadow: 0 8px 30px rgba(0,0,0,0.05);
+    --bl-shadow-h: 0 20px 60px rgba(0,0,0,0.10);
+    --font-heading: 'Playfair Display', serif;
+    --font-body: 'Outfit', sans-serif;
   }
 
   body {
@@ -19,25 +36,45 @@
     font-family: var(--font-body);
     margin: 0;
     padding: 0;
+    overflow-x: hidden;
   }
+
+  /* ── Ambient light blobs ── */
+  .bl-ambient { position: fixed; inset: 0; z-index: 0; pointer-events: none; overflow: hidden; }
+  .bl-blob { position: absolute; border-radius: 50%; filter: blur(80px); opacity: 0.28; animation: blobFloat 20s ease-in-out infinite alternate; }
+  .bl-blob:nth-child(1) { width: 500px; height: 500px; top: -100px; right: -100px; background: linear-gradient(135deg, #a7f3d0, #34d399); animation-duration: 18s; }
+  .bl-blob:nth-child(2) { width: 400px; height: 400px; bottom: -80px; left: -80px; background: linear-gradient(135deg, #bfdbfe, #60a5fa); animation-duration: 22s; animation-delay: -5s; }
+  .bl-blob:nth-child(3) { width: 300px; height: 300px; top: 40%; left: 60%; background: linear-gradient(135deg, #fde68a, #fbbf24); opacity: 0.14; animation-duration: 25s; animation-delay: -10s; }
+  @keyframes blobFloat {
+    0% { transform: translate(0,0) scale(1); }
+    33% { transform: translate(30px,-40px) scale(1.1); }
+    66% { transform: translate(-20px,30px) scale(0.95); }
+    100% { transform: translate(10px,-10px) scale(1.05); }
+  }
+  .bl-grid-overlay {
+    position: fixed; inset: 0; z-index: 0; pointer-events: none;
+    background-image: linear-gradient(rgba(0,0,0,0.015) 1px, transparent 1px), linear-gradient(90deg, rgba(0,0,0,0.015) 1px, transparent 1px);
+    background-size: 60px 60px;
+  }
+  section { position: relative; z-index: 10; }
 
   /* 1. Hero Section */
   .bl-hero {
     position: relative;
-    min-height: 80vh;
+    z-index: 10;
+    min-height: 78vh;
     display: flex;
     align-items: center;
     justify-content: center;
     text-align: center;
     overflow: hidden;
-    background: linear-gradient(135deg, #0f172a 0%, #000000 100%);
-    padding: 20px;
+    padding: 90px 20px 60px;
   }
 
   .bl-hero-bg {
     position: absolute;
     top: 0; left: 0; width: 100%; height: 100%;
-    background: radial-gradient(circle at center, rgba(59, 130, 246, 0.15) 0%, transparent 60%);
+    background: radial-gradient(circle at center, rgba(5,150,105, 0.15) 0%, transparent 60%);
     z-index: 1;
   }
 
@@ -66,41 +103,61 @@
 
   .bl-hero h1 {
     font-family: var(--font-heading);
-    font-size: clamp(3.5rem, 6vw, 5.5rem);
+    font-size: clamp(3rem, 6vw, 5rem);
     font-weight: 900;
-    letter-spacing: -2px;
-    margin-bottom: 20px;
-    background: linear-gradient(to right, #ffffff, var(--bl-primary));
+    letter-spacing: -1.5px;
+    margin-bottom: 18px;
+    color: var(--bl-navy);
+    line-height: 1.08;
+  }
+  .bl-hero h1 .bl-hl {
+    background: linear-gradient(120deg, var(--bl-primary), var(--bl-primary2));
     -webkit-background-clip: text;
+    background-clip: text;
     -webkit-text-fill-color: transparent;
-    line-height: 1.1;
   }
 
+  .bl-badge {
+    display: inline-flex; align-items: center; gap: 8px;
+    padding: 7px 22px; border-radius: 50px;
+    background: var(--bl-surface); border: 1px solid var(--bl-border-h);
+    color: var(--bl-primary);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.62rem; font-weight: 700; letter-spacing: 3px; text-transform: uppercase;
+    margin-bottom: 28px; box-shadow: var(--bl-shadow);
+  }
+  .bl-badge::before {
+    content: ''; width: 6px; height: 6px; border-radius: 50%;
+    background: var(--bl-primary2); box-shadow: 0 0 8px var(--bl-primary2);
+    animation: goldPulse 2s ease-in-out infinite;
+  }
+  @keyframes goldPulse { 0%,100% { opacity: 1; transform: scale(1); } 50% { opacity: 0.4; transform: scale(0.6); } }
+
   .bl-hero h2 {
-    font-size: 1.8rem;
-    font-weight: 400;
+    font-size: 1.25rem;
+    font-weight: 500;
     color: var(--bl-muted);
-    margin-bottom: 40px;
-    letter-spacing: 2px;
-    text-transform: uppercase;
+    margin: 0 auto 40px;
+    max-width: 620px;
+    line-height: 1.7;
   }
 
   .bl-btn {
     display: inline-block;
     background: var(--bl-primary);
-    color: white;
-    padding: 16px 40px;
-    border-radius: 30px;
-    font-size: 1.2rem;
+    color: #fff;
+    padding: 15px 38px;
+    border-radius: 50px;
+    font-size: 1.05rem;
     font-weight: 700;
     text-decoration: none;
     transition: all 0.3s ease;
-    box-shadow: 0 10px 30px rgba(59, 130, 246, 0.3);
+    box-shadow: 0 10px 30px rgba(5,150,105, 0.25);
   }
   .bl-btn:hover {
-    background: #2563EB;
+    background: #047857;
     transform: translateY(-3px);
-    box-shadow: 0 15px 40px rgba(59, 130, 246, 0.5);
+    box-shadow: 0 15px 40px rgba(5,150,105, 0.4);
   }
 
   /* 2. Mehrabian Kuralı Infografik */
@@ -121,7 +178,7 @@
   }
   .mehrabian-header h3 {
     font-size: 2.5rem;
-    color: white;
+    color: var(--bl-navy);
     margin-bottom: 15px;
   }
   .mehrabian-header p {
@@ -160,7 +217,7 @@
   .m-bar span {
     font-size: 2.5rem;
     font-weight: 900;
-    color: rgba(255, 255, 255, 0.9);
+    color: var(--bl-navy);
     text-shadow: 0 4px 10px rgba(0,0,0,0.5);
   }
 
@@ -183,7 +240,7 @@
   /* Ethos Bağlantısı Info Box */
   .ethos-link-box {
     background: var(--bl-surface);
-    border: 1px solid rgba(255,255,255,0.1);
+    border: 1px solid var(--bl-border);
     border-radius: 16px;
     padding: 40px;
     text-align: left;
@@ -197,7 +254,7 @@
     font-size: 1.8rem;
     color: var(--bl-primary);
     margin-bottom: 10px;
-    border-bottom: 1px solid rgba(255,255,255,0.1);
+    border-bottom: 1px solid var(--bl-border);
     padding-bottom: 20px;
   }
   .ethos-item {
@@ -211,7 +268,7 @@
   .ethos-item h5 {
     font-size: 1.2rem;
     margin-bottom: 5px;
-    color: white;
+    color: var(--bl-navy);
   }
   .ethos-item p {
     font-size: 0.95rem;
@@ -225,36 +282,36 @@
     .ethos-link-box { grid-template-columns: 1fr; }
   }
   /* 3. Beden Dili Bileşenleri (Tab Yapısı) */
-  .components-section { padding: 100px 20px; background: #000; }
+  .components-section { padding: 100px 20px; background: var(--bl-bg); }
   .comp-header { text-align: center; margin-bottom: 50px; }
-  .comp-header h3 { font-size: 2.5rem; color: #fff; margin-bottom: 15px; }
+  .comp-header h3 { font-size: 2.5rem; color: var(--bl-navy); margin-bottom: 15px; }
   .comp-header p { color: var(--bl-muted); font-size: 1.1rem; max-width: 600px; margin: 0 auto; }
 
   .comp-container { max-width: 1200px; margin: 0 auto; display: flex; gap: 40px; }
   
   .comp-tabs { flex: 1; display: flex; flex-direction: column; gap: 15px; }
   .comp-tab { 
-    background: var(--bl-surface); border: 1px solid rgba(255,255,255,0.1); 
+    background: var(--bl-surface); border: 1px solid var(--bl-border); 
     padding: 20px 30px; border-radius: 12px; cursor: pointer; transition: all 0.3s;
     font-size: 1.2rem; font-weight: 700; color: var(--bl-muted);
     display: flex; justify-content: space-between; align-items: center;
   }
-  .comp-tab:hover { background: rgba(59,130,246,0.1); border-color: rgba(59,130,246,0.5); color: #fff; }
-  .comp-tab.active { background: var(--bl-primary); border-color: var(--bl-primary); color: #fff; box-shadow: 0 5px 20px rgba(59,130,246,0.4); }
+  .comp-tab:hover { background: rgba(5,150,105,0.1); border-color: rgba(5,150,105,0.5); color: var(--bl-navy); }
+  .comp-tab.active { background: var(--bl-primary); border-color: var(--bl-primary); color: #fff; box-shadow: 0 5px 20px rgba(5,150,105,0.4); }
 
-  .comp-content-area { flex: 2; background: var(--bl-surface); border-radius: 16px; padding: 40px; border: 1px solid rgba(255,255,255,0.05); }
+  .comp-content-area { flex: 2; background: var(--bl-surface); border-radius: 16px; padding: 40px; border: 1px solid var(--bl-border); }
   .comp-pane { display: none; animation: fadeIn 0.4s ease; }
   .comp-pane.active { display: block; }
 
   @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
-  .pane-title { font-size: 2rem; color: #fff; margin-bottom: 30px; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 15px; }
+  .pane-title { font-size: 2rem; color: var(--bl-navy); margin-bottom: 30px; border-bottom: 1px solid var(--bl-border); padding-bottom: 15px; }
   
   .bl-item-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 25px; }
   
-  .bl-item { background: #0A0A0A; border-radius: 12px; overflow: hidden; border: 1px solid rgba(255,255,255,0.05); transition: transform 0.3s; }
-  .bl-item:hover { transform: translateY(-5px); border-color: rgba(255,255,255,0.2); }
-  .bl-item-img { height: 160px; background: #222; position: relative; overflow: hidden; display: flex; align-items: center; justify-content: center; }
+  .bl-item { background: var(--bl-surface2); border-radius: 12px; overflow: hidden; border: 1px solid var(--bl-border); transition: transform 0.3s; }
+  .bl-item:hover { transform: translateY(-5px); border-color: var(--bl-border-h); }
+  .bl-item-img { height: 160px; background: var(--bl-surface2); position: relative; overflow: hidden; display: flex; align-items: center; justify-content: center; }
   .bl-item-img i { font-size: 4rem; color: #475569; }
   
   .ethos-badge { position: absolute; top: 10px; right: 10px; background: rgba(0,0,0,0.8); padding: 5px 12px; border-radius: 20px; font-weight: 800; font-size: 0.85rem; border: 1px solid; }
@@ -263,27 +320,27 @@
   .ethos-low { color: #EF4444; border-color: #EF4444; }
 
   .bl-item-body { padding: 20px; }
-  .bl-item-body h5 { font-size: 1.1rem; color: #fff; margin-bottom: 8px; }
+  .bl-item-body h5 { font-size: 1.1rem; color: var(--bl-navy); margin-bottom: 8px; }
   .bl-item-body p { font-size: 0.9rem; color: var(--bl-muted); line-height: 1.5; }
 
   @media (max-width: 900px) {
     .comp-container { flex-direction: column; }
   }
   /* 4. Görsel Referans Kütüphanesi (Adım 3) */
-  .ref-section { padding: 100px 20px; background: var(--bl-bg); border-top: 1px solid rgba(255,255,255,0.05); }
+  .ref-section { padding: 100px 20px; background: var(--bl-bg); border-top: 1px solid var(--bl-border); }
   .ref-header { text-align: center; margin-bottom: 50px; }
-  .ref-header h3 { font-size: 2.5rem; color: #fff; margin-bottom: 15px; }
+  .ref-header h3 { font-size: 2.5rem; color: var(--bl-navy); margin-bottom: 15px; }
   .ref-header p { color: var(--bl-muted); font-size: 1.1rem; max-width: 600px; margin: 0 auto; }
 
   .ref-grid { max-width: 1200px; margin: 0 auto; display: flex; flex-direction: column; gap: 60px; }
-  .ref-category { background: var(--bl-surface); padding: 40px; border-radius: 20px; border: 1px solid rgba(255,255,255,0.05); }
-  .ref-cat-title { font-size: 1.8rem; color: var(--bl-primary); margin-bottom: 30px; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 10px; }
+  .ref-category { background: var(--bl-surface); padding: 40px; border-radius: 20px; border: 1px solid var(--bl-border); }
+  .ref-cat-title { font-size: 1.8rem; color: var(--bl-primary); margin-bottom: 30px; border-bottom: 1px solid var(--bl-border); padding-bottom: 10px; }
   
   .ref-cards { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; }
-  .ref-card { background: #0A0A0A; border-radius: 12px; overflow: hidden; position: relative; border: 1px solid rgba(255,255,255,0.1); transition: transform 0.3s; }
+  .ref-card { background: var(--bl-surface2); border-radius: 12px; overflow: hidden; position: relative; border: 1px solid var(--bl-border); transition: transform 0.3s; }
   .ref-card:hover { transform: translateY(-5px); box-shadow: 0 10px 20px rgba(0,0,0,0.5); }
   
-  .ref-media { height: 180px; background: #222; position: relative; display: flex; align-items: center; justify-content: center; }
+  .ref-media { height: 180px; background: var(--bl-surface2); position: relative; display: flex; align-items: center; justify-content: center; }
   .ref-media i { font-size: 3rem; color: #475569; }
   
   /* Overlays */
@@ -298,26 +355,26 @@
   .level-4 { border-color: #10B981; color: #10B981; } /* MÜKEMMEL */
 
   .ref-body { padding: 20px; }
-  .ref-body h5 { font-size: 1.1rem; color: #fff; margin-bottom: 10px; }
+  .ref-body h5 { font-size: 1.1rem; color: var(--bl-navy); margin-bottom: 10px; }
   .ref-body p { font-size: 0.85rem; color: var(--bl-muted); line-height: 1.5; }
 
   @media (max-width: 1024px) { .ref-cards { grid-template-columns: repeat(2, 1fr); } }
   @media (max-width: 600px) { .ref-cards { grid-template-columns: 1fr; } }
 
   /* 5. İnteraktif Karşılaştırma Aracı (Adım 4) */
-  .slider-section { padding: 100px 20px; background: #000; border-top: 1px solid rgba(255,255,255,0.05); }
+  .slider-section { padding: 100px 20px; background: var(--bl-bg); border-top: 1px solid var(--bl-border); }
   .slider-header { text-align: center; margin-bottom: 50px; }
-  .slider-header h3 { font-size: 2.5rem; color: #fff; margin-bottom: 15px; }
+  .slider-header h3 { font-size: 2.5rem; color: var(--bl-navy); margin-bottom: 15px; }
   .slider-header p { color: var(--bl-muted); font-size: 1.1rem; max-width: 600px; margin: 0 auto; }
 
   .slider-gallery { max-width: 1000px; margin: 0 auto; display: flex; flex-direction: column; gap: 60px; }
 
-  .slider-item { background: var(--bl-surface); border-radius: 20px; border: 1px solid rgba(255,255,255,0.05); padding: 30px; }
+  .slider-item { background: var(--bl-surface); border-radius: 20px; border: 1px solid var(--bl-border); padding: 30px; }
   .slider-item-title { font-size: 1.5rem; color: var(--bl-primary); margin-bottom: 20px; text-align: center; }
 
   .comp-slider-container {
     position: relative; width: 100%; height: 350px; overflow: hidden; border-radius: 12px;
-    background: #111; user-select: none;
+    background: var(--bl-surface2); user-select: none;
   }
   .comp-img-before, .comp-img-after {
     position: absolute; top: 0; left: 0; height: 100%;
@@ -333,7 +390,7 @@
   .comp-slider-content {
     display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 15px; width: 100%;
   }
-  .comp-slider-content i { font-size: 5rem; color: rgba(255,255,255,0.8); }
+  .comp-slider-content i { font-size: 5rem; color: var(--bl-text); }
   .comp-slider-content.bad i { color: #f87171; }
   .comp-slider-content.good i { color: #34d399; }
   
@@ -341,8 +398,8 @@
   .comp-slider-content.bad .comp-ethos-tag { border: 2px solid #ef4444; color: #ef4444; }
   .comp-slider-content.good .comp-ethos-tag { border: 2px solid #10b981; color: #10b981; }
 
-  .comp-slider-content h4 { font-size: 1.5rem; color: #fff; margin: 0; }
-  .comp-slider-content p { font-size: 1rem; color: #cbd5e1; max-width: 300px; }
+  .comp-slider-content h4 { font-size: 1.5rem; color: var(--bl-navy); margin: 0; }
+  .comp-slider-content p { font-size: 1rem; color: var(--bl-muted); max-width: 300px; }
 
   .comp-slider-handle {
     position: absolute; top: 0; bottom: 0; left: 50%; width: 40px; margin-left: -20px;
@@ -351,29 +408,29 @@
   }
   .comp-slider-handle::before {
     content: '< >'; display: flex; align-items: center; justify-content: center;
-    width: 40px; height: 40px; background: #fff; color: #000; border-radius: 50%;
+    width: 40px; height: 40px; background: var(--bl-navy); color: #fff; border-radius: 50%;
     font-weight: 900; box-shadow: 0 0 15px rgba(0,0,0,0.5); font-family: monospace;
     transition: transform 0.22s ease;
   }
   .comp-slider-handle:hover::before { transform: scale(1.1); }
 
   /* 6. Senaryo Simülatörü (Adım 5) */
-  .sim-section { padding: 100px 20px; background: var(--bl-bg); border-top: 1px solid rgba(255,255,255,0.05); }
+  .sim-section { padding: 100px 20px; background: var(--bl-bg); border-top: 1px solid var(--bl-border); }
   .sim-header { text-align: center; margin-bottom: 50px; }
-  .sim-header h3 { font-size: 2.5rem; color: #fff; margin-bottom: 15px; }
+  .sim-header h3 { font-size: 2.5rem; color: var(--bl-navy); margin-bottom: 15px; }
   .sim-header p { color: var(--bl-muted); font-size: 1.1rem; max-width: 600px; margin: 0 auto; }
 
   .sim-container { max-width: 800px; margin: 0 auto; }
-  .sim-card { background: var(--bl-surface); border-radius: 20px; border: 1px solid rgba(255,255,255,0.1); padding: 40px; position: relative; }
+  .sim-card { background: var(--bl-surface); border-radius: 20px; border: 1px solid var(--bl-border); padding: 40px; position: relative; }
   
-  .sim-ethos-tracker { position: absolute; top: -20px; right: 40px; background: var(--bl-primary); color: #fff; padding: 10px 25px; border-radius: 30px; font-weight: 800; font-size: 1.2rem; box-shadow: 0 5px 15px rgba(59,130,246,0.5); transition: transform 0.3s; }
+  .sim-ethos-tracker { position: absolute; top: -20px; right: 40px; background: var(--bl-primary); color: #fff; padding: 10px 25px; border-radius: 30px; font-weight: 800; font-size: 1.2rem; box-shadow: 0 5px 15px rgba(5,150,105,0.5); transition: transform 0.3s; }
   .sim-ethos-tracker span { font-size: 1.5rem; transition: all 0.3s; }
 
-  .sim-scenario { font-size: 1.4rem; color: #fff; margin-bottom: 30px; margin-top: 10px; line-height: 1.6; }
+  .sim-scenario { font-size: 1.4rem; color: var(--bl-navy); margin-bottom: 30px; margin-top: 10px; line-height: 1.6; }
   
   .sim-options { display: flex; flex-direction: column; gap: 15px; }
-  .sim-option { background: #000; border: 1px solid rgba(255,255,255,0.1); padding: 20px; border-radius: 12px; color: var(--bl-muted); font-size: 1.1rem; cursor: pointer; transition: all 0.3s; display: flex; align-items: center; gap: 15px; }
-  .sim-option:hover { background: rgba(59,130,246,0.1); border-color: rgba(59,130,246,0.5); color: #fff; }
+  .sim-option { background: var(--bl-bg); border: 1px solid var(--bl-border); padding: 20px; border-radius: 12px; color: var(--bl-muted); font-size: 1.1rem; cursor: pointer; transition: all 0.3s; display: flex; align-items: center; gap: 15px; }
+  .sim-option:hover { background: rgba(5,150,105,0.1); border-color: rgba(5,150,105,0.5); color: var(--bl-navy); }
   .sim-option i { font-size: 1.5rem; width: 30px; text-align: center; }
   
   .sim-option.correct { background: rgba(16,185,129,0.1); border-color: #10b981; color: #10b981; pointer-events: none; }
@@ -384,105 +441,105 @@
   .sim-feedback.error { background: rgba(239,68,68,0.1); color: #ef4444; border: 1px solid rgba(239,68,68,0.3); }
 
   .sim-next-btn { margin-top: 25px; width: 100%; padding: 15px; background: var(--bl-primary); color: #fff; border: none; border-radius: 12px; font-size: 1.2rem; font-weight: 700; cursor: pointer; transition: background 0.3s; }
-  .sim-next-btn:hover { background: #2563eb; }
+  .sim-next-btn:hover { background: #047857; }
 
   /* 7. Case Studies (Adım 6) */
-  .case-section { padding: 100px 20px; background: #000; border-top: 1px solid rgba(255,255,255,0.05); }
+  .case-section { padding: 100px 20px; background: var(--bl-bg); border-top: 1px solid var(--bl-border); }
   .case-header { text-align: center; margin-bottom: 50px; }
-  .case-header h3 { font-size: 2.5rem; color: #fff; margin-bottom: 15px; }
+  .case-header h3 { font-size: 2.5rem; color: var(--bl-navy); margin-bottom: 15px; }
   .case-header p { color: var(--bl-muted); font-size: 1.1rem; max-width: 600px; margin: 0 auto; }
 
   .case-container { max-width: 1200px; margin: 0 auto; display: flex; gap: 40px; }
   
   .case-sidebar { flex: 1; display: flex; flex-direction: column; gap: 15px; }
-  .case-tab { display: flex; align-items: center; gap: 15px; background: var(--bl-surface); padding: 15px; border-radius: 12px; cursor: pointer; border: 1px solid rgba(255,255,255,0.05); transition: all 0.3s; }
-  .case-tab:hover { background: rgba(59,130,246,0.1); border-color: rgba(59,130,246,0.5); }
+  .case-tab { display: flex; align-items: center; gap: 15px; background: var(--bl-surface); padding: 15px; border-radius: 12px; cursor: pointer; border: 1px solid var(--bl-border); transition: all 0.3s; }
+  .case-tab:hover { background: rgba(5,150,105,0.1); border-color: rgba(5,150,105,0.5); }
   .case-tab.active { background: var(--bl-primary); border-color: var(--bl-primary); }
-  .case-tab img { width: 60px; height: 60px; border-radius: 50%; object-fit: cover; background: #222; }
-  .case-tab h4 { color: #fff; font-size: 1.1rem; margin: 0 0 5px 0; }
+  .case-tab img { width: 60px; height: 60px; border-radius: 50%; object-fit: cover; background: var(--bl-surface2); }
+  .case-tab h4 { color: var(--bl-navy); font-size: 1.1rem; margin: 0 0 5px 0; }
   .case-tab p { color: var(--bl-muted); font-size: 0.9rem; margin: 0; }
-  .case-tab.active p { color: rgba(255,255,255,0.8); }
+  .case-tab.active p { color: var(--bl-text); }
 
-  .case-content-area { flex: 2.5; background: var(--bl-surface); border-radius: 16px; padding: 30px; border: 1px solid rgba(255,255,255,0.05); }
+  .case-content-area { flex: 2.5; background: var(--bl-surface); border-radius: 16px; padding: 30px; border: 1px solid var(--bl-border); }
   .case-pane { display: none; animation: fadeIn 0.4s ease; }
   .case-pane.active { display: block; }
 
-  .case-media { width: 100%; height: 400px; background: #111; border-radius: 12px; display: flex; align-items: center; justify-content: center; position: relative; margin-bottom: 30px; border: 1px solid rgba(255,255,255,0.05); }
+  .case-media { width: 100%; height: 400px; background: var(--bl-surface2); border-radius: 12px; display: flex; align-items: center; justify-content: center; position: relative; margin-bottom: 30px; border: 1px solid var(--bl-border); }
   .case-media i { font-size: 5rem; color: #333; }
   
-  .case-timeline { position: absolute; bottom: 20px; left: 30px; right: 30px; height: 6px; background: rgba(255,255,255,0.2); border-radius: 10px; display: flex; justify-content: space-between; align-items: center; padding: 0 10px; }
-  .case-point { width: 16px; height: 16px; background: #fff; border-radius: 50%; cursor: pointer; position: relative; z-index: 2; transition: all 0.3s; }
+  .case-timeline { position: absolute; bottom: 20px; left: 30px; right: 30px; height: 6px; background: var(--bl-border-h); border-radius: 10px; display: flex; justify-content: space-between; align-items: center; padding: 0 10px; }
+  .case-point { width: 16px; height: 16px; background: var(--bl-muted); border-radius: 50%; cursor: pointer; position: relative; z-index: 2; transition: all 0.3s; }
   .case-point:hover { transform: scale(1.5); }
   .case-point.active { background: var(--bl-primary); box-shadow: 0 0 10px var(--bl-primary); transform: scale(1.3); }
 
-  .case-analysis { background: #0A0A0A; padding: 25px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.05); border-left: 4px solid var(--bl-primary); }
-  .case-analysis h4 { font-size: 1.2rem; color: #fff; margin-bottom: 10px; display: flex; align-items: center; justify-content: space-between; }
+  .case-analysis { background: var(--bl-surface2); padding: 25px; border-radius: 12px; border: 1px solid var(--bl-border); border-left: 4px solid var(--bl-primary); }
+  .case-analysis h4 { font-size: 1.2rem; color: var(--bl-navy); margin-bottom: 10px; display: flex; align-items: center; justify-content: space-between; }
   .case-time-badge { background: var(--bl-primary); color: #fff; padding: 3px 10px; border-radius: 20px; font-size: 0.9rem; font-weight: 800; }
   .case-analysis p { font-size: 1.05rem; color: var(--bl-muted); line-height: 1.6; margin: 0; transition: opacity 0.2s; }
 
   @media (max-width: 900px) { .case-container { flex-direction: column; } .case-media { height: 250px; } }
 
   /* 8. Checklist (Adım 7) */
-  .chk-section { padding: 100px 20px; background: var(--bl-bg); border-top: 1px solid rgba(255,255,255,0.05); }
+  .chk-section { padding: 100px 20px; background: var(--bl-bg); border-top: 1px solid var(--bl-border); }
   .chk-header { text-align: center; margin-bottom: 50px; }
-  .chk-header h3 { font-size: 2.5rem; color: #fff; margin-bottom: 15px; }
+  .chk-header h3 { font-size: 2.5rem; color: var(--bl-navy); margin-bottom: 15px; }
   .chk-header p { color: var(--bl-muted); font-size: 1.1rem; max-width: 600px; margin: 0 auto; }
 
-  .chk-container { max-width: 700px; margin: 0 auto; background: var(--bl-surface); padding: 40px; border-radius: 20px; border: 1px solid rgba(255,255,255,0.05); }
+  .chk-container { max-width: 700px; margin: 0 auto; background: var(--bl-surface); padding: 40px; border-radius: 20px; border: 1px solid var(--bl-border); }
   
-  .chk-progress-bar { width: 100%; height: 25px; background: #000; border-radius: 20px; margin-bottom: 40px; position: relative; overflow: hidden; border: 1px solid rgba(255,255,255,0.1); }
+  .chk-progress-bar { width: 100%; height: 25px; background: var(--bl-bg); border-radius: 20px; margin-bottom: 40px; position: relative; overflow: hidden; border: 1px solid var(--bl-border); }
   .chk-progress-fill { height: 100%; background: linear-gradient(90deg, var(--bl-primary), #10b981); width: 0%; transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1); }
-  .chk-progress-text { position: absolute; top: 0; left: 0; right: 0; bottom: 0; display: flex; align-items: center; justify-content: center; font-size: 0.9rem; font-weight: 800; color: #fff; text-shadow: 1px 1px 2px rgba(0,0,0,0.8); }
+  .chk-progress-text { position: absolute; top: 0; left: 0; right: 0; bottom: 0; display: flex; align-items: center; justify-content: center; font-size: 0.9rem; font-weight: 800; color: #fff; text-shadow: 1px 1px 2px rgba(0,0,0,0.3); }
 
   .chk-list { display: flex; flex-direction: column; gap: 20px; }
   .chk-item { display: flex; align-items: flex-start; gap: 20px; cursor: pointer; padding: 15px; border-radius: 12px; transition: background 0.2s; }
-  .chk-item:hover { background: rgba(255,255,255,0.03); }
+  .chk-item:hover { background: var(--bl-surface2); }
   
   .chk-input { display: none; }
   .chk-custom { width: 30px; height: 30px; border: 2px solid var(--bl-primary); border-radius: 8px; display: inline-flex; align-items: center; justify-content: center; flex-shrink: 0; transition: all 0.2s; position: relative; margin-top: 5px; }
   .chk-input:checked + .chk-custom { background: var(--bl-primary); }
-  .chk-input:checked + .chk-custom::after { content: '✔'; color: #fff; font-size: 1.2rem; font-weight: 900; }
+  .chk-input:checked + .chk-custom::after { content: '✔'; color: var(--bl-navy); font-size: 1.2rem; font-weight: 900; }
   
-  .chk-text h4 { font-size: 1.2rem; color: #fff; margin-bottom: 5px; transition: color 0.3s; }
+  .chk-text h4 { font-size: 1.2rem; color: var(--bl-navy); margin-bottom: 5px; transition: color 0.3s; }
   .chk-text p { font-size: 0.95rem; color: var(--bl-muted); margin: 0; line-height: 1.5; }
   .chk-input:checked ~ .chk-text h4 { color: var(--bl-primary); text-decoration: line-through; opacity: 0.7; }
 
   .chk-success { text-align: center; margin-top: 40px; padding: 30px; background: rgba(16,185,129,0.1); border: 1px solid #10b981; border-radius: 12px; animation: fadeIn 0.5s ease; }
   .chk-success i { font-size: 4rem; color: #10b981; margin-bottom: 15px; }
   .chk-success h4 { font-size: 1.5rem; color: #10b981; margin-bottom: 10px; }
-  .chk-success p { color: #fff; font-size: 1.1rem; margin: 0; }
+  .chk-success p { color: var(--bl-navy); font-size: 1.1rem; margin: 0; }
 
   /* 9. Eğitim Modülü (Adım 8) */
-  .train-section { padding: 100px 20px; background: #000; border-top: 1px solid rgba(255,255,255,0.05); }
+  .train-section { padding: 100px 20px; background: var(--bl-bg); border-top: 1px solid var(--bl-border); }
   .train-header { text-align: center; margin-bottom: 50px; }
-  .train-header h3 { font-size: 2.5rem; color: #fff; margin-bottom: 15px; }
+  .train-header h3 { font-size: 2.5rem; color: var(--bl-navy); margin-bottom: 15px; }
   .train-header p { color: var(--bl-muted); font-size: 1.1rem; max-width: 600px; margin: 0 auto; }
 
-  .train-container { max-width: 1200px; margin: 0 auto; display: flex; gap: 40px; background: var(--bl-surface); border-radius: 20px; border: 1px solid rgba(255,255,255,0.05); padding: 40px; }
+  .train-container { max-width: 1200px; margin: 0 auto; display: flex; gap: 40px; background: var(--bl-surface); border-radius: 20px; border: 1px solid var(--bl-border); padding: 40px; }
   
   .train-video-wrapper { flex: 2; display: flex; flex-direction: column; gap: 15px; }
-  .train-video-placeholder { width: 100%; aspect-ratio: 16/9; background: #111; border-radius: 12px; display: flex; align-items: center; justify-content: center; position: relative; border: 1px solid rgba(255,255,255,0.1); cursor: pointer; transition: all 0.3s; }
+  .train-video-placeholder { width: 100%; aspect-ratio: 16/9; background: var(--bl-surface2); border-radius: 12px; display: flex; align-items: center; justify-content: center; position: relative; border: 1px solid var(--bl-border); cursor: pointer; transition: all 0.3s; }
   .train-video-placeholder:hover { border-color: var(--bl-primary); }
-  .train-video-placeholder i { font-size: 5rem; color: rgba(255,255,255,0.2); transition: all 0.3s; }
+  .train-video-placeholder i { font-size: 5rem; color: var(--bl-border-h); transition: all 0.3s; }
   .train-video-placeholder:hover i { color: var(--bl-primary); transform: scale(1.1); }
   
-  .train-controls { display: flex; justify-content: space-between; align-items: center; background: #0a0a0a; padding: 15px 20px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.05); }
+  .train-controls { display: flex; justify-content: space-between; align-items: center; background: var(--bl-surface2); padding: 15px 20px; border-radius: 12px; border: 1px solid var(--bl-border); }
   .train-btn { background: var(--bl-primary); color: #fff; border: none; padding: 10px 25px; border-radius: 8px; font-weight: 700; cursor: pointer; transition: background 0.3s; }
-  .train-btn:hover { background: #2563eb; }
+  .train-btn:hover { background: #047857; }
   
   .train-speed-controls { display: flex; align-items: center; gap: 10px; }
   .speed-label { color: var(--bl-muted); font-size: 0.9rem; }
-  .speed-btn { background: #222; border: 1px solid rgba(255,255,255,0.1); color: #fff; padding: 6px 12px; border-radius: 6px; cursor: pointer; font-size: 0.9rem; transition: all 0.2s; }
-  .speed-btn:hover { background: #333; }
-  .speed-btn.active { background: var(--bl-primary); border-color: var(--bl-primary); }
+  .speed-btn { background: var(--bl-surface2); border: 1px solid var(--bl-border); color: var(--bl-navy); padding: 6px 12px; border-radius: 6px; cursor: pointer; font-size: 0.9rem; transition: all 0.2s; }
+  .speed-btn:hover { background: var(--bl-bg2); }
+  .speed-btn.active { background: var(--bl-primary); border-color: var(--bl-primary); color: #fff; }
 
   .train-sidebar { flex: 1.5; display: flex; flex-direction: column; gap: 25px; }
-  .train-course-title { font-size: 1.5rem; color: #fff; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 15px; margin-bottom: 10px; }
+  .train-course-title { font-size: 1.5rem; color: var(--bl-navy); border-bottom: 1px solid var(--bl-border); padding-bottom: 15px; margin-bottom: 10px; }
   
   .train-steps { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 15px; }
-  .train-steps li { color: var(--bl-muted); font-size: 1.05rem; padding: 15px; background: #0a0a0a; border-radius: 8px; border-left: 4px solid transparent; transition: all 0.3s; line-height: 1.5; }
-  .train-steps li strong { color: #fff; display: block; margin-bottom: 5px; }
-  .train-steps li.active { border-left-color: var(--bl-primary); background: rgba(59,130,246,0.1); color: #fff; }
+  .train-steps li { color: var(--bl-muted); font-size: 1.05rem; padding: 15px; background: var(--bl-surface2); border-radius: 8px; border-left: 4px solid transparent; transition: all 0.3s; line-height: 1.5; }
+  .train-steps li strong { color: var(--bl-navy); display: block; margin-bottom: 5px; }
+  .train-steps li.active { border-left-color: var(--bl-primary); background: rgba(5,150,105,0.1); color: var(--bl-navy); }
 
   .train-info-box { background: rgba(245,158,11,0.1); border: 1px solid #f59e0b; border-radius: 12px; padding: 20px; display: flex; gap: 15px; color: #f59e0b; font-size: 0.95rem; line-height: 1.5; margin-top: auto; }
   .train-info-box i { font-size: 1.5rem; }
@@ -492,51 +549,84 @@
   @media (max-width: 900px) { .train-container { flex-direction: column; } }
 
   /* 10. Beden Dili Kütüphanesi (Adım 9) */
-  .lib-section { padding: 100px 20px; background: #0A0A0A; border-top: 1px solid rgba(255,255,255,0.05); }
+  .lib-section { padding: 100px 20px; background: var(--bl-surface2); border-top: 1px solid var(--bl-border); }
   .lib-header { text-align: center; margin-bottom: 40px; }
-  .lib-header h3 { font-size: 2.5rem; color: #fff; margin-bottom: 15px; }
+  .lib-header h3 { font-size: 2.5rem; color: var(--bl-navy); margin-bottom: 15px; }
   .lib-header p { color: var(--bl-muted); font-size: 1.1rem; max-width: 600px; margin: 0 auto; }
 
   .lib-container { max-width: 1200px; margin: 0 auto; }
   
-  .lib-search-bar { background: var(--bl-surface); border: 1px solid rgba(255,255,255,0.1); border-radius: 30px; padding: 15px 25px; display: flex; align-items: center; gap: 15px; margin-bottom: 40px; transition: all 0.3s; }
-  .lib-search-bar:focus-within { border-color: var(--bl-primary); box-shadow: 0 0 15px rgba(59,130,246,0.3); }
+  .lib-search-bar { background: var(--bl-surface); border: 1px solid var(--bl-border); border-radius: 30px; padding: 15px 25px; display: flex; align-items: center; gap: 15px; margin-bottom: 40px; transition: all 0.3s; }
+  .lib-search-bar:focus-within { border-color: var(--bl-primary); box-shadow: 0 0 15px rgba(5,150,105,0.3); }
   .lib-search-bar i { font-size: 1.2rem; color: var(--bl-muted); }
-  .lib-search-bar input { flex: 1; background: transparent; border: none; color: #fff; font-size: 1.1rem; outline: none; }
-  .lib-search-bar input::placeholder { color: rgba(255,255,255,0.3); }
+  .lib-search-bar input { flex: 1; background: transparent; border: none; color: var(--bl-navy); font-size: 1.1rem; outline: none; }
+  .lib-search-bar input::placeholder { color: var(--bl-muted); }
 
   .lib-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 25px; }
   
-  .lib-card { background: #111; border: 1px solid rgba(255,255,255,0.05); border-radius: 12px; padding: 25px; transition: all 0.3s; display: flex; flex-direction: column; gap: 10px; }
-  .lib-card:hover { transform: translateY(-5px); border-color: rgba(255,255,255,0.2); background: #1a1a1a; }
+  .lib-card { background: var(--bl-surface2); border: 1px solid var(--bl-border); border-radius: 12px; padding: 25px; transition: all 0.3s; display: flex; flex-direction: column; gap: 10px; }
+  .lib-card:hover { transform: translateY(-5px); border-color: var(--bl-border-h); background: var(--bl-bg2); }
   
   .lib-card-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 5px; }
-  .lib-card-header h4 { font-size: 1.2rem; color: #fff; margin: 0; }
+  .lib-card-header h4 { font-size: 1.2rem; color: var(--bl-navy); margin: 0; }
   .lib-card-header i { font-size: 1.5rem; color: var(--bl-primary); }
   
   .lib-card p { font-size: 0.95rem; color: var(--bl-muted); line-height: 1.5; margin: 0; flex: 1; }
   
-  .lib-tag { display: inline-block; padding: 5px 12px; background: rgba(59,130,246,0.1); color: var(--bl-primary); border-radius: 20px; font-size: 0.8rem; font-weight: 700; align-self: flex-start; margin-top: 10px; }
+  .lib-tag { display: inline-block; padding: 5px 12px; background: rgba(5,150,105,0.1); color: var(--bl-primary); border-radius: 20px; font-size: 0.8rem; font-weight: 700; align-self: flex-start; margin-top: 10px; }
   
   .lib-no-result { grid-column: 1 / -1; text-align: center; color: var(--bl-muted); font-size: 1.2rem; padding: 50px; background: var(--bl-surface); border-radius: 12px; }
 
+  /* ── Tüm bölüm başlıkları Playfair ── */
+  .mehrabian-header h3, .comp-header h3, .ref-header h3, .slider-header h3,
+  .sim-header h3, .case-header h3, .chk-header h3, .train-header h3, .lib-header h3 {
+    font-family: var(--font-heading); font-weight: 800;
+  }
+
+  /* ── SEO İçerik ── */
+  .bl-seo { max-width: 900px; margin: 0 auto; padding: 70px 20px; }
+  .bl-seo h2 { font-family: var(--font-heading); font-size: 2rem; color: var(--bl-navy); margin: 40px 0 16px; font-weight: 800; }
+  .bl-seo h3 { font-size: 1.3rem; color: var(--bl-navy); margin: 28px 0 12px; font-weight: 700; }
+  .bl-seo p { color: var(--bl-text); line-height: 1.85; margin-bottom: 16px; font-size: 1.05rem; }
+  .bl-seo ul { color: var(--bl-text); line-height: 1.8; margin: 0 0 16px; padding-left: 22px; }
+  .bl-seo li { margin-bottom: 8px; }
+
+  /* ── FAQ ── */
+  .bl-faq { max-width: 900px; margin: 0 auto 40px; }
+  .bl-faq-item { background: var(--bl-surface); border: 1px solid var(--bl-border); border-radius: 14px; margin-bottom: 12px; overflow: hidden; box-shadow: var(--bl-shadow); }
+  .bl-faq-q { padding: 20px 24px; font-weight: 700; color: var(--bl-navy); cursor: pointer; display: flex; justify-content: space-between; align-items: center; gap: 12px; font-size: 1.05rem; }
+  .bl-faq-q::after { content: '+'; font-size: 1.5rem; color: var(--bl-primary); transition: 0.3s; }
+  .bl-faq-item.open .bl-faq-q::after { transform: rotate(45deg); }
+  .bl-faq-a { max-height: 0; overflow: hidden; transition: max-height 0.35s ease, padding 0.35s ease; padding: 0 24px; color: var(--bl-muted); line-height: 1.75; }
+  .bl-faq-item.open .bl-faq-a { max-height: 400px; padding: 0 24px 20px; }
+
+  /* ── İlgili Modüller ── */
+  .bl-related { max-width: 1200px; margin: 0 auto; padding: 40px 20px 90px; }
+  .bl-related-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 20px; }
+  .bl-related-card { display: block; text-decoration: none; background: var(--bl-surface); border: 1px solid var(--bl-border); border-radius: 16px; padding: 26px; transition: all 0.35s cubic-bezier(0.34,1.56,0.64,1); box-shadow: var(--bl-shadow); }
+  .bl-related-card:hover { transform: translateY(-6px); box-shadow: var(--bl-shadow-h); border-color: var(--bl-border-h); }
+  .bl-related-card .ic { font-size: 2rem; display: block; margin-bottom: 12px; }
+  .bl-related-card h4 { color: var(--bl-navy); font-size: 1.1rem; margin: 0 0 6px; font-weight: 800; }
+  .bl-related-card p { color: var(--bl-muted); font-size: 0.88rem; margin: 0; line-height: 1.6; }
+
+  @media (prefers-reduced-motion: reduce) {
+    .bl-blob, .bl-badge::before { animation: none !important; }
+    .bl-related-card, .lib-card, .bl-item, .ref-card { transition: none !important; }
+  }
+
 </style>
+
+<!-- AMBIENT -->
+<div class="bl-ambient"><div class="bl-blob"></div><div class="bl-blob"></div><div class="bl-blob"></div></div>
+<div class="bl-grid-overlay"></div>
 
 <!-- ADIM 1: HERO SECTION -->
 <section class="bl-hero">
-  <div class="bl-hero-bg"></div>
-  
-  <div class="bl-hero-video-container">
-    <!-- Yer tutucu açılış videosu/animasyonu -->
-    <video autoplay loop muted playsinline>
-      <source src="https://cdn.pixabay.com/video/2020/05/25/40141-425251648_large.mp4" type="video/mp4">
-    </video>
-  </div>
-
   <div class="bl-hero-content">
-    <h1>Beden Dili:<br>Sessiz Konuşmanın Gücü</h1>
-    <h2>Sözsüz İletişim %55</h2>
-    <a href="#mehrabian" class="bl-btn">Bilimi Keşfet</a>
+    <div class="bl-badge">Sözsüz İletişimin Bilimi</div>
+    <h1>Beden Dili:<br><span class="bl-hl">Sessiz Konuşmanın Gücü</span></h1>
+    <h2>İletişiminizin %55'i sözsüz. Duruşunuz, jestleriniz ve bakışlarınız siz konuşmadan önce konuşur.</h2>
+    <a href="#mehrabian" class="bl-btn">Bilimi Keşfet →</a>
   </div>
 </section>
 
@@ -1494,7 +1584,98 @@
       });
     }
 
+    // SSS aç/kapa
+    document.querySelectorAll('.bl-faq-q').forEach(q => {
+      q.addEventListener('click', () => q.closest('.bl-faq-item').classList.toggle('open'));
+    });
+
   });
+</script>
+
+<!-- ════════ SEO İÇERİK ════════ -->
+<section class="bl-seo">
+  <h2>Beden Dili Nedir ve Neden Bu Kadar Önemli?</h2>
+  <p>Beden dili, sözcükler kullanmadan duruş, jest, mimik, göz teması ve fiziksel mesafe aracılığıyla mesaj iletme biçimidir. Albert Mehrabian'ın araştırmalarına göre, duygu ve tutum içeren iletişimde etkinin yalnızca %7'si kelimelerden gelirken, %38'i ses tonundan ve tam %55'i beden dilinden kaynaklanır. Yani siz daha tek kelime etmeden, duruşunuz ve bakışınız karşınızdakine güçlü bir mesaj iletir.</p>
+  <p>Beden dili, retoriğin temel taşı olan Ethos (güvenilirlik) ile doğrudan bağlantılıdır. Dik ve açık bir duruş uzmanlığı (Phronesis), samimi mimikler ve tutarlı jestler dürüstlüğü (Arete), göz teması ve açık beden pozisyonu ise iyi niyeti (Eunoia) yansıtır. Bu sinyalleri bilinçli yönetmek, ikna gücünüzü katlar.</p>
+
+  <h3>Güçlü Beden Dili İçin 5 Temel Kural</h3>
+  <ul>
+    <li><strong>Dik durun:</strong> Omuzlar geride, göğüs açık. Bu duruş hem özgüven yayar hem de nefesinizi güçlendirir.</li>
+    <li><strong>Açık avuç kullanın:</strong> Avuç içlerini göstermek, evrensel bir dürüstlük ve şeffaflık sinyalidir.</li>
+    <li><strong>Göz teması kurun:</strong> Konuşmanın %60-70'inde göz teması güven inşa eder; daha fazlası ise rahatsız edici olabilir.</li>
+    <li><strong>Jestlerinizi kontrol edin:</strong> Anlatımı destekleyen ölçülü el hareketleri otorite kazandırır; aşırı hareket ise sinir göstergesidir.</li>
+    <li><strong>Doğru mesafeyi koruyun:</strong> Kişisel alana (45-120 cm) saygı, profesyonel ilişkilerde rahatlık yaratır.</li>
+  </ul>
+
+  <h3>Yalan Söyleyen Birinin Beden Dili Nasıl Anlaşılır?</h3>
+  <p>Tek bir hareket yalanı kanıtlamaz; önemli olan "kümeleme" (cluster) ve normalden sapmadır. Yaygın stres sinyalleri arasında göz temasından kaçınma veya aşırı sabit bakış, ağza/boyna dokunma, ayakların kapıya yönelmesi ve kelimelerle mimiklerin uyumsuzluğu (örneğin "evet" derken başını hafifçe iki yana sallama) sayılabilir. Bu sinyalleri bağlam içinde değerlendirmek gerekir.</p>
+</section>
+
+<!-- ════════ SSS ════════ -->
+<section class="bl-seo" style="padding-top:0;">
+  <h2 style="text-align:center; margin-bottom:30px;">Sıkça Sorulan Sorular</h2>
+  <div class="bl-faq">
+    <div class="bl-faq-item">
+      <div class="bl-faq-q">Beden dili öğrenilebilir mi?</div>
+      <div class="bl-faq-a">Evet. Beden dili tıpkı bir dil gibi öğrenilen ve geliştirilen bir beceridir. Bilinçli pratik, ayna çalışması ve video kaydı analizi ile duruşunuzu, jestlerinizi ve mimiklerinizi kısa sürede iyileştirebilirsiniz.</div>
+    </div>
+    <div class="bl-faq-item">
+      <div class="bl-faq-q">İletişimde beden dilinin payı gerçekten %55 mi?</div>
+      <div class="bl-faq-a">Mehrabian'ın %7-38-55 kuralı özellikle duygu ve tutum içeren iletişim için geçerlidir. Teknik bilgi aktarımında kelimeler daha baskındır. Ancak güven, samimiyet ve niyet söz konusu olduğunda beden dili belirleyici rol oynar.</div>
+    </div>
+    <div class="bl-faq-item">
+      <div class="bl-faq-q">Sunumda ellerimi ne yapmalıyım?</div>
+      <div class="bl-faq-a">Ellerinizi bel hizasında, görünür ve açık tutun. Anlatımı destekleyen ölçülü jestler kullanın. Cebe koymak, kavuşturmak veya arkada bağlamak kapalılık ve gerginlik sinyali verir.</div>
+    </div>
+    <div class="bl-faq-item">
+      <div class="bl-faq-q">Göz teması ne kadar olmalı?</div>
+      <div class="bl-faq-a">İdeal olan, konuşma süresinin yaklaşık %60-70'inde göz teması kurmaktır. Sürekli bakış baskıcı, kaçan bakış ise güvensiz algılanır. Kalabalıkta bakışınızı farklı kişiler arasında doğal şekilde gezdirin.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════ İLGİLİ MODÜLLER ════════ -->
+<section class="bl-related">
+  <div class="comp-header" style="margin-bottom:30px;">
+    <h3>İlgili Eğitimler</h3>
+    <p>Beden dilinizi tamamlayacak diğer becerileri keşfedin.</p>
+  </div>
+  <div class="bl-related-grid">
+    <a href="/ozguven" class="bl-related-card">
+      <span class="ic">💪</span>
+      <h4>Özgüven İnşası</h4>
+      <p>Güçlü beden dilinin kaynağı olan içsel özgüveni bilimsel yöntemlerle geliştirin.</p>
+    </a>
+    <a href="/sahne" class="bl-related-card">
+      <span class="ic">🎤</span>
+      <h4>Sahne Ustalığı</h4>
+      <p>Sahnede beden dilinizi ve hareketinizi etkili biçimde kullanmayı öğrenin.</p>
+    </a>
+    <a href="/retorik" class="bl-related-card">
+      <span class="ic">🏛️</span>
+      <h4>Retorik</h4>
+      <p>Ethos, Pathos, Logos ile ikna sanatının temel taşlarını keşfedin.</p>
+    </a>
+    <a href="/bedendili/dedektif" class="bl-related-card">
+      <span class="ic">🕵️</span>
+      <h4>Yalan Dedektifi</h4>
+      <p>Mikro ifadeleri okuyarak yalanı yakalama simülatörü.</p>
+    </a>
+  </div>
+</section>
+
+<!-- FAQ Structured Data -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {"@type":"Question","name":"Beden dili öğrenilebilir mi?","acceptedAnswer":{"@type":"Answer","text":"Evet. Beden dili öğrenilen ve geliştirilen bir beceridir. Bilinçli pratik, ayna çalışması ve video analizi ile duruşunuzu ve jestlerinizi iyileştirebilirsiniz."}},
+    {"@type":"Question","name":"İletişimde beden dilinin payı gerçekten %55 mi?","acceptedAnswer":{"@type":"Answer","text":"Mehrabian'ın %7-38-55 kuralı duygu ve tutum içeren iletişim için geçerlidir. Güven ve niyet söz konusu olduğunda beden dili belirleyici rol oynar."}},
+    {"@type":"Question","name":"Sunumda ellerimi ne yapmalıyım?","acceptedAnswer":{"@type":"Answer","text":"Ellerinizi bel hizasında, görünür ve açık tutun. Anlatımı destekleyen ölçülü jestler kullanın. Cebe koymak veya kavuşturmak kapalılık sinyali verir."}},
+    {"@type":"Question","name":"Göz teması ne kadar olmalı?","acceptedAnswer":{"@type":"Answer","text":"İdeal olan, konuşma süresinin yaklaşık %60-70'inde göz teması kurmaktır. Sürekli bakış baskıcı, kaçan bakış ise güvensiz algılanır."}}
+  ]
+}
 </script>
 
 <%- include('partials/main-footer') %>

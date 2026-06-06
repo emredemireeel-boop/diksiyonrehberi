@@ -1998,6 +1998,7 @@ const SUBPAGE_META = {
   'retorik/analiz': { title:'Konuşma Analizi — Ünlü Konuşmalar | Retorik Eğitimi', desc:'MLK, Steve Jobs gibi ünlü konuşmaların retorik analizi ve teknik çözümleme.', h1:'Konuşma Analizi' },
   'retorik/savunma': { title:'Güçlü Savunma Kurmak | Retorik Eğitimi', desc:'Karşıt argümanlara karşı sağlam ve mantıklı bir savunma hattı inşa etme, çerçeveleme teknikleri.', h1:'Güçlü Savunma Kurmak' },
   'retorik/ikna': { title:'İkna Psikolojisi | Retorik Eğitimi', desc:'İkna psikolojisi, Cialdini prensipleri ve karar mekanizmalarını etkileyerek harekete geçirme sanatı.', h1:'İkna Psikolojisi' },
+  'retorik/argumanlar': { title:'Argüman Türleri ve Hataları | Retorik Eğitimi', desc:'Tümdengelim, tümevarım, analoji, entimem gibi argüman türleri ve mantıksal argümantasyon kurma rehberi.', h1:'Argüman Türleri' },
   'diyalektik/sokratik': { title:'Sokratik Yöntem — Sorularla Gerçeğe Ulaşma | Diyalektik', desc:'Sokratik ironi ve doğurtmaca teknikleriyle tartışmalarda gerçeğe ulaşma sanatı.', h1:'Sokratik Yöntem' },
   'diyalektik/hegel': { title:'Hegel Diyalektiği — Tez Antitez Sentez | Eğitim', desc:'Hegel diyalektik yöntemi: Tez, antitez ve sentez ile düşünce geliştirme.', h1:'Hegel Diyalektiği' },
   'diyalektik/curutme': { title:'Argüman Çürütme Teknikleri | Diyalektik Eğitimi', desc:'Öncül çürütme, mantıksal bağ kopma ve reductio ad absurdum teknikleri.', h1:'Argüman Çürütme' },
@@ -2060,8 +2061,11 @@ app.get('/sahne/:subpage', (req, res, next) => {
 const BEDENDILI_DATA = require('./bedendili-data');
 
 app.get('/bedendili', (req, res, next) => {
-  const meta = TOOLS_META['bedendili'];
-  if (!meta) return next();
+  const meta = {
+    title: 'Beden Dili Okuma ve Kullanma Rehberi (55-38-7 Kuralı) - Diksiyon Rehberi',
+    desc: 'Beden dili nedir, nasıl okunur ve nasıl güçlendirilir? Mehrabian kuralı, duruş, jest, mimik ve göz teması analizleri, interaktif simülatörler ve yalan dedektifi. Ücretsiz.',
+    h1: 'Beden Dili'
+  };
   const canonicalUrl = `${SITE_URL}/bedendili`;
   res.render('bedendili-index', { meta, canonicalUrl, jsonLdScripts: '' });
 });
@@ -2112,9 +2116,10 @@ app.get('/manipulasyon/araclar/dedektif', (req, res, next) => {
 });
 
 app.get('/manipulasyon', (req, res, next) => {
-  const meta = TOOLS_META['manipulasyon'] || {
-    title: 'Manipülasyon ve Savunma Eğitimi | Diksiyon Rehberi',
-    desc: 'İnsanları yönlendirme teknikleri ve toksik manipülatörlere karşı savunma yöntemleri.'
+  const meta = {
+    title: 'Manipülasyon Teknikleri ve Savunma Yöntemleri | Karanlık Psikoloji - Diksiyon Rehberi',
+    desc: 'Gaslighting, duygusal şantaj ve pasif agresiflik gibi manipülasyon tekniklerini tanıyın; gri kaya ve sınır koyma yöntemleriyle kendinizi koruyun. İnteraktif simülatörler, ücretsiz.',
+    h1: 'Zihnini Koru'
   };
   const canonicalUrl = `${SITE_URL}/manipulasyon`;
   res.render('manipulasyon-index', { meta, canonicalUrl, jsonLdScripts: '' });
@@ -2200,7 +2205,7 @@ app.get('/retorik/:subpage', (req, res, next) => {
   const catMap = {
     'ethos': 'ethos', 'pathos': 'pathos', 'logos': 'logos',
     'konusma-yazimi': 'konusma-yazimi', 'figurler': 'figurler', 'analiz': 'analiz',
-    'savunma': 'savunma', 'ikna': 'ikna'
+    'savunma': 'savunma', 'ikna': 'ikna', 'argumanlar': 'argumanlar'
   };
   
   const cat = catMap[subpage];
@@ -2212,7 +2217,7 @@ app.get('/retorik/:subpage', (req, res, next) => {
   
   const exercises = RETORIK_DATA.filter(ex => ex.cat === cat);
 
-  const customPages = ['ethos', 'konusma-yazimi', 'pathos', 'logos', 'figurler', 'analiz', 'savunma', 'ikna'];
+  const customPages = ['ethos', 'konusma-yazimi', 'pathos', 'logos', 'figurler', 'analiz', 'savunma', 'ikna', 'argumanlar'];
   
   if (customPages.includes(subpage)) {
     return res.render(`retorik-${subpage}`, { 
@@ -2280,7 +2285,7 @@ const EJS_MODULES = [];
 
 
 app.get('/safsata', (req, res, next) => {
-  res.render('safsata-index', { meta: {title: 'Safsata Ansiklopedisi', h1: 'Mantık Hataları', desc: 'Safsata (Logical Fallacies) sözlüğü ve analizi.'}, canonicalUrl: SITE_URL+'/safsata', jsonLdScripts: '' });
+  res.render('safsata-index', { meta: {title: 'Safsata Nedir? Mantık Hataları Sözlüğü ve Örnekleri - Diksiyon Rehberi', h1: 'Mantık Hataları', desc: 'Ad Hominem, Saman Adam, Yanlış İkilem gibi safsataları (mantık hatalarını) örnekleriyle tanıyın. Tartışmalarda manipülasyona karşı kendinizi koruyun. İnteraktif testler, ücretsiz.'}, canonicalUrl: SITE_URL+'/safsata', jsonLdScripts: '' });
 });
 
 app.get('/safsata/dedektif', (req, res, next) => {
@@ -2308,9 +2313,6 @@ app.get('/safsata/spin-doctor', (req, res, next) => {
 });
 
 const DATA_BEDENDILI = require('./bedendili-data');
-app.get('/bedendili', (req, res, next) => {
-  res.render('bedendili-index', { meta: {title: 'Beden Dili ve İletişim', desc: 'Mikro ifadeleri ve vücut dilini okuma sanatı.'}, canonicalUrl: SITE_URL+'/bedendili', jsonLdScripts: '' });
-});
 
 app.get('/bedendili/dedektif', (req, res, next) => {
   res.render('bedendili-dedektif', { meta: {title: 'Yalan Dedektifi', h1: 'Mikro İfade Analizörü', desc: 'Sorgu odasında mikro ifadeleri deşifre et.'}, canonicalUrl: SITE_URL+'/bedendili/dedektif', jsonLdScripts: '' });
@@ -2330,7 +2332,7 @@ app.get('/bedendili/:subpage', (req, res, next) => {
 
 const DATA_OZGUVEN = require('./ozguven-data');
 app.get('/ozguven', (req, res, next) => {
-  res.render('ozguven-index', { meta: {title: 'Özgüven İnşası', desc: 'Sarsılmaz bir özgüvenle her ortama hakim olun.'}, canonicalUrl: SITE_URL+'/ozguven', jsonLdScripts: '' });
+  res.render('ozguven-index', { meta: {title: 'Özgüven Nasıl Kazanılır? Bilimsel Özgüven Geliştirme Rehberi - Diksiyon Rehberi', desc: 'Özgüven doğuştan gelmez, geliştirilir. Bilgi, sosyal, değer ve performans özgüvenini güçlendiren kanıta dayalı egzersizler, interaktif test ve simülatörler. Ücretsiz.', h1: 'Özgüven İnşası'}, canonicalUrl: SITE_URL+'/ozguven', jsonLdScripts: '' });
 });
 app.get('/ozguven/golge-boksu', (req, res, next) => {
   res.render('ozguven-golgeboksu', { meta: {title: 'Gölge Boksu', h1: 'İç Ses Susturucusu', desc: 'Kendi zihninizdeki negatif sesleri nakavt edin.'}, canonicalUrl: SITE_URL+'/ozguven/golge-boksu', jsonLdScripts: '' });

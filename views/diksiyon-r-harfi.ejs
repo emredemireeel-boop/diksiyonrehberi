@@ -1,9 +1,9 @@
-�<%- include('partials/main-header') %>
+<%- include('partials/main-header') %>
 
 <style>
   body { background: #0a0a14; color: #f1f5f9; font-family: 'Inter', sans-serif; overflow-x: hidden; }
 
-  /* ���� Hero �������������������������������������������� */
+  /* ⚡Hero ⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡*/
   .r-hero {
     min-height: 55vh; display: flex; flex-direction: column; align-items: center; justify-content: center;
     text-align: center; padding: 110px 24px 60px; position: relative; overflow: hidden;
@@ -23,16 +23,16 @@
   .r-title span { background: linear-gradient(135deg, #ef4444, #f97316); -webkit-background-clip:text; -webkit-text-fill-color:transparent; }
   .r-subtitle { color:#94a3b8; font-size:1.05rem; max-width:600px; line-height:1.7; }
 
-  /* ���� Container �������������������������������� */
+  /* ⚡Container ⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡*/
   .r-wrap { max-width:960px; margin:0 auto; padding:0 20px 80px; }
 
-  /* ���� Glass Cards ���������������������������� */
+  /* ⚡Glass Cards ⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡*/
   .glass { background:rgba(255,255,255,.03); backdrop-filter:blur(16px); border:1px solid rgba(255,255,255,.06); border-radius:20px; padding:32px; margin-bottom:32px; transition:transform .35s,box-shadow .35s; }
   .glass:hover { transform:translateY(-4px); box-shadow:0 20px 60px rgba(0,0,0,.3),0 0 30px #ef444411; }
   .section-label { font-size:.75rem; font-weight:800; text-transform:uppercase; letter-spacing:3px; color:#ef4444; margin-bottom:14px; display:flex; align-items:center; gap:8px; }
   .section-label::before { content:''; width:16px; height:2px; background:#ef4444; border-radius:2px; }
 
-  /* ���� Mouth Anatomy SVG ���������������� */
+  /* ⚡Mouth Anatomy SVG ⚡⚡⚡⚡⚡⚡⚡*/
   .anatomy-wrap { display:flex; justify-content:center; margin:20px 0 30px; }
   .anatomy-svg { width:320px; height:240px; }
   .anatomy-label { fill:#94a3b8; font-size:11px; font-weight:600; }
@@ -44,20 +44,20 @@
   .air-arrow { stroke:#ef4444; stroke-width:2; fill:none; stroke-dasharray:6,4; animation:airFlow 1.5s linear infinite; }
   @keyframes airFlow { to { stroke-dashoffset: -20; } }
 
-  /* ���� 4 Stage Practice ���������������� */
-  .stages { display:grid; grid-template-columns:repeat(4,1fr); gap:12px; margin:20px 0; }
-  @media(max-width:700px) { .stages { grid-template-columns:repeat(2,1fr); } }
+  /* ⚡4 Stage Practice ⚡⚡⚡⚡⚡⚡⚡*/
+  .stages { display:grid; grid-template-columns:repeat(auto-fit, minmax(150px, 1fr)); gap:12px; margin:20px 0; }
+  /* Responsive grid handles its own wrapping, no need for media queries here */
   .stage-card { padding:20px; border-radius:16px; text-align:center; cursor:pointer; border:2px solid rgba(255,255,255,.06); background:rgba(255,255,255,.03); transition:all .3s; position:relative; overflow:hidden; }
   .stage-card::before { content:''; position:absolute; inset:0; background:linear-gradient(135deg,#ef444411,transparent); opacity:0; transition:opacity .3s; }
   .stage-card:hover::before, .stage-card.active::before { opacity:1; }
   .stage-card.active { border-color:#ef4444; box-shadow:0 0 20px #ef444422; }
   .stage-card.completed { border-color:#10b981; }
-  .stage-card.completed::after { content:'�S'; position:absolute; top:8px; right:10px; color:#10b981; font-weight:900; font-size:1.2rem; }
+  .stage-card.completed::after { content:'✅'; position:absolute; top:8px; right:10px; color:#10b981; font-weight:900; font-size:1.2rem; }
   .stage-num { font-size:1.8rem; font-weight:900; color:#ef4444; margin-bottom:6px; }
   .stage-sound { font-size:1.4rem; font-weight:700; color:#fff; margin-bottom:4px; letter-spacing:3px; }
   .stage-desc { font-size:.78rem; color:#64748b; }
 
-  /* ���� Practice Arena ���������������������� */
+  /* ⚡Practice Arena ⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡*/
   .practice-arena { background:linear-gradient(135deg,#1a0a0a,#0f172a); border:2px solid #ef444433; border-radius:24px; padding:40px; text-align:center; margin:20px 0; position:relative; overflow:hidden; }
   .practice-arena::before { content:''; position:absolute; inset:0; background:radial-gradient(circle at 50% 50%,#ef444408,transparent 60%); pointer-events: none; }
   .practice-word { font-size:3.5rem; font-weight:900; color:#fff; margin:20px 0; letter-spacing:6px; position:relative; z-index:1; }
@@ -67,7 +67,7 @@
   .practice-btn:hover { transform:translateY(-2px); box-shadow:0 8px 30px #ef444466; }
   .practice-btn:active { transform:scale(.97); }
 
-  /* ���� Speed Chrono �������������������������� */
+  /* ⚡Speed Chrono ⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡*/
   .chrono-display { font-size:4rem; font-weight:900; font-variant-numeric:tabular-nums; color:#fff; margin:16px 0; }
   .chrono-display .ms { font-size:2rem; color:#64748b; }
   .chrono-controls { display:flex; gap:12px; justify-content:center; flex-wrap:wrap; }
@@ -77,54 +77,54 @@
   .chrono-reset { background:rgba(255,255,255,.06); color:#94a3b8; border:1px solid rgba(255,255,255,.1); }
   .chrono-btn:hover { transform:translateY(-2px); }
 
-  /* ���� Word Marathon ������������������������ */
+  /* ⚡Word Marathon ⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡*/
   .word-grid { display:flex; flex-wrap:wrap; gap:10px; justify-content:center; }
   .r-word { padding:10px 18px; border-radius:12px; background:rgba(239,68,68,.08); border:1px solid #ef444433; color:#fca5a5; font-size:.95rem; font-weight:600; cursor:pointer; transition:all .3s; position:relative; }
   .r-word:hover { background:#ef444422; transform:scale(1.05); box-shadow:0 0 16px #ef444422; }
   .r-word.spoken { background:#10b98118; border-color:#10b98144; color:#6ee7b7; }
   .r-word .r-char { color:#ef4444; font-weight:900; font-size:1.1em; }
 
-  /* ���� Tekerleme Arena �������������������� */
+  /* ⚡Tekerleme Arena ⚡⚡⚡⚡⚡⚡⚡⚡⚡*/
   .teker-text { font-size:1.3rem; font-weight:600; color:#e2e8f0; line-height:2; text-align:center; padding:20px; border-radius:16px; background:rgba(255,255,255,.03); margin:16px 0; }
   .teker-text .r-mark { color:#ef4444; font-weight:900; text-decoration:underline; text-underline-offset:4px; }
 
-  /* ���� Progress Bar �������������������������� */
+  /* ⚡Progress Bar ⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡*/
   .progress-track { width:100%; height:12px; border-radius:20px; background:rgba(255,255,255,.06); overflow:hidden; margin:20px 0; }
   .progress-fill { height:100%; border-radius:20px; background:linear-gradient(90deg,#ef4444,#f97316); transition:width .6s ease; position:relative; }
   .progress-fill::after { content:''; position:absolute; right:0; top:0; bottom:0; width:30px; background:rgba(255,255,255,.4); filter:blur(4px); animation:shimmer 1.5s ease-in-out infinite; }
   @keyframes shimmer { 0%,100%{ opacity:.3; } 50%{ opacity:.8; } }
   .progress-label { display:flex; justify-content:space-between; color:#64748b; font-size:.8rem; font-weight:600; }
 
-  /* ���� Back Button ���������������������������� */
+  /* ⚡Back Button ⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡*/
   .back-btn { display:inline-flex; align-items:center; gap:8px; padding:12px 24px; border-radius:14px; background:rgba(255,255,255,.05); border:1px solid rgba(255,255,255,.1); color:#94a3b8; font-size:.9rem; font-weight:600; text-decoration:none; transition:all .3s; margin-bottom:40px; }
   .back-btn:hover { background:rgba(255,255,255,.1); color:#fff; transform:translateX(-4px); }
 
-  /* ���� Scroll Reveal ������������������������ */
+  /* ⚡Scroll Reveal ⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡*/
   .reveal { opacity:0; transform:translateY(30px); transition:all .6s cubic-bezier(.16,1,.3,1); }
   .reveal.visible { opacity:1; transform:translateY(0); }
 </style>
 
-<!-- �"��"��"��"��"��"��"��"��"��"��"��"��"��"��"��"��"��"��"��"��"��"��"��"��"��"��"��"��"��"��"��"��"��"��"��"��"��"��"��"��"��"��"��"��"��"� HERO �"��"��"��"��"��"��"��"��"��"��"��"��"��"��"��"��"��"��"��"��"��"��"��"��"��"��"��"��"��"��"��"��"��"��"��"��"��"��"��"��"��"��"��"��"��"� -->
+<!-- "⚡"⚡"⚡"⚡"⚡"⚡"⚡"⚡"⚡"⚡"⚡"⚡"⚡"⚡"⚡"⚡"⚡"⚡"⚡"⚡"⚡"⚡"⚡"⚡"⚡"⚡"⚡"⚡"⚡"⚡"⚡"⚡"⚡"⚡"⚡"⚡"⚡"⚡"⚡"⚡"⚡"⚡"⚡"⚡"⚡"HERO "⚡"⚡"⚡"⚡"⚡"⚡"⚡"⚡"⚡"⚡"⚡"⚡"⚡"⚡"⚡"⚡"⚡"⚡"⚡"⚡"⚡"⚡"⚡"⚡"⚡"⚡"⚡"⚡"⚡"⚡"⚡"⚡"⚡"⚡"⚡"⚡"⚡"⚡"⚡"⚡"⚡"⚡"⚡"⚡"⚡"-->
 <section class="r-hero">
   <div class="hero-particles">
     <% for(let i=0; i<24; i++) { %>
       <div class="hp" style="left:<%= Math.random()*100 %>%; top:<%= Math.random()*100 %>%; width:<%= 3+Math.random()*6 %>px; height:<%= 3+Math.random()*6 %>px; background:#ef4444; animation-delay:<%= Math.random()*6 %>s; animation-duration:<%= 4+Math.random()*4 %>s;"></div>
     <% } %>
   </div>
-  <div class="r-icon">x&�</div>
-  <div class="r-badge">x� Telaffuz Laboratuvarı</div>
-  <h1 class="r-title"><span>R</span> Harfi S�yleyememe (Rotasizm) ��z�m Merkezi</h1>
-  <p class="r-subtitle">Türkçe'nin en zorlu seslerinden biri olan R harfinin titre�ximli telaffuzunu kusursuz hale getirin. Kademeli pratik sistemi ile dil ucunuzu e�xitin.</p>
+  <div class="r-icon">🏎️</div>
+  <div class="r-badge">🔬 Telaffuz Laboratuvarı</div>
+  <h1 class="r-title"><span>R</span> Harfi Söyleyememe (Rotasizm) Çözüm Merkezi</h1>
+  <p class="r-subtitle">Türkçe'nin en zorlu seslerinden biri olan R harfinin titreşimli telaffuzunu kusursuz hale getirin. Kademeli pratik sistemi ile dil ucunuzu eğitin.</p>
 </section>
 
 <div class="r-wrap">
 
-  <a href="/" class="back-btn">� � Ana Sayfaya Dön</a>
+  <a href="/" class="back-btn">Ana Sayfaya Dön</a>
 
-  <!-- �"��"��"��"��"��"��"��"��"��"��"� DİL POZİSYONU ANATOMİSİ �"��"��"��"��"��"��"��"��"��"��"� -->
+  <!-- "⚡"⚡"⚡"⚡"⚡"⚡"⚡"⚡"⚡"⚡"DİL POZİSYONU ANATOMİSİ "⚡"⚡"⚡"⚡"⚡"⚡"⚡"⚡"⚡"⚡"-->
   <div class="glass reveal">
-    <div class="section-label">x�� Dil Pozisyonu Anatomisi</div>
-    <p style="color:#94a3b8; font-size:.95rem; line-height:1.7; margin-bottom:16px;">R sesi, dil ucunun üst ön di�xlerin hemen arkasındaki <strong style="color:#ef4444">alveoler sırta</strong> hafifçe dokunup titre�xmesiyle olu�xur. Hava akımı dil ile damak arasından geçerken dili titre�xtirir.</p>
+    <div class="section-label">👅 Dil Pozisyonu Anatomisi</div>
+    <p style="color:#94a3b8; font-size:.95rem; line-height:1.7; margin-bottom:16px;">R sesi, dil ucunun üst ön dişlerin hemen arkasındaki <strong style="color:#ef4444">alveoler sırta</strong> hafifçe dokunup titreşmesiyle oluşur. Hava akımı dil ile damak arasından geçerken dili titreştirir.</p>
 
     <div class="anatomy-wrap">
       <svg class="anatomy-svg" viewBox="0 0 320 240">
@@ -136,19 +136,19 @@
         <circle cx="110" cy="78" r="8" fill="#ef4444" opacity="0.6">
           <animate attributeName="opacity" values="0.4;1;0.4" dur="2s" repeatCount="indefinite"/>
         </circle>
-        <text x="60" y="68" class="anatomy-label" fill="#ef4444" font-weight="700">Alveoler Sırt</text>
+        <text🔍="60" y="68" class="anatomy-label" fill="#ef4444" font-weight="700">Alveoler Sırt</text>
         <!-- Tongue -->
         <path id="tongueR" class="tongue-r" d="M80 180 Q100 130 115 85 Q130 100 160 140 Q190 170 240 185 Q180 200 120 195 Z"/>
         <!-- Teeth top -->
-        <rect class="teeth" x="68" y="82" width="14" height="12" rx="3"/>
-        <rect class="teeth" x="238" y="82" width="14" height="12" rx="3"/>
+        <rect class="teeth"🔍="68" y="82" width="14" height="12" rx="3"/>
+        <rect class="teeth"🔍="238" y="82" width="14" height="12" rx="3"/>
         <!-- Air flow arrows -->
         <path class="air-arrow" d="M120 90 Q140 60 170 70 Q200 80 190 100"/>
         <path class="air-arrow" d="M115 95 Q130 50 165 55" style="animation-delay:.5s"/>
         <!-- Labels -->
-        <text x="170" y="160" class="anatomy-label">Dil</text>
-        <text x="145" y="50" class="anatomy-label" fill="#ef4444">Hava Akı�xı � </text>
-        <text x="210" y="100" class="anatomy-label">Damak</text>
+        <text🔍="170" y="160" class="anatomy-label">Dil</text>
+        <text🔍="145" y="50" class="anatomy-label" fill="#ef4444">Hava Akışı </text>
+        <text🔍="210" y="100" class="anatomy-label">Damak</text>
         <!-- Vibration waves -->
         <circle cx="112" cy="82" r="14" fill="none" stroke="#ef4444" stroke-width="1" opacity="0.4">
           <animate attributeName="r" values="12;22;12" dur="1s" repeatCount="indefinite"/>
@@ -156,13 +156,13 @@
         </circle>
       </svg>
     </div>
-    <p style="color:#64748b; font-size:.85rem; text-align:center;">� ️ Dil ucunun kırmızı noktaya (alveoler sırt) temas etti�xini gözlemleyin</p>
+    <p style="color:#64748b; font-size:.85rem; text-align:center;">️ Dil ucunun kırmızı noktaya (alveoler sırt) temas ettiğini gözlemleyin</p>
   </div>
 
-  <!-- �"��"��"��"��"��"��"��"��"��"��"� 4 AŞAMALI KADEMELİ PRATİK �"��"��"��"��"��"��"��"��"��"��"� -->
+  <!-- "⚡"⚡"⚡"⚡"⚡"⚡"⚡"⚡"⚡"⚡"4 AŞAMALI KADEMELİ PRATİK "⚡"⚡"⚡"⚡"⚡"⚡"⚡"⚡"⚡"⚡"-->
   <div class="glass reveal">
-    <div class="section-label">x�� 4 A�xamalı Kademeli Pratik</div>
-    <p style="color:#94a3b8; font-size:.95rem; line-height:1.7; margin-bottom:20px;">Her a�xamayı 5 kez tekrarlayarak ilerleyin. Bir a�xamayı rahatça yapabildi�xinizde bir sonrakine geçin.</p>
+    <div class="section-label">📈 4 Aşamalı Kademeli Pratik</div>
+    <p style="color:#94a3b8; font-size:.95rem; line-height:1.7; margin-bottom:20px;">Her aşamayı 5 kez tekrarlayarak ilerleyin. Bir aşamayı rahatça yapabildiğinizde bir sonrakine geçin.</p>
 
     <div class="stages">
       <div class="stage-card active" onclick="setStage(0)">
@@ -192,10 +192,10 @@
       <div class="practice-word" id="practiceWord">D<span class="r-highlight">rrr</span></div>
       <div style="display:flex;gap:12px;justify-content:center;align-items:center;margin-top:16px;">
         <button class="practice-btn" id="repeatBtn" onclick="nextRepeat()">
-          <span style="font-size:1.2rem;">x</span> Tekrarla (<span id="repeatCount">0</span>/5)
+          <span style="font-size:1.2rem;">🔁</span> Tekrarla (<span id="repeatCount">0</span>/5)
         </button>
         <button class="practice-btn" style="background:linear-gradient(135deg,#10b981,#059669); display:none;" id="nextStageBtn" onclick="completeStage()">
-          <span style="font-size:1.2rem;">� </span> Sonraki A�xama
+          <span style="font-size:1.2rem;"></span> Sonraki Aşama
         </button>
       </div>
     </div>
@@ -204,23 +204,23 @@
       <div class="progress-fill" id="progressFill" style="width:0%"></div>
     </div>
     <div class="progress-label">
-      <span>Ba�xlangıç</span>
+      <span>Başlangıç</span>
       <span id="progressText">%0 Tamamlandı</span>
       <span>Usta</span>
     </div>
   </div>
 
-  <!-- �"��"��"��"��"��"��"��"��"��"��"� HIZ KRONOMETRESİ �"��"��"��"��"��"��"��"��"��"��"� -->
+  <!-- "⚡"⚡"⚡"⚡"⚡"⚡"⚡"⚡"⚡"⚡"HIZ KRONOMETRESİ "⚡"⚡"⚡"⚡"⚡"⚡"⚡"⚡"⚡"⚡"-->
   <div class="glass reveal">
     <div class="section-label">⏱️ R Tekerleme Kronometresi</div>
-    <p style="color:#94a3b8; font-size:.95rem; line-height:1.7; margin-bottom:16px;">A�xa�xıdaki R a�xırlıklı tekerlemeyi mümkün oldu�xunca hızlı ve <strong style="color:#ef4444">hatasız</strong> okuyun:</p>
+    <p style="color:#94a3b8; font-size:.95rem; line-height:1.7; margin-bottom:16px;">Aşağıdaki R ağırlıklı tekerlemeyi mümkün olduğunca hızlı ve <strong style="color:#ef4444">hatasız</strong> okuyun:</p>
 
     <div class="teker-text" id="rTekerlemeText" style="min-height:100px;">
       Yükleniyor...
     </div>
     
     <div style="display:flex; justify-content:center; gap:12px; margin-bottom:16px;">
-      <button class="back-btn" style="margin-bottom:0; padding:8px 16px; background:rgba(255,255,255,.08);" onclick="prevRTekerleme()">« �nceki</button>
+      <button class="back-btn" style="margin-bottom:0; padding:8px 16px; background:rgba(255,255,255,.08);" onclick="prevRTekerleme()">« nceki</button>
       <span style="color:#94a3b8; font-weight:600; align-self:center;" id="rTekerlemeCount">1 / 0</span>
       <button class="back-btn" style="margin-bottom:0; padding:8px 16px; background:rgba(255,255,255,.08);" onclick="nextRTekerleme()">Sonraki »</button>
     </div>
@@ -228,18 +228,18 @@
     <div style="text-align:center;">
       <div class="chrono-display"><span id="chronoMin">00</span>:<span id="chronoSec">00</span><span class="ms">.<span id="chronoMs">00</span></span></div>
       <div class="chrono-controls">
-        <button class="chrono-btn chrono-start" id="chronoStartBtn" onclick="chronoStart()">�� Ba�xlat</button>
+        <button class="chrono-btn chrono-start" id="chronoStartBtn" onclick="chronoStart()">Başlat</button>
         <button class="chrono-btn chrono-stop" id="chronoStopBtn" onclick="chronoStop()" style="display:none;">⏸ Durdur</button>
-        <button class="chrono-btn chrono-reset" onclick="chronoReset()">� � Sıfırla</button>
+        <button class="chrono-btn chrono-reset" onclick="chronoReset()">Sıfırla</button>
       </div>
       <div id="chronoBest" style="margin-top:16px;color:#64748b;font-size:.85rem;"></div>
     </div>
   </div>
 
-  <!-- �"��"��"��"��"��"��"��"��"��"��"� R KELİME MARATONU �"��"��"��"��"��"��"��"��"��"��"� -->
+  <!-- "⚡"⚡"⚡"⚡"⚡"⚡"⚡"⚡"⚡"⚡"R KELİME MARATONU "⚡"⚡"⚡"⚡"⚡"⚡"⚡"⚡"⚡"⚡"-->
   <div class="glass reveal">
-    <div class="section-label">x�� R Kelime Maratonu</div>
-    <p style="color:#94a3b8; font-size:.95rem; line-height:1.7; margin-bottom:20px;">Her kelimeye tıklayın, yüksek sesle söyleyin ve R harfini vurgulayın. Tamamladı�xınız kelimeler ye�xile döner.</p>
+    <div class="section-label">🏃 R Kelime Maratonu</div>
+    <p style="color:#94a3b8; font-size:.95rem; line-height:1.7; margin-bottom:20px;">Her kelimeye tıklayın, yüksek sesle söyleyin ve R harfini vurgulayın. Tamamladığınız kelimeler yeşile döner.</p>
 
     <div class="word-grid" id="wordGrid"></div>
 
@@ -248,22 +248,22 @@
     </div>
   </div>
 
-  <!-- �"��"��"��"��"��"��"��"��"��"��"� İPUCU �"��"��"��"��"��"��"��"��"��"��"� -->
+  <!-- "⚡"⚡"⚡"⚡"⚡"⚡"⚡"⚡"⚡"⚡"İPUCU "⚡"⚡"⚡"⚡"⚡"⚡"⚡"⚡"⚡"⚡"-->
   <div style="background:linear-gradient(135deg,rgba(251,191,36,.08),rgba(251,191,36,.02)); border:1px solid rgba(251,191,36,.25); border-radius:18px; padding:24px 28px; font-size:.95rem; color:#fbbf24; line-height:1.7; display:flex; align-items:flex-start; gap:14px; margin-bottom:32px;" class="reveal">
-    <span style="font-size:1.5rem; flex-shrink:0;">x�</span>
-    <span>R sesi çıkaramıyorsanız endi�xelenmeyin � bu Türkçe konu�xanların en yaygın problemidir. Günde sadece 5 dakika pratikle 2-3 hafta içinde belirgin geli�xim göreceksiniz. Asla zorlamayın, dilinizi dinleyin.</span>
+    <span style="font-size:1.5rem; flex-shrink:0;">💡</span>
+    <span>R sesi çıkaramıyorsanız endişelenmeyin  bu Türkçe konuşanların en yaygın problemidir. Günde sadece 5 dakika pratikle 2-3 hafta içinde belirgin gelişim göreceksiniz. Asla zorlamayın, dilinizi dinleyin.</span>
   </div>
 
 </div>
 
 <script src="/tekerlemeler.js"></script>
 <script>
-// �"��"��"��"��"��"��"��"��"��"��"� 4 Stage Practice �"��"��"��"��"��"��"��"��"��"��"�
+// "⚡"⚡"⚡"⚡"⚡"⚡"⚡"⚡"⚡"⚡"4 Stage Practice "⚡"⚡"⚡"⚡"⚡"⚡"⚡"⚡"⚡"⚡"
 const stageData = [
   { word: 'D<span class="r-highlight">rrr</span>', hint: 'Dil ucunuzu alveoler sırta koyun ve güçlü bir nefesle titretin' },
-  { word: 'T<span class="r-highlight">rr</span>', hint: 'Titre�ximi kısaltın � sadece 2-3 vuru�x yeterli' },
-  { word: '<span class="r-highlight">Rr</span>', hint: 'Ba�xlangıç ünsüzünü kaldırın, do�xrudan R ile ba�xlayın' },
-  { word: '<span class="r-highlight">R</span>üzgâ<span class="r-highlight">r</span>', hint: 'Artık R\'yi bir kelime içinde do�xal �xekilde söyleyin' }
+  { word: 'T<span class="r-highlight">rr</span>', hint: 'Titreşimi kısaltın  sadece 2-3 vuruş yeterli' },
+  { word: '<span class="r-highlight">Rr</span>', hint: 'Başlangıç ünsüzünü kaldırın, doğrudan R ile başlayın' },
+  { word: '<span class="r-highlight">R</span>üzgâ<span class="r-highlight">r</span>', hint: 'Artık R\'yi bir kelime içinde doğal şekilde söyleyin' }
 ];
 let currentStage = 0, repeatCount = 0, completedStages = [];
 
@@ -307,7 +307,7 @@ function updateProgress() {
   document.getElementById('progressText').textContent = '%' + Math.round(pct) + ' Tamamlandı';
 }
 
-// �"��"��"��"��"��"��"��"��"��"��"� Chronometer �"��"��"��"��"��"��"��"��"��"��"�
+// "⚡"⚡"⚡"⚡"⚡"⚡"⚡"⚡"⚡"⚡"Chronometer "⚡"⚡"⚡"⚡"⚡"⚡"⚡"⚡"⚡"⚡"
 let chronoInterval = null, chronoTime = 0, bestTime = Infinity;
 
 function chronoStart() {
@@ -335,7 +335,7 @@ function chronoStop() {
     const mins = Math.floor(bestTime / 60000);
     const secs = Math.floor((bestTime % 60000) / 1000);
     const ms = Math.floor((bestTime % 1000) / 10);
-    document.getElementById('chronoBest').innerHTML = 'x�  En İyi Süre: <strong style="color:#f97316;">' + String(mins).padStart(2,'0') + ':' + String(secs).padStart(2,'0') + '.' + String(ms).padStart(2,'0') + '</strong>';
+    document.getElementById('chronoBest').innerHTML = '🏆 En İyi Süre: <strong style="color:#f97316;">' + String(mins).padStart(2,'0') + ':' + String(secs).padStart(2,'0') + '.' + String(ms).padStart(2,'0') + '</strong>';
   }
 }
 
@@ -350,7 +350,7 @@ function chronoReset() {
   document.getElementById('chronoStopBtn').style.display = 'none';
 }
 
-// �"��"��"��"��"��"��"��"��"��"��"� Word Marathon �"��"��"��"��"��"��"��"��"��"��"�
+// "⚡"⚡"⚡"⚡"⚡"⚡"⚡"⚡"⚡"⚡"Word Marathon "⚡"⚡"⚡"⚡"⚡"⚡"⚡"⚡"⚡"⚡"
 const rWords = [
   'Rüzgâr','Radar','Resim','Robot','Rahat','Rampa','Refah','Ritim','Rüya','Radyo',
   'Renk','Reçel','Rota','Rapor','Rehber','Rumuz','Rahmet','Resmi','Reform','Rotasyon',
@@ -382,11 +382,11 @@ function updateWordProgress() {
 
 renderWords();
 
-// �"��"��"��"��"��"��"��"��"��"��"� Tekerleme Modül Entegrasyonu �"��"��"��"��"��"��"��"��"��"��"�
+// "⚡"⚡"⚡"⚡"⚡"⚡"⚡"⚡"⚡"⚡"Tekerleme Modül Entegrasyonu "⚡"⚡"⚡"⚡"⚡"⚡"⚡"⚡"⚡"⚡"
 let rTekerlemeler = typeof TEKERLEMELER !== 'undefined' && TEKERLEMELER['R'] ? TEKERLEMELER['R'] : [
   "Ramazanda rızkını romatizmalı Ramiz'e rastgele rehin bırakan radyocu Rıdvan, ruhsarını rüyasında rubleyle renklendirdi.",
-  "Bir berber bir berbere bre berber, gel beraber bir berber dükkânı açalım, demi�x.",
-  "Kar ya�xar kara karar dar karara kar ya�xar, kara karar kararda kar ya�xar."
+  "Bir berber bir berbere bre berber, gel beraber bir berber dükkânı açalım, demiş.",
+  "Kar yağar kara karar dar karara kar yağar, kara karar kararda kar yağar."
 ];
 let currentRTekerlemeIdx = 0;
 
@@ -415,7 +415,7 @@ function nextRTekerleme() {
 
 renderRTekerleme();
 
-// �"��"��"��"��"��"��"��"��"��"��"� Scroll Reveal �"��"��"��"��"��"��"��"��"��"��"�
+// "⚡"⚡"⚡"⚡"⚡"⚡"⚡"⚡"⚡"⚡"Scroll Reveal "⚡"⚡"⚡"⚡"⚡"⚡"⚡"⚡"⚡"⚡"
 const obs = new IntersectionObserver((entries) => {
   entries.forEach(e => { if(e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); } });
 }, { threshold: 0.12 });
