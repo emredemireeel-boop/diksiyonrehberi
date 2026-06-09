@@ -1,16 +1,16 @@
 <%- include('partials/main-header') %>
 
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700;800;900&family=Playfair+Display:ital,wght@0,600;0,700;0,800;0,900;1,600&family=JetBrains+Mono:wght@400;700&display=swap');
+  
 
   /* ═══════════════════════════════════════════════════════════
      SAFSATA DEDEKTİFİ — Surrealist Competition Grade Design
      ═══════════════════════════════════════════════════════════ */
 
   :root {
-    --det-bg: #050510;
-    --det-surface: #0c0c24;
-    --det-glass: rgba(15, 15, 50, 0.6);
+    --det-bg: #0a0a14;
+    --det-surface: #131320;
+    --det-glass: #131320;
     --det-border: rgba(120, 80, 255, 0.15);
     --det-glow: #7c3aed;
     --det-glow2: #c084fc;
@@ -18,20 +18,13 @@
     --det-amber: #fbbf24;
     --det-emerald: #34d399;
     --det-rose: #fb7185;
-    --det-text: #f1f0ff;
-    --det-text2: #a5a3c9;
-    --det-text3: #6b6899;
+    --det-text: #f1f5f9;
+    --det-text2: #cbd5e1;
+    --det-text3: #94a3b8;
     --noise: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.04'/%3E%3C/svg%3E");
   }
 
-  body {
-    background: var(--det-bg) !important;
-    color: var(--det-text);
-    font-family: 'Outfit', sans-serif;
-    overflow-x: hidden;
-    margin: 0;
-    padding: 0;
-  }
+  body { background: #0a0a14 !important; color: #f1f5f9 !important; font-family: "Inter", sans-serif; overflow-x: hidden; margin: 0; padding: 0; }
 
   /* ── Cosmic Background ── */
   .cosmic-bg {
@@ -135,7 +128,7 @@
     pointer-events: none;
   }
   .cinema-badge {
-    font-family: 'JetBrains Mono', monospace;
+    font-family: 'Inter', sans-serif;
     font-size: 0.7rem;
     letter-spacing: 6px;
     text-transform: uppercase;
@@ -146,7 +139,7 @@
     margin-bottom: 20px;
   }
   .cinema-title {
-    font-family: 'Playfair Display', serif;
+    font-family: 'Plus Jakarta Sans', sans-serif;
     font-size: 4rem;
     font-weight: 900;
     color: transparent;
@@ -160,7 +153,7 @@
     line-height: 1.1;
   }
   .cinema-sub {
-    font-family: 'Outfit', sans-serif;
+    font-family: 'Inter', sans-serif;
     font-size: 1rem;
     color: var(--det-text2);
     opacity: 0;
@@ -216,7 +209,7 @@
     border-radius: 50px;
     background: rgba(124, 58, 237, 0.1);
     border: 1px solid rgba(124, 58, 237, 0.2);
-    font-family: 'JetBrains Mono', monospace;
+    font-family: 'Inter', sans-serif;
     font-size: 0.65rem;
     letter-spacing: 3px;
     text-transform: uppercase;
@@ -239,7 +232,7 @@
   }
 
   .det-hero-title {
-    font-family: 'Playfair Display', serif;
+    font-family: 'Plus Jakarta Sans', sans-serif;
     font-size: 3rem;
     font-weight: 900;
     line-height: 1.1;
@@ -250,7 +243,7 @@
     background-clip: text;
   }
   .det-hero-sub {
-    font-family: 'Outfit', sans-serif;
+    font-family: 'Inter', sans-serif;
     font-size: 1.05rem;
     color: var(--det-text2);
     line-height: 1.6;
@@ -306,7 +299,7 @@
     font-weight: 700;
   }
   .hud-value {
-    font-family: 'JetBrains Mono', monospace;
+    font-family: 'Inter', sans-serif;
     font-size: 1.2rem;
     font-weight: 900;
     color: var(--det-text);
@@ -392,7 +385,7 @@
     position: relative;
   }
   .case-number {
-    font-family: 'JetBrains Mono', monospace;
+    font-family: 'Inter', sans-serif;
     font-size: 0.6rem;
     letter-spacing: 4px;
     text-transform: uppercase;
@@ -410,7 +403,7 @@
     background: linear-gradient(90deg, var(--det-border), transparent);
   }
   .case-name {
-    font-family: 'Playfair Display', serif;
+    font-family: 'Plus Jakarta Sans', sans-serif;
     font-size: 1.8rem;
     font-weight: 800;
     color: var(--det-text);
@@ -477,7 +470,7 @@
   .msg-card.speaker-b .msg-dot { border-color: var(--det-rose); box-shadow: 0 0 12px rgba(251, 113, 133, 0.3); }
 
   .msg-speaker {
-    font-family: 'JetBrains Mono', monospace;
+    font-family: 'Inter', sans-serif;
     font-size: 0.65rem;
     letter-spacing: 2px;
     text-transform: uppercase;
@@ -619,7 +612,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    font-family: 'JetBrains Mono', monospace;
+    font-family: 'Inter', sans-serif;
     font-size: 0.75rem;
     font-weight: 900;
     color: var(--det-glow2);
@@ -714,18 +707,14 @@
   .feedback-panel.error .fb-icon { background: rgba(251, 113, 133, 0.15); }
 
   .fb-title-text {
-    font-family: 'Outfit', sans-serif;
+    font-family: 'Inter', sans-serif;
     font-size: 1rem;
     font-weight: 800;
   }
   .feedback-panel.success .fb-title-text { color: var(--det-emerald); }
   .feedback-panel.error .fb-title-text { color: var(--det-rose); }
 
-  .fb-body {
-    font-size: 0.95rem;
-    line-height: 1.7;
-    color: var(--det-text2);
-  }
+  .fb-body { background: #0a0a14 !important; color: #f1f5f9 !important; font-family: "Inter", sans-serif; overflow-x: hidden; margin: 0; padding: 0; }
 
   /* ── Next Button ── */
   .next-action {
@@ -737,8 +726,8 @@
     border: none;
     border-radius: 14px;
     background: linear-gradient(135deg, var(--det-glow), #9333ea);
-    color: #fff;
-    font-family: 'Outfit', sans-serif;
+    color: #f1f5f9;
+    font-family: 'Inter', sans-serif;
     font-size: 0.9rem;
     font-weight: 800;
     text-transform: uppercase;
@@ -817,7 +806,7 @@
     50% { transform: translateY(-15px) rotate(5deg); }
   }
   .victory-title {
-    font-family: 'Playfair Display', serif;
+    font-family: 'Plus Jakarta Sans', sans-serif;
     font-size: 2.5rem;
     font-weight: 900;
     margin: 0 0 10px;
@@ -848,7 +837,7 @@
     min-width: 100px;
   }
   .vs-num {
-    font-family: 'JetBrains Mono', monospace;
+    font-family: 'Inter', sans-serif;
     font-size: 2rem;
     font-weight: 900;
     color: var(--det-glow2);
@@ -869,7 +858,7 @@
     padding: 16px 36px;
     border-radius: 16px;
     background: linear-gradient(135deg, var(--det-glow), #9333ea);
-    color: #fff;
+    color: #f1f5f9;
     text-decoration: none;
     font-weight: 800;
     font-size: 0.95rem;
@@ -917,7 +906,7 @@
   .st-text {
     position: relative;
     z-index: 2;
-    font-family: 'JetBrains Mono', monospace;
+    font-family: 'Inter', sans-serif;
     font-size: 0.8rem;
     letter-spacing: 6px;
     text-transform: uppercase;
@@ -938,7 +927,7 @@
     left: 50%;
     transform: translate(-50%, -50%) scale(0.5);
     z-index: 7777;
-    font-family: 'JetBrains Mono', monospace;
+    font-family: 'Inter', sans-serif;
     font-size: 4rem;
     font-weight: 900;
     pointer-events: none;

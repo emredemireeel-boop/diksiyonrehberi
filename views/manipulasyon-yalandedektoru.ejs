@@ -1,0 +1,363 @@
+<%- include('partials/main-header') %>
+
+<style>
+  body {
+    background-color: #fafaf9; /* Premium light theme */
+    color: #1e293b;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+  }
+  .lie-container {
+    padding: 60px 20px;
+    max-width: 900px;
+    margin: 0 auto;
+    min-height: 80vh;
+  }
+  .lie-header {
+    text-align: center;
+    margin-bottom: 50px;
+  }
+  .lie-header h1 {
+    font-size: 2.8rem;
+    font-weight: 900;
+    color: #0f172a;
+    letter-spacing: -0.5px;
+    margin-bottom: 15px;
+  }
+  .lie-header p {
+    font-size: 1.1rem;
+    color: #64748b;
+    max-width: 600px;
+    margin: 0 auto;
+    line-height: 1.6;
+  }
+
+  /* Game HUD */
+  .game-hud {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: white;
+    padding: 15px 30px;
+    border-radius: 16px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.03);
+    margin-bottom: 30px;
+    border: 1px solid #e2e8f0;
+  }
+  .level-badge {
+    background: #eff6ff;
+    color: #3b82f6;
+    padding: 8px 16px;
+    border-radius: 30px;
+    font-weight: 700;
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+  .score-badge {
+    font-weight: 800;
+    font-size: 1.2rem;
+    color: #0f172a;
+  }
+  .score-badge span {
+    color: #10b981;
+  }
+
+  /* Game Screen */
+  .game-screen {
+    background: white;
+    border-radius: 24px;
+    padding: 40px;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.05);
+    border: 1px solid #e2e8f0;
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .scenario-title {
+    font-size: 1.2rem;
+    color: #64748b;
+    font-weight: 600;
+    margin-bottom: 10px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+  .scenario-text {
+    font-size: 1.8rem;
+    font-weight: 800;
+    color: #0f172a;
+    line-height: 1.4;
+    margin-bottom: 30px;
+  }
+
+  /* Micro Expression Box */
+  .micro-box {
+    background: #f8fafc;
+    border: 2px dashed #cbd5e1;
+    border-radius: 16px;
+    padding: 30px;
+    text-align: center;
+    margin-bottom: 40px;
+    position: relative;
+    min-height: 120px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .micro-clue {
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: #f43f5e;
+    opacity: 0;
+    transform: scale(0.9);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  .micro-clue.visible {
+    opacity: 1;
+    transform: scale(1);
+  }
+
+  /* Action Buttons */
+  .actions {
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+  }
+  .btn-action {
+    flex: 1;
+    max-width: 250px;
+    padding: 20px;
+    border-radius: 16px;
+    border: none;
+    font-size: 1.2rem;
+    font-weight: 800;
+    cursor: pointer;
+    transition: all 0.3s;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+  }
+  .btn-truth {
+    background: #ecfdf5;
+    color: #059669;
+    border: 2px solid #a7f3d0;
+  }
+  .btn-truth:hover:not(:disabled) { background: #d1fae5; transform: translateY(-3px); box-shadow: 0 10px 20px rgba(16,185,129,0.1); }
+  .btn-lie {
+    background: #fff1f2;
+    color: #e11d48;
+    border: 2px solid #fecdd3;
+  }
+  .btn-lie:hover:not(:disabled) { background: #ffe4e6; transform: translateY(-3px); box-shadow: 0 10px 20px rgba(225,29,72,0.1); }
+  .btn-action:disabled { opacity: 0.5; cursor: not-allowed; transform: none !important; box-shadow: none !important; }
+
+  /* Feedback Overlay */
+  .feedback {
+    margin-top: 30px;
+    padding: 30px;
+    border-radius: 16px;
+    display: none;
+    animation: slideUp 0.4s ease forwards;
+  }
+  .feedback.success { background: #ecfdf5; border: 1px solid #a7f3d0; }
+  .feedback.error { background: #fff1f2; border: 1px solid #fecdd3; }
+  
+  .feedback-title {
+    font-size: 1.3rem;
+    font-weight: 800;
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .feedback.success .feedback-title { color: #059669; }
+  .feedback.error .feedback-title { color: #e11d48; }
+  
+  .feedback-desc {
+    font-size: 1.05rem;
+    color: #334155;
+    line-height: 1.6;
+    margin-bottom: 20px;
+  }
+  .btn-next {
+    background: #0f172a;
+    color: white;
+    border: none;
+    padding: 12px 30px;
+    border-radius: 8px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: 0.2s;
+  }
+  .btn-next:hover { background: #334155; }
+
+  /* End Screen */
+  .end-screen {
+    text-align: center;
+    padding: 40px;
+    display: none;
+  }
+  .end-icon { font-size: 4rem; margin-bottom: 20px; }
+
+  @keyframes slideUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+</style>
+
+<div class="lie-container">
+  <div class="lie-header">
+    <h1>Yalan Dedektörü</h1>
+    <p>FBI ajanlarının kullandığı mikro ifade (micro-expression) okuma teknikleriyle yalanı saniyeler içinde tespit et.</p>
+  </div>
+
+  <div class="game-hud">
+    <div class="level-badge" id="levelBadge">Sorgu: 1 / 5</div>
+    <div class="score-badge">Skor: <span id="scoreVal">0</span></div>
+  </div>
+
+  <div class="game-screen" id="gameScreen">
+    <div class="scenario-title" id="scenarioTitle">Senaryo #1: İş Mülakatı</div>
+    <div class="scenario-text" id="scenarioText">"Eski şirketimden tamamen kendi isteğimle, yeni vizyonlara yelken açmak için ayrıldım."</div>
+    
+    <div class="micro-box">
+      <div id="countdown" style="font-weight:700; color:#94a3b8; font-size:1.1rem;">Beden dilini analiz etmek için odaklanın... <br>İpucu birazdan belirecek.</div>
+      <div class="micro-clue" id="microClue">Gözlerini kaçırdı ve sağ omzunu hafifçe silkti.</div>
+    </div>
+
+    <div class="actions">
+      <button class="btn-action btn-truth" id="btnTruth" onclick="makeGuess(false)">
+        <span style="font-size:2rem;">✅</span> Doğru Söylüyor
+      </button>
+      <button class="btn-action btn-lie" id="btnLie" onclick="makeGuess(true)">
+        <span style="font-size:2rem;">🚨</span> Yalan Söylüyor
+      </button>
+    </div>
+
+    <div class="feedback" id="feedbackBox">
+      <div class="feedback-title" id="fbTitle"></div>
+      <div class="feedback-desc" id="fbDesc"></div>
+      <button class="btn-next" onclick="nextLevel()">Sıradaki Sorguya Geç ➔</button>
+    </div>
+  </div>
+
+  <div class="game-screen end-screen" id="endScreen">
+    <div class="end-icon">🕵️‍♂️</div>
+    <h2 style="font-size:2.5rem; color:#0f172a; margin-bottom:15px; font-weight:900;">Sorgu Tamamlandı!</h2>
+    <p style="color:#64748b; font-size:1.2rem; margin-bottom:30px;">Mikro ifadeleri okuma konusunda reflekslerinizi test ettiniz.</p>
+    <a href="/manipulasyon" style="display:inline-block; background:#2563eb; color:white; padding:15px 30px; border-radius:12px; text-decoration:none; font-weight:800;">Manipülasyon Ana Sayfası</a>
+  </div>
+
+</div>
+
+<script>
+  const cases = [
+    {
+      title: "Senaryo #1: Mülakat",
+      statement: `"Eski şirketimden tamamen kendi isteğimle, kariyerime yeni bir vizyon katmak için ayrıldım."`,
+      clue: "(Cümleyi kurarken sağ omzunu tek taraflı hafifçe silkiyor)",
+      isLie: true,
+      analysis: "Tek taraflı omuz silkme, bedenin konuşulan sözlere inanmadığının evrensel bir mikro ifadesidir. Kişi kendi söylediği söze güvenmiyor ve yalan söylüyor."
+    },
+    {
+      title: "Senaryo #2: Arkadaş Ziyareti",
+      statement: `"Dün akşam beni aradığında telefonu hiç duymamışım, erkenden uyuyakalmışım."`,
+      clue: "(Cümle bittikten hemen sonra dudaklarını içeri doğru bastırıp sıkıyor)",
+      isLie: true,
+      analysis: "Dudakları içeri bastırmak (Lip Compression), kişinin bilerek bir bilgiyi sakladığının veya yalan söylemenin yarattığı stresi bastırmaya çalıştığının net bir işaretidir."
+    },
+    {
+      title: "Senaryo #3: Ofis Kazası",
+      statement: `"O dosyayı yanlışlıkla silen ben değildim, yemin ederim ben dokunmadım!"`,
+      clue: "(Gözleri kocaman açılmış, kaşları tamamen yukarı kalkmış ve yüzünde net bir şaşkınlık var)",
+      isLie: false,
+      analysis: "Gerçek şaşkınlık ve korku yüzün tamamına yayılır (makro ifade) ve 1-2 saniye sürer. Yalan söyleyenler genellikle şaşkınlığı sadece ağızlarıyla taklit eder, gözleri eşlik etmez. Bu kişi doğru söylüyor."
+    },
+    {
+      title: "Senaryo #4: İlişki Sorgusu",
+      statement: `"Hayatımda senden başka hiç kimse yok. O mesajlaştığım kişi sadece eski bir okul arkadaşım."`,
+      clue: "(Konuşurken işaret parmağıyla burnunun ucunu kaşıyor)",
+      isLie: true,
+      analysis: "Pinokyo Etkisi! İnsan yalan söylediğinde kan basıncı değişir ve burun dokusunda karıncalanma yaratır. Yalan söyleyen kişinin burnuna dokunması efsane değil, kanıtlanmış bir mikro bedensel reflekstir."
+    },
+    {
+      title: "Senaryo #5: Suçlama Savunması",
+      statement: `"Ben kimsenin arkasından iş çevirmedim! Bunu bana nasıl söylersin?"`,
+      clue: "(Sinirleniyor ve konuşurken çenesi hafifçe öne çıkıyor, kaşları V şeklini alıyor)",
+      isLie: false,
+      analysis: "Gerçek öfke (Anger) mikro ifadesinde çene öne çıkar ve kaşlar içeri/aşağı doğru çatılır. Haksız yere suçlanan masum birinin verdiği bu tepki büyük ihtimalle dürüsttür."
+    }
+  ];
+
+  let current = 0;
+  let score = 0;
+  let clueTimeout;
+
+  function loadLevel() {
+    if (current >= cases.length) {
+      document.getElementById('gameScreen').style.display = 'none';
+      document.getElementById('endScreen').style.display = 'block';
+      return;
+    }
+
+    const c = cases[current];
+    document.getElementById('levelBadge').textContent = `Sorgu: ${current + 1} / ${cases.length}`;
+    document.getElementById('scenarioTitle').textContent = c.title;
+    document.getElementById('scenarioText').innerHTML = c.statement;
+    
+    // Reset buttons & UI
+    document.getElementById('btnTruth').disabled = true;
+    document.getElementById('btnLie').disabled = true;
+    document.getElementById('feedbackBox').style.display = 'none';
+    
+    const microClue = document.getElementById('microClue');
+    const countdown = document.getElementById('countdown');
+    
+    microClue.classList.remove('visible');
+    microClue.textContent = c.clue;
+    countdown.style.display = 'block';
+
+    // Show clue after 2.5 seconds
+    clearTimeout(clueTimeout);
+    clueTimeout = setTimeout(() => {
+      countdown.style.display = 'none';
+      microClue.classList.add('visible');
+      document.getElementById('btnTruth').disabled = false;
+      document.getElementById('btnLie').disabled = false;
+    }, 2500);
+  }
+
+  function makeGuess(guessedLie) {
+    const c = cases[current];
+    document.getElementById('btnTruth').disabled = true;
+    document.getElementById('btnLie').disabled = true;
+
+    const fbBox = document.getElementById('feedbackBox');
+    const fbTitle = document.getElementById('fbTitle');
+    const fbDesc = document.getElementById('fbDesc');
+    
+    fbBox.className = 'feedback'; // reset
+    fbBox.style.display = 'block';
+
+    if (guessedLie === c.isLie) {
+      fbBox.classList.add('success');
+      fbTitle.innerHTML = '🎯 Doğru Analiz!';
+      score += 100;
+      document.getElementById('scoreVal').textContent = score;
+    } else {
+      fbBox.classList.add('error');
+      fbTitle.innerHTML = '❌ Yanlış Teşhis!';
+    }
+    fbDesc.innerHTML = c.analysis;
+  }
+
+  function nextLevel() {
+    current++;
+    loadLevel();
+  }
+
+  // Start
+  loadLevel();
+</script>
+
+<%- include('partials/main-footer') %>

@@ -303,6 +303,16 @@
     .g-card { padding: 30px; }
     .g-hero-buttons { flex-direction: column; }
   }
+
+  /* FAQ SECTION */
+  .g-faq-container { max-width: 800px; margin: 0 auto; }
+  .g-faq-item { border-bottom: 1px solid var(--glass-border); margin-bottom: 15px; }
+  .g-faq-btn { width: 100%; display: flex; justify-content: space-between; align-items: center; background: none; border: none; padding: 20px 0; font-family: 'Outfit', sans-serif; font-size: 1.2rem; font-weight: 600; color: var(--text-main); cursor: pointer; text-align: left; transition: color 0.3s; }
+  .g-faq-btn:hover { color: var(--gold-dark); }
+  .g-faq-icon { font-size: 1.5rem; color: var(--gold-primary); transition: transform 0.3s; font-weight: 300; }
+  .g-faq-item.active .g-faq-icon { transform: rotate(45deg); }
+  .g-faq-content { max-height: 0; overflow: hidden; transition: max-height 0.4s ease; }
+  .g-faq-content p { margin: 0; padding-bottom: 20px; font-family: 'Outfit', sans-serif; color: var(--text-muted); line-height: 1.6; font-size: 1.05rem; }
 </style>
 
 <div class="gorgu-page">
@@ -379,11 +389,66 @@
     </div>
   </section>
 
+  <!-- FAQ SECTION -->
+  <section class="g-section">
+    <div class="g-section-header">
+      <div class="g-section-subtitle">Aklınıza Takılanlar</div>
+      <h2 class="g-section-title">Sıkça Sorulan Sorular</h2>
+    </div>
+    <div class="g-faq-container">
+      <div class="g-faq-item">
+        <button class="g-faq-btn">Görgü kuralları (Adabı Muaşeret) neden bu kadar önemlidir? <span class="g-faq-icon">+</span></button>
+        <div class="g-faq-content"><p>Görgü kuralları sadece şekilsel bir zorunluluk değil, karşınızdaki insana duyduğunuz saygının ve kendi öz değerinizin sessiz bir göstergesidir. İş hayatında ve sosyal çevrede güvenilirlik ve karizma inşa etmenin en temel yoludur.</p></div>
+      </div>
+      <div class="g-faq-item">
+        <button class="g-faq-btn">Sofra adabında yapılan en büyük hata nedir? <span class="g-faq-icon">+</span></button>
+        <div class="g-faq-content"><p>En yaygın hata, çatal bıçak kullanımındaki yanlış tutuşlar (örn. bıçağı kalem gibi tutmak) ve yemek esnasında masada sergilenen aceleci tavırdır. Zarafet, masada sakinlik ve kontrollü hareketlerle başlar.</p></div>
+      </div>
+      <div class="g-faq-item">
+        <button class="g-faq-btn">İş yemeklerinde hesabı kim ödemelidir? <span class="g-faq-icon">+</span></button>
+        <div class="g-faq-content"><p>Profesyonel kurallara göre daveti yapan kişi, cinsiyet veya unvan fark etmeksizin hesabı ödemekle yükümlüdür. Hesap ödeme işleminin masada dikkat çekmeden halledilmesi en zarif yöntemdir.</p></div>
+      </div>
+      <div class="g-faq-item">
+        <button class="g-faq-btn">Dijital etiket nedir ve neden dikkat etmeliyim? <span class="g-faq-icon">+</span></button>
+        <div class="g-faq-content"><p>E-posta yazışmalarınız, online toplantılardaki duruşunuz ve mesajlaşma üslubunuz sizin sanal dünyadaki imzanızdır. Gecenin geç saatinde atılan yanlış üsluplu bir mesaj, yıllarca inşa ettiğiniz profesyonel imajı anında zedeleyebilir.</p></div>
+      </div>
+      <div class="g-faq-item">
+        <button class="g-faq-btn">Bu eğitimler sadece iş dünyası için mi geçerli? <span class="g-faq-icon">+</span></button>
+        <div class="g-faq-content"><p>Hayır. Zarafet sanatı, sabah fırından ekmek alırken verdiğiniz selamdan, resmi bir holding toplantısına kadar hayatın her alanını kapsar. Modüllerimiz hem özel hem de profesyonel hayatınız için tasarlanmıştır.</p></div>
+      </div>
+    </div>
+  </section>
+
   <!-- QUOTE -->
   <section class="g-quote-section">
     <div class="g-quote">"Görgü, kim olduğunuzu sesinizi hiç yükseltmeden tüm dünyaya ilan etme biçimidir."</div>
     <div class="g-quote-author">Özel Koleksiyon Eğitim Serisi</div>
   </section>
 </div>
+
+<script>
+  document.querySelectorAll('.g-faq-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const item = btn.parentElement;
+      const content = item.querySelector('.g-faq-content');
+      
+      // Close others
+      document.querySelectorAll('.g-faq-item').forEach(otherItem => {
+        if (otherItem !== item && otherItem.classList.contains('active')) {
+          otherItem.classList.remove('active');
+          otherItem.querySelector('.g-faq-content').style.maxHeight = "0";
+        }
+      });
+
+      // Toggle current
+      item.classList.toggle('active');
+      if(item.classList.contains('active')) {
+        content.style.maxHeight = content.scrollHeight + "px";
+      } else {
+        content.style.maxHeight = "0";
+      }
+    });
+  });
+</script>
 
 <%- include('partials/main-footer') %>

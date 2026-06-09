@@ -1,52 +1,54 @@
 <%- include('partials/main-header') %>
-<link rel="stylesheet" href="/retorik.css?v=11" />
 <style>
-  .ozguven-page { display: block !important; }
-  .ex-card { background: #fff; border: 1px solid #e2e8f0; border-radius: 16px; padding: 30px; margin-bottom: 40px; box-shadow: 0 4px 6px rgba(0,0,0,0.02); }
-  .ex-header { display: flex; align-items: center; gap: 15px; margin-bottom: 20px; }
-  .ex-num { font-size: 2rem; font-weight: 900; color: #7c3aed; opacity: 0.2; }
-  .ex-title { font-size: 1.8rem; color: #0f172a; margin: 0; }
-  .ex-desc { font-size: 1.1rem; color: #475569; line-height: 1.7; margin-bottom: 30px; }
+  .content-wrapper { max-width: 100% !important; padding: 0 2% !important; }
+  .ozguven-page { display: block !important; width: 100%; max-width: none !important; margin: 0; padding-top: 40px; padding-bottom: 60px; min-height: 100vh; background: linear-gradient(135deg, #0f0520 0%, #1e1b4b 30%, #4c1d95 60%, #1e1b4b 100%); }
   
-  .ex-section-title { font-size: 1.2rem; font-weight: 800; color: #1e293b; margin-bottom: 15px; display: flex; align-items: center; gap: 10px; }
+  .ex-card { background: rgba(30,27,75,0.6); border: 1px solid rgba(139,92,246,0.15); border-radius: 24px; padding: 40px; margin-bottom: 40px; box-shadow: 0 10px 30px rgba(0,0,0,0.3); backdrop-filter: blur(10px); transition: all 0.3s ease; }
+  .ex-card:hover { border-color: rgba(139,92,246,0.3); }
+  .ex-header { display: flex; align-items: center; gap: 15px; margin-bottom: 20px; }
+  .ex-num { font-size: 2.5rem; font-weight: 900; color: #8b5cf6; opacity: 0.3; }
+  .ex-title { font-size: 1.8rem; color: #e2e8f0; margin: 0; font-weight: 900; }
+  .ex-desc { font-size: 1.1rem; color: #cbd5e1; line-height: 1.7; margin-bottom: 30px; }
+  
+  .ex-section-title { font-size: 1.2rem; font-weight: 800; color: #e2e8f0; margin-bottom: 15px; display: flex; align-items: center; gap: 10px; }
   
   .step-list { list-style: none; padding: 0; margin: 0 0 30px 0; }
-  .step-list li { position: relative; padding-left: 35px; margin-bottom: 15px; font-size: 1rem; color: #334155; line-height: 1.6; }
-  .step-list li::before { content: '✓'; position: absolute; left: 0; top: 0; width: 22px; height: 22px; background: #ede9fe; color: #7c3aed; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.8rem; font-weight: bold; }
+  .step-list li { position: relative; padding-left: 35px; margin-bottom: 15px; font-size: 1rem; color: #cbd5e1; line-height: 1.6; }
+  .step-list li::before { content: '✓'; position: absolute; left: 0; top: 0; width: 22px; height: 22px; background: rgba(139,92,246,0.15); color: #a78bfa; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.8rem; font-weight: bold; border: 1px solid rgba(139,92,246,0.3); }
   
-  .benefit-list li::before { content: '✓'; background: #dcfce7; color: #16a34a; }
-  .mistake-list li::before { content: '✗'; background: #fee2e2; color: #ef4444; }
+  .benefit-list li::before { content: '✓'; background: rgba(16,185,129,0.15); color: #34d399; border-color: rgba(16,185,129,0.3); }
+  .mistake-list li::before { content: '✗'; background: rgba(239,68,68,0.15); color: #f87171; border-color: rgba(239,68,68,0.3); }
   
-  .scenario-box { background: #f8fafc; border-left: 4px solid #3b82f6; padding: 20px; border-radius: 0 12px 12px 0; margin-bottom: 30px; }
-  .sb-label { font-size: 0.8rem; font-weight: 800; color: #3b82f6; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px; }
-  .sb-text { font-size: 1.05rem; color: #0f172a; font-style: italic; margin-bottom: 15px; }
-  .sb-analysis { font-size: 0.95rem; color: #475569; border-top: 1px solid #e2e8f0; padding-top: 15px; }
+  .scenario-box { background: rgba(46,16,101,0.4); border-left: 4px solid #8b5cf6; padding: 24px; border-radius: 0 16px 16px 0; margin-bottom: 30px; border-top: 1px solid rgba(139,92,246,0.1); border-right: 1px solid rgba(139,92,246,0.1); border-bottom: 1px solid rgba(139,92,246,0.1); }
+  .sb-label { font-size: 0.8rem; font-weight: 800; color: #a78bfa; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px; }
+  .sb-text { font-size: 1.05rem; color: #e2e8f0; font-style: italic; margin-bottom: 15px; }
+  .sb-analysis { font-size: 0.95rem; color: #cbd5e1; border-top: 1px solid rgba(139,92,246,0.2); padding-top: 15px; }
 
-  .practice-box { background: #fffbeb; border: 1px solid #fde68a; padding: 20px; border-radius: 12px; margin-bottom: 30px; }
-  .pb-title { font-size: 1rem; font-weight: 800; color: #d97706; margin-bottom: 10px; display: flex; align-items: center; gap: 8px; }
-  .pb-text { color: #92400e; font-size: 0.95rem; line-height: 1.6; }
+  .practice-box { background: rgba(120,53,15,0.4); border: 1px solid rgba(217,119,6,0.3); padding: 24px; border-radius: 16px; margin-bottom: 30px; border-left: 4px solid #d97706; }
+  .pb-title { font-size: 1rem; font-weight: 800; color: #fcd34d; margin-bottom: 10px; display: flex; align-items: center; gap: 8px; }
+  .pb-text { color: #fde68a; font-size: 0.95rem; line-height: 1.6; }
 
   /* Quiz UI */
-  .quiz-box { background: #f1f5f9; padding: 25px; border-radius: 12px; }
-  .q-question { font-size: 1.1rem; font-weight: 700; color: #0f172a; margin-bottom: 20px; }
-  .q-opts { display: flex; flex-direction: column; gap: 10px; }
-  .q-opt { background: #fff; border: 2px solid #e2e8f0; padding: 15px 20px; border-radius: 10px; cursor: pointer; font-size: 1rem; color: #334155; transition: all 0.2s; text-align: left; }
-  .q-opt:hover { border-color: #94a3b8; background: #f8fafc; }
-  .q-opt.correct { border-color: #10b981; background: #d1fae5; color: #065f46; }
-  .q-opt.wrong { border-color: #ef4444; background: #fee2e2; color: #991b1b; }
-  .q-feedback { margin-top: 15px; padding: 15px; border-radius: 8px; font-size: 0.95rem; display: none; }
-  .q-feedback.success { background: #d1fae5; color: #065f46; display: block; border-left: 4px solid #10b981; }
-  .q-feedback.error { background: #fee2e2; color: #991b1b; display: block; border-left: 4px solid #ef4444; }
+  .quiz-box { background: rgba(15,5,32,0.6); padding: 30px; border-radius: 16px; border: 1px solid rgba(255,255,255,0.05); }
+  .q-question { font-size: 1.2rem; font-weight: 800; color: #e2e8f0; margin-bottom: 24px; line-height: 1.5; }
+  .q-opts { display: flex; flex-direction: column; gap: 12px; }
+  .q-opt { background: rgba(30,27,75,0.8); border: 2px solid rgba(139,92,246,0.2); padding: 18px 24px; border-radius: 12px; cursor: pointer; font-size: 1.05rem; color: #cbd5e1; transition: all 0.2s; text-align: left; font-weight: 600; }
+  .q-opt:hover { border-color: #a78bfa; background: rgba(139,92,246,0.15); color: #ddd6fe; transform: translateX(4px); box-shadow: 0 4px 15px rgba(139,92,246,0.2); }
+  .q-opt.correct { border-color: #10b981; background: rgba(16,185,129,0.15); color: #34d399; box-shadow: 0 0 15px rgba(16,185,129,0.3); }
+  .q-opt.wrong { border-color: #ef4444; background: rgba(239,68,68,0.15); color: #f87171; box-shadow: 0 0 15px rgba(239,68,68,0.3); }
+  .q-feedback { margin-top: 20px; padding: 18px; border-radius: 12px; font-size: 0.95rem; display: none; line-height: 1.6; }
+  .q-feedback.success { background: rgba(16,185,129,0.1); color: #6ee7b7; display: block; border-left: 4px solid #10b981; }
+  .q-feedback.error { background: rgba(239,68,68,0.1); color: #fca5a5; display: block; border-left: 4px solid #ef4444; }
 </style>
 
-<main class="main-content">
+<main class="main-content" style="padding:0; border:none; background:transparent; min-height:100vh;">
   <div class="content-wrapper">
     <div class="ozguven-page">
       
       <div style="margin-bottom: 40px;">
-        <a href="/ozguven" style="color:#7c3aed; text-decoration:none; font-weight:700; font-size:0.9rem;">← Akademiye Dön</a>
-        <h1 style="color:#0f172a; font-size:2.5rem; margin-top:15px;"><%= meta.h1 %></h1>
-        <p style="color:#64748b; font-size:1.1rem;">Aşağıdaki adımları sırayla inceleyin ve görevleri gerçek hayatta uygulayın.</p>
+        <a href="/ozguven-nasil-kazanilir-gelistirme-rehberi" style="color:#a78bfa; text-decoration:none; font-weight:700; font-size:0.9rem;">← Akademiye Dön</a>
+        <h1 style="color:#e2e8f0; font-size:2.5rem; margin-top:15px;"><%= meta.h1 %></h1>
+        <p style="color:#cbd5e1; font-size:1.1rem;">Aşağıdaki adımları sırayla inceleyin ve görevleri gerçek hayatta uygulayın.</p>
       </div>
 
       <div class="exercises-container">
@@ -78,7 +80,7 @@
             <% } %>
 
             <% if (ex.tip) { %>
-              <div style="background:#f0f9ff; border-left:4px solid #0ea5e9; padding:20px; margin-bottom:30px; border-radius:0 12px 12px 0; color:#0369a1; font-style:italic; font-size:1.05rem; line-height:1.6;">
+              <div style="background:rgba(139,92,246,0.1); border-left:4px solid #8b5cf6; padding:20px; margin-bottom:30px; border-radius:0 12px 12px 0; color:#c4b5fd; font-style:italic; font-size:1.05rem; line-height:1.6;">
                 <%= ex.tip %>
               </div>
             <% } %>

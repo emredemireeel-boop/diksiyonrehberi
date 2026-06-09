@@ -325,6 +325,16 @@
     opacity: 1; transform: translateY(0);
   }
 
+  /* FAQ SECTION */
+  .hk-faq-container { max-width: 900px; margin: 0 auto; }
+  .hk-faq-item { border-bottom: 1px solid #fef3c7; margin-bottom: 15px; }
+  .hk-faq-btn { width: 100%; display: flex; justify-content: space-between; align-items: center; background: none; border: none; padding: 20px 0; font-family: 'Outfit', sans-serif; font-size: 1.2rem; font-weight: 600; color: var(--text-main); cursor: pointer; text-align: left; transition: color 0.3s; }
+  .hk-faq-btn:hover { color: var(--hk-primary); }
+  .hk-faq-icon { font-size: 1.5rem; color: var(--hk-primary); transition: transform 0.3s; font-weight: 300; }
+  .hk-faq-item.active .hk-faq-icon { transform: rotate(45deg); }
+  .hk-faq-content { max-height: 0; overflow: hidden; transition: max-height 0.4s ease; }
+  .hk-faq-content p { margin: 0; padding-bottom: 20px; font-family: 'Outfit', sans-serif; color: var(--text-muted); line-height: 1.7; font-size: 1.05rem; }
+
   @media(max-width: 900px) {
     .hk-title { font-size: 3.5rem; }
     .article-grid { grid-template-columns: 1fr; }
@@ -409,6 +419,35 @@
         <p class="cp-desc">Hikayenin asıl mesajını kalıcı hale getiren ustalık kapanışı. Duygusal rezonans yaratma ve izleyicinin zihninde öğrenilen dersi pekiştirme.</p>
         <div class="cp-btn">Eğitimi İncele <span>→</span></div>
       </a>
+    </div>
+  </section>
+
+  <!-- FAQ SECTION -->
+  <section class="hk-section">
+    <div class="sec-header scroll-reveal">
+      <div class="sec-icon">❓</div>
+      <div class="sec-title">
+        <h2>Sıkça Sorulan Sorular</h2>
+        <p>Hikaye anlatıcılığı hakkında aklınıza takılanlar</p>
+      </div>
+    </div>
+    <div class="hk-faq-container scroll-reveal">
+      <div class="hk-faq-item">
+        <button class="hk-faq-btn">İş hayatında hikaye anlatıcılığı neden gereklidir? <span class="hk-faq-icon">+</span></button>
+        <div class="hk-faq-content"><p>Sadece verilere ve istatistiklere dayalı sunumlar hızla unutulur. İnsan beyni hikayeleri hatırlamaya programlanmıştır. Bir projeyi, fikri veya vizyonu hikayeleştirerek anlattığınızda, dinleyicilerinizin beynindeki duygu merkezlerini harekete geçirir ve akıllarda kalıcı bir etki bırakırsınız.</p></div>
+      </div>
+      <div class="hk-faq-item">
+        <button class="hk-faq-btn">Kahramanın Yolculuğu (Hero's Journey) formülü kurumsal sunumlara uyar mı? <span class="hk-faq-icon">+</span></button>
+        <div class="hk-faq-content"><p>Kesinlikle uyar. Kahraman yolculuğu; bir başlangıç noktası (şu anki durum), karşılaşılan bir zorluk (kriz/problem) ve bu zorluğun aşılmasıyla ulaşılan yeni durumu (sizin çözümünüz veya vizyonunuz) anlatır. Bir ürünün çözümlediği problemi anlatırken bile bu evrensel iskeleti rahatlıkla kullanabilirsiniz.</p></div>
+      </div>
+      <div class="hk-faq-item">
+        <button class="hk-faq-btn">"Göster, Söyleme" (Show, Don't Tell) kuralı tam olarak nedir? <span class="hk-faq-icon">+</span></button>
+        <div class="hk-faq-content"><p>Bir durumu sadece adıyla söylemek yerine, o durumun yarattığı hisleri ve eylemleri betimlemektir. Örneğin "Şirket çok zor durumdaydı" demek yerine "Sabah ofise geldiğimizde kahve makinesi bile fişten çekilmişti ve herkesin yüzünde derin bir çaresizlik vardı" demek, dinleyicinin o anı bizzat yaşamasını sağlar.</p></div>
+      </div>
+      <div class="hk-faq-item">
+        <button class="hk-faq-btn">Hikayeme nasıl güçlü bir kanca (Hook) atabilirim? <span class="hk-faq-icon">+</span></button>
+        <div class="hk-faq-content"><p>Güçlü bir kanca, dinleyicinin beklentilerini ilk 10 saniyede kırarak başlar. Olaya en heyecanlı ortadan bir yerden girmek (In Media Res), çok şaşırtıcı bir istatistikle başlamak veya doğrudan empati kurabilecekleri provokatif bir soru sormak en etkili kanca atma yöntemlerindendir.</p></div>
+      </div>
     </div>
   </section>
 
@@ -595,6 +634,30 @@
     });
 
     startTimer();
+  })();
+
+  // ═══════════════════════════ FAQ ACCORDION ═══════════════════════════
+  (function() {
+    document.querySelectorAll('.hk-faq-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const item = btn.parentElement;
+        const content = item.querySelector('.hk-faq-content');
+        
+        document.querySelectorAll('.hk-faq-item').forEach(other => {
+          if (other !== item && other.classList.contains('active')) {
+            other.classList.remove('active');
+            other.querySelector('.hk-faq-content').style.maxHeight = "0";
+          }
+        });
+
+        item.classList.toggle('active');
+        if(item.classList.contains('active')) {
+          content.style.maxHeight = content.scrollHeight + "px";
+        } else {
+          content.style.maxHeight = "0";
+        }
+      });
+    });
   })();
 
   // ═══════════════════════════ 3D TILT EFFECT FOR LAB BUTTONS ═══════════════════════════

@@ -1490,8 +1490,8 @@ const SITEMAP_PAGES = [
   { loc: '/bedendili', changefreq: 'weekly', priority: '1.0' },
   { loc: '/safsata', changefreq: 'weekly', priority: '1.0' },
   { loc: '/giyim', changefreq: 'weekly', priority: '1.0' },
-  { loc: '/sahne', changefreq: 'weekly', priority: '1.0' },
-  { loc: '/ozguven', changefreq: 'weekly', priority: '1.0' },
+  { loc: '/sahne-ustaligi', changefreq: 'weekly', priority: '1.0' },
+  { loc: '/ozguven-nasil-kazanilir-gelistirme-rehberi', changefreq: 'weekly', priority: '1.0' },
   { loc: '/hikaye', changefreq: 'weekly', priority: '1.0' },
   { loc: '/retorik', changefreq: 'weekly', priority: '1.0' },
   { loc: '/gorgu', changefreq: 'weekly', priority: '1.0' },
@@ -1632,13 +1632,25 @@ app.get('/sitemap.xml', (req, res) => {
     '/retorik/araclar/prompter', '/retorik/araclar/asistan',
     '/safsata/dedektif', '/safsata/kalkan', '/safsata/karanlik', '/safsata/trol-avcisi', '/safsata/mahkeme', '/safsata/spin-doctor',
     '/bedendili/dedektif', '/bedendili/radar', '/bedendili/kriz',
-    '/ozguven/golge-boksu', '/ozguven/reddedilme', '/ozguven/statu', '/ozguven/aura',
+    // Özgüven Araçları ve Makaleleri
+    '/ozguven-gelistirme/araclar/golge-boksu-ic-ses-susturucusu', '/ozguven-gelistirme/araclar/reddedilme-korkusunu-yenmek', 
+    '/ozguven-gelistirme/araclar/sosyal-statu-ve-cerceve-kontrolu', '/ozguven-gelistirme/araclar/aura-ve-ilk-izlenim-mimari',
+    '/ozguven-gelistirme/mukemmelliyetcilik-hastaligi-ve-asimi', '/ozguven-gelistirme/imposter-sendromu-ve-yetersizlik-hissi',
+    '/ozguven-gelistirme/sosyal-fobi-ve-ozguven-eksikligi', '/ozguven-gelistirme/zihinsel-dayaniklilik-ve-stres-yonetimi',
+    // Hikaye
     '/hikaye/kanca', '/hikaye/kahraman', '/hikaye/mimari', '/hikaye/goster',
+    // Görgü
     '/gorgu-similator', '/gorgu-radar', '/gorgu-dedektif', '/gorgu-sofra', '/gorgu-diplomasi',
+    // Giyim
     '/giyim/outfit', '/giyim/renk', '/giyim/vucut-tipi', '/giyim/aksesuar', '/giyim/stil', '/giyim/dresscode',
-    '/sahne/araclar/prompter', '/sahne/araclar/dogaclama', '/sahne/araclar/nefes', '/sahne/araclar/sayac', 
-    '/sahne/araclar/goz-temasi', '/sahne/araclar/vurgu', '/sahne/araclar/rulet', '/sahne/araclar/duygu', 
-    '/sahne/araclar/metronom', '/sahne/araclar/capraz-ates'
+    // Sahne Ustalığı Araçları ve Makaleleri
+    '/sahne-ustaligi/araclar/teleprompter-okuma-simulatoru', '/sahne-ustaligi/araclar/dogaclama-konusma-motoru', 
+    '/sahne-ustaligi/araclar/sahne-oncesi-nefes-kocu', '/sahne-ustaligi/araclar/profesyonel-sahne-sayaci', 
+    '/sahne-ustaligi/araclar/goz-temasi-simulatoru', '/sahne-ustaligi/araclar/vurgu-ve-tonlama-matrisi', 
+    '/sahne-ustaligi/araclar/diksiyon-tekerleme-ruleti', '/sahne-ustaligi/araclar/duygu-bukalemunu-ses-oyunculugu', 
+    '/sahne-ustaligi/araclar/konusma-metronomu-ritim', '/sahne-ustaligi/araclar/capraz-ates-kriz-simulatoru',
+    '/sahne-ustaligi/sahne-korkusunu-yenmek-heyecan-yonetimi', '/sahne-ustaligi/etkili-beden-dili-ve-sahne-hareketi',
+    '/sahne-ustaligi/seyirci-etkilesimi-topluluk-onunde-konusma', '/sahne-ustaligi/sahnede-kriz-yonetimi-ve-sogukkanlilik'
   ];
 
   extraRoutes.forEach(loc => {
@@ -2019,87 +2031,89 @@ const RETORIK_DATA = require('./retorik-data');
 // ═══════════════════════════════════════════════════════════════════════════
 const SAHNE_DATA = require('./sahne-data');
 
-app.get('/sahne', (req, res, next) => {
-  const meta = TOOLS_META['sahne'];
-  if (!meta) return next();
-  const canonicalUrl = `${SITE_URL}/sahne`;
-  res.render('sahne-index', { meta, canonicalUrl, jsonLdScripts: '' });
+// SAHNE USTALIĞI 301 REDIRECTS (ESKİ LİNKLER)
+app.get('/sahne', (req, res) => res.redirect(301, '/sahne-ustaligi'));
+app.get('/sahne/heyecan', (req, res) => res.redirect(301, '/sahne-ustaligi/sahne-korkusunu-yenmek-heyecan-yonetimi'));
+app.get('/sahne/hareket', (req, res) => res.redirect(301, '/sahne-ustaligi/etkili-beden-dili-ve-sahne-hareketi'));
+app.get('/sahne/etkilesim', (req, res) => res.redirect(301, '/sahne-ustaligi/seyirci-etkilesimi-topluluk-onunde-konusma'));
+app.get('/sahne/kriz', (req, res) => res.redirect(301, '/sahne-ustaligi/sahnede-kriz-yonetimi-ve-sogukkanlilik'));
+app.get('/sahne/araclar/prompter', (req, res) => res.redirect(301, '/sahne-ustaligi/araclar/teleprompter-okuma-simulatoru'));
+app.get('/sahne/araclar/dogaclama', (req, res) => res.redirect(301, '/sahne-ustaligi/araclar/dogaclama-konusma-motoru'));
+app.get('/sahne/araclar/nefes', (req, res) => res.redirect(301, '/sahne-ustaligi/araclar/sahne-oncesi-nefes-kocu'));
+app.get('/sahne/araclar/sayac', (req, res) => res.redirect(301, '/sahne-ustaligi/araclar/profesyonel-sahne-sayaci'));
+app.get('/sahne/araclar/goz-temasi', (req, res) => res.redirect(301, '/sahne-ustaligi/araclar/goz-temasi-simulatoru'));
+app.get('/sahne/araclar/vurgu', (req, res) => res.redirect(301, '/sahne-ustaligi/araclar/vurgu-ve-tonlama-matrisi'));
+app.get('/sahne/araclar/rulet', (req, res) => res.redirect(301, '/sahne-ustaligi/araclar/diksiyon-tekerleme-ruleti'));
+app.get('/sahne/araclar/duygu', (req, res) => res.redirect(301, '/sahne-ustaligi/araclar/duygu-bukalemunu-ses-oyunculugu'));
+app.get('/sahne/araclar/metronom', (req, res) => res.redirect(301, '/sahne-ustaligi/araclar/konusma-metronomu-ritim'));
+app.get('/sahne/araclar/capraz-ates', (req, res) => res.redirect(301, '/sahne-ustaligi/araclar/capraz-ates-kriz-simulatoru'));
+
+// SAHNE USTALIĞI YENİ SEO LİNKLERİ
+app.get('/sahne-ustaligi', (req, res, next) => {
+  res.render('sahne-index', { meta: {title: 'Sahne Ustalığı Eğitimi | Topluluk Önünde Etkili Konuşma', desc: 'Topluluk önünde konuşma korkunuzu yenin, sahnede otoritenizi kurun ve karizmanızı yansıtın.'}, canonicalUrl: SITE_URL+'/sahne-ustaligi', jsonLdScripts: '' });
 });
 
-app.get('/sahne/:subpage', (req, res, next) => {
+app.get('/sahne-ustaligi/araclar/teleprompter-okuma-simulatoru', (req, res, next) => {
+  res.render('sahne-prompter', { meta: {title: 'Teleprompter Okuma Simülatörü | Sahne Pratiği', h1: 'Profesyonel Teleprompter Eğitimi', desc: 'Prompter kullanarak sahne pratikleri yapın ve akıcılığınızı artırın.'}, canonicalUrl: SITE_URL+'/sahne-ustaligi/araclar/teleprompter-okuma-simulatoru', jsonLdScripts: '' });
+});
+
+app.get('/sahne-ustaligi/araclar/dogaclama-konusma-motoru', (req, res, next) => {
+  res.render('sahne-dogaclama', { meta: {title: 'Doğaçlama Konuşma Motoru | Anlık Senaryo Üretici', h1: 'Rastgele Senaryo ve Duygu Motoru', desc: 'Sahne reflekslerinizi güçlendirecek doğaçlama motoru.'}, canonicalUrl: SITE_URL+'/sahne-ustaligi/araclar/dogaclama-konusma-motoru', jsonLdScripts: '' });
+});
+
+app.get('/sahne-ustaligi/araclar/sahne-oncesi-nefes-kocu', (req, res, next) => {
+  res.render('sahne-nefes', { meta: {title: 'Sahne Öncesi Nefes Koçu | Kutu Nefesi (Box Breathing)', h1: 'Sahne Öncesi Nefes Terapisi', desc: 'Sahnede heyecanı yenmek için Kutu Nefesi animasyonu.'}, canonicalUrl: SITE_URL+'/sahne-ustaligi/araclar/sahne-oncesi-nefes-kocu', jsonLdScripts: '' });
+});
+
+app.get('/sahne-ustaligi/araclar/profesyonel-sahne-sayaci', (req, res, next) => {
+  res.render('sahne-sayac', { meta: {title: 'Profesyonel Sahne Sayacı ve Kronometre', h1: 'Renk Değiştiren Süre Yönetimi', desc: 'TED sahnesi standartlarında kronometre ve sayaç.'}, canonicalUrl: SITE_URL+'/sahne-ustaligi/araclar/profesyonel-sahne-sayaci', jsonLdScripts: '' });
+});
+
+app.get('/sahne-ustaligi/araclar/goz-temasi-simulatoru', (req, res, next) => {
+  res.render('sahne-goz-temasi', { meta: {title: 'Göz Teması Simülatörü | Etkili Beden Dili', h1: 'Z-Kuralı Göz Teması Pratiği', desc: 'Sanal seyirci kitlesi ile göz temasını koruma egzersizi.'}, canonicalUrl: SITE_URL+'/sahne-ustaligi/araclar/goz-temasi-simulatoru', jsonLdScripts: '' });
+});
+
+app.get('/sahne-ustaligi/araclar/vurgu-ve-tonlama-matrisi', (req, res, next) => {
+  res.render('sahne-vurgu', { meta: {title: 'Vurgu ve Tonlama Matrisi | Diksiyon Eğitimi', h1: 'Alt Metin ve Vurgu Pratiği', desc: 'Aynı cümlede farklı kelimeleri vurgulayarak anlamı değiştirme oyunu.'}, canonicalUrl: SITE_URL+'/sahne-ustaligi/araclar/vurgu-ve-tonlama-matrisi', jsonLdScripts: '' });
+});
+
+app.get('/sahne-ustaligi/araclar/diksiyon-tekerleme-ruleti', (req, res, next) => {
+  res.render('sahne-rulet', { meta: {title: 'Diksiyon Tekerleme Ruleti | Artikülasyon Egzersizi', h1: 'Tekerleme Hız Testi', desc: 'Zorlu Türkçe tekerlemeleri en hızlı sürede hatasız okuma kronometresi.'}, canonicalUrl: SITE_URL+'/sahne-ustaligi/araclar/diksiyon-tekerleme-ruleti', jsonLdScripts: '' });
+});
+
+app.get('/sahne-ustaligi/araclar/duygu-bukalemunu-ses-oyunculugu', (req, res, next) => {
+  res.render('sahne-duygu', { meta: {title: 'Duygu Bukalemunu | Ses Oyunculuğu Eğitimi', h1: 'Ses Oyunculuğu Pratiği', desc: 'Aynı cümleyi rastgele değişen duygularla okuyarak sesin sınırlarını zorlayın.'}, canonicalUrl: SITE_URL+'/sahne-ustaligi/araclar/duygu-bukalemunu-ses-oyunculugu', jsonLdScripts: '' });
+});
+
+app.get('/sahne-ustaligi/araclar/konusma-metronomu-ritim', (req, res, next) => {
+  res.render('sahne-metronom', { meta: {title: 'Konuşma Metronomu | Diksiyon Ritim Eğitimi', h1: 'Pacing (Ritim) Eğitmeni', desc: 'Konuşma hızınızı görsel bir sarkaç yardımıyla terbiye edin.'}, canonicalUrl: SITE_URL+'/sahne-ustaligi/araclar/konusma-metronomu-ritim', jsonLdScripts: '' });
+});
+
+app.get('/sahne-ustaligi/araclar/capraz-ates-kriz-simulatoru', (req, res, next) => {
+  res.render('sahne-capraz-ates', { meta: {title: 'Çapraz Ateş | Kriz Yönetimi Simülatörü', h1: 'Zor Soru Simülatörü', desc: 'Aniden gelen kışkırtıcı sorulara baskı altında soğukkanlı cevap verme testi.'}, canonicalUrl: SITE_URL+'/sahne-ustaligi/araclar/capraz-ates-kriz-simulatoru', jsonLdScripts: '' });
+});
+
+const sahneMap = {
+  'sahne-korkusunu-yenmek-heyecan-yonetimi': 'heyecan',
+  'etkili-beden-dili-ve-sahne-hareketi': 'hareket',
+  'seyirci-etkilesimi-topluluk-onunde-konusma': 'etkilesim',
+  'sahnede-kriz-yonetimi-ve-sogukkanlilik': 'kriz'
+};
+
+app.get('/sahne-ustaligi/:subpage', (req, res, next) => {
   const subpage = req.params.subpage;
-  const validCats = ['heyecan', 'hareket', 'etkilesim', 'kriz'];
+  const originalCat = sahneMap[subpage];
+  if (!originalCat) return next();
+  const exercises = DATA_SAHNE.filter(ex => ex.cat === originalCat);
+  const meta = {title: 'Sahne Performansı', h1: 'Sahne Performansı'};
   
-  if (!validCats.includes(subpage)) return next();
-
-  const slug = `sahne/${subpage}`;
+  if (originalCat === 'heyecan') { meta.title = 'Sahne Korkusunu Yenmek | Heyecan Yönetimi'; meta.h1 = 'Heyecan Yönetimi'; }
+  else if (originalCat === 'hareket') { meta.title = 'Etkili Beden Dili | Sahne Hareketi'; meta.h1 = 'Sahne Hareketi'; }
+  else if (originalCat === 'etkilesim') { meta.title = 'Seyirci Etkileşimi | Topluluk Önünde Konuşma'; meta.h1 = 'Seyirci Etkileşimi'; }
+  else if (originalCat === 'kriz') { meta.title = 'Sahnede Kriz Yönetimi | Soğukkanlılık'; meta.h1 = 'Kriz Yönetimi'; }
   
-  // Create dynamic meta if missing in SUBPAGE_META
-  const meta = SUBPAGE_META[slug] || {
-    title: `${subpage.charAt(0).toUpperCase() + subpage.slice(1)} | Sahne Ustalığı`,
-    desc: `Sahne ustalığı eğitiminde ${subpage} teknikleri ve interaktif egzersizler.`,
-    h1: subpage.charAt(0).toUpperCase() + subpage.slice(1) + ' Eğitimi'
-  };
-  
-  const canonicalUrl = `${SITE_URL}/${slug}`;
-  
-  const exercises = SAHNE_DATA.filter(ex => ex.cat === subpage);
-
-  res.render('sahne-detay', { 
-    meta, 
-    canonicalUrl, 
-    jsonLdScripts: '',
-    activeCat: subpage,
-    exercises 
-  });
+  res.render('sahne-detay', { meta, canonicalUrl: SITE_URL+'/sahne-ustaligi/'+subpage, jsonLdScripts: '', activeCat: originalCat, exercises });
 });
-
-
-// ═══════════════════════════════════════════════════════════════════════════
-// ROUTE: Beden Dili SSR
-// ═══════════════════════════════════════════════════════════════════════════
-const BEDENDILI_DATA = require('./bedendili-data');
-
-app.get('/bedendili', (req, res, next) => {
-  const meta = {
-    title: 'Beden Dili Okuma ve Kullanma Rehberi (55-38-7 Kuralı) - Diksiyon Rehberi',
-    desc: 'Beden dili nedir, nasıl okunur ve nasıl güçlendirilir? Mehrabian kuralı, duruş, jest, mimik ve göz teması analizleri, interaktif simülatörler ve yalan dedektifi. Ücretsiz.',
-    h1: 'Beden Dili'
-  };
-  const canonicalUrl = `${SITE_URL}/bedendili`;
-  res.render('bedendili-index', { meta, canonicalUrl, jsonLdScripts: '' });
-});
-
-app.get('/bedendili/:subpage', (req, res, next) => {
-  const subpage = req.params.subpage;
-  const validCats = ['yuz', 'eller', 'durus', 'mesafe'];
-  
-  if (!validCats.includes(subpage)) return next();
-
-  const slug = `bedendili/${subpage}`;
-  
-  const meta = SUBPAGE_META[slug] || {
-    title: `${subpage.charAt(0).toUpperCase() + subpage.slice(1)} Eğitimi | Beden Dili`,
-    desc: `Beden dili eğitiminde ${subpage} teknikleri ve iletişim ipuçları.`,
-    h1: subpage.charAt(0).toUpperCase() + subpage.slice(1) + ' Kullanımı'
-  };
-  
-  const canonicalUrl = `${SITE_URL}/${slug}`;
-  
-  const exercises = BEDENDILI_DATA.filter(ex => ex.cat === subpage);
-
-  res.render('bedendili-detay', { 
-    meta, 
-    canonicalUrl, 
-    jsonLdScripts: '',
-    activeCat: subpage,
-    exercises 
-  });
-});
-
-
-// ═══════════════════════════════════════════════════════════════════════════
-// ROUTE: Manipülasyon SSR
 // ═══════════════════════════════════════════════════════════════════════════
 const MANIPULASYON_DATA = require('./manipulasyon-data');
 
@@ -2114,6 +2128,15 @@ app.get('/manipulasyon/araclar/savunma', (req, res, next) => {
 app.get('/manipulasyon/araclar/dedektif', (req, res, next) => {
   res.render('manipulasyon-dedektif', { meta: {title: 'Manipülasyon Dedektifi - Diksiyon Rehberi', h1: 'Manipülasyon Dedektifi', desc: 'Gizli manipülasyon taktiklerini deşifre edin.'}, canonicalUrl: SITE_URL+'/manipulasyon/araclar/dedektif', jsonLdScripts: '' });
 });
+
+app.get('/manipulasyon/araclar/yalan-dedektoru', (req, res, next) => {
+  res.render('manipulasyon-yalandedektoru', { meta: {title: 'Yalan Dedektörü ve Mikro İfadeler - Diksiyon Rehberi', h1: 'Yalan Dedektörü Simülatörü', desc: 'Mikro ifade okuma teknikleriyle yalan söyleyen kişileri saniyeler içinde tespit etme pratikleri yapın.'}, canonicalUrl: SITE_URL+'/manipulasyon/araclar/yalan-dedektoru', jsonLdScripts: '' });
+});
+
+app.get('/test', (req, res, next) => {
+  res.render('profil-testi', { meta: {title: 'İletişim ve Karizma Profili Testi | Diksiyon Rehberi', h1: 'İletişim Profili Testi', desc: 'İş hayatında ve sosyal ilişkilerdeki karakterini analiz et. Senin iletişim arketipin hangisi? Ücretsiz testi çöz ve profil kartını al.'}, canonicalUrl: SITE_URL+'/test', jsonLdScripts: '' });
+});
+
 
 app.get('/manipulasyon', (req, res, next) => {
   const meta = {
@@ -2312,43 +2335,62 @@ app.get('/safsata/spin-doctor', (req, res, next) => {
   res.render('safsata-spindoctor', { meta: {title: 'Politikacı Simülatörü', h1: 'Kürsüden Kaçış', desc: 'Zor sorulardan safsatalar ile kaç.'}, canonicalUrl: SITE_URL+'/safsata/spin-doctor', jsonLdScripts: '' });
 });
 
-const DATA_BEDENDILI = require('./bedendili-data');
 
-app.get('/bedendili/dedektif', (req, res, next) => {
-  res.render('bedendili-dedektif', { meta: {title: 'Yalan Dedektifi', h1: 'Mikro İfade Analizörü', desc: 'Sorgu odasında mikro ifadeleri deşifre et.'}, canonicalUrl: SITE_URL+'/bedendili/dedektif', jsonLdScripts: '' });
-});
+// ÖZGÜVEN 301 REDIRECTS (ESKİ LİNKLER)
+app.get('/ozguven', (req, res) => res.redirect(301, '/ozguven-nasil-kazanilir-gelistirme-rehberi'));
+app.get('/ozguven/golge-boksu', (req, res) => res.redirect(301, '/ozguven-gelistirme/araclar/golge-boksu-ic-ses-susturucusu'));
+app.get('/ozguven/reddedilme', (req, res) => res.redirect(301, '/ozguven-gelistirme/araclar/reddedilme-korkusunu-yenmek'));
+app.get('/ozguven/statu', (req, res) => res.redirect(301, '/ozguven-gelistirme/araclar/sosyal-statu-ve-cerceve-kontrolu'));
+app.get('/ozguven/aura', (req, res) => res.redirect(301, '/ozguven-gelistirme/araclar/aura-ve-ilk-izlenim-mimari'));
+app.get('/ozguven/mukemmel', (req, res) => res.redirect(301, '/ozguven-gelistirme/mukemmelliyetcilik-hastaligi-ve-asimi'));
+app.get('/ozguven/imposter', (req, res) => res.redirect(301, '/ozguven-gelistirme/imposter-sendromu-ve-yetersizlik-hissi'));
+app.get('/ozguven/sosyal', (req, res) => res.redirect(301, '/ozguven-gelistirme/sosyal-fobi-ve-ozguven-eksikligi'));
+app.get('/ozguven/zihinsel', (req, res) => res.redirect(301, '/ozguven-gelistirme/zihinsel-dayaniklilik-ve-stres-yonetimi'));
 
-app.get('/bedendili/radar', (req, res, next) => {
-  res.render('bedendili-radar', { meta: {title: 'Çekim Radarı', h1: 'Flört ve Çekim Sinyalleri', desc: 'İlgi ve çekim sinyallerini vücut dilinden oku.'}, canonicalUrl: SITE_URL+'/bedendili/radar', jsonLdScripts: '' });
-});
-
-app.get('/bedendili/kriz', (req, res, next) => {
-  res.render('bedendili-kriz', { meta: {title: 'Kriz Yönetimi', h1: 'De-escalation Simülatörü', desc: 'Agresif beden dillerini aynalama ile yatıştır.'}, canonicalUrl: SITE_URL+'/bedendili/kriz', jsonLdScripts: '' });
-});
-
-app.get('/bedendili/:subpage', (req, res, next) => {
-  res.render('bedendili-detay', { meta: {title: 'Beden Dili Detay', h1: 'Beden Dili Detay'}, canonicalUrl: SITE_URL+'/bedendili/'+req.params.subpage, jsonLdScripts: '', activeCat: req.params.subpage, exercises: DATA_BEDENDILI });
-});
-
+// ÖZGÜVEN YENİ SEO LİNKLERİ
 const DATA_OZGUVEN = require('./ozguven-data');
-app.get('/ozguven', (req, res, next) => {
-  res.render('ozguven-index', { meta: {title: 'Özgüven Nasıl Kazanılır? Bilimsel Özgüven Geliştirme Rehberi - Diksiyon Rehberi', desc: 'Özgüven doğuştan gelmez, geliştirilir. Bilgi, sosyal, değer ve performans özgüvenini güçlendiren kanıta dayalı egzersizler, interaktif test ve simülatörler. Ücretsiz.', h1: 'Özgüven İnşası'}, canonicalUrl: SITE_URL+'/ozguven', jsonLdScripts: '' });
+
+app.get('/ozguven-nasil-kazanilir-gelistirme-rehberi', (req, res, next) => {
+  res.render('ozguven-index', { meta: {title: 'Özgüven Nasıl Kazanılır? Bilimsel Özgüven Geliştirme Rehberi', desc: 'Özgüven doğuştan gelmez, geliştirilir. Bilgi, sosyal, değer ve performans özgüvenini güçlendiren kanıta dayalı egzersizler, interaktif test ve simülatörler.', h1: 'Özgüven İnşası'}, canonicalUrl: SITE_URL+'/ozguven-nasil-kazanilir-gelistirme-rehberi', jsonLdScripts: '' });
 });
-app.get('/ozguven/golge-boksu', (req, res, next) => {
-  res.render('ozguven-golgeboksu', { meta: {title: 'Gölge Boksu', h1: 'İç Ses Susturucusu', desc: 'Kendi zihninizdeki negatif sesleri nakavt edin.'}, canonicalUrl: SITE_URL+'/ozguven/golge-boksu', jsonLdScripts: '' });
+
+app.get('/ozguven-gelistirme/araclar/golge-boksu-ic-ses-susturucusu', (req, res, next) => {
+  res.render('ozguven-golgeboksu', { meta: {title: 'Gölge Boksu | İç Ses Susturucusu', h1: 'İç Ses Susturucusu', desc: 'Kendi zihninizdeki negatif sesleri nakavt edin ve özgüveninizi geliştirin.'}, canonicalUrl: SITE_URL+'/ozguven-gelistirme/araclar/golge-boksu-ic-ses-susturucusu', jsonLdScripts: '' });
 });
-app.get('/ozguven/reddedilme', (req, res, next) => {
-  res.render('ozguven-reddedilme', { meta: {title: 'Reddedilme Terapisi', h1: 'Kalın Deri Simülatörü', desc: 'Hayır duymaya alışarak reddedilme korkusunu yen.'}, canonicalUrl: SITE_URL+'/ozguven/reddedilme', jsonLdScripts: '' });
+
+app.get('/ozguven-gelistirme/araclar/reddedilme-korkusunu-yenmek', (req, res, next) => {
+  res.render('ozguven-reddedilme', { meta: {title: 'Reddedilme Terapisi | Reddedilme Korkusunu Yenmek', h1: 'Kalın Deri Simülatörü', desc: 'Hayır duymaya alışarak reddedilme korkusunu yen ve sosyal özgüvenini artır.'}, canonicalUrl: SITE_URL+'/ozguven-gelistirme/araclar/reddedilme-korkusunu-yenmek', jsonLdScripts: '' });
 });
-app.get('/ozguven/statu', (req, res, next) => {
-  res.render('ozguven-statu', { meta: {title: 'Statü Arenası', h1: 'Sosyal Çerçeve Kontrolü', desc: 'Pasif agresif saldırılara karşı yüksek statünü koru.'}, canonicalUrl: SITE_URL+'/ozguven/statu', jsonLdScripts: '' });
+
+app.get('/ozguven-gelistirme/araclar/sosyal-statu-ve-cerceve-kontrolu', (req, res, next) => {
+  res.render('ozguven-statu', { meta: {title: 'Sosyal Statü ve Çerçeve Kontrolü | Statü Arenası', h1: 'Sosyal Çerçeve Kontrolü', desc: 'Pasif agresif saldırılara karşı yüksek statünü koru, güçlü görün.'}, canonicalUrl: SITE_URL+'/ozguven-gelistirme/araclar/sosyal-statu-ve-cerceve-kontrolu', jsonLdScripts: '' });
 });
-app.get('/ozguven/aura', (req, res, next) => {
-  res.render('ozguven-aura', { meta: {title: 'Aura Mimarı', h1: 'İlk İzlenim Laboratuvarı', desc: 'İlk 7 saniye kuralını kullanarak kusursuz bir ilk izlenim inşa edin.'}, canonicalUrl: SITE_URL+'/ozguven/aura', jsonLdScripts: '' });
+
+app.get('/ozguven-gelistirme/araclar/aura-ve-ilk-izlenim-mimari', (req, res, next) => {
+  res.render('ozguven-aura', { meta: {title: 'Aura ve İlk İzlenim Mimarı', h1: 'İlk İzlenim Laboratuvarı', desc: 'İlk 7 saniye kuralını kullanarak kusursuz bir ilk izlenim inşa edin ve auranızı parlatın.'}, canonicalUrl: SITE_URL+'/ozguven-gelistirme/araclar/aura-ve-ilk-izlenim-mimari', jsonLdScripts: '' });
 });
-app.get('/ozguven/:subpage', (req, res, next) => {
-  res.render('ozguven-detay', { meta: {title: 'Özgüven İnşası Detay', h1: 'Özgüven İnşası Detay'}, canonicalUrl: SITE_URL+'/ozguven/'+req.params.subpage, jsonLdScripts: '', activeCat: req.params.subpage, exercises: DATA_OZGUVEN });
+
+const ozguvenMap = {
+  'mukemmelliyetcilik-hastaligi-ve-asimi': 'mukemmel',
+  'imposter-sendromu-ve-yetersizlik-hissi': 'imposter',
+  'sosyal-fobi-ve-ozguven-eksikligi': 'sosyal',
+  'zihinsel-dayaniklilik-ve-stres-yonetimi': 'zihinsel'
+};
+
+app.get('/ozguven-gelistirme/:subpage', (req, res, next) => {
+  const subpage = req.params.subpage;
+  const originalCat = ozguvenMap[subpage];
+  if (!originalCat) return next();
+  const meta = {title: 'Özgüven İnşası', h1: 'Özgüven Geliştirme'};
+  
+  if (originalCat === 'mukemmel') { meta.title = 'Mükemmeliyetçilik Hastalığı ve Aşımı | Özgüven Geliştirme'; meta.h1 = 'Mükemmeliyetçilik Hastalığı'; }
+  else if (originalCat === 'imposter') { meta.title = 'İmposter Sendromu ve Yetersizlik Hissi | Özgüven İnşası'; meta.h1 = 'İmposter Sendromu'; }
+  else if (originalCat === 'sosyal') { meta.title = 'Sosyal Fobi ve Özgüven Eksikliği | Özgüven Kazanmak'; meta.h1 = 'Sosyal Fobi ve Özgüven'; }
+  else if (originalCat === 'zihinsel') { meta.title = 'Zihinsel Dayanıklılık ve Stres Yönetimi | Güçlü Özgüven'; meta.h1 = 'Zihinsel Dayanıklılık'; }
+  
+  res.render('ozguven-detay', { meta, canonicalUrl: SITE_URL+'/ozguven-gelistirme/'+subpage, jsonLdScripts: '', activeCat: originalCat, exercises: DATA_OZGUVEN });
 });
+
 
 const DATA_HIKAYE = require('./hikaye-data');
 app.get('/hikaye', (req, res, next) => {
@@ -2413,47 +2455,6 @@ app.get('/gorgu/:subpage', (req, res, next) => {
   });
 });
 
-const DATA_GIYIM = require('./giyim-data');
-app.get('/giyim', (req, res, next) => {
-  res.render('giyim-index', { meta: {title: 'İmaj Yönetimi', desc: 'Kıyafetinizle güven verin, otoritenizi artırın.'}, canonicalUrl: SITE_URL+'/giyim', jsonLdScripts: '' });
-});
-
-app.get('/giyim/outfit', (req, res, next) => {
-  res.render('giyim-outfit', { meta: {title: 'Kombin Laboratuvarı', h1: 'Outfit Lab', desc: 'Senaryolara uygun kombin uyum skoru oluştur.'}, canonicalUrl: SITE_URL+'/giyim/outfit', jsonLdScripts: '' });
-});
-
-app.get('/giyim/renk', (req, res, next) => {
-  res.render('giyim-renk', { meta: {title: 'Aura Tarayıcı', h1: 'Renk Psikolojisi', desc: 'Bilinçaltına hitap eden renklerin gücünü test et.'}, canonicalUrl: SITE_URL+'/giyim/renk', jsonLdScripts: '' });
-});
-
-app.get('/giyim/vucut-tipi', (req, res, next) => {
-  res.render('giyim-vucut', { meta: {title: 'Optik İllüzyon Laboratuvarı', h1: 'Vücut Tipine Göre Giyim', desc: 'Vatka, dikey çizgi ve katmanlarla beden illüzyonu yarat.'}, canonicalUrl: SITE_URL+'/giyim/vucut-tipi', jsonLdScripts: '' });
-});
-
-app.get('/giyim/aksesuar', (req, res, next) => {
-  res.render('giyim-aksesuar', { meta: {title: 'Aksesuar Dedektifi', h1: 'Aksesuar Sanatı', desc: 'Giyimdeki kritik aksesuar hatalarını tespit et.'}, canonicalUrl: SITE_URL+'/giyim/aksesuar', jsonLdScripts: '' });
-});
-
-app.get('/giyim/stil', (req, res, next) => {
-  res.render('giyim-stil', { meta: {title: 'Stil Kimliği Analizörü', h1: 'Stil Testi', desc: 'Sana en uygun giyim profilini keşfet.'}, canonicalUrl: SITE_URL+'/giyim/stil', jsonLdScripts: '' });
-});
-
-app.get('/giyim/dresscode', (req, res, next) => {
-  res.render('giyim-dresscode', { meta: {title: 'Dress Code Çözücü', h1: 'Giyim Kodları', desc: 'Hangi davete ne giyilir? Kuralları öğren.'}, canonicalUrl: SITE_URL+'/giyim/dresscode', jsonLdScripts: '' });
-});
-
-app.get('/giyim/:subpage', (req, res, next) => {
-  const subpage = req.params.subpage;
-  const exercises = DATA_GIYIM.filter(ex => ex.cat === subpage);
-  const meta = {title: 'İmaj Yönetimi Detay', h1: 'İmaj Yönetimi Detay'};
-  if (subpage === 'aksesuar') meta.h1 = 'Aksesuar Sanatı Eğitimi';
-  else if (subpage === 'vucut-tipi') {
-    meta.h1 = 'Vücut Tipine Göre Giyim';
-    return res.render('giyim-vucut', { meta, canonicalUrl: SITE_URL+'/giyim/vucut-tipi', jsonLdScripts: '' });
-  }
-  else if (subpage === 'renk') meta.h1 = 'Renk Psikolojisi';
-  res.render('giyim-detay', { meta, canonicalUrl: SITE_URL+'/giyim/'+subpage, jsonLdScripts: '', activeCat: subpage, exercises });
-});
 
 const DATA_SAHNE = require('./sahne-data');
 app.get('/sahne', (req, res, next) => {

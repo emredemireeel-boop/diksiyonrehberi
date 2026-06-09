@@ -1,38 +1,31 @@
 <%- include('partials/main-header') %>
 
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700;800;900&family=Playfair+Display:ital,wght@0,600;0,700;0,800;0,900;1,600&family=JetBrains+Mono:wght@400;700&display=swap');
+  
 
   /* ═══════════════════════════════════════════════════════════
      SAFSATA ANSİKLOPEDİSİ — Surrealist Competition UI
      ═══════════════════════════════════════════════════════════ */
 
   :root {
-    --saf-bg: #06060f;
-    --saf-surface: #0d0d1f;
-    --saf-glass: rgba(13, 13, 35, 0.65);
-    --saf-glass2: rgba(20, 20, 50, 0.5);
-    --saf-border: rgba(139, 92, 246, 0.12);
-    --saf-border-h: rgba(139, 92, 246, 0.3);
+    --saf-bg: #0a0a14;
+    --saf-surface: #131320;
+    --saf-glass: rgba(255,255,255,0.03);
+    --saf-glass2: rgba(255,255,255,0.05);
+    --saf-border: rgba(255,255,255,0.08);
+    --saf-border-h: rgba(255,255,255,0.15);
     --saf-glow: #8b5cf6;
     --saf-glow2: #c084fc;
     --saf-cyan: #22d3ee;
     --saf-amber: #fbbf24;
     --saf-emerald: #34d399;
     --saf-rose: #fb7185;
-    --saf-text: #f0eeff;
-    --saf-text2: #a8a3cc;
-    --saf-text3: #6b6899;
+    --saf-text: #f1f5f9;
+    --saf-text2: #cbd5e1;
+    --saf-text3: #94a3b8;
   }
 
-  body {
-    background: var(--saf-bg) !important;
-    color: var(--saf-text);
-    font-family: 'Outfit', sans-serif;
-    overflow-x: hidden;
-    margin: 0;
-    padding: 0;
-  }
+  
 
   /* ── COSMIC BACKGROUND ── */
   .saf-cosmos {
@@ -161,7 +154,7 @@
     border-radius: 50px;
     background: rgba(139, 92, 246, 0.08);
     border: 1px solid rgba(139, 92, 246, 0.15);
-    font-family: 'JetBrains Mono', monospace;
+    font-family: 'Inter', sans-serif;
     font-size: 0.6rem;
     letter-spacing: 3px;
     text-transform: uppercase;
@@ -184,13 +177,13 @@
   }
 
   h1 {
-    font-family: 'Playfair Display', serif;
+    font-family: 'Plus Jakarta Sans', sans-serif;
     font-size: 3rem;
     font-weight: 900;
     margin: 0 0 12px;
     line-height: 1.05;
     color: transparent;
-    background: linear-gradient(135deg, #e0d4ff, #c084fc, #8b5cf6);
+    background: linear-gradient(135deg, var(--gold-d), var(--gold), var(--gold-m));
     -webkit-background-clip: text;
     background-clip: text;
     animation: titleShimmer 5s ease-in-out infinite alternate;
@@ -201,7 +194,7 @@
   }
 
   p.desc {
-    font-family: 'Outfit', sans-serif;
+    font-family: 'Inter', sans-serif;
     color: var(--saf-text2);
     font-size: 1rem;
     line-height: 1.7;
@@ -262,16 +255,16 @@
 
   .fb-content { display: flex; flex-direction: column; position: relative; z-index: 2; }
   .fb-title {
-    font-family: 'Outfit', sans-serif;
+    font-family: 'Inter', sans-serif;
     font-weight: 800;
     color: var(--saf-text);
     font-size: 1.05rem;
     margin-bottom: 3px;
     transition: color 0.3s;
   }
-  .fallacy-btn.active .fb-title { color: #fff; }
+  .fallacy-btn.active .fb-title { color: #f1f5f9; }
   .fb-eng {
-    font-family: 'JetBrains Mono', monospace;
+    font-family: 'Inter', sans-serif;
     font-size: 0.6rem;
     color: var(--saf-glow2);
     text-transform: uppercase;
@@ -317,7 +310,7 @@
     min-width: 30%;
     padding: 13px 16px;
     border-radius: 12px;
-    font-family: 'Outfit', sans-serif;
+    font-family: 'Inter', sans-serif;
     font-weight: 800;
     font-size: 0.75rem;
     text-align: center;
@@ -397,7 +390,7 @@
     position: absolute;
     inset: 0;
     opacity: 0.025;
-    font-family: 'JetBrains Mono', monospace;
+    font-family: 'Inter', sans-serif;
     font-size: 11px;
     color: var(--saf-glow2);
     user-select: none;
@@ -443,19 +436,19 @@
     border-radius: 2px;
   }
   .mp-title {
-    font-family: 'Playfair Display', serif;
+    font-family: 'Plus Jakarta Sans', sans-serif;
     font-size: 2.8rem;
     font-weight: 900;
     margin: 0 0 10px 0;
     color: transparent;
-    background: linear-gradient(135deg, #fff, #e0d4ff, #c084fc);
+    background: linear-gradient(135deg, var(--gold-d), var(--gold), var(--gold-m));
     -webkit-background-clip: text;
     background-clip: text;
     line-height: 1.1;
     transition: all 0.5s;
   }
   .mp-latin {
-    font-family: 'JetBrains Mono', monospace;
+    font-family: 'Inter', sans-serif;
     font-size: 0.8rem;
     color: var(--saf-glow2);
     font-style: italic;
@@ -466,7 +459,7 @@
 
   /* Definition */
   .mp-def {
-    font-family: 'Outfit', sans-serif;
+    font-family: 'Inter', sans-serif;
     font-size: 1.1rem;
     color: var(--saf-text2);
     line-height: 1.85;
@@ -511,7 +504,7 @@
     border-radius: 2px;
   }
   .form-title {
-    font-family: 'JetBrains Mono', monospace;
+    font-family: 'Inter', sans-serif;
     font-size: 0.7rem;
     font-weight: 700;
     color: var(--saf-glow2);
@@ -524,7 +517,7 @@
   }
   .form-title::before { content: '⚡'; font-size: 0.9rem; }
   .form-code {
-    font-family: 'JetBrains Mono', monospace;
+    font-family: 'Inter', sans-serif;
     font-size: 0.95rem;
     color: var(--saf-text);
     font-weight: 400;
@@ -561,7 +554,7 @@
     transform: translateY(-2px);
   }
   .ex-text {
-    font-family: 'Playfair Display', serif;
+    font-family: 'Plus Jakarta Sans', sans-serif;
     font-size: 1.15rem;
     color: var(--saf-text);
     font-style: italic;
@@ -574,7 +567,7 @@
     background: rgba(239, 68, 68, 0.04);
     padding: 18px;
     border-radius: 12px;
-    font-family: 'Outfit', sans-serif;
+    font-family: 'Inter', sans-serif;
     font-size: 0.9rem;
     color: var(--saf-text2);
     border-left: 3px solid var(--saf-rose);
@@ -597,15 +590,16 @@
     h1 { font-size: 1.8rem; }
     .mp-title { font-size: 1.6rem; }
   }
+  body { background: #0a0a14 !important; color: #f1f5f9 !important; font-family: "Inter", sans-serif; overflow-x: hidden; margin: 0; padding: 0; }
 </style>
 
 <!-- ═══════════ BACKGROUND FX ═══════════ -->
-<div class="saf-cosmos"></div>
-<div class="saf-scanlines"></div>
-<div class="saf-particles" id="safParticles"></div>
-<div class="saf-orbit"></div>
-<div class="saf-orbit"></div>
-<div class="saf-orbit"></div>
+
+
+
+
+
+
 
 <div class="hub-container">
   
@@ -1465,8 +1459,8 @@
 <!-- ════════ SEO + SSS + İLGİLİ MODÜLLER ════════ -->
 <style>
   .saf-seo { position: relative; z-index: 10; max-width: 900px; margin: 0 auto; padding: 40px 24px; }
-  .saf-seo h2 { font-family: 'Playfair Display', serif; font-size: 2rem; color: var(--saf-text); margin: 36px 0 14px; font-weight: 800; }
-  .saf-seo h3 { font-family: 'Outfit', sans-serif; font-size: 1.25rem; color: var(--saf-glow2); margin: 26px 0 10px; font-weight: 800; }
+  .saf-seo h2 { font-family: 'Plus Jakarta Sans', sans-serif; font-size: 2rem; color: var(--saf-text); margin: 36px 0 14px; font-weight: 800; }
+  .saf-seo h3 { font-family: 'Inter', sans-serif; font-size: 1.25rem; color: var(--saf-glow2); margin: 26px 0 10px; font-weight: 800; }
   .saf-seo p { color: var(--saf-text2); line-height: 1.85; margin-bottom: 14px; font-size: 1.05rem; }
   .saf-seo ul { color: var(--saf-text2); line-height: 1.8; margin: 0 0 14px; padding-left: 22px; }
   .saf-seo li { margin-bottom: 8px; }
@@ -1481,12 +1475,12 @@
   .saf-faq-item.open .saf-faq-a { max-height: 440px; padding: 0 24px 20px; }
 
   .saf-related { position: relative; z-index: 10; max-width: 1200px; margin: 0 auto; padding: 30px 24px 80px; }
-  .saf-related h2 { font-family: 'Playfair Display', serif; font-size: 2rem; color: var(--saf-text); text-align: center; margin-bottom: 28px; font-weight: 800; }
+  .saf-related h2 { font-family: 'Plus Jakarta Sans', sans-serif; font-size: 2rem; color: var(--saf-text); text-align: center; margin-bottom: 28px; font-weight: 800; }
   .saf-related-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 20px; }
   .saf-related-card { display: block; text-decoration: none; background: var(--saf-glass); border: 1px solid var(--saf-border); border-radius: 16px; padding: 26px; transition: all 0.35s cubic-bezier(0.34,1.56,0.64,1); backdrop-filter: blur(10px); }
   .saf-related-card:hover { transform: translateY(-6px); border-color: var(--saf-border-h); box-shadow: 0 16px 50px rgba(139,92,246,0.15); }
   .saf-related-card .ic { font-size: 2rem; display: block; margin-bottom: 12px; }
-  .saf-related-card h4 { font-family: 'Playfair Display', serif; color: var(--saf-text); font-size: 1.1rem; margin: 0 0 6px; font-weight: 800; }
+  .saf-related-card h4 { font-family: 'Plus Jakarta Sans', sans-serif; color: var(--saf-text); font-size: 1.1rem; margin: 0 0 6px; font-weight: 800; }
   .saf-related-card p { color: var(--saf-text3); font-size: 0.88rem; margin: 0; line-height: 1.6; }
 </style>
 

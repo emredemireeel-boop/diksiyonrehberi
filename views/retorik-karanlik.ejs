@@ -1,7 +1,7 @@
 <%- include('partials/main-header') %>
 
 <style>
-  body { background: #020617; color: #ffffff; margin: 0; min-height: 100vh; display: flex; flex-direction: column; font-family: 'Courier New', Courier, monospace; overflow: hidden; }
+  body { background: #020617; color: #ffffff; margin: 0; min-height: 100vh; display: flex; flex-direction: column;  overflow: hidden; }
   .main-header, .main-footer { display: none !important; }
 
   /* Hacker / Wall Street Background */
@@ -28,23 +28,23 @@
   .terminal-header { color: #ef4444; font-weight: 900; margin-bottom: 15px; display: flex; align-items: center; gap: 10px; font-size: 1.1rem; }
   .blink { animation: blink 1s infinite; }
   @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
-  .raw-truth { font-size: 1.4rem; color: #f8fafc; line-height: 1.5; font-family: 'Inter', sans-serif; font-weight: 600; }
+  .raw-truth { font-size: 1.4rem; color: #f8fafc; line-height: 1.5;  font-weight: 600; }
 
   /* Manipulation Options */
   .options-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; width: 100%; }
   .spin-btn {
     background: #020617; border: 1px solid #1e293b; color: #cbd5e1; padding: 20px; border-radius: 10px;
-    font-family: 'Inter', sans-serif; font-size: 1.05rem; font-weight: 500; cursor: pointer; transition: all 0.2s; text-align: left; line-height: 1.5; position: relative; overflow: hidden;
+     font-size: 1.05rem; font-weight: 500; cursor: pointer; transition: all 0.2s; text-align: left; line-height: 1.5; position: relative; overflow: hidden;
   }
   .spin-btn:hover { border-color: #10b981; background: rgba(16,185,129,0.05); transform: translateY(-3px); box-shadow: 0 10px 20px rgba(16,185,129,0.1); }
-  .spin-tactic { display: block; font-size: 0.8rem; font-weight: 900; font-family: 'Courier New', Courier, monospace; letter-spacing: 1px; margin-bottom: 8px; color: #64748b; }
+  .spin-tactic { display: block; font-size: 0.8rem; font-weight: 900;  letter-spacing: 1px; margin-bottom: 8px; color: #64748b; }
 
   /* Feedback Overlay */
   .feedback-box { position: fixed; inset: 0; background: rgba(2,6,23,0.95); z-index: 100; display: none; flex-direction: column; align-items: center; justify-content: center; padding: 40px; text-align: center; }
   .f-market-effect { font-size: 5rem; font-weight: 900; margin-bottom: 10px; }
-  .f-tactic-name { font-size: 2rem; color: #10b981; font-family: 'Courier New', Courier, monospace; margin-bottom: 20px; font-weight: bold; }
-  .f-desc { font-size: 1.3rem; color: #cbd5e1; font-family: 'Inter', sans-serif; max-width: 700px; line-height: 1.6; margin-bottom: 40px; }
-  .btn-next { background: #10b981; color: #020617; border: none; padding: 15px 40px; border-radius: 5px; font-size: 1.2rem; font-weight: 900; font-family: 'Courier New', Courier, monospace; cursor: pointer; text-transform: uppercase; transition: transform 0.2s; }
+  .f-tactic-name { font-size: 2rem; color: #10b981;  margin-bottom: 20px; font-weight: bold; }
+  .f-desc { font-size: 1.3rem; color: #cbd5e1;  max-width: 700px; line-height: 1.6; margin-bottom: 40px; }
+  .btn-next { background: #10b981; color: #020617; border: none; padding: 15px 40px; border-radius: 5px; font-size: 1.2rem; font-weight: 900;  cursor: pointer; text-transform: uppercase; transition: transform 0.2s; }
   .btn-next:hover { transform: scale(1.05); }
 
   .btn-back { position: absolute; top: 20px; left: 20px; color: rgba(16,185,129,0.5); text-decoration: none; font-weight: 700; display: flex; align-items: center; gap: 8px; transition: color 0.2s; z-index: 50; }

@@ -1,0 +1,697 @@
+<%- include('partials/main-header') %>
+
+<style>
+  body {
+    background-color: #fafaf9; /* Premium light theme */
+    color: #1e293b;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+  }
+  .test-container {
+    max-width: 800px;
+    margin: 40px auto;
+    padding: 20px;
+    min-height: 80vh;
+  }
+
+  /* Screens */
+  .screen {
+    display: none;
+    animation: fadeIn 0.5s ease;
+  }
+  .screen.active {
+    display: block;
+  }
+
+  /* Intro Screen */
+  .intro-header {
+    text-align: center;
+    margin-bottom: 40px;
+    padding-top: 50px;
+  }
+  .intro-badge {
+    background: #fef3c7;
+    color: #d97706;
+    padding: 8px 16px;
+    border-radius: 30px;
+    font-weight: 800;
+    font-size: 0.85rem;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    display: inline-block;
+    margin-bottom: 20px;
+  }
+  .intro-title {
+    font-size: 3.5rem;
+    font-weight: 900;
+    color: #0f172a;
+    line-height: 1.1;
+    margin-bottom: 20px;
+    letter-spacing: -1px;
+  }
+  .intro-desc {
+    font-size: 1.2rem;
+    color: #64748b;
+    max-width: 600px;
+    margin: 0 auto 40px auto;
+    line-height: 1.6;
+  }
+  .btn-start {
+    background: #0f172a;
+    color: #fff;
+    border: none;
+    padding: 20px 50px;
+    font-size: 1.3rem;
+    font-weight: 800;
+    border-radius: 16px;
+    cursor: pointer;
+    transition: all 0.3s;
+    box-shadow: 0 10px 30px rgba(15, 23, 42, 0.2);
+  }
+  .btn-start:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 40px rgba(15, 23, 42, 0.3);
+  }
+
+  /* Question Screen */
+  .progress-bar {
+    width: 100%;
+    height: 8px;
+    background: #e2e8f0;
+    border-radius: 10px;
+    margin-bottom: 40px;
+    overflow: hidden;
+  }
+  .progress-fill {
+    height: 100%;
+    background: #2563eb;
+    width: 0%;
+    transition: width 0.4s ease;
+  }
+  .q-number {
+    font-size: 1rem;
+    font-weight: 800;
+    color: #3b82f6;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    margin-bottom: 15px;
+  }
+  .question-text {
+    font-size: 1.7rem;
+    font-weight: 800;
+    color: #0f172a;
+    line-height: 1.4;
+    margin-bottom: 40px;
+  }
+  .options {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+  }
+  .option-btn {
+    background: #fff;
+    border: 2px solid #e2e8f0;
+    border-radius: 16px;
+    padding: 20px 25px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #334155;
+    text-align: left;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-family: inherit;
+    line-height: 1.5;
+  }
+  .option-btn:hover {
+    border-color: #2563eb;
+    background: #eff6ff;
+    transform: translateX(10px);
+  }
+
+  /* Result Screen */
+  .result-wrapper {
+    text-align: center;
+    padding: 20px 0;
+  }
+  .calculating {
+    font-size: 1.5rem;
+    font-weight: 800;
+    color: #64748b;
+    margin: 50px 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+  }
+  .spinner {
+    width: 50px;
+    height: 50px;
+    border: 5px solid #e2e8f0;
+    border-top-color: #2563eb;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+  }
+
+  .result-content {
+    display: none;
+  }
+  
+  .card-preview {
+    margin: 40px auto;
+    position: relative;
+    max-width: 400px;
+  }
+  #shareCanvas {
+    width: 100%;
+    height: auto;
+    border-radius: 20px;
+    box-shadow: 0 20px 50px rgba(0,0,0,0.15);
+  }
+
+  .share-buttons {
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+    margin-top: 30px;
+    flex-wrap: wrap;
+  }
+  .btn-dl {
+    background: #10b981;
+    color: white;
+    padding: 15px 30px;
+    border-radius: 12px;
+    text-decoration: none;
+    font-weight: 800;
+    font-size: 1.1rem;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    transition: 0.3s;
+    border: none;
+    cursor: pointer;
+  }
+  .btn-dl:hover { background: #059669; transform: translateY(-3px); box-shadow: 0 10px 20px rgba(16,185,129,0.2); }
+  
+  .btn-share-ig {
+    background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
+    color: white;
+    padding: 15px 30px;
+    border-radius: 12px;
+    text-decoration: none;
+    font-weight: 800;
+    font-size: 1.1rem;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    transition: 0.3s;
+    border: none;
+  }
+  .btn-share-ig:hover { transform: translateY(-3px); box-shadow: 0 10px 20px rgba(220, 39, 67, 0.3); }
+
+  .profile-desc-box {
+    background: white;
+    border: 1px solid #e2e8f0;
+    padding: 30px;
+    border-radius: 20px;
+    margin-top: 40px;
+    text-align: left;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.03);
+  }
+  .profile-desc-box h3 {
+    font-size: 1.5rem;
+    font-weight: 900;
+    margin-bottom: 15px;
+    color: #0f172a;
+  }
+  .profile-desc-box p {
+    font-size: 1.1rem;
+    line-height: 1.7;
+    color: #475569;
+  }
+
+  .stats-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 15px;
+    margin-top: 30px;
+  }
+  .stat-item {
+    background: #f8fafc;
+    padding: 15px;
+    border-radius: 12px;
+    border: 1px solid #e2e8f0;
+  }
+  .stat-label {
+    font-size: 0.9rem;
+    color: #64748b;
+    font-weight: 700;
+    text-transform: uppercase;
+  }
+  .stat-bar-bg {
+    width: 100%;
+    height: 8px;
+    background: #e2e8f0;
+    border-radius: 4px;
+    margin-top: 8px;
+    overflow: hidden;
+  }
+  .stat-bar-fill {
+    height: 100%;
+    background: #3b82f6;
+    width: 0%;
+  }
+
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  @media(max-width: 600px) {
+    .intro-title { font-size: 2.5rem; }
+    .question-text { font-size: 1.3rem; }
+    .stats-grid { grid-template-columns: 1fr; }
+  }
+</style>
+
+<div class="test-container">
+  
+  <div id="screenIntro" class="screen active">
+    <div class="intro-header">
+      <div class="intro-badge">Kapsamlı İletişim Zekası Analizi</div>
+      <h1 class="intro-title">İletişim ve Karizma Profili Testi</h1>
+      <p class="intro-desc">15 kritik senaryo ile <strong>Özgüven, Retorik, Manipülasyon, Safsata ve Görgü</strong> yeteneklerinizi ölçün. Hangi modülde ustasınız? Gerçek Arketipinizi bulun ve kartınızı alın.</p>
+      <button class="btn-start" onclick="startTest()">Teste Başla ➔</button>
+    </div>
+  </div>
+
+  <div id="screenQuiz" class="screen">
+    <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+    <div class="q-number" id="qNumber">Soru 1 / 15</div>
+    <div class="question-text" id="questionText">Soru metni buraya gelecek...</div>
+    <div class="options" id="optionsContainer"></div>
+  </div>
+
+  <div id="screenResult" class="screen">
+    <div class="result-wrapper">
+      
+      <div class="calculating" id="calculatingBox">
+        <div class="spinner"></div>
+        Zeka Modülleri Hesaplanıyor...
+      </div>
+
+      <div class="result-content" id="resultContent">
+        <h2 style="font-size:2rem; font-weight:900; color:#0f172a; margin-bottom:10px;">Analiz Tamamlandı!</h2>
+        <p style="color:#64748b; font-size:1.1rem; margin-bottom:30px;">Tüm modüllerdeki yeteneklerin hesaplandı ve profil kartın oluşturuldu.</p>
+        
+        <div class="card-preview">
+          <canvas id="shareCanvas" width="1080" height="1350"></canvas>
+        </div>
+
+        <div class="share-buttons">
+          <a id="btnDownload" class="btn-dl" download="profil-kartim.png"><i class="fa-solid fa-download"></i> Kartı İndir</a>
+          <button class="btn-share-ig" onclick="alert('İndirdiğiniz görseli doğrudan hikayenizde paylaşabilirsiniz!')"><i class="fa-brands fa-instagram"></i> Paylaş</button>
+        </div>
+
+        <div class="profile-desc-box">
+          <h3>Arketip: <span id="profileTitleText" style="color:#2563eb;"></span></h3>
+          <p id="profileDescText"></p>
+          
+          <h4 style="margin-top:30px; margin-bottom:15px; font-weight:800; font-size:1.2rem;">Yetenek Dağılımın</h4>
+          <div class="stats-grid" id="statsGrid">
+            <!-- Stats injected here -->
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+  // Puan Havuzu
+  let scores = {
+    safsata: 0,
+    retorik: 0,
+    ozguven: 0,
+    manipulasyon: 0,
+    gorgu: 0,
+    hikaye: 0
+  };
+
+  // Yeni Arketipler
+  const ARCHETYPES = {
+    "SARSILMAZ ÇELİK": {
+      icon: "🛡️",
+      color1: "#0f172a", color2: "#475569",
+      desc: "Özgüven ve Manipülasyon Savunması modüllerinde zirvedesin. Provokasyonlara, gaslighting'e veya toksik insanlara karşı mutlak bir bağışıklığın var. Kriz anlarında yıkılmaz, paniğe kapılmazsın. İnsanlar senin sınırlarını ihlal edemez."
+    },
+    "ZARAFET MİMARI": {
+      icon: "🎩",
+      color1: "#10b981", color2: "#34d399",
+      desc: "Görgü Kuralları ve Diksiyon modüllerinde ustasın. Girdiğin her ortamda kaliten, nezaketin ve kriz çözme zarafetinle saygı uyandırıyorsun. İnsanlar seninle iletişim kurarken kendilerine çeki düzen verme ihtiyacı hissediyor."
+    },
+    "KİTLELERİN BÜYÜCÜSÜ": {
+      icon: "🔥",
+      color1: "#ef4444", color2: "#f87171",
+      desc: "Retorik ve Hikaye Anlatıcılığı modüllerinde bir dehasın. İkna gücün sözlerinde ve anlattığın metaforlarda gizli. İnsanları mantıksal argümanlarla değil, onlara yaşattığın duygularla ve karizmanla peşinden sürüklüyorsun."
+    },
+    "KARANLIK SATRANÇ USTASI": {
+      icon: "♟️",
+      color1: "#4f46e5", color2: "#818cf8",
+      desc: "Safsata Avcılığı ve Manipülasyon modüllerinde eşsizsin. Karşındakinin mantıksal hatalarını saniyeler içinde okuyor, güç dinamiklerini 3 hamle önceden görüyorsun. Sessiz kalırken bile masadaki oyunu sen yönetiyorsun."
+    }
+  };
+
+  // 15 Kapsamlı Modül Sorusu
+  const questions = [
+    {
+      q: "(Görgü & Özgüven) Önemli bir iş yemeğinde üst düzey bir yönetici şarabını yanlışlıkla üzerine döktü. İlk tepkin?",
+      options: [
+        { text: "'Hiç sorun değil' diyerek zarafetle üstümü siler, onu mahçup etmeden sohbete devam ederim.", type: "gorgu" },
+        { text: "Gülümseyerek 'Bana yeni bir gömlek borçlusunuz, ihaleyle ödeşiriz' diyerek krizi karizmatik bir fırsata çeviririm.", type: "retorik" },
+        { text: "Göz teması kurarak sakince 'Görünmez kaza' derim, mimik bile oynatmam.", type: "ozguven" },
+        { text: "Bu anı fırsat bilir, ona bu mahcubiyeti hissettirerek görüşme boyunca psikolojik üstünlüğü elime alırım.", type: "manipulasyon" }
+      ]
+    },
+    {
+      q: "(Safsata & Retorik) Tartışmada rakibin konuyu bırakıp doğrudan kişiliğine (Ad Hominem) saldırdı.",
+      options: [
+        { text: "'Konuyu kişiliğime getirmen, argümanında tıkandığını gösterir' diyerek hatasını herkesin önünde ifşa ederim.", type: "safsata" },
+        { text: "'Benim hakkımda konuşmak kolay, peki ya rakamlar hakkında konuşacak cesaretin var mı?' derim.", type: "retorik" },
+        { text: "O bitirene kadar sessizce ve keskin bir bakışla bekler, sonra 'Bitti mi? İşimize dönelim' derim.", type: "ozguven" },
+        { text: "Onun bu saldırısını kullanarak, kalabalığın önünde kendi dürüstlüğümü anlatan güçlü bir hikaye paylaşırım.", type: "hikaye" }
+      ]
+    },
+    {
+      q: "(Manipülasyon & Hikaye) Biri sana sürekli suçluluk duygusu yüklemeye (Gaslighting) çalışıyor.",
+      options: [
+        { text: "Olayların kendi anlattığı versiyonunun neden mantıksız olduğunu adım adım çürütürüm.", type: "safsata" },
+        { text: "'Beni manipüle etmeye çalıştığının farkındayım, bu bende sökmez' der, duvarımı çekerim.", type: "ozguven" },
+        { text: "Gri Kaya (Tepkisizlik) yöntemini uygular, sıfır duygu göstererek onu kendi oyununda yorarım.", type: "manipulasyon" },
+        { text: "'Senin anlattığın bu dramatik hikaye gerçeklikten kopuk. İşin aslı şu...' diyerek kendi versiyonumu ustaca kurgularım.", type: "hikaye" }
+      ]
+    },
+    {
+      q: "(Görgü & Retorik) Yeni bir ortama girdin ve herkes birbiriyle kaynaşmış durumda. Stratejin nedir?",
+      options: [
+        { text: "Vücut dilimle özgüvenli durur, insanların bana gelmesini beklerim.", type: "ozguven" },
+        { text: "Küçük bir gruba dahil olur, anlattığım ilgi çekici bir anekdot/hikaye ile dikkati üzerime toplarım.", type: "hikaye" },
+        { text: "Uygun beden dili ve nezaket kurallarıyla doğru kişilere profesyonelce kendimi tanıtırım.", type: "gorgu" },
+        { text: "Ortamın güç merkezini (alfa) bulur, önce onunla iletişime geçip hiyerarşiyi lehimde kullanırım.", type: "manipulasyon" }
+      ]
+    },
+    {
+      q: "(Safsata & Manipülasyon) Karşı taraf 'Ya benim dediğimi yaparsın, ya da proje çöker' (Sahte İkilem Safsatası) dedi.",
+      options: [
+        { text: "'Sadece iki seçeneğimiz varmış gibi davranıyorsun, oysa üçüncü bir yol var' diyerek safsatasını kırarım.", type: "safsata" },
+        { text: "Blöfünü görür, 'O zaman çökmesine izin verelim' diyerek manipülasyonunu geri püskürtürüm.", type: "manipulasyon" },
+        { text: "Sakin ve güçlü bir ses tonuyla, 'Beni tehdit ederek sonuç alamazsın' diyerek tavrımı koyarım.", type: "ozguven" },
+        { text: "Ekibi toplayıp, hep birlikte bu projeyi nasıl kurtarabileceğimize dair ilham verici bir konuşma yaparım.", type: "retorik" }
+      ]
+    },
+    {
+      q: "(Hikaye & Özgüven) Topluluk önünde konuşurken aniden cümlenin sonunu unuttun. Ne yaparsın?",
+      options: [
+        { text: "Kısa bir es (sessizlik) veririm. Bunu bilerek yapmışım gibi gizemli ve kendinden emin bir bakış atarım.", type: "ozguven" },
+        { text: "O an aklıma gelen kişisel bir anıya veya hikayeye geçiş yaparak durumu ustaca bağlarım.", type: "hikaye" },
+        { text: "'Bu noktada aklıma muhteşem bir örnek gelmişti ama sanırım heyecanıma yenik düştü' diyerek kitleyi güldürürüm.", type: "retorik" },
+        { text: "Durumu bozuntuya vermeden, sanki cümlem bitmiş gibi bir alt başlığa zarafetle geçerim.", type: "gorgu" }
+      ]
+    },
+    {
+      q: "(Manipülasyon & Görgü) Bir iş arkadaşın sana sürekli iğneleyici şakalar yapıyor.",
+      options: [
+        { text: "'Bu şakalarının altında yatan asıl özgüven problemini konuşmak ister misin?' diyerek psikolojik baskı kurarım.", type: "manipulasyon" },
+        { text: "Şakalarına asla gülmem. Sadece gözlerinin içine bakar ve 'Anlamadım, açıklar mısın?' diyerek onu bozguna uğratırım.", type: "ozguven" },
+        { text: "'Ofis ortamında bu tür söylemlerin profesyonelliğe aykırı olduğunu düşünüyorum' diyerek çizgiyi çekerim.", type: "gorgu" },
+        { text: "Ona öyle zekice bir söz oyunuyla cevap veririm ki, bir daha bana şaka yapmaya cesaret edemez.", type: "retorik" }
+      ]
+    },
+    {
+      q: "(Safsata & Hikaye) Karşı taraf kendi argümanını ispatlamak için sürekli 'Çoğunluk böyle düşünüyor' (Bandwagon) diyor.",
+      options: [
+        { text: "'Çoğunluğun yanılması gerçeği değiştirmez' diyerek Sürü Psikolojisi safsatasını yüzüne vururum.", type: "safsata" },
+        { text: "Ona tarihte çoğunluğun nasıl yanıldığına dair akılda kalıcı, çarpıcı bir hikaye anlatırım.", type: "hikaye" },
+        { text: "Kitlelerin ne düşündüğü umurumda değil, ben kendi aklıma güvenirim deyip duruşumu bozmam.", type: "ozguven" },
+        { text: "Eğer çoğunluğun gücünü kullanıyorsa, ben de o çoğunluğun fikrini değiştirecek manipülatif bir argüman üretirim.", type: "manipulasyon" }
+      ]
+    },
+    {
+      q: "(Retorik & Görgü) Yöneticin toplantıda tamamen yanlış bir bilgi verdi. Onu nasıl düzeltirsin?",
+      options: [
+        { text: "Herkesin önünde bozmam. Toplantı sonrası özel olarak nezaketle doğrusunu iletirim.", type: "gorgu" },
+        { text: "Söze girip, 'Sizin harika vizyonunuza ek olarak, veriler şu yönde bir güncelleme gerektiriyor' diyerek politik davranırım.", type: "retorik" },
+        { text: "Hiç çekinmem. İşin selameti için doğrudan ve saygılı bir şekilde doğrusunu anında masada söylerim.", type: "ozguven" },
+        { text: "Hatasını hemen kullanmam. Bu bilgiyi saklar, ileride kendi argümanımı güçlendirecek stratejik bir anda masaya sürerim.", type: "manipulasyon" }
+      ]
+    },
+    {
+      q: "(Hikaye & Retorik) İnsanları bir vizyona veya fikre inandırmak için kullandığın birincil silah nedir?",
+      options: [
+        { text: "Metaforlar, duygusal kancalar ve kahramanın yolculuğu kurgusu.", type: "hikaye" },
+        { text: "Sarsılmaz vücut dilim, ses tonum ve yaydığım alfa enerjisi.", type: "ozguven" },
+        { text: "Mantıksal akıl yürütme, sağlam kanıtlar ve çürütülemez istatistikler.", type: "safsata" },
+        { text: "İnsanların gizli zaaflarını bulup, fikrimin onların en büyük arzularını tatmin edeceğine inandırmak.", type: "manipulasyon" }
+      ]
+    },
+    {
+      q: "(Manipülasyon & Safsata) Biri sana iyilik yaptı ama sonrasında bunu sürekli başına kakarak seni kontrol etmeye çalışıyor.",
+      options: [
+        { text: "İyiliğinin tam karşılığını fazlasıyla öder ve onunla tüm borç ilişkimi acımasızca keserim.", type: "ozguven" },
+        { text: "'Bana iyilik yaparken asıl niyetinin bu olduğunu bilmiyordum' diyerek onu kendi silahıyla (suçluluk) vururum.", type: "manipulasyon" },
+        { text: "Bunun bir Minnet Safsatası olduğunu, bir iyiliğin ona sonsuz itaat hakkı vermeyeceğini mantıkla açıklarım.", type: "safsata" },
+        { text: "Nezaketimi bozmadan 'Desteğin için minnettarım ama bunun şantaja dönüşmesine izin veremem' derim.", type: "gorgu" }
+      ]
+    },
+    {
+      q: "(Özgüven & Görgü) Resepsiyonda veya restoranda adın listeye yazılmamış ve içeri alınmıyorsun.",
+      options: [
+        { text: "Asla sinirlenmem. Kibar ama otoriter bir ses tonuyla yetkiliyi çağırmalarını rica ederim.", type: "gorgu" },
+        { text: "Görevliye öyle bir bakış atar ve duruş sergilerim ki, kendileri hata yaptıklarına ikna olurlar.", type: "ozguven" },
+        { text: "'Beni içeri almadığınızda yaşanacak prestij kaybını göze alıyor musunuz?' diyerek örtülü bir ikna kurarım.", type: "retorik" },
+        { text: "İsimleri ve unvanları ustaca kullanarak görevlinin zihninde büyük bir otorite algısı (manipülasyon) yaratırım.", type: "manipulasyon" }
+      ]
+    },
+    {
+      q: "(Hikaye & Safsata) Sosyal medyada senin hakkında mantıksız bir karalama kampanyası başladı.",
+      options: [
+        { text: "Saldırganların argümanlarındaki Çöp Adam (Straw Man) safsatalarını tek tek analiz edip ifşa ederim.", type: "safsata" },
+        { text: "Duygusal bir video veya yazı paylaşarak kendi gerçek hikayemi anlatır, kitleyi kendi yanıma çekerim.", type: "hikaye" },
+        { text: "Trollerle muhatap olmam. Sessizliğimin ve duruşumun asaletini korurum.", type: "ozguven" },
+        { text: "Saldırıyı başlatanların açıklarını bulur, dikkatleri onların gizli karanlık yönlerine çekecek bir hamle yaparım.", type: "manipulasyon" }
+      ]
+    },
+    {
+      q: "(Görgü & Hikaye) Bir masada hiç tanımadığın insanlarla sohbet açman gerekiyor.",
+      options: [
+        { text: "Ortak, zarif ve tartışma yaratmayacak bir konu açar (yemek, mekan, kültür), herkesi nazikçe sohbete dahil ederim.", type: "gorgu" },
+        { text: "Başından geçen ilginç ve merak uyandırıcı bir olayı anlatarak herkesin pür dikkat beni dinlemesini sağlarım.", type: "hikaye" },
+        { text: "Güçlü bir güncel fikir ortaya atar, insanların bu konudaki argümanlarını keyifle tartışmaya açarım.", type: "retorik" },
+        { text: "Önce herkesi konuşturur, dinler ve kimin ne tür bir profile sahip olduğunu sessizce analiz ederim.", type: "safsata" }
+      ]
+    },
+    {
+      q: "(Final: Genel Seçim) Hayattaki en büyük gücün sence aşağıdakilerden hangisidir?",
+      options: [
+        { text: "Mantık ve analitik düşünce. Kimse beni kandıramaz.", type: "safsata" },
+        { text: "Sözcüklerin gücü. İnsanları kelimelerimle istediğim yöne çekebilirim.", type: "retorik" },
+        { text: "Korkusuzluğum ve bağımsızlığım. Kimseye ihtiyacım yok.", type: "ozguven" },
+        { text: "Zarafetim ve uyumum. Girdiğim her kaba şekil verir, krizleri suya çeviririm.", type: "gorgu" }
+      ]
+    }
+  ];
+
+  let currentQ = 0;
+
+  function startTest() {
+    document.getElementById('screenIntro').classList.remove('active');
+    document.getElementById('screenQuiz').classList.add('active');
+    loadQuestion();
+  }
+
+  function loadQuestion() {
+    const qData = questions[currentQ];
+    document.getElementById('qNumber').textContent = `Soru ${currentQ + 1} / ${questions.length}`;
+    document.getElementById('progressFill').style.width = `${((currentQ) / questions.length) * 100}%`;
+    document.getElementById('questionText').textContent = qData.q;
+    
+    const optsContainer = document.getElementById('optionsContainer');
+    optsContainer.innerHTML = '';
+    
+    const shuffled = [...qData.options].sort(() => Math.random() - 0.5);
+    
+    shuffled.forEach(opt => {
+      const btn = document.createElement('button');
+      btn.className = 'option-btn';
+      btn.textContent = opt.text;
+      btn.onclick = () => selectOption(opt.type);
+      optsContainer.appendChild(btn);
+    });
+  }
+
+  function selectOption(type) {
+    if(scores[type] !== undefined) scores[type]++;
+    currentQ++;
+    if (currentQ < questions.length) {
+      loadQuestion();
+    } else {
+      document.getElementById('progressFill').style.width = `100%`;
+      showResult();
+    }
+  }
+
+  function showResult() {
+    document.getElementById('screenQuiz').classList.remove('active');
+    document.getElementById('screenResult').classList.add('active');
+
+    // 1. Determine Archetype based on combined traits
+    let archKey = "ZARAFET MİMARI"; // fallback
+    
+    // Sum pairs
+    const celikScore = scores.ozguven + scores.manipulasyon;
+    const zarafetScore = scores.gorgu + scores.ozguven; // Modified to balance
+    const buyucuScore = scores.retorik + scores.hikaye;
+    const satrancScore = scores.safsata + scores.manipulasyon;
+
+    const results = [
+      { k: "SARSILMAZ ÇELİK", v: celikScore },
+      { k: "ZARAFET MİMARI", v: scores.gorgu + (scores.ozguven * 0.5) }, // Gorgu matters most
+      { k: "KİTLELERİN BÜYÜCÜSÜ", v: buyucuScore },
+      { k: "KARANLIK SATRANÇ USTASI", v: satrancScore }
+    ];
+
+    results.sort((a,b) => b.v - a.v);
+    archKey = results[0].k;
+    const archData = ARCHETYPES[archKey];
+
+    // Build Stats UI
+    document.getElementById('profileTitleText').textContent = archKey;
+    document.getElementById('profileDescText').textContent = archData.desc;
+
+    // Calc max possible per category based on question distribution
+    // Approx 4-5 points max per category in 15 questions
+    const maxVal = 5; 
+    
+    const catNames = {
+      ozguven: "Özgüven & Duruş",
+      retorik: "İkna & Retorik",
+      manipulasyon: "Manipülasyon Savunması",
+      safsata: "Mantık & Safsata Avı",
+      gorgu: "Zarafet & Görgü",
+      hikaye: "Hikaye Anlatıcılığı"
+    };
+
+    const statsGrid = document.getElementById('statsGrid');
+    statsGrid.innerHTML = '';
+
+    for(let cat in scores) {
+      let val = scores[cat];
+      let percent = Math.min(100, Math.round((val / maxVal) * 100));
+      // Give a slight boost so it doesn't look empty
+      if(percent < 20) percent = 20;
+
+      let html = `
+        <div class="stat-item">
+          <div class="stat-label">${catNames[cat]} - %${percent}</div>
+          <div class="stat-bar-bg"><div class="stat-bar-fill" style="width: ${percent}%;"></div></div>
+        </div>
+      `;
+      statsGrid.innerHTML += html;
+    }
+
+    setTimeout(() => {
+      document.getElementById('calculatingBox').style.display = 'none';
+      document.getElementById('resultContent').style.display = 'block';
+      generateCanvas(archData, archKey, scores, catNames);
+    }, 2500);
+  }
+
+  function generateCanvas(arch, archKey, sc, catNames) {
+    const canvas = document.getElementById('shareCanvas');
+    const ctx = canvas.getContext('2d');
+    const w = 1080;
+    const h = 1350;
+
+    const grd = ctx.createLinearGradient(0, 0, 0, h);
+    grd.addColorStop(0, arch.color1);
+    grd.addColorStop(1, arch.color2);
+    ctx.fillStyle = grd;
+    ctx.fillRect(0, 0, w, h);
+
+    ctx.fillStyle = "rgba(255,255,255,0.03)";
+    for(let i=0; i<200; i++) {
+      ctx.beginPath();
+      ctx.arc(Math.random()*w, Math.random()*h, Math.random()*50, 0, Math.PI*2);
+      ctx.fill();
+    }
+
+    ctx.strokeStyle = "rgba(255,255,255,0.2)";
+    ctx.lineWidth = 15;
+    ctx.strokeRect(50, 50, w-100, h-100);
+
+    ctx.fillStyle = "rgba(255,255,255,0.9)";
+    ctx.font = "bold 40px 'Plus Jakarta Sans', Arial";
+    ctx.textAlign = "center";
+    ctx.fillText("İLETİŞİM VE KARİZMA PROFİLİ", w/2, 150);
+
+    ctx.font = "180px Arial";
+    ctx.fillText(arch.icon, w/2, 380);
+
+    ctx.fillStyle = "#ffffff";
+    ctx.font = "900 85px 'Plus Jakarta Sans', Arial";
+    ctx.fillText(archKey.toLocaleUpperCase('tr-TR'), w/2, 530);
+
+    ctx.beginPath();
+    ctx.moveTo(w/2 - 200, 580);
+    ctx.lineTo(w/2 + 200, 580);
+    ctx.strokeStyle = "rgba(255,255,255,0.5)";
+    ctx.lineWidth = 5;
+    ctx.stroke();
+
+    // Draw Stats on Canvas
+    ctx.textAlign = "left";
+    let startY = 670;
+    let maxVal = 5;
+
+    let idx = 0;
+    for(let cat in sc) {
+      let percent = Math.min(100, Math.round((sc[cat] / maxVal) * 100));
+      if(percent < 20) percent = 20 + Math.floor(Math.random()*15); // visual padding
+
+      let col = idx % 2; // 0 or 1
+      let row = Math.floor(idx / 2);
+      
+      let x = col === 0 ? 150 : 580;
+      let y = startY + (row * 130);
+
+      ctx.fillStyle = "rgba(255,255,255,0.9)";
+      ctx.font = "bold 30px 'Plus Jakarta Sans', Arial";
+      ctx.fillText(catNames[cat].toLocaleUpperCase('tr-TR'), x, y);
+
+      // Bar BG
+      ctx.fillStyle = "rgba(0,0,0,0.3)";
+      ctx.fillRect(x, y + 20, 350, 15);
+
+      // Bar Fill
+      ctx.fillStyle = "#ffffff";
+      ctx.fillRect(x, y + 20, 350 * (percent/100), 15);
+
+      idx++;
+    }
+
+    ctx.textAlign = "center";
+    ctx.fillStyle = "rgba(0,0,0,0.4)";
+    ctx.fillRect(0, h-160, w, 160);
+
+    ctx.fillStyle = "#ffffff";
+    ctx.font = "bold 32px 'Plus Jakarta Sans', Arial";
+    ctx.fillText("SENİN YETENEK DAĞILIMIN NASIL?", w/2, h - 90);
+    
+    ctx.fillStyle = "rgba(255,255,255,0.6)";
+    ctx.font = "28px 'Plus Jakarta Sans', Arial";
+    ctx.fillText("Ücretsiz Test: diksiyonrehberi.com/test", w/2, h - 45);
+
+    const dataUrl = canvas.toDataURL("image/png");
+    document.getElementById('btnDownload').href = dataUrl;
+  }
+</script>
+
+<%- include('partials/main-footer') %>

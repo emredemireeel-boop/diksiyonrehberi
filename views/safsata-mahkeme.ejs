@@ -1,7 +1,7 @@
 <%- include('partials/main-header') %>
 
 <style>
-  body { background: #0f172a; color: #f8fafc; font-family: 'Inter', sans-serif; overflow-x: hidden; }
+  
   .court-container { padding: 40px 20px; max-width: 900px; margin: 0 auto; min-height: 85vh; display: flex; flex-direction: column; align-items: center; }
   
   h1 { font-size: 2.5rem; font-weight: 900; margin-bottom: 5px; color: #a855f7; text-transform: uppercase; letter-spacing: 1px; text-align: center; }
@@ -11,7 +11,7 @@
   .court-room { width: 100%; background: #1e293b; border: 4px solid #334155; border-radius: 20px; overflow: hidden; box-shadow: 0 20px 50px rgba(0,0,0,0.8); position: relative; }
   
   /* Top: Judge */
-  .judge-area { background: #0f172a; padding: 15px; border-bottom: 4px solid #334155; text-align: center; position: relative; }
+  .judge-area { background: #0a0a14; padding: 15px; border-bottom: 4px solid #334155; text-align: center; position: relative; }
   .judge-avatar { font-size: 4rem; margin-bottom: -15px; }
   .case-file { font-size: 0.9rem; color: #facc15; font-weight: 800; text-transform: uppercase; letter-spacing: 2px; }
 
@@ -21,13 +21,13 @@
   .lawyer-sprite { font-size: 6rem; filter: drop-shadow(0 10px 10px rgba(0,0,0,0.5)); transition: transform 0.2s; }
   .lawyer-sprite.shock { transform: scale(1.1) rotate(-5deg); filter: grayscale(100%) contrast(200%); }
 
-  .speech-bubble { background: #fff; color: #0f172a; padding: 25px; border-radius: 20px; border-bottom-right-radius: 0; font-size: 1.3rem; font-weight: 700; line-height: 1.5; max-width: 80%; position: relative; margin-top: -20px; margin-bottom: 30px; box-shadow: 5px 5px 0 #94a3b8; }
+  .speech-bubble { background: #fff; color: #0a0a14; padding: 25px; border-radius: 20px; border-bottom-right-radius: 0; font-size: 1.3rem; font-weight: 700; line-height: 1.5; max-width: 80%; position: relative; margin-top: -20px; margin-bottom: 30px; box-shadow: 5px 5px 0 #94a3b8; }
   .speech-bubble::after { content: ''; position: absolute; bottom: -20px; right: 20px; border-width: 20px 20px 0 0; border-style: solid; border-color: #fff transparent transparent transparent; }
 
   /* Action Area */
-  .action-area { background: #0f172a; padding: 30px; border-top: 4px solid #334155; display: flex; flex-direction: column; align-items: center; gap: 20px; position: relative; z-index: 10; }
+  .action-area { background: #0a0a14; padding: 30px; border-top: 4px solid #334155; display: flex; flex-direction: column; align-items: center; gap: 20px; position: relative; z-index: 10; }
   
-  .btn-objection { background: #f43f5e; color: #fff; font-size: 2rem; font-weight: 900; text-transform: uppercase; border: none; padding: 20px 50px; border-radius: 50px; cursor: pointer; box-shadow: 0 10px 0 #9f1239, 0 20px 30px rgba(244,63,94,0.5); transition: all 0.1s; letter-spacing: 2px; }
+  .btn-objection { background: #f43f5e; color: #f1f5f9; font-size: 2rem; font-weight: 900; text-transform: uppercase; border: none; padding: 20px 50px; border-radius: 50px; cursor: pointer; box-shadow: 0 10px 0 #9f1239, 0 20px 30px rgba(244,63,94,0.5); transition: all 0.1s; letter-spacing: 2px; }
   .btn-objection:active { transform: translateY(10px); box-shadow: 0 0 0 #9f1239, 0 10px 15px rgba(244,63,94,0.5); }
   .btn-objection:disabled { background: #475569; box-shadow: 0 10px 0 #334155; cursor: not-allowed; color: #94a3b8; transform: translateY(10px); }
 
@@ -35,12 +35,12 @@
   .options-panel { display: none; width: 100%; grid-template-columns: 1fr; gap: 15px; animation: slideUp 0.3s forwards; }
   @media(min-width:600px){ .options-panel { grid-template-columns: 1fr 1fr; } }
   
-  .opt-btn { background: #1e293b; border: 2px solid #a855f7; color: #e2e8f0; font-size: 1.1rem; font-weight: 800; padding: 15px; border-radius: 12px; cursor: pointer; transition: all 0.2s; }
-  .opt-btn:hover { background: #a855f7; color: #fff; transform: translateY(-3px); }
+  .opt-btn { background: #1e293b; border: 2px solid #a855f7; color: #cbd5e1; font-size: 1.1rem; font-weight: 800; padding: 15px; border-radius: 12px; cursor: pointer; transition: all 0.2s; }
+  .opt-btn:hover { background: #a855f7; color: #f1f5f9; transform: translateY(-3px); }
 
   /* Objection Animation Overlay */
   .obj-overlay { position: absolute; inset: 0; background: rgba(244, 63, 94, 0.9); z-index: 100; display: none; align-items: center; justify-content: center; overflow: hidden; pointer-events: none; }
-  .obj-text { font-size: 8rem; font-weight: 900; color: #fff; text-transform: uppercase; text-shadow: 10px 10px 0 #0f172a; transform: scale(0) rotate(-10deg); animation: smashIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards; }
+  .obj-text { font-size: 8rem; font-weight: 900; color: #f1f5f9; text-transform: uppercase; text-shadow: 10px 10px 0 #0a0a14; transform: scale(0) rotate(-10deg); animation: smashIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards; }
 
   @keyframes smashIn { 
     0% { transform: scale(3) rotate(20deg); opacity: 0; } 
@@ -51,10 +51,10 @@
   @keyframes screenShake { 0%{transform:translate(0)} 20%{transform:translate(-15px,15px)} 40%{transform:translate(15px,-15px)} 60%{transform:translate(-15px,-15px)} 80%{transform:translate(15px,15px)} 100%{transform:translate(0)} }
 
   /* Verdict Banner */
-  .verdict-banner { background: #10b981; color: #0f172a; width: 100%; padding: 20px; font-size: 1.5rem; font-weight: 900; text-align: center; text-transform: uppercase; position: absolute; top: 30%; z-index: 50; display: none; box-shadow: 0 10px 30px rgba(16,185,129,0.5); }
-  .verdict-banner.fail { background: #f43f5e; color: #fff; box-shadow: 0 10px 30px rgba(244,63,94,0.5); }
+  .verdict-banner { background: #10b981; color: #0a0a14; width: 100%; padding: 20px; font-size: 1.5rem; font-weight: 900; text-align: center; text-transform: uppercase; position: absolute; top: 30%; z-index: 50; display: none; box-shadow: 0 10px 30px rgba(16,185,129,0.5); }
+  .verdict-banner.fail { background: #f43f5e; color: #f1f5f9; box-shadow: 0 10px 30px rgba(244,63,94,0.5); }
   
-  .next-btn { background: #0f172a; color: #fff; border: 2px solid #fff; padding: 10px 20px; border-radius: 8px; font-weight: 800; cursor: pointer; margin-top: 15px; }
+  .next-btn { background: #0a0a14; color: #f1f5f9; border: 2px solid #fff; padding: 10px 20px; border-radius: 8px; font-weight: 800; cursor: pointer; margin-top: 15px; }
 
   .game-over { display: none; text-align: center; padding: 50px; background: #1e293b; border-radius: 20px; border: 2px solid #a855f7; margin-top:30px; width: 100%; }
 </style>
@@ -98,7 +98,7 @@
     <div style="font-size: 5rem; margin-bottom:20px;">⚖️</div>
     <h2 style="font-size:2.5rem; color:#a855f7; margin:0 0 15px 0;">Adaletin Kılıcı!</h2>
     <p style="color:#cbd5e1; font-size:1.1rem; margin-bottom:30px;">Tüm manipülatif avukatları yendiniz. Safsatalar artık size karşı kullanılamaz.</p>
-    <a href="/safsata" style="background:#a855f7; color:#fff; padding:15px 30px; border-radius:12px; text-decoration:none; font-weight:800; text-transform:uppercase;">Akademiye Dön</a>
+    <a href="/safsata" style="background:#a855f7; color: #f1f5f9; padding:15px 30px; border-radius:12px; text-decoration:none; font-weight:800; text-transform:uppercase;">Akademiye Dön</a>
   </div>
 
 </div>

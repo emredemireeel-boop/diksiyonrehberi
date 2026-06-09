@@ -50,8 +50,6 @@ const PAGES_TO_INDEX = [
   `${SITE_URL}/retorik/logos`,
   `${SITE_URL}/retorik/konusma-yazimi`,
   `${SITE_URL}/retorik/figurler`,
-  `${SITE_URL}/retorik/analiz`,
-
   // ══ DİYALEKTİK ANA + ALT SAYFALARI ══
   `${SITE_URL}/diyalektik`,
   `${SITE_URL}/diyalektik/sokratik`,
@@ -64,9 +62,9 @@ const PAGES_TO_INDEX = [
   // ══ DİĞER MODÜLLER ══
   `${SITE_URL}/giyim`,
   `${SITE_URL}/safsata`,
-  `${SITE_URL}/sahne`,
+  `${SITE_URL}/sahne-ustaligi`,
   `${SITE_URL}/bedendili`,
-  `${SITE_URL}/ozguven`,
+  `${SITE_URL}/ozguven-nasil-kazanilir-gelistirme-rehberi`,
   `${SITE_URL}/manipulasyon`,
   `${SITE_URL}/hikaye`,
   `${SITE_URL}/gorgu`,
