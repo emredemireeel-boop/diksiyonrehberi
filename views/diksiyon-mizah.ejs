@@ -1,0 +1,195 @@
+<%- include('partials/main-header') %>
+
+<style>
+  /* 🤣 Stand-Up & Comedy Light Theme 🤣 */
+  body { background: #f7fee7; color: #365314; font-family: 'Inter', sans-serif; overflow-x: hidden; }
+
+  /* 🤣 Hero Section 🤣 */
+  .mz-hero {
+    min-height: 65vh; display: flex; flex-direction: column; align-items: center; justify-content: center;
+    text-align: center; padding: 140px 24px 80px; position: relative; overflow: hidden;
+    background: radial-gradient(circle at 50% 0%, #ecfccb 0%, #f7fee7 80%);
+  }
+  .mz-hero::after { content:''; position:absolute; bottom:0; left:0; right:0; height:150px; background:linear-gradient(to top,#f7fee7,transparent); }
+
+  /* Comedy Club Brick Background */
+  .mz-bg { position:absolute; inset:0; overflow:hidden; pointer-events:none; z-index:0; opacity: 0.4; }
+  .brick-wall { position: absolute; width: 100vw; height: 100vh; top:0; left:0; background-image: 
+    linear-gradient(335deg, rgba(132,204,22,0.1) 23px, transparent 23px),
+    linear-gradient(155deg, rgba(132,204,22,0.1) 23px, transparent 23px),
+    linear-gradient(335deg, rgba(132,204,22,0.1) 23px, transparent 23px),
+    linear-gradient(155deg, rgba(132,204,22,0.1) 23px, transparent 23px);
+    background-size: 58px 58px; background-position: 0px 2px, 4px 35px, 29px 31px, 34px 6px; }
+  
+  .neon-glow { position: absolute; top: 20%; left: 50%; transform: translateX(-50%); width: 400px; height: 400px; background: radial-gradient(circle, rgba(132,204,22,0.2) 0%, transparent 70%); filter: blur(30px); animation: neonPulse 3s infinite alternate; }
+  @keyframes neonPulse { 0% { opacity: 0.5; } 100% { opacity: 1; transform: translateX(-50%) scale(1.1); } }
+
+  .mz-icon { font-size: 5rem; margin-bottom: 24px; position:relative; z-index:2; animation: laughBounce 1s ease-in-out infinite alternate; filter: drop-shadow(0 15px 25px rgba(132,204,22,0.4)); }
+  @keyframes laughBounce { 0%{ transform:translateY(0) scale(1); } 100%{ transform:translateY(-10px) scale(1.1); } }
+
+  .mz-badge { display:inline-flex; align-items:center; gap:8px; padding:10px 28px; border-radius:40px; font-size:.9rem; font-weight:800; text-transform:uppercase; letter-spacing:3px; color: #65a30d; background: #ecfccb; border:1px solid #d9f99d; margin-bottom:24px; z-index:2; box-shadow: 0 8px 20px rgba(132,204,22,0.15); }
+  .mz-title { font-size:clamp(2.5rem,6vw,4.5rem); font-weight:900; color: #365314; margin-bottom:16px; line-height:1.1; letter-spacing: -1.5px; z-index:2; position:relative; }
+  .mz-title span { background: linear-gradient(135deg, #84cc16, #4d7c0f); -webkit-background-clip:text; -webkit-text-fill-color:transparent; }
+  .mz-subtitle { color: #4d7c0f; font-size:1.2rem; max-width:750px; line-height:1.8; z-index:2; position:relative; font-weight: 500; }
+
+  /* 🤣 Container 🤣 */
+  .mz-wrap { max-width:1100px; margin:0 auto; padding:0 20px 100px; position:relative; z-index:10; }
+
+  /* 🤣 Premium Cards 🤣 */
+  .mz-card { background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(25px); border: 1px solid rgba(132, 204, 22, 0.2); border-radius: 32px; padding: 50px; margin-bottom: 50px; transition: transform 0.4s, box-shadow 0.4s; position: relative; overflow: hidden; box-shadow: 0 20px 40px rgba(0, 0, 0, 0.04); }
+  .mz-card:hover { transform: translateY(-5px); box-shadow: 0 30px 60px rgba(132, 204, 22, 0.1); border-color: rgba(132, 204, 22, 0.4); }
+  
+  .section-label { font-size:1.1rem; font-weight:800; text-transform:uppercase; letter-spacing:2px; color: #65a30d; margin-bottom:24px; display:flex; align-items:center; gap:12px; }
+
+  /* 🤣 Setup-Punchline Simulator 🤣 */
+  .sp-box { background: #365314; border-radius: 24px; padding: 40px; color: white; display: flex; flex-direction: column; gap: 30px; position: relative; }
+  .sp-intro { font-size: 1.05rem; color: #d9f99d; line-height: 1.6; }
+  
+  .sp-setup { background: rgba(255,255,255,0.05); border-left: 4px solid #84cc16; padding: 25px; border-radius: 16px; font-size: 1.3rem; font-weight: 600; color: white; font-style: italic; }
+  .sp-label { font-size: 0.9rem; font-weight: 800; color: #bef264; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 10px; font-style: normal; }
+
+  .sp-opts { display: grid; grid-template-columns: 1fr; gap: 15px; }
+  .s-opt { padding: 20px; background: rgba(0,0,0,0.3); border: 2px solid rgba(255,255,255,0.1); border-radius: 12px; cursor: pointer; transition: all 0.2s; font-size: 1.1rem; color: #f7fee7; line-height: 1.5; }
+  .s-opt:hover { border-color: #a3e635; background: rgba(132,204,22,0.1); }
+  .s-opt.correct { background: #166534; border-color: #22c55e; }
+  .s-opt.wrong { background: #7f1d1d; border-color: #ef4444; }
+  
+  .sp-feedback { min-height: 50px; font-weight: 600; font-size: 1.1rem; line-height: 1.5; color: #a3e635; }
+
+  /* 🤣 Rule of Three Simulator 🤣 */
+  .r3-box { background: #fff; border: 1px solid #d9f99d; border-radius: 24px; padding: 40px; display: grid; grid-template-columns: 1fr; gap: 30px; }
+  .r3-intro { color: #4d7c0f; font-size: 1.05rem; line-height: 1.6; }
+  
+  .r3-list { display: flex; flex-direction: column; gap: 10px; margin-bottom: 20px; }
+  .r3-item { background: #ecfccb; padding: 15px 25px; border-radius: 12px; font-size: 1.2rem; font-weight: 600; color: #3f6212; display: flex; align-items: center; gap: 15px; }
+  .r3-item .num { background: #84cc16; color: white; width: 30px; height: 30px; display: flex; align-items: center; justify-content: center; border-radius: 50%; font-size: 1rem; }
+  .r3-item.mystery { background: #fef08a; border: 2px dashed #eab308; color: #a16207; }
+
+  .r3-opts { display: grid; grid-template-columns: 1fr; gap: 15px; }
+  .r-opt { padding: 20px; background: #f7fee7; border: 2px solid #bef264; border-radius: 12px; cursor: pointer; transition: all 0.2s; font-size: 1.1rem; color: #365314; line-height: 1.5; font-weight: 600; }
+  .r-opt:hover { border-color: #84cc16; background: #ecfccb; }
+  .r-opt.correct { background: #dcfce7; border-color: #22c55e; }
+  .r-opt.wrong { background: #fee2e2; border-color: #ef4444; }
+  
+  .r3-feedback { min-height: 50px; font-weight: 600; font-size: 1.1rem; line-height: 1.5; color: #65a30d; }
+
+  /* Back btn */
+  .back-btn { display:inline-flex; align-items:center; gap:8px; padding:12px 24px; border-radius:14px; background:#ffffff; border:2px solid #bef264; color:#65a30d; font-size:.9rem; font-weight:700; text-decoration:none; transition:all .3s; margin-bottom:40px; box-shadow: 0 4px 6px rgba(0,0,0,0.02); }
+  .back-btn:hover { background:#ecfccb; color:#4d7c0f; transform:translateX(-4px); border-color: #a3e635; }
+
+  .reveal { opacity:0; transform:translateY(40px); transition:all .7s cubic-bezier(.2,1,.3,1); }
+  .reveal.visible { opacity:1; transform:translateY(0); }
+</style>
+
+<section class="mz-hero">
+  <div class="mz-bg">
+    <div class="brick-wall"></div>
+    <div class="neon-glow"></div>
+  </div>
+  <div class="mz-icon">🎤</div>
+  <div class="mz-badge">Komedi & Stand-Up Kulübü</div>
+  <h1 class="mz-title">Mizah <span>Sanatı</span></h1>
+  <p class="mz-subtitle">İletişimin en keskin silahı. İnsanları güldürdüğünüz an, savunma kalkanları iner. Kurumsal sunumlarda ve günlük hayatta komedinin matematiğini (Setup-Punchline) kullanarak karizmanızı zirveye taşıyın.</p>
+</section>
+
+<div class="mz-wrap">
+  <a href="/diksiyon?cat=mizah" class="back-btn">← Tüm Mizah Tekniklerini Gör (25 Madde)</a>
+
+  <!-- 🤣 SETUP PUNCHLINE SIMULATOR 🤣 -->
+  <div class="mz-card reveal" style="background:#365314; border:none;">
+    <div class="section-label" style="color:#bef264;">🎙️ Setup-Punchline (Kurulum ve Vuruş) Makinesi</div>
+    
+    <div class="sp-box">
+      <div class="sp-intro">
+        Komedi sürprizden doğar. Zeki bir esprinin matematiği basittir:<br>
+        <strong>1. Setup (Kurulum):</strong> Seyircinin zihnine çok normal ve mantıklı bir beklenti ekin. Beyinleri A noktasına doğru gitsin.<br>
+        <strong>2. Punchline (Vuruş):</strong> O beklentiyi 180 derece tersine (B noktasına) çeviren kelimeyi patlatın. (Uyarı: Vurucu kelime daima cümlenin <u>en sonunda</u> olmalıdır).
+      </div>
+      
+      <div class="sp-setup">
+        <div class="sp-label">Kurulum (Setup) Cümlesi:</div>
+        "Büyükbabam uykusunda, son derece huzurlu bir şekilde vefat etti..."
+      </div>
+      
+      <div class="sp-opts" id="spOpts">
+        <div class="s-opt" onclick="checkSp(this, false, 'Yanlış. Bu sadece üzücü bir hikaye, komedi unsuru (sürpriz) yok.')">A) ...onu çok özleyeceğiz, harika bir insandı.</div>
+        <div class="s-opt" onclick="checkSp(this, false, 'Kısmen Yanlış. Fikir komik ama kelime dizilimi yanlış. Vurucu kelime olan \'Yolcuları\' cümlenin sonunda olmadığı için espri etkisini kaybetti.')">B) ...ama otobüsündeki çığlık atan yolcuları için aynı şeyi söyleyemeyeceğim.</div>
+        <div class="s-opt" onclick="checkSp(this, true, 'Doğru! (Klasik Emo Philips esprisi). Seyirci büyükbabanın yatakta öldüğünü düşündü (Setup). Ama onun bir otobüs şoförü olduğunu cümlenin EN SONUNDA söyleyerek (Punchline) sürprizi patlattınız.')">C) ...ama onun kullandığı otobüsteki yolcular için aynı şeyi söyleyemeyeceğim. Çığlık çığlığaydılar!</div>
+      </div>
+      
+      <div class="sp-feedback" id="spBack"></div>
+    </div>
+  </div>
+
+  <!-- 🤣 RULE OF THREE SIMULATOR 🤣 -->
+  <div class="mz-card reveal">
+    <div class="section-label">3️⃣ Rule of Three (Üçlü Kural) Simülatörü</div>
+    
+    <div class="r3-box">
+      <div class="r3-intro">
+        İnsan beyni olayları kalıplar (pattern) halinde algılamayı sever. Komedideki <strong>Üçlü Kural (Rule of Three)</strong> şudur: Birinci öğe ile kalıbı başlatırsınız. İkinci öğe ile kalıbı doğrularsınız (Seyirci artık sıradan bir liste dinlediğini sanır). Üçüncü öğede ise kalıbı kırarak sürprizi (Punchline) yaparsınız.
+      </div>
+      
+      <div class="r3-list">
+        <div class="r3-item"><div class="num">1</div> Hafta sonu harika geçti; önce evi temizledim... (Kalıp Başladı)</div>
+        <div class="r3-item"><div class="num">2</div> ...sonra güzel bir kitap okudum... (Kalıp Doğrulandı)</div>
+        <div class="r3-item mystery"><div class="num">?</div> ...ve 3. Öğe (Sürpriz Punchline)</div>
+      </div>
+      
+      <div class="r3-opts" id="r3Opts">
+        <div class="r-opt" onclick="checkR3(this, false, 'Yanlış. Bu sadece normal bir listenin devamı. Sürpriz veya espri barındırmıyor.')">A) ...ve akşam da film izleyerek dinlendim.</div>
+        <div class="r-opt" onclick="checkR3(this, true, 'Doğru! (Sürpriz!). İlk iki öğe normal ve üretken bir insan kalıbı çizdi. Üçüncü öğe bu beklentiyi tamamen absürt bir şekilde kırdı ve espriyi oluşturdu.')">B) ...ve hayatımın geri kalanında ne kadar yalnız olduğumu düşünerek 4 saat boyunca tavana boş boş baktım.</div>
+        <div class="r-opt" onclick="checkR3(this, false, 'Yanlış. Bu biraz dramatik ve komik değil, sadece bir şikayet cümlesi.')">C) ...ve sonra faturaları ödemediğimi hatırlayıp moralimi bozdum.</div>
+      </div>
+      
+      <div class="r3-feedback" id="r3Back"></div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+// 🤣 Scroll Reveal
+const obs = new IntersectionObserver((entries) => {
+  entries.forEach(e => { if(e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); } });
+}, { threshold: 0.1 });
+document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+
+// 🤣 Setup Punchline Logic
+function checkSp(btn, isCorrect, exp) {
+  const btns = document.getElementById('spOpts').querySelectorAll('.s-opt');
+  btns.forEach(b => b.style.pointerEvents = 'none');
+  
+  const fb = document.getElementById('spBack');
+  if(isCorrect) {
+    btn.classList.add('correct');
+    fb.innerHTML = `✅ ${exp}`;
+    fb.style.color = '#4ade80';
+  } else {
+    btn.classList.add('wrong');
+    btns[2].style.borderColor = '#4ade80'; 
+    fb.innerHTML = `❌ ${exp}`;
+    fb.style.color = '#f87171';
+  }
+}
+
+// 🤣 Rule of 3 Logic
+function checkR3(btn, isCorrect, exp) {
+  const btns = document.getElementById('r3Opts').querySelectorAll('.r-opt');
+  btns.forEach(b => b.style.pointerEvents = 'none');
+  
+  const fb = document.getElementById('r3Back');
+  if(isCorrect) {
+    btn.classList.add('correct');
+    fb.innerHTML = `✅ ${exp}`;
+    fb.style.color = '#16a34a';
+  } else {
+    btn.classList.add('wrong');
+    btns[1].style.borderColor = '#16a34a'; 
+    fb.innerHTML = `❌ ${exp}`;
+    fb.style.color = '#dc2626';
+  }
+}
+</script>
+
+<%- include('partials/main-footer') %>

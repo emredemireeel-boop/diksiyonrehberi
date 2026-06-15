@@ -1,0 +1,174 @@
+<%- include('partials/main-header') %>
+
+<style>
+  /* 📱 Cyber Defense Light Theme 📱 */
+  body { background: #f0fdf4; color: #064e3b; font-family: 'Inter', sans-serif; overflow-x: hidden; }
+
+  /* 📱 Hero Section 📱 */
+  .cy-hero {
+    min-height: 65vh; display: flex; flex-direction: column; align-items: center; justify-content: center;
+    text-align: center; padding: 140px 24px 80px; position: relative; overflow: hidden;
+    background: radial-gradient(circle at 50% 0%, #ccfbf1 0%, #f0fdf4 80%);
+  }
+  .cy-hero::after { content:''; position:absolute; bottom:0; left:0; right:0; height:150px; background:linear-gradient(to top,#f0fdf4,transparent); }
+
+  /* Cyber Grid Background */
+  .cy-bg { position:absolute; inset:0; overflow:hidden; pointer-events:none; z-index:0; opacity: 0.15; background-image: radial-gradient(#0891b2 1.5px, transparent 1.5px), radial-gradient(#0891b2 1.5px, transparent 1.5px); background-size: 60px 60px; background-position: 0 0, 30px 30px; animation: cyberScroll 20s linear infinite; }
+  @keyframes cyberScroll { 0% { background-position: 0 0, 30px 30px; } 100% { background-position: 60px 60px, 90px 90px; } }
+  
+  .cy-icon { font-size: 5rem; margin-bottom: 24px; position:relative; z-index:2; animation: floatHack 3s ease-in-out infinite; filter: drop-shadow(0 0 25px rgba(8,145,178,0.4)); }
+  @keyframes floatHack { 0%,100%{ transform:translateY(0) scale(1); } 50%{ transform:translateY(-10px) scale(1.05); } }
+
+  .cy-badge { display:inline-flex; align-items:center; gap:8px; padding:10px 28px; border-radius:40px; font-size:.9rem; font-weight:800; text-transform:uppercase; letter-spacing:3px; color: #0891b2; background: #cffafe; border:1px solid #67e8f9; margin-bottom:24px; z-index:2; box-shadow: 0 0 15px rgba(8,145,178,0.2); }
+  .cy-title { font-size:clamp(2.5rem,6vw,4.5rem); font-weight:900; color: #164e63; margin-bottom:16px; line-height:1.1; letter-spacing: -1.5px; z-index:2; position:relative; }
+  .cy-title span { background: linear-gradient(135deg, #0891b2, #0d9488); -webkit-background-clip:text; -webkit-text-fill-color:transparent; }
+  .cy-subtitle { color: #0e7490; font-size:1.2rem; max-width:750px; line-height:1.8; z-index:2; position:relative; font-weight: 500; }
+
+  /* 📱 Container 📱 */
+  .cy-wrap { max-width:1100px; margin:0 auto; padding:0 20px 100px; position:relative; z-index:10; }
+
+  /* 📱 Premium Cards 📱 */
+  .cy-card { background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(25px); border: 1px solid rgba(8, 145, 178, 0.2); border-radius: 32px; padding: 50px; margin-bottom: 50px; transition: transform 0.4s, box-shadow 0.4s; position: relative; overflow: hidden; box-shadow: 0 20px 40px rgba(0, 0, 0, 0.05); }
+  .cy-card:hover { transform: translateY(-5px); box-shadow: 0 30px 60px rgba(8, 145, 178, 0.15); border-color: rgba(8, 145, 178, 0.5); }
+  
+  .section-label { font-size:1.1rem; font-weight:800; text-transform:uppercase; letter-spacing:2px; color: #0891b2; margin-bottom:24px; display:flex; align-items:center; gap:12px; }
+
+  /* 📱 Phishing Radar 📱 */
+  .phone-frame { max-width: 400px; margin: 0 auto; background: #0f172a; border-radius: 40px; padding: 15px; border: 4px solid #334155; position: relative; box-shadow: 0 25px 50px -12px rgba(0,0,0,0.5); }
+  .phone-screen { background: #f8fafc; border-radius: 30px; overflow: hidden; min-height: 500px; position: relative; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
+  .phone-notch { position: absolute; top: 0; left: 50%; transform: translateX(-50%); width: 120px; height: 25px; background: #0f172a; border-bottom-left-radius: 15px; border-bottom-right-radius: 15px; z-index: 10; }
+  
+  .sms-header { background: #f1f5f9; padding: 35px 20px 15px; text-align: center; border-bottom: 1px solid #e2e8f0; font-weight: 600; color: #334155; font-size: 0.9rem; }
+  .sms-body { padding: 20px; display: flex; flex-direction: column; gap: 15px; }
+  .sms-bubble { background: #e2e8f0; color: #1e293b; padding: 12px 16px; border-radius: 18px; border-bottom-left-radius: 4px; font-size: 0.95rem; max-width: 85%; align-self: flex-start; line-height: 1.4; }
+  
+  .clue-btn { display: block; width: 100%; text-align: left; background: none; border: 2px dashed #94a3b8; border-radius: 8px; padding: 10px; margin-top: 15px; color: #64748b; font-size: 0.9rem; cursor: pointer; transition: all 0.2s; }
+  .clue-btn:hover { background: #fef2f2; border-color: #ef4444; color: #b91c1c; }
+  .clue-btn.found { background: #f0fdf4; border-color: #22c55e; color: #15803d; border-style: solid; pointer-events: none; }
+  
+  .phish-feedback { text-align: center; margin-top: 20px; font-weight: 600; color: #0891b2; font-size: 0.95rem; min-height: 40px; padding: 0 10px; }
+
+  /* 📱 Dark Pattern Simulator 📱 */
+  .dp-box { background: #083344; border-radius: 24px; padding: 40px; color: white; text-align: center; border: 1px solid #164e63; }
+  .dp-title { font-size: 1.8rem; color: #67e8f9; font-weight: 800; margin-bottom: 15px; }
+  .dp-desc { font-size: 1.1rem; color: #cffafe; margin-bottom: 30px; line-height: 1.6; }
+  
+  .dp-modal { background: white; padding: 30px; border-radius: 16px; max-width: 500px; margin: 0 auto; color: #1e293b; text-align: left; box-shadow: 0 10px 25px rgba(0,0,0,0.5); }
+  .dp-modal-title { font-size: 1.4rem; font-weight: 800; margin-bottom: 15px; }
+  
+  .dp-btn-group { display: flex; flex-direction: column; gap: 15px; margin-top: 25px; }
+  
+  /* The Trap Buttons */
+  .btn-trap-huge { background: #22c55e; color: white; padding: 16px; border-radius: 8px; border: none; font-size: 1.1rem; font-weight: 800; cursor: pointer; box-shadow: 0 4px 10px rgba(34,197,94,0.3); }
+  .btn-trap-huge:hover { background: #16a34a; }
+  
+  .btn-trap-tiny { background: none; border: none; color: #94a3b8; font-size: 0.8rem; text-decoration: underline; cursor: pointer; align-self: center; opacity: 0.7; }
+  .btn-trap-tiny:hover { opacity: 1; color: #64748b; }
+  
+  .dp-feedback { margin-top: 25px; font-size: 1.1rem; color: #22c55e; font-weight: bold; min-height: 30px; }
+
+  /* Back btn */
+  .back-btn { display:inline-flex; align-items:center; gap:8px; padding:12px 24px; border-radius:14px; background:#ffffff; border:2px solid #a5f3fc; color:#0891b2; font-size:.9rem; font-weight:700; text-decoration:none; transition:all .3s; margin-bottom:40px; box-shadow: 0 4px 6px rgba(0,0,0,0.02); }
+  .back-btn:hover { background:#cffafe; color:#164e63; transform:translateX(-4px); border-color: #67e8f9; }
+
+  .reveal { opacity:0; transform:translateY(40px); transition:all .7s cubic-bezier(.2,1,.3,1); }
+  .reveal.visible { opacity:1; transform:translateY(0); }
+</style>
+
+<section class="cy-hero">
+  <div class="cy-bg"></div>
+  <div class="cy-icon">🛡️</div>
+  <div class="cy-badge">Siber Psikoloji ve Savunma</div>
+  <h1 class="cy-title">Dijital <span>Manipülasyon</span></h1>
+  <p class="cy-subtitle">Sosyal mühendislik (Phishing), algoritmik dopamin döngüleri ve karanlık UX tasarımlarının (Dark Patterns) zihninizi nasıl hacklediğini öğrenin ve dijital savunmanızı güçlendirin.</p>
+</section>
+
+<div class="cy-wrap">
+  <a href="/diksiyon?cat=dijital" class="back-btn">← Tüm Dijital Tuzakları Gör (25 Madde)</a>
+
+  <!-- 📱 PHISHING RADAR 📱 -->
+  <div class="mo-card reveal cy-card">
+    <div class="section-label">🎣 Oltalama (Phishing) Radarı</div>
+    <p style="color:#0891b2; font-size:1.05rem; line-height:1.6; margin-bottom:30px;">
+      Sosyal mühendislik, bilgisayar sistemlerini değil, <strong>"İnsan Psikolojisini" (Korku, Aciliyet, Merak)</strong> hackler. Yandaki SMS'te yer alan 3 psikolojik oltayı bulup tıklayın.
+    </p>
+
+    <div class="phone-frame">
+      <div class="phone-notch"></div>
+      <div class="phone-screen">
+        <div class="sms-header">Bankanız (850-XXX-XXXX)</div>
+        <div class="sms-body">
+          <div class="sms-bubble">Sayın Müşterimiz,<br><br>Hesabınızdan yurtdışı kaynaklı 14.500 TL şüpheli işlem tespit edilmiştir. İşlemi sizin yapmadığınızı teyit etmek için lütfen hemen aşağıdaki linkten giriş yapıp iptal ediniz.<br><br>Link: http://bankaniz-guvenlik-iptal.com/auth</div>
+          
+          <button class="clue-btn" id="clue1" onclick="findClue(1, this, 'Korku/Kaygı Yaratma (14.500 TL çekildi yalanı)')">1. Tuzağı Bul (Gizli)</button>
+          <button class="clue-btn" id="clue2" onclick="findClue(2, this, 'Aciliyet Hissi (Hemen giriş yapıp iptal ediniz)')">2. Tuzağı Bul (Gizli)</button>
+          <button class="clue-btn" id="clue3" onclick="findClue(3, this, 'Sahte URL (Resmi banka adresi yerine tireli sahte domain)')">3. Tuzağı Bul (Gizli)</button>
+          
+          <div class="phish-feedback" id="pFeedback">SMS'i okuyun ve zihninizin hangi duygularla manipüle edildiğini bulun.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 📱 DARK PATTERNS SIMULATOR 📱 -->
+  <div class="mo-card reveal cy-card" style="background:#083344; border:none;">
+    <div class="section-label" style="color:#22d3ee;">🕸️ Karanlık Tasarım (Dark Pattern) Çözücü</div>
+    <p style="color:#cffafe; font-size:1.05rem; line-height:1.6; margin-bottom:25px;">
+      Uygulamalar ve web siteleri, sizi istenmeyen aboneliklere sokmak veya iptal etmenizi zorlaştırmak için UX (Kullanıcı Deneyimi) manipülasyonları kullanır. Aşağıdaki popüler "Abonelik İptali" tuzağından kurtulmaya çalışın.
+    </p>
+
+    <div class="dp-box">
+      <div class="dp-modal">
+        <div class="dp-modal-title">Premium Üyeliğinizi İptal Etmek Üzeresiniz! 🥺</div>
+        <p style="color: #64748b; font-size: 0.95rem; line-height: 1.5;">
+          Aramızdan ayrılmanıza çok üzüldük! Eğer şimdi iptal ederseniz, biriktirdiğiniz tüm puanları kaybedeceksiniz. Kararınız kesin mi?
+        </p>
+        
+        <div class="dp-btn-group">
+          <!-- The green huge button is actually to STAY (Manipulation) -->
+          <button class="btn-trap-huge" onclick="dpFail()">Vazgeç, Aboneliğimi Sürdür!</button>
+          
+          <!-- The tiny gray link is to ACTUALLY CANCEL -->
+          <button class="btn-trap-tiny" onclick="dpSuccess()">Hayır, tüm avantajlarımı kaybederek iptal etmek istiyorum.</button>
+        </div>
+      </div>
+      <div class="dp-feedback" id="dpBack"></div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+// 📱 Scroll Reveal
+const obs = new IntersectionObserver((entries) => {
+  entries.forEach(e => { if(e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); } });
+}, { threshold: 0.1 });
+document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+
+// 📱 Phishing Logic
+let cluesFound = 0;
+function findClue(num, btn, text) {
+  btn.classList.add('found');
+  btn.innerHTML = `✅ ${text}`;
+  cluesFound++;
+  
+  if(cluesFound === 3) {
+    document.getElementById('pFeedback').innerHTML = "Tebrikler! 🛡️ Oltalama saldırısının 3 temel ayağını (Korku, Aciliyet, Sahte URL) başarıyla tespit ettiniz.";
+    document.getElementById('pFeedback').style.color = "#15803d";
+  }
+}
+
+// 📱 Dark Pattern Logic
+function dpFail() {
+  const fb = document.getElementById('dpBack');
+  fb.style.color = "#ef4444";
+  fb.innerHTML = "❌ Tuzağa Düştünüz! Rengi yeşil ve büyük olduğu için beyniniz otomatik olarak onay butonuna bastı ve aboneliğiniz devam etti. Buna 'Confirmshaming' ve 'Misdirection' denir.";
+}
+function dpSuccess() {
+  const fb = document.getElementById('dpBack');
+  fb.style.color = "#22c55e";
+  fb.innerHTML = "✅ Harika! Tasarımcının yeşil renkle aklınızı çelmesine izin vermediniz ve zor okunan, suçluluk hissettiren gri butonu bulup iptal ettiniz.";
+}
+</script>
+
+<%- include('partials/main-footer') %>

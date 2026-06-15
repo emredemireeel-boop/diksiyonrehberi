@@ -1,0 +1,231 @@
+<%- include('partials/main-header') %>
+
+<style>
+  /* 👔 Style & Image Light Theme 👔 */
+  body { background: #fdfaf6; color: #292524; font-family: 'Inter', sans-serif; overflow-x: hidden; }
+
+  /* 👔 Hero Section 👔 */
+  .s-hero {
+    min-height: 65vh; display: flex; flex-direction: column; align-items: center; justify-content: center;
+    text-align: center; padding: 140px 24px 80px; position: relative; overflow: hidden;
+    background: radial-gradient(circle at 50% 0%, #fef3c7 0%, #fdfaf6 80%);
+  }
+  .s-hero::after { content:''; position:absolute; bottom:0; left:0; right:0; height:150px; background:linear-gradient(to top,#fdfaf6,transparent); }
+
+  /* Fabric Pattern Background */
+  .s-bg { position:absolute; inset:0; overflow:hidden; pointer-events:none; z-index:0; opacity: 0.1; background-image: repeating-linear-gradient(45deg, #b45309 25%, transparent 25%, transparent 75%, #b45309 75%, #b45309), repeating-linear-gradient(45deg, #b45309 25%, #fdfaf6 25%, #fdfaf6 75%, #b45309 75%, #b45309); background-position: 0 0, 10px 10px; background-size: 20px 20px; animation: fabricMove 30s linear infinite; }
+  @keyframes fabricMove { 0%{ background-position: 0 0, 10px 10px; } 100%{ background-position: 100px 100px, 110px 110px; } }
+
+  .s-icon { font-size: 5rem; margin-bottom: 24px; position:relative; z-index:2; animation: floatSuit 4s ease-in-out infinite; filter: drop-shadow(0 15px 25px rgba(180,83,9,0.2)); }
+  @keyframes floatSuit { 0%,100%{ transform:translateY(0); } 50%{ transform:translateY(-15px); } }
+
+  .s-badge { display:inline-flex; align-items:center; gap:8px; padding:10px 28px; border-radius:40px; font-size:.9rem; font-weight:800; text-transform:uppercase; letter-spacing:3px; color: #92400e; background: #fef3c7; border:1px solid #fde68a; margin-bottom:24px; z-index:2; box-shadow: 0 8px 20px rgba(180,83,9,0.1); }
+  .s-title { font-size:clamp(2.5rem,6vw,4.5rem); font-weight:900; color: #292524; margin-bottom:16px; line-height:1.1; letter-spacing: -1.5px; z-index:2; position:relative; }
+  .s-title span { background: linear-gradient(135deg, #d97706, #92400e); -webkit-background-clip:text; -webkit-text-fill-color:transparent; }
+  .s-subtitle { color: #78716c; font-size:1.2rem; max-width:750px; line-height:1.8; z-index:2; position:relative; font-weight: 500; }
+
+  /* 👔 Container 👔 */
+  .s-wrap { max-width:1100px; margin:0 auto; padding:0 20px 100px; position:relative; z-index:10; }
+
+  /* 👔 Premium Cards 👔 */
+  .s-card { background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(25px); border: 1px solid rgba(180, 83, 9, 0.15); border-radius: 32px; padding: 50px; margin-bottom: 50px; transition: transform 0.4s, box-shadow 0.4s; position: relative; overflow: hidden; box-shadow: 0 20px 40px rgba(0, 0, 0, 0.03); }
+  .s-card:hover { transform: translateY(-5px); box-shadow: 0 30px 60px rgba(180, 83, 9, 0.08); border-color: rgba(180, 83, 9, 0.3); }
+  
+  .section-label { font-size:1.1rem; font-weight:800; text-transform:uppercase; letter-spacing:2px; color: #b45309; margin-bottom:24px; display:flex; align-items:center; gap:12px; }
+
+  /* 👔 Dress Code Simulator 👔 */
+  .dc-container { display: flex; flex-wrap: wrap; gap: 30px; }
+  .dc-sidebar { flex: 1; min-width: 250px; display: flex; flex-direction: column; gap: 10px; }
+  .dc-btn { padding: 16px; background: #fffbeb; border: 2px solid #fde68a; border-radius: 16px; text-align: left; font-weight: 700; color: #92400e; cursor: pointer; transition: all 0.3s; font-size: 1.05rem; display: flex; justify-content: space-between; align-items: center; }
+  .dc-btn:hover, .dc-btn.active { background: #b45309; color: white; border-color: #b45309; transform: translateX(10px); box-shadow: 0 10px 20px rgba(180,83,9,0.2); }
+  
+  .dc-content { flex: 2; min-width: 300px; background: white; border: 1px solid #e7e5e4; border-radius: 24px; padding: 40px; box-shadow: 0 10px 30px rgba(0,0,0,0.03); }
+  .dc-header { font-size: 1.8rem; font-weight: 900; color: #292524; margin-bottom: 10px; }
+  .dc-desc { color: #57534e; line-height: 1.7; margin-bottom: 25px; font-size: 1.05rem; }
+  
+  .dc-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+  .dc-col h4 { font-size: 1.1rem; font-weight: 800; margin-bottom: 15px; display: flex; align-items: center; gap: 8px; }
+  .dc-col.do h4 { color: #16a34a; }
+  .dc-col.dont h4 { color: #dc2626; }
+  .dc-list { list-style: none; padding: 0; }
+  .dc-list li { margin-bottom: 10px; padding-left: 24px; position: relative; color: #44403c; line-height: 1.5; }
+  .dc-col.do .dc-list li::before { content: '✓'; position: absolute; left: 0; color: #16a34a; font-weight: bold; }
+  .dc-col.dont .dc-list li::before { content: '✕'; position: absolute; left: 0; color: #dc2626; font-weight: bold; }
+
+  /* 👔 Color Psychology Wheel 👔 */
+  .color-box { text-align: center; }
+  .color-grid { display: flex; flex-wrap: wrap; justify-content: center; gap: 15px; margin-bottom: 30px; }
+  .color-swatch { width: 60px; height: 60px; border-radius: 50%; cursor: pointer; transition: transform 0.3s, box-shadow 0.3s; border: 3px solid white; box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
+  .color-swatch:hover, .color-swatch.active { transform: scale(1.2); box-shadow: 0 10px 20px rgba(0,0,0,0.2); }
+  
+  .color-result { background: #fafaf9; border-radius: 20px; padding: 40px; border: 1px solid #e7e5e4; min-height: 200px; display: flex; flex-direction: column; justify-content: center; align-items: center; transition: all 0.3s; }
+  .c-res-title { font-size: 1.8rem; font-weight: 900; margin-bottom: 15px; }
+  .c-res-desc { font-size: 1.15rem; line-height: 1.7; color: #44403c; max-width: 600px; }
+
+  /* Back btn */
+  .back-btn { display:inline-flex; align-items:center; gap:8px; padding:12px 24px; border-radius:14px; background:#ffffff; border:2px solid #fde68a; color:#92400e; font-size:.9rem; font-weight:700; text-decoration:none; transition:all .3s; margin-bottom:40px; box-shadow: 0 4px 6px rgba(0,0,0,0.02); }
+  .back-btn:hover { background:#fef3c7; color:#78350f; transform:translateX(-4px); border-color: #fcd34d; }
+
+  .reveal { opacity:0; transform:translateY(40px); transition:all .7s cubic-bezier(.2,1,.3,1); }
+  .reveal.visible { opacity:1; transform:translateY(0); }
+</style>
+
+<section class="s-hero">
+  <div class="s-bg"></div>
+  <div class="s-icon">🧥</div>
+  <div class="s-badge">Profesyonel İmaj Yönetimi</div>
+  <h1 class="s-title">Sözsüz <span>Otorite</span></h1>
+  <p class="s-subtitle">İş dünyasında kıyafetleriniz siz konuşmadan önce konuşur. Dress code (giyim kodu) türlerini, renklerin psikolojik etkilerini ve profesyonel imajın sırlarını keşfedin.</p>
+</section>
+
+<div class="s-wrap">
+  <a href="/diksiyon?cat=imaj" class="back-btn">← Tüm İmaj ve Giyim Eğitimlerini Gör (20 Madde)</a>
+
+  <!-- 👔 DRESS CODE SIMULATOR 👔 -->
+  <div class="s-card reveal">
+    <div class="section-label">👔 Giyim Kodu (Dress Code) Simülatörü</div>
+    <p style="color:#78716c; font-size:1.05rem; line-height:1.6; margin-bottom:30px;">
+      Gideceğiniz etkinliğin veya kurumun kültürüne uygun giyinmek "Halo Etkisi" yaratır. Bir kategori seçin ve ne giymeniz (veya giymemeniz) gerektiğini görün.
+    </p>
+
+    <div class="dc-container">
+      <div class="dc-sidebar">
+        <button class="dc-btn active" onclick="loadDC('formal', this)">Kurumsal & Bankacılık <span>👔</span></button>
+        <button class="dc-btn" onclick="loadDC('business-casual', this)">Business Casual <span>🧥</span></button>
+        <button class="dc-btn" onclick="loadDC('tech-startup', this)">Tech / Startup <span>👕</span></button>
+        <button class="dc-btn" onclick="loadDC('black-tie', this)">Gala (Black Tie) <span>🎩</span></button>
+      </div>
+      
+      <div class="dc-content">
+        <div class="dc-header" id="dcTitle">Kurumsal (Formal Business)</div>
+        <div class="dc-desc" id="dcDesc">Bankacılık, finans, hukuk ve yüksek seviye diplomatik toplantılarda geçerli olan, geleneksel ve en risksiz profesyonel giyim tarzı.</div>
+        
+        <div class="dc-grid">
+          <div class="dc-col do">
+            <h4>Giyilmesi Gerekenler</h4>
+            <ul class="dc-list" id="dcDo">
+              <li>Erkekler için Koyu Lacivert veya Füme takım elbise.</li>
+              <li>Kadınlar için diz altı kalem etekli takım veya şık pantolon ceket takımı.</li>
+              <li>Siyah, bağcıklı ve iyi boyanmış deri ayakkabı (Oxford).</li>
+              <li>Mat renkli, gösterişsiz ipek kravat ve açık mavi/beyaz gömlek.</li>
+            </ul>
+          </div>
+          <div class="dc-col dont">
+            <h4>Kaçınılması Gerekenler</h4>
+            <ul class="dc-list" id="dcDont">
+              <li>Parlak kumaşlı veya iddialı desenli ceketler.</li>
+              <li>Açık yakalı (kravatsız) veya kısa kollu gömlekler.</li>
+              <li>Loafer (bağcıksız) veya kahverengi ayakkabılar.</li>
+              <li>Aşırı dikkat çeken parıltılı aksesuarlar.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 👔 COLOR PSYCHOLOGY 👔 -->
+  <div class="s-card reveal">
+    <div class="section-label">🎨 Renk Psikolojisi Çarkı</div>
+    <p style="color:#78716c; font-size:1.05rem; line-height:1.6; margin-bottom:25px; text-align:center;">
+      Kravatınızın, gömleğinizin veya bluzunuzun rengi karşı tarafın bilinçaltına hangi mesajı veriyor? Analizini görmek için bir renge dokunun.
+    </p>
+
+    <div class="color-box">
+      <div class="color-grid">
+        <div class="color-swatch active" style="background: #1e3a8a;" onclick="loadColor('navy', this)"></div>
+        <div class="color-swatch" style="background: #dc2626;" onclick="loadColor('red', this)"></div>
+        <div class="color-swatch" style="background: #eab308;" onclick="loadColor('yellow', this)"></div>
+        <div class="color-swatch" style="background: #16a34a;" onclick="loadColor('green', this)"></div>
+        <div class="color-swatch" style="background: #52525b;" onclick="loadColor('grey', this)"></div>
+        <div class="color-swatch" style="background: #000000;" onclick="loadColor('black', this)"></div>
+      </div>
+
+      <div class="color-result" id="cResult" style="border-top: 5px solid #1e3a8a;">
+        <div class="c-res-title" id="cTitle" style="color: #1e3a8a;">Lacivert (Navy Blue) - Güven ve Otorite</div>
+        <div class="c-res-desc" id="cDesc">
+          Lacivert, iş dünyasının tartışmasız lider rengidir. Karşı tarafa "Bana güvenebilirsiniz, ben bir profesyonelim" mesajı verir. Mülakatlarda, müşteri sunumlarında ve kriz yönetiminde en ideal ve risksiz renktir.
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+// 👔 Scroll Reveal
+const obs = new IntersectionObserver((entries) => {
+  entries.forEach(e => { if(e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); } });
+}, { threshold: 0.1 });
+document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+
+// 👔 Dress Code Logic
+const dcData = {
+  'formal': {
+    t: 'Kurumsal (Formal Business)',
+    d: 'Bankacılık, finans, hukuk ve yüksek seviye diplomatik toplantılarda geçerli olan, geleneksel ve en risksiz profesyonel giyim tarzı.',
+    do: ['Erkekler için Koyu Lacivert veya Füme takım elbise.', 'Kadınlar için diz altı kalem etekli takım veya şık pantolon ceket takımı.', 'Siyah, bağcıklı ve iyi boyanmış deri ayakkabı (Oxford).', 'Mat renkli, gösterişsiz ipek kravat ve beyaz/açık mavi gömlek.'],
+    dont: ['Parlak kumaşlı veya iddialı desenli ceketler.', 'Açık yakalı (kravatsız) veya kısa kollu gömlekler.', 'Loafer (bağcıksız) veya taba rengi ayakkabılar.', 'Aşırı dikkat çeken parıltılı aksesuarlar.']
+  },
+  'business-casual': {
+    t: 'Business Casual',
+    d: 'Günümüz kurumsal firmalarının en çok tercih ettiği rahat ama profesyonel görünüm. Hafta içi çalışma ortamları için idealdir.',
+    do: ['Chino, gabardin veya kaliteli kumaş pantolonlar.', 'Kravatsız, üst düğmesi açık kaliteli gömlekler.', 'Spor ceketler (Blazer) veya V yaka ince trikolar.', 'Deri Loafer ayakkabılar ve kemer uyumu.'],
+    dont: ['Kot pantolon (Özellikle yırtık veya çok açık mavi olanlar).', 'Tişörtler ve spor ayakkabılar.', 'Aşırı spor sırt çantaları.', 'Kırışık veya ütüsüz kıyafetler.']
+  },
+  'tech-startup': {
+    t: 'Tech / Startup (Smart Casual)',
+    d: 'Yazılım şirketleri, ajanslar ve kreatif sektörlerde görülen, tamamen rahatlık odaklı ama yine de derli toplu duran giyim kodu.',
+    do: ['Koyu renk, düz kesim (yırtıksız) kot pantolonlar.', 'Kaliteli, baskısız tek renk t-shirtler veya polo yakalar.', 'Temiz, minimalist beyaz veya koyu renk sneakerlar.', 'Bomber ceketler veya modern hırkalar.'],
+    dont: ['Tam takım elbise ve kravat (Ortamda yabancı/satışçı gibi durmanıza neden olur).', 'Parmak arası terlik veya plaj şortu.', 'Aşırı yırtık, salaş veya kirli görünen kıyafetler.']
+  },
+  'black-tie': {
+    t: 'Gala (Black Tie)',
+    d: 'Ödül törenleri, resmi akşam yemekleri ve operalar için uygulanan çok katı ve şık uluslararası davet kuralı.',
+    do: ['Siyah smokin (Tuxedo) ve siyah papyon.', 'Plise detaylı özel smokin gömleği.', 'Kadınlar için yere kadar uzanan, şık ve ağırbaşlı tuvaletler.', 'Parlak (Rugan) siyah deri ayakkabılar.'],
+    dont: ['Normal siyah takım elbise giyip üzerine kravat takmak (En büyük hatadır).', 'Beyaz veya renkli papyon (White-tie içindir).', 'Kadınlar için kısa kokteyl elbiseleri (Gala için uygun değildir).']
+  }
+};
+
+function loadDC(id, btn) {
+  document.querySelectorAll('.dc-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  
+  const d = dcData[id];
+  document.getElementById('dcTitle').innerText = d.t;
+  document.getElementById('dcDesc').innerText = d.d;
+  
+  const ulDo = document.getElementById('dcDo');
+  ulDo.innerHTML = d.do.map(item => `<li>${item}</li>`).join('');
+  
+  const ulDont = document.getElementById('dcDont');
+  ulDont.innerHTML = d.dont.map(item => `<li>${item}</li>`).join('');
+}
+
+// 👔 Color Logic
+const colors = {
+  'navy': { t: 'Lacivert (Navy Blue) - Güven ve Otorite', c: '#1e3a8a', d: 'Lacivert, iş dünyasının tartışmasız lider rengidir. Karşı tarafa "Bana güvenebilirsiniz, ben bir profesyonelim" mesajı verir. Mülakatlarda, müşteri sunumlarında ve kriz yönetiminde en ideal ve risksiz renktir.' },
+  'red': { t: 'Kırmızı - Güç, Tutku ve Agresiflik', c: '#dc2626', d: 'Kırmızı çok güçlü bir renktir. Dikkatleri anında üzerinize çeker. Kravat veya fular olarak kullanıldığında güç (Power Tie) ve dinamizm mesajı verir. Ancak aşırı kullanımı saldırganlık olarak algılanabilir.' },
+  'yellow': { t: 'Sarı - Enerji ve Yaratıcılık', c: '#eab308', d: 'Sarı, iyimserliğin ve yaratıcılığın rengidir. Kreatif toplantılarda (Ajanslar, Brainstorming) kullanılabilir. Ancak finans veya hukuk gibi ciddi kurumsal ortamlarda ciddiyetsiz algılanma riski vardır.' },
+  'green': { t: 'Yeşil - Denge, Uzlaşma ve Büyüme', c: '#16a34a', d: 'Doğanın rengi olan yeşil, gözü yormaz ve karşı tarafa huzur verir. Müzakerelerde, zorlu uzlaşma toplantılarında ve arabuluculuk gerektiren durumlarda yatıştırıcı (nudge) bir etkisi vardır.' },
+  'grey': { t: 'Füme/Gri - Analitik ve Tarafsız', c: '#52525b', d: 'Gri, siyah ile beyazın ortasıdır. Tarafsızlığı, mantığı ve analitik zekayı temsil eder. Lacivertten sonra takım elbiselerde en çok tercih edilen ikinci güvenli renktir. Duygudan çok mantığı ön plana çıkarır.' },
+  'black': { t: 'Siyah - Premium, Gizemli, Uzak', c: '#000000', d: 'Siyah lüksün, ağırlığın ve zaman zaman ulaşılamazlığın rengidir. Tasarım ve moda sektöründe çok kullanılırken, iş toplantılarında (gündüz vakti) fazla karamsar ve iletişime kapalı bir imaj çizebilir.' }
+};
+
+function loadColor(id, btn) {
+  document.querySelectorAll('.color-swatch').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  
+  const c = colors[id];
+  const res = document.getElementById('cResult');
+  const title = document.getElementById('cTitle');
+  const desc = document.getElementById('cDesc');
+  
+  res.style.borderTopColor = c.c;
+  title.style.color = c.c;
+  title.innerText = c.t;
+  desc.innerText = c.d;
+}
+</script>
+
+<%- include('partials/main-footer') %>

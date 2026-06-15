@@ -1,0 +1,155 @@
+<%- include('partials/main-header') %>
+
+<style>
+  /* 🔬 Debunker Lab Light Theme 🔬 */
+  body { background: #f8fafc; color: #0f172a; font-family: 'Inter', sans-serif; overflow-x: hidden; }
+
+  /* 🔬 Hero Section 🔬 */
+  .d-hero {
+    min-height: 65vh; display: flex; flex-direction: column; align-items: center; justify-content: center;
+    text-align: center; padding: 140px 24px 80px; position: relative; overflow: hidden;
+    background: radial-gradient(circle at 50% 0%, #cffafe 0%, #f8fafc 80%);
+  }
+  .d-hero::after { content:''; position:absolute; bottom:0; left:0; right:0; height:150px; background:linear-gradient(to top,#f8fafc,transparent); }
+
+  /* Tech Grid Background */
+  .d-bg { position:absolute; inset:0; overflow:hidden; pointer-events:none; z-index:0; }
+  .tech-grid { width: 100%; height: 100%; background-image: radial-gradient(#06b6d4 1px, transparent 1px); background-size: 30px 30px; opacity: 0.3; animation: scanTech 15s linear infinite; }
+  @keyframes scanTech { 0%{ background-position: 0 0; } 100%{ background-position: 30px 30px; } }
+
+  .d-icon { font-size: 5rem; margin-bottom: 24px; position:relative; z-index:2; animation: pulseScan 3s infinite alternate; filter: drop-shadow(0 10px 20px rgba(6,182,212,0.4)); }
+  @keyframes pulseScan { 0%{ transform: scale(1); filter: drop-shadow(0 0 10px rgba(6,182,212,0.5)); } 100%{ transform: scale(1.1); filter: drop-shadow(0 0 25px rgba(6,182,212,0.8)); } }
+
+  .d-badge { display:inline-flex; align-items:center; gap:8px; padding:10px 28px; border-radius:40px; font-size:.9rem; font-weight:800; text-transform:uppercase; letter-spacing:3px; color: #0891b2; background: #ecfeff; border:1px solid #a5f3fc; margin-bottom:24px; z-index:2; box-shadow: 0 8px 20px rgba(6,182,212,0.15); }
+  .d-title { font-size:clamp(2.5rem,6vw,4.5rem); font-weight:900; color: #0f172a; margin-bottom:16px; line-height:1.1; letter-spacing: -1.5px; z-index:2; position:relative; }
+  .d-title span { background: linear-gradient(135deg, #06b6d4, #0284c7); -webkit-background-clip:text; -webkit-text-fill-color:transparent; }
+  .d-subtitle { color: #475569; font-size:1.2rem; max-width:700px; line-height:1.8; z-index:2; position:relative; }
+
+  /* 🔬 Container 🔬 */
+  .d-wrap { max-width:1050px; margin:0 auto; padding:0 20px 100px; position:relative; z-index:10; }
+
+  /* 🔬 Glass Cards 🔬 */
+  .glass-card { background: rgba(255, 255, 255, 0.85); backdrop-filter: blur(25px); border: 1px solid rgba(6, 182, 212, 0.2); border-radius: 32px; padding: 50px; margin-bottom: 50px; transition: transform 0.4s, box-shadow 0.4s; position: relative; overflow: hidden; box-shadow: 0 20px 40px rgba(0, 0, 0, 0.04); }
+  .glass-card:hover { transform: translateY(-5px); box-shadow: 0 30px 60px rgba(6, 182, 212, 0.08); border-color: rgba(6, 182, 212, 0.4); }
+  
+  .section-label { font-size:1.1rem; font-weight:800; text-transform:uppercase; letter-spacing:2px; color: #0284c7; margin-bottom:24px; display:flex; align-items:center; gap:12px; }
+
+  /* 🔬 Sokratik Sorgulama Makinesi 🔬 */
+  .socrates-box { display: flex; flex-direction: column; gap: 20px; }
+  .arg-select { width: 100%; padding: 18px; border-radius: 16px; border: 2px solid #cbd5e1; font-size: 1.1rem; font-weight: 600; color: #1e293b; outline: none; cursor: pointer; transition: border-color 0.3s; }
+  .arg-select:focus { border-color: #06b6d4; }
+  
+  .socrates-result { margin-top: 20px; background: #0f172a; color: white; padding: 30px; border-radius: 20px; border-left: 6px solid #06b6d4; display: none; position: relative; }
+  .socrates-result.active { display: block; animation: slideIn 0.5s cubic-bezier(0.4, 0, 0.2, 1); }
+  @keyframes slideIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+  
+  .s-title { font-size: 0.9rem; text-transform: uppercase; letter-spacing: 2px; color: #38bdf8; font-weight: 800; margin-bottom: 10px; }
+  .s-text { font-size: 1.2rem; line-height: 1.7; color: #f8fafc; font-weight: 500; }
+  .s-text strong { color: #fde047; }
+
+  /* 🔬 Fake News X-Ray 🔬 */
+  .xray-box { background: white; border: 2px dashed #94a3b8; border-radius: 24px; padding: 40px; }
+  .news-article { font-size: 1.2rem; line-height: 2; color: #334155; position: relative; }
+  
+  .xray-word { cursor: crosshair; border-bottom: 2px dashed #06b6d4; position: relative; transition: all 0.3s; display: inline-block; padding: 0 4px; }
+  .xray-word:hover { background: #cffafe; color: #0369a1; border-bottom-style: solid; }
+  
+  .tooltip { position: absolute; bottom: 100%; left: 50%; transform: translateX(-50%) translateY(10px); background: #0f172a; color: white; padding: 12px 20px; border-radius: 12px; font-size: 0.95rem; font-weight: 600; white-space: nowrap; opacity: 0; pointer-events: none; transition: all 0.3s; z-index: 100; box-shadow: 0 10px 20px rgba(0,0,0,0.2); }
+  .tooltip::after { content: ''; position: absolute; top: 100%; left: 50%; transform: translateX(-50%); border-width: 8px; border-style: solid; border-color: #0f172a transparent transparent transparent; }
+  .xray-word:hover .tooltip { opacity: 1; transform: translateX(-50%) translateY(-10px); }
+
+  /* Back btn */
+  .back-btn { display:inline-flex; align-items:center; gap:8px; padding:12px 24px; border-radius:14px; background:#ffffff; border:2px solid #e2e8f0; color:#475569; font-size:.9rem; font-weight:700; text-decoration:none; transition:all .3s; margin-bottom:40px; box-shadow: 0 4px 6px rgba(0,0,0,0.02); }
+  .back-btn:hover { background:#f8fafc; color:#0f172a; transform:translateX(-4px); border-color: #cbd5e1; }
+
+  .reveal { opacity:0; transform:translateY(40px); transition:all .7s cubic-bezier(.2,1,.3,1); }
+  .reveal.visible { opacity:1; transform:translateY(0); }
+</style>
+
+<section class="d-hero">
+  <div class="d-bg"><div class="tech-grid"></div></div>
+  <div class="d-icon">🔬</div>
+  <div class="d-badge">Argüman Çürütme Laboratuvarı</div>
+  <h1 class="d-title">Anti-Manipülasyon <span>Zırhı</span></h1>
+  <p class="d-subtitle">Toplantılarda, aile içi tartışmalarda veya sosyal medyada karşınıza çıkan sahte argümanları ve komplo teorilerini öfkelenmeden, sadece Sokratik sorularla nasıl çürüteceğinizi öğrenin.</p>
+</section>
+
+<div class="d-wrap">
+  <a href="/diksiyon?cat=curutme" class="back-btn">← Tüm Çürütme Senaryolarını Gör (45 Madde)</a>
+
+  <!-- 🔬 SOKRATIK SORGULAMA MAKINESI 🔬 -->
+  <div class="glass-card reveal">
+    <div class="section-label">🧠 Sokratik Sorgulama Makinesi</div>
+    <p style="color:#475569; font-size:1.05rem; line-height:1.6; margin-bottom:25px;">
+      Bir safsatayı çürütmenin en etkili yolu, karşı tarafa kendi mantıksızlığını "Sokratik Sorularla" buldurtmaktır. Savunmaya geçmek yerine soru sorarak hücuma geçin. Bir manipülasyon seçin ve çürütme kodunu görün:
+    </p>
+
+    <div class="socrates-box">
+      <select class="arg-select" id="socSelect" onchange="generateSocrates()">
+        <option value="" selected disabled>Bir Manipülasyon (Argüman) Seçin...</option>
+        <option value="1">"Bu yazılımı almalıyız çünkü rakiplerimizin hepsi bunu kullanıyor!" (Bandwagon)</option>
+        <option value="2">"Benim fikrime katılmıyorsan, şirketin büyümesini istemiyorsun demektir!" (Sahte İkilem)</option>
+        <option value="3">"Söylediklerin saçma, senin zaten tecrüben yok ki!" (Ad Hominem)</option>
+        <option value="4">"Dünya düzdür, NASA yalan söylüyor. İspatlayamazsın!" (İspat Yükü)</option>
+      </select>
+
+      <div class="socrates-result" id="socResult">
+        <div class="s-title">Analiz ve Sokratik Çürütme Kodu</div>
+        <div class="s-text" id="socText"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 🔬 FAKE NEWS X-RAY 🔬 -->
+  <div class="glass-card reveal">
+    <div class="section-label">📰 Metin X-Ray Tarayıcısı (Medya Okuryazarlığı)</div>
+    <p style="color:#475569; font-size:1.05rem; line-height:1.6; margin-bottom:25px;">
+      Klasik bir tıklama tuzağı (Clickbait) ve dezenformasyon haberinin içine gizlenmiş safsataları bulmak için farenizi <span style="border-bottom: 2px dashed #06b6d4; font-weight:700;">işaretli kelimelerin</span> üzerinde gezdirin.
+    </p>
+
+    <div class="xray-box">
+      <div class="news-article">
+        "Ünlü <span class="xray-word">Uzmanlar Uyarıyor!<span class="tooltip">Belirsiz Otorite Safsatası (Hangi uzmanlar?)</span></span> 
+        Eğer bu yeni diyeti <span class="xray-word">hemen uygulamazsanız<span class="tooltip">Aciliyet ve Korku Sömürüsü</span></span>, 
+        bağışıklık sisteminiz çökecek. Unutmayın ki, <span class="xray-word">doğal olan her şey sağlıklıdır<span class="tooltip">Doğalcılık Safsatası (Yılan zehri de doğaldır)</span></span> 
+        ve laboratuvarda üretilen her şey zehirdir. Zaten <span class="xray-word">binlerce kişi bu diyeti yapıyor<span class="tooltip">Sürü Psikolojisi (Bandwagon)</span></span>, 
+        onlar yanılıyor olamaz değil mi? Ya <span class="xray-word">bizim ürünümüzü alırsınız<span class="tooltip">Sahte İkilem (Sanki başka seçenek yokmuş gibi)</span></span> 
+        ya da hastanelik olursunuz!"
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+// 🔬 Scroll Reveal
+const obs = new IntersectionObserver((entries) => {
+  entries.forEach(e => { if(e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); } });
+}, { threshold: 0.1 });
+document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+
+// 🔬 Socrates Logic
+const socData = {
+  "1": "<strong>Adım 1 (İzolasyon):</strong> Karşı taraf popülerliği bir kalite kanıtı gibi sunuyor (Bandwagon Safsatası).<br><br><strong>Sokratik Çürütme:</strong> \"Rakiplerimizin bunu kullanıyor olması önemli bir veri. Ancak sırf çoğunluk kullanıyor diye bunun <i>bizim</i> altyapımıza teknik olarak uygun olduğunu nasıl garantileyebiliriz? Teknik metriklere bakabilir miyiz?\"",
+  "2": "<strong>Adım 1 (İzolasyon):</strong> Karşı taraf sizi haksız bir 'Ya siyah ya beyaz' köşesine sıkıştırıyor (Sahte İkilem Safsatası).<br><br><strong>Sokratik Çürütme:</strong> \"Şirketin büyümesini elbette istiyorum. Ancak masada sadece senin fikrin mi var, yoksa üçüncü veya dördüncü alternatif çözümleri (örneğin X planını) değerlendirme şansımız yok mu? Neden sadece iki seçeneğimiz varmış gibi davranıyoruz?\"",
+  "3": "<strong>Adım 1 (İzolasyon):</strong> Karşı taraf fikre saldıramadığı için karakterinize/tecrübenize saldırıyor (Ad Hominem).<br><br><strong>Sokratik Çürütme:</strong> \"Benim tecrübe seviyemin bu konuyla olan ilgisini bir kenara bırakırsak, sunduğum somut rapor ve rakamlar hakkında tam olarak hangi noktada yanıldığımı düşünüyorsun?\"",
+  "4": "<strong>Adım 1 (İzolasyon):</strong> Karşı taraf kendi absürt iddiasını kanıtlamak yerine, kanıtlama yükünü (Burden of Proof) sizin omuzlarınıza yıkıyor.<br><br><strong>Sokratik Çürütme:</strong> \"Dünyanın düz olduğunu iddia eden sensin. Mantık kuralları gereği iddia sahibi iddiasını kanıtlamakla mükelleftir. İspat yükünü bana atmak yerine, bana dünyanın düz olduğuna dair hakemli bir makale sunabilir misin?\""
+};
+
+function generateSocrates() {
+  const val = document.getElementById('socSelect').value;
+  if(val && socData[val]) {
+    const resBox = document.getElementById('socResult');
+    const textOut = document.getElementById('socText');
+    
+    // reset animation
+    resBox.classList.remove('active');
+    void resBox.offsetWidth; // trigger reflow
+    
+    textOut.innerHTML = socData[val];
+    resBox.classList.add('active');
+  }
+}
+</script>
+
+<%- include('partials/main-footer') %>

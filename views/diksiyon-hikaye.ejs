@@ -1,0 +1,248 @@
+<%- include('partials/main-header') %>
+
+<style>
+  /* 🎬 Storytelling Cinematic Light Theme 🎬 */
+  body { background: #faf5ff; color: #3b0764; font-family: 'Inter', sans-serif; overflow-x: hidden; }
+
+  /* 🎬 Hero Section 🎬 */
+  .st-hero {
+    min-height: 65vh; display: flex; flex-direction: column; align-items: center; justify-content: center;
+    text-align: center; padding: 140px 24px 80px; position: relative; overflow: hidden;
+    background: radial-gradient(circle at 50% 0%, #f3e8ff 0%, #faf5ff 80%);
+  }
+  .st-hero::after { content:''; position:absolute; bottom:0; left:0; right:0; height:150px; background:linear-gradient(to top,#faf5ff,transparent); }
+
+  /* Cinematic Film Strip Background */
+  .st-bg { position:absolute; inset:0; overflow:hidden; pointer-events:none; z-index:0; opacity: 0.1; display:flex; gap: 40px; justify-content: space-around; }
+  .film-strip { width: 80px; height: 200%; background: #6b21a8; border-left: 15px dashed #faf5ff; border-right: 15px dashed #faf5ff; transform: rotate(-15deg); animation: stripScroll 20s linear infinite; opacity: 0.3; }
+  .film-strip:nth-child(even) { animation-direction: reverse; animation-duration: 25s; }
+  @keyframes stripScroll { 0% { transform: translateY(-50%) rotate(-15deg); } 100% { transform: translateY(0%) rotate(-15deg); } }
+
+  .st-icon { font-size: 5rem; margin-bottom: 24px; position:relative; z-index:2; animation: floatCamera 4s ease-in-out infinite; filter: drop-shadow(0 15px 25px rgba(107,33,168,0.3)); }
+  @keyframes floatCamera { 0%,100%{ transform:translateY(0) scale(1); } 50%{ transform:translateY(-15px) scale(1.05); } }
+
+  .st-badge { display:inline-flex; align-items:center; gap:8px; padding:10px 28px; border-radius:40px; font-size:.9rem; font-weight:800; text-transform:uppercase; letter-spacing:3px; color: #6b21a8; background: #f3e8ff; border:1px solid #d8b4fe; margin-bottom:24px; z-index:2; box-shadow: 0 8px 20px rgba(107,33,168,0.15); }
+  .st-title { font-size:clamp(2.5rem,6vw,4.5rem); font-weight:900; color: #3b0764; margin-bottom:16px; line-height:1.1; letter-spacing: -1.5px; z-index:2; position:relative; }
+  .st-title span { background: linear-gradient(135deg, #a855f7, #6b21a8); -webkit-background-clip:text; -webkit-text-fill-color:transparent; }
+  .st-subtitle { color: #7e22ce; font-size:1.2rem; max-width:750px; line-height:1.8; z-index:2; position:relative; font-weight: 500; }
+
+  /* 🎬 Container 🎬 */
+  .st-wrap { max-width:1100px; margin:0 auto; padding:0 20px 100px; position:relative; z-index:10; }
+
+  /* 🎬 Premium Cards 🎬 */
+  .st-card { background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(25px); border: 1px solid rgba(107, 33, 168, 0.2); border-radius: 32px; padding: 50px; margin-bottom: 50px; transition: transform 0.4s, box-shadow 0.4s; position: relative; overflow: hidden; box-shadow: 0 20px 40px rgba(0, 0, 0, 0.04); }
+  .st-card:hover { transform: translateY(-5px); box-shadow: 0 30px 60px rgba(107, 33, 168, 0.1); border-color: rgba(107, 33, 168, 0.4); }
+  
+  .section-label { font-size:1.1rem; font-weight:800; text-transform:uppercase; letter-spacing:2px; color: #6b21a8; margin-bottom:24px; display:flex; align-items:center; gap:12px; }
+
+  /* 🎬 Pixar Pitch Simulator 🎬 */
+  .pixar-box { background: #3b0764; border-radius: 24px; padding: 40px; color: white; }
+  .pixar-intro { margin-bottom: 30px; font-size: 1.05rem; color: #e9d5ff; line-height: 1.6; }
+  
+  .px-row { display: flex; align-items: flex-start; gap: 15px; margin-bottom: 20px; }
+  .px-label { font-weight: 800; color: #c084fc; width: 140px; flex-shrink: 0; padding-top: 10px; font-size: 1.1rem; text-align: right; }
+  .px-input { flex-grow: 1; padding: 15px 20px; border-radius: 12px; border: 2px solid rgba(255,255,255,0.1); background: rgba(0,0,0,0.3); color: white; font-size: 1.1rem; font-family: 'Inter', sans-serif; transition: all 0.3s; }
+  .px-input:focus { outline: none; border-color: #a855f7; background: rgba(0,0,0,0.5); }
+  .px-input::placeholder { color: rgba(255,255,255,0.3); font-style: italic; }
+  
+  .generate-btn { display: block; width: 100%; padding: 18px; margin-top: 30px; background: #9333ea; color: white; border: none; border-radius: 12px; font-weight: 800; font-size: 1.2rem; cursor: pointer; transition: all 0.3s; box-shadow: 0 8px 20px rgba(147,51,234,0.4); }
+  .generate-btn:hover { background: #7e22ce; transform: translateY(-2px); }
+  
+  .px-result { margin-top: 30px; padding: 30px; background: rgba(255,255,255,0.05); border: 2px dashed #c084fc; border-radius: 16px; font-size: 1.2rem; line-height: 1.8; color: #faf5ff; font-style: italic; display: none; }
+  .px-result strong { color: #d8b4fe; }
+
+  /* 🎬 STAR Method Builder 🎬 */
+  .star-box { background: #fdf4ff; border: 1px solid #f0abfc; border-radius: 24px; padding: 40px; display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; }
+  @media(max-width: 768px) { .star-box { grid-template-columns: 1fr; } }
+  
+  .star-card { background: white; border: 1px solid #f5d0fe; border-radius: 16px; padding: 25px; transition: all 0.3s; cursor: pointer; position: relative; overflow: hidden; }
+  .star-card:hover { transform: translateY(-5px); border-color: #d946ef; box-shadow: 0 10px 20px rgba(217,70,239,0.1); }
+  
+  .sc-letter { font-size: 4rem; font-weight: 900; color: #fae8ff; position: absolute; right: 10px; bottom: -10px; line-height: 1; z-index: 1; }
+  .sc-content { position: relative; z-index: 2; }
+  .sc-title { font-weight: 800; font-size: 1.2rem; color: #86198f; margin-bottom: 10px; }
+  .sc-desc { font-size: 0.95rem; color: #4a044e; line-height: 1.5; margin-bottom: 15px; }
+  
+  .sc-select { width: 100%; padding: 12px; border-radius: 8px; border: 1px solid #e879f9; font-size: 0.95rem; background: #faf5ff; color: #701a75; outline: none; cursor: pointer; }
+
+  .star-final-btn { grid-column: 1 / -1; padding: 15px; background: #c026d3; color: white; border: none; border-radius: 12px; font-weight: 800; font-size: 1.1rem; cursor: pointer; transition: all 0.3s; box-shadow: 0 8px 15px rgba(192,38,211,0.3); }
+  .star-final-btn:hover { background: #a21caf; }
+  
+  .star-result { grid-column: 1 / -1; background: #86198f; color: white; padding: 25px; border-radius: 16px; font-size: 1.1rem; line-height: 1.6; display: none; }
+
+  /* Back btn */
+  .back-btn { display:inline-flex; align-items:center; gap:8px; padding:12px 24px; border-radius:14px; background:#ffffff; border:2px solid #e9d5ff; color:#6b21a8; font-size:.9rem; font-weight:700; text-decoration:none; transition:all .3s; margin-bottom:40px; box-shadow: 0 4px 6px rgba(0,0,0,0.02); }
+  .back-btn:hover { background:#f3e8ff; color:#4c1d95; transform:translateX(-4px); border-color: #d8b4fe; }
+
+  .reveal { opacity:0; transform:translateY(40px); transition:all .7s cubic-bezier(.2,1,.3,1); }
+  .reveal.visible { opacity:1; transform:translateY(0); }
+</style>
+
+<section class="st-hero">
+  <div class="st-bg">
+    <div class="film-strip"></div><div class="film-strip"></div><div class="film-strip"></div><div class="film-strip"></div>
+  </div>
+  <div class="st-icon">🎬</div>
+  <div class="st-badge">Sinematik Anlatı Stüdyosu</div>
+  <h1 class="st-title">Hikaye <span>Anlatıcılığı</span></h1>
+  <p class="st-subtitle">Rakamlar ikna etmez, hikayeler ikna eder. "Storytelling" yapılarını kullanarak vizyonunuzu, markanızı veya fikrinizi insanların bilinçaltına bir film gibi işleyin.</p>
+</section>
+
+<div class="st-wrap">
+  <a href="/diksiyon?cat=hikaye" class="back-btn">← Tüm Hikaye Yapılarını Gör (25 Madde)</a>
+
+  <!-- 🎬 PIXAR PITCH SIMULATOR 🎬 -->
+  <div class="st-card reveal" style="background:#3b0764; border:none;">
+    <div class="section-label" style="color:#d8b4fe;">✏️ Pixar Pitch (Hikaye Jeneratörü)</div>
+    
+    <div class="pixar-box">
+      <div class="pixar-intro">
+        Dünyaca ünlü animasyon stüdyosu Pixar'ın tüm efsane filmleri (Kayıp Balık Nemo, Oyuncak Hikayesi vb.) 6 cümlelik kusursuz bir koda dayanır. Startup sunumlarında ve satış konuşmalarında bu yapıyı kullanarak anında ilgi çekin. Aşağıdaki boşlukları fikrinize veya markanıza göre doldurun:
+      </div>
+      
+      <div class="px-row">
+        <div class="px-label">Bir zamanlar...</div>
+        <input type="text" id="px1" class="px-input" placeholder="(Kahramanı veya hedef kitlenizi tanıtın) Örn: zamanı hiç yetmeyen bir yönetici vardı...">
+      </div>
+      <div class="px-row">
+        <div class="px-label">Her gün...</div>
+        <input type="text" id="px2" class="px-input" placeholder="(Mevcut durumu/problemi yazın) Örn: dosyalar arasında kaybolur ve stres yapardı...">
+      </div>
+      <div class="px-row">
+        <div class="px-label">Taa ki bir gün...</div>
+        <input type="text" id="px3" class="px-input" placeholder="(Kırılma anı / Sizin ürününüzle tanışması) Örn: bizim yapay zeka asistanımızı keşfedene kadar...">
+      </div>
+      <div class="px-row">
+        <div class="px-label">Bunun üzerine...</div>
+        <input type="text" id="px4" class="px-input" placeholder="(Aksiyon 1) Örn: tüm evrak işlerini sisteme yükledi...">
+      </div>
+      <div class="px-row">
+        <div class="px-label">Bunun sonucunda...</div>
+        <input type="text" id="px5" class="px-input" placeholder="(Aksiyon 2) Örn: raporlamalar otomatikleşti...">
+      </div>
+      <div class="px-row">
+        <div class="px-label">Ve en sonunda...</div>
+        <input type="text" id="px6" class="px-input" placeholder="(Mutlu son / Ana fayda) Örn: ailesine ve vizyonuna ayıracak zamanı oldu.">
+      </div>
+      
+      <button class="generate-btn" onclick="genPixar()">Hikayemi Senaryolaştır 🎬</button>
+      
+      <div class="px-result" id="pxResult"></div>
+    </div>
+  </div>
+
+  <!-- 🎬 STAR METHOD BUILDER 🎬 -->
+  <div class="st-card reveal">
+    <div class="section-label">🌟 STAR Metodu Mülakat Simülatörü</div>
+    <p style="color:#86198f; font-size:1.05rem; line-height:1.6; margin-bottom:30px;">
+      İş mülakatlarında size "Bize zorlandığınız bir anı anlatın" dediklerinde asla dümdüz cevap vermeyin. Kurumsal dünyanın evrensel hikaye anlatıcılığı standardı olan <strong>STAR (Situation, Task, Action, Result)</strong> metodunu kullanın. Menülerden seçimleri yapıp mükemmel mülakat cevabınızı oluşturun:
+    </p>
+
+    <div class="star-box">
+      <!-- Situation -->
+      <div class="star-card">
+        <div class="sc-letter">S</div>
+        <div class="sc-content">
+          <div class="sc-title">Situation (Durum)</div>
+          <div class="sc-desc">Bağlamı ve ortamı (sorunu) kurun.</div>
+          <select id="star-s" class="sc-select">
+            <option value="Geçen yıl, şirketin en büyük müşterisi aniden iptal kararı aldı ve bütçede büyük bir açık oluştu.">Müşteri Krizi</option>
+            <option value="Projenin teslimine sadece 3 gün kalmıştı ve ana yazılımcımız hastalanarak projeden ayrıldı.">Zaman/Ekip Krizi</option>
+          </select>
+        </div>
+      </div>
+      
+      <!-- Task -->
+      <div class="star-card">
+        <div class="sc-letter">T</div>
+        <div class="sc-content">
+          <div class="sc-title">Task (Görev)</div>
+          <div class="sc-desc">Sizin üzerinize düşen spesifik görev neydi?</div>
+          <select id="star-t" class="sc-select">
+            <option value="Benim görevim, ekibin geri kalanını motive ederek o iş yükünü adilce dağıtmak ve zamanında teslim etmekti.">Takım Liderliği</option>
+            <option value="Bana düşen görev, ikna edici bir veri seti hazırlayıp o müşteriyi masada tutmaktı.">Kriz Çözücü</option>
+          </select>
+        </div>
+      </div>
+      
+      <!-- Action -->
+      <div class="star-card">
+        <div class="sc-letter">A</div>
+        <div class="sc-content">
+          <div class="sc-title">Action (Eylem)</div>
+          <div class="sc-desc">Kahraman olarak tam olarak ne yaptınız?</div>
+          <select id="star-a" class="sc-select">
+            <option value="Hemen inisiyatif alıp hafta sonu mesaisi organize ettim, ayrıca sürecin %30'unu otomatize eden küçük bir script yazdım.">İnisiyatif + İnovasyon</option>
+            <option value="Müşterinin ofisine bizzat giderek onları dinledim, hatalarımızı kabul ettim ve onlara özel yeni bir iskontolu paket sundum.">Empati + Strateji</option>
+          </select>
+        </div>
+      </div>
+      
+      <!-- Result -->
+      <div class="star-card">
+        <div class="sc-letter">R</div>
+        <div class="sc-content">
+          <div class="sc-title">Result (Sonuç)</div>
+          <div class="sc-desc">Sonunda ne başarıldı? (Rakamlarla)</div>
+          <select id="star-r" class="sc-select">
+            <option value="Sonuç olarak projeyi zamanında teslim ettik ve müşteri memnuniyeti %25 arttı.">Zamanında Teslim</option>
+            <option value="Bunun sonucunda müşteri iptalden vazgeçtiği gibi kontratı 2 yıl daha uzatarak şirketimize ekstra $50.000 kazandırdı.">Finansal Başarı</option>
+          </select>
+        </div>
+      </div>
+      
+      <button class="star-final-btn" onclick="genStar()">Mülakat Cevabımı Oku 🎤</button>
+      <div class="star-result" id="starResult"></div>
+
+    </div>
+  </div>
+
+</div>
+
+<script>
+// 🎬 Scroll Reveal
+const obs = new IntersectionObserver((entries) => {
+  entries.forEach(e => { if(e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); } });
+}, { threshold: 0.1 });
+document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+
+// 🎬 Pixar Pitch
+function genPixar() {
+  const p1 = document.getElementById('px1').value || "[...bir zamanlar birileri vardı]";
+  const p2 = document.getElementById('px2').value || "[...her gün şu problemi yaşarlardı]";
+  const p3 = document.getElementById('px3').value || "[...taa ki şu kırılma anı olana dek]";
+  const p4 = document.getElementById('px4').value || "[...bunun üzerine şu adım atıldı]";
+  const p5 = document.getElementById('px5').value || "[...bunun sonucunda şu gerçekleşti]";
+  const p6 = document.getElementById('px6').value || "[...ve en sonunda şu muhteşem çözüme ulaştılar]";
+  
+  const res = document.getElementById('pxResult');
+  res.style.display = 'block';
+  res.innerHTML = `
+    "Bir zamanlar <strong>${p1}</strong>.<br>
+    Her gün <strong>${p2}</strong>.<br>
+    Taa ki bir gün <strong>${p3}</strong>.<br>
+    Bunun üzerine <strong>${p4}</strong>.<br>
+    Bunun sonucunda <strong>${p5}</strong>.<br>
+    Ve en sonunda <strong>${p6}</strong>."
+  `;
+}
+
+// 🎬 STAR Method
+function genStar() {
+  const s = document.getElementById('star-s').value;
+  const t = document.getElementById('star-t').value;
+  const a = document.getElementById('star-a').value;
+  const r = document.getElementById('star-r').value;
+  
+  const res = document.getElementById('starResult');
+  res.style.display = 'block';
+  res.innerHTML = `
+    <strong>[DURUM]:</strong> ${s} <br><br>
+    <strong>[GÖREV]:</strong> ${t} <br><br>
+    <strong>[EYLEM]:</strong> ${a} <br><br>
+    <strong>[SONUÇ]:</strong> ${r}
+  `;
+}
+</script>
+
+<%- include('partials/main-footer') %>

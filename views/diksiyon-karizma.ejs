@@ -1,0 +1,235 @@
+<%- include('partials/main-header') %>
+
+<style>
+  /* ✨ Charisma Light Theme ✨ */
+  body { background: #fff1f2; color: #4c0519; font-family: 'Inter', sans-serif; overflow-x: hidden; }
+
+  /* ✨ Hero Section ✨ */
+  .ka-hero {
+    min-height: 65vh; display: flex; flex-direction: column; align-items: center; justify-content: center;
+    text-align: center; padding: 140px 24px 80px; position: relative; overflow: hidden;
+    background: radial-gradient(circle at 50% 0%, #ffe4e6 0%, #fff1f2 80%);
+  }
+  .ka-hero::after { content:''; position:absolute; bottom:0; left:0; right:0; height:150px; background:linear-gradient(to top,#fff1f2,transparent); }
+
+  /* Sparkle Background */
+  .ka-bg { position:absolute; inset:0; overflow:hidden; pointer-events:none; z-index:0; opacity: 0.15; background-image: radial-gradient(circle, #be123c 1px, transparent 1px); background-size: 50px 50px; animation: twinkle 5s ease-in-out infinite alternate; }
+  @keyframes twinkle { 0% { opacity: 0.1; } 100% { opacity: 0.25; } }
+
+  .ka-icon { font-size: 5rem; margin-bottom: 24px; position:relative; z-index:2; animation: floatSparkle 4s ease-in-out infinite; filter: drop-shadow(0 15px 25px rgba(159,18,57,0.3)); }
+  @keyframes floatSparkle { 0%,100%{ transform:translateY(0) scale(1); } 50%{ transform:translateY(-15px) scale(1.05); } }
+
+  .ka-badge { display:inline-flex; align-items:center; gap:8px; padding:10px 28px; border-radius:40px; font-size:.9rem; font-weight:800; text-transform:uppercase; letter-spacing:3px; color: #9f1239; background: #ffe4e6; border:1px solid #fecdd3; margin-bottom:24px; z-index:2; box-shadow: 0 8px 20px rgba(159,18,57,0.15); }
+  .ka-title { font-size:clamp(2.5rem,6vw,4.5rem); font-weight:900; color: #4c0519; margin-bottom:16px; line-height:1.1; letter-spacing: -1.5px; z-index:2; position:relative; }
+  .ka-title span { background: linear-gradient(135deg, #e11d48, #9f1239); -webkit-background-clip:text; -webkit-text-fill-color:transparent; }
+  .ka-subtitle { color: #be123c; font-size:1.2rem; max-width:750px; line-height:1.8; z-index:2; position:relative; font-weight: 500; }
+
+  /* ✨ Container ✨ */
+  .ka-wrap { max-width:1100px; margin:0 auto; padding:0 20px 100px; position:relative; z-index:10; }
+
+  /* ✨ Premium Cards ✨ */
+  .ka-card { background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(25px); border: 1px solid rgba(159, 18, 57, 0.2); border-radius: 32px; padding: 50px; margin-bottom: 50px; transition: transform 0.4s, box-shadow 0.4s; position: relative; overflow: hidden; box-shadow: 0 20px 40px rgba(0, 0, 0, 0.04); }
+  .ka-card:hover { transform: translateY(-5px); box-shadow: 0 30px 60px rgba(159, 18, 57, 0.1); border-color: rgba(159, 18, 57, 0.4); }
+  
+  .section-label { font-size:1.1rem; font-weight:800; text-transform:uppercase; letter-spacing:2px; color: #9f1239; margin-bottom:24px; display:flex; align-items:center; gap:12px; }
+
+  /* ✨ Aura Simulator (Presence, Power, Warmth) ✨ */
+  .aura-box { background: #881337; border-radius: 24px; padding: 40px; color: white; display: flex; flex-direction: column; gap: 30px; }
+  .aura-scenario { font-size: 1.2rem; color: #ffe4e6; line-height: 1.6; font-weight: 500; font-style: italic; border-left: 4px solid #fb7185; padding-left: 20px; }
+  
+  .aura-meters { display: flex; flex-wrap: wrap; gap: 20px; justify-content: center; }
+  .meter-col { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 16px; padding: 20px; width: 100%; max-width: 250px; text-align: center; }
+  .meter-title { font-weight: 800; font-size: 1.2rem; margin-bottom: 10px; color: #fecdd3; }
+  .meter-bar { width: 100%; height: 20px; background: rgba(255,255,255,0.1); border-radius: 10px; overflow: hidden; position: relative; margin-bottom: 15px; }
+  .meter-fill { height: 100%; width: 50%; border-radius: 10px; transition: width 0.4s ease; }
+  .meter-fill.presence { background: #22d3ee; } /* Cyan for Presence/Focus */
+  .meter-fill.power { background: #fbbf24; } /* Gold for Power/Status */
+  .meter-fill.warmth { background: #f43f5e; } /* Pink/Red for Warmth/Empathy */
+  
+  .meter-btns { display: flex; gap: 10px; justify-content: center; }
+  .m-btn { background: rgba(255,255,255,0.1); border: none; color: white; width: 40px; height: 40px; border-radius: 50%; font-size: 1.2rem; cursor: pointer; transition: all 0.2s; }
+  .m-btn:hover { background: rgba(255,255,255,0.2); }
+  
+  .aura-check-btn { align-self: center; padding: 14px 30px; background: #e11d48; color: white; font-weight: 800; border: none; border-radius: 12px; font-size: 1.1rem; cursor: pointer; transition: all 0.3s; margin-top: 10px; box-shadow: 0 4px 15px rgba(225,29,72,0.4); }
+  .aura-check-btn:hover { background: #be123c; transform: translateY(-2px); }
+  
+  .aura-feedback { text-align: center; font-size: 1.1rem; min-height: 60px; font-weight: 600; color: #fda4af; }
+
+  /* ✨ Small Talk to Deep Talk ✨ */
+  .chat-ui { background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 20px; overflow: hidden; }
+  .chat-header { background: #f1f5f9; padding: 15px 20px; font-weight: 800; color: #475569; border-bottom: 1px solid #e2e8f0; display: flex; justify-content: space-between; }
+  .chat-body { padding: 30px; display: flex; flex-direction: column; gap: 20px; min-height: 250px; }
+  
+  .cbubble { max-width: 80%; padding: 15px 20px; border-radius: 18px; font-size: 1.05rem; line-height: 1.5; }
+  .cbubble.other { background: #e2e8f0; color: #1e293b; align-self: flex-start; border-bottom-left-radius: 4px; }
+  .cbubble.me { background: #be123c; color: white; align-self: flex-end; border-bottom-right-radius: 4px; }
+  
+  .chat-opts { padding: 20px; background: white; border-top: 1px solid #e2e8f0; display: flex; flex-direction: column; gap: 10px; }
+  .chat-btn { text-align: left; padding: 15px; background: #fff1f2; border: 1px solid #fecdd3; border-radius: 12px; font-size: 1.05rem; font-weight: 600; color: #9f1239; cursor: pointer; transition: all 0.2s; }
+  .chat-btn:hover { background: #ffe4e6; border-color: #fda4af; }
+  
+  /* Back btn */
+  .back-btn { display:inline-flex; align-items:center; gap:8px; padding:12px 24px; border-radius:14px; background:#ffffff; border:2px solid #fecdd3; color:#9f1239; font-size:.9rem; font-weight:700; text-decoration:none; transition:all .3s; margin-bottom:40px; box-shadow: 0 4px 6px rgba(0,0,0,0.02); }
+  .back-btn:hover { background:#fff1f2; color:#4c0519; transform:translateX(-4px); border-color: #fda4af; }
+
+  .reveal { opacity:0; transform:translateY(40px); transition:all .7s cubic-bezier(.2,1,.3,1); }
+  .reveal.visible { opacity:1; transform:translateY(0); }
+</style>
+
+<section class="ka-hero">
+  <div class="ka-bg"></div>
+  <div class="ka-icon">✨</div>
+  <div class="ka-badge">Aura ve Bağ Kurma Merkezi</div>
+  <h1 class="ka-title">Karizmatik <span>İletişim</span></h1>
+  <p class="ka-subtitle">İnsanlar onlara ne söylediğinizi unutur, ama onlara nasıl hissettirdiğinizi asla unutmaz. Karizmanın 3 temel bileşenini (Varlık, Güç, Sıcaklık) dengeleyerek derin bağlar kurmayı öğrenin.</p>
+</section>
+
+<div class="ka-wrap">
+  <a href="/diksiyon?cat=karizma" class="back-btn">← Tüm Karizma Sırlarını Gör (25 Madde)</a>
+
+  <!-- ✨ AURA SIMULATOR ✨ -->
+  <div class="ka-card reveal" style="background:#4c0519; border:none;">
+    <div class="section-label" style="color:#fda4af;">✨ Karizma (Aura) Simülatörü</div>
+    <p style="color:#ffe4e6; font-size:1.05rem; line-height:1.6; margin-bottom:30px;">
+      Karizma; <strong>Varlık (Focus/Presence)</strong>, <strong>Güç (Otorite/Power)</strong> ve <strong>Sıcaklık (Empati/Warmth)</strong> özelliklerinin doğru karışımıdır. Aşağıdaki senaryo için bu 3 değeri (+/-) doğru şekilde dengeleyin ve kontrol edin.
+    </p>
+
+    <div class="aura-box">
+      <div class="aura-scenario" id="auraScen">
+        "Yeni girdiğiniz bir şirkette, çekingen ve içe kapanık olan asistanınızla ilk tanışma toplantınız. Onun size güvenmesini ve rahat hissetmesini istiyorsunuz. Nasıl bir Aura yansıtmalısınız?"
+      </div>
+      
+      <div class="aura-meters">
+        <div class="meter-col">
+          <div class="meter-title">👁️ Varlık (Presence)</div>
+          <div class="meter-bar"><div class="meter-fill presence" id="barP"></div></div>
+          <div class="meter-btns">
+            <button class="m-btn" onclick="adjAura('P', -10)">-</button>
+            <button class="m-btn" onclick="adjAura('P', 10)">+</button>
+          </div>
+        </div>
+        <div class="meter-col">
+          <div class="meter-title">⚡ Güç (Power)</div>
+          <div class="meter-bar"><div class="meter-fill power" id="barW"></div></div> <!-- Use W variable for power visually -->
+          <div class="meter-btns">
+            <button class="m-btn" onclick="adjAura('W', -10)">-</button>
+            <button class="m-btn" onclick="adjAura('W', 10)">+</button>
+          </div>
+        </div>
+        <div class="meter-col">
+          <div class="meter-title">❤️ Sıcaklık (Warmth)</div>
+          <div class="meter-bar"><div class="meter-fill warmth" id="barH"></div></div> <!-- Use H variable for warmth visually -->
+          <div class="meter-btns">
+            <button class="m-btn" onclick="adjAura('H', -10)">-</button>
+            <button class="m-btn" onclick="adjAura('H', 10)">+</button>
+          </div>
+        </div>
+      </div>
+
+      <button class="aura-check-btn" onclick="checkAura()">Aurayı Test Et</button>
+      <div class="aura-feedback" id="auraBack"></div>
+    </div>
+  </div>
+
+  <!-- ✨ SMALL TALK TO DEEP TALK ✨ -->
+  <div class="ka-card reveal">
+    <div class="section-label">🗣️ Small Talk'tan Deep Talk'a Geçiş</div>
+    <p style="color:#9f1239; font-size:1.05rem; line-height:1.6; margin-bottom:30px;">
+      Karizmatik insanlar sıkıcı "Havalar da nasıl soğudu" muhabbetinde kalmazlar. Sohbetteki gizli kancaları (Hook) yakalayıp konuyu derinleştirirler. Karşınızdakini derine çekin.
+    </p>
+
+    <div class="chat-ui">
+      <div class="chat-header"><span>Networking Etkinliği</span> <span style="font-weight:normal; color:#94a3b8;">Online</span></div>
+      <div class="chat-body" id="cBody">
+        <div class="cbubble other">Yabancı: "Evet, trafik bugün gerçekten korkunçtu. Buraya gelirken tam 1 saat köprüde bekledim."</div>
+      </div>
+      <div class="chat-opts" id="cOpts">
+        <button class="chat-btn" onclick="nextChat(false, 'A')">A) "Sorma ya, ben de çok bekledim. İstanbul trafiği işte, hiç bitmiyor."</button>
+        <button class="chat-btn" onclick="nextChat(true, 'B')">B) "1 saat trafikte beklemek gerçekten yorucu olmalı. Peki o 1 saatte radyoda veya kafanızda ne çalıyordu? Beklerken ne düşündünüz?"</button>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+// ✨ Scroll Reveal
+const obs = new IntersectionObserver((entries) => {
+  entries.forEach(e => { if(e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); } });
+}, { threshold: 0.1 });
+document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+
+// ✨ Aura Logic
+let vals = { P: 50, W: 50, H: 50 }; // P: Presence, W: Power, H: Warmth
+function adjAura(type, amt) {
+  vals[type] = Math.max(0, Math.min(100, vals[type] + amt));
+  document.getElementById('bar' + type).style.width = vals[type] + '%';
+  document.getElementById('auraBack').innerText = '';
+}
+
+let auraLvl = 0;
+function checkAura() {
+  const fb = document.getElementById('auraBack');
+  
+  if(auraLvl === 0) {
+    // Condition: High Presence (>70), Low Power (<40), High Warmth (>70)
+    if(vals.P >= 70 && vals.W <= 40 && vals.H >= 70) {
+      fb.innerHTML = `✅ Mükemmel Aura! Karşınızdaki içe dönük biri olduğu için Gücünüzü (Otoriteyi) kıstınız, Sıcaklığı (Empati) ve Varlığı (Odaklanmayı) sonuna kadar açtınız. Güvende hissetti. <br><br><button onclick="nextAura()" class="aura-check-btn" style="padding:8px 16px; font-size:0.9rem;">Sıradaki Senaryo</button>`;
+      fb.style.color = '#22c55e';
+    } else {
+      fb.innerHTML = `❌ Karışım Hatalı. Eğer Gücü (Power) çok yüksek tutarsanız asistanınız daha çok korkacaktır. Sıcaklık ve Varlık yüksek, Güç düşük olmalı.`;
+      fb.style.color = '#fda4af';
+    }
+  } else if(auraLvl === 1) {
+    // Condition: High Presence (>80), High Power (>80), Low Warmth (<30)
+    if(vals.P >= 80 && vals.W >= 80 && vals.H <= 30) {
+      fb.innerHTML = `✅ Harika Kriz Yönetimi! Şirkette kriz anında kimsenin sıcak gülümsemelere ihtiyacı yoktur. Herkesin "Buradayım ve kontrol bende" diyen Yüksek Güç ve Yüksek Varlığa ihtiyacı vardır.`;
+      fb.style.color = '#22c55e';
+    } else {
+      fb.innerHTML = `❌ Hatalı. Kriz anında çok fazla Sıcaklık (Gülümseme vb.) göstermek güven kırar. İhtiyacınız olan şey Yüksek Güç (Otorite) ve Yüksek Varlıktır (Odak).`;
+      fb.style.color = '#fda4af';
+    }
+  }
+}
+
+function nextAura() {
+  auraLvl = 1;
+  document.getElementById('auraScen').innerText = '"Şirkette çok büyük bir kriz çıktı ve herkes panik halinde. Takımı sakinleştirip liderliği ele almanız gerekiyor. Bu kriz anında nasıl bir Aura yansıtmalısınız?"';
+  document.getElementById('auraBack').innerText = '';
+  // Reset
+  vals = { P: 50, W: 50, H: 50 };
+  document.getElementById('barP').style.width = '50%';
+  document.getElementById('barW').style.width = '50%';
+  document.getElementById('barH').style.width = '50%';
+}
+
+// ✨ Deep Talk Logic
+function nextChat(isCorrect, optChoice) {
+  const b = document.getElementById('cBody');
+  const o = document.getElementById('cOpts');
+  
+  if(optChoice === 'A') {
+    b.innerHTML += `<div class="cbubble me">Sorma ya, ben de çok bekledim. İstanbul trafiği işte.</div>`;
+    b.innerHTML += `<div class="cbubble other" style="background:#fee2e2; color:#991b1b;">Yabancı: "Aynen öyle..." (Sohbet burada öldü 💀)</div>`;
+    o.innerHTML = `<button class="chat-btn" style="text-align:center;" onclick="resetChat()">Sohbeti Yeniden Başlat</button>`;
+  } else if(optChoice === 'B') {
+    b.innerHTML += `<div class="cbubble me">1 saat trafikte beklemek gerçekten yorucu olmalı. Peki o 1 saatte kafanızda ne çalıyordu? Beklerken ne düşündünüz?</div>`;
+    b.innerHTML += `<div class="cbubble other" style="background:#dcfce7; color:#166534;">Yabancı: "İlginç bir soru! Aslında beklerken uzun zamandır yazmak istediğim bir kitabın kurgusunu düşünüyordum..."</div>`;
+    b.innerHTML += `<div class="cbubble me" style="background:transparent; color:#059669; font-weight:bold; font-size:1.1rem; padding:0; border:none; text-align:center; margin-top:15px;">✨ Tebrikler! Rutin bir hava/trafik sohbetini başarıyla "Deep Talk" seviyesine çıkardınız.</div>`;
+    o.style.display = 'none';
+  }
+}
+
+function resetChat() {
+  document.getElementById('cBody').innerHTML = `<div class="cbubble other">Yabancı: "Evet, trafik bugün gerçekten korkunçtu. Buraya gelirken tam 1 saat köprüde bekledim."</div>`;
+  const o = document.getElementById('cOpts');
+  o.style.display = 'flex';
+  o.innerHTML = `
+    <button class="chat-btn" onclick="nextChat(false, 'A')">A) "Sorma ya, ben de çok bekledim. İstanbul trafiği işte, hiç bitmiyor."</button>
+    <button class="chat-btn" onclick="nextChat(true, 'B')">B) "1 saat trafikte beklemek gerçekten yorucu olmalı. Peki o 1 saatte radyoda veya kafanızda ne çalıyordu? Beklerken ne düşündünüz?"</button>
+  `;
+}
+
+</script>
+
+<%- include('partials/main-footer') %>

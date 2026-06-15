@@ -1,0 +1,203 @@
+<%- include('partials/main-header') %>
+
+<style>
+  /* 🧠 Mind Engineering Academy Light Theme 🧠 */
+  body { background: #f8fafc; color: #1e293b; font-family: 'Inter', sans-serif; overflow-x: hidden; }
+
+  /* 🧠 Hero Section 🧠 */
+  .p-hero {
+    min-height: 60vh; display: flex; flex-direction: column; align-items: center; justify-content: center;
+    text-align: center; padding: 140px 24px 80px; position: relative; overflow: hidden;
+    background: radial-gradient(circle at 50% 0%, #e2e8f0 0%, #f8fafc 80%);
+  }
+  .p-hero::after { content:''; position:absolute; bottom:0; left:0; right:0; height:150px; background:linear-gradient(to top,#f8fafc,transparent); }
+
+  /* Abstract grid background */
+  .hero-bg { position:absolute; inset:0; overflow:hidden; pointer-events:none; z-index:0; opacity: 0.4; }
+  .grid-pattern { width: 100%; height: 100%; background-image: radial-gradient(#94a3b8 1px, transparent 1px); background-size: 30px 30px; animation: moveGrid 20s linear infinite; }
+  @keyframes moveGrid { 0%{ background-position: 0 0; } 100%{ background-position: 30px 30px; } }
+
+  .p-icon { font-size: 5rem; margin-bottom: 24px; position:relative; z-index:2; animation: floatMind 4s infinite ease-in-out; filter: drop-shadow(0 10px 20px rgba(100,116,139,0.3)); }
+  @keyframes floatMind { 0%,100%{ transform: translateY(0); } 50%{ transform: translateY(-15px); } }
+
+  .p-badge { display:inline-flex; align-items:center; gap:8px; padding:10px 28px; border-radius:40px; font-size:.9rem; font-weight:800; text-transform:uppercase; letter-spacing:3px; color: #334155; background: #e2e8f0; border:1px solid #cbd5e1; margin-bottom:24px; z-index:2; box-shadow: 0 8px 20px rgba(100,116,139,0.15); }
+  .p-title { font-size:clamp(2.5rem,6vw,4.5rem); font-weight:900; color: #0f172a; margin-bottom:16px; line-height:1.1; letter-spacing: -1.5px; z-index:2; position:relative; }
+  .p-title span { background: linear-gradient(135deg, #64748b, #475569); -webkit-background-clip:text; -webkit-text-fill-color:transparent; }
+  .p-subtitle { color: #475569; font-size:1.2rem; max-width:700px; line-height:1.8; z-index:2; position:relative; }
+
+  /* 🧠 Container 🧠 */
+  .p-wrap { max-width:1050px; margin:0 auto; padding:0 20px 100px; position:relative; z-index:10; }
+
+  /* 🧠 Glass Cards 🧠 */
+  .glass-card { background: rgba(255, 255, 255, 0.85); backdrop-filter: blur(25px); border: 1px solid rgba(100, 116, 139, 0.2); border-radius: 32px; padding: 50px; margin-bottom: 50px; transition: transform 0.4s, box-shadow 0.4s; position: relative; overflow: hidden; box-shadow: 0 20px 40px rgba(0, 0, 0, 0.04); }
+  .glass-card:hover { transform: translateY(-5px); box-shadow: 0 30px 60px rgba(100, 116, 139, 0.08); border-color: rgba(100, 116, 139, 0.4); }
+  
+  .section-label { font-size:1.1rem; font-weight:800; text-transform:uppercase; letter-spacing:2px; color: #475569; margin-bottom:24px; display:flex; align-items:center; gap:12px; }
+
+  /* 🧠 Framing Simulator 🧠 */
+  .framing-box { background: #f1f5f9; border-radius: 24px; padding: 30px; border: 2px dashed #cbd5e1; }
+  .news-headline { font-size: 2rem; font-weight: 900; color: #1e293b; text-align: center; margin-bottom: 30px; padding: 30px; background: white; border-radius: 16px; box-shadow: 0 10px 20px rgba(0,0,0,0.05); transition: all 0.5s; }
+  .word-hl { padding: 4px 12px; border-radius: 8px; background: #e2e8f0; color: #334155; transition: all 0.5s; display: inline-block; }
+  
+  .controls-row { display: flex; justify-content: center; gap: 20px; flex-wrap: wrap; margin-bottom: 30px; }
+  .toggle-btn { padding: 12px 24px; background: white; border: 2px solid #cbd5e1; border-radius: 100px; font-weight: 700; cursor: pointer; transition: all 0.3s; color: #475569; }
+  .toggle-btn.active { background: #475569; color: white; border-color: #334155; transform: scale(1.05); }
+
+  .perception-meter { height: 20px; background: #e2e8f0; border-radius: 10px; position: relative; overflow: hidden; }
+  .meter-fill { height: 100%; background: linear-gradient(90deg, #ef4444, #10b981); width: 50%; transition: width 0.6s cubic-bezier(0.4, 0, 0.2, 1); }
+  .meter-labels { display: flex; justify-content: space-between; margin-top: 10px; font-size: 0.9rem; font-weight: 700; color: #64748b; }
+
+  /* 🧠 Echo Chamber Simulator 🧠 */
+  .echo-box { display: flex; flex-direction: column; align-items: center; background: white; border-radius: 24px; padding: 40px; border: 1px solid #e2e8f0; }
+  .feed-container { width: 100%; max-width: 500px; height: 300px; border: 2px solid #cbd5e1; border-radius: 16px; overflow-y: auto; padding: 20px; display: flex; flex-direction: column; gap: 15px; background: #f8fafc; margin-bottom: 20px; scroll-behavior: smooth; }
+  .feed-post { background: white; padding: 15px; border-radius: 12px; box-shadow: 0 4px 6px rgba(0,0,0,0.02); opacity: 0; transform: translateY(20px); animation: popIn 0.5s forwards; font-weight: 600; font-size: 0.95rem; }
+  @keyframes popIn { to { opacity: 1; transform: translateY(0); } }
+  
+  .echo-btn { padding: 15px 30px; background: #8b5cf6; color: white; border: none; border-radius: 12px; font-weight: 800; font-size: 1.1rem; cursor: pointer; transition: transform 0.2s; box-shadow: 0 10px 20px rgba(139,92,246,0.3); }
+  .echo-btn:hover { transform: translateY(-3px); }
+
+  /* Back btn */
+  .back-btn { display:inline-flex; align-items:center; gap:8px; padding:12px 24px; border-radius:14px; background:#ffffff; border:2px solid #e2e8f0; color:#475569; font-size:.9rem; font-weight:700; text-decoration:none; transition:all .3s; margin-bottom:40px; box-shadow: 0 4px 6px rgba(0,0,0,0.02); }
+  .back-btn:hover { background:#f8fafc; color:#0f172a; transform:translateX(-4px); border-color: #cbd5e1; }
+
+  .reveal { opacity:0; transform:translateY(40px); transition:all .7s cubic-bezier(.2,1,.3,1); }
+  .reveal.visible { opacity:1; transform:translateY(0); }
+</style>
+
+<section class="p-hero">
+  <div class="hero-bg"><div class="grid-pattern"></div></div>
+  <div class="p-icon">🧠</div>
+  <div class="p-badge">Zihin Mühendisliği Laboratuvarı</div>
+  <h1 class="p-title">Kitlelerin <span>Rızasını</span> İmal Etmek</h1>
+  <p class="p-subtitle">Edward Bernays'den Noam Chomsky'ye modern propagandanın görünmez kuralları. Bir haberi, reklamı veya siyasi söylemi okurken beyninizin nasıl "Hack"lendiğini keşfedin.</p>
+</section>
+
+<div class="p-wrap">
+  <a href="/diksiyon?cat=propaganda" class="back-btn">← Tüm Kitle Psikolojisi Analizlerini Gör (25 Figür)</a>
+
+  <!-- 🧠 FRAMING SIMULATOR 🧠 -->
+  <div class="glass-card reveal">
+    <div class="section-label">📰 Framing (Çerçeveleme) Simülatörü</div>
+    <p style="color:#475569; font-size:1.05rem; line-height:1.6; margin-bottom:25px;">
+      Aynı olayı tamamen farklı kelimelerle sunarak halkın "Algı Metresi"ni nasıl değiştireceğinizi test edin. Medya şirketlerinin veya hükümetlerin kelime seçimleriyle (Çerçeveleme) toplumun panik seviyesini nasıl ayarladığını görün.
+    </p>
+
+    <div class="framing-box">
+      <div class="news-headline" id="hlDisplay">
+        Ülkede <span class="word-hl" id="w1">Ekonomik Kriz</span> Nedeniyle Şirketler <span class="word-hl" id="w2">Toplu İşten Çıkarma</span> Yapıyor.
+      </div>
+      
+      <div class="controls-row">
+        <button class="toggle-btn active" id="btnNegative" onclick="setFrame('negative')">Negatif (Panik) Çerçeve</button>
+        <button class="toggle-btn" id="btnNeutral" onclick="setFrame('neutral')">Nötr (Objektif) Çerçeve</button>
+        <button class="toggle-btn" id="btnPositive" onclick="setFrame('positive')">Pozitif (PR) Çerçeve</button>
+      </div>
+      
+      <div style="margin-bottom: 10px; font-weight: 800; color: #334155;">Halkın Algı Metresi (Güven - Panik)</div>
+      <div class="perception-meter">
+        <div class="meter-fill" id="pMeter" style="width: 10%;"></div>
+      </div>
+      <div class="meter-labels">
+        <span>Aşırı Panik / Öfke</span>
+        <span>Güvende / Sakin</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- 🧠 ECHO CHAMBER SIMULATOR 🧠 -->
+  <div class="glass-card reveal">
+    <div class="section-label">🌀 Yankı Odası (Echo Chamber) Algoritması</div>
+    <p style="color:#475569; font-size:1.05rem; line-height:1.6; margin-bottom:25px;">
+      Sosyal medya, ilginizi çeken ufacık bir konuyu alıp sizi adım adım nasıl radikalleştirir? "Sağlıklı Beslenme" konulu zararsız bir gönderiyi beğendiğinizi varsayalım. Algoritmayı başlatın ve 5 adımda nereye savrulacağınızı izleyin.
+    </p>
+
+    <div class="echo-box">
+      <div class="feed-container" id="feedCont">
+        <div class="feed-post" style="border-left: 4px solid #10b981;">
+          <strong>Algoritma Gözlemi:</strong> Kullanıcı "Sağlıklı Beslenme İpuçları" başlıklı videoyu beğendi.
+        </div>
+      </div>
+      
+      <button class="echo-btn" onclick="nextEchoStep()" id="echoBtn">Sonraki Gönderiyi Kaydır ↓</button>
+    </div>
+  </div>
+
+</div>
+
+<script>
+// 🧠 Scroll Reveal
+const obs = new IntersectionObserver((entries) => {
+  entries.forEach(e => { if(e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); } });
+}, { threshold: 0.1 });
+document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+
+// 🧠 Framing Logic
+function setFrame(type) {
+  document.querySelectorAll('.toggle-btn').forEach(b => b.classList.remove('active'));
+  const w1 = document.getElementById('w1');
+  const w2 = document.getElementById('w2');
+  const meter = document.getElementById('pMeter');
+  
+  if(type === 'negative') {
+    document.getElementById('btnNegative').classList.add('active');
+    w1.innerText = "Ekonomik Çöküş";
+    w2.innerText = "Toplu İşten Çıkarma";
+    w1.style.background = "#fee2e2"; w1.style.color = "#b91c1c";
+    w2.style.background = "#fee2e2"; w2.style.color = "#b91c1c";
+    meter.style.width = "10%";
+    meter.style.background = "#ef4444";
+  } 
+  else if(type === 'neutral') {
+    document.getElementById('btnNeutral').classList.add('active');
+    w1.innerText = "Finansal Dalgalanma";
+    w2.innerText = "Personel Azaltımı";
+    w1.style.background = "#e2e8f0"; w1.style.color = "#334155";
+    w2.style.background = "#e2e8f0"; w2.style.color = "#334155";
+    meter.style.width = "50%";
+    meter.style.background = "#f59e0b";
+  }
+  else if(type === 'positive') {
+    document.getElementById('btnPositive').classList.add('active');
+    w1.innerText = "Piyasa Normalleşmesi";
+    w2.innerText = "Yeniden Yapılanma";
+    w1.style.background = "#d1fae5"; w1.style.color = "#047857";
+    w2.style.background = "#d1fae5"; w2.style.color = "#047857";
+    meter.style.width = "90%";
+    meter.style.background = "#10b981";
+  }
+}
+
+// 🧠 Echo Chamber Logic
+const echoSteps = [
+  "Şekerin Zararları ve Glutensiz Yaşam! (Normal İçerik)",
+  "Süpermarketlerde Bize Ne Yediriyorlar? Zehirli Yiyecekler! (Korku Tetiklemesi)",
+  "İlaç Şirketlerinin Sakladığı Büyük Sır! Hastalıklar Kasten mi Üretiliyor? (Komplo Teorisi)",
+  "SADECE ÇİĞ ET YİYEREK YAŞAMAK! BİZE YALAN SÖYLEDİLER! (Aşırı Uç Nokta / Radikalleşme)"
+];
+let currentEcho = 0;
+
+function nextEchoStep() {
+  if(currentEcho < echoSteps.length) {
+    const cont = document.getElementById('feedCont');
+    const div = document.createElement('div');
+    div.className = 'feed-post';
+    
+    // Make colors darker/redder as it gets more extreme
+    const intensity = currentEcho * 20;
+    div.style.borderLeft = `4px solid rgb(${255}, ${150 - intensity}, ${150 - intensity})`;
+    
+    div.innerHTML = `<strong>Tavsiye Edilen İçerik:</strong> ${echoSteps[currentEcho]}`;
+    cont.appendChild(div);
+    cont.scrollTop = cont.scrollHeight; // Auto scroll to bottom
+    currentEcho++;
+    
+    if(currentEcho === echoSteps.length) {
+      document.getElementById('echoBtn').innerText = "Yankı Odasına Hapsoldunuz 🔒";
+      document.getElementById('echoBtn').style.background = "#ef4444";
+      document.getElementById('echoBtn').style.pointerEvents = "none";
+    }
+  }
+}
+</script>
+
+<%- include('partials/main-footer') %>

@@ -1,0 +1,225 @@
+<%- include('partials/main-header') %>
+
+<style>
+  /* 💼 Corporate Survival Light Theme 💼 */
+  body { background: #f8fafc; color: #0f172a; font-family: 'Inter', sans-serif; overflow-x: hidden; }
+
+  /* 💼 Hero Section 💼 */
+  .mo-hero {
+    min-height: 65vh; display: flex; flex-direction: column; align-items: center; justify-content: center;
+    text-align: center; padding: 140px 24px 80px; position: relative; overflow: hidden;
+    background: radial-gradient(circle at 50% 0%, #dbeafe 0%, #f8fafc 80%);
+  }
+  .mo-hero::after { content:''; position:absolute; bottom:0; left:0; right:0; height:150px; background:linear-gradient(to top,#f8fafc,transparent); }
+
+  /* Grid Background */
+  .mo-bg { position:absolute; inset:0; overflow:hidden; pointer-events:none; z-index:0; opacity: 0.1; background-image: linear-gradient(#1e3a8a 1px, transparent 1px), linear-gradient(90deg, #1e3a8a 1px, transparent 1px); background-size: 50px 50px; }
+  
+  .mo-icon { font-size: 5rem; margin-bottom: 24px; position:relative; z-index:2; animation: floatBriefcase 4s ease-in-out infinite; filter: drop-shadow(0 15px 25px rgba(30,58,138,0.2)); }
+  @keyframes floatBriefcase { 0%,100%{ transform:translateY(0); } 50%{ transform:translateY(-15px); } }
+
+  .mo-badge { display:inline-flex; align-items:center; gap:8px; padding:10px 28px; border-radius:40px; font-size:.9rem; font-weight:800; text-transform:uppercase; letter-spacing:3px; color: #1e3a8a; background: #eff6ff; border:1px solid #bfdbfe; margin-bottom:24px; z-index:2; box-shadow: 0 8px 20px rgba(30,58,138,0.1); }
+  .mo-title { font-size:clamp(2.5rem,6vw,4.5rem); font-weight:900; color: #0f172a; margin-bottom:16px; line-height:1.1; letter-spacing: -1.5px; z-index:2; position:relative; }
+  .mo-title span { background: linear-gradient(135deg, #2563eb, #1e3a8a); -webkit-background-clip:text; -webkit-text-fill-color:transparent; }
+  .mo-subtitle { color: #3b82f6; font-size:1.2rem; max-width:750px; line-height:1.8; z-index:2; position:relative; font-weight: 500; }
+
+  /* 💼 Container 💼 */
+  .mo-wrap { max-width:1100px; margin:0 auto; padding:0 20px 100px; position:relative; z-index:10; }
+
+  /* 💼 Premium Cards 💼 */
+  .mo-card { background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(25px); border: 1px solid rgba(30, 58, 138, 0.15); border-radius: 32px; padding: 50px; margin-bottom: 50px; transition: transform 0.4s, box-shadow 0.4s; position: relative; overflow: hidden; box-shadow: 0 20px 40px rgba(0, 0, 0, 0.03); }
+  .mo-card:hover { transform: translateY(-5px); box-shadow: 0 30px 60px rgba(30, 58, 138, 0.08); border-color: rgba(30, 58, 138, 0.3); }
+  
+  .section-label { font-size:1.1rem; font-weight:800; text-transform:uppercase; letter-spacing:2px; color: #1e3a8a; margin-bottom:24px; display:flex; align-items:center; gap:12px; }
+
+  /* 💼 Passive-Aggressive Email Decoder 💼 */
+  .mail-app { background: white; border: 1px solid #cbd5e1; border-radius: 16px; overflow: hidden; font-family: Arial, sans-serif; box-shadow: 0 10px 25px rgba(0,0,0,0.05); }
+  .mail-header { background: #f1f5f9; padding: 15px 20px; border-bottom: 1px solid #cbd5e1; }
+  .mail-row { font-size: 0.9rem; margin-bottom: 8px; color: #475569; display: flex; }
+  .mail-lbl { font-weight: bold; width: 60px; color: #64748b; }
+  .mail-val.cc { color: #ef4444; font-weight: bold; }
+  
+  .mail-body { padding: 30px; font-size: 1.05rem; line-height: 1.6; color: #1e293b; }
+  .toxic-phrase { display: inline-block; padding: 2px 6px; border-radius: 4px; border: 1px dashed #94a3b8; cursor: help; transition: all 0.2s; position: relative; }
+  .toxic-phrase:hover { background: #fef2f2; border-color: #ef4444; color: #b91c1c; }
+  
+  /* Tooltip logic */
+  .toxic-phrase::after { content: attr(data-meaning); position: absolute; bottom: 100%; left: 50%; transform: translateX(-50%); background: #1e3a8a; color: white; padding: 8px 12px; border-radius: 8px; font-size: 0.85rem; width: 220px; text-align: center; opacity: 0; visibility: hidden; transition: all 0.3s; z-index: 10; pointer-events: none; margin-bottom: 8px; font-family: 'Inter', sans-serif; font-weight: normal; }
+  .toxic-phrase:hover::after { opacity: 1; visibility: visible; }
+
+  /* 💼 Corporate Armor Simulator 💼 */
+  .armor-box { background: #0f172a; border-radius: 24px; padding: 40px; color: white; }
+  .armor-scenario { font-size: 1.25rem; line-height: 1.8; color: #e2e8f0; margin-bottom: 30px; font-weight: 500; font-style: italic; border-left: 4px solid #3b82f6; padding-left: 20px; }
+  
+  .opt-grid { display: grid; grid-template-columns: 1fr; gap: 15px; margin-bottom: 25px; }
+  .armor-btn { padding: 16px 24px; background: rgba(255,255,255,0.05); border: 2px solid rgba(255,255,255,0.1); border-radius: 12px; font-weight: 600; font-size: 1.1rem; color: white; cursor: pointer; transition: all 0.3s; text-align: left; }
+  .armor-btn:hover { background: rgba(255,255,255,0.1); border-color: #3b82f6; }
+  .armor-btn.correct { background: rgba(34,197,94,0.2); border-color: #22c55e; color: #bbf7d0; }
+  .armor-btn.wrong { background: rgba(239,68,68,0.2); border-color: #ef4444; color: #fecaca; }
+
+  .armor-feedback { min-height: 60px; font-size: 1.1rem; font-weight: 600; color: #93c5fd; transition: all 0.3s; opacity: 0; }
+  .armor-feedback.show { opacity: 1; }
+  .next-btn { display: inline-block; padding: 12px 24px; background: #2563eb; color: white; border: none; border-radius: 12px; font-weight: 700; cursor: pointer; transition: all 0.3s; display: none; margin-top: 15px; }
+  .next-btn:hover { background: #1d4ed8; transform: translateY(-2px); }
+
+  /* Back btn */
+  .back-btn { display:inline-flex; align-items:center; gap:8px; padding:12px 24px; border-radius:14px; background:#ffffff; border:2px solid #bfdbfe; color:#1e3a8a; font-size:.9rem; font-weight:700; text-decoration:none; transition:all .3s; margin-bottom:40px; box-shadow: 0 4px 6px rgba(0,0,0,0.02); }
+  .back-btn:hover { background:#eff6ff; color:#0f172a; transform:translateX(-4px); border-color: #93c5fd; }
+
+  .reveal { opacity:0; transform:translateY(40px); transition:all .7s cubic-bezier(.2,1,.3,1); }
+  .reveal.visible { opacity:1; transform:translateY(0); }
+</style>
+
+<section class="mo-hero">
+  <div class="mo-bg"></div>
+  <div class="mo-icon">💼</div>
+  <div class="mo-badge">Kurumsal Hayatta Kalma Rehberi</div>
+  <h1 class="mo-title">Mobbing <span>Kalkanı</span></h1>
+  <p class="mo-subtitle">İş yerindeki toksik yöneticiler, fikir hırsızları ve pasif-agresif çalışma arkadaşlarıyla profesyonel sınırları koruyarak nasıl başa çıkacağınızı öğrenin.</p>
+</section>
+
+<div class="mo-wrap">
+  <a href="/diksiyon?cat=mobbing" class="back-btn">← Tüm İş Yeri Manipülasyonlarını Gör (25 Madde)</a>
+
+  <!-- 💼 PASSIVE-AGGRESSIVE EMAIL DECODER 💼 -->
+  <div class="mo-card reveal">
+    <div class="section-label">📧 Pasif-Agresif Mail Çözücü</div>
+    <p style="color:#3b82f6; font-size:1.05rem; line-height:1.6; margin-bottom:30px;">
+      Kurumsal dünyada kimse açıkça "Senden nefret ediyorum ve işini yapmıyorsun" demez. Bunu e-postalar aracılığıyla "Kurumsal Dil" (Corporate Speak) kullanarak yaparlar. Gizli mesajları görmek için kelimelerin üzerine gelin.
+    </p>
+
+    <div class="mail-app">
+      <div class="mail-header">
+        <div class="mail-row"><div class="mail-lbl">From:</div><div class="mail-val">Proje Yöneticisi</div></div>
+        <div class="mail-row"><div class="mail-lbl">To:</div><div class="mail-val">Siz</div></div>
+        <div class="mail-row"><div class="mail-lbl">CC:</div><div class="mail-val cc">Genel Müdür (Büyük Patron) ⚠️</div></div>
+        <div class="mail-row"><div class="mail-lbl">Subject:</div><div class="mail-val" style="font-weight:bold;">RE: Acil Durum Raporu Hakkında Nazik Hatırlatma</div></div>
+      </div>
+      <div class="mail-body">
+        Merhaba,<br><br>
+        
+        <span class="toxic-phrase" data-meaning="Daha önce söylemiştim ama sen dinlemedin veya unuttun.">Daha önceki e-postamda da belirttiğim gibi</span>, bu raporun yarına kadar bitmesi gerekiyor. <span class="toxic-phrase" data-meaning="Sen çok meşgul numarası yapıyorsun, asıl işini yapmıyorsun.">Yoğun programınızın farkındayım</span> ancak <span class="toxic-phrase" data-meaning="Hala bitirmedin, seni yönetime şikayet ediyorum.">henüz dosyayı sistemde göremedim.</span>
+        <br><br>
+        <span class="toxic-phrase" data-meaning="Bunu ben yapmayacağım, top senin sahanda.">Lütfen bu konuyu önceliklendirelim.</span> Eğer <span class="toxic-phrase" data-meaning="İşini beceremiyorsan söyle de başkasına verelim.">bu konuda yardıma ihtiyacınız varsa</span> haber verin.
+        <br><br>
+        <span class="toxic-phrase" data-meaning="Hadi artık bitir şunu.">Saygılarımla (Best Regards),</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- 💼 CORPORATE ARMOR SIMULATOR 💼 -->
+  <div class="mo-card reveal" style="background:#0f172a; border:none;">
+    <div class="section-label" style="color:#3b82f6;">🛡️ Kurumsal Zırh Simülatörü</div>
+    <p style="color:#bfdbfe; font-size:1.05rem; line-height:1.6; margin-bottom:25px;">
+      İş yerinde manipülasyona (Mobbing, Fikir Hırsızlığı, Mikro Yönetim) uğradığınız anlarda duygularınızı kontrol etmeli ve kanıtlara dayalı "Kurumsal Dili" konuşmalısınız. Senaryoyu okuyun ve zırhınızı kuşanın.
+    </p>
+
+    <div class="armor-box">
+      <div class="armor-scenario" id="aScen">
+        "Büyük bir toplantıdasınız. Haftalarca uğraşıp hazırladığınız projeyi, takım arkadaşınız toplantı masasında sanki kendi fikriymiş gibi (Credit Stealing) Genel Müdür'e sunuyor."
+      </div>
+      
+      <div class="opt-grid" id="aOpts">
+        <button class="armor-btn" onclick="checkArmor(this, false)">A) Masada hemen araya girip, "Hayır o benim fikrimdi, sen sadece bana yardım ettin!" diyerek sinirlenmek.</button>
+        <button class="armor-btn" onclick="checkArmor(this, true)">B) Gülümserek söze girmek: "Ahmet'in, geçen hafta üzerine günlerce çalıştığım projemi bu kadar güzel özetlemesi harika. Gelin size projenin teknik detaylarını ben aktarayım."</button>
+        <button class="armor-btn" onclick="checkArmor(this, false)">C) Toplantıda sessiz kalıp, sonrasında o kişiye özelden mesaj atıp tartışmak.</button>
+      </div>
+
+      <div class="armor-feedback" id="aBack"></div>
+      <button class="next-btn" id="aNext" onclick="nextArmor()">Sonraki Krizi Çöz →</button>
+    </div>
+  </div>
+
+</div>
+
+<script>
+// 💼 Scroll Reveal
+const obs = new IntersectionObserver((entries) => {
+  entries.forEach(e => { if(e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); } });
+}, { threshold: 0.1 });
+document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+
+// 💼 Armor Logic
+const armorCases = [
+  {
+    s: '"Büyük bir toplantıdasınız. Haftalarca uğraşıp hazırladığınız projeyi, takım arkadaşınız toplantı masasında sanki kendi fikriymiş gibi (Credit Stealing) Genel Müdür\'e sunuyor."',
+    o: [
+      { t: 'A) Masada hemen araya girip, "Hayır o benim fikrimdi, sen çaldın!" diyerek sinirlenmek.', v: false },
+      { t: 'B) Gülümserek söze girmek: "Ahmet\'in, geçen hafta üzerine günlerce çalıştığım projemi bu kadar güzel özetlemesi harika. Gelin detayları ben aktarayım."', v: true },
+      { t: 'C) Toplantıda sessiz kalıp, sonrasında İK\'ya şikayet dilekçesi yazmak.', v: false }
+    ],
+    e: 'Mükemmel! Duygusal (agresif veya pasif) tepki vermek yerine, profesyonelliği bozmadan, nezaketle otoriteyi (Ethos) tekrar elinize aldınız. Fikir hırsızını "özetleyici" konumuna düşürdünüz.'
+  },
+  {
+    s: '"Mikro yönetici (Micromanager) patronunuz, yapmanız gereken işi 5 dakikada bir arayarak veya masanıza gelerek kontrol ediyor ve sürekli işinize karışıyor. Motivasyonunuz sıfırlandı."',
+    o: [
+      { t: 'A) "Bana güvenmiyorsanız neden beni işe aldınız?" diyerek tepki göstermek.', v: false },
+      { t: 'B) "Ben işimi biliyorum, bittiğinde size haber veririm" deyip telefonu sessize almak.', v: false },
+      { t: 'C) Önleyici İletişim: "Sürecin nasıl gittiğini size her akşam 17:00\'da yazılı bir rapor olarak geçeceğim, böylece sizin de zamanınızı almamış olurum" demek.', v: true }
+    ],
+    e: 'Harika Zırh! Mikro yöneticilerin en büyük sorunu "Kontrol Kaybı" korkusudur. Onlara düzenli bir akış (rapor) vaat ederek kaygılarını giderir ve sınırınızı çizersiniz.'
+  },
+  {
+    s: '"Pasif-agresif bir meslektaşınız, sadece sizin yaptığınız küçük bir hatayı büyüterek mail attı ve CC\'ye tüm departmanı (yöneticiler dahil) ekledi. Amacı sizi herkesin önünde küçük düşürmek."',
+    o: [
+      { t: 'A) "Reply All" (Tümünü Yanıtla) diyerek aynı sertlikte ve uzunlukta kendini savunan bir mail atmak.', v: false },
+      { t: 'B) Sadece o kişiye dönüp, CC\'yi çıkararak "Geri bildirimin için teşekkürler, düzeltildi." demek.', v: true },
+      { t: 'C) Maili tamamen görmezden gelip hatayı sessizce düzeltmek.', v: false }
+    ],
+    e: 'Harika! "Tümünü Yanıtla" demek manipülatörün oyununa gelmektir. Oksijeni kesmek için izleyicileri (CC) oyundan çıkarır ve duygusuz, robotik bir dille konuyu kapatırsınız.'
+  }
+];
+
+let currArmor = 0;
+
+function loadArmor() {
+  const c = armorCases[currArmor];
+  document.getElementById('aScen').innerText = c.s;
+  
+  const cont = document.getElementById('aOpts');
+  cont.innerHTML = '';
+  c.o.forEach(opt => {
+    const btn = document.createElement('button');
+    btn.className = 'armor-btn';
+    btn.innerText = opt.t;
+    btn.onclick = function() { checkArmor(this, opt.v, c.e); };
+    cont.appendChild(btn);
+  });
+  
+  document.getElementById('aBack').classList.remove('show');
+  document.getElementById('aNext').style.display = 'none';
+}
+
+function checkArmor(btn, isCorrect, explanation) {
+  const btns = document.getElementById('aOpts').querySelectorAll('.armor-btn');
+  btns.forEach(b => b.style.pointerEvents = 'none');
+  
+  const fb = document.getElementById('aBack');
+  if(isCorrect) {
+    btn.classList.add('correct');
+    fb.innerHTML = `✅ ${explanation}`;
+  } else {
+    btn.classList.add('wrong');
+    fb.innerHTML = `❌ Kurumsal hataya düştünüz. İş yerinde duygularla hareket etmek size puan kaybettirir. Mantık (Logos) zırhını kullanmalısınız.`;
+  }
+  fb.classList.add('show');
+  
+  if(currArmor < armorCases.length - 1) {
+    document.getElementById('aNext').style.display = 'inline-block';
+  } else {
+    document.getElementById('aNext').style.display = 'inline-block';
+    document.getElementById('aNext').innerText = "Tüm Kurumsal Krizleri Çözdünüz 💼";
+    document.getElementById('aNext').onclick = null;
+  }
+}
+
+function nextArmor() {
+  currArmor++;
+  loadArmor();
+}
+
+// init
+loadArmor();
+</script>
+
+<%- include('partials/main-footer') %>

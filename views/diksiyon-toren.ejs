@@ -1,0 +1,293 @@
+<%- include('partials/main-header') %>
+
+<style>
+  /* 🥂 Social Events Light Theme 🥂 */
+  body { background: #faf5ff; color: #3b0764; font-family: 'Inter', sans-serif; overflow-x: hidden; }
+
+  /* 🥂 Hero Section 🥂 */
+  .t-hero {
+    min-height: 65vh; display: flex; flex-direction: column; align-items: center; justify-content: center;
+    text-align: center; padding: 140px 24px 80px; position: relative; overflow: hidden;
+    background: radial-gradient(circle at 50% 0%, #e9d5ff 0%, #faf5ff 80%);
+  }
+  .t-hero::after { content:''; position:absolute; bottom:0; left:0; right:0; height:150px; background:linear-gradient(to top,#faf5ff,transparent); }
+
+  /* Confetti Background */
+  .t-bg { position:absolute; inset:0; overflow:hidden; pointer-events:none; z-index:0; }
+  .confetti { width: 100%; height: 100%; background-image: radial-gradient(#d8b4fe 2px, transparent 2px), radial-gradient(#c084fc 2px, transparent 2px); background-size: 60px 60px; background-position: 0 0, 30px 30px; opacity: 0.3; animation: drift 40s linear infinite; }
+  @keyframes drift { 0%{ background-position: 0 0, 30px 30px; } 100%{ background-position: 120px 120px, 150px 150px; } }
+
+  .t-icon { font-size: 5rem; margin-bottom: 24px; position:relative; z-index:2; animation: floatGlass 4s ease-in-out infinite; filter: drop-shadow(0 15px 25px rgba(124,58,237,0.3)); }
+  @keyframes floatGlass { 0%,100%{ transform:translateY(0) rotate(-5deg); } 50%{ transform:translateY(-15px) rotate(5deg); } }
+
+  .t-badge { display:inline-flex; align-items:center; gap:8px; padding:10px 28px; border-radius:40px; font-size:.9rem; font-weight:800; text-transform:uppercase; letter-spacing:3px; color: #581c87; background: #f3e8ff; border:1px solid #d8b4fe; margin-bottom:24px; z-index:2; box-shadow: 0 8px 20px rgba(124,58,237,0.15); }
+  .t-title { font-size:clamp(2.5rem,6vw,4.5rem); font-weight:900; color: #3b0764; margin-bottom:16px; line-height:1.1; letter-spacing: -1.5px; z-index:2; position:relative; }
+  .t-title span { background: linear-gradient(135deg, #9333ea, #6b21a8); -webkit-background-clip:text; -webkit-text-fill-color:transparent; }
+  .t-subtitle { color: #7e22ce; font-size:1.2rem; max-width:750px; line-height:1.8; z-index:2; position:relative; font-weight: 500; }
+
+  /* 🥂 Container 🥂 */
+  .t-wrap { max-width:1100px; margin:0 auto; padding:0 20px 100px; position:relative; z-index:10; }
+
+  /* 🥂 Premium Cards 🥂 */
+  .t-card { background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(25px); border: 1px solid rgba(124, 58, 237, 0.15); border-radius: 32px; padding: 50px; margin-bottom: 50px; transition: transform 0.4s, box-shadow 0.4s; position: relative; overflow: hidden; box-shadow: 0 20px 40px rgba(0, 0, 0, 0.04); }
+  .t-card:hover { transform: translateY(-5px); box-shadow: 0 30px 60px rgba(124, 58, 237, 0.1); border-color: rgba(124, 58, 237, 0.4); }
+  
+  .section-label { font-size:1.1rem; font-weight:800; text-transform:uppercase; letter-spacing:2px; color: #7c3aed; margin-bottom:24px; display:flex; align-items:center; gap:12px; }
+
+  /* 🥂 Event Rules (Tören Kuralları) 🥂 */
+  .event-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; }
+  .e-box { background: #fdfaef; border: 1px solid #fef08a; border-radius: 20px; padding: 30px; text-align: center; cursor: pointer; transition: all 0.3s; position: relative; overflow: hidden; }
+  .e-box::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 4px; background: linear-gradient(90deg, #9333ea, #c084fc); transform: scaleX(0); transition: transform 0.3s; }
+  .e-box:hover { transform: translateY(-5px); box-shadow: 0 15px 30px rgba(124,58,237,0.1); border-color: #d8b4fe; background: white; }
+  .e-box:hover::before { transform: scaleX(1); }
+  
+  .e-icon { font-size: 3rem; margin-bottom: 15px; }
+  .e-name { font-size: 1.3rem; font-weight: 800; color: #4c1d95; margin-bottom: 10px; }
+  .e-summary { font-size: 0.95rem; color: #6b7280; line-height: 1.5; }
+  
+  /* Details Modal (Inline) */
+  .e-details { display: none; margin-top: 30px; background: white; padding: 40px; border-radius: 24px; border: 1px solid #e9d5ff; box-shadow: 0 10px 25px rgba(0,0,0,0.05); animation: fadeUp 0.4s ease; }
+  .e-details.active { display: block; }
+  @keyframes fadeUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+  .d-title { font-size: 1.8rem; font-weight: 900; color: #4c1d95; margin-bottom: 20px; display: flex; align-items: center; gap: 10px; }
+  .d-cols { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+  .d-col h4 { font-size: 1.1rem; font-weight: 800; margin-bottom: 15px; }
+  .d-col.do h4 { color: #16a34a; }
+  .d-col.dont h4 { color: #dc2626; }
+  .d-list { list-style: none; padding: 0; }
+  .d-list li { margin-bottom: 10px; padding-left: 25px; position: relative; color: #4b5563; line-height: 1.6; }
+  .d-col.do .d-list li::before { content: '✓'; position: absolute; left: 0; color: #16a34a; font-weight: bold; }
+  .d-col.dont .d-list li::before { content: '✕'; position: absolute; left: 0; color: #dc2626; font-weight: bold; }
+
+  /* 🥂 Social Crisis Simulator 🥂 */
+  .crisis-box { background: #2e1065; border-radius: 24px; padding: 40px; color: white; position: relative; overflow: hidden; }
+  .crisis-scenario { font-size: 1.25rem; line-height: 1.8; color: #e9d5ff; margin-bottom: 30px; font-weight: 500; font-style: italic; border-left: 4px solid #a855f7; padding-left: 20px; }
+  
+  .opt-grid { display: grid; grid-template-columns: 1fr; gap: 15px; margin-bottom: 25px; }
+  .crisis-btn { padding: 16px 24px; background: rgba(255,255,255,0.05); border: 2px solid rgba(255,255,255,0.1); border-radius: 12px; font-weight: 600; font-size: 1.1rem; color: white; cursor: pointer; transition: all 0.3s; text-align: left; }
+  .crisis-btn:hover { background: rgba(255,255,255,0.1); border-color: #a855f7; }
+  .crisis-btn.correct { background: rgba(34,197,94,0.2); border-color: #22c55e; color: #bbf7d0; }
+  .crisis-btn.wrong { background: rgba(239,68,68,0.2); border-color: #ef4444; color: #fecaca; }
+
+  .crisis-feedback { min-height: 60px; font-size: 1.1rem; font-weight: 600; color: #d8b4fe; transition: all 0.3s; opacity: 0; }
+  .crisis-feedback.show { opacity: 1; }
+  .next-btn { display: inline-block; padding: 12px 24px; background: #9333ea; color: white; border: none; border-radius: 12px; font-weight: 700; cursor: pointer; transition: all 0.3s; display: none; margin-top: 15px; }
+  .next-btn:hover { background: #a855f7; transform: translateY(-2px); }
+
+  /* Back btn */
+  .back-btn { display:inline-flex; align-items:center; gap:8px; padding:12px 24px; border-radius:14px; background:#ffffff; border:2px solid #e9d5ff; color:#7c3aed; font-size:.9rem; font-weight:700; text-decoration:none; transition:all .3s; margin-bottom:40px; box-shadow: 0 4px 6px rgba(0,0,0,0.02); }
+  .back-btn:hover { background:#faf5ff; color:#4c1d95; transform:translateX(-4px); border-color: #d8b4fe; }
+
+  .reveal { opacity:0; transform:translateY(40px); transition:all .7s cubic-bezier(.2,1,.3,1); }
+  .reveal.visible { opacity:1; transform:translateY(0); }
+</style>
+
+<section class="t-hero">
+  <div class="t-bg"><div class="confetti"></div></div>
+  <div class="t-icon">🥂</div>
+  <div class="t-badge">Görgü ve Nezaket Akademisi</div>
+  <h1 class="t-title">Sosyal <span>Zarafet</span></h1>
+  <p class="t-subtitle">Düğünlerden cenazelere, iş yemeklerinden ödül törenlerine kadar özel anlarda nasıl davranmanız (ve davranmamanız) gerektiğini öğrenin. Krizleri zarafetle çözün.</p>
+</section>
+
+<div class="t-wrap">
+  <a href="/diksiyon?cat=toren" class="back-btn">← Tüm Etkinlik Protokollerini Gör (20 Madde)</a>
+
+  <!-- 🥂 EVENT RULES 🥂 -->
+  <div class="t-card reveal">
+    <div class="section-label">📜 Etkinlik ve Tören Kuralları</div>
+    <p style="color:#6b21a8; font-size:1.05rem; line-height:1.6; margin-bottom:30px;">
+      Katılacağınız etkinliğin üzerine tıklayarak "Yazısız Kuralları" ve nezaket standartlarını inceleyin.
+    </p>
+
+    <div class="event-grid">
+      <div class="e-box" onclick="showEvent('cenaze')">
+        <div class="e-icon">🥀</div>
+        <div class="e-name">Cenaze & Taziye</div>
+        <div class="e-summary">Acıyı paylaşmanın sessiz ve ağırbaşlı yolu.</div>
+      </div>
+      <div class="e-box" onclick="showEvent('dugun')">
+        <div class="e-icon">💍</div>
+        <div class="e-name">Nikah & Düğün</div>
+        <div class="e-summary">Odak noktasının gelin ve damat olduğu kutlama.</div>
+      </div>
+      <div class="e-box" onclick="showEvent('is-yemegi')">
+        <div class="e-icon">🍽️</div>
+        <div class="e-name">İş Yemeği</div>
+        <div class="e-summary">Masada sözleşmelerin gayriresmi imzalandığı anlar.</div>
+      </div>
+      <div class="e-box" onclick="showEvent('kokteyl')">
+        <div class="e-icon">🍸</div>
+        <div class="e-name">Kokteyl / Networking</div>
+        <div class="e-summary">Ayakta durarak sosyal ağ kurma sanatı.</div>
+      </div>
+    </div>
+
+    <!-- Dynamic Event Details -->
+    <div id="eDetails" class="e-details">
+      <div class="d-title" id="eTitle">🥀 Cenaze ve Taziye Protokolü</div>
+      <div class="d-cols">
+        <div class="d-col do">
+          <h4>Yapılması Gerekenler</h4>
+          <ul class="d-list" id="eDo"></ul>
+        </div>
+        <div class="d-col dont">
+          <h4>Asla Yapılmaması Gerekenler</h4>
+          <ul class="d-list" id="eDont"></ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 🥂 SOCIAL CRISIS SIMULATOR 🥂 -->
+  <div class="t-card reveal" style="background:#2e1065; border:none;">
+    <div class="section-label" style="color:#c084fc;">🎭 Sosyal Kriz Simülatörü</div>
+    <p style="color:#e9d5ff; font-size:1.05rem; line-height:1.6; margin-bottom:25px;">
+      Zarafet, işler yolunda giderken değil, bir kriz çıktığında verdiğiniz tepkiyle ölçülür. Aşağıdaki sosyal krizi okuyun ve en zarif çözümü seçin.
+    </p>
+
+    <div class="crisis-box">
+      <div class="crisis-scenario" id="cScen">
+        "Çok şık bir iş yemeğindesiniz. Garson yanlışlıkla elinizdeki kırmızı şarabı döküp beyaz gömleğinizi mahvetti. Masadaki herkes donup kaldı ve yönetici garson korkuyla donakaldı."
+      </div>
+      
+      <div class="opt-grid" id="cOpts">
+        <button class="crisis-btn" onclick="checkCrisis(this, false)">A) "Böyle rezalet olmaz, müdürünüzü çağırın hemen!" diyerek tepki göstermek.</button>
+        <button class="crisis-btn" onclick="checkCrisis(this, true)">B) Hafifçe gülümseyip "Sorun değil, leke çıkar, önemli olan kaza olmaması" diyerek ortamı yumuşatmak ve sessizce lavaboya gitmek.</button>
+        <button class="crisis-btn" onclick="checkCrisis(this, false)">C) Masadaki peçetelerle hemen telaş içinde silmeye çalışıp durumu iyice büyütmek.</button>
+      </div>
+
+      <div class="crisis-feedback" id="cBack"></div>
+      <button class="next-btn" id="cNext" onclick="nextCrisis()">Sonraki Krizi Çöz →</button>
+    </div>
+  </div>
+
+</div>
+
+<script>
+// 🥂 Scroll Reveal
+const obs = new IntersectionObserver((entries) => {
+  entries.forEach(e => { if(e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); } });
+}, { threshold: 0.1 });
+document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+
+// 🥂 Event Rules Logic
+const evData = {
+  'cenaze': {
+    t: '🥀 Cenaze ve Taziye Protokolü',
+    do: ['Koyu renkli, gösterişsiz ve sade kıyafetler giymek.', 'Taziye evinde kısa durmak (En fazla 15-20 dakika).', 'Sadece "Başınız sağ olsun, mekanı cennet olsun" gibi kısa ve teselli edici cümleler kurmak.', 'Eğer mümkünse taziye evine yemek götürmek.'],
+    dont: ['Acılı aileye "Nasıl oldu? Hastalığı neydi?" gibi detaylı ve yorucu sorular sormak.', 'Taziye evinde yüksek sesle konuşmak veya gülmek.', 'Sosyal medyada cenaze alanından izinsiz fotoğraf paylaşmak.', 'Parlak takılar takmak veya ağır parfümler sürmek.']
+  },
+  'dugun': {
+    t: '💍 Nikah ve Düğün Adabı',
+    do: ['Davetiyede belirtilen LCV (Lütfen Cevap Veriniz) kuralına mutlaka uymak.', 'Tören saatinden en az 15 dakika önce salonda olmak.', 'Gelin ve damadı tebrik ederken kısa tutmak, sırayı bekletmemek.', 'Hediye/Takı işlemini zarif ve hızlı bir şekilde halletmek.'],
+    dont: ['Sadece gelinin ayrıcalığı olan "BEYAZ" veya krem rengi elbise giymek (Kadınlar için en büyük tabudur).', 'Gelin ve damattan rol çalacak kadar abartılı kıyafetlerle gelmek.', 'Oturma planına (isimliklere) itiraz edip yer değiştirmek.', 'Pasta kesilmeden veya ana etkinlik bitmeden salondan ayrılmak.']
+  },
+  'is-yemegi': {
+    t: '🍽️ İş Yemeği Protokolü',
+    do: ['Yemeği organize eden/davet eden kişinin hesabı ödemesine (sessizce) müsaade etmek.', 'Siparişi verirken ev sahibinin (davet edenin) fiyat ortalamasına uyum sağlamak.', 'Masada peçeteyi kucağa sermek ve dik oturmak.', 'Gündem iş ise, yemeğin ana yemeği bitmeden ağır iş konularına girmemek.'],
+    dont: ['Hesap geldiğinde "Ben ödeyeceğim" kavgası yapmak (Hesap kimseyi rahatsız etmeden önceden ödenmelidir).', 'Masada telefonu masanın üzerine koymak.', 'Aşırı soslu, yemesi zor (spagetti, kabuklu deniz ürünleri) siparişler vermek.', 'Garsonlara kaba davranmak (Karakterinizin en net göstergesidir).']
+  },
+  'kokteyl': {
+    t: '🍸 Kokteyl ve Networking',
+    do: ['Yiyecek/İçecek alırken sadece bir elinizi kullanmak (Sağ el tokalaşmak için her zaman temiz ve boş kalmalıdır).', 'İsimliğinizi sağ göğsünüze takmak (Tokalaşırken göz hizasına gelir).', 'Sohbet gruplarına katılırken göz teması kurup nazikçe izin istemek.', 'Kısa süreli sohbetler edip mekanda dolaşmak (Networking amacı budur).'],
+    dont: ['Açık büfenin tam önünde durup sohbet ederek yolu kapatmak.', 'Bir kişiyi köşeye sıkıştırıp 30 dakika boyunca sadece kendi projenizi anlatmak.', 'Elinde hem tabak hem bardak varken tokalaşmaya çalışmak.', 'Davetten ayrılırken ev sahibine (Host) veda etmeden çıkmak.']
+  }
+};
+
+function showEvent(id) {
+  const d = evData[id];
+  document.getElementById('eDetails').classList.add('active');
+  document.getElementById('eTitle').innerText = d.t;
+  
+  document.getElementById('eDo').innerHTML = d.do.map(item => `<li>${item}</li>`).join('');
+  document.getElementById('eDont').innerHTML = d.dont.map(item => `<li>${item}</li>`).join('');
+  
+  // smooth scroll
+  document.getElementById('eDetails').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+}
+
+// 🥂 Crisis Logic
+const crisisCases = [
+  {
+    s: '"Çok şık bir iş yemeğindesiniz. Garson yanlışlıkla kırmızı şarabı döküp beyaz gömleğinizi mahvetti. Masadaki herkes donup kaldı ve garson korkuyla donakaldı."',
+    o: [
+      { t: 'A) "Böyle rezalet olmaz, müdürünüzü çağırın hemen!" diyerek tepki göstermek.', v: false },
+      { t: 'B) Hafifçe gülümseyip "Sorun değil, leke çıkar, önemli olan kaza olmaması" diyerek ortamı yumuşatmak ve lavaboya gitmek.', v: true },
+      { t: 'C) Masadaki peçetelerle hemen telaş içinde silmeye çalışıp durumu iyice büyütmek.', v: false }
+    ],
+    e: 'Harika bir zarafet! Gerçek klas (class), astınız konumundaki insanları zor durumda bırakmamaktır. Gülümsemeniz masadaki gerilimi sıfırlar ve liderlik (Ethos) puanınızı zirveye taşır.'
+  },
+  {
+    s: '"En yakın arkadaşınızın düğünündesiniz. Fotoğraf çekimi sırasında, damadın uzak bir akrabası sürekli sizin önünüze geçiyor ve kadrajı bozuyor."',
+    o: [
+      { t: 'A) "Hanımefendi biraz çekilir misiniz, biz en yakın arkadaşıyız!" diyerek onu uyarmak.', v: false },
+      { t: 'B) Olay çıkarmamak için sessizce en arkaya geçip fotoğraflarda hiç görünmemek.', v: false },
+      { t: 'C) Gülümseyerek "Gelin isterseniz şöyle yan yana geçelim, hepimiz sığalım" diyerek nazikçe yönlendirmek.', v: true }
+    ],
+    e: 'Mükemmel çözüm! Törenlerde "Haklı" olmak önemli değildir, önemli olan "Huzuru" korumaktır. Yönlendirme (Nudge) ile kriz çıkmadan durumu yönettiniz.'
+  },
+  {
+    s: '"Uluslararası bir ödül töreninde konuşma yapıyorsunuz. Eşinizin adını teşekkür listesinde saymayı tamamen unuttunuz ve o an eşinizle göz göze geldiniz."',
+    o: [
+      { t: 'A) Panik yapıp hızlıca "Ah eşimi unuttum" demek ve ortamı garipleştirmek.', v: false },
+      { t: 'B) Göz teması kurduğunuz an gülümseyip "Ve tabii ki, ismini sona sakladığım, bu başarımın asıl mimarı..." diyerek zarifçe bağlamak.', v: true },
+      { t: 'C) Konuşmayı olduğu gibi bitirip, sahne arkasında özür dilemek.', v: false }
+    ],
+    e: 'Çok zekice! Unutkanlığı bir "Sahne Sanatı"na (Showmanship) dönüştürerek durumu kurtardınız. Krizler, iyi yönetilirse fırsata dönüşür.'
+  }
+];
+
+let currCrisis = 0;
+
+function loadCrisis() {
+  const c = crisisCases[currCrisis];
+  document.getElementById('cScen').innerText = c.s;
+  
+  const cont = document.getElementById('cOpts');
+  cont.innerHTML = '';
+  c.o.forEach(opt => {
+    const btn = document.createElement('button');
+    btn.className = 'crisis-btn';
+    btn.innerText = opt.t;
+    btn.onclick = function() { checkCrisis(this, opt.v, c.e); };
+    cont.appendChild(btn);
+  });
+  
+  document.getElementById('cBack').classList.remove('show');
+  document.getElementById('cNext').style.display = 'none';
+}
+
+function checkCrisis(btn, isCorrect, explanation) {
+  const btns = document.getElementById('cOpts').querySelectorAll('.crisis-btn');
+  btns.forEach(b => b.style.pointerEvents = 'none');
+  
+  const cb = document.getElementById('cBack');
+  if(isCorrect) {
+    btn.classList.add('correct');
+    cb.innerHTML = `✅ ${explanation}`;
+  } else {
+    btn.classList.add('wrong');
+    cb.innerHTML = `❌ Gaf yaptınız. Sosyal krizlerde amaç haklı çıkmak değil, durumu zarifçe kurtarmaktır.`;
+  }
+  cb.classList.add('show');
+  
+  if(currCrisis < crisisCases.length - 1) {
+    document.getElementById('cNext').style.display = 'inline-block';
+  } else {
+    document.getElementById('cNext').style.display = 'inline-block';
+    document.getElementById('cNext').innerText = "Tüm Krizleri Zarafetle Çözdünüz 🥂";
+    document.getElementById('cNext').onclick = null;
+  }
+}
+
+function nextCrisis() {
+  currCrisis++;
+  loadCrisis();
+}
+
+// init
+loadCrisis();
+</script>
+
+<%- include('partials/main-footer') %>

@@ -1,0 +1,238 @@
+<%- include('partials/main-header') %>
+
+<style>
+  /* 🌟 Masterclass Academy Light Theme 🌟 */
+  body { background: #fdfdfd; color: #1e293b; font-family: 'Inter', sans-serif; overflow-x: hidden; }
+
+  /* 🌟 Hero Section 🌟 */
+  .mc-hero {
+    min-height: 65vh; display: flex; flex-direction: column; align-items: center; justify-content: center;
+    text-align: center; padding: 140px 24px 80px; position: relative; overflow: hidden;
+    background: radial-gradient(circle at 50% 0%, #fef3c7 0%, #fdfdfd 80%);
+  }
+  .mc-hero::after { content:''; position:absolute; bottom:0; left:0; right:0; height:150px; background:linear-gradient(to top,#fdfdfd,transparent); }
+
+  /* Premium Gold/Royal Background */
+  .mc-bg { position:absolute; inset:0; overflow:hidden; pointer-events:none; z-index:0; }
+  .mc-shape { position:absolute; background: linear-gradient(135deg, rgba(234, 179, 8, 0.1), rgba(245, 158, 11, 0.1)); border-radius: 40px; transform: rotate(45deg); }
+  .sh-1 { width: 400px; height: 400px; left: -100px; top: -100px; animation: floatMaster 12s ease-in-out infinite; }
+  .sh-2 { width: 500px; height: 500px; right: -150px; bottom: -50px; animation: floatMaster 15s ease-in-out infinite reverse; }
+
+  @keyframes floatMaster { 0%,100%{ transform:translateY(0) rotate(45deg); } 50%{ transform:translateY(-40px) rotate(50deg); } }
+
+  .mc-icon { font-size: 5rem; margin-bottom: 24px; position:relative; z-index:2; animation: glowCrown 3s infinite alternate; filter: drop-shadow(0 10px 20px rgba(234,179,8,0.4)); }
+  @keyframes glowCrown { 0%{ transform: scale(1); } 100%{ transform: scale(1.1); } }
+
+  .mc-badge { display:inline-flex; align-items:center; gap:8px; padding:10px 28px; border-radius:40px; font-size:.9rem; font-weight:800; text-transform:uppercase; letter-spacing:3px; color: #b45309; background: #fef3c7; border:1px solid #fde68a; margin-bottom:24px; z-index:2; box-shadow: 0 8px 20px rgba(234,179,8,0.15); }
+  .mc-title { font-size:clamp(2.5rem,6vw,4.5rem); font-weight:900; color: #0f172a; margin-bottom:16px; line-height:1.1; letter-spacing: -1.5px; z-index:2; position:relative; }
+  .mc-title span { background: linear-gradient(135deg, #eab308, #d97706); -webkit-background-clip:text; -webkit-text-fill-color:transparent; }
+  .mc-subtitle { color: #475569; font-size:1.2rem; max-width:800px; line-height:1.8; z-index:2; position:relative; }
+
+  /* 🌟 Container 🌟 */
+  .mc-wrap { max-width:1100px; margin:0 auto; padding:0 20px 100px; position:relative; z-index:10; }
+
+  /* 🌟 Premium Cards 🌟 */
+  .mc-card { background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(25px); border: 1px solid rgba(234, 179, 8, 0.3); border-radius: 32px; padding: 50px; margin-bottom: 50px; transition: transform 0.4s, box-shadow 0.4s; position: relative; overflow: hidden; box-shadow: 0 20px 40px rgba(0, 0, 0, 0.05); }
+  .mc-card:hover { transform: translateY(-5px); box-shadow: 0 30px 60px rgba(234, 179, 8, 0.1); border-color: rgba(234, 179, 8, 0.6); }
+  
+  .section-label { font-size:1.1rem; font-weight:800; text-transform:uppercase; letter-spacing:2px; color: #d97706; margin-bottom:24px; display:flex; align-items:center; gap:12px; }
+
+  /* 🌟 Aristoteles İkna Üçgeni (Ethos/Pathos/Logos) 🌟 */
+  .triangle-box { display: flex; flex-direction: column; gap: 30px; background: #fffbeb; padding: 40px; border-radius: 24px; border: 2px dashed #fde68a; }
+  .t-row { display: flex; align-items: center; gap: 20px; flex-wrap: wrap; }
+  .t-label { width: 150px; font-weight: 800; font-size: 1.1rem; color: #1e293b; display: flex; align-items: center; gap: 8px; }
+  .t-slider { flex: 1; -webkit-appearance: none; height: 12px; border-radius: 6px; outline: none; }
+  
+  /* Colored Sliders */
+  #ethosSlider { background: linear-gradient(90deg, #e0f2fe, #0ea5e9); }
+  #pathosSlider { background: linear-gradient(90deg, #ffe4e6, #f43f5e); }
+  #logosSlider { background: linear-gradient(90deg, #dbeafe, #3b82f6); }
+  
+  .t-slider::-webkit-slider-thumb { -webkit-appearance: none; width: 28px; height: 28px; border-radius: 50%; background: white; border: 4px solid #334155; cursor: pointer; transition: transform 0.2s; }
+  .t-slider::-webkit-slider-thumb:hover { transform: scale(1.2); }
+  
+  .result-banner { padding: 25px; border-radius: 16px; background: white; border: 2px solid #e2e8f0; font-size: 1.15rem; font-weight: 700; color: #334155; line-height: 1.6; transition: all 0.3s; }
+  .result-banner.perfect { background: #ecfdf5; border-color: #10b981; color: #065f46; box-shadow: 0 10px 20px rgba(16,185,129,0.1); }
+
+  /* 🌟 Konuşma Türü Tasarımcısı (Speech Builder) 🌟 */
+  .builder-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; }
+  .b-col { display: flex; flex-direction: column; gap: 15px; }
+  .b-title { font-weight: 800; color: #b45309; margin-bottom: 10px; font-size: 1.1rem; }
+  .b-select { width: 100%; padding: 15px; border-radius: 12px; border: 2px solid #fde68a; background: white; font-size: 1.05rem; font-weight: 600; color: #334155; cursor: pointer; outline: none; transition: border-color 0.3s; }
+  .b-select:focus { border-color: #d97706; }
+  
+  .speech-preview { margin-top: 30px; background: #1e293b; color: white; padding: 30px; border-radius: 20px; box-shadow: 0 15px 30px rgba(0,0,0,0.15); position: relative; }
+  .speech-preview::before { content: '🎙️'; position: absolute; top: -20px; right: 30px; font-size: 3rem; background: #1e293b; border-radius: 50%; padding: 10px; box-shadow: 0 5px 15px rgba(0,0,0,0.2); }
+  .preview-text { font-size: 1.25rem; font-style: italic; line-height: 1.8; color: #e2e8f0; }
+
+  /* Category Grid Links */
+  .cat-links { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin-bottom: 40px; }
+  .cat-link { padding: 15px 20px; border-radius: 16px; background: white; border: 2px solid #e2e8f0; color: #475569; font-weight: 800; text-decoration: none; display: flex; align-items: center; justify-content: space-between; transition: all 0.3s; }
+  .cat-link:hover { transform: translateY(-3px); border-color: #d97706; color: #d97706; box-shadow: 0 10px 20px rgba(217,119,6,0.1); }
+
+  .reveal { opacity:0; transform:translateY(40px); transition:all .7s cubic-bezier(.2,1,.3,1); }
+  .reveal.visible { opacity:1; transform:translateY(0); }
+</style>
+
+<section class="mc-hero">
+  <div class="mc-bg">
+    <div class="mc-shape sh-1"></div>
+    <div class="mc-shape sh-2"></div>
+  </div>
+  <div class="mc-icon">👑</div>
+  <div class="mc-badge">Hitabet ve İkna Masterclass</div>
+  <h1 class="mc-title">Liderlerin <span>Sırrı</span></h1>
+  <p class="mc-subtitle">Atatürk, Gandhi, Mandela gibi liderlerin kitleleri nasıl sürüklediğini, Aristoteles'in ikna üçgenini ve 15 farklı konuşma türünü (TED, Mezuniyet, Pitch) saniye saniye analiz edin. Toplam 125 Dev Egzersiz!</p>
+</section>
+
+<div class="mc-wrap">
+
+  <div class="cat-links">
+    <a href="/diksiyon?cat=konusma_turleri" class="cat-link">🎙️ Konuşma Türleri <span>→</span></a>
+    <a href="/diksiyon?cat=ethos" class="cat-link">🏛️ Ethos (Güven) <span>→</span></a>
+    <a href="/diksiyon?cat=pathos" class="cat-link">🎭 Pathos (Duygu) <span>→</span></a>
+    <a href="/diksiyon?cat=logos" class="cat-link">📊 Logos (Mantık) <span>→</span></a>
+    <a href="/diksiyon?cat=ikna" class="cat-link">🧲 İkna Psikolojisi <span>→</span></a>
+    <a href="/diksiyon?cat=konusma_yazimi" class="cat-link">✍️ Konuşma Yazımı <span>→</span></a>
+    <a href="/diksiyon?cat=analiz" class="cat-link">🎬 Büyük Analizler <span>→</span></a>
+  </div>
+
+  <!-- 🌟 ARISTO IKNA UCGENI 🌟 -->
+  <div class="mc-card reveal">
+    <div class="section-label">🏛️ Aristoteles İkna Üçgeni Analizörü</div>
+    <p style="color:#475569; font-size:1.05rem; line-height:1.6; margin-bottom:25px;">
+      İyi bir konuşma asla tek boyutlu değildir. Kim olduğunuz (Ethos), dinleyicide yarattığınız his (Pathos) ve sunduğunuz veriler (Logos) mükemmel bir dengede olmalıdır. Kaydırıcıları ayarlayarak konuşmanızın kimyasını görün.
+    </p>
+
+    <div class="triangle-box">
+      <div class="t-row">
+        <div class="t-label">🏛️ ETHOS <br><small style="font-size:0.8rem; color:#64748b; font-weight:600;">(Güvenilirlik/Otorite)</small></div>
+        <input type="range" id="ethosSlider" class="t-slider" min="0" max="100" value="30" oninput="calculatePersuasion()">
+        <div style="font-weight:900; width:40px; text-align:right;" id="ethosVal">30%</div>
+      </div>
+      <div class="t-row">
+        <div class="t-label">🎭 PATHOS <br><small style="font-size:0.8rem; color:#64748b; font-weight:600;">(Duygu/Empati)</small></div>
+        <input type="range" id="pathosSlider" class="t-slider" min="0" max="100" value="30" oninput="calculatePersuasion()">
+        <div style="font-weight:900; width:40px; text-align:right;" id="pathosVal">30%</div>
+      </div>
+      <div class="t-row">
+        <div class="t-label">📊 LOGOS <br><small style="font-size:0.8rem; color:#64748b; font-weight:600;">(Mantık/Veri)</small></div>
+        <input type="range" id="logosSlider" class="t-slider" min="0" max="100" value="80" oninput="calculatePersuasion()">
+        <div style="font-weight:900; width:40px; text-align:right;" id="logosVal">80%</div>
+      </div>
+      
+      <div id="persuasionResult" class="result-banner">
+        "Robotik ve Sıkıcı." İnsanlar sadece rakamlara (Logos) inanmazlar. Güven (Ethos) ve duygu (Pathos) olmadan veriler kalbe inmez.
+      </div>
+    </div>
+  </div>
+
+  <!-- 🌟 KONUSMA BUILDER 🌟 -->
+  <div class="mc-card reveal">
+    <div class="section-label">🏗️ Dinamik Konuşma Tasarımcısı</div>
+    <p style="color:#475569; font-size:1.05rem; line-height:1.6; margin-bottom:25px;">
+      15 farklı konuşma türü için en iyi açılışı (Hook), gövdeyi (Body) ve kapanışı (CTA) birleştirerek konuşma iskeletinizi saniyeler içinde oluşturun.
+    </p>
+
+    <div class="builder-grid">
+      <div class="b-col">
+        <div class="b-title">1. Türü Seçin (Format)</div>
+        <select class="b-select" id="selType" onchange="buildSpeech()">
+          <option value="ted">TED Tarzı (İlham)</option>
+          <option value="pitch">Yatırımcı (Pitch Deck)</option>
+          <option value="kriz">Kriz Yönetimi (Basın)</option>
+        </select>
+      </div>
+      <div class="b-col">
+        <div class="b-title">2. Açılış (Hook) Seçin</div>
+        <select class="b-select" id="selHook" onchange="buildSpeech()">
+          <option value="soru">Çarpıcı Bir Soru</option>
+          <option value="istatistik">Şok Edici Veri</option>
+          <option value="hikaye">Kişisel Bir Hikaye</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="speech-preview">
+      <div class="preview-text" id="speechOut">
+        "Hayatınızın en önemli kararını verirken sadece 3 saniyeniz olsaydı ne yapardınız? (Soru Açılışı)... Bugün buraya size sadece yeni bir fikir değil, dünyayı nasıl değiştirebileceğimizin haritasını sunmaya geldim. (TED Formatı)..."
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+// 🌟 Scroll Reveal
+const obs = new IntersectionObserver((entries) => {
+  entries.forEach(e => { if(e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); } });
+}, { threshold: 0.1 });
+document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+
+// 🌟 Aristoteles Logic
+function calculatePersuasion() {
+  const e = parseInt(document.getElementById('ethosSlider').value);
+  const p = parseInt(document.getElementById('pathosSlider').value);
+  const l = parseInt(document.getElementById('logosSlider').value);
+  
+  document.getElementById('ethosVal').innerText = e + "%";
+  document.getElementById('pathosVal').innerText = p + "%";
+  document.getElementById('logosVal').innerText = l + "%";
+  
+  const res = document.getElementById('persuasionResult');
+  res.className = 'result-banner'; // reset
+  
+  if(e > 70 && p > 70 && l > 70) {
+    res.innerText = "🌟 MÜKEMMEL DENGE! İnsanlar size güveniyor (Ethos), kalplerine dokundunuz (Pathos) ve mantıklarına veriyle (Logos) hitap ettiniz. İkna ihtimaliniz %100.";
+    res.classList.add('perfect');
+  } 
+  else if(p > 80 && l < 30) {
+    res.innerText = "🎭 Duygu Sömürüsü: İnsanları ağlattınız veya aşırı gaza getirdiniz ama hiçbir kanıt (Logos) sunmadınız. Salon dışına çıkınca etkiniz silinir.";
+  }
+  else if(l > 80 && p < 30) {
+    res.innerText = "📊 Robotik Sunum: Harika Excel tablolarınız var ama insanlar bilgisayar değildir. Duygu (Pathos) olmadan aksiyona geçmezler.";
+  }
+  else if(e < 30) {
+    res.innerText = "🏛️ Güven Eksikliği: Ne kadar duygu veya mantık katarsanız katın, dinleyici sizin o sahnede olmayı hak etmediğinizi (Ethos) düşünüyor.";
+  }
+  else {
+    res.innerText = "Sıradan bir konuşma. Dinleyiciler telefonlarına bakmaya başladı. Üçgenin dengesini sağlamak için değerleri yükseltin.";
+  }
+}
+
+// 🌟 Builder Logic
+const speechDict = {
+  ted: { 
+    soru: '"Hiç kendi zihninizde tutsak kaldığınızı hissettiniz mi?" Bugün bu hapishanenin kapısını nasıl kıracağımızı konuşacağız.',
+    istatistik: '"Şu an bu salondaki insanların %80\'i nefes almayı bilmiyor." Size beynin gizli kodunu vereceğim.',
+    hikaye: '"O gece yağmur yağarken cebimde sadece 5 dolar vardı..." Hayat beni en dibe vurduğunda yükselmeyi öğrendim.'
+  },
+  pitch: {
+    soru: '"Neden hepimiz günde 3 saatimizi trafikte israf ediyoruz?" Sizi bu sorunu sonsuza dek çözen uygulamamızla tanıştırayım.',
+    istatistik: '"Pazar büyüklüğü tam 50 Milyar Dolar. Biz sadece %1\'ini istiyoruz." Ve bunu nasıl yapacağımızın ürünü masada.',
+    hikaye: '"Annem her gün bu sorunu yaşıyordu..." Bu kişisel acıdan yola çıkarak devasa bir B2B platformu yarattık.'
+  },
+  kriz: {
+    soru: '"Böylesine bir faciada kimin hatalı olduğunu sormak en doğal hakkınız." Biz bugün hesap vermeye geldik.',
+    istatistik: '"Sistemimize dün gece tam 3 Milyon siber saldırı gerçekleşti." Ne yazık ki duvarımız aşıldı, sorumluluğu alıyoruz.',
+    hikaye: '"Şirketimizi kurduğumuz o ilk gün bir söz vermiştik: Asla kaliteyi feda etmeyeceğiz..." Bugün bu sözü tutamadık. Özür dileriz.'
+  }
+};
+
+function buildSpeech() {
+  const type = document.getElementById('selType').value;
+  const hook = document.getElementById('selHook').value;
+  
+  const text = speechDict[type][hook];
+  
+  // Add generic Body and CTA based on type
+  let bodyAndCta = "";
+  if(type === 'ted') bodyAndCta = " [Beden: Fikri destekleyen 3 argüman ve bilimsel kanıt]. \n\nKapanış: Artık dünyayı değiştirmek sizin elinizde. Harekete geçin!";
+  if(type === 'pitch') bodyAndCta = " [Beden: Problem -> Çözüm -> İş Modeli -> Ekip]. \n\nKapanış: Bizimle bu devrimin bir parçası olun, yatırıma katılın.";
+  if(type === 'kriz') bodyAndCta = " [Beden: Olayın detayı -> Şeffaf itiraf -> Çözüm için atılan adımlar]. \n\nKapanış: Güveninizi sarsmış olabiliriz, ancak bunu tekrar kazanmak için gece gündüz çalışacağız.";
+  
+  document.getElementById('speechOut').innerText = text + bodyAndCta;
+}
+</script>
+
+<%- include('partials/main-footer') %>

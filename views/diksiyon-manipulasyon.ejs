@@ -1,0 +1,252 @@
+<%- include('partials/main-header') %>
+
+<style>
+  /* 🐍 Dark Psychology Defense Theme 🐍 */
+  body { background: #f0fdfa; color: #134e4a; font-family: 'Inter', sans-serif; overflow-x: hidden; }
+
+  /* 🐍 Hero Section 🐍 */
+  .m-hero {
+    min-height: 65vh; display: flex; flex-direction: column; align-items: center; justify-content: center;
+    text-align: center; padding: 140px 24px 80px; position: relative; overflow: hidden;
+    background: radial-gradient(circle at 50% 0%, #ccfbf1 0%, #f0fdfa 80%);
+  }
+  .m-hero::after { content:''; position:absolute; bottom:0; left:0; right:0; height:150px; background:linear-gradient(to top,#f0fdfa,transparent); }
+
+  /* Radar/Web Background */
+  .m-bg { position:absolute; inset:0; overflow:hidden; pointer-events:none; z-index:0; opacity: 0.15; background-image: radial-gradient(circle, #0f766e 1px, transparent 1px); background-size: 40px 40px; animation: pulseRadar 10s ease-in-out infinite alternate; }
+  @keyframes pulseRadar { 0% { transform: scale(1); opacity: 0.1; } 100% { transform: scale(1.1); opacity: 0.25; } }
+
+  .m-icon { font-size: 5rem; margin-bottom: 24px; position:relative; z-index:2; animation: floatEye 5s ease-in-out infinite; filter: drop-shadow(0 15px 25px rgba(15,118,110,0.3)); }
+  @keyframes floatEye { 0%,100%{ transform:translateY(0) scale(1); } 50%{ transform:translateY(-15px) scale(1.05); } }
+
+  .m-badge { display:inline-flex; align-items:center; gap:8px; padding:10px 28px; border-radius:40px; font-size:.9rem; font-weight:800; text-transform:uppercase; letter-spacing:3px; color: #0f766e; background: #ccfbf1; border:1px solid #5eead4; margin-bottom:24px; z-index:2; box-shadow: 0 8px 20px rgba(15,118,110,0.15); }
+  .m-title { font-size:clamp(2.5rem,6vw,4.5rem); font-weight:900; color: #134e4a; margin-bottom:16px; line-height:1.1; letter-spacing: -1.5px; z-index:2; position:relative; }
+  .m-title span { background: linear-gradient(135deg, #059669, #0f766e); -webkit-background-clip:text; -webkit-text-fill-color:transparent; }
+  .m-subtitle { color: #0d9488; font-size:1.2rem; max-width:750px; line-height:1.8; z-index:2; position:relative; font-weight: 500; }
+
+  /* 🐍 Container 🐍 */
+  .m-wrap { max-width:1100px; margin:0 auto; padding:0 20px 100px; position:relative; z-index:10; }
+
+  /* 🐍 Premium Cards 🐍 */
+  .m-card { background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(25px); border: 1px solid rgba(15, 118, 110, 0.2); border-radius: 32px; padding: 50px; margin-bottom: 50px; transition: transform 0.4s, box-shadow 0.4s; position: relative; overflow: hidden; box-shadow: 0 20px 40px rgba(0, 0, 0, 0.04); }
+  .m-card:hover { transform: translateY(-5px); box-shadow: 0 30px 60px rgba(15, 118, 110, 0.1); border-color: rgba(15, 118, 110, 0.4); }
+  
+  .section-label { font-size:1.1rem; font-weight:800; text-transform:uppercase; letter-spacing:2px; color: #0f766e; margin-bottom:24px; display:flex; align-items:center; gap:12px; }
+
+  /* 🐍 Toxic Message Radar (Chat UI) 🐍 */
+  .chat-box { background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 24px; padding: 30px; display: flex; flex-direction: column; gap: 20px; }
+  .chat-bubble { max-width: 80%; padding: 18px 24px; border-radius: 20px; font-size: 1.15rem; line-height: 1.6; position: relative; box-shadow: 0 4px 6px rgba(0,0,0,0.02); }
+  .chat-bubble.toxic { background: #fee2e2; color: #991b1b; border: 1px solid #fecaca; border-bottom-left-radius: 0; align-self: flex-start; }
+  .chat-bubble.toxic::before { content: 'Toxic Sender'; position: absolute; top: -20px; left: 10px; font-size: 0.8rem; font-weight: 700; color: #ef4444; }
+  
+  .tactic-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin-top: 20px; }
+  .tac-btn { padding: 15px; background: white; border: 2px solid #5eead4; border-radius: 12px; font-weight: 700; color: #0f766e; cursor: pointer; transition: all 0.3s; text-align: center; }
+  .tac-btn:hover { background: #ccfbf1; transform: translateY(-2px); }
+  .tac-btn.correct { background: #22c55e; color: white; border-color: #16a34a; }
+  .tac-btn.wrong { background: #ef4444; color: white; border-color: #dc2626; }
+
+  .chat-feedback { min-height: 50px; font-size: 1.05rem; font-weight: 600; color: #0d9488; margin-top: 15px; opacity: 0; transition: opacity 0.3s; }
+  .chat-feedback.show { opacity: 1; }
+  .next-chat-btn { display: inline-block; padding: 10px 20px; background: #0f766e; color: white; border: none; border-radius: 10px; font-weight: 700; cursor: pointer; display: none; margin-top: 10px; }
+
+  /* 🐍 Grey Rock Simulator 🐍 */
+  .gr-box { background: #134e4a; border-radius: 24px; padding: 40px; color: white; text-align: center; }
+  .gr-stone { font-size: 4rem; margin-bottom: 20px; animation: shake 5s infinite; display: inline-block; }
+  @keyframes shake { 0%, 100% {transform: rotate(0deg);} 25% {transform: rotate(5deg);} 75% {transform: rotate(-5deg);} }
+  
+  .gr-prompt { font-size: 1.3rem; color: #ccfbf1; font-weight: 600; margin-bottom: 30px; font-style: italic; }
+  
+  .gr-opts { display: flex; flex-direction: column; gap: 15px; max-width: 600px; margin: 0 auto; }
+  .gr-btn { padding: 16px; background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); border-radius: 12px; color: white; font-size: 1.1rem; font-weight: 600; cursor: pointer; transition: all 0.3s; }
+  .gr-btn:hover { background: rgba(255,255,255,0.2); border-color: #5eead4; }
+  .gr-btn.gr-correct { background: #64748b; color: white; border-color: #475569; } /* Gri kaya rengi */
+  .gr-btn.gr-wrong { background: #ef4444; color: white; border-color: #dc2626; }
+  
+  .gr-feedback { margin-top: 25px; font-size: 1.1rem; color: #5eead4; min-height: 40px; opacity: 0; }
+  .gr-feedback.show { opacity: 1; }
+
+  /* Back btn */
+  .back-btn { display:inline-flex; align-items:center; gap:8px; padding:12px 24px; border-radius:14px; background:#ffffff; border:2px solid #ccfbf1; color:#0f766e; font-size:.9rem; font-weight:700; text-decoration:none; transition:all .3s; margin-bottom:40px; box-shadow: 0 4px 6px rgba(0,0,0,0.02); }
+  .back-btn:hover { background:#f0fdfa; color:#134e4a; transform:translateX(-4px); border-color: #5eead4; }
+
+  .reveal { opacity:0; transform:translateY(40px); transition:all .7s cubic-bezier(.2,1,.3,1); }
+  .reveal.visible { opacity:1; transform:translateY(0); }
+</style>
+
+<section class="m-hero">
+  <div class="m-bg"></div>
+  <div class="m-icon">👁️‍🗨️</div>
+  <div class="m-badge">Zihinsel Savunma Sanatları</div>
+  <h1 class="m-title">Psikolojik <span>Kalkan</span></h1>
+  <p class="m-subtitle">Narsistleri, manipülatörleri ve toksik iletişimcileri durdurun. Gizli manipülasyon taktiklerini (Gaslighting, DARVO, Yansıtma) radarınızla tespit edip duygusal sınırlarınızı korumayı öğrenin.</p>
+</section>
+
+<div class="m-wrap">
+  <a href="/diksiyon?cat=manipulasyon" class="back-btn">← Tüm Savunma Taktiklerini Gör (24 Madde)</a>
+
+  <!-- 🐍 TOXIC MESSAGE RADAR 🐍 -->
+  <div class="m-card reveal">
+    <div class="section-label">📡 Zehirli İletişim Radarı</div>
+    <p style="color:#0d9488; font-size:1.05rem; line-height:1.6; margin-bottom:30px;">
+      Aşağıdaki mesajda (veya cümlede) karşı tarafın size uyguladığı "Karanlık Psikoloji" taktiğini tespit edin. Bu yetenek, tuzağa düşmeden önce sınırı çizmenizi sağlar.
+    </p>
+
+    <div class="chat-box">
+      <div class="chat-bubble toxic" id="cMsg">
+        "Sen bu kadar alıngan olmasaydın, ben de o kelimeyi kullanmak zorunda kalmazdım. Bütün kavgayı sen başlattın."
+      </div>
+      
+      <div class="tactic-grid" id="cOpts">
+        <!-- Buttons injected via JS -->
+      </div>
+      
+      <div class="chat-feedback" id="cBack"></div>
+      <button class="next-chat-btn" id="cNext" onclick="nextChat()">Sıradaki Mesajı Tara 🔍</button>
+    </div>
+  </div>
+
+  <!-- 🐍 GREY ROCK SIMULATOR 🐍 -->
+  <div class="m-card reveal" style="background:#134e4a; border:none;">
+    <div class="section-label" style="color:#5eead4;">🪨 Gri Kaya (Grey Rock) Simülatörü</div>
+    <p style="color:#ccfbf1; font-size:1.05rem; line-height:1.6; margin-bottom:25px;">
+      Manipülatörler dramadan ve duygusal tepkilerinizden beslenir. Onları durdurmanın tek yolu sıkıcı, donuk ve tepkisiz bir "Gri Kaya"ya dönüşmektir. Gelen provokasyona en gri tepkiyi verin.
+    </p>
+
+    <div class="gr-box">
+      <div class="gr-stone">🪨</div>
+      <div class="gr-prompt" id="gMsg">
+        Provokatör: "Her zamanki gibi yine bencilce davranıyorsun. Hiçbir zaman beni düşünmüyorsun, sen sadece kendini seversin!"
+      </div>
+      
+      <div class="gr-opts" id="gOpts">
+        <button class="gr-btn" onclick="checkGr(this, false)">A) "Asıl sen bencilsin! Geçen hafta senin için neler yaptığımı unuttun mu?" (Açıklama / Savunma)</button>
+        <button class="gr-btn" onclick="checkGr(this, true)">B) "Öyle düşünmene üzüldüm. Benim diyeceklerim bu kadar." (Duygusal Kopuş / Gri Kaya)</button>
+        <button class="gr-btn" onclick="checkGr(this, false)">C) "Lütfen böyle söyleme, gerçekten seni incitmek istemedim." (Yalvarma / Besleme)</button>
+      </div>
+
+      <div class="gr-feedback" id="gBack"></div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+// 🐍 Scroll Reveal
+const obs = new IntersectionObserver((entries) => {
+  entries.forEach(e => { if(e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); } });
+}, { threshold: 0.1 });
+document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+
+// 🐍 Toxic Radar Logic
+const chats = [
+  {
+    msg: '"Sen bu kadar alıngan ve sorunlu olmasaydın, ben de o kelimeyi kullanmak zorunda kalmazdım. Bütün kavgayı sen başlattın."',
+    opts: [
+      { t: 'Love Bombing', v: false },
+      { t: 'Blame Shifting (Suç Atma)', v: true },
+      { t: 'Hoovering', v: false },
+      { t: 'Isolation', v: false }
+    ],
+    exp: 'Doğru Tespit! Kendi yaptığı kötü eylemin sorumluluğunu almayıp, bunu "Senin yüzünden yaptım" diyerek faturayı size kesiyor.'
+  },
+  {
+    msg: '"Ben sana öyle bir şey söylemedim. Uyduruyorsun. Hafıza sorunların mı var senin? Psikolojin bozulmuş iyice."',
+    opts: [
+      { t: 'Triangulation', v: false },
+      { t: 'Gaslighting', v: true },
+      { t: 'Breadcrumbing', v: false },
+      { t: 'Future Faking', v: false }
+    ],
+    exp: 'Kesinlikle! Sizin gerçeklik algınızı (hafızanızı) sorgulatarak kendi yalanını örtbas etme çabası (Gaslighting).'
+  },
+  {
+    msg: '"(Eski sevgiliden 6 ay sonra gelen mesaj): Dün gece rüyamda seni gördüm, umarım iyisindir. O günleri çok özlüyorum..."',
+    opts: [
+      { t: 'Hoovering (Emme)', v: true },
+      { t: 'Stonewalling', v: false },
+      { t: 'DARVO', v: false },
+      { t: 'Word Salad', v: false }
+    ],
+    exp: 'Harika! Elektrikli süpürge (Hoover) gibi, sizi terk ettikten/ayrıldıktan çok sonra aniden duygusal bir kancayla geri çekme taktiğidir.'
+  },
+  {
+    msg: '"(Sorulan net bir soruya karşılık): Gökyüzü mavi olduğu için o gün oraya gitmedim, zaten bankalar da kapalıydı, üstelik sen de kahve içmiyorsun, anlıyor musun?"',
+    opts: [
+      { t: 'Projection', v: false },
+      { t: 'Ghosting', v: false },
+      { t: 'Word Salad (Kelime Salatası)', v: true },
+      { t: 'Benching', v: false }
+    ],
+    exp: 'Buldunuz! Tamamen anlamsız, birbiriyle alakasız kelimeleri art arda dizerek kafa karıştırmak ve sizi konunun özünden uzaklaştırmak.'
+  }
+];
+
+let currChat = 0;
+
+function loadChat() {
+  const c = chats[currChat];
+  document.getElementById('cMsg').innerText = c.msg;
+  
+  const cont = document.getElementById('cOpts');
+  cont.innerHTML = '';
+  c.opts.forEach(o => {
+    const btn = document.createElement('button');
+    btn.className = 'tac-btn';
+    btn.innerText = o.t;
+    btn.onclick = function() { checkChat(this, o.v, c.exp); };
+    cont.appendChild(btn);
+  });
+  
+  document.getElementById('cBack').classList.remove('show');
+  document.getElementById('cNext').style.display = 'none';
+}
+
+function checkChat(btn, isCorrect, exp) {
+  const btns = document.getElementById('cOpts').querySelectorAll('.tac-btn');
+  btns.forEach(b => b.style.pointerEvents = 'none');
+  
+  const cb = document.getElementById('cBack');
+  if(isCorrect) {
+    btn.classList.add('correct');
+    cb.innerHTML = `🛡️ <strong>Kalkan Aktif!</strong> ${exp}`;
+  } else {
+    btn.classList.add('wrong');
+    cb.innerHTML = `⚠️ Yanlış Tespit. Manipülatörler taktiklerinin anlaşılamamasına güvenirler. Lütfen tanımları tekrar okuyun.`;
+  }
+  cb.classList.add('show');
+  
+  if(currChat < chats.length - 1) {
+    document.getElementById('cNext').style.display = 'inline-block';
+  } else {
+    document.getElementById('cNext').style.display = 'inline-block';
+    document.getElementById('cNext').innerText = "Tüm Radarları Temizlediniz 🐍";
+    document.getElementById('cNext').onclick = null;
+  }
+}
+
+function nextChat() {
+  currChat++;
+  loadChat();
+}
+
+// init
+loadChat();
+
+// 🐍 Grey Rock Logic
+function checkGr(btn, isCorrect) {
+  const btns = document.getElementById('gOpts').querySelectorAll('.gr-btn');
+  btns.forEach(b => b.style.pointerEvents = 'none');
+  
+  const fb = document.getElementById('gBack');
+  if(isCorrect) {
+    btn.classList.add('gr-correct');
+    fb.innerHTML = `🪨 Başarılı! Duygusal tepki vermeyerek, beslenmek istedikleri "Drama" enerjisini kestiniz. Manipülatör yakında sıkılıp gidecektir.`;
+  } else {
+    btn.classList.add('gr-wrong');
+    fb.innerHTML = `⚠️ Tuzağa Düştünüz! Savunmaya geçmek veya ağlamak narsistin tam olarak istediği "Narsisistik Besleme"dir. Onlara bu enerjiyi vermeyin.`;
+  }
+  fb.classList.add('show');
+}
+</script>
+
+<%- include('partials/main-footer') %>

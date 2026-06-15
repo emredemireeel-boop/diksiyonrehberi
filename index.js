@@ -1630,7 +1630,7 @@ app.get('/sitemap.xml', (req, res) => {
     '/retorik/araclar/muzakere', '/retorik/araclar/makine', '/retorik/araclar/radar', '/retorik/araclar/kursu', 
     '/retorik/araclar/ucgen', '/retorik/araclar/kitle', '/retorik/araclar/munazara', '/retorik/araclar/karanlik', 
     '/retorik/araclar/prompter', '/retorik/araclar/asistan',
-    '/safsata/dedektif', '/safsata/kalkan', '/safsata/karanlik', '/safsata/trol-avcisi', '/safsata/mahkeme', '/safsata/spin-doctor',
+    '/safsata/dedektif', '/safsata/curutme-arenasi', '/safsata/karanlik', '/safsata/trol-avcisi', '/safsata/mahkeme', '/safsata/spin-doctor',
     '/bedendili/dedektif', '/bedendili/radar', '/bedendili/kriz',
     // Özgüven Araçları ve Makaleleri
     '/ozguven-gelistirme/araclar/golge-boksu-ic-ses-susturucusu', '/ozguven-gelistirme/araclar/reddedilme-korkusunu-yenmek', 
@@ -1842,6 +1842,742 @@ app.get('/diksiyon/etkili-konusma-teknikleri', (req, res, next) => {
 
 
 // ═══════ Egzersiz Laboratuvarları ═══════
+app.get('/egzersiz/cocuk', (req, res, next) => {
+  res.render('diksiyon-cocuk', {
+    meta: {
+      title: 'Çocuk Diksiyon ve Artikülasyon | Diksiyon Rehberi',
+      desc: '3-12 yaş çocuklarda pelteklik, R harfi sorunları ve ifade güçlüklerini oyunlaştırarak çözen eğlenceli diksiyon egzersizleri.'
+    },
+    canonicalUrl: SITE_URL + '/egzersiz/cocuk',
+    jsonLdScripts: `
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {"@type": "ListItem", "position": 1, "name": "Ana Sayfa", "item": "${SITE_URL}/"},
+        {"@type": "ListItem", "position": 2, "name": "Egzersizler", "item": "${SITE_URL}/diksiyon"},
+        {"@type": "ListItem", "position": 3, "name": "Çocuk Diksiyon", "item": "${SITE_URL}/egzersiz/cocuk"}
+      ]
+    }
+    </script>
+    `
+  });
+});
+
+app.get('/egzersiz/ses', (req, res, next) => {
+  res.render('diksiyon-ses', {
+    meta: {
+      title: 'Ses Rengi ve Perde Egzersizleri | Diksiyon Rehberi',
+      desc: 'Otoriter lider sesi, gece radyosu tınısı, enerjik TEDx konuşmacı tonu ve ses rengi (timbre) değiştirme laboratuvarı.'
+    },
+    canonicalUrl: SITE_URL + '/egzersiz/ses',
+    jsonLdScripts: `
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {"@type": "ListItem", "position": 1, "name": "Ana Sayfa", "item": "${SITE_URL}/"},
+        {"@type": "ListItem", "position": 2, "name": "Egzersizler", "item": "${SITE_URL}/diksiyon"},
+        {"@type": "ListItem", "position": 3, "name": "Ses ve Perde", "item": "${SITE_URL}/egzersiz/ses"}
+      ]
+    }
+    </script>
+    `
+  });
+});
+
+app.get('/egzersiz/retorik', (req, res, next) => {
+  res.render('diksiyon-retorik', {
+    meta: {
+      title: 'Retorik Figürler Ansiklopedisi | Diksiyon Rehberi',
+      desc: 'Trikolon, Chiasmus, Anafora gibi 30 retorik figürü interaktif dedektif oyunları ve builder egzersizleriyle öğrenin.'
+    },
+    canonicalUrl: SITE_URL + '/egzersiz/retorik',
+    jsonLdScripts: `
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {"@type": "ListItem", "position": 1, "name": "Ana Sayfa", "item": "${SITE_URL}/"},
+        {"@type": "ListItem", "position": 2, "name": "Egzersizler", "item": "${SITE_URL}/diksiyon"},
+        {"@type": "ListItem", "position": 3, "name": "Retorik Figürler", "item": "${SITE_URL}/egzersiz/retorik"}
+      ]
+    }
+    </script>
+    `
+  });
+});
+
+app.get('/egzersiz/munazara', (req, res, next) => {
+  res.render('diksiyon-munazara', {
+    meta: {
+      title: 'Münazara ve Tartışma Sanatı | Diksiyon Rehberi',
+      desc: 'British Parliamentary formatı, çürütme teknikleri, zaman yönetimi ve tartışma senaryoları içeren interaktif münazara simülatörü.'
+    },
+    canonicalUrl: SITE_URL + '/egzersiz/munazara',
+    jsonLdScripts: `
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {"@type": "ListItem", "position": 1, "name": "Ana Sayfa", "item": "${SITE_URL}/"},
+        {"@type": "ListItem", "position": 2, "name": "Egzersizler", "item": "${SITE_URL}/diksiyon"},
+        {"@type": "ListItem", "position": 3, "name": "Münazara ve Tartışma", "item": "${SITE_URL}/egzersiz/munazara"}
+      ]
+    }
+    </script>
+    `
+  });
+});
+
+app.get('/egzersiz/muzakere', (req, res, next) => {
+  res.render('diksiyon-muzakere', {
+    meta: {
+      title: 'Müzakere ve Pazarlık Sanatı | Diksiyon Rehberi',
+      desc: 'ZOPA, BATNA ve Win-Win stratejilerini maaş pazarlığı gibi interaktif simülasyonlarla öğrenin.'
+    },
+    canonicalUrl: SITE_URL + '/egzersiz/muzakere',
+    jsonLdScripts: `
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {"@type": "ListItem", "position": 1, "name": "Ana Sayfa", "item": "${SITE_URL}/"},
+        {"@type": "ListItem", "position": 2, "name": "Egzersizler", "item": "${SITE_URL}/diksiyon"},
+        {"@type": "ListItem", "position": 3, "name": "Müzakere ve Pazarlık", "item": "${SITE_URL}/egzersiz/muzakere"}
+      ]
+    }
+    </script>
+    `
+  });
+});
+
+app.get('/egzersiz/propaganda', (req, res, next) => {
+  res.render('diksiyon-propaganda', {
+    meta: {
+      title: 'Kitle Psikolojisi ve Propaganda | Diksiyon Rehberi',
+      desc: 'Edward Bernays, Noam Chomsky ve sosyal medya algoritmalarının kitleleri nasıl yönlendirdiğini interaktif simülasyonlarla öğrenin.'
+    },
+    canonicalUrl: SITE_URL + '/egzersiz/propaganda',
+    jsonLdScripts: `
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {"@type": "ListItem", "position": 1, "name": "Ana Sayfa", "item": "${SITE_URL}/"},
+        {"@type": "ListItem", "position": 2, "name": "Egzersizler", "item": "${SITE_URL}/diksiyon"},
+        {"@type": "ListItem", "position": 3, "name": "Kitle Psikolojisi", "item": "${SITE_URL}/egzersiz/propaganda"}
+      ]
+    }
+    </script>
+    `
+  });
+});
+
+app.get('/egzersiz/masterclass', (req, res, next) => {
+  res.render('diksiyon-masterclass', {
+    meta: {
+      title: 'Hitabet ve İkna Masterclass | Diksiyon Rehberi',
+      desc: 'TED konuşması, Pitch Deck, Aristoteles İkna Üçgeni (Ethos/Pathos/Logos) ve büyük liderlerin konuşma analizleriyle ikna sanatını öğrenin.'
+    },
+    canonicalUrl: SITE_URL + '/egzersiz/masterclass',
+    jsonLdScripts: `
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {"@type": "ListItem", "position": 1, "name": "Ana Sayfa", "item": "${SITE_URL}/"},
+        {"@type": "ListItem", "position": 2, "name": "Egzersizler", "item": "${SITE_URL}/diksiyon"},
+        {"@type": "ListItem", "position": 3, "name": "Hitabet Masterclass", "item": "${SITE_URL}/egzersiz/masterclass"}
+      ]
+    }
+    </script>
+    `
+  });
+});
+
+app.get('/egzersiz/safsata', (req, res, next) => {
+  res.render('diksiyon-safsata', {
+    meta: {
+      title: 'Safsata Ansiklopedisi ve Mantık Hataları | Diksiyon Rehberi',
+      desc: 'Saman Adam, Ad Hominem, Straw Man gibi 100 farklı safsatayı öğrenin. Safsata Dedektifi ile manipülasyonlara karşı zırh kuşanın.'
+    },
+    canonicalUrl: SITE_URL + '/egzersiz/safsata',
+    jsonLdScripts: `
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {"@type": "ListItem", "position": 1, "name": "Ana Sayfa", "item": "${SITE_URL}/"},
+        {"@type": "ListItem", "position": 2, "name": "Egzersizler", "item": "${SITE_URL}/diksiyon"},
+        {"@type": "ListItem", "position": 3, "name": "Safsata Ansiklopedisi", "item": "${SITE_URL}/egzersiz/safsata"}
+      ]
+    }
+    </script>
+    `
+  });
+});
+
+app.get('/egzersiz/curutme', (req, res, next) => {
+  res.render('diksiyon-curutme', {
+    meta: {
+      title: 'Argüman Çürütme Laboratuvarı | Diksiyon Rehberi',
+      desc: 'İş toplantılarında, sosyal medyada veya aile içi tartışmalarda manipülatif argümanları Sokratik sorularla nasıl çürüteceğinizi öğrenin.'
+    },
+    canonicalUrl: SITE_URL + '/egzersiz/curutme',
+    jsonLdScripts: `
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {"@type": "ListItem", "position": 1, "name": "Ana Sayfa", "item": "${SITE_URL}/"},
+        {"@type": "ListItem", "position": 2, "name": "Egzersizler", "item": "${SITE_URL}/diksiyon"},
+        {"@type": "ListItem", "position": 3, "name": "Çürütme Laboratuvarı", "item": "${SITE_URL}/egzersiz/curutme"}
+      ]
+    }
+    </script>
+    `
+  });
+});
+
+app.get('/egzersiz/protokol', (req, res, next) => {
+  res.render('diksiyon-protokol', {
+    meta: {
+      title: 'Uluslararası Protokol ve İş Kültürü | Diksiyon Rehberi',
+      desc: 'Japonya, Çin, Almanya, Amerika ve Orta Doğu gibi farklı ülkelerin iş yapma kültürleri, hediye tabuları ve toplantı protokollerini öğrenin.'
+    },
+    canonicalUrl: SITE_URL + '/egzersiz/protokol',
+    jsonLdScripts: `
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {"@type": "ListItem", "position": 1, "name": "Ana Sayfa", "item": "${SITE_URL}/"},
+        {"@type": "ListItem", "position": 2, "name": "Egzersizler", "item": "${SITE_URL}/diksiyon"},
+        {"@type": "ListItem", "position": 3, "name": "Uluslararası Protokol", "item": "${SITE_URL}/egzersiz/protokol"}
+      ]
+    }
+    </script>
+    `
+  });
+});
+
+app.get('/egzersiz/imaj', (req, res, next) => {
+  res.render('diksiyon-imaj', {
+    meta: {
+      title: 'Profesyonel İmaj ve Giyim Yönetimi | Diksiyon Rehberi',
+      desc: 'İş dünyasında kıyafet kodları (Dress Code), renk psikolojisi ve profesyonel görünüm standartlarını öğrenin.'
+    },
+    canonicalUrl: SITE_URL + '/egzersiz/imaj',
+    jsonLdScripts: `
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {"@type": "ListItem", "position": 1, "name": "Ana Sayfa", "item": "${SITE_URL}/"},
+        {"@type": "ListItem", "position": 2, "name": "Egzersizler", "item": "${SITE_URL}/diksiyon"},
+        {"@type": "ListItem", "position": 3, "name": "Giyim ve İmaj Yönetimi", "item": "${SITE_URL}/egzersiz/imaj"}
+      ]
+    }
+    </script>
+    `
+  });
+});
+
+app.get('/egzersiz/toren', (req, res, next) => {
+  res.render('diksiyon-toren', {
+    meta: {
+      title: 'Özel Günler ve Törenler | Diksiyon Rehberi',
+      desc: 'Düğün, cenaze, iş yemeği ve ödül törenleri gibi özel etkinliklerde uygulanması gereken adab-ı muaşeret kuralları ve sosyal kriz yönetimi.'
+    },
+    canonicalUrl: SITE_URL + '/egzersiz/toren',
+    jsonLdScripts: `
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {"@type": "ListItem", "position": 1, "name": "Ana Sayfa", "item": "${SITE_URL}/"},
+        {"@type": "ListItem", "position": 2, "name": "Egzersizler", "item": "${SITE_URL}/diksiyon"},
+        {"@type": "ListItem", "position": 3, "name": "Özel Günler ve Törenler", "item": "${SITE_URL}/egzersiz/toren"}
+      ]
+    }
+    </script>
+    `
+  });
+});
+
+app.get('/egzersiz/manipulasyon', (req, res, next) => {
+  res.render('diksiyon-manipulasyon', {
+    meta: {
+      title: 'Psikolojik Manipülasyon Savunması | Diksiyon Rehberi',
+      desc: 'Narsistlerin ve toksik iletişimcilerin karanlık taktiklerini (Gaslighting, Love Bombing, Ghosting) öğrenin ve psikolojik sınırlarınızı koruyun.'
+    },
+    canonicalUrl: SITE_URL + '/egzersiz/manipulasyon',
+    jsonLdScripts: `
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {"@type": "ListItem", "position": 1, "name": "Ana Sayfa", "item": "${SITE_URL}/"},
+        {"@type": "ListItem", "position": 2, "name": "Egzersizler", "item": "${SITE_URL}/diksiyon"},
+        {"@type": "ListItem", "position": 3, "name": "Psikolojik Manipülasyon Savunması", "item": "${SITE_URL}/egzersiz/manipulasyon"}
+      ]
+    }
+    </script>
+    `
+  });
+});
+
+app.get('/egzersiz/mobbing', (req, res, next) => {
+  res.render('diksiyon-mobbing', {
+    meta: {
+      title: 'İş Yeri Manipülasyonu ve Mobbing Savunması | Diksiyon Rehberi',
+      desc: 'Kurumsal hayatta karşılaştığınız mobbing, fikir hırsızlığı ve pasif-agresif maillere karşı profesyonel sınırlarınızı koruyun.'
+    },
+    canonicalUrl: SITE_URL + '/egzersiz/mobbing',
+    jsonLdScripts: `
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {"@type": "ListItem", "position": 1, "name": "Ana Sayfa", "item": "${SITE_URL}/"},
+        {"@type": "ListItem", "position": 2, "name": "Egzersizler", "item": "${SITE_URL}/diksiyon"},
+        {"@type": "ListItem", "position": 3, "name": "İş Yeri Manipülasyonu", "item": "${SITE_URL}/egzersiz/mobbing"}
+      ]
+    }
+    </script>
+    `
+  });
+});
+
+app.get('/egzersiz/dijital', (req, res, next) => {
+  res.render('diksiyon-dijital', {
+    meta: {
+      title: 'Dijital Manipülasyon ve Siber Psikoloji | Diksiyon Rehberi',
+      desc: 'Sosyal mühendislik (Phishing), dark patterns ve algoritmik dopamin döngülerine karşı siber psikolojik savunmanızı güçlendirin.'
+    },
+    canonicalUrl: SITE_URL + '/egzersiz/dijital',
+    jsonLdScripts: `
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {"@type": "ListItem", "position": 1, "name": "Ana Sayfa", "item": "${SITE_URL}/"},
+        {"@type": "ListItem", "position": 2, "name": "Egzersizler", "item": "${SITE_URL}/diksiyon"},
+        {"@type": "ListItem", "position": 3, "name": "Dijital Manipülasyon", "item": "${SITE_URL}/egzersiz/dijital"}
+      ]
+    }
+    </script>
+    `
+  });
+});
+
+app.get('/egzersiz/bedendili', (req, res, next) => {
+  res.render('diksiyon-bedendili', {
+    meta: {
+      title: 'Beden Dili ve Güç Duruşları | Diksiyon Rehberi',
+      desc: 'Liderlerin kullandığı beden dili, güç duruşları (power pose), mikro ifadeler ve el jestleriyle otoritenizi bilinçaltına nasıl kodlayacağınızı keşfedin.'
+    },
+    canonicalUrl: SITE_URL + '/egzersiz/bedendili',
+    jsonLdScripts: `
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {"@type": "ListItem", "position": 1, "name": "Ana Sayfa", "item": "${SITE_URL}/"},
+        {"@type": "ListItem", "position": 2, "name": "Egzersizler", "item": "${SITE_URL}/diksiyon"},
+        {"@type": "ListItem", "position": 3, "name": "Beden Dili ve Duruş", "item": "${SITE_URL}/egzersiz/bedendili"}
+      ]
+    }
+    </script>
+    `
+  });
+});
+
+app.get('/egzersiz/karizma', (req, res, next) => {
+  res.render('diksiyon-karizma', {
+    meta: {
+      title: 'Karizmatik İletişim ve Bağ Kurma | Diksiyon Rehberi',
+      desc: 'İnsanların sizi unutulmaz bulmasını sağlayan karizmatik iletişim sırlarını (Power, Presence, Warmth) öğrenin ve uygulayın.'
+    },
+    canonicalUrl: SITE_URL + '/egzersiz/karizma',
+    jsonLdScripts: `
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {"@type": "ListItem", "position": 1, "name": "Ana Sayfa", "item": "${SITE_URL}/"},
+        {"@type": "ListItem", "position": 2, "name": "Egzersizler", "item": "${SITE_URL}/diksiyon"},
+        {"@type": "ListItem", "position": 3, "name": "Karizmatik İletişim", "item": "${SITE_URL}/egzersiz/karizma"}
+      ]
+    }
+    </script>
+    `
+  });
+});
+
+app.get('/egzersiz/liderlik', (req, res, next) => {
+  res.render('diksiyon-liderlik', {
+    meta: {
+      title: 'Liderlik Psikolojisi ve Kriz Yönetimi | Diksiyon Rehberi',
+      desc: 'İnsanları yönetemezsiniz, onlara liderlik edersiniz. Duygusal zeka (EQ), yapıcı geri bildirim ve kriz yönetimiyle ekiplerinize nasıl ilham vereceğinizi keşfedin.'
+    },
+    canonicalUrl: SITE_URL + '/egzersiz/liderlik',
+    jsonLdScripts: `
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {"@type": "ListItem", "position": 1, "name": "Ana Sayfa", "item": "${SITE_URL}/"},
+        {"@type": "ListItem", "position": 2, "name": "Egzersizler", "item": "${SITE_URL}/diksiyon"},
+        {"@type": "ListItem", "position": 3, "name": "Liderlik Psikolojisi", "item": "${SITE_URL}/egzersiz/liderlik"}
+      ]
+    }
+    </script>
+    `
+  });
+});
+
+app.get('/egzersiz/hikaye', (req, res, next) => {
+  res.render('diksiyon-hikaye', {
+    meta: {
+      title: 'Hikaye Anlatıcılığı (Storytelling) Yapıları | Diksiyon Rehberi',
+      desc: 'İnsanları rakamlarla değil hikayelerle ikna edin. Pixar Pitch, STAR metodu ve 3 perdelik sinematik anlatı formüllerini keşfedin.'
+    },
+    canonicalUrl: SITE_URL + '/egzersiz/hikaye',
+    jsonLdScripts: `
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {"@type": "ListItem", "position": 1, "name": "Ana Sayfa", "item": "${SITE_URL}/"},
+        {"@type": "ListItem", "position": 2, "name": "Egzersizler", "item": "${SITE_URL}/diksiyon"},
+        {"@type": "ListItem", "position": 3, "name": "Hikaye Anlatıcılığı", "item": "${SITE_URL}/egzersiz/hikaye"}
+      ]
+    }
+    </script>
+    `
+  });
+});
+
+app.get('/egzersiz/karakter', (req, res, next) => {
+  res.render('diksiyon-karakter', {
+    meta: {
+      title: 'Karakter Tasarım Atölyesi | Diksiyon Rehberi',
+      desc: 'İzleyiciler mükemmellikle empati kuramazlar, sadece zaaflarla kurarlar. "Save the Cat" anları ve "Want vs Need" psikolojisiyle unutulmaz kahramanlar yaratın.'
+    },
+    canonicalUrl: SITE_URL + '/egzersiz/karakter',
+    jsonLdScripts: `
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {"@type": "ListItem", "position": 1, "name": "Ana Sayfa", "item": "${SITE_URL}/"},
+        {"@type": "ListItem", "position": 2, "name": "Egzersizler", "item": "${SITE_URL}/diksiyon"},
+        {"@type": "ListItem", "position": 3, "name": "Karakter Oluşturma", "item": "${SITE_URL}/egzersiz/karakter"}
+      ]
+    }
+    </script>
+    `
+  });
+});
+
+app.get('/egzersiz/sunum', (req, res, next) => {
+  res.render('diksiyon-sunum', {
+    meta: {
+      title: 'Sunum Tasarımı | Diksiyon Rehberi',
+      desc: 'Slaytlarınız not defteriniz değildir. Veri hikayeleştirme (Data Storytelling) ve Steve Jobs tarzı minimalizmle unutulmaz sahneler yaratın.'
+    },
+    canonicalUrl: SITE_URL + '/egzersiz/sunum',
+    jsonLdScripts: `
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {"@type": "ListItem", "position": 1, "name": "Ana Sayfa", "item": "${SITE_URL}/"},
+        {"@type": "ListItem", "position": 2, "name": "Egzersizler", "item": "${SITE_URL}/diksiyon"},
+        {"@type": "ListItem", "position": 3, "name": "Sunum Tasarımı", "item": "${SITE_URL}/egzersiz/sunum"}
+      ]
+    }
+    </script>
+    `
+  });
+});
+
+app.get('/egzersiz/kriz', (req, res, next) => {
+  res.render('diksiyon-kriz', {
+    meta: {
+      title: 'Kriz Yönetimi (Sahne) | Diksiyon Rehberi',
+      desc: 'Mikrofon bozulur, slayt kapanır, metin unutulur. Profesyonelleri amatörlerden ayıran şey, kriz anında sergiledikleri soğukkanlı liderliktir.'
+    },
+    canonicalUrl: SITE_URL + '/egzersiz/kriz',
+    jsonLdScripts: `
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {"@type": "ListItem", "position": 1, "name": "Ana Sayfa", "item": "${SITE_URL}/"},
+        {"@type": "ListItem", "position": 2, "name": "Egzersizler", "item": "${SITE_URL}/diksiyon"},
+        {"@type": "ListItem", "position": 3, "name": "Kriz Yönetimi (Sahne)", "item": "${SITE_URL}/egzersiz/kriz"}
+      ]
+    }
+    </script>
+    `
+  });
+});
+
+app.get('/egzersiz/mizah', (req, res, next) => {
+  res.render('diksiyon-mizah', {
+    meta: {
+      title: 'Stand-Up ve Mizah | Diksiyon Rehberi',
+      desc: 'İletişimin en keskin silahı. İnsanları güldürdüğünüz an savunma kalkanları iner. Kurumsal sunumlarda ve günlük hayatta komedinin matematiğini keşfedin.'
+    },
+    canonicalUrl: SITE_URL + '/egzersiz/mizah',
+    jsonLdScripts: `
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {"@type": "ListItem", "position": 1, "name": "Ana Sayfa", "item": "${SITE_URL}/"},
+        {"@type": "ListItem", "position": 2, "name": "Egzersizler", "item": "${SITE_URL}/diksiyon"},
+        {"@type": "ListItem", "position": 3, "name": "Stand-Up ve Mizah", "item": "${SITE_URL}/egzersiz/mizah"}
+      ]
+    }
+    </script>
+    `
+  });
+});
+
+app.get('/egzersiz/mikrofon', (req, res, next) => {
+  res.render('diksiyon-mikrofon', {
+    meta: {
+      title: 'Mikrofon & Kayıt Teknikleri | Diksiyon Rehberi',
+      desc: 'Dinamik mikrofonların sırrını (Proximity Effect) keşfedin ve ev odanızı akustik bir podcast stüdyosuna dönüştürün.'
+    },
+    canonicalUrl: SITE_URL + '/egzersiz/mikrofon',
+    jsonLdScripts: `
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {"@type": "ListItem", "position": 1, "name": "Ana Sayfa", "item": "${SITE_URL}/"},
+        {"@type": "ListItem", "position": 2, "name": "Egzersizler", "item": "${SITE_URL}/diksiyon"},
+        {"@type": "ListItem", "position": 3, "name": "Mikrofon ve Kayıt", "item": "${SITE_URL}/egzersiz/mikrofon"}
+      ]
+    }
+    </script>
+    `
+  });
+});
+
+app.get('/egzersiz/dogaclama', (req, res, next) => {
+  res.render('diksiyon-dogaclama', {
+    meta: {
+      title: 'Doğaçlama ve İmprovizasyon | Diksiyon Rehberi',
+      desc: 'Ezber unuttuğunuzda paniklemeyin. Sahne krizlerini fırsata çevirin. "Yes, And" tekniğiyle beyninizin hızlı düşünme kaslarını (Quick wit) geliştirin.'
+    },
+    canonicalUrl: SITE_URL + '/egzersiz/dogaclama',
+    jsonLdScripts: `
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {"@type": "ListItem", "position": 1, "name": "Ana Sayfa", "item": "${SITE_URL}/"},
+        {"@type": "ListItem", "position": 2, "name": "Egzersizler", "item": "${SITE_URL}/diksiyon"},
+        {"@type": "ListItem", "position": 3, "name": "Doğaçlama ve İmprovizasyon", "item": "${SITE_URL}/egzersiz/dogaclama"}
+      ]
+    }
+    </script>
+    `
+  });
+});
+
+app.get('/egzersiz/rutin', (req, res, next) => {
+  res.render('diksiyon-rutin', {
+    meta: {
+      title: 'Günlük Rutinler ve Programlar | Diksiyon Rehberi',
+      desc: 'Sabah ısınmalarından, 90 günlük dönüşüm programlarına kadar ihtiyacınız olan tüm profesyonel diksiyon antrenman planları.'
+    },
+    canonicalUrl: SITE_URL + '/egzersiz/rutin',
+    jsonLdScripts: `
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {"@type": "ListItem", "position": 1, "name": "Ana Sayfa", "item": "${SITE_URL}/"},
+        {"@type": "ListItem", "position": 2, "name": "Egzersizler", "item": "${SITE_URL}/diksiyon"},
+        {"@type": "ListItem", "position": 3, "name": "Günlük Rutinler", "item": "${SITE_URL}/egzersiz/rutin"}
+      ]
+    }
+    </script>
+    `
+  });
+});
+
+app.get('/egzersiz/aksan', (req, res, next) => {
+  res.render('diksiyon-aksan', {
+    meta: {
+      title: 'Aksanlar ve Lehçeler Laboratuvarı | Diksiyon Rehberi',
+      desc: 'Yöresel şivelerimizi silmeden, iş ve resmiyet hayatı için Standart İstanbul Türkçesine geçiş yapabilme (Code-Switching) yeteneğinizi geliştirin.'
+    },
+    canonicalUrl: SITE_URL + '/egzersiz/aksan',
+    jsonLdScripts: `
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {"@type": "ListItem", "position": 1, "name": "Ana Sayfa", "item": "${SITE_URL}/"},
+        {"@type": "ListItem", "position": 2, "name": "Egzersizler", "item": "${SITE_URL}/diksiyon"},
+        {"@type": "ListItem", "position": 3, "name": "Aksanlar ve Lehçeler", "item": "${SITE_URL}/egzersiz/aksan"}
+      ]
+    }
+    </script>
+    `
+  });
+});
+
+app.get('/egzersiz/saglik', (req, res, next) => {
+  res.render('diksiyon-saglik', {
+    meta: {
+      title: 'Ses Sağlığı ve Koruma Kliniği | Diksiyon Rehberi',
+      desc: 'Ses kısıklığını önleyen, reflü hasarını durduran ve sesinizin ömrünü uzatan tıbbi destekli bakım ve hijyen laboratuvarı.'
+    },
+    canonicalUrl: SITE_URL + '/egzersiz/saglik',
+    jsonLdScripts: `
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {"@type": "ListItem", "position": 1, "name": "Ana Sayfa", "item": "${SITE_URL}/"},
+        {"@type": "ListItem", "position": 2, "name": "Egzersizler", "item": "${SITE_URL}/diksiyon"},
+        {"@type": "ListItem", "position": 3, "name": "Ses Sağlığı ve Koruma", "item": "${SITE_URL}/egzersiz/saglik"}
+      ]
+    }
+    </script>
+    `
+  });
+});
+
+app.get('/egzersiz/okuma', (req, res, next) => {
+  res.render('diksiyon-okuma', {
+    meta: {
+      title: 'Profesyonel Metin Okuma Laboratuvarı | Diksiyon Rehberi',
+      desc: 'Haber bülteni, belgesel, reklam ve podcast gibi profesyonel seslendirme formatlarına yönelik okuma ve teleprompter egzersizleri.'
+    },
+    canonicalUrl: SITE_URL + '/egzersiz/okuma',
+    jsonLdScripts: `
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {"@type": "ListItem", "position": 1, "name": "Ana Sayfa", "item": "${SITE_URL}/"},
+        {"@type": "ListItem", "position": 2, "name": "Egzersizler", "item": "${SITE_URL}/diksiyon"},
+        {"@type": "ListItem", "position": 3, "name": "Profesyonel Metin Okuma", "item": "${SITE_URL}/egzersiz/okuma"}
+      ]
+    }
+    </script>
+    `
+  });
+});
+
+app.get('/egzersiz/dil', (req, res, next) => {
+  res.render('diksiyon-dil', {
+    meta: {
+      title: 'Dil Tembelliği Çözüm Merkezi | Diksiyon Rehberi',
+      desc: 'Peltekliği bitiren, R, S, Z ve L harflerini pürüzsüzleştiren özel dil kası geliştirme laboratuvarı.'
+    },
+    canonicalUrl: SITE_URL + '/egzersiz/dil',
+    jsonLdScripts: `
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {"@type": "ListItem", "position": 1, "name": "Ana Sayfa", "item": "${SITE_URL}/"},
+        {"@type": "ListItem", "position": 2, "name": "Egzersizler", "item": "${SITE_URL}/diksiyon"},
+        {"@type": "ListItem", "position": 3, "name": "Dil Kasları", "item": "${SITE_URL}/egzersiz/dil"}
+      ]
+    }
+    </script>
+    `
+  });
+});
+
+app.get('/egzersiz/dudak', (req, res, next) => {
+  res.render('diksiyon-dudak', {
+    meta: {
+      title: 'Dudak Tembelliği Çözüm Merkezi | Diksiyon Rehberi',
+      desc: 'Dudak tembelliğini çözerek kelimeleri yutmadan, mükemmel bir artikülasyonla konuşmanızı sağlayacak özel laboratuvar.'
+    },
+    canonicalUrl: SITE_URL + '/egzersiz/dudak',
+    jsonLdScripts: `
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {"@type": "ListItem", "position": 1, "name": "Ana Sayfa", "item": "${SITE_URL}/"},
+        {"@type": "ListItem", "position": 2, "name": "Egzersizler", "item": "${SITE_URL}/diksiyon"},
+        {"@type": "ListItem", "position": 3, "name": "Dudak Egzersizleri", "item": "${SITE_URL}/egzersiz/dudak"}
+      ]
+    }
+    </script>
+    `
+  });
+});
+
+app.get('/egzersiz/cene-agiz', (req, res, next) => {
+  res.render('diksiyon-cene-agiz', {
+    meta: {
+      title: 'Çene & Ağız Kasları Geliştirme Merkezi | Diksiyon Rehberi',
+      desc: 'Dünyanın en zor tekerlemelerini takılmadan okumanızı sağlayacak özel çene ve ağız kası geliştirme laboratuvarı.'
+    },
+    canonicalUrl: SITE_URL + '/egzersiz/cene-agiz',
+    jsonLdScripts: `
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {"@type": "ListItem", "position": 1, "name": "Ana Sayfa", "item": "${SITE_URL}/"},
+        {"@type": "ListItem", "position": 2, "name": "Egzersizler", "item": "${SITE_URL}/diksiyon"},
+        {"@type": "ListItem", "position": 3, "name": "Çene & Ağız Kasları", "item": "${SITE_URL}/egzersiz/cene-agiz"}
+      ]
+    }
+    </script>
+    `
+  });
+});
+
 app.get('/egzersiz/r-harfi', (req, res, next) => {
   res.render('diksiyon-r-harfi', {
     meta: {
@@ -2100,6 +2836,22 @@ const sahneMap = {
   'sahnede-kriz-yonetimi-ve-sogukkanlilik': 'kriz'
 };
 
+app.get('/hikaye/:subpage', (req, res, next) => {
+  const subpage = req.params.subpage;
+  const exercises = DATA_HIKAYE.filter(ex => ex.cat === subpage);
+  if (exercises.length === 0) return next();
+  
+  let h1 = 'Hikaye Anlatıcılığı';
+  if (subpage === 'yapi') h1 = 'Hikaye Yapısı (3 Perde)';
+  
+  res.render('hikaye-detay', { 
+    meta: {title: h1 + ' | Diksiyon Rehberi', h1: h1, desc: h1 + ' ile kurumsal ve kişisel hikayelerinizi efsanevi bir başyapıta dönüştürün.'}, 
+    canonicalUrl: SITE_URL+'/hikaye/'+subpage, 
+    jsonLdScripts: '', 
+    activeCat: subpage, 
+    exercises 
+  });
+});
 app.get('/sahne-ustaligi/:subpage', (req, res, next) => {
   const subpage = req.params.subpage;
   const originalCat = sahneMap[subpage];
@@ -2315,8 +3067,8 @@ app.get('/safsata/dedektif', (req, res, next) => {
   res.render('safsata-dedektif', { meta: {title: 'Safsata Dedektifi', h1: 'Hata Avcısı', desc: 'Gizli mantık hatalarını bul.'}, canonicalUrl: SITE_URL+'/safsata/dedektif', jsonLdScripts: '' });
 });
 
-app.get('/safsata/kalkan', (req, res, next) => {
-  res.render('safsata-kalkan', { meta: {title: 'Çürütme Arenası', h1: 'Zihinsel Kalkan', desc: 'Manipülatörlere karşı kendini savun.'}, canonicalUrl: SITE_URL+'/safsata/kalkan', jsonLdScripts: '' });
+app.get('/safsata/curutme-arenasi', (req, res, next) => {
+  res.render('safsata-kalkan', { meta: {title: 'Çürütme Arenası', h1: 'Zihinsel Kalkan', desc: 'Manipülatörlere karşı kendini savun.'}, canonicalUrl: SITE_URL+'/safsata/curutme-arenasi', jsonLdScripts: '' });
 });
 
 app.get('/safsata/karanlik', (req, res, next) => {

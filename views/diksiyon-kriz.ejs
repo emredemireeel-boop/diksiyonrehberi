@@ -1,0 +1,212 @@
+<%- include('partials/main-header') %>
+
+<style>
+  /* 🚨 Crisis Management Light Theme 🚨 */
+  body { background: #fff7ed; color: #431407; font-family: 'Inter', sans-serif; overflow-x: hidden; }
+
+  /* 🚨 Hero Section 🚨 */
+  .kr-hero {
+    min-height: 65vh; display: flex; flex-direction: column; align-items: center; justify-content: center;
+    text-align: center; padding: 140px 24px 80px; position: relative; overflow: hidden;
+    background: radial-gradient(circle at 50% 0%, #ffedd5 0%, #fff7ed 80%);
+  }
+  .kr-hero::after { content:''; position:absolute; bottom:0; left:0; right:0; height:150px; background:linear-gradient(to top,#fff7ed,transparent); }
+
+  /* Emergency Background */
+  .kr-bg { position:absolute; inset:0; overflow:hidden; pointer-events:none; z-index:0; }
+  .siren-light { position: absolute; width: 100vw; height: 100vh; top:0; left:0; background: radial-gradient(circle at 50% 50%, rgba(234,88,12,0.1) 0%, transparent 60%); animation: pulseSiren 2s infinite alternate; }
+  @keyframes pulseSiren { 0% { opacity: 0.3; transform: scale(1); } 100% { opacity: 0.8; transform: scale(1.1); } }
+  .hazard-tape { position: absolute; top: 0; left: 0; width: 100%; height: 15px; background: repeating-linear-gradient(45deg, #f97316, #f97316 20px, #431407 20px, #431407 40px); z-index: 10; opacity: 0.8; }
+
+  .kr-icon { font-size: 5rem; margin-bottom: 24px; position:relative; z-index:2; animation: shakeIcon 0.5s ease-in-out infinite alternate; filter: drop-shadow(0 15px 25px rgba(234,88,12,0.4)); }
+  @keyframes shakeIcon { 0%{ transform:rotate(-5deg); } 100%{ transform:rotate(5deg); } }
+
+  .kr-badge { display:inline-flex; align-items:center; gap:8px; padding:10px 28px; border-radius:40px; font-size:.9rem; font-weight:800; text-transform:uppercase; letter-spacing:3px; color: #ea580c; background: #ffedd5; border:1px solid #fdba74; margin-bottom:24px; z-index:2; box-shadow: 0 8px 20px rgba(234,88,12,0.15); }
+  .kr-title { font-size:clamp(2.5rem,6vw,4.5rem); font-weight:900; color: #431407; margin-bottom:16px; line-height:1.1; letter-spacing: -1.5px; z-index:2; position:relative; }
+  .kr-title span { background: linear-gradient(135deg, #f97316, #ea580c); -webkit-background-clip:text; -webkit-text-fill-color:transparent; }
+  .kr-subtitle { color: #9a3412; font-size:1.2rem; max-width:750px; line-height:1.8; z-index:2; position:relative; font-weight: 500; }
+
+  /* 🚨 Container 🚨 */
+  .kr-wrap { max-width:1100px; margin:0 auto; padding:0 20px 100px; position:relative; z-index:10; }
+
+  /* 🚨 Premium Cards 🚨 */
+  .kr-card { background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(25px); border: 1px solid rgba(234, 88, 12, 0.2); border-radius: 32px; padding: 50px; margin-bottom: 50px; transition: transform 0.4s, box-shadow 0.4s; position: relative; overflow: hidden; box-shadow: 0 20px 40px rgba(0, 0, 0, 0.04); }
+  .kr-card:hover { transform: translateY(-5px); box-shadow: 0 30px 60px rgba(234, 88, 12, 0.1); border-color: rgba(234, 88, 12, 0.4); }
+  
+  .section-label { font-size:1.1rem; font-weight:800; text-transform:uppercase; letter-spacing:2px; color: #ea580c; margin-bottom:24px; display:flex; align-items:center; gap:12px; }
+
+  /* 🚨 Blackout Simulator 🚨 */
+  .bo-box { background: #000; border-radius: 24px; padding: 40px; color: white; display: flex; flex-direction: column; gap: 30px; position: relative; border: 2px solid #333; }
+  .bo-intro { font-size: 1.05rem; color: #a3a3a3; line-height: 1.6; }
+  
+  .bo-prompter { background: #111; border: 1px solid #333; height: 150px; padding: 20px; font-family: monospace; font-size: 1.5rem; color: #22c55e; overflow: hidden; display: flex; align-items: center; justify-content: center; text-align: center; position: relative; border-radius: 12px; }
+  .bo-text { transition: opacity 3s linear, filter 3s linear; }
+  .bo-text.faded { opacity: 0; filter: blur(10px); }
+  .bo-alert { position: absolute; inset:0; background: rgba(220,38,38,0.2); color: #ef4444; font-size: 2rem; font-weight: 900; display: flex; align-items: center; justify-content: center; opacity: 0; transition: opacity 0.5s; pointer-events: none; }
+  .bo-alert.show { opacity: 1; animation: flashAlert 1s infinite alternate; }
+  @keyframes flashAlert { 0% { background: rgba(220,38,38,0.1); } 100% { background: rgba(220,38,38,0.4); } }
+
+  .bo-opts { display: grid; grid-template-columns: 1fr; gap: 15px; opacity: 0.5; pointer-events: none; transition: opacity 0.5s; }
+  .bo-opts.active { opacity: 1; pointer-events: auto; }
+  
+  .b-opt { padding: 20px; background: rgba(255,255,255,0.05); border: 2px solid rgba(255,255,255,0.1); border-radius: 12px; cursor: pointer; transition: all 0.2s; font-size: 1.1rem; color: #e5e5e5; line-height: 1.5; }
+  .b-opt:hover { border-color: #ea580c; background: rgba(234,88,12,0.1); }
+  .b-opt.correct { background: #166534; border-color: #22c55e; }
+  .b-opt.wrong { background: #7f1d1d; border-color: #ef4444; }
+  
+  .bo-feedback { min-height: 50px; font-weight: 600; font-size: 1.1rem; line-height: 1.5; color: #fdba74; }
+  .bo-btn { align-self: flex-start; padding: 12px 30px; background: #ea580c; color: white; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; }
+
+  /* 🚨 Heckler Defense 🚨 */
+  .heckler-box { background: #fff; border: 1px solid #fed7aa; border-radius: 24px; padding: 40px; display: grid; grid-template-columns: 1fr; gap: 30px; }
+  .h-intro { color: #9a3412; font-size: 1.05rem; line-height: 1.6; }
+  
+  .h-scene { display: flex; gap: 20px; align-items: flex-start; padding: 25px; background: #ffedd5; border-radius: 16px; border-left: 4px solid #ea580c; }
+  .h-avatar { font-size: 3rem; }
+  .h-dialog { font-size: 1.2rem; font-weight: 800; color: #9a3412; margin-top: 10px; }
+
+  .h-opts { display: grid; grid-template-columns: 1fr; gap: 15px; }
+  .h-opt { padding: 20px; background: #fff7ed; border: 2px solid #fed7aa; border-radius: 12px; cursor: pointer; transition: all 0.2s; font-size: 1.1rem; color: #431407; line-height: 1.5; }
+  .h-opt:hover { border-color: #f97316; background: #ffedd5; }
+  .h-opt.correct { background: #dcfce7; border-color: #22c55e; }
+  .h-opt.wrong { background: #fee2e2; border-color: #ef4444; }
+  
+  .h-feedback { min-height: 50px; font-weight: 600; font-size: 1.1rem; line-height: 1.5; color: #ea580c; }
+
+  /* Back btn */
+  .back-btn { display:inline-flex; align-items:center; gap:8px; padding:12px 24px; border-radius:14px; background:#ffffff; border:2px solid #fed7aa; color:#ea580c; font-size:.9rem; font-weight:700; text-decoration:none; transition:all .3s; margin-bottom:40px; box-shadow: 0 4px 6px rgba(0,0,0,0.02); }
+  .back-btn:hover { background:#ffedd5; color:#c2410c; transform:translateX(-4px); border-color: #fbd38d; }
+
+  .reveal { opacity:0; transform:translateY(40px); transition:all .7s cubic-bezier(.2,1,.3,1); }
+  .reveal.visible { opacity:1; transform:translateY(0); }
+</style>
+
+<div class="hazard-tape"></div>
+
+<section class="kr-hero">
+  <div class="kr-bg"><div class="siren-light"></div></div>
+  <div class="kr-icon">🚨</div>
+  <div class="kr-badge">Acil Durum & Kriz Merkezi</div>
+  <h1 class="kr-title">Sahne Kriz <span>Yönetimi</span></h1>
+  <p class="kr-subtitle">Mikrofon bozulur, slayt kapanır, metin unutulur, seyirci laf atar. Profesyonelleri amatörlerden ayıran şey, kriz anında sergiledikleri soğukkanlı liderliktir.</p>
+</section>
+
+<div class="kr-wrap">
+  <a href="/diksiyon?cat=kriz" class="back-btn">← Tüm Acil Durum Protokollerini Gör (25 Madde)</a>
+
+  <!-- 🚨 BLACKOUT SIMULATOR 🚨 -->
+  <div class="kr-card reveal" style="background:#111; border:none;">
+    <div class="section-label" style="color:#f97316;">🧠 Blackout (Metni Unutma) Kurtarma Simülatörü</div>
+    
+    <div class="bo-box">
+      <div class="bo-intro">
+        Sahnede konuşuyorsunuz. Bir an için aklınız dağıldı ve beyniniz tamamen boşaldı (Blackout). Ekranda hiçbir şey yok, notlarınız yok. Adrenalin yükseliyor.<br><br>
+        <strong>Göreviniz:</strong> "Başla" butonuna basıp zihninizdeki metnin (Prompter) silinişini izleyin. Panik alarmı çaldığında, durumu toparlayacak en iyi "Profesyonel Kurtarma Cümlesi"ni seçin.
+      </div>
+      
+      <button class="bo-btn" id="boStart" onclick="startBlackout()">Zihni Boşalt (Başla)</button>
+
+      <div class="bo-prompter">
+        <div class="bo-text" id="boText">...ve işte bu yüzden son çeyrekteki pazarlama bütçemizi...</div>
+        <div class="bo-alert" id="boAlert">SYSTEM FAILURE: METİN BULUNAMADI!</div>
+      </div>
+      
+      <div class="bo-opts" id="boOpts">
+        <div class="b-opt" onclick="checkBo(this, false, 'Yanlış. Özür dilemek ve heyecanınızı itiraf etmek sizi zayıf gösterir. Seyirci acımaya başlar, otoriteniz sarsılır.')">A) Kusura bakmayın çok heyecanlandım, ne diyeceğimi tamamen unuttum. Notlarıma bakabilir miyim?</div>
+        <div class="b-opt" onclick="checkBo(this, false, 'Kısmen Yanlış. Sessiz kalmak kısa bir süre için iyidir ama gidip su içerek uzun süre sessiz kalmak paniğinizi ele verir.')">B) (Hiçbir şey demeden arkaya dönüp 10 saniye boyunca su içmek ve ter silmek)</div>
+        <div class="b-opt" onclick="checkBo(this, true, 'Doğru! (Köprü Kurma). Çok hafif duraksadınız, ardından konuyu seyirciye atarak nefes alma payı kazandınız. Kimse unuttuğunuzu anlamadı!')">C) (3 Saniye Duraksama) ...aslında tam bu noktada size sormak istiyorum: İçinizde bu bütçe problemini daha önce yaşayan kaç kişi var?</div>
+      </div>
+      
+      <div class="bo-feedback" id="boBack"></div>
+    </div>
+  </div>
+
+  <!-- 🚨 HECKLER DEFENSE 🚨 -->
+  <div class="kr-card reveal">
+    <div class="section-label">🗣️ Heckler (Laf Atan Seyirci) Savunma Radarı</div>
+    
+    <div class="heckler-box">
+      <div class="h-intro">
+        Sahnede kritik bir argüman sunuyorsunuz. Arka sıralardan biri (Heckler) bağırarak sözünüzü kesti. Amacı dikkati kendi üzerine çekmek veya egosunu tatmin etmektir.<br><br>
+        <strong>Kural:</strong> Asla karşılıklı münakaşaya girmeyin, egosunu ezmeye çalışmayın ama sahnenin patronunun da siz olduğunu zarifçe gösterin.
+      </div>
+      
+      <div class="h-scene">
+        <div class="h-avatar">😤</div>
+        <div>
+          <strong style="color:#ea580c;">Agresif Seyirci:</strong>
+          <div class="h-dialog">"Bu anlattıkların tamamen teorik zırvalıklar! Gerçek dünyada bunların hiçbiri işe yaramıyor!"</div>
+        </div>
+      </div>
+      
+      <div class="h-opts" id="hOpts">
+        <div class="h-opt" onclick="checkH(this, false, 'Yanlış. (Agresif Savunma). Seyirciyi düşman ilan ettiniz ve ego savaşı başlattınız. Tüm salon gerildi ve odak kayboldu.')">A) Siz anlamıyorsanız benim sorunum değil beyefendi. Lütfen sözümü kesmeyin, ben konuşuyorum.</div>
+        <div class="h-opt" onclick="checkH(this, true, 'Doğru! (Kill with Kindness & Park Etme). Geri bildirimini değerli kıldınız (İltifat), ancak konuyu sunum sonrasına Park Ederek otoritenizi (Sahne bende) geri aldınız.')">B) Bu kadar tutkulu ve pratik bir bakış açısı getirdiğiniz için teşekkür ederim. Bu çok önemli bir eleştiri, sunumdan hemen sonra bunu sizinle detaylıca tartışmak isterim. Şimdi devam edecek olursak...</div>
+        <div class="h-opt" onclick="checkH(this, false, 'Yanlış. (Teslim Olma). Otoritenizi tamamen seyirciye verdiniz. Artık sunumu siz değil, o yönetiyor.')">C) Neden öyle düşündüğünüzü açıklar mısınız? Belki de haklısınızdır, deneyimlerinizi dinleyelim.</div>
+      </div>
+      
+      <div class="h-feedback" id="hBack"></div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+// 🚨 Scroll Reveal
+const obs = new IntersectionObserver((entries) => {
+  entries.forEach(e => { if(e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); } });
+}, { threshold: 0.1 });
+document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+
+// 🚨 Blackout Simulator
+function startBlackout() {
+  document.getElementById('boStart').style.display = 'none';
+  const txt = document.getElementById('boText');
+  
+  // Fade out text
+  txt.classList.add('faded');
+  
+  // After 3 sec, show panic
+  setTimeout(() => {
+    document.getElementById('boAlert').classList.add('show');
+    document.getElementById('boOpts').classList.add('active');
+  }, 3000);
+}
+
+function checkBo(btn, isCorrect, exp) {
+  const btns = document.getElementById('boOpts').querySelectorAll('.b-opt');
+  btns.forEach(b => b.style.pointerEvents = 'none');
+  
+  const fb = document.getElementById('boBack');
+  if(isCorrect) {
+    btn.classList.add('correct');
+    fb.innerHTML = `✅ ${exp}`;
+    fb.style.color = '#4ade80';
+  } else {
+    btn.classList.add('wrong');
+    btns[2].style.borderColor = '#4ade80'; 
+    fb.innerHTML = `❌ ${exp}`;
+    fb.style.color = '#f87171';
+  }
+}
+
+// 🚨 Heckler Logic
+function checkH(btn, isCorrect, exp) {
+  const btns = document.getElementById('hOpts').querySelectorAll('.h-opt');
+  btns.forEach(b => b.style.pointerEvents = 'none');
+  
+  const fb = document.getElementById('hBack');
+  if(isCorrect) {
+    btn.classList.add('correct');
+    fb.innerHTML = `✅ ${exp}`;
+    fb.style.color = '#16a34a';
+  } else {
+    btn.classList.add('wrong');
+    btns[1].style.borderColor = '#16a34a'; 
+    fb.innerHTML = `❌ ${exp}`;
+    fb.style.color = '#dc2626';
+  }
+}
+</script>
+
+<%- include('partials/main-footer') %>

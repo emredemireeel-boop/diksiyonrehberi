@@ -1,0 +1,232 @@
+<%- include('partials/main-header') %>
+
+<style>
+  /* 🎭 Improvisation Stage Light Theme 🎭 */
+  body { background: #fefce8; color: #422006; font-family: 'Inter', sans-serif; overflow-x: hidden; }
+
+  /* 🎭 Hero Section 🎭 */
+  .im-hero {
+    min-height: 65vh; display: flex; flex-direction: column; align-items: center; justify-content: center;
+    text-align: center; padding: 140px 24px 80px; position: relative; overflow: hidden;
+    background: radial-gradient(circle at 50% 0%, #fef3c7 0%, #fefce8 80%);
+  }
+  .im-hero::after { content:''; position:absolute; bottom:0; left:0; right:0; height:150px; background:linear-gradient(to top,#fefce8,transparent); }
+
+  /* Stage Spotlight Background */
+  .im-bg { position:absolute; inset:0; overflow:hidden; pointer-events:none; z-index:0; }
+  .spotlight { position: absolute; width: 300px; height: 150%; background: radial-gradient(ellipse at center, rgba(234,179,8,0.2) 0%, transparent 70%); top: -50%; left: 20%; transform: rotate(-30deg); animation: sweepSpot 10s ease-in-out infinite alternate; }
+  .spotlight.right { left: 60%; transform: rotate(30deg); animation: sweepSpotRight 12s ease-in-out infinite alternate; animation-delay: 2s; }
+  @keyframes sweepSpot { 0% { transform: rotate(-30deg) translateX(-10%); } 100% { transform: rotate(-10deg) translateX(10%); } }
+  @keyframes sweepSpotRight { 0% { transform: rotate(30deg) translateX(10%); } 100% { transform: rotate(10deg) translateX(-10%); } }
+
+  .im-icon { font-size: 5rem; margin-bottom: 24px; position:relative; z-index:2; animation: bounceMic 2s ease-in-out infinite; filter: drop-shadow(0 15px 25px rgba(202,138,4,0.3)); }
+  @keyframes bounceMic { 0%,100%{ transform:translateY(0); } 50%{ transform:translateY(-15px); } }
+
+  .im-badge { display:inline-flex; align-items:center; gap:8px; padding:10px 28px; border-radius:40px; font-size:.9rem; font-weight:800; text-transform:uppercase; letter-spacing:3px; color: #ca8a04; background: #fef3c7; border:1px solid #fde68a; margin-bottom:24px; z-index:2; box-shadow: 0 8px 20px rgba(202,138,4,0.15); }
+  .im-title { font-size:clamp(2.5rem,6vw,4.5rem); font-weight:900; color: #422006; margin-bottom:16px; line-height:1.1; letter-spacing: -1.5px; z-index:2; position:relative; }
+  .im-title span { background: linear-gradient(135deg, #eab308, #ca8a04); -webkit-background-clip:text; -webkit-text-fill-color:transparent; }
+  .im-subtitle { color: #a16207; font-size:1.2rem; max-width:750px; line-height:1.8; z-index:2; position:relative; font-weight: 500; }
+
+  /* 🎭 Container 🎭 */
+  .im-wrap { max-width:1100px; margin:0 auto; padding:0 20px 100px; position:relative; z-index:10; }
+
+  /* 🎭 Premium Cards 🎭 */
+  .im-card { background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(25px); border: 1px solid rgba(202, 138, 4, 0.2); border-radius: 32px; padding: 50px; margin-bottom: 50px; transition: transform 0.4s, box-shadow 0.4s; position: relative; overflow: hidden; box-shadow: 0 20px 40px rgba(0, 0, 0, 0.04); }
+  .im-card:hover { transform: translateY(-5px); box-shadow: 0 30px 60px rgba(202, 138, 4, 0.1); border-color: rgba(202, 138, 4, 0.4); }
+  
+  .section-label { font-size:1.1rem; font-weight:800; text-transform:uppercase; letter-spacing:2px; color: #ca8a04; margin-bottom:24px; display:flex; align-items:center; gap:12px; }
+
+  /* 🎭 Yes, And Simulator 🎭 */
+  .ya-box { background: #422006; border-radius: 24px; padding: 40px; color: white; display: flex; flex-direction: column; gap: 30px; }
+  .ya-intro { font-size: 1.05rem; color: #fef3c7; line-height: 1.6; }
+  
+  .ya-scene { display: flex; gap: 20px; align-items: flex-start; margin-bottom: 20px; padding: 25px; background: rgba(255,255,255,0.05); border-radius: 16px; border-left: 4px solid #facc15; }
+  .ya-avatar { font-size: 3rem; }
+  .ya-dialog { font-size: 1.2rem; font-style: italic; line-height: 1.6; color: #fef08a; margin-top: 10px; }
+
+  .ya-opts { display: grid; grid-template-columns: 1fr; gap: 15px; }
+  .ya-opt { padding: 20px; background: rgba(0,0,0,0.4); border: 2px solid rgba(255,255,255,0.1); border-radius: 16px; color: white; font-size: 1.1rem; cursor: pointer; transition: all 0.2s; line-height: 1.5; }
+  .ya-opt:hover { background: rgba(255,255,255,0.1); border-color: #facc15; }
+  .ya-opt.correct { background: #166534; border-color: #22c55e; }
+  .ya-opt.wrong { background: #7f1d1d; border-color: #ef4444; }
+  
+  .ya-feedback { min-height: 50px; font-weight: 600; font-size: 1.1rem; line-height: 1.5; color: #fde047; }
+
+  /* 🎭 60 Sec Random Word Challenge 🎭 */
+  .chal-box { background: #fffbeb; border: 1px solid #fde68a; border-radius: 24px; padding: 50px; text-align: center; position: relative; overflow: hidden; }
+  
+  .timer-ring { width: 150px; height: 150px; border-radius: 50%; border: 8px solid #fef3c7; border-top-color: #eab308; margin: 0 auto 30px; display: flex; align-items: center; justify-content: center; font-size: 3.5rem; font-weight: 900; color: #854d0e; }
+  .timer-ring.active { animation: spinTimer 1s linear infinite; }
+  @keyframes spinTimer { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+  
+  .timer-text { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); z-index: 2; }
+  .timer-wrapper { position: relative; width: 150px; height: 150px; margin: 0 auto 30px; }
+
+  .word-display { font-size: 3rem; font-weight: 900; color: #ca8a04; text-transform: uppercase; letter-spacing: 2px; min-height: 80px; margin-bottom: 30px; display: flex; align-items: center; justify-content: center; background: white; padding: 20px; border-radius: 16px; box-shadow: 0 10px 20px rgba(202,138,4,0.1); transition: all 0.3s; transform: scale(0.9); opacity: 0.5; }
+  .word-display.pop { transform: scale(1.1); opacity: 1; color: #ef4444; text-shadow: 0 5px 15px rgba(239,68,68,0.3); }
+  
+  .chal-controls { display: flex; gap: 20px; justify-content: center; }
+  .chal-btn { padding: 15px 40px; background: #eab308; color: white; border: none; border-radius: 40px; font-weight: 800; font-size: 1.2rem; cursor: pointer; transition: all 0.3s; box-shadow: 0 8px 15px rgba(234,179,8,0.3); }
+  .chal-btn:hover { background: #ca8a04; transform: translateY(-3px); }
+  .chal-btn.stop { background: #ef4444; box-shadow: 0 8px 15px rgba(239,68,68,0.3); display: none; }
+  .chal-btn.stop:hover { background: #dc2626; }
+
+  /* Back btn */
+  .back-btn { display:inline-flex; align-items:center; gap:8px; padding:12px 24px; border-radius:14px; background:#ffffff; border:2px solid #fde68a; color:#ca8a04; font-size:.9rem; font-weight:700; text-decoration:none; transition:all .3s; margin-bottom:40px; box-shadow: 0 4px 6px rgba(0,0,0,0.02); }
+  .back-btn:hover { background:#fef3c7; color:#a16207; transform:translateX(-4px); border-color: #facc15; }
+
+  .reveal { opacity:0; transform:translateY(40px); transition:all .7s cubic-bezier(.2,1,.3,1); }
+  .reveal.visible { opacity:1; transform:translateY(0); }
+</style>
+
+<section class="im-hero">
+  <div class="im-bg">
+    <div class="spotlight"></div>
+    <div class="spotlight right"></div>
+  </div>
+  <div class="im-icon">🎤</div>
+  <div class="im-badge">Spontan Sahne & İmprovizasyon</div>
+  <h1 class="im-title">Doğaçlama <span>Sanatı</span></h1>
+  <p class="im-subtitle">Ezber unuttuğunuzda paniklemeyin. Sahne krizlerini fırsata çevirin. "Yes, And" tekniğiyle beyninizin hızlı düşünme kaslarını (Quick wit) geliştirerek spontan bir iletişim dehası olun.</p>
+</section>
+
+<div class="im-wrap">
+  <a href="/diksiyon?cat=dogaclama" class="back-btn">← Tüm Doğaçlama Egzersizlerini Gör (25 Madde)</a>
+
+  <!-- 🎭 YES, AND SIMULATOR 🎭 -->
+  <div class="im-card reveal" style="background:#422006; border:none;">
+    <div class="section-label" style="color:#fde047;">🤝 Yes, And... (Evet, Ve...) Simülatörü</div>
+    
+    <div class="ya-box">
+      <div class="ya-intro">
+        Dünyadaki tüm doğaçlama (improv) tiyatrolarının ve kriz iletişiminin 1 numaralı kuralı şudur: <strong>"Yes, And..." (Evet, ve...)</strong>.<br><br>
+        Sahne partneriniz (veya gerçek hayatta iletişimde olduğunuz kişi) size saçma sapan bir durum bile sunsa, buna <strong>"Hayır, o öyle değil"</strong> diyerek inkar edemezsiniz (Bu akışı öldürür). Olan biteni "Kabul etmeli (Yes)" ve üstüne kendi fikrinizi "Eklemelisiniz (And)".
+      </div>
+      
+      <div class="ya-scene">
+        <div class="ya-avatar">👽</div>
+        <div>
+          <strong style="color:white;">Sahne Partneriniz:</strong>
+          <div class="ya-dialog">"Kaptan! Uzay gemimize sızan şu dev pembe filin lazer silahını nasıl devre dışı bırakacağız?!"</div>
+        </div>
+      </div>
+      
+      <div class="ya-opts" id="yaOpts">
+        <button class="ya-opt" onclick="checkYa(this, false, 'Yanlış. Bu bir inkar (No) tepkisidir. Partnerinizin sunduğu gerçekliği çöpe attınız ve hikayenin akışını kilitlediniz.')">A) Ne uzay gemisi ne fili? Biz şu an ofisteyiz ve toplantı yapıyoruz, saçmalama!</button>
+        <button class="ya-opt" onclick="checkYa(this, true, 'Doğru! (Yes, And). Dev pembe fil gerçeğini kabul ettiniz (Yes) ve olaya bir Muz Kalkanı ekleyerek (And) hikayeyi büyüttünüz. Akış devam ediyor!')">B) (Evet)... Ve eğer hemen muz şeklindeki enerji kalkanlarımızı devreye sokmazsak fil bizi ezecek, çabuk kırmızı düğmeye bas!</button>
+        <button class="ya-opt" onclick="checkYa(this, false, 'Kısmen Yanlış. Durumu kabul ettiniz (Yes) ama üstüne hiçbir şey katmadınız. Sadece onaylamak hikayeyi ileri taşımaz.')">C) Haklısın kaptan, uzay gemisinde bir pembe fil var. Çok korkunç.</button>
+      </div>
+      
+      <div class="ya-feedback" id="yaBack"></div>
+    </div>
+  </div>
+
+  <!-- 🎭 60 SEC RANDOM WORD CHALLENGE 🎭 -->
+  <div class="im-card reveal">
+    <div class="section-label">⏱️ 60 Saniye Doğaçlama Challenge</div>
+    <p style="color:#854d0e; font-size:1.05rem; line-height:1.6; margin-bottom:30px; text-align:center;">
+      Herhangi bir konu hakkında yüksek sesle konuşmaya başlayın (Örn: Hobileriniz). Süre başladığında her 10 saniyede bir ekranda <strong>alakasız bir kelime</strong> belirecek. Göreviniz duraksamadan, o kelimeyi mantıklı (veya komik) bir şekilde cümlenize yedirerek konuşmaya devam etmektir.
+    </p>
+
+    <div class="chal-box">
+      <div class="timer-wrapper">
+        <div class="timer-ring" id="tRing"></div>
+        <div class="timer-text" id="tText" style="font-size:3.5rem; font-weight:900; color:#854d0e;">60</div>
+      </div>
+      
+      <div class="word-display" id="wDisplay">KELİME BEKLENİYOR...</div>
+      
+      <div class="chal-controls">
+        <button class="chal-btn" id="startBtn" onclick="startChallenge()">Sahneye Çık & Başla 🎤</button>
+        <button class="chal-btn stop" id="stopBtn" onclick="stopChallenge()">Durdur 🛑</button>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+// 🎭 Scroll Reveal
+const obs = new IntersectionObserver((entries) => {
+  entries.forEach(e => { if(e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); } });
+}, { threshold: 0.1 });
+document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+
+// 🎭 Yes, And Simulator
+function checkYa(btn, isCorrect, exp) {
+  const btns = document.getElementById('yaOpts').querySelectorAll('.ya-opt');
+  btns.forEach(b => b.style.pointerEvents = 'none');
+  
+  const fb = document.getElementById('yaBack');
+  if(isCorrect) {
+    btn.classList.add('correct');
+    fb.innerHTML = `✅ ${exp}`;
+    fb.style.color = '#22c55e';
+  } else {
+    btn.classList.add('wrong');
+    btns[1].style.borderColor = '#22c55e'; // Highlight correct option
+    fb.innerHTML = `❌ ${exp}`;
+    fb.style.color = '#ef4444';
+  }
+}
+
+// 🎭 60 Sec Challenge
+let timer;
+let timeLeft = 60;
+const words = ["DİNOZOR", "KARPUZ", "MATKAP", "GÖKKUŞAĞI", "TERLİK", "ASTRONOT", "VANTİLATÖR", "KANGURU", "MAKARNA", "BİSİKLET", "MİKROFON", "AHTAPOT"];
+let wordInterval;
+
+function startChallenge() {
+  document.getElementById('startBtn').style.display = 'none';
+  document.getElementById('stopBtn').style.display = 'inline-block';
+  document.getElementById('tRing').classList.add('active');
+  
+  timeLeft = 60;
+  document.getElementById('tText').innerText = timeLeft;
+  document.getElementById('wDisplay').innerText = "KONUŞMAYA BAŞLA!";
+  document.getElementById('wDisplay').classList.remove('pop');
+  
+  clearInterval(timer);
+  clearInterval(wordInterval);
+  
+  timer = setInterval(() => {
+    timeLeft--;
+    document.getElementById('tText').innerText = timeLeft;
+    
+    // Every 10 seconds, pop a word (50, 40, 30, 20, 10)
+    if(timeLeft > 0 && timeLeft % 10 === 0) {
+      popWord();
+    }
+    
+    if(timeLeft <= 0) {
+      endChallenge("SÜRE BİTTİ! HARİKAYDIN 👏");
+    }
+  }, 1000);
+}
+
+function popWord() {
+  const wd = document.getElementById('wDisplay');
+  const randomWord = words[Math.floor(Math.random() * words.length)];
+  wd.innerText = randomWord;
+  wd.classList.remove('pop');
+  void wd.offsetWidth; // trigger reflow
+  wd.classList.add('pop');
+}
+
+function stopChallenge() {
+  endChallenge("DURDURULDU");
+}
+
+function endChallenge(msg) {
+  clearInterval(timer);
+  clearInterval(wordInterval);
+  document.getElementById('tRing').classList.remove('active');
+  document.getElementById('startBtn').style.display = 'inline-block';
+  document.getElementById('startBtn').innerText = 'Tekrar Dene 🔄';
+  document.getElementById('stopBtn').style.display = 'none';
+  document.getElementById('wDisplay').innerText = msg;
+  document.getElementById('wDisplay').classList.remove('pop');
+}
+</script>
+
+<%- include('partials/main-footer') %>

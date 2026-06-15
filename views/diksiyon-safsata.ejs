@@ -1,0 +1,256 @@
+<%- include('partials/main-header') %>
+
+<style>
+  /* 🛑 Fallacy Academy Light Theme 🛑 */
+  body { background: #fafafa; color: #1c1917; font-family: 'Inter', sans-serif; overflow-x: hidden; }
+
+  /* 🛑 Hero Section 🛑 */
+  .f-hero {
+    min-height: 65vh; display: flex; flex-direction: column; align-items: center; justify-content: center;
+    text-align: center; padding: 140px 24px 80px; position: relative; overflow: hidden;
+    background: radial-gradient(circle at 50% 0%, #fee2e2 0%, #fafafa 80%);
+  }
+  .f-hero::after { content:''; position:absolute; bottom:0; left:0; right:0; height:150px; background:linear-gradient(to top,#fafafa,transparent); }
+
+  /* Grid & Shapes Background */
+  .f-bg { position:absolute; inset:0; overflow:hidden; pointer-events:none; z-index:0; }
+  .f-grid { width: 100%; height: 100%; background-image: linear-gradient(rgba(220, 38, 38, 0.05) 1px, transparent 1px), linear-gradient(90deg, rgba(220, 38, 38, 0.05) 1px, transparent 1px); background-size: 40px 40px; transform: perspective(500px) rotateX(60deg) translateY(-100px) translateZ(-200px); animation: gridMove 20s linear infinite; }
+  @keyframes gridMove { 0%{ background-position: 0 0; } 100%{ background-position: 0 40px; } }
+
+  .f-icon { font-size: 5.5rem; margin-bottom: 24px; position:relative; z-index:2; animation: floatShield 4s ease-in-out infinite; filter: drop-shadow(0 15px 25px rgba(220,38,38,0.3)); }
+  @keyframes floatShield { 0%,100%{ transform:translateY(0); } 50%{ transform:translateY(-20px); } }
+
+  .f-badge { display:inline-flex; align-items:center; gap:8px; padding:10px 28px; border-radius:40px; font-size:.95rem; font-weight:800; text-transform:uppercase; letter-spacing:3px; color: #991b1b; background: #fee2e2; border:1px solid #fca5a5; margin-bottom:24px; z-index:2; box-shadow: 0 8px 20px rgba(220,38,38,0.15); }
+  .f-title { font-size:clamp(2.5rem,6vw,5rem); font-weight:900; color: #1c1917; margin-bottom:16px; line-height:1.1; letter-spacing: -2px; z-index:2; position:relative; }
+  .f-title span { background: linear-gradient(135deg, #dc2626, #991b1b); -webkit-background-clip:text; -webkit-text-fill-color:transparent; }
+  .f-subtitle { color: #57534e; font-size:1.25rem; max-width:850px; line-height:1.8; z-index:2; position:relative; font-weight: 500; }
+
+  /* 🛑 Container 🛑 */
+  .f-wrap { max-width:1100px; margin:0 auto; padding:0 20px 100px; position:relative; z-index:10; }
+
+  /* 🛑 Premium Cards 🛑 */
+  .f-card { background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(25px); border: 1px solid rgba(220, 38, 38, 0.2); border-radius: 32px; padding: 50px; margin-bottom: 50px; transition: transform 0.4s, box-shadow 0.4s; position: relative; overflow: hidden; box-shadow: 0 20px 40px rgba(0, 0, 0, 0.04); }
+  .f-card:hover { transform: translateY(-5px); box-shadow: 0 30px 60px rgba(220, 38, 38, 0.1); border-color: rgba(220, 38, 38, 0.5); }
+  
+  .section-label { font-size:1.15rem; font-weight:800; text-transform:uppercase; letter-spacing:2px; color: #dc2626; margin-bottom:24px; display:flex; align-items:center; gap:12px; }
+
+  /* 🛑 Fallacy Detective Game 🛑 */
+  .detective-box { background: #f5f5f4; border-radius: 24px; padding: 40px; border: 2px dashed #d6d3d1; text-align: center; }
+  .quote-bubble { background: white; padding: 30px; border-radius: 20px; border-bottom-left-radius: 0; box-shadow: 0 10px 25px rgba(0,0,0,0.05); font-size: 1.4rem; font-weight: 700; color: #1c1917; margin-bottom: 30px; position: relative; display: inline-block; max-width: 800px; text-align: left; }
+  .quote-bubble::before { content: '💬'; position: absolute; top: -20px; left: -20px; font-size: 2.5rem; }
+  .quote-author { font-size: 1rem; color: #78716c; margin-top: 15px; font-weight: 600; }
+
+  .options-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 15px; margin-bottom: 20px; }
+  .opt-btn { padding: 18px 24px; background: white; border: 2px solid #e7e5e4; border-radius: 16px; font-weight: 800; font-size: 1.1rem; color: #44403c; cursor: pointer; transition: all 0.3s; box-shadow: 0 4px 6px rgba(0,0,0,0.02); }
+  .opt-btn:hover { border-color: #dc2626; color: #dc2626; transform: translateY(-3px); }
+  .opt-btn.correct { background: #dcfce7; border-color: #22c55e; color: #166534; }
+  .opt-btn.wrong { background: #fee2e2; border-color: #ef4444; color: #991b1b; }
+
+  .feedback-msg { min-height: 60px; font-size: 1.15rem; font-weight: 700; margin-top: 20px; transition: all 0.3s; opacity: 0; }
+  .feedback-msg.show { opacity: 1; }
+
+  /* 🛑 Straw Man (Saman Adam) Generator 🛑 */
+  .straw-box { display: flex; gap: 30px; flex-wrap: wrap; }
+  .straw-col { flex: 1; min-width: 300px; background: white; padding: 30px; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.05); border: 1px solid #e7e5e4; }
+  .straw-header { font-weight: 800; font-size: 1.2rem; margin-bottom: 20px; padding-bottom: 15px; border-bottom: 2px solid #f5f5f4; display: flex; justify-content: space-between; }
+  .straw-text { font-size: 1.1rem; color: #44403c; line-height: 1.7; min-height: 100px; }
+  
+  .distort-btn { width: 100%; padding: 16px; background: linear-gradient(135deg, #dc2626, #b91c1c); color: white; border: none; border-radius: 12px; font-size: 1.1rem; font-weight: 800; cursor: pointer; margin-top: 20px; transition: all 0.3s; box-shadow: 0 10px 20px rgba(220,38,38,0.3); }
+  .distort-btn:hover { transform: translateY(-3px); box-shadow: 0 15px 25px rgba(220,38,38,0.4); }
+
+  /* Back btn */
+  .back-btn { display:inline-flex; align-items:center; gap:8px; padding:12px 24px; border-radius:14px; background:#ffffff; border:2px solid #e7e5e4; color:#57534e; font-size:.95rem; font-weight:800; text-decoration:none; transition:all .3s; margin-bottom:40px; box-shadow: 0 4px 6px rgba(0,0,0,0.02); }
+  .back-btn:hover { background:#fafafa; color:#1c1917; transform:translateX(-4px); border-color: #d6d3d1; }
+
+  .reveal { opacity:0; transform:translateY(40px); transition:all .7s cubic-bezier(.2,1,.3,1); }
+  .reveal.visible { opacity:1; transform:translateY(0); }
+</style>
+
+<section class="f-hero">
+  <div class="f-bg"><div class="f-grid"></div></div>
+  <div class="f-icon">🛡️</div>
+  <div class="f-badge">Mantık Hataları Ansiklopedisi</div>
+  <h1 class="f-title">Kusursuz <span>Zırh</span></h1>
+  <p class="f-subtitle">Tartışmaları kazanmak için değil, manipülasyona uğramamak için. Ad Hominem'den Whataboutism'e tam 100 mantık hatası ve gerçek hayat vaka analizini keşfedin.</p>
+</section>
+
+<div class="f-wrap">
+  <a href="/diksiyon?cat=safsata" class="back-btn">← Tüm Safsata Analizlerini Gör (100 Madde)</a>
+
+  <!-- 🛑 FALLACY DETECTIVE 🛑 -->
+  <div class="f-card reveal">
+    <div class="section-label">🔍 Safsata Dedektifi (Vaka Simülasyonu)</div>
+    <p style="color:#57534e; font-size:1.1rem; line-height:1.6; margin-bottom:25px;">
+      Aşağıdaki tartışma cümlesinde konuşmacının saklandığı mantık hatasını (Safsatayı) bulun. 
+    </p>
+
+    <div class="detective-box">
+      <div class="quote-bubble">
+        <span id="qText">"Trafik cezalarının artırılması gerektiğini söylüyorsun ama geçen hafta seni kırmızı ışıkta geçerken gördüm!"</span>
+        <div class="quote-author" id="qContext">— Bir TV Tartışma Programı</div>
+      </div>
+      
+      <div class="options-grid" id="optContainer">
+        <button class="opt-btn" onclick="checkAnswer(this, false)">A) Straw Man (Saman Adam)</button>
+        <button class="opt-btn" onclick="checkAnswer(this, true)">B) Tu Quoque (Sen de Yaptın)</button>
+        <button class="opt-btn" onclick="checkAnswer(this, false)">C) Slippery Slope (Kaygan Zemin)</button>
+      </div>
+
+      <div class="feedback-msg" id="fBack"></div>
+      <button class="distort-btn" style="width:auto; padding: 12px 30px; display:none; margin: 0 auto;" id="nextBtn" onclick="nextQuestion()">Sonraki Vaka →</button>
+    </div>
+  </div>
+
+  <!-- 🛑 STRAW MAN GENERATOR 🛑 -->
+  <div class="f-card reveal">
+    <div class="section-label">🌾 Saman Adam (Straw Man) Üreticisi</div>
+    <p style="color:#57534e; font-size:1.1rem; line-height:1.6; margin-bottom:25px;">
+      Saman Adam safsatası, argümanınızı alıp onu en aşırı, en saçma ve savunulamaz hale getirerek (Çarpıtarak) saldırma sanatıdır. Siyasette ve medyada en çok kullanılan taktiktir.
+    </p>
+
+    <div class="straw-box">
+      <div class="straw-col" style="border-left: 4px solid #3b82f6;">
+        <div class="straw-header">Sizin Mantıklı Argümanınız <span style="color:#3b82f6;">🛡️</span></div>
+        <div class="straw-text" id="argNormal">
+          "Devlet okullarına ayrılan bütçenin biraz daha artırılması gerektiğini düşünüyorum. Eğitim kalitesi düşüyor."
+        </div>
+      </div>
+      
+      <div class="straw-col" style="border-left: 4px solid #dc2626;">
+        <div class="straw-header">Rakibin Çarpıtması (Straw Man) <span style="color:#dc2626;">🌾</span></div>
+        <div class="straw-text" id="argDistorted" style="font-style: italic; color: #a8a29e;">
+          (Çarpıtmayı görmek için butona basın)
+        </div>
+      </div>
+    </div>
+    
+    <button class="distort-btn" onclick="generateStrawMan()">Saman Adam'a Dönüştür (Çarpıt) 💥</button>
+  </div>
+
+</div>
+
+<script>
+// 🛑 Scroll Reveal
+const obs = new IntersectionObserver((entries) => {
+  entries.forEach(e => { if(e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); } });
+}, { threshold: 0.1 });
+document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+
+// 🛑 Fallacy Detective Logic
+const questions = [
+  {
+    q: '"Trafik cezalarının artırılması gerektiğini söylüyorsun ama geçen hafta seni kırmızı ışıkta geçerken gördüm!"',
+    c: '— Bir TV Tartışma Programı',
+    opts: [
+      { t: 'Straw Man (Saman Adam)', v: false },
+      { t: 'Tu Quoque (Sen de Yaptın)', v: true },
+      { t: 'Slippery Slope (Kaygan Zemin)', v: false }
+    ],
+    exp: '✅ Doğru! "Tu Quoque", karşı tarafın iddiayla çelişen bir hareketi olduğunu söyleyerek iddiayı (Trafik cezası artmalı) çürütmeye çalışmaktır. Kişinin ikiyüzlü olması, iddianın yanlış olduğu anlamına gelmez.'
+  },
+  {
+    q: '"Eğer bugün mesai saatlerini 1 saat kısaltırsak, yarın çalışanlar haftada sadece 2 gün gelmek isteyecek ve sonunda şirket iflas edecek!"',
+    c: '— Yönetim Kurulu Toplantısı',
+    opts: [
+      { t: 'Slippery Slope (Kaygan Zemin)', v: true },
+      { t: 'Ad Hominem (Kişiye Saldırı)', v: false },
+      { t: 'Post Hoc (Sahte Neden)', v: false }
+    ],
+    exp: '✅ Doğru! "Kaygan Zemin", küçük bir olayın zincirleme ve abartılı bir şekilde en kötü felakete yol açacağını kanıtsız iddia etmektir.'
+  },
+  {
+    q: '"Bu ekonomi politikasını eleştiriyorsunuz ama siz zaten Amerika\'da eğitim gördünüz, sizin yerli ve milli düşünmeniz beklenemez!"',
+    c: '— Siyasi Münazara',
+    opts: [
+      { t: 'Bandwagon (Sürü)', v: false },
+      { t: 'False Dilemma (Sahte İkilem)', v: false },
+      { t: 'Genetic Fallacy (Köken Safsatası)', v: true }
+    ],
+    exp: '✅ Doğru! "Genetic Fallacy (Köken Safsatası)", bir argümanın doğruluğunu onun kaynağına veya kişinin nereden geldiğine bakarak reddetmektir.'
+  }
+];
+
+let currQ = 0;
+
+function loadQuestion() {
+  const qObj = questions[currQ];
+  document.getElementById('qText').innerText = qObj.q;
+  document.getElementById('qContext').innerText = qObj.c;
+  
+  const cont = document.getElementById('optContainer');
+  cont.innerHTML = '';
+  qObj.opts.forEach(o => {
+    const btn = document.createElement('button');
+    btn.className = 'opt-btn';
+    btn.innerText = o.t;
+    btn.onclick = function() { checkAnswer(this, o.v, qObj.exp); };
+    cont.appendChild(btn);
+  });
+  
+  document.getElementById('fBack').classList.remove('show');
+  document.getElementById('nextBtn').style.display = 'none';
+}
+
+function checkAnswer(btn, isCorrect, explanation) {
+  // Disable all
+  const btns = document.getElementById('optContainer').querySelectorAll('.opt-btn');
+  btns.forEach(b => { b.style.pointerEvents = 'none'; });
+  
+  const fback = document.getElementById('fBack');
+  if(isCorrect) {
+    btn.classList.add('correct');
+    fback.innerHTML = `<span style="color:#16a34a">Tebrikler!</span> ${explanation}`;
+  } else {
+    btn.classList.add('wrong');
+    fback.innerHTML = `<span style="color:#dc2626">Yanlış!</span> Doğru cevap değildi. Argümanın mantık yapısını tekrar inceleyin.`;
+  }
+  
+  fback.classList.add('show');
+  if(currQ < questions.length - 1) {
+    document.getElementById('nextBtn').style.display = 'block';
+  } else {
+    document.getElementById('nextBtn').style.display = 'block';
+    document.getElementById('nextBtn').innerText = "Tüm Vakaları Gördünüz 🏆";
+    document.getElementById('nextBtn').onclick = null;
+  }
+}
+
+function nextQuestion() {
+  currQ++;
+  loadQuestion();
+}
+
+// Initialize
+loadQuestion();
+
+// 🛑 Straw Man Logic
+const strawCases = [
+  {
+    norm: '"Devlet okullarına ayrılan bütçenin biraz daha artırılması gerektiğini düşünüyorum. Eğitim kalitesi düşüyor."',
+    dist: '"Bakın bakın! Beyefendi askeri bütçenin tamamen sıfırlanmasını ve ülkenin düşmanlara teslim edilmesini istiyor! Sizi vatan haini!"'
+  },
+  {
+    norm: '"Çalışanların hafta sonu maillerine cevap verme zorunluluğunu kaldırırsak daha verimli olurlar."',
+    dist: '"Yani kimse artık hiç çalışmasın, şirket batana kadar herkes evde yatsın diyorsunuz! Harika bir vizyon(!)"'
+  },
+  {
+    norm: '"Trafik sorununu çözmek için bisiklet yollarına ağırlık vermeliyiz."',
+    dist: '"Arabalarımızı tamamen yasaklayıp bizi taş devrine geri döndürmek istiyorlar! Buna izin veremeyiz!"'
+  }
+];
+let currStraw = 0;
+
+function generateStrawMan() {
+  const c = strawCases[currStraw];
+  document.getElementById('argNormal').innerText = c.norm;
+  
+  const distEl = document.getElementById('argDistorted');
+  distEl.style.color = '#dc2626';
+  distEl.style.fontWeight = '800';
+  distEl.innerText = c.dist;
+  
+  currStraw = (currStraw + 1) % strawCases.length;
+}
+</script>
+
+<%- include('partials/main-footer') %>
