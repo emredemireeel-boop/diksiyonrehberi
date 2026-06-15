@@ -1501,7 +1501,39 @@ const SITEMAP_PAGES = [
   { loc: '/diksiyon/etkili-konusma-teknikleri', changefreq: 'monthly', priority: '0.9' },
   // Egzersiz Laboratuvarları
   { loc: '/egzersiz/r-harfi', changefreq: 'weekly', priority: '0.9' },
-  { loc: '/egzersiz/s-harfi', changefreq: 'weekly', priority: '0.9' }
+  { loc: '/egzersiz/s-harfi', changefreq: 'weekly', priority: '0.9' },
+  { loc: '/egzersiz/cocuk', changefreq: 'weekly', priority: '0.9' },
+  { loc: '/egzersiz/ses', changefreq: 'weekly', priority: '0.9' },
+  { loc: '/egzersiz/retorik', changefreq: 'weekly', priority: '0.9' },
+  { loc: '/egzersiz/munazara', changefreq: 'weekly', priority: '0.9' },
+  { loc: '/egzersiz/muzakere', changefreq: 'weekly', priority: '0.9' },
+  { loc: '/egzersiz/propaganda', changefreq: 'weekly', priority: '0.9' },
+  { loc: '/egzersiz/masterclass', changefreq: 'weekly', priority: '0.9' },
+  { loc: '/egzersiz/safsata', changefreq: 'weekly', priority: '0.9' },
+  { loc: '/egzersiz/curutme', changefreq: 'weekly', priority: '0.9' },
+  { loc: '/egzersiz/protokol', changefreq: 'weekly', priority: '0.9' },
+  { loc: '/egzersiz/imaj', changefreq: 'weekly', priority: '0.9' },
+  { loc: '/egzersiz/toren', changefreq: 'weekly', priority: '0.9' },
+  { loc: '/egzersiz/manipulasyon', changefreq: 'weekly', priority: '0.9' },
+  { loc: '/egzersiz/mobbing', changefreq: 'weekly', priority: '0.9' },
+  { loc: '/egzersiz/dijital', changefreq: 'weekly', priority: '0.9' },
+  { loc: '/egzersiz/bedendili', changefreq: 'weekly', priority: '0.9' },
+  { loc: '/egzersiz/karizma', changefreq: 'weekly', priority: '0.9' },
+  { loc: '/egzersiz/liderlik', changefreq: 'weekly', priority: '0.9' },
+  { loc: '/egzersiz/hikaye', changefreq: 'weekly', priority: '0.9' },
+  { loc: '/egzersiz/karakter', changefreq: 'weekly', priority: '0.9' },
+  { loc: '/egzersiz/sunum', changefreq: 'weekly', priority: '0.9' },
+  { loc: '/egzersiz/kriz', changefreq: 'weekly', priority: '0.9' },
+  { loc: '/egzersiz/mizah', changefreq: 'weekly', priority: '0.9' },
+  { loc: '/egzersiz/mikrofon', changefreq: 'weekly', priority: '0.9' },
+  { loc: '/egzersiz/dogaclama', changefreq: 'weekly', priority: '0.9' },
+  { loc: '/egzersiz/rutin', changefreq: 'weekly', priority: '0.9' },
+  { loc: '/egzersiz/aksan', changefreq: 'weekly', priority: '0.9' },
+  { loc: '/egzersiz/saglik', changefreq: 'weekly', priority: '0.9' },
+  { loc: '/egzersiz/okuma', changefreq: 'weekly', priority: '0.9' },
+  { loc: '/egzersiz/dil', changefreq: 'weekly', priority: '0.9' },
+  { loc: '/egzersiz/dudak', changefreq: 'weekly', priority: '0.9' },
+  { loc: '/egzersiz/cene-agiz', changefreq: 'weekly', priority: '0.9' }
 ];
 
 // ═══════════════════════════════════════════════════════════════════════════
@@ -1626,7 +1658,7 @@ app.get('/sitemap.xml', (req, res) => {
 
   // Özel Simülatör ve Araç Rotaları
   const extraRoutes = [
-    '/manipulasyon/araclar/saldiri', '/manipulasyon/araclar/savunma', '/manipulasyon/araclar/dedektif',
+    '/manipulasyon/araclar/saldiri', '/manipulasyon/araclar/savunma', '/manipulasyon/araclar/dedektif', '/manipulasyon/araclar/yalan-dedektoru',
     '/retorik/araclar/muzakere', '/retorik/araclar/makine', '/retorik/araclar/radar', '/retorik/araclar/kursu', 
     '/retorik/araclar/ucgen', '/retorik/araclar/kitle', '/retorik/araclar/munazara', '/retorik/araclar/karanlik', 
     '/retorik/araclar/prompter', '/retorik/araclar/asistan',
@@ -1697,6 +1729,7 @@ Allow: /
 Disallow: /*?blog=
 Disallow: /*?modal=
 Disallow: /api/
+Disallow: /test*
 
 Sitemap: ${SITE_URL}/sitemap.xml
 `);
