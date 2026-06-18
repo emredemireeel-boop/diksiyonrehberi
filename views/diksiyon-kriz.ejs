@@ -36,25 +36,25 @@
   .section-label { font-size:1.1rem; font-weight:800; text-transform:uppercase; letter-spacing:2px; color: #ea580c; margin-bottom:24px; display:flex; align-items:center; gap:12px; }
 
   /* 🚨 Blackout Simulator 🚨 */
-  .bo-box { background: #000; border-radius: 24px; padding: 40px; color: white; display: flex; flex-direction: column; gap: 30px; position: relative; border: 2px solid #333; }
-  .bo-intro { font-size: 1.05rem; color: #a3a3a3; line-height: 1.6; }
+  .bo-box { background: #fff7ed; border-radius: 24px; padding: 40px; color: #431407; display: flex; flex-direction: column; gap: 30px; position: relative; border: 2px solid #fed7aa; }
+  .bo-intro { font-size: 1.05rem; color: #9a3412; line-height: 1.6; }
   
-  .bo-prompter { background: #111; border: 1px solid #333; height: 150px; padding: 20px; font-family: monospace; font-size: 1.5rem; color: #22c55e; overflow: hidden; display: flex; align-items: center; justify-content: center; text-align: center; position: relative; border-radius: 12px; }
+  .bo-prompter { background: #f5f5f4; border: 2px solid #d4d4d8; height: 150px; padding: 20px; font-family: monospace; font-size: 1.5rem; color: #10b981; overflow: hidden; display: flex; align-items: center; justify-content: center; text-align: center; position: relative; border-radius: 12px; }
   .bo-text { transition: opacity 3s linear, filter 3s linear; }
   .bo-text.faded { opacity: 0; filter: blur(10px); }
-  .bo-alert { position: absolute; inset:0; background: rgba(220,38,38,0.2); color: #ef4444; font-size: 2rem; font-weight: 900; display: flex; align-items: center; justify-content: center; opacity: 0; transition: opacity 0.5s; pointer-events: none; }
+  .bo-alert { position: absolute; inset:0; background: rgba(220,38,38,0.1); color: #dc2626; font-size: 2rem; font-weight: 900; display: flex; align-items: center; justify-content: center; opacity: 0; transition: opacity 0.5s; pointer-events: none; }
   .bo-alert.show { opacity: 1; animation: flashAlert 1s infinite alternate; }
   @keyframes flashAlert { 0% { background: rgba(220,38,38,0.1); } 100% { background: rgba(220,38,38,0.4); } }
 
   .bo-opts { display: grid; grid-template-columns: 1fr; gap: 15px; opacity: 0.5; pointer-events: none; transition: opacity 0.5s; }
   .bo-opts.active { opacity: 1; pointer-events: auto; }
   
-  .b-opt { padding: 20px; background: rgba(255,255,255,0.05); border: 2px solid rgba(255,255,255,0.1); border-radius: 12px; cursor: pointer; transition: all 0.2s; font-size: 1.1rem; color: #e5e5e5; line-height: 1.5; }
-  .b-opt:hover { border-color: #ea580c; background: rgba(234,88,12,0.1); }
+  .b-opt { padding: 20px; background: rgba(255, 237, 213, 0.6); border: 2px solid rgba(254, 215, 170, 0.7); border-radius: 12px; cursor: pointer; transition: all 0.2s; font-size: 1.1rem; color: #431407; line-height: 1.5; }
+  .b-opt:hover { border-color: #ea580c; background: rgba(234, 88, 12, 0.08); }
   .b-opt.correct { background: #166534; border-color: #22c55e; }
   .b-opt.wrong { background: #7f1d1d; border-color: #ef4444; }
   
-  .bo-feedback { min-height: 50px; font-weight: 600; font-size: 1.1rem; line-height: 1.5; color: #fdba74; }
+  .bo-feedback { min-height: 50px; font-weight: 600; font-size: 1.1rem; line-height: 1.5; color: #ea580c; }
   .bo-btn { align-self: flex-start; padding: 12px 30px; background: #ea580c; color: white; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; }
 
   /* 🚨 Heckler Defense 🚨 */

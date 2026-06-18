@@ -1,41 +1,41 @@
 <%- include('partials/main-header') %>
 
 <style>
-  body { background: #000000; color: #ffffff; margin: 0; min-height: 100vh; display: flex; flex-direction: column;  overflow: hidden; }
+  body { background: #f8fafc; color: #0f172a; margin: 0; min-height: 100vh; display: flex; flex-direction: column;  overflow: hidden; }
   .main-header, .main-footer { display: none !important; }
 
   .rr-container { flex-grow: 1; padding: 40px; display: flex; flex-direction: column; align-items: center; justify-content: center; position: relative; max-width: 900px; margin: 0 auto; width: 100%; }
   
-  .instruction-panel { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); padding: 20px 40px; border-radius: 20px; text-align: center; margin-bottom: 20px; z-index: 10; backdrop-filter: blur(10px); transition: opacity 0.3s; }
-  .instruction-title { font-size: 1.5rem; font-weight: 900; margin: 0 0 10px; color: #ef4444; text-transform: uppercase; letter-spacing: 1px; }
-  .instruction-desc { font-size: 1rem; color: #cbd5e1; margin: 0; max-width: 600px; line-height: 1.5; }
+  .instruction-panel { background: rgba(239,68,68,0.08); border: 1px solid rgba(239,68,68,0.15); padding: 20px 40px; border-radius: 20px; text-align: center; margin-bottom: 20px; z-index: 10; backdrop-filter: blur(10px); transition: opacity 0.3s; }
+  .instruction-title { font-size: 1.5rem; font-weight: 900; margin: 0 0 10px; color: #b91c1c; text-transform: uppercase; letter-spacing: 1px; }
+  .instruction-desc { font-size: 1rem; color: #64748b; margin: 0; max-width: 600px; line-height: 1.5; }
 
   /* Radar Screen */
-  .radar-screen { background: #0f172a; width: 100%; height: 300px; border-radius: 20px; border: 2px solid #334155; position: relative; overflow: hidden; display: flex; align-items: center; justify-content: center; padding: 40px; box-shadow: inset 0 0 50px rgba(0,0,0,0.8); margin-bottom: 40px; }
+  .radar-screen { background: #ffffff; width: 100%; height: 300px; border-radius: 20px; border: 2px solid #e2e8f0; position: relative; overflow: hidden; display: flex; align-items: center; justify-content: center; padding: 40px; box-shadow: inset 0 0 50px rgba(0,0,0,0.04); margin-bottom: 40px; }
   
   /* Scanning line */
-  .radar-scan { position: absolute; width: 100%; height: 4px; background: rgba(239, 68, 68, 0.5); box-shadow: 0 0 20px #ef4444; top: 0; left: 0; animation: scanAnim 3s linear infinite; display: none; }
+  .radar-scan { position: absolute; width: 100%; height: 4px; background: rgba(239, 68, 68, 0.3); box-shadow: 0 0 20px rgba(239,68,68,0.2); top: 0; left: 0; animation: scanAnim 3s linear infinite; display: none; }
   @keyframes scanAnim { 0% { top: 0; opacity: 0; } 10% { opacity: 1; } 90% { opacity: 1; } 100% { top: 100%; opacity: 0; } }
 
-  .subtitle-text { font-size: 2.5rem; font-weight: 800; color: #94a3b8; text-align: center; line-height: 1.4; transition: color 0.2s; }
-  .subtitle-text.highlight { color: #ffffff; text-shadow: 0 0 20px rgba(255,255,255,0.5); }
+  .subtitle-text { font-size: 2.5rem; font-weight: 800; color: #64748b; text-align: center; line-height: 1.4; transition: color 0.2s; }
+  .subtitle-text.highlight { color: #0f172a; text-shadow: 0 0 20px rgba(15,23,42,0.2); }
 
   .controls { display: flex; gap: 20px; z-index: 10; }
   .btn-hata {
-    background: #ef4444; color: #ffffff; border: none; padding: 25px 60px; border-radius: 40px;
-    font-size: 1.5rem; font-weight: 900; cursor: pointer; transition: all 0.1s; text-transform: uppercase; letter-spacing: 2px; box-shadow: 0 10px 30px rgba(239, 68, 68, 0.4);
+    background: #dc2626; color: #ffffff; border: none; padding: 25px 60px; border-radius: 40px;
+    font-size: 1.5rem; font-weight: 900; cursor: pointer; transition: all 0.1s; text-transform: uppercase; letter-spacing: 2px; box-shadow: 0 10px 30px rgba(220, 38, 38, 0.2);
   }
-  .btn-hata:active { transform: scale(0.95); background: #dc2626; }
+  .btn-hata:active { transform: scale(0.95); background: #b91c1c; }
   
-  .btn-start { background: #38bdf8; color: #0f172a; border: none; padding: 15px 40px; border-radius: 30px; font-size: 1.1rem; font-weight: 800; cursor: pointer; text-transform: uppercase; }
+  .btn-start { background: #38bdf8; color: #f8fafc; border: none; padding: 15px 40px; border-radius: 30px; font-size: 1.1rem; font-weight: 800; cursor: pointer; text-transform: uppercase; }
 
-  .btn-back { position: absolute; top: 30px; left: 30px; color: rgba(255,255,255,0.6); text-decoration: none; font-weight: 700; display: flex; align-items: center; gap: 8px; transition: color 0.2s; z-index: 10; }
-  .btn-back:hover { color: #ffffff; }
+  .btn-back { position: absolute; top: 30px; left: 30px; color: rgba(15,23,42,0.6); text-decoration: none; font-weight: 700; display: flex; align-items: center; gap: 8px; transition: color 0.2s; z-index: 10; }
+  .btn-back:hover { color: #0f172a; }
 
   /* Result overlay */
-  .result-box { position: absolute; inset: 0; background: rgba(15,23,42,0.95); z-index: 20; display: none; flex-direction: column; align-items: center; justify-content: center; padding: 40px; text-align: center; backdrop-filter: blur(10px); }
+  .result-box { position: absolute; inset: 0; background: rgba(248,250,252,0.95); z-index: 20; display: none; flex-direction: column; align-items: center; justify-content: center; padding: 40px; text-align: center; backdrop-filter: blur(10px); }
   .result-title { font-size: 4rem; font-weight: 900; margin-bottom: 20px; }
-  .result-desc { font-size: 1.2rem; color: #cbd5e1; max-width: 600px; line-height: 1.6; margin-bottom: 40px; }
+  .result-desc { font-size: 1.2rem; color: #64748b; max-width: 600px; line-height: 1.6; margin-bottom: 40px; }
 
 </style>
 

@@ -1,27 +1,27 @@
 <%- include('partials/main-header') %>
 
 <style>
-  body { background: #1e293b; color: #ffffff; margin: 0; min-height: 100vh; display: flex; flex-direction: column;  overflow: hidden; }
+  body { background: #f8fafc; color: #0f172a; margin: 0; min-height: 100vh; display: flex; flex-direction: column;  overflow: hidden; }
   .main-header, .main-footer { display: none !important; }
 
   .m-container { flex-grow: 1; padding: 40px; display: flex; flex-direction: column; align-items: center; justify-content: center; position: relative; }
   
-  .instruction-panel { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); padding: 20px 40px; border-radius: 20px; text-align: center; margin-bottom: 60px; z-index: 10; backdrop-filter: blur(10px); }
+  .instruction-panel { background: rgba(15,23,42,0.05); border: 1px solid rgba(15,23,42,0.15); padding: 20px 40px; border-radius: 20px; text-align: center; margin-bottom: 60px; z-index: 10; backdrop-filter: blur(10px); }
   .instruction-title { font-size: 1.5rem; font-weight: 900; margin: 0 0 10px; color: #10b981; text-transform: uppercase; letter-spacing: 1px; }
-  .instruction-desc { font-size: 1rem; color: #cbd5e1; margin: 0; max-width: 600px; line-height: 1.5; }
+  .instruction-desc { font-size: 1rem; color: #475569; margin: 0; max-width: 600px; line-height: 1.5; }
 
   /* Pendulum */
   .pendulum-wrapper { width: 300px; height: 150px; position: relative; overflow: hidden; margin-bottom: 40px; }
-  .pendulum-pivot { width: 10px; height: 10px; background: #94a3b8; border-radius: 50%; position: absolute; top: -5px; left: 50%; transform: translateX(-50%); z-index: 5; }
-  .pendulum-arm { width: 4px; height: 130px; background: #64748b; position: absolute; top: 0; left: 50%; margin-left: -2px; transform-origin: top center; transform: rotate(0deg); }
+  .pendulum-pivot { width: 10px; height: 10px; background: #cbd5e1; border-radius: 50%; position: absolute; top: -5px; left: 50%; transform: translateX(-50%); z-index: 5; }
+  .pendulum-arm { width: 4px; height: 130px; background: #cbd5e1; position: absolute; top: 0; left: 50%; margin-left: -2px; transform-origin: top center; transform: rotate(0deg); }
   .pendulum-weight { width: 40px; height: 40px; background: #10b981; border-radius: 50%; position: absolute; bottom: -20px; left: -18px; box-shadow: 0 0 20px rgba(16, 185, 129, 0.5); }
 
   /* We will use JS to inject a keyframe animation so we can dynamically change speed */
   .pendulum-arm.swing { animation: swingAnim infinite ease-in-out alternate; }
 
-  .reading-text { font-size: 1.6rem; font-weight: 600; text-align: center; color: #94a3b8; max-width: 800px; line-height: 1.6; margin-bottom: 40px; transition: color 0.1s; }
+  .reading-text { font-size: 1.6rem; font-weight: 600; text-align: center; color: #334155; max-width: 800px; line-height: 1.6; margin-bottom: 40px; transition: color 0.1s; }
   
-  .controls { display: flex; flex-direction: column; align-items: center; gap: 20px; background: rgba(0,0,0,0.2); padding: 30px; border-radius: 20px; }
+  .controls { display: flex; flex-direction: column; align-items: center; gap: 20px; background: rgba(15,23,42,0.1); padding: 30px; border-radius: 20px; }
   
   .speed-slider { -webkit-appearance: none; width: 300px; height: 8px; background: #334155; border-radius: 5px; outline: none; }
   .speed-slider::-webkit-slider-thumb { -webkit-appearance: none; appearance: none; width: 25px; height: 25px; border-radius: 50%; background: #10b981; cursor: pointer; }
@@ -33,8 +33,8 @@
   }
   .btn-control:hover { background: #059669; transform: translateY(-2px); }
   
-  .btn-back { position: absolute; top: 30px; left: 30px; color: rgba(255,255,255,0.6); text-decoration: none; font-weight: 700; display: flex; align-items: center; gap: 8px; transition: color 0.2s; z-index: 10; }
-  .btn-back:hover { color: #ffffff; }
+  .btn-back { position: absolute; top: 30px; left: 30px; color: rgba(15,23,42,0.6); text-decoration: none; font-weight: 700; display: flex; align-items: center; gap: 8px; transition: color 0.2s; z-index: 10; }
+  .btn-back:hover { color: #0f172a; }
 
 </style>
 
@@ -89,7 +89,7 @@
     
     // Visual flash on text
     readingText.style.color = '#ffffff';
-    setTimeout(() => { readingText.style.color = '#94a3b8'; }, 100);
+    setTimeout(() => { readingText.style.color = '#334155'; }, 100);
 
     // Audio beep
     if (audioCtx.state === 'suspended') audioCtx.resume();

@@ -8,23 +8,23 @@
      ═══════════════════════════════════════════════════════════ */
 
   :root {
-    --det-bg: #0a0a14;
-    --det-surface: #131320;
-    --det-glass: #131320;
-    --det-border: rgba(120, 80, 255, 0.15);
+    --det-bg: #f8fafc;
+    --det-surface: #f0f4f8;
+    --det-glass: #f0f4f8;
+    --det-border: rgba(15,23,42,0.15);
     --det-glow: #7c3aed;
     --det-glow2: #c084fc;
     --det-cyan: #22d3ee;
     --det-amber: #fbbf24;
     --det-emerald: #34d399;
     --det-rose: #fb7185;
-    --det-text: #f1f5f9;
-    --det-text2: #cbd5e1;
-    --det-text3: #94a3b8;
+    --det-text: #0f172a;
+    --det-text2: #334155;
+    --det-text3: #475569;
     --noise: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.04'/%3E%3C/svg%3E");
   }
 
-  body { background: #0a0a14 !important; color: #f1f5f9 !important; font-family: "Inter", sans-serif; overflow-x: hidden; margin: 0; padding: 0; }
+  body { background: #f8fafc !important; color: #0f172a !important; font-family: "Inter", sans-serif; overflow-x: hidden; margin: 0; padding: 0; }
 
   /* ── Cosmic Background ── */
   .cosmic-bg {
@@ -115,7 +115,7 @@
     position: fixed;
     inset: 0;
     z-index: 9999;
-    background: #050510;
+    background: #f8fafc;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -155,7 +155,7 @@
   .cinema-sub {
     font-family: 'Inter', sans-serif;
     font-size: 1rem;
-    color: var(--det-text2);
+    color: #334155;
     opacity: 0;
     animation: fadeSlideUp 0.8s ease forwards;
     animation-delay: 1.6s;
@@ -245,7 +245,7 @@
   .det-hero-sub {
     font-family: 'Inter', sans-serif;
     font-size: 1.05rem;
-    color: var(--det-text2);
+    color: #334155;
     line-height: 1.6;
     max-width: 600px;
     margin: 0 auto;
@@ -263,11 +263,7 @@
     gap: 15px;
     margin-bottom: 30px;
     padding: 16px 28px;
-    background: var(--det-glass);
-    backdrop-filter: blur(20px);
-    border: 1px solid var(--det-border);
-    border-radius: 20px;
-    box-shadow: 
+    .hud-bar { width: 100%; max-width: 960px; display: flex; justify-content: space-between; align-items: center; gap: 15px; margin-bottom: 30px; padding: 16px 28px; background: var(--det-glass); backdrop-filter: blur(20px); border: 1px solid var(--det-border); border-radius: 20px; box-shadow: 
       0 8px 32px rgba(0,0,0,0.4),
       inset 0 1px 0 rgba(255,255,255,0.04);
     opacity: 0;
@@ -302,7 +298,7 @@
     font-family: 'Inter', sans-serif;
     font-size: 1.2rem;
     font-weight: 900;
-    color: var(--det-text);
+    color: #0f172a;
   }
   .hud-value.glow-score {
     color: var(--det-emerald);
@@ -352,12 +348,7 @@
 
   /* ── Case File Card ── */
   .case-file {
-    background: var(--det-glass);
-    backdrop-filter: blur(30px);
-    border: 1px solid var(--det-border);
-    border-radius: 24px;
-    overflow: hidden;
-    box-shadow: 
+    .hud-bar { width: 100%; max-width: 960px; display: flex; justify-content: space-between; align-items: center; gap: 15px; margin-bottom: 30px; padding: 16px 28px; background: var(--det-glass); backdrop-filter: blur(20px); border: 1px solid var(--det-border); border-radius: 20px; box-shadow: 
       0 30px 80px rgba(0,0,0,0.5),
       0 0 0 1px rgba(255,255,255,0.03),
       inset 0 1px 0 rgba(255,255,255,0.05);
@@ -406,7 +397,7 @@
     font-family: 'Plus Jakarta Sans', sans-serif;
     font-size: 1.8rem;
     font-weight: 800;
-    color: var(--det-text);
+    color: #0f172a;
     margin: 0 0 10px;
     line-height: 1.2;
   }
@@ -490,12 +481,12 @@
   .msg-card.speaker-a .msg-bubble {
     background: rgba(34, 211, 238, 0.04);
     border: 1px solid rgba(34, 211, 238, 0.12);
-    color: var(--det-text);
+    color: #0f172a;
   }
   .msg-card.speaker-b .msg-bubble {
     background: rgba(251, 113, 133, 0.04);
     border: 1px solid rgba(251, 113, 133, 0.12);
-    color: var(--det-text);
+    color: #0f172a;
   }
 
   /* Target Highlight - The fallacy */
@@ -555,7 +546,7 @@
   .q-prompt-text {
     font-size: 1.15rem;
     font-weight: 700;
-    color: var(--det-text);
+    color: #0f172a;
     line-height: 1.5;
     padding-top: 6px;
   }
@@ -576,7 +567,7 @@
     border-radius: 16px;
     border: 1px solid var(--det-border);
     background: rgba(255,255,255,0.02);
-    color: var(--det-text);
+    color: #0f172a;
     font-size: 0.95rem;
     font-weight: 600;
     cursor: pointer;
@@ -714,7 +705,7 @@
   .feedback-panel.success .fb-title-text { color: var(--det-emerald); }
   .feedback-panel.error .fb-title-text { color: var(--det-rose); }
 
-  .fb-body { background: #0a0a14 !important; color: #f1f5f9 !important; font-family: "Inter", sans-serif; overflow-x: hidden; margin: 0; padding: 0; }
+  .fb-body { background: #f8fafc !important; color: #0f172a !important; font-family: "Inter", sans-serif; overflow-x: hidden; margin: 0; padding: 0; }
 
   /* ── Next Button ── */
   .next-action {
@@ -763,11 +754,7 @@
     max-width: 700px;
     text-align: center;
     padding: 60px 40px;
-    background: var(--det-glass);
-    backdrop-filter: blur(30px);
-    border: 1px solid var(--det-border);
-    border-radius: 30px;
-    box-shadow: 
+    .hud-bar { width: 100%; max-width: 960px; display: flex; justify-content: space-between; align-items: center; gap: 15px; margin-bottom: 30px; padding: 16px 28px; background: var(--det-glass); backdrop-filter: blur(20px); border: 1px solid var(--det-border); border-radius: 20px; box-shadow: 
       0 40px 100px rgba(0,0,0,0.5),
       0 0 100px rgba(124, 58, 237, 0.08);
     position: relative;
@@ -816,7 +803,7 @@
     background-clip: text;
   }
   .victory-sub {
-    color: var(--det-text2);
+    color: #334155;
     font-size: 1.05rem;
     line-height: 1.7;
     margin-bottom: 15px;
@@ -1386,3 +1373,5 @@
 </script>
 
 <%- include('partials/main-footer') %>
+
+

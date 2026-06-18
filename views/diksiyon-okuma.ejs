@@ -1,7 +1,7 @@
 <%- include('partials/main-header') %>
 
 <style>
-  body { background: #0a0a14; color: #f1f5f9; font-family: 'Inter', sans-serif; overflow-x: hidden; }
+  body { background: #f8fafc; color: #0f172a; font-family: 'Inter', sans-serif; overflow-x: hidden; }
 
   /* 🎙️ Hero 🎙️ */
   .v-hero {
@@ -9,7 +9,7 @@
     text-align: center; padding: 120px 24px 80px; position: relative; overflow: hidden;
     background: radial-gradient(ellipse 70% 80% at 50% 20%, #8b5cf622, transparent 70%);
   }
-  .v-hero::after { content:''; position:absolute; bottom:0; left:0; right:0; height:150px; background:linear-gradient(to top,#0a0a14,transparent); }
+  .v-hero::after { content:''; position:absolute; bottom:0; left:0; right:0; height:150px; background:linear-gradient(to top,#f8fafc,transparent); }
 
   .hero-particles { position:absolute; inset:0; overflow:hidden; pointer-events:none; }
   .hp { position:absolute; border-radius:50%; animation: vFloat 8s ease-in-out infinite; background: linear-gradient(135deg, #8b5cf6, #d946ef); }
@@ -19,34 +19,34 @@
   @keyframes vPulse { 0%,100%{ transform: scale(1); } 50%{ transform: scale(1.05) translateY(-5px); } }
 
   .v-badge { display:inline-flex; align-items:center; gap:8px; padding:8px 24px; border-radius:30px; font-size:.85rem; font-weight:800; text-transform:uppercase; letter-spacing:4px; color:#ddd6fe; background:#8b5cf618; border:1px solid #8b5cf644; margin-bottom:24px; box-shadow: 0 0 20px #8b5cf622; }
-  .v-title { font-size:clamp(2.5rem,6vw,4rem); font-weight:900; color:#fff; margin-bottom:12px; line-height:1.1; letter-spacing: -1px; }
+  .v-title { font-size:clamp(2.5rem,6vw,4rem); font-weight:900; color:#0f172a; margin-bottom:12px; line-height:1.1; letter-spacing: -1px; }
   .v-title span { background: linear-gradient(135deg, #a855f7, #e879f9); -webkit-background-clip:text; -webkit-text-fill-color:transparent; }
-  .v-subtitle { color:#94a3b8; font-size:1.15rem; max-width:700px; line-height:1.8; }
+  .v-subtitle { color:#0f172a; font-size:1.15rem; max-width:700px; line-height:1.8; }
 
   /* 🎙️ Container 🎙️ */
   .v-wrap { max-width:1000px; margin:0 auto; padding:0 20px 100px; }
 
   /* 🎙️ Glass Cards 🎙️ */
-  .glass { background:rgba(255,255,255,.02); backdrop-filter:blur(20px); border:1px solid rgba(255,255,255,.05); border-radius:24px; padding:40px; margin-bottom:40px; transition:transform .4s,box-shadow .4s; position: relative; overflow: hidden; }
-  .glass::before { content:''; position:absolute; top:0; left:0; width:100%; height:1px; background:linear-gradient(90deg,transparent,rgba(255,255,255,.1),transparent); }
-  .glass:hover { transform:translateY(-5px); box-shadow:0 30px 60px rgba(0,0,0,.4),0 0 40px #8b5cf611; border-color:rgba(139,92,246,.2); }
+  .glass { background:rgba(15,23,42,.02); backdrop-filter:blur(20px); border:1px solid rgba(15,23,42,.05); border-radius:24px; padding:40px; margin-bottom:40px; transition:transform .4s,box-shadow .4s; position: relative; overflow: hidden; }
+  .glass::before { content:''; position:absolute; top:0; left:0; width:100%; height:1px; background:linear-gradient(90deg,transparent,rgba(15,23,42,.1),transparent); }
+  .glass:hover { transform:translateY(-5px); box-shadow:0 30px 60px rgba(15,23,42,.4),0 0 40px #8b5cf611; border-color:rgba(139,92,246,.2); }
   .section-label { font-size:.85rem; font-weight:800; text-transform:uppercase; letter-spacing:4px; color:#c084fc; margin-bottom:20px; display:flex; align-items:center; gap:12px; }
   .section-label::before { content:''; width:24px; height:2px; background:#c084fc; border-radius:2px; }
 
   /* 🎙️ Teleprompter Studio 🎙️ */
-  .prompter-container { background: #000; border: 4px solid #1e293b; border-radius: 16px; overflow: hidden; position: relative; height: 350px; box-shadow: inset 0 0 50px rgba(0,0,0,1); }
+  .prompter-container { background: #f8fafc; border: 4px solid #cbd5e1; border-radius: 16px; overflow: hidden; position: relative; height: 350px; box-shadow: inset 0 0 20px rgba(0,0,0,0.02); }
   .prompter-screen { position: absolute; inset: 0; padding: 40px 60px; overflow: hidden; display: flex; align-items: flex-start; justify-content: center; }
   
   /* The moving text wrapper */
   .prompter-text-wrapper { position: absolute; top: 100%; width: 80%; text-align: center; transition: transform 0.1s linear; }
-  .prompter-text { font-size: 2.5rem; font-weight: 700; color: #fff; line-height: 1.5; text-shadow: 0 0 10px rgba(255,255,255,0.3); font-family: 'Inter', sans-serif; }
+  .prompter-text { font-size: 2.5rem; font-weight: 700; color: #0f172a; line-height: 1.5; text-shadow: 0 0 10px rgba(139, 92, 246, 0.1); font-family: 'Inter', sans-serif; }
   
   /* Reading Focus Line */
   .reading-line { position: absolute; top: 50%; left: 0; width: 100%; height: 60px; transform: translateY(-50%); background: linear-gradient(180deg, transparent, rgba(139,92,246,0.1) 50%, transparent); border-top: 1px dashed rgba(139,92,246,0.4); border-bottom: 1px dashed rgba(139,92,246,0.4); pointer-events: none; z-index: 10; }
-  .reading-line::before { content: '▶'; position: absolute; left: 20px; top: 50%; transform: translateY(-50%); color: #a855f7; font-size: 1.5rem; }
-  .reading-line::after { content: '◀'; position: absolute; right: 20px; top: 50%; transform: translateY(-50%); color: #a855f7; font-size: 1.5rem; }
+  .reading-line::before { content: '▶'; position: absolute; left: 20px; top: 50%; transform: translateY(-50%); color: #8b5cf6; font-size: 1.5rem; }
+  .reading-line::after { content: '◀'; position: absolute; right: 20px; top: 50%; transform: translateY(-50%); color: #8b5cf6; font-size: 1.5rem; }
 
-  .p-controls { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; margin-top: 20px; background: rgba(0,0,0,.2); padding: 15px; border-radius: 16px; border: 1px solid rgba(139,92,246,.2); }
+  .p-controls { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; margin-top: 20px; background: rgba(15,23,42,.2); padding: 15px; border-radius: 16px; border: 1px solid rgba(139,92,246,.2); }
   .p-btn { padding: 10px 24px; border-radius: 12px; background: rgba(139,92,246,.15); border: 1px solid rgba(139,92,246,.3); color: #ddd6fe; font-size: .95rem; font-weight: 700; cursor: pointer; transition: all .3s; display: flex; align-items: center; gap: 8px; }
   .p-btn:hover { background: rgba(139,92,246,.3); transform: translateY(-2px); box-shadow: 0 5px 15px rgba(139,92,246,.2); }
   .p-btn.active { background: #8b5cf6; color: #fff; box-shadow: 0 0 20px rgba(139,92,246,.4); }
@@ -55,7 +55,7 @@
   .gym-container { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
   @media(max-width: 768px) { .gym-container { grid-template-columns: 1fr; } }
   
-  .gym-card { background: rgba(0,0,0,.3); border: 1px solid rgba(139,92,246,.15); border-radius: 16px; padding: 24px; text-align: center; cursor: pointer; transition: all .3s; position: relative; overflow: hidden; }
+  .gym-card { background: rgba(15,23,42,.3); border: 1px solid rgba(139,92,246,.15); border-radius: 16px; padding: 24px; text-align: center; cursor: pointer; transition: all .3s; position: relative; overflow: hidden; }
   .gym-card::after { content:''; position:absolute; inset:0; background:radial-gradient(circle at center, rgba(139,92,246,.1), transparent); opacity:0; transition:opacity .3s; }
   .gym-card:hover { border-color: #8b5cf6; transform: translateY(-3px); box-shadow: 0 10px 30px rgba(139,92,246,.15); }
   .gym-card:hover::after { opacity: 1; }
@@ -64,10 +64,10 @@
   .gym-card:hover .gym-icon { transform: scale(1.15) translateY(-5px); }
   
   .gym-title { font-size: 1.2rem; font-weight: 800; color: #fff; margin-bottom: 8px; }
-  .gym-desc { font-size: 0.85rem; color: #94a3b8; line-height: 1.6; }
+  .gym-desc { font-size: 0.85rem; color: #475569; line-height: 1.6; }
 
   /* 🎙️ Master Workout Panel 🎙️ */
-  .workout-panel { background: linear-gradient(145deg, #1e0a29, #0a0a14); border: 1px solid #8b5cf633; border-radius: 24px; padding: 40px; margin-top: 20px; text-align: center; position: relative; overflow: hidden; }
+  .workout-panel { background: linear-gradient(145deg, #1e0a29, #f8fafc); border: 1px solid #8b5cf633; border-radius: 24px; padding: 40px; margin-top: 20px; text-align: center; position: relative; overflow: hidden; }
   .workout-panel::before { content:''; position:absolute; top:-50%; left:-50%; width:200%; height:200%; background:radial-gradient(circle at center, rgba(139,92,246,.05) 0%, transparent 50%); animation: rotateGlow 15s linear infinite; pointer-events:none; }
   @keyframes rotateGlow { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
   
@@ -79,8 +79,8 @@
   .workout-btn:active { transform: scale(0.98); }
 
   /* 🎙️ Back Button 🎙️ */
-  .back-btn { display:inline-flex; align-items:center; gap:8px; padding:12px 24px; border-radius:14px; background:rgba(255,255,255,.05); border:1px solid rgba(255,255,255,.1); color:#94a3b8; font-size:.9rem; font-weight:600; text-decoration:none; transition:all .3s; margin-bottom:40px; }
-  .back-btn:hover { background:rgba(255,255,255,.1); color:#fff; transform:translateX(-4px); }
+  .back-btn { display:inline-flex; align-items:center; gap:8px; padding:12px 24px; border-radius:14px; background:rgba(15,23,42,.05); border:1px solid rgba(15,23,42,.1); color:#475569; font-size:.9rem; font-weight:600; text-decoration:none; transition:all .3s; margin-bottom:40px; }
+  .back-btn:hover { background:rgba(15,23,42,.1); color:#fff; transform:translateX(-4px); }
 
   /* 🎙️ Reveal 🎙️ */
   .reveal { opacity:0; transform:translateY(40px); transition:all .7s cubic-bezier(.2,1,.3,1); }
@@ -105,7 +105,7 @@
   <!-- 🎙️ TELEPROMPTER 🎙️ -->
   <div class="glass reveal">
     <div class="section-label">📜 Teleprompter Simülatörü</div>
-    <p style="color:#94a3b8; font-size:1rem; line-height:1.8; margin-bottom:20px;">Gözünüzü odak çizgisinden ayırmadan, metin henüz aşağıdan gelirken kelimeleri zihninize alarak "okumuyor, konuşuyor" illüzyonu yaratın.</p>
+    <p style="color:#475569; font-size:1rem; line-height:1.8; margin-bottom:20px;">Gözünüzü odak çizgisinden ayırmadan, metin henüz aşağıdan gelirken kelimeleri zihninize alarak "okumuyor, konuşuyor" illüzyonu yaratın.</p>
 
     <div class="prompter-container">
       <div class="reading-line"></div>
@@ -130,7 +130,7 @@
       <button class="p-btn" onclick="startPrompter()" id="btnStart">▶️ Başlat</button>
       <button class="p-btn" onclick="pausePrompter()" id="btnPause" style="display:none;">⏸️ Duraklat</button>
       <button class="p-btn" onclick="resetPrompter()">🔄 Sıfırla</button>
-      <div style="width:1px; background:rgba(255,255,255,0.1); margin:0 10px;"></div>
+      <div style="width:1px; background:rgba(15,23,42,0.1); margin:0 10px;"></div>
       <button class="p-btn" onclick="changeSpeed(1)">Yavaş</button>
       <button class="p-btn active" onclick="changeSpeed(2)" id="btnSpeed2">Normal</button>
       <button class="p-btn" onclick="changeSpeed(3)">Hızlı (Spiker)</button>
@@ -140,7 +140,7 @@
   <!-- 🎙️ THE GYM 🎙️ -->
   <div class="glass reveal">
     <div class="section-label">🎧 Seslendirme Kabini</div>
-    <p style="color:#94a3b8; font-size:1rem; line-height:1.8; margin-bottom:30px;">Farklı profesyonel formatlarda sesin tınısını, hızını ve duygusunu ayarlama egzersizleri.</p>
+    <p style="color:#475569; font-size:1rem; line-height:1.8; margin-bottom:30px;">Farklı profesyonel formatlarda sesin tınısını, hızını ve duygusunu ayarlama egzersizleri.</p>
     
     <div class="gym-container">
       <div class="gym-card" onclick="startVoiceWorkout('haber')">
@@ -336,3 +336,5 @@ function nextWorkoutStep() {
 </script>
 
 <%- include('partials/main-footer') %>
+
+

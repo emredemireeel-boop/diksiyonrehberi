@@ -1,14 +1,14 @@
 <%- include('partials/main-header') %>
 
 <style>
-  body { background: #0a0a14 !important; color: #f1f5f9 !important; font-family: "Inter", sans-serif; overflow-x: hidden; margin: 0; padding: 0; }
+  body { background: #f8fafc !important; color: #0f172a !important; font-family: "Inter", sans-serif; overflow-x: hidden; margin: 0; padding: 0; }
   .arena-container { padding: 40px 20px; max-width: 1100px; margin: 0 auto; min-height: 85vh; display: flex; flex-direction: column; align-items: center; }
   
   h1 { font-size: 2.5rem; font-weight: 900; margin-bottom: 5px; color: #10b981; text-transform: uppercase; letter-spacing: 1px; text-align: center; }
-  p.desc { color: #94a3b8; font-size: 1rem; line-height: 1.6; margin-bottom: 40px; text-align: center; max-width: 700px; }
+  p.desc { color: #475569; font-size: 1rem; line-height: 1.6; margin-bottom: 40px; text-align: center; max-width: 700px; }
 
   /* HUD */
-  .combat-hud { width: 100%; display: flex; justify-content: space-between; align-items: center; background: #1e293b; padding: 20px; border-radius: 15px; border: 1px solid #334155; margin-bottom: 30px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
+  .combat-hud { width: 100%; display: flex; justify-content: space-between; align-items: center; background: #f0f4f8; padding: 20px; border-radius: 15px; border: 1px solid #e2e8f0; margin-bottom: 30px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
   
   .hp-box { display: flex; flex-direction: column; width: 40%; }
   .hp-box.player { align-items: flex-start; }
@@ -18,42 +18,42 @@
   .player .hp-name { color: #38bdf8; }
   .enemy .hp-name { color: #f43f5e; }
 
-  .hp-bar-bg { width: 100%; height: 20px; background: #0a0a14; border-radius: 10px; overflow: hidden; border: 1px solid #334155; }
+  .hp-bar-bg { width: 100%; height: 20px; background: #f8fafc; border-radius: 10px; overflow: hidden; border: 1px solid #e2e8f0; }
   .hp-bar-fill { height: 100%; transition: width 0.5s ease-out; }
   .player .hp-bar-fill { background: linear-gradient(90deg, #0284c7, #38bdf8); width: 100%; }
   .enemy .hp-bar-fill { background: linear-gradient(90deg, #e11d48, #f43f5e); width: 100%; float: right; }
 
-  .vs-badge { background: #0a0a14; border: 2px solid #facc15; color: #facc15; padding: 10px 15px; border-radius: 50%; font-weight: 900; font-style: italic; font-size: 1.2rem; }
+  .vs-badge { background: #f8fafc; border: 2px solid #facc15; color: #facc15; padding: 10px 15px; border-radius: 50%; font-weight: 900; font-style: italic; font-size: 1.2rem; }
 
   /* Arena Area */
   .combat-area { width: 100%; display: flex; flex-direction: column; gap: 30px; }
 
   .enemy-dialogue { background: rgba(244, 63, 94, 0.1); border: 2px solid #f43f5e; padding: 30px; border-radius: 20px; position: relative; text-align: center; }
   .enemy-avatar { font-size: 3rem; margin-bottom: 10px; }
-  .enemy-text { font-size: 1.3rem; color: #f1f5f9; font-style: italic; line-height: 1.6; }
+  .enemy-text { font-size: 1.3rem; color: #0f172a; font-style: italic; line-height: 1.6; }
   .enemy-text::before { content: '"'; font-size: 2rem; color: #f43f5e; opacity: 0.5; }
   .enemy-text::after { content: '"'; font-size: 2rem; color: #f43f5e; opacity: 0.5; }
 
   /* Options */
   .options-grid { display: flex; flex-direction: column; gap: 15px; }
-  .reply-btn { background: #1e293b; border: 2px solid #334155; color: #cbd5e1; padding: 20px; border-radius: 15px; font-size: 1.1rem; font-weight: 600; cursor: pointer; text-align: left; transition: all 0.2s; position: relative; overflow: hidden; }
-  .reply-btn:hover:not(:disabled) { background: #334155; border-color: #38bdf8; transform: translateY(-2px); }
+  .reply-btn { background: #f0f4f8; border: 2px solid #cbd5e1; color: #0f172a; padding: 20px; border-radius: 15px; font-size: 1.1rem; font-weight: 600; cursor: pointer; text-align: left; transition: all 0.2s; position: relative; overflow: hidden; }
+  .reply-btn:hover:not(:disabled) { background: #e2e8f0; border-color: #38bdf8; transform: translateY(-2px); }
   .reply-btn:disabled { opacity: 0.6; cursor: not-allowed; }
 
   /* Feedback Overlay */
   .result-modal { position: fixed; inset: 0; background: rgba(15, 23, 42, 0.9); z-index: 100; display: none; flex-direction: column; align-items: center; justify-content: center; padding: 20px; }
-  .rm-content { background: #1e293b; border: 2px solid #334155; padding: 40px; border-radius: 20px; max-width: 600px; text-align: center; box-shadow: 0 20px 50px rgba(0,0,0,0.8); }
+  .rm-content { background: #f0f4f8; border: 2px solid #e2e8f0; padding: 40px; border-radius: 20px; max-width: 600px; text-align: center; box-shadow: 0 20px 50px rgba(0,0,0,0.1); }
   
   .rm-icon { font-size: 4rem; margin-bottom: 20px; }
   .rm-title { font-size: 2rem; font-weight: 900; margin-bottom: 15px; text-transform: uppercase; }
   .rm-title.success { color: #10b981; }
   .rm-title.fail { color: #f43f5e; }
   
-  .rm-desc { font-size: 1.1rem; color: #cbd5e1; line-height: 1.6; margin-bottom: 30px; }
+  .rm-desc { font-size: 1.1rem; color: #334155; line-height: 1.6; margin-bottom: 30px; }
   
-  .rm-btn { background: #38bdf8; color: #0a0a14; border: none; padding: 15px 30px; border-radius: 12px; font-weight: 900; font-size: 1.1rem; text-transform: uppercase; cursor: pointer; }
+  .rm-btn { background: #38bdf8; color: #f8fafc; border: none; padding: 15px 30px; border-radius: 12px; font-weight: 900; font-size: 1.1rem; text-transform: uppercase; cursor: pointer; }
 
-  .game-over { text-align: center; padding: 50px; display: none; background: #1e293b; border-radius: 20px; border: 2px solid #10b981; width: 100%; }
+  .game-over { text-align: center; padding: 50px; display: none; background: #f0f4f8; border-radius: 20px; border: 2px solid #10b981; width: 100%; }
 
   @keyframes shake {
     0% { transform: translateX(0); }
@@ -100,8 +100,8 @@
   <div class="game-over" id="gameOver">
     <div style="font-size: 4rem; margin-bottom:20px;">👑</div>
     <h2 style="font-size:2.5rem; color:#10b981; margin:0 0 15px 0;">Arena Şampiyonu!</h2>
-    <p style="color:#cbd5e1; font-size:1.1rem; margin-bottom:30px;">Tüm manipülatörleri zekanızla alt ettiniz. Duygusal tuzaklara düşmediniz ve tartışmaların kontrolünü elinizde tuttunuz.</p>
-    <a href="/safsata/karanlik" style="background:#f43f5e; color: #f1f5f9; padding:15px 30px; border-radius:12px; text-decoration:none; font-weight:800; text-transform:uppercase;">Sonraki Seviye: Karanlık Sanatlar ➔</a>
+    <p style="color:#334155; font-size:1.1rem; margin-bottom:30px;">Tüm manipülatörleri zekanızla alt ettiniz. Duygusal tuzaklara düşmediniz ve tartışmaların kontrolünü elinizde tuttunuz.</p>
+    <a href="/safsata/karanlik" style="background:#f43f5e; color: #0f172a; padding:15px 30px; border-radius:12px; text-decoration:none; font-weight:800; text-transform:uppercase;">Sonraki Seviye: Karanlık Sanatlar ➔</a>
   </div>
 
 </div>
@@ -294,3 +294,5 @@
 </script>
 
 <%- include('partials/main-footer') %>
+
+

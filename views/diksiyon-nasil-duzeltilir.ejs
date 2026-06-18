@@ -1,7 +1,7 @@
 <%- include('partials/main-header') %>
 
 <style>
-  body { background: #0a0a14; color: #f1f5f9; font-family: 'Inter', sans-serif; overflow-x: hidden; }
+  body { background: #f8fafc; color: #0f172a; font-family: 'Inter', sans-serif; overflow-x: hidden; }
 
   /* ── Hero ────────────────────── */
   .dks-hero {
@@ -14,7 +14,7 @@
   }
   .dks-hero::after {
     content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 120px;
-    background: linear-gradient(to top, #0a0a14, transparent);
+    background: linear-gradient(to top, #f8fafc, transparent);
   }
   .hero-emoji { font-size: 5rem; margin-bottom: 16px; filter: drop-shadow(0 0 30px #3b82f666); animation: float 3s ease-in-out infinite; }
   @keyframes float { 0%,100%{ transform: translateY(0); } 50%{ transform: translateY(-12px); } }
@@ -25,20 +25,20 @@
     letter-spacing: 1px; margin-bottom: 20px; text-transform: uppercase;
   }
   .dks-hero h1 { font-size: 3rem; font-weight: 800; line-height: 1.1; margin-bottom: 16px; position: relative; z-index: 1; }
-  .dks-hero p { font-size: 1.2rem; color: #94a3b8; max-width: 600px; line-height: 1.6; position: relative; z-index: 1; }
+  .dks-hero p { font-size: 1.2rem; color: #475569; max-width: 600px; line-height: 1.6; position: relative; z-index: 1; }
 
   /* ── Content Area ──────────────── */
   .dks-wrap { max-width: 800px; margin: 0 auto; padding: 0 24px 80px; position: relative; z-index: 10; }
   
   .glass {
-    background: rgba(30,30,40, 0.4); border: 1px solid rgba(255,255,255, 0.05);
+    background: rgba(30,30,40, 0.4); border: 1px solid rgba(15,23,42, 0.05);
     border-radius: 24px; padding: 32px; backdrop-filter: blur(12px);
     margin-bottom: 32px;
   }
   
   .glass h2 { font-size: 1.8rem; font-weight: 700; color: #fff; margin-bottom: 16px; display: flex; align-items: center; gap: 12px; }
-  .glass p { color: #cbd5e1; line-height: 1.8; font-size: 1.05rem; margin-bottom: 20px; }
-  .glass ul { color: #cbd5e1; line-height: 1.8; font-size: 1.05rem; padding-left: 20px; margin-bottom: 20px; }
+  .glass p { color: #334155; line-height: 1.8; font-size: 1.05rem; margin-bottom: 20px; }
+  .glass ul { color: #334155; line-height: 1.8; font-size: 1.05rem; padding-left: 20px; margin-bottom: 20px; }
   .glass li { margin-bottom: 12px; }
 
   /* ── CTA ─────────────────────── */
@@ -96,12 +96,14 @@
   </div>
 
   <div class="cta-box">
-    <h2 style="color:#fff; font-size:1.8rem; margin-bottom:12px;">Hemen Pratiğe Başlayın</h2>
-    <p style="color:#94a3b8; font-size:1.1rem; line-height:1.6;">Diksiyonunuzu düzeltmek için teoriyi bırakıp pratiğe geçme zamanı. R harfi, S harfi veya tüm tekerleme arşivimize göz atarak hemen çalışmaya başlayın.</p>
+    <h2 style="color:#0f172a; font-size:1.8rem; margin-bottom:12px;">Hemen Pratiğe Başlayın</h2>
+    <p style="color:#475569; font-size:1.1rem; line-height:1.6;">Diksiyonunuzu düzeltmek için teoriyi bırakıp pratiğe geçme zamanı. R harfi, S harfi veya tüm tekerleme arşivimize göz atarak hemen çalışmaya başlayın.</p>
     <a href="/egzersiz/r-harfi" class="cta-btn">R Harfi Laboratuvarı</a>
-    <a href="/egzersiz/s-harfi" class="cta-btn" style="background:rgba(255,255,255,0.1); color:#fff; box-shadow:none; margin-left:12px;">S/Ş Pelteklik Egzersizleri</a>
+    <a href="/egzersiz/s-harfi" class="cta-btn" style="background:rgba(15,23,42,0.1); color:#fff; box-shadow:none; margin-left:12px;">S/Ş Pelteklik Egzersizleri</a>
   </div>
 
 </div>
 
 <%- include('partials/main-footer') %>
+
+

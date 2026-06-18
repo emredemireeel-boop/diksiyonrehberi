@@ -57,6 +57,68 @@ const ALL_BLOG_SLUGS = [
   'is-hayatinda-diksiyon-kariyer-etkisi', 'yanlis-soylenen-kelimeler', 'sunum-korkusu', 'cocuk-diksiyon',
 ];
 
+// ── Tüm modüllerin URL'leri (Sitemap config ile senkron) ─────────────────
+const ALL_MODULE_URLS = (() => {
+  const urls = [];
+  const MODULE_TOOLS_ROUTES = {
+    'retorik': [
+      '/retorik',
+      '/retorik/araclar/muzakere', '/retorik/araclar/makine', '/retorik/araclar/radar',
+      '/retorik/araclar/kursu', '/retorik/araclar/ucgen', '/retorik/araclar/kitle',
+      '/retorik/araclar/munazara', '/retorik/araclar/karanlik', '/retorik/araclar/prompter',
+      '/retorik/araclar/asistan',
+    ],
+    'safsata': [
+      '/safsata', '/safsata/dedektif', '/safsata/curutme-arenasi',
+      '/safsata/karanlik', '/safsata/trol-avcisi', '/safsata/mahkeme', '/safsata/spin-doctor',
+    ],
+    'bedendili': [
+      '/bedendili', '/bedendili/dedektif', '/bedendili/radar', '/bedendili/kriz',
+    ],
+    'ozguven': [
+      '/ozguven-gelistirme',
+      '/ozguven-gelistirme/araclar/golge-boksu-ic-ses-susturucusu',
+      '/ozguven-gelistirme/araclar/reddedilme-korkusunu-yenmek',
+      '/ozguven-gelistirme/araclar/sosyal-statu-ve-cerceve-kontrolu',
+      '/ozguven-gelistirme/araclar/aura-ve-ilk-izlenim-mimari',
+    ],
+    'manipulasyon': [
+      '/manipulasyon', '/manipulasyon/araclar/saldiri', '/manipulasyon/araclar/savunma',
+      '/manipulasyon/araclar/dedektif', '/manipulasyon/araclar/yalan-dedektoru',
+    ],
+    'hikaye': [
+      '/hikaye', '/hikaye/kanca', '/hikaye/kahraman', '/hikaye/mimari', '/hikaye/goster',
+    ],
+    'gorgu': [
+      '/gorgu', '/gorgu/similator', '/gorgu/radar', '/gorgu/dedektif',
+      '/gorgu/sofra', '/gorgu/diplomasi',
+    ],
+    'giyim': [
+      '/giyim', '/giyim/outfit', '/giyim/renk', '/giyim/vucut-tipi',
+      '/giyim/aksesuar', '/giyim/stil', '/giyim/dresscode',
+    ],
+    'sahne': [
+      '/sahne-ustaligi',
+      '/sahne-ustaligi/araclar/teleprompter-okuma-simulatoru',
+      '/sahne-ustaligi/araclar/dogaclama-konusma-motoru',
+      '/sahne-ustaligi/araclar/sahne-oncesi-nefes-kocu',
+      '/sahne-ustaligi/araclar/profesyonel-sahne-sayaci',
+      '/sahne-ustaligi/araclar/goz-temasi-simulatoru',
+      '/sahne-ustaligi/araclar/vurgu-ve-tonlama-matrisi',
+      '/sahne-ustaligi/araclar/diksiyon-tekerleme-ruleti',
+      '/sahne-ustaligi/araclar/duygu-bukalemunu-ses-oyunculugu',
+      '/sahne-ustaligi/araclar/konusma-metronomu-ritim',
+      '/sahne-ustaligi/araclar/capraz-ates-kriz-simulatoru',
+    ],
+    'diyalektik': [
+      '/diyalektik', '/diyalektik/sokratik', '/diyalektik/hegel',
+      '/diyalektik/curutme', '/diyalektik/celisiki', '/diyalektik/tartisma', '/diyalektik/dusunce',
+    ],
+  };
+  Object.values(MODULE_TOOLS_ROUTES).forEach(moduleUrls => urls.push(...moduleUrls));
+  return urls;
+})();
+
 // ── Auth İstemcisi ─────────────────────────────────────────────────────────
 let _authClient = null;
 
@@ -136,14 +198,15 @@ async function notifyBatch(urls, type = 'URL_UPDATED') {
 }
 
 /**
- * Sitedeki tüm blog sayfalarını bildir.
+ * Sitedeki tüm blog sayfalarını ve modülleri bildir.
  */
 async function notifyAllBlogPages() {
   const urls = [
     `${CONFIG.siteUrl}/`,
     ...ALL_BLOG_SLUGS.map(slug => `${CONFIG.siteUrl}/blog/${slug}`),
+    ...ALL_MODULE_URLS.map(url => `${CONFIG.siteUrl}${url}`),
   ];
-  console.log(`[IndexingService] ${urls.length} URL için toplu bildirim başlatılıyor...`);
+  console.log(`[IndexingService] ${urls.length} URL için toplu bildirim başlatılıyor (blog + modüller + araçlar)...`);
   return notifyBatch(urls);
 }
 

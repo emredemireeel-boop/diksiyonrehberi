@@ -56,7 +56,8 @@ module.exports = {
 
     // ── SEO Indexing Cron Job ────────────────────────────────────────────────
     // Her gün saat 09:00'da Google Indexing API'ye toplu bildirim gönderir.
-    // Günlük 200 URL kotası yeterli (38 blog sayfası + ana sayfa = 39 URL)
+    // Kapsamı: Blog sayfaları + 10 modülün tüm araçları + detay sayfaları
+    // Günlük 200 URL kotası yeterli (60+ URL/gün)
     {
       name: 'seo-daily-indexing',
       script: 'scripts/indexing-service.js',

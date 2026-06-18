@@ -1,58 +1,58 @@
 <%- include('partials/main-header') %>
 
 <style>
-  body { background: #0a0a14 !important; color: #f1f5f9 !important; font-family: "Inter", sans-serif; overflow-x: hidden; margin: 0; padding: 0; }
+  body { background: #f8fafc !important; color: #0f172a !important; font-family: "Inter", sans-serif; overflow-x: hidden; margin: 0; padding: 0; }
   
   .troll-container { padding: 40px 20px; max-width: 800px; margin: 0 auto; min-height: 85vh; display: flex; flex-direction: column; align-items: center; }
   
   h1 { font-size: 2.5rem; font-weight: 900; margin-bottom: 5px; color: #1da1f2; text-transform: uppercase; letter-spacing: 1px; text-align: center; }
-  p.desc { color: #94a3b8; font-size: 1rem; line-height: 1.6; margin-bottom: 30px; text-align: center; }
+  p.desc { color: #334155; font-size: 1rem; line-height: 1.6; margin-bottom: 30px; text-align: center; }
 
   /* App Screen */
-  .app-screen { width: 100%; background: #15202b; border: 1px solid #38444d; border-radius: 20px; overflow: hidden; box-shadow: 0 20px 50px rgba(0,0,0,0.6); display: flex; flex-direction: column; position: relative; }
+  .app-screen { width: 100%; background: #f0f4f8; border: 1px solid #e2e8f0; border-radius: 20px; overflow: hidden; box-shadow: 0 20px 50px rgba(0,0,0,0.1); display: flex; flex-direction: column; position: relative; }
   
   /* X Header */
-  .x-header { padding: 15px 20px; border-bottom: 1px solid #38444d; display: flex; justify-content: space-between; align-items: center; }
-  .x-logo { font-size: 1.5rem; color: #f1f5f9; font-weight: 900; letter-spacing: -2px; }
+  .x-header { padding: 15px 20px; border-bottom: 1px solid #e2e8f0; display: flex; justify-content: space-between; align-items: center; }
+  .x-logo { font-size: 1.5rem; color: #0f172a; font-weight: 900; letter-spacing: -2px; }
   .x-stats { display: flex; gap: 20px; }
-  .stat { font-size: 0.9rem; font-weight: 700; color: #8899a6; display: flex; flex-direction: column; align-items: flex-end; }
-  .stat-val { font-size: 1.2rem; color: #f1f5f9; font-weight: 900; transition: color 0.3s; }
+  .stat { font-size: 0.9rem; font-weight: 700; color: #64748b; display: flex; flex-direction: column; align-items: flex-end; }
+  .stat-val { font-size: 1.2rem; color: #0f172a; font-weight: 900; transition: color 0.3s; }
   .stat-val.up { color: #10b981; }
   .stat-val.down { color: #f43f5e; }
 
   /* Main Tweet */
-  .main-tweet { padding: 20px; border-bottom: 1px solid #38444d; display: flex; gap: 15px; }
-  .avatar { width: 50px; height: 50px; border-radius: 50%; background: #1da1f2; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; font-weight: 900; color: #f1f5f9; flex-shrink: 0; }
+  .main-tweet { padding: 20px; border-bottom: 1px solid #e2e8f0; display: flex; gap: 15px; }
+  .avatar { width: 50px; height: 50px; border-radius: 50%; background: #1da1f2; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; font-weight: 900; color: #f8fafc; flex-shrink: 0; }
   .tweet-content { flex: 1; }
-  .t-name { font-weight: 800; color: #f1f5f9; display: flex; align-items: center; gap: 5px; }
-  .t-handle { color: #8899a6; font-weight: 400; font-size: 0.9rem; }
+  .t-name { font-weight: 800; color: #0f172a; display: flex; align-items: center; gap: 5px; }
+  .t-handle { color: #64748b; font-weight: 400; font-size: 0.9rem; }
   .verified { color: #1da1f2; font-size: 0.9rem; }
-  .t-text { font-size: 1.2rem; color: #f1f5f9; line-height: 1.5; margin-top: 5px; }
+  .t-text { font-size: 1.2rem; color: #0f172a; line-height: 1.5; margin-top: 5px; }
 
   /* Troll Reply */
   .reply-sec { padding: 20px; position: relative; }
   .troll-tweet { display: flex; gap: 15px; background: rgba(244, 63, 94, 0.05); padding: 15px; border-radius: 15px; border-left: 4px solid #f43f5e; animation: slideIn 0.4s ease-out; }
   .troll-avatar { background: #38444d; }
-  .tr-text { font-size: 1.1rem; color: #cbd5e1; line-height: 1.5; margin-top: 5px; }
+  .tr-text { font-size: 1.1rem; color: #334155; line-height: 1.5; margin-top: 5px; }
   @keyframes slideIn { from { transform: translateY(20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
 
   /* Ban Panel (Action Area) */
-  .ban-panel { padding: 20px; background: #192734; border-top: 1px solid #38444d; }
-  .bp-title { font-size: 0.9rem; font-weight: 800; color: #8899a6; text-transform: uppercase; margin-bottom: 15px; text-align: center; }
+  .ban-panel { padding: 20px; background: #f0f4f8; border-top: 1px solid #e2e8f0; }
+  .bp-title { font-size: 0.9rem; font-weight: 800; color: #64748b; text-transform: uppercase; margin-bottom: 15px; text-align: center; }
   
   .ban-grid { display: grid; grid-template-columns: 1fr; gap: 10px; }
   @media(min-width:600px){ .ban-grid { grid-template-columns: 1fr 1fr; } }
   
-  .ban-btn { background: #22303c; border: 1px solid #38444d; color: #1da1f2; padding: 15px; border-radius: 10px; font-weight: 700; cursor: pointer; transition: all 0.2s; display: flex; align-items: center; justify-content: center; gap: 8px; }
+  .ban-btn { background: #f0f4f8; border: 1px solid #e2e8f0; color: #1da1f2; padding: 15px; border-radius: 10px; font-weight: 700; cursor: pointer; transition: all 0.2s; display: flex; align-items: center; justify-content: center; gap: 8px; }
   .ban-btn:hover { background: rgba(29, 161, 242, 0.1); border-color: #1da1f2; }
   .ban-btn.banned { background: rgba(244, 63, 94, 0.2); border-color: #f43f5e; color: #f43f5e; text-decoration: line-through; pointer-events: none; }
 
   /* Outcome Alert */
-  .outcome { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(21, 32, 43, 0.95); display: none; flex-direction: column; align-items: center; justify-content: center; z-index: 10; padding: 20px; text-align: center; }
-  .out-icon { font-size: 5rem; margin-bottom: 20px; }
-  .out-title { font-size: 2rem; font-weight: 900; color: #f1f5f9; margin-bottom: 10px; }
-  .out-desc { font-size: 1.1rem; color: #8899a6; margin-bottom: 30px; line-height: 1.5; max-width: 500px; }
-  .next-btn { background: #1da1f2; color: #f1f5f9; border: none; padding: 15px 30px; border-radius: 30px; font-weight: 800; font-size: 1.1rem; cursor: pointer; }
+  .outcome { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(248, 250, 252, 0.95); display: none; flex-direction: column; align-items: center; justify-content: center; z-index: 10; padding: 20px; text-align: center; }
+  .out-icon { font-size: 5rem; margin-bottom: 20px; color: #10b981; }
+  .out-title { font-size: 2rem; font-weight: 900; color: #0f172a; margin-bottom: 10px; }
+  .out-desc { font-size: 1.1rem; color: #64748b; margin-bottom: 30px; line-height: 1.5; max-width: 500px; }
+  .next-btn { background: #1da1f2; color: #f8fafc; border: none; padding: 15px 30px; border-radius: 30px; font-weight: 800; font-size: 1.1rem; cursor: pointer; }
 
   .game-over { display: none; text-align: center; padding: 50px; }
 </style>
@@ -113,7 +113,7 @@
   <div class="game-over" id="gameOver">
     <div style="font-size: 5rem; margin-bottom:20px;">🎖️</div>
     <h2 style="font-size:2.5rem; color:#1da1f2; margin:0 0 15px 0;">İnterneti Temizlediniz!</h2>
-    <p style="color:#94a3b8; font-size:1.1rem; margin-bottom:30px;">Trollerin tüm mantıksız argümanlarını çürüttünüz. Sosyal medyada algı yönetimine karşı bağışıklık kazandınız.</p>
+    <p style="color:#334155; font-size:1.1rem; margin-bottom:30px;">Trollerin tüm mantıksız argümanlarını çürüttünüz. Sosyal medyada algı yönetimine karşı bağışıklık kazandınız.</p>
     <a href="/safsata" style="background:#1da1f2; color: #f1f5f9; padding:15px 30px; border-radius:30px; text-decoration:none; font-weight:800;">Akademiye Dön</a>
   </div>
 

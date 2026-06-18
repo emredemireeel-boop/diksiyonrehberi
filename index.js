@@ -1456,6 +1456,65 @@ const TOOLS_META = {
 };
 
 // ═══════════════════════════════════════════════════════════════════════════
+// 10 MODÜLÜN TÜM ARAÇ URL'LERİ — SİTEMAP + GOOGLE İNDEXİNG İÇİN
+// ═══════════════════════════════════════════════════════════════════════════
+const MODULE_TOOLS_ROUTES = {
+  'retorik': [
+    '/retorik',
+    '/retorik/araclar/muzakere', '/retorik/araclar/makine', '/retorik/araclar/radar',
+    '/retorik/araclar/kursu', '/retorik/araclar/ucgen', '/retorik/araclar/kitle',
+    '/retorik/araclar/munazara', '/retorik/araclar/karanlik', '/retorik/araclar/prompter',
+    '/retorik/araclar/asistan',
+  ],
+  'safsata': [
+    '/safsata', '/safsata/dedektif', '/safsata/curutme-arenasi',
+    '/safsata/karanlik', '/safsata/trol-avcisi', '/safsata/mahkeme', '/safsata/spin-doctor',
+  ],
+  'bedendili': [
+    '/bedendili', '/bedendili/dedektif', '/bedendili/radar', '/bedendili/kriz',
+  ],
+  'ozguven': [
+    '/ozguven-gelistirme',
+    '/ozguven-gelistirme/araclar/golge-boksu-ic-ses-susturucusu',
+    '/ozguven-gelistirme/araclar/reddedilme-korkusunu-yenmek',
+    '/ozguven-gelistirme/araclar/sosyal-statu-ve-cerceve-kontrolu',
+    '/ozguven-gelistirme/araclar/aura-ve-ilk-izlenim-mimari',
+  ],
+  'manipulasyon': [
+    '/manipulasyon', '/manipulasyon/araclar/saldiri', '/manipulasyon/araclar/savunma',
+    '/manipulasyon/araclar/dedektif', '/manipulasyon/araclar/yalan-dedektoru',
+  ],
+  'hikaye': [
+    '/hikaye', '/hikaye/kanca', '/hikaye/kahraman', '/hikaye/mimari', '/hikaye/goster',
+  ],
+  'gorgu': [
+    '/gorgu', '/gorgu/similator', '/gorgu/radar', '/gorgu/dedektif',
+    '/gorgu/sofra', '/gorgu/diplomasi',
+  ],
+  'giyim': [
+    '/giyim', '/giyim/outfit', '/giyim/renk', '/giyim/vucut-tipi',
+    '/giyim/aksesuar', '/giyim/stil', '/giyim/dresscode',
+  ],
+  'sahne': [
+    '/sahne-ustaligi',
+    '/sahne-ustaligi/araclar/teleprompter-okuma-simulatoru',
+    '/sahne-ustaligi/araclar/dogaclama-konusma-motoru',
+    '/sahne-ustaligi/araclar/sahne-oncesi-nefes-kocu',
+    '/sahne-ustaligi/araclar/profesyonel-sahne-sayaci',
+    '/sahne-ustaligi/araclar/goz-temasi-simulatoru',
+    '/sahne-ustaligi/araclar/vurgu-ve-tonlama-matrisi',
+    '/sahne-ustaligi/araclar/diksiyon-tekerleme-ruleti',
+    '/sahne-ustaligi/araclar/duygu-bukalemunu-ses-oyunculugu',
+    '/sahne-ustaligi/araclar/konusma-metronomu-ritim',
+    '/sahne-ustaligi/araclar/capraz-ates-kriz-simulatoru',
+  ],
+  'diyalektik': [
+    '/diyalektik', '/diyalektik/sokratik', '/diyalektik/hegel',
+    '/diyalektik/curutme', '/diyalektik/celisiki', '/diyalektik/tartisma', '/diyalektik/dusunce',
+  ],
+};
+
+// ═══════════════════════════════════════════════════════════════════════════
 // Sitemap — Sadece gerçek, indexlenebilir URL'ler
 // NOT: /#anchor URL'leri Google tarafından indexlenemez, kaldırıldı.
 // ═══════════════════════════════════════════════════════════════════════════
@@ -1636,62 +1695,106 @@ function buildInternalLinksBlock() {
 }
 
 // ═══════════════════════════════════════════════════════════════════════════
+// SLUG-BASED DİKSİYON ROUTE'LARI (SEO)
+// ═══════════════════════════════════════════════════════════════════════════
+app.get('/diksiyon/nefes-egzersizleri', (req, res) => {
+  res.redirect(301, '/diksiyon/nefes-ve-ses-egzersizleri');
+});
+
+app.get('/diksiyon/tekerlemeler', (req, res) => {
+  res.redirect(301, '/tekerlemeler');
+});
+
+app.get('/diksiyon/ses-teknikleri', (req, res) => {
+  res.redirect(301, '/diksiyon/nefes-ve-ses-egzersizleri');
+});
+
+app.get('/diksiyon/telaffuz-egzersizleri', (req, res) => {
+  res.redirect(301, '/');
+});
+
+app.get('/diksiyon/vurgu-ve-tonlama', (req, res) => {
+  res.redirect(301, '/diksiyon/etkili-konusma-teknikleri');
+});
+
+app.get('/diksiyon/duraklama-teknikleri', (req, res) => {
+  res.redirect(301, '/');
+});
+
+app.get('/diksiyon/rezonans-egzersizleri', (req, res) => {
+  res.redirect(301, '/');
+});
+
+app.get('/diksiyon/ritim-calismalari', (req, res) => {
+  res.redirect(301, '/');
+});
+
+app.get('/diksiyon/calisma-programlari', (req, res) => {
+  res.redirect(301, '/');
+});
+
+app.get('/diksiyon/teleprompter', (req, res) => {
+  res.redirect(301, '/teleprompter');
+});
+
+app.get('/diksiyon/kelime-okunuslari', (req, res) => {
+  res.redirect(301, '/okunuslar');
+});
+
+app.get('/diksiyon/blog', (req, res) => {
+  res.redirect(301, '/blog');
+});
+
+// ═══════════════════════════════════════════════════════════════════════════
 // ROUTE: /sitemap.xml
+// ═══════════════════════════════════════════════════════════════════════════
+// ROUTE: /sitemap.xml — Tüm modülerin URL'lerini dinamik olarak içerir
 // ═══════════════════════════════════════════════════════════════════════════
 app.get('/sitemap.xml', (req, res) => {
   const today = new Date().toISOString().split('T')[0];
   const pages = [...SITEMAP_PAGES];
 
-  // Dinamik Olarak Modül Sayfalarını Ekle (SUBPAGE_META)
+  // ── Modüllerin tüm URL'lerini ekle ──
+  Object.entries(MODULE_TOOLS_ROUTES).forEach(([moduleName, urls]) => {
+    urls.forEach(url => {
+      if (!pages.find(p => p.loc === url)) {
+        pages.push({
+          loc: url,
+          changefreq: url.includes('/araclar/') ? 'weekly' : 'monthly',
+          priority: url.includes('/araclar/') ? '0.9' : '0.85',
+        });
+      }
+    });
+  });
+
+  // ── Dinamik Olarak SUBPAGE_META'daki sayfaları ekle ──
   Object.keys(SUBPAGE_META).forEach(slug => {
-    if (!pages.find(p => p.loc === `/${slug}`)) {
-      pages.push({ loc: `/${slug}`, changefreq: 'monthly', priority: '0.9' });
+    const fullUrl = `/${slug}`;
+    if (!pages.find(p => p.loc === fullUrl)) {
+      pages.push({ loc: fullUrl, changefreq: 'monthly', priority: '0.8' });
     }
   });
 
-  // Dinamik Olarak Safsata Sayfalarını Ekle
-  if (typeof SAFSATA_DB !== 'undefined') {
+  // ── Safsata detay sayfaları (dinamik veri) ──
+  if (typeof SAFSATA_DB !== 'undefined' && Array.isArray(SAFSATA_DB)) {
     SAFSATA_DB.forEach(safsata => {
-      pages.push({ loc: `/safsata/${safsata.slug}`, changefreq: 'monthly', priority: '0.8' });
+      const url = `/safsata/${safsata.slug}`;
+      if (!pages.find(p => p.loc === url)) {
+        pages.push({ loc: url, changefreq: 'monthly', priority: '0.8' });
+      }
     });
   }
 
-  // Özel Simülatör ve Araç Rotaları
-  const extraRoutes = [
-    '/manipulasyon/araclar/saldiri', '/manipulasyon/araclar/savunma', '/manipulasyon/araclar/dedektif', '/manipulasyon/araclar/yalan-dedektoru',
-    '/retorik/araclar/muzakere', '/retorik/araclar/makine', '/retorik/araclar/radar', '/retorik/araclar/kursu', 
-    '/retorik/araclar/ucgen', '/retorik/araclar/kitle', '/retorik/araclar/munazara', '/retorik/araclar/karanlik', 
-    '/retorik/araclar/prompter', '/retorik/araclar/asistan',
-    '/safsata/dedektif', '/safsata/curutme-arenasi', '/safsata/karanlik', '/safsata/trol-avcisi', '/safsata/mahkeme', '/safsata/spin-doctor',
-    '/bedendili/dedektif', '/bedendili/radar', '/bedendili/kriz',
-    // Özgüven Araçları ve Makaleleri
-    '/ozguven-gelistirme/araclar/golge-boksu-ic-ses-susturucusu', '/ozguven-gelistirme/araclar/reddedilme-korkusunu-yenmek', 
-    '/ozguven-gelistirme/araclar/sosyal-statu-ve-cerceve-kontrolu', '/ozguven-gelistirme/araclar/aura-ve-ilk-izlenim-mimari',
-    '/ozguven-gelistirme/mukemmelliyetcilik-hastaligi-ve-asimi', '/ozguven-gelistirme/imposter-sendromu-ve-yetersizlik-hissi',
-    '/ozguven-gelistirme/sosyal-fobi-ve-ozguven-eksikligi', '/ozguven-gelistirme/zihinsel-dayaniklilik-ve-stres-yonetimi',
-    // Hikaye
-    '/hikaye/kanca', '/hikaye/kahraman', '/hikaye/mimari', '/hikaye/goster',
-    // Görgü
-    '/gorgu-similator', '/gorgu-radar', '/gorgu-dedektif', '/gorgu-sofra', '/gorgu-diplomasi',
-    // Giyim
-    '/giyim/outfit', '/giyim/renk', '/giyim/vucut-tipi', '/giyim/aksesuar', '/giyim/stil', '/giyim/dresscode',
-    // Sahne Ustalığı Araçları ve Makaleleri
-    '/sahne-ustaligi/araclar/teleprompter-okuma-simulatoru', '/sahne-ustaligi/araclar/dogaclama-konusma-motoru', 
-    '/sahne-ustaligi/araclar/sahne-oncesi-nefes-kocu', '/sahne-ustaligi/araclar/profesyonel-sahne-sayaci', 
-    '/sahne-ustaligi/araclar/goz-temasi-simulatoru', '/sahne-ustaligi/araclar/vurgu-ve-tonlama-matrisi', 
-    '/sahne-ustaligi/araclar/diksiyon-tekerleme-ruleti', '/sahne-ustaligi/araclar/duygu-bukalemunu-ses-oyunculugu', 
-    '/sahne-ustaligi/araclar/konusma-metronomu-ritim', '/sahne-ustaligi/araclar/capraz-ates-kriz-simulatoru',
-    '/sahne-ustaligi/sahne-korkusunu-yenmek-heyecan-yonetimi', '/sahne-ustaligi/etkili-beden-dili-ve-sahne-hareketi',
-    '/sahne-ustaligi/seyirci-etkilesimi-topluluk-onunde-konusma', '/sahne-ustaligi/sahnede-kriz-yonetimi-ve-sogukkanlilik'
-  ];
-
-  extraRoutes.forEach(loc => {
-    if (!pages.find(p => p.loc === loc)) {
-      pages.push({ loc, changefreq: 'weekly', priority: '0.9' });
-    }
+  // ── Duplikasyon kaldırma ve öncesini koruması için dedup ──
+  const seen = new Set();
+  const uniquePages = pages.filter(p => {
+    if (seen.has(p.loc)) return false;
+    seen.add(p.loc);
+    return true;
   });
 
-  const urls = pages.map(({ loc, changefreq, priority }) => `
+  // ── XML oluştur ──
+  const urls = uniquePages.map(({ loc, changefreq, priority }) => `
   <url>
     <loc>${SITE_URL}${loc}</loc>
     <lastmod>${today}</lastmod>
@@ -1706,44 +1809,129 @@ ${urls}
 
   res.setHeader('Content-Type', 'application/xml; charset=utf-8');
   res.setHeader('Cache-Control', 'public, max-age=3600');
+  console.log(`[Sitemap] Oluşturuldu: ${uniquePages.length} URL`);
   res.send(xml);
 });
 
 // ═══════════════════════════════════════════════════════════════════════════
-// ROUTE: /robots.txt
+// ROUTE: /robots.txt — SEO Crawl Optimizasyonu
 // ═══════════════════════════════════════════════════════════════════════════
 app.get('/robots.txt', (req, res) => {
   res.setHeader('Content-Type', 'text/plain; charset=utf-8');
   res.setHeader('Cache-Control', 'public, max-age=86400');
-  res.send(`User-agent: *
+  res.send(`# ═══════════════════════════════════════════════════════════════
+#  Diksiyon Rehberi & Etkili İletişim Platformu — robots.txt
+#  "Söz ola kese savaşı, söz ola kestire başı" - Yunus Emre
+# ═══════════════════════════════════════════════════════════════
+
+User-agent: *
 Allow: /
 
-# ========================================================
-#   HELLO GOOGLEBOT AND CURIOUS HUMAN! 🤖
-#   Welcome to Diksiyon Rehberi & Etkili İletişim Platformu
-#   
-#   "Söz ola kese savaşı, söz ola kestire başı" - Yunus Emre
-# ========================================================
-
-# Tarama Optimizasyonu (Googlebot için crawl budget)
+# ═── CRAWL BUDGET OPTIMIZASYONU ───
+# Google'ın crawl budget'ını israf etmemek için gereksiz parametreler engelle
 Disallow: /*?blog=
 Disallow: /*?modal=
+Disallow: /*?modal_open=
+Disallow: /*?tab=
 Disallow: /api/
+Disallow: /admin/
 Disallow: /test*
+Disallow: /*.pdf$
+Disallow: /*.doc$
 
+# ═── INDEXING AYARLARI ───
+# Ana sitemap ve tüm URL'ler burada yönetiliyor
 Sitemap: ${SITE_URL}/sitemap.xml
+
+# ═── SEARCH ENGINE SPECIFIC ───
+# Google Web Light crawl'ını devre dışı bırak (site zaten mobile-friendly)
+User-agent: Google Web Light
+Allow: none
+
+# ═── CRAWL DELAY ───
+# Her search engine'in sunucuda beklemesi gereken minimum süre (ms)
+Crawl-delay: 1
 `);
 });
 
 // ═══════════════════════════════════════════════════════════════════════════
 // ROUTE: Eski /?blog=slug → /blog/slug (301 Kalıcı Yönlendirme)
-// Bu, sosyal medyada paylaşılmış eski linklerin çalışmaya devam etmesini sağlar.
 // ═══════════════════════════════════════════════════════════════════════════
-app.get('/diksiyon', (req, res) => {
-  res.redirect('/');
+// SEO REDIRECT MAPPING: Eski Query-Parameter URL'lerini Slug-Based URL'lere
+// ═══════════════════════════════════════════════════════════════════════════
+// Google botları ?cat= gibi dinamik parametreleri düşük öncelik verir
+// Bu middleware tüm eski linkleri yeni slug-based yapıya 301 redirect eder
+
+const CATEGORY_SLUG_MAP = {
+  // ─────── DIKSIYON KATEGORİLERİ ───────
+  'programlar': '/diksiyon/calisma-programlari',
+  'teleprompter': '/diksiyon/teleprompter',
+  'okunuslar': '/diksiyon/kelime-okunuslari',
+  'blog': '/diksiyon/blog',
+  'nefes': '/diksiyon/nefes-egzersizleri',
+  'tekerleme': '/diksiyon/tekerlemeler',
+  'ses': '/diksiyon/ses-teknikleri',
+  'telaffuz': '/diksiyon/telaffuz-egzersizleri',
+  'vurgu': '/diksiyon/vurgu-ve-tonlama',
+  'duraklama': '/diksiyon/duraklama-teknikleri',
+  'rezonans': '/diksiyon/rezonans-egzersizleri',
+  'ritim': '/diksiyon/ritim-calismalari',
+};
+
+// ─────── QUERY PARAMETER REDIRECT MIDDLEWARE ───────
+app.get('/diksiyon', (req, res, next) => {
+  const category = req.query.cat;
+  
+  // Eğer ?cat= parametresi varsa
+  if (category && CATEGORY_SLUG_MAP[category]) {
+    // 301 kalıcı redirect ile yeni slug-based URL'e yönlendir
+    return res.redirect(301, CATEGORY_SLUG_MAP[category]);
+  }
+  
+  // Parametresiz /diksiyon ise ana sayfaya yönlendir
+  if (!category) {
+    return res.redirect(301, '/');
+  }
+  
+  // Tanımadığı kategori ise 404
+  next();
 });
 
-// ================= DIKSIYON SEO ROUTES =================
+app.get('/diksiyon', (req, res) => {
+  res.redirect(301, '/');
+});
+
+// ═══════════════════════════════════════════════════════════════════════════
+// SLUG-BASED KATEGORI SAYFALARI (SEO Optimized)
+// ═══════════════════════════════════════════════════════════════════════════
+
+// Diksiyon kategorisi redirect (index sayfasında gösterilir)
+app.get('/diksiyon/:slug', (req, res, next) => {
+  const slugMap = {
+    'calisma-programlari': '/diksiyon',
+    'teleprompter': '/diksiyon',
+    'kelime-okunuslari': '/diksiyon',
+    'blog': '/diksiyon',
+    'nefes-egzersizleri': '/diksiyon/nefes-ve-ses-egzersizleri',
+    'tekerlemeler': '/diksiyon',
+    'ses-teknikleri': '/diksiyon/nefes-ve-ses-egzersizleri',
+    'telaffuz-egzersizleri': '/diksiyon',
+    'vurgu-ve-tonlama': '/diksiyon/etkili-konusma-teknikleri',
+    'duraklama-teknikleri': '/diksiyon',
+    'rezonans-egzersizleri': '/diksiyon',
+    'ritim-calismalari': '/diksiyon'
+  };
+  
+  const targetUrl = slugMap[req.params.slug];
+  if (targetUrl) {
+    return res.redirect(301, targetUrl);
+  }
+  next();
+});
+
+// ═══════════════════════════════════════════════════════════════════════════
+// DIKSIYON SEO ROUTES (Slug-Based URL'ler)
+// ═══════════════════════════════════════════════════════════════════════════
 app.get('/diksiyon/nasil-duzeltilir', (req, res, next) => {
   res.render('diksiyon-nasil-duzeltilir', {
     meta: { 
@@ -2611,6 +2799,43 @@ app.get('/egzersiz/cene-agiz', (req, res, next) => {
   });
 });
 
+app.get('/egzersiz/ses-detektifi', (req, res, next) => {
+  res.render('diksiyon-ses-detektifi', {
+    meta: {
+      title: 'Ses Rengi Dedektifi: Tondan Duygu Tanıma | Diksiyon Rehberi',
+      desc: 'Sesin tonundan, hızından ve şiddetinden kişinin duygusunu, niyetini ve karakterini tanıyabilirsiniz. İnteraktif ses analiz egzersizleri.'
+    },
+    canonicalUrl: SITE_URL + '/egzersiz/ses-detektifi',
+    jsonLdScripts: `
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {"@type": "ListItem", "position": 1, "name": "Ana Sayfa", "item": "${SITE_URL}/"},
+        {"@type": "ListItem", "position": 2, "name": "Egzersizler", "item": "${SITE_URL}/diksiyon"},
+        {"@type": "ListItem", "position": 3, "name": "Ses Rengi Dedektifi", "item": "${SITE_URL}/egzersiz/ses-detektifi"}
+      ]
+    }
+    </script>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "HowTo",
+      "name": "Ses Tonundan Duygu Tanıma",
+      "description": "Konuşan kişinin duygusunu ve niyetini sesinin tonundan nasıl anlayacağınızı öğrenin.",
+      "step": [
+        {"@type": "HowToStep", "position": 1, "name": "Dinle", "text": "Farklı ses tonlarını dinleyin"},
+        {"@type": "HowToStep", "position": 2, "name": "Analiz Et", "text": "Ses şiddeti, hızı ve tonunu değerlendirin"},
+        {"@type": "HowToStep", "position": 3, "name": "Tahmin Yap", "text": "Konuşanın duygusunu tahmin edin"},
+        {"@type": "HowToStep", "position": 4, "name": "Pratik Yap", "text": "Kendi sesinizle farklı duyguları ifade edin"}
+      ]
+    }
+    </script>
+    `
+  });
+});
+
 app.get('/egzersiz/r-harfi', (req, res, next) => {
   res.render('diksiyon-r-harfi', {
     meta: {
@@ -3397,6 +3622,52 @@ app.get('/:toolSlug', (req, res, next) => {
 
 // ═══════════════════════════════════════════════════════════════════════════
 // ROUTE: Ana sayfa + SPA fallback
+// ═══════════════════════════════════════════════════════════════════════════
+// ROUTE: /api/seo-status — Google Indexing Raporu
+// ═══════════════════════════════════════════════════════════════════════════
+app.get('/api/seo-status', (req, res) => {
+  const reportFile = path.join(__dirname, 'scripts', 'indexing-report.json');
+  
+  let report = null;
+  if (fs.existsSync(reportFile)) {
+    try {
+      report = JSON.parse(fs.readFileSync(reportFile, 'utf8'));
+    } catch (e) {
+      console.error('[API] Indexing raporu okunamadı:', e.message);
+    }
+  }
+
+  res.json({
+    ok: true,
+    sitemap: {
+      moduleCount: Object.keys(MODULE_TOOLS_ROUTES).length,
+      totalModuleUrls: Object.values(MODULE_TOOLS_ROUTES).reduce((sum, urls) => sum + urls.length, 0),
+      blogSlugs: Object.keys(BLOG_META).length,
+      generatedAt: new Date().toISOString(),
+    },
+    lastIndexing: report ? {
+      date: report.date,
+      success: report.success?.length || 0,
+      failed: report.failed?.length || 0,
+    } : { status: 'henüz çalıştırılmadı' },
+    commands: {
+      'İndle tüm sayfaları': 'npm run indexing',
+      'İndle tek URL': 'npm run indexing:url <URL>',
+      'Sil URL': 'npm run indexing:delete <URL>',
+      'Rapor göster': 'npm run indexing:report',
+    },
+  });
+});
+
+// ═══════════════════════════════════════════════════════════════════════════
+// ROUTE: /seo-status — HTML Rapor Sayfası
+// ═══════════════════════════════════════════════════════════════════════════
+app.get('/seo-status', (req, res) => {
+  res.redirect(301, '/api/seo-status');
+});
+
+// ═══════════════════════════════════════════════════════════════════════════
+// 404 — Sayfa Bulunamadı
 // ═══════════════════════════════════════════════════════════════════════════
 app.use((req, res, next) => {
   res.status(404).render('404');

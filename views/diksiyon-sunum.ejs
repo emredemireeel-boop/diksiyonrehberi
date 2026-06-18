@@ -35,31 +35,31 @@
   .section-label { font-size:1.1rem; font-weight:800; text-transform:uppercase; letter-spacing:2px; color: #2563eb; margin-bottom:24px; display:flex; align-items:center; gap:12px; }
 
   /* 📊 Data Storytelling Converter 📊 */
-  .data-box { background: #1e3a8a; border-radius: 24px; padding: 40px; color: white; display: grid; grid-template-columns: 1fr; gap: 30px; }
-  .data-intro { font-size: 1.05rem; color: #bfdbfe; line-height: 1.6; }
+  .data-box { background: rgba(255, 247, 237, 0.95); border-radius: 24px; padding: 40px; color: #431407; display: grid; grid-template-columns: 1fr; gap: 30px; border: 1px solid #fed7aa; }
+  .data-intro { font-size: 1.05rem; color: #7f1d1d; line-height: 1.6; }
   
-  .data-bad { padding: 25px; background: rgba(255,255,255,0.05); border-left: 4px solid #ef4444; border-radius: 0 16px 16px 0; }
-  .db-title { font-weight: 800; color: #fca5a5; margin-bottom: 10px; font-size: 0.9rem; text-transform: uppercase; letter-spacing: 1px; }
-  .db-text { font-size: 1.2rem; font-family: monospace; color: #fee2e2; }
+  .data-bad { padding: 25px; background: rgba(255,255,255,0.5); border-left: 4px solid #ef4444; border-radius: 0 16px 16px 0; }
+  .db-title { font-weight: 800; color: #dc2626; margin-bottom: 10px; font-size: 0.9rem; text-transform: uppercase; letter-spacing: 1px; }
+  .db-text { font-size: 1.2rem; font-family: monospace; color: #7f1d1d; }
 
   .data-opts { display: grid; grid-template-columns: 1fr; gap: 15px; }
-  .d-opt { padding: 20px; background: rgba(0,0,0,0.3); border: 2px solid rgba(255,255,255,0.1); border-radius: 12px; cursor: pointer; transition: all 0.2s; font-size: 1.1rem; color: #eff6ff; line-height: 1.5; }
+  .d-opt { padding: 20px; background: rgba(59, 130, 246, 0.05); border: 2px solid rgba(191, 219, 254, 0.5); border-radius: 12px; cursor: pointer; transition: all 0.2s; font-size: 1.1rem; color: #1e3a8a; line-height: 1.5; }
   .d-opt:hover { border-color: #60a5fa; background: rgba(59,130,246,0.1); }
   .d-opt.correct { background: #166534; border-color: #22c55e; }
   .d-opt.wrong { background: #7f1d1d; border-color: #ef4444; }
   
-  .data-feedback { min-height: 50px; font-weight: 600; font-size: 1.1rem; line-height: 1.5; color: #93c5fd; }
+  .data-feedback { min-height: 50px; font-weight: 600; font-size: 1.1rem; line-height: 1.5; color: #ea580c; }
 
   /* 📊 Pecha Kucha 20x20 Simulator 📊 */
   .pk-box { background: #f0fdf4; border: 1px solid #bbf7d0; border-radius: 24px; padding: 40px; text-align: center; }
   .pk-intro { color: #166534; line-height: 1.6; font-size: 1.05rem; margin-bottom: 30px; }
   
-  .pk-screen { width: 100%; max-width: 600px; height: 350px; margin: 0 auto 30px; background: #000; border-radius: 16px; position: relative; overflow: hidden; display: flex; align-items: center; justify-content: center; box-shadow: 0 20px 40px rgba(0,0,0,0.2); }
-  .pk-image { width: 100%; height: 100%; object-fit: cover; opacity: 0.5; transition: opacity 0.5s; }
+  .pk-screen { width: 100%; max-width: 600px; height: 350px; margin: 0 auto 30px; background: #eff6ff; border: 2px solid #bfdbfe; border-radius: 16px; position: relative; overflow: hidden; display: flex; align-items: center; justify-content: center; box-shadow: 0 20px 40px rgba(0,0,0,0.05); }
+  .pk-image { width: 100%; height: 100%; object-fit: cover; opacity: 0.8; transition: opacity 0.5s; }
   
   .pk-overlay { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 2; }
-  .pk-slide-num { font-size: 1.5rem; font-weight: 800; color: white; background: rgba(0,0,0,0.5); padding: 5px 15px; border-radius: 20px; margin-bottom: 10px; }
-  .pk-timer { font-size: 6rem; font-weight: 900; color: white; text-shadow: 0 4px 20px rgba(0,0,0,0.5); font-variant-numeric: tabular-nums; }
+  .pk-slide-num { font-size: 1.5rem; font-weight: 800; color: #2563eb; background: rgba(37, 99, 235, 0.1); padding: 5px 15px; border-radius: 20px; margin-bottom: 10px; }
+  .pk-timer { font-size: 6rem; font-weight: 900; color: #2563eb; text-shadow: 0 4px 20px rgba(37, 99, 235, 0.2); font-variant-numeric: tabular-nums; }
   
   .pk-progress { position: absolute; bottom: 0; left: 0; height: 8px; background: #22c55e; width: 0%; transition: width 1s linear; }
 

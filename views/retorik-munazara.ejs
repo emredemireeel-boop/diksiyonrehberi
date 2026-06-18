@@ -1,7 +1,7 @@
 <%- include('partials/main-header') %>
 
 <style>
-  body { background: #000000; color: #ffffff; margin: 0; min-height: 100vh; display: flex; flex-direction: column;  overflow: hidden; }
+  body { background: #f8fafc; color: #0f172a; margin: 0; min-height: 100vh; display: flex; flex-direction: column;  overflow: hidden; }
   .main-header, .main-footer { display: none !important; }
 
   /* Studio Background & Animations */
@@ -17,7 +17,7 @@
   /* Top Bar (Rating) */
   .top-hud { width: 100%; display: flex; align-items: center; justify-content: space-between; padding: 15px 30px; background: rgba(15,23,42,0.8); border: 1px solid #334155; border-radius: 20px; backdrop-filter: blur(10px); margin-bottom: 30px; margin-top: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
   .rating-title { font-size: 1rem; font-weight: 800; color: #cbd5e1; text-transform: uppercase; letter-spacing: 2px; }
-  .rating-bar-container { flex-grow: 1; margin: 0 30px; height: 18px; background: #000; border-radius: 10px; border: 1px solid #334155; position: relative; overflow: hidden; }
+  .rating-bar-container { flex-grow: 1; margin: 0 30px; height: 18px; background: #e2e8f0; border-radius: 10px; border: 1px solid #cbd5e1; position: relative; overflow: hidden; }
   .rating-fill { position: absolute; left: 0; top: 0; height: 100%; width: 50%; background: linear-gradient(90deg, #ef4444 0%, #eab308 50%, #10b981 100%); transition: width 0.5s ease; box-shadow: inset 0 0 10px rgba(255,255,255,0.2); }
   .rating-value { font-size: 1.5rem; font-weight: 900; color: #10b981;  }
 
@@ -36,7 +36,7 @@
   
   .options-grid { display: grid; grid-template-columns: 1fr; gap: 15px; }
   .mz-btn {
-    background: #000; border: 2px solid #475569; color: #f8fafc; padding: 18px 25px; border-radius: 12px;
+    background: #f8fafc; border: 2px solid #cbd5e1; color: #0f172a; padding: 18px 25px; border-radius: 12px;
     font-size: 1.1rem; font-weight: 600; cursor: pointer; transition: all 0.2s; text-align: left; line-height: 1.4; display: flex; flex-direction: column; gap: 5px;
   }
   .mz-btn:hover { border-color: #38bdf8; background: rgba(56,189,248,0.1); transform: translateX(10px); }
@@ -47,7 +47,7 @@
 
   /* Stage Indicators */
   .stage-pills { display: flex; justify-content: center; gap: 10px; margin-bottom: 20px; }
-  .s-pill { padding: 5px 15px; border-radius: 20px; font-size: 0.8rem; font-weight: 800; background: #334155; color: #94a3b8; }
+  .s-pill { padding: 5px 15px; border-radius: 20px; font-size: 0.8rem; font-weight: 800; background: #334155; color: #cbd5e1; }
   .s-pill.active { background: #eab308; color: #000; box-shadow: 0 0 10px rgba(234,179,8,0.5); }
 
   .feedback-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.9); z-index: 100; display: none; flex-direction: column; align-items: center; justify-content: center; padding: 40px; text-align: center; }

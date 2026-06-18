@@ -1,7 +1,7 @@
 <%- include('partials/main-header') %>
 
 <style>
-  body { background: #0a0a14; color: #f1f5f9; font-family: 'Inter', sans-serif; overflow-x: hidden; }
+  body { background: #f8fafc; color: #0f172a; font-family: 'Inter', sans-serif; overflow-x: hidden; }
 
   /* ⚡Hero ⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡*/
   .r-hero {
@@ -9,7 +9,7 @@
     text-align: center; padding: 110px 24px 60px; position: relative; overflow: hidden;
     background: radial-gradient(ellipse 80% 60% at 50% 30%, #ef444422, transparent 70%);
   }
-  .r-hero::after { content:''; position:absolute; bottom:0; left:0; right:0; height:120px; background:linear-gradient(to top,#0a0a14,transparent); }
+  .r-hero::after { content:''; position:absolute; bottom:0; left:0; right:0; height:120px; background:linear-gradient(to top,#f8fafc,transparent); }
 
   .hero-particles { position:absolute; inset:0; overflow:hidden; pointer-events:none; }
   .hp { position:absolute; border-radius:50%; animation: rFloat 6s ease-in-out infinite; }
@@ -19,35 +19,35 @@
   @keyframes rPulse { 0%,100%{ transform: scale(1); } 50%{ transform: scale(1.08); } }
 
   .r-badge { display:inline-flex; align-items:center; gap:8px; padding:6px 20px; border-radius:30px; font-size:.8rem; font-weight:700; text-transform:uppercase; letter-spacing:3px; color:#ef4444; background:#ef444418; border:1px solid #ef444444; margin-bottom:16px; }
-  .r-title { font-size:clamp(2.2rem,5vw,3.5rem); font-weight:900; color:#fff; margin-bottom:8px; line-height:1.1; }
+  .r-title { font-size:clamp(2.2rem,5vw,3.5rem); font-weight:900; color:#0f172a; margin-bottom:8px; line-height:1.1; }
   .r-title span { background: linear-gradient(135deg, #ef4444, #f97316); -webkit-background-clip:text; -webkit-text-fill-color:transparent; }
-  .r-subtitle { color:#94a3b8; font-size:1.05rem; max-width:600px; line-height:1.7; }
+  .r-subtitle { color:#475569; font-size:1.05rem; max-width:600px; line-height:1.7; }
 
   /* ⚡Container ⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡*/
   .r-wrap { max-width:960px; margin:0 auto; padding:0 20px 80px; }
 
   /* ⚡Glass Cards ⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡*/
-  .glass { background:rgba(255,255,255,.03); backdrop-filter:blur(16px); border:1px solid rgba(255,255,255,.06); border-radius:20px; padding:32px; margin-bottom:32px; transition:transform .35s,box-shadow .35s; }
-  .glass:hover { transform:translateY(-4px); box-shadow:0 20px 60px rgba(0,0,0,.3),0 0 30px #ef444411; }
+  .glass { background:rgba(15,23,42,.03); backdrop-filter:blur(16px); border:1px solid rgba(15,23,42,.06); border-radius:20px; padding:32px; margin-bottom:32px; transition:transform .35s,box-shadow .35s; }
+  .glass:hover { transform:translateY(-4px); box-shadow:0 20px 60px rgba(15,23,42,.3),0 0 30px #ef444411; }
   .section-label { font-size:.75rem; font-weight:800; text-transform:uppercase; letter-spacing:3px; color:#ef4444; margin-bottom:14px; display:flex; align-items:center; gap:8px; }
   .section-label::before { content:''; width:16px; height:2px; background:#ef4444; border-radius:2px; }
 
   /* ⚡Mouth Anatomy SVG ⚡⚡⚡⚡⚡⚡⚡*/
   .anatomy-wrap { display:flex; justify-content:center; margin:20px 0 30px; }
   .anatomy-svg { width:320px; height:240px; }
-  .anatomy-label { fill:#94a3b8; font-size:11px; font-weight:600; }
+  .anatomy-label { fill:#475569; font-size:11px; font-weight:600; }
   .tongue-r { fill:#ef4444; transition: all .6s ease; }
   .tongue-r.active { fill:#f97316; filter: drop-shadow(0 0 8px #f97316); }
-  .palate { fill:#1e293b; stroke:#334155; stroke-width:1.5; }
+  .palate { fill:#f0f4f8; stroke:#334155; stroke-width:1.5; }
   .teeth { fill:#e2e8f0; }
-  .lip { fill:#94a3b8; }
+  .lip { fill:#475569; }
   .air-arrow { stroke:#ef4444; stroke-width:2; fill:none; stroke-dasharray:6,4; animation:airFlow 1.5s linear infinite; }
   @keyframes airFlow { to { stroke-dashoffset: -20; } }
 
   /* ⚡4 Stage Practice ⚡⚡⚡⚡⚡⚡⚡*/
   .stages { display:grid; grid-template-columns:repeat(auto-fit, minmax(150px, 1fr)); gap:12px; margin:20px 0; }
   /* Responsive grid handles its own wrapping, no need for media queries here */
-  .stage-card { padding:20px; border-radius:16px; text-align:center; cursor:pointer; border:2px solid rgba(255,255,255,.06); background:rgba(255,255,255,.03); transition:all .3s; position:relative; overflow:hidden; }
+  .stage-card { padding:20px; border-radius:16px; text-align:center; cursor:pointer; border:2px solid rgba(15,23,42,.06); background:rgba(15,23,42,.03); transition:all .3s; position:relative; overflow:hidden; }
   .stage-card::before { content:''; position:absolute; inset:0; background:linear-gradient(135deg,#ef444411,transparent); opacity:0; transition:opacity .3s; }
   .stage-card:hover::before, .stage-card.active::before { opacity:1; }
   .stage-card.active { border-color:#ef4444; box-shadow:0 0 20px #ef444422; }
@@ -74,7 +74,7 @@
   .chrono-btn { padding:12px 28px; border-radius:12px; font-size:.9rem; font-weight:700; border:none; cursor:pointer; transition:all .3s; }
   .chrono-start { background:linear-gradient(135deg,#10b981,#059669); color:#fff; box-shadow:0 4px 16px #10b98144; }
   .chrono-stop { background:linear-gradient(135deg,#ef4444,#dc2626); color:#fff; box-shadow:0 4px 16px #ef444444; }
-  .chrono-reset { background:rgba(255,255,255,.06); color:#94a3b8; border:1px solid rgba(255,255,255,.1); }
+  .chrono-reset { background:rgba(15,23,42,.06); color:#475569; border:1px solid rgba(15,23,42,.1); }
   .chrono-btn:hover { transform:translateY(-2px); }
 
   /* ⚡Word Marathon ⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡*/
@@ -85,19 +85,19 @@
   .r-word .r-char { color:#ef4444; font-weight:900; font-size:1.1em; }
 
   /* ⚡Tekerleme Arena ⚡⚡⚡⚡⚡⚡⚡⚡⚡*/
-  .teker-text { font-size:1.3rem; font-weight:600; color:#e2e8f0; line-height:2; text-align:center; padding:20px; border-radius:16px; background:rgba(255,255,255,.03); margin:16px 0; }
+  .teker-text { font-size:1.3rem; font-weight:600; color:#0f172a; line-height:2; text-align:center; padding:20px; border-radius:16px; background:rgba(15,23,42,.03); margin:16px 0; }
   .teker-text .r-mark { color:#ef4444; font-weight:900; text-decoration:underline; text-underline-offset:4px; }
 
   /* ⚡Progress Bar ⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡*/
-  .progress-track { width:100%; height:12px; border-radius:20px; background:rgba(255,255,255,.06); overflow:hidden; margin:20px 0; }
+  .progress-track { width:100%; height:12px; border-radius:20px; background:rgba(15,23,42,.06); overflow:hidden; margin:20px 0; }
   .progress-fill { height:100%; border-radius:20px; background:linear-gradient(90deg,#ef4444,#f97316); transition:width .6s ease; position:relative; }
-  .progress-fill::after { content:''; position:absolute; right:0; top:0; bottom:0; width:30px; background:rgba(255,255,255,.4); filter:blur(4px); animation:shimmer 1.5s ease-in-out infinite; }
+  .progress-fill::after { content:''; position:absolute; right:0; top:0; bottom:0; width:30px; background:rgba(15,23,42,.4); filter:blur(4px); animation:shimmer 1.5s ease-in-out infinite; }
   @keyframes shimmer { 0%,100%{ opacity:.3; } 50%{ opacity:.8; } }
   .progress-label { display:flex; justify-content:space-between; color:#64748b; font-size:.8rem; font-weight:600; }
 
   /* ⚡Back Button ⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡*/
-  .back-btn { display:inline-flex; align-items:center; gap:8px; padding:12px 24px; border-radius:14px; background:rgba(255,255,255,.05); border:1px solid rgba(255,255,255,.1); color:#94a3b8; font-size:.9rem; font-weight:600; text-decoration:none; transition:all .3s; margin-bottom:40px; }
-  .back-btn:hover { background:rgba(255,255,255,.1); color:#fff; transform:translateX(-4px); }
+  .back-btn { display:inline-flex; align-items:center; gap:8px; padding:12px 24px; border-radius:14px; background:rgba(15,23,42,.05); border:1px solid rgba(15,23,42,.1); color:#475569; font-size:.9rem; font-weight:600; text-decoration:none; transition:all .3s; margin-bottom:40px; }
+  .back-btn:hover { background:rgba(15,23,42,.1); color:#fff; transform:translateX(-4px); }
 
   /* ⚡Scroll Reveal ⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡*/
   .reveal { opacity:0; transform:translateY(30px); transition:all .6s cubic-bezier(.16,1,.3,1); }
@@ -124,12 +124,12 @@
   <!-- "⚡"⚡"⚡"⚡"⚡"⚡"⚡"⚡"⚡"⚡"DİL POZİSYONU ANATOMİSİ "⚡"⚡"⚡"⚡"⚡"⚡"⚡"⚡"⚡"⚡"-->
   <div class="glass reveal">
     <div class="section-label">👅 Dil Pozisyonu Anatomisi</div>
-    <p style="color:#94a3b8; font-size:.95rem; line-height:1.7; margin-bottom:16px;">R sesi, dil ucunun üst ön dişlerin hemen arkasındaki <strong style="color:#ef4444">alveoler sırta</strong> hafifçe dokunup titreşmesiyle oluşur. Hava akımı dil ile damak arasından geçerken dili titreştirir.</p>
+    <p style="color:#475569; font-size:.95rem; line-height:1.7; margin-bottom:16px;">R sesi, dil ucunun üst ön dişlerin hemen arkasındaki <strong style="color:#ef4444">alveoler sırta</strong> hafifçe dokunup titreşmesiyle oluşur. Hava akımı dil ile damak arasından geçerken dili titreştirir.</p>
 
     <div class="anatomy-wrap">
       <svg class="anatomy-svg" viewBox="0 0 320 240">
         <!-- Mouth outline -->
-        <ellipse cx="160" cy="130" rx="130" ry="100" fill="#1e293b" stroke="#334155" stroke-width="2"/>
+        <ellipse cx="160" cy="130" rx="130" ry="100" fill="#f0f4f8" stroke="#334155" stroke-width="2"/>
         <!-- Palate -->
         <path class="palate" d="M60 90 Q160 30 260 90" fill="none" stroke="#475569" stroke-width="3"/>
         <!-- Alveolar ridge marker -->
@@ -162,7 +162,7 @@
   <!-- "⚡"⚡"⚡"⚡"⚡"⚡"⚡"⚡"⚡"⚡"4 AŞAMALI KADEMELİ PRATİK "⚡"⚡"⚡"⚡"⚡"⚡"⚡"⚡"⚡"⚡"-->
   <div class="glass reveal">
     <div class="section-label">📈 4 Aşamalı Kademeli Pratik</div>
-    <p style="color:#94a3b8; font-size:.95rem; line-height:1.7; margin-bottom:20px;">Her aşamayı 5 kez tekrarlayarak ilerleyin. Bir aşamayı rahatça yapabildiğinizde bir sonrakine geçin.</p>
+    <p style="color:#475569; font-size:.95rem; line-height:1.7; margin-bottom:20px;">Her aşamayı 5 kez tekrarlayarak ilerleyin. Bir aşamayı rahatça yapabildiğinizde bir sonrakine geçin.</p>
 
     <div class="stages">
       <div class="stage-card active" onclick="setStage(0)">
@@ -213,16 +213,16 @@
   <!-- "⚡"⚡"⚡"⚡"⚡"⚡"⚡"⚡"⚡"⚡"HIZ KRONOMETRESİ "⚡"⚡"⚡"⚡"⚡"⚡"⚡"⚡"⚡"⚡"-->
   <div class="glass reveal">
     <div class="section-label">⏱️ R Tekerleme Kronometresi</div>
-    <p style="color:#94a3b8; font-size:.95rem; line-height:1.7; margin-bottom:16px;">Aşağıdaki R ağırlıklı tekerlemeyi mümkün olduğunca hızlı ve <strong style="color:#ef4444">hatasız</strong> okuyun:</p>
+    <p style="color:#475569; font-size:.95rem; line-height:1.7; margin-bottom:16px;">Aşağıdaki R ağırlıklı tekerlemeyi mümkün olduğunca hızlı ve <strong style="color:#ef4444">hatasız</strong> okuyun:</p>
 
     <div class="teker-text" id="rTekerlemeText" style="min-height:100px;">
       Yükleniyor...
     </div>
     
     <div style="display:flex; justify-content:center; gap:12px; margin-bottom:16px;">
-      <button class="back-btn" style="margin-bottom:0; padding:8px 16px; background:rgba(255,255,255,.08);" onclick="prevRTekerleme()">« nceki</button>
-      <span style="color:#94a3b8; font-weight:600; align-self:center;" id="rTekerlemeCount">1 / 0</span>
-      <button class="back-btn" style="margin-bottom:0; padding:8px 16px; background:rgba(255,255,255,.08);" onclick="nextRTekerleme()">Sonraki »</button>
+      <button class="back-btn" style="margin-bottom:0; padding:8px 16px; background:rgba(15,23,42,.08);" onclick="prevRTekerleme()">« nceki</button>
+      <span style="color:#475569; font-weight:600; align-self:center;" id="rTekerlemeCount">1 / 0</span>
+      <button class="back-btn" style="margin-bottom:0; padding:8px 16px; background:rgba(15,23,42,.08);" onclick="nextRTekerleme()">Sonraki »</button>
     </div>
 
     <div style="text-align:center;">
@@ -239,7 +239,7 @@
   <!-- "⚡"⚡"⚡"⚡"⚡"⚡"⚡"⚡"⚡"⚡"R KELİME MARATONU "⚡"⚡"⚡"⚡"⚡"⚡"⚡"⚡"⚡"⚡"-->
   <div class="glass reveal">
     <div class="section-label">🏃 R Kelime Maratonu</div>
-    <p style="color:#94a3b8; font-size:.95rem; line-height:1.7; margin-bottom:20px;">Her kelimeye tıklayın, yüksek sesle söyleyin ve R harfini vurgulayın. Tamamladığınız kelimeler yeşile döner.</p>
+    <p style="color:#475569; font-size:.95rem; line-height:1.7; margin-bottom:20px;">Her kelimeye tıklayın, yüksek sesle söyleyin ve R harfini vurgulayın. Tamamladığınız kelimeler yeşile döner.</p>
 
     <div class="word-grid" id="wordGrid"></div>
 
@@ -249,7 +249,7 @@
   </div>
 
   <!-- "⚡"⚡"⚡"⚡"⚡"⚡"⚡"⚡"⚡"⚡"İPUCU "⚡"⚡"⚡"⚡"⚡"⚡"⚡"⚡"⚡"⚡"-->
-  <div style="background:linear-gradient(135deg,rgba(251,191,36,.08),rgba(251,191,36,.02)); border:1px solid rgba(251,191,36,.25); border-radius:18px; padding:24px 28px; font-size:.95rem; color:#fbbf24; line-height:1.7; display:flex; align-items:flex-start; gap:14px; margin-bottom:32px;" class="reveal">
+  <div style="background:linear-gradient(135deg,rgba(251,191,36,.08),rgba(251,191,36,.02)); border:1px solid rgba(251,191,36,.25); border-radius:18px; padding:24px 28px; font-size:.95rem; color:#92400e; line-height:1.7; display:flex; align-items:flex-start; gap:14px; margin-bottom:32px;" class="reveal">
     <span style="font-size:1.5rem; flex-shrink:0;">💡</span>
     <span>R sesi çıkaramıyorsanız endişelenmeyin  bu Türkçe konuşanların en yaygın problemidir. Günde sadece 5 dakika pratikle 2-3 hafta içinde belirgin gelişim göreceksiniz. Asla zorlamayın, dilinizi dinleyin.</span>
   </div>
@@ -421,4 +421,6 @@ const obs = new IntersectionObserver((entries) => {
 }, { threshold: 0.12 });
 document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
 </script>
+
+
 

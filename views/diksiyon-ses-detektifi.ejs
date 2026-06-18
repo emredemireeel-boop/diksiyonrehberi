@@ -1,0 +1,554 @@
+<%- include('partials/main-header.ejs') %>
+
+<style>
+  .voice-detective-container {
+    background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+    padding: 60px 20px;
+    border-radius: 20px;
+    margin: 40px auto;
+    max-width: 1000px;
+  }
+
+  .detective-header {
+    text-align: center;
+    margin-bottom: 50px;
+  }
+
+  .detective-header h1 {
+    font-size: 2.5rem;
+    color: #0c4a6e;
+    margin-bottom: 10px;
+    font-weight: 800;
+  }
+
+  .detective-header p {
+    font-size: 1.1rem;
+    color: #334155;
+    margin-bottom: 5px;
+  }
+
+  .detective-tagline {
+    font-size: 0.95rem;
+    color: #64748b;
+    font-style: italic;
+  }
+
+  .scenario-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 30px;
+    margin: 40px 0;
+  }
+
+  .scenario-card {
+    background: white;
+    border-radius: 15px;
+    padding: 25px;
+    box-shadow: 0 4px 15px rgba(15, 23, 42, 0.1);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border-left: 5px solid #0ea5e9;
+  }
+
+  .scenario-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 8px 25px rgba(15, 23, 42, 0.15);
+  }
+
+  .scenario-card h3 {
+    color: #0c4a6e;
+    margin-bottom: 12px;
+    font-size: 1.3rem;
+  }
+
+  .scenario-card p {
+    color: #334155;
+    margin-bottom: 15px;
+    line-height: 1.6;
+  }
+
+  .tone-indicators {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-bottom: 15px;
+  }
+
+  .tone-badge {
+    background: #f1f5f9;
+    color: #0c4a6e;
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: 600;
+  }
+
+  .play-btn {
+    background: linear-gradient(135deg, #0ea5e9, #06b6d4);
+    color: white;
+    border: none;
+    padding: 12px 24px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: all 0.3s;
+    width: 100%;
+  }
+
+  .play-btn:hover {
+    transform: scale(1.05);
+    box-shadow: 0 4px 12px rgba(14, 165, 233, 0.4);
+  }
+
+  .analysis-panel {
+    background: #f0f9ff;
+    border-radius: 12px;
+    padding: 20px;
+    margin-top: 20px;
+    border-left: 4px solid #0ea5e9;
+  }
+
+  .analysis-title {
+    color: #0c4a6e;
+    font-weight: 700;
+    margin-bottom: 10px;
+  }
+
+  .analysis-content {
+    color: #334155;
+    line-height: 1.7;
+    font-size: 0.95rem;
+  }
+
+  .quiz-section {
+    background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+    border-radius: 15px;
+    padding: 30px;
+    margin: 40px 0;
+  }
+
+  .quiz-question {
+    color: #78350f;
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin-bottom: 20px;
+  }
+
+  .quiz-options {
+    display: grid;
+    gap: 12px;
+  }
+
+  .quiz-option {
+    background: white;
+    border: 2px solid #fed7aa;
+    border-radius: 8px;
+    padding: 15px;
+    cursor: pointer;
+    transition: all 0.3s;
+    color: #78350f;
+  }
+
+  .quiz-option:hover {
+    border-color: #fb923c;
+    background: #fffbeb;
+  }
+
+  .quiz-option.selected {
+    background: #fbbf24;
+    border-color: #f59e0b;
+    color: white;
+  }
+
+  .tips-box {
+    background: #ecfdf5;
+    border-left: 4px solid #10b981;
+    padding: 20px;
+    border-radius: 8px;
+    margin: 20px 0;
+  }
+
+  .tips-box h4 {
+    color: #047857;
+    margin-bottom: 12px;
+    font-weight: 700;
+  }
+
+  .tips-box ul {
+    list-style: none;
+    color: #334155;
+  }
+
+  .tips-box li {
+    padding: 8px 0;
+    padding-left: 30px;
+    position: relative;
+  }
+
+  .tips-box li:before {
+    content: "✓";
+    position: absolute;
+    left: 0;
+    color: #10b981;
+    font-weight: bold;
+  }
+
+  .recording-box {
+    background: white;
+    border: 2px dashed #0ea5e9;
+    border-radius: 12px;
+    padding: 25px;
+    text-align: center;
+    margin: 30px 0;
+  }
+
+  .record-btn {
+    background: linear-gradient(135deg, #ef4444, #dc2626);
+    color: white;
+    border: none;
+    padding: 15px 30px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 700;
+    font-size: 1rem;
+    transition: all 0.3s;
+    margin: 10px 5px;
+  }
+
+  .record-btn:hover {
+    transform: scale(1.05);
+    box-shadow: 0 4px 12px rgba(239, 68, 68, 0.4);
+  }
+
+  .voice-waveform {
+    height: 40px;
+    background: linear-gradient(90deg, #f3f4f6, #e5e7eb, #f3f4f6);
+    border-radius: 20px;
+    margin: 15px 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+  }
+
+  .intensity-meter {
+    background: white;
+    border-radius: 8px;
+    padding: 15px;
+    margin-top: 15px;
+  }
+
+  .meter-label {
+    font-size: 0.9rem;
+    color: #64748b;
+    margin-bottom: 8px;
+    font-weight: 600;
+  }
+
+  .meter-bar {
+    height: 12px;
+    background: #e2e8f0;
+    border-radius: 6px;
+    overflow: hidden;
+  }
+
+  .meter-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #10b981, #0ea5e9, #f59e0b, #ef4444);
+    width: 0%;
+    transition: width 0.2s;
+  }
+
+  .challenge-box {
+    background: linear-gradient(135deg, #dbeafe 0%, #e0e7ff 100%);
+    border-radius: 15px;
+    padding: 25px;
+    margin: 30px 0;
+    border-left: 5px solid #6366f1;
+  }
+
+  .challenge-title {
+    color: #312e81;
+    font-size: 1.2rem;
+    font-weight: 700;
+    margin-bottom: 15px;
+  }
+
+  .challenge-item {
+    background: white;
+    padding: 15px;
+    border-radius: 8px;
+    margin-bottom: 12px;
+    color: #334155;
+    border-left: 3px solid #6366f1;
+  }
+
+  .difficulty-badge {
+    display: inline-block;
+    background: #6366f1;
+    color: white;
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    margin-left: 10px;
+  }
+
+  .results-box {
+    background: white;
+    border-radius: 12px;
+    padding: 20px;
+    margin-top: 20px;
+    text-align: center;
+  }
+
+  .accuracy-score {
+    font-size: 2.5rem;
+    color: #0ea5e9;
+    font-weight: 800;
+    margin-bottom: 10px;
+  }
+
+  .result-message {
+    color: #334155;
+    font-size: 1.1rem;
+  }
+</style>
+
+<div class="voice-detective-container">
+  <div class="detective-header">
+    <h1>🔍 Ses Rengi Dedektifi</h1>
+    <p>Konuşmanın Gizli Dilini Öğren</p>
+    <p class="detective-tagline">Sesin tonundan, hızından ve şiddetinden kişinin duygusunu, niyetini ve karakterini tanıyabilirsiniz</p>
+  </div>
+
+  <div class="tips-box">
+    <h4>📌 Temel Bilgiler</h4>
+    <ul>
+      <li><strong>Şiddet (Intensity):</strong> Yüksek ses = güç, otorite; Alçak ses = samimi, gizli</li>
+      <li><strong>Hız (Pace):</strong> Hızlı = heyecan, korku, sinir; Yavaş = düşünüş, otoritelend</li>
+      <li><strong>Ton (Pitch):</strong> Kalın = öfke, ciddiyetend; İnce = korkumuluk, sevgiend</li>
+      <li><strong>Ritim (Rhythm):</strong> Muntazam = güven; Düzensiz = kayg beyin, tereddüt</li>
+      <li><strong>Duraklamalar (Pauses):</strong> Strateji = düşünceli; Duraksamalar = belirsizlik</li>
+    </ul>
+  </div>
+
+  <div class="scenario-grid">
+    <div class="scenario-card">
+      <h3>💼 İş Toplanıştı</h3>
+      <p>"Proje hakkında konuşmamız gerekiyor."</p>
+      <div class="tone-indicators">
+        <span class="tone-badge">Resmi</span>
+        <span class="tone-badge">Ciddi</span>
+        <span class="tone-badge">Kontrollü</span>
+      </div>
+      <p><strong>Analiz:</strong> Düşük şiddet, ağır ton, yavaş hitap. Konuşan profesyonellik gösteriyor.</p>
+      <button class="play-btn">▶ Dinle</button>
+    </div>
+
+    <div class="scenario-card">
+      <h3>😰 Kriz Durumu</h3>
+      <p>"Bunu hemen çözmemiz lazım!"</p>
+      <div class="tone-indicators">
+        <span class="tone-badge">Yüksek Şiddet</span>
+        <span class="tone-badge">Hızlı</span>
+        <span class="tone-badge">Stresli</span>
+      </div>
+      <p><strong>Analiz:</strong> Yüksek ses, hızlı tempoya. Konuşan panik halinde veya aciliyetini vurguluyor.</p>
+      <button class="play-btn">▶ Dinle</button>
+    </div>
+
+    <div class="scenario-card">
+      <h3>❤️ Duygusal Bağ</h3>
+      <p>"Seni çok özledim..."</p>
+      <div class="tone-indicators">
+        <span class="tone-badge">Alçak Ses</span>
+        <span class="tone-badge">Samimi</span>
+        <span class="tone-badge">Yavaş</span>
+      </div>
+      <p><strong>Analiz:</strong> Düşük vol, ileri pitch, derin nefes. Konuşan duygusal ve açık.</p>
+      <button class="play-btn">▶ Dinle</button>
+    </div>
+
+    <div class="scenario-card">
+      <h3>😠 Öfke (Kontrol Edilmiş)</h3>
+      <p>"Bu, kabul edilemez bir hareket."</p>
+      <div class="tone-indicators">
+        <span class="tone-badge">Düşük Ton</span>
+        <span class="tone-badge">Keskin</span>
+        <span class="tone-badge">Ağır</span>
+      </div>
+      <p><strong>Analiz:</strong> Kalın sesten, her kelimeye vurgu. Konuşan kontrollü ama öfkeli.</p>
+      <button class="play-btn">▶ Dinle</button>
+    </div>
+
+    <div class="scenario-card">
+      <h3>🤥 Yalan / Belirsizlik</h3>
+      <p>"Evet, tamamen eminim... sanırım."</p>
+      <div class="tone-indicators">
+        <span class="tone-badge">Düzensiz Ritim</span>
+        <span class="tone-badge">Duraksamalar</span>
+        <span class="tone-badge">Yükselen Ton</span>
+      </div>
+      <p><strong>Analiz:</strong> "Uhh", "eee" sesleri, soru işareti gibi biten cümleler. Konuşan emin değil.</p>
+      <button class="play-btn">▶ Dinle</button>
+    </div>
+
+    <div class="scenario-card">
+      <h3>🎯 Lider Otoritesi</h3>
+      <p>"Bunu yapacağız ve başarılı olacağız."</p>
+      <div class="tone-indicators">
+        <span class="tone-badge">Stabil Ton</span>
+        <span class="tone-badge">Güçlü</span>
+        <span class="tone-badge">İçten</span>
+      </div>
+      <p><strong>Analiz:</strong> Kontrollü, ama hissedilen enerji. Konuşan emin ve ilham veriyor.</p>
+      <button class="play-btn">▶ Dinle</button>
+    </div>
+  </div>
+
+  <div class="recording-box">
+    <h2 style="color: #0c4a6e; margin-bottom: 20px;">🎙️ Kendi Sesiniz ile Alıştırma Yapın</h2>
+    <div style="margin: 20px 0; padding: 15px; background: #fef3c7; border-radius: 8px; color: #78350f;">
+      <strong>Adım 1:</strong> Aşağıdaki cümleleri farklı tonlarla söyleyin<br>
+      <strong>Adım 2:</strong> Ses kaydıyla karşılaştırın<br>
+      <strong>Adım 3:</strong> Analiz sonuçlarını okuyun
+    </div>
+
+    <div style="margin-top: 20px;">
+      <button class="record-btn">🔴 KAYIT BAŞLAT</button>
+      <button class="record-btn" style="background: linear-gradient(135deg, #8b5cf6, #7c3aed); margin-left: 10px;">⏸ KAYIT DURDUR</button>
+    </div>
+
+    <div class="voice-waveform">
+      🎵 ━━━━━┃━━━━━
+    </div>
+
+    <div class="intensity-meter">
+      <div class="meter-label">Ses Şiddeti</div>
+      <div class="meter-bar">
+        <div class="meter-fill" style="width: 65%;"></div>
+      </div>
+    </div>
+
+    <div class="intensity-meter">
+      <div class="meter-label">Konuşma Hızı</div>
+      <div class="meter-bar">
+        <div class="meter-fill" style="width: 45%;"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="quiz-section">
+    <div class="quiz-question">❓ Size Nasıl Geldiyor? Duygusunu Tahmin Edin:</div>
+    <div class="quiz-options">
+      <div class="quiz-option" onclick="this.classList.toggle('selected')">
+        😊 Mutlu ve Enerji Dolu
+      </div>
+      <div class="quiz-option" onclick="this.classList.toggle('selected')">
+        😟 Endişeli ve Stresli
+      </div>
+      <div class="quiz-option" onclick="this.classList.toggle('selected')">
+        😠 Öfkeli ve İmperatif
+      </div>
+      <div class="quiz-option" onclick="this.classList.toggle('selected')">
+        🙁 Üzgün ve Hayal Kırıklığına Uğramış
+      </div>
+    </div>
+  </div>
+
+  <div class="challenge-box">
+    <div class="challenge-title">🎭 Ses Rengi Çalışma Programı</div>
+    
+    <div class="challenge-item">
+      <strong>Seviye 1: Duygusal Kontrol</strong>
+      <span class="difficulty-badge">Başlangıç</span>
+      <p>Aynı cümleyi 5 farklı duygu ile söyleyin: Mutluluk, üzüntü, öfke, korku, şaşkınlık</p>
+    </div>
+
+    <div class="challenge-item">
+      <strong>Seviye 2: Hız Kontrolü</strong>
+      <span class="difficulty-badge">Orta</span>
+      <p>Bir paragrafı 3 farklı tempoyla okuyun: Çok hızlı (140+ wpm), Normal (120 wpm), Çok Yavaş (80 wpm)</p>
+    </div>
+
+    <div class="challenge-item">
+      <strong>Seviye 3: Ton Manipülasyonu</strong>
+      <span class="difficulty-badge">İleri</span>
+      <p>Aynı satırı dört farklı kişilik olarak söyleyin: Celi başkan, korku film kahramanı, romantic film oyuncusu, komedi yapımcısı</p>
+    </div>
+
+    <div class="challenge-item">
+      <strong>Seviye 4: Tuzak Durumları</strong>
+      <span class="difficulty-badge">Expert</span>
+      <p>Manipülasyon, yalan, korku ve otorite taşıdığını açığa vurma deneme. Mikro-ifadeleri ve ses tonundaki kaymalar yakalamayı öğrenin.</p>
+    </div>
+  </div>
+
+  <div class="tips-box" style="background: #f3e8ff; border-left-color: #a855f7;">
+    <h4 style="color: #6b21a8;">💡 İş Dünyasında Kullanım</h4>
+    <ul>
+      <li><strong>Telefon Konuşmasında:</strong> Muhatapın stres seviyesini ve konuşma niyetini hemen anlayın</li>
+      <li><strong>Müşteri Hizmeti:</strong> Müşterinin hayal kırıklığını tondan algılayarak, ona göre hareket edin</li>
+      <li><strong>Müzakere:</strong> Karşı tarafın taviz verme konusunda istekli olup olmadığını ses tonundan bilin</li>
+      <li><strong>Liderlik:</strong> Ekip üyelerinin morali tonlarından anlayın, proaktif destek sağlayın</li>
+      <li><strong>Satış:</strong> İhtiyacını anlamayan müşteri ile gerçekten sorunu olan müşteri arasındaki farkı yakalay</li>
+    </ul>
+  </div>
+
+  <div class="results-box">
+    <div class="accuracy-score">📊 Başarı: 87%</div>
+    <div class="result-message">
+      Şu an ✅ Ses tonundan duygu çıkarmakta iyisiniz.<br>
+      Sonraki hedef: Duraklamalar ve tempoyla oyunlarken öfke kontrolü!
+    </div>
+  </div>
+</div>
+
+<style>
+  .hero-cta-box {
+    background: linear-gradient(135deg, #0ea5e9, #06b6d4);
+    color: white;
+    padding: 40px;
+    border-radius: 15px;
+    text-align: center;
+    margin: 60px auto;
+    max-width: 800px;
+  }
+
+  .hero-cta-box h2 {
+    font-size: 1.8rem;
+    margin-bottom: 15px;
+  }
+
+  .hero-cta-box p {
+    font-size: 1.1rem;
+    margin-bottom: 25px;
+    opacity: 0.95;
+  }
+
+  .cta-btn {
+    background: white;
+    color: #0ea5e9;
+    padding: 15px 40px;
+    border: none;
+    border-radius: 8px;
+    font-weight: 700;
+    font-size: 1.1rem;
+    cursor: pointer;
+    transition: all 0.3s;
+  }
+
+  .cta-btn:hover {
+    transform: scale(1.05);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+  }
+</style>
+
+<div class="hero-cta-box">
+  <h2>Sesinizle İletişim Kurmanın Gücünü Keşfedin</h2>
+  <p>Ses tonunuz, sözlerinizden 55% daha etkili. Şimdi başlayın ve liderlerin dilini konuşun.</p>
+  <button class="cta-btn">Daha Fazla Egzersiz</button>
+</div>
+
+<%- include('partials/main-footer.ejs') %>

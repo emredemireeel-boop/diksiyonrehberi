@@ -1,34 +1,34 @@
 <%- include('partials/main-header') %>
 
 <style>
-  body { background: #0a0a14 !important; color: #f1f5f9 !important; font-family: "Inter", sans-serif; overflow-x: hidden; margin: 0; padding: 0; }
+  body { background: #f8fafc !important; color: #0f172a !important; font-family: "Inter", sans-serif; overflow-x: hidden; margin: 0; padding: 0; }
   
   .lab-container { padding: 40px 20px; max-width: 1000px; margin: 0 auto; min-height: 85vh; display: flex; flex-direction: column; align-items: center; }
   
   h1 { font-size: 2.5rem; font-weight: 900; margin-bottom: 5px; color: var(--accent); text-transform: uppercase; letter-spacing: 1px; text-align: center; text-shadow: 0 0 10px rgba(244, 63, 94, 0.5); }
-  p.desc { color: #94a3b8; font-size: 1rem; line-height: 1.6; margin-bottom: 40px; text-align: center; max-width: 700px; }
+  p.desc { color: #334155; font-size: 1rem; line-height: 1.6; margin-bottom: 40px; text-align: center; max-width: 700px; }
 
   /* Workstation */
-  .workstation { width: 100%; background: #1a1a2e; border: 1px solid rgba(255,255,255,0.15); border-radius: 20px; padding: 30px; box-shadow: 0 20px 50px rgba(0,0,0,0.6); display: flex; flex-direction: column; position: relative; }
+  .workstation { width: 100%; background: #1a1a2e; border: 1px solid rgba(255,255,255,0.15); border-radius: 20px; padding: 30px; box-shadow: 0 20px 50px rgba(0,0,0,0.1); display: flex; flex-direction: column; position: relative; }
   
   /* Target Context */
   .target-panel { background: rgba(0,0,0,0.3); border-left: 4px solid var(--accent); padding: 20px; border-radius: 10px; margin-bottom: 30px; }
   .tp-label { font-size: 0.8rem; font-weight: 800; color: var(--accent); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 10px; }
-  .tp-scenario { font-size: 1.1rem; color: #cbd5e1; line-height: 1.5; margin-bottom: 15px; }
+  .tp-scenario { font-size: 1.1rem; color: #334155; line-height: 1.5; margin-bottom: 15px; }
   .tp-goal { font-size: 1rem; color: var(--gold-d); font-weight: 700; background: rgba(250, 204, 21, 0.1); display: inline-block; padding: 5px 10px; border-radius: 5px; }
 
   /* Blueprint Area (Dropzone) */
-  .blueprint { background: #131320; border: 2px dashed rgba(255,255,255,0.15); border-radius: 15px; padding: 30px; min-height: 150px; display: flex; flex-wrap: wrap; gap: 10px; align-items: center; justify-content: center; margin-bottom: 30px; transition: all 0.3s; }
+  .blueprint { background: #f0f4f8; border: 2px dashed rgba(255,255,255,0.15); border-radius: 15px; padding: 30px; min-height: 150px; display: flex; flex-wrap: wrap; gap: 10px; align-items: center; justify-content: center; margin-bottom: 30px; transition: all 0.3s; }
   .blueprint.active { border-color: var(--accent); background: rgba(244, 63, 94, 0.05); }
   
   .bp-placeholder { color: #64748b; font-size: 1.2rem; font-weight: 800; text-transform: uppercase; letter-spacing: 2px; text-align: center; width: 100%; pointer-events: none; }
 
   /* Fragments (Draggables / Clickables) */
   .fragments-box { background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.08); border-radius: 15px; padding: 20px; }
-  .fb-title { font-size: 0.9rem; font-weight: 700; color: #94a3b8; margin-bottom: 15px; text-transform: uppercase; text-align: center; }
+  .fb-title { font-size: 0.9rem; font-weight: 700; color: #334155; margin-bottom: 15px; text-transform: uppercase; text-align: center; }
   
   .frag-grid { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; }
-  .fragment { background: rgba(255,255,255,0.08); color: #f1f5f9; padding: 12px 20px; border-radius: 8px; font-size: 1rem; cursor: pointer; transition: all 0.2s; user-select: none; border: 1px solid rgba(255,255,255,0.15); font-weight: 600; }
+  .fragment { background: rgba(255,255,255,0.08); color: #0f172a; padding: 12px 20px; border-radius: 8px; font-size: 1rem; cursor: pointer; transition: all 0.2s; user-select: none; border: 1px solid rgba(255,255,255,0.15); font-weight: 600; }
   .fragment:hover { background: rgba(255,255,255,0.15); transform: translateY(-2px); border-color: var(--gold); }
   .fragment.selected { display: none; }
 
@@ -41,16 +41,16 @@
   .controls { display: flex; justify-content: center; margin-top: 30px; gap: 15px; }
   .btn-fire { background: var(--accent); color: #fff; border: none; padding: 15px 40px; border-radius: 12px; font-weight: 900; font-size: 1.2rem; text-transform: uppercase; letter-spacing: 1px; cursor: pointer; transition: all 0.2s; box-shadow: 0 0 20px rgba(244, 63, 94, 0.4); }
   .btn-fire:hover { background: var(--accent); transform: scale(1.05); }
-  .btn-clear { background: transparent; border: 2px solid #64748b; color: #94a3b8; padding: 15px 30px; border-radius: 12px; font-weight: 800; cursor: pointer; }
+  .btn-clear { background: transparent; border: 2px solid #64748b; color: #334155; padding: 15px 30px; border-radius: 12px; font-weight: 800; cursor: pointer; }
   .btn-clear:hover { background: rgba(100, 116, 139, 0.2); }
 
   /* Result Overlay */
   .result-modal { position: fixed; inset: 0; background: rgba(15, 23, 42, 0.95); z-index: 100; display: none; flex-direction: column; align-items: center; justify-content: center; padding: 20px; }
-  .rm-content { background: #131320; border: 2px solid var(--accent); padding: 40px; border-radius: 20px; max-width: 600px; text-align: center; box-shadow: 0 0 50px rgba(244, 63, 94, 0.3); }
+  .rm-content { background: #f0f4f8; border: 2px solid var(--accent); padding: 40px; border-radius: 20px; max-width: 600px; text-align: center; box-shadow: 0 0 50px rgba(244, 63, 94, 0.3); }
   
   .rm-icon { font-size: 5rem; margin-bottom: 20px; text-shadow: 0 0 20px rgba(244,63,94,0.5); }
-  .rm-title { font-size: 2rem; font-weight: 900; margin-bottom: 15px; text-transform: uppercase; color: #f1f5f9; }
-  .rm-desc { font-size: 1.1rem; color: #94a3b8; line-height: 1.6; margin-bottom: 30px; }
+  .rm-title { font-size: 2rem; font-weight: 900; margin-bottom: 15px; text-transform: uppercase; color: #0f172a; }
+  .rm-desc { font-size: 1.1rem; color: #334155; line-height: 1.6; margin-bottom: 30px; }
   
   .rm-btn { background: var(--accent); color: #fff; border: none; padding: 15px 30px; border-radius: 12px; font-weight: 900; font-size: 1.1rem; text-transform: uppercase; cursor: pointer; }
 
@@ -91,7 +91,7 @@
   <div class="game-over" id="gameOver">
     <div style="font-size: 5rem; margin-bottom:20px;">🎓</div>
     <h2 style="font-size:2.5rem; color:var(--gold); margin:0 0 15px 0;">Karanlık Sanatlar Ustası</h2>
-    <p style="color:#94a3b8; font-size:1.1rem; margin-bottom:30px;">Zihinsel illüzyonların nasıl üretildiğini artık biliyorsunuz. Formülü bilen kişi, zehirlenmez.</p>
+    <p style="color:#334155; font-size:1.1rem; margin-bottom:30px;">Zihinsel illüzyonların nasıl üretildiğini artık biliyorsunuz. Formülü bilen kişi, zehirlenmez.</p>
     <a href="/safsata" style="background:var(--gold); color:#fff; padding:15px 30px; border-radius:12px; text-decoration:none; font-weight:800; text-transform:uppercase;">Akademiye Dön</a>
   </div>
 
@@ -282,3 +282,4 @@
 </script>
 
 <%- include('partials/main-footer') %>
+
